@@ -128,7 +128,7 @@ the real version number.
 
 =head2 Getting Bleeding Edge CVS Sources
 
-If you really know what you are doing you can use the cvs versions of
+If you really know what you are doing you can use the cvs/svn versions of
 the components. Chances are that you don't want to them on a
 production site. You have been warned!
 
@@ -158,35 +158,33 @@ For more details on bleadperl, see I<http://dev.perl.org/perl5/source.html>.
 
 =item Apache
 
-To download the cvs version of httpd-2.0 and bring it to the same
+NOTE: as of November 17, 2004 httpd has moved to subversion.
+
+To download the svn version of httpd-2.0 and bring it to the same
 state of the distribution package, execute the following commands:
 
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+For httpd 2.0 (the stable Apache 2.0 branch)
 
-The password is "anoncvs". Now extract the C<APACHE_2_0_BRANCH> branch
-of httpd-2.0.xx. If you don't use this branch you will get
-httpd-2.1.xx which at this moment is not supported. Similarly you need
-C<APR_0_9_BRANCH> and C<APU_0_9_BRANCH> cvs branches for apr and
-apr-util projects, respectively.
-
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
-    -r APACHE_2_0_BRANCH -d httpd-2.0 httpd-2.0
-  % cd httpd-2.0/srclib
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
-    -r APR_0_9_BRANCH -d apr apr
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
-    -r APU_0_9_BRANCH -d apr-util apr-util
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
-    -r APU_0_9_BRANCH -d apr-iconv apr-iconv
-  % cd ..
-  % ./buildconf
+  $ svn checkout http://svn.apache.org/repos/asf/httpd/httpd/branches/2.0.x/ httpd-2.0
+  $ cd httpd-2.0/srclib
+  $ svn checkout http://svn.apache.org/repos/asf/apr/apr/branches/APR_0_9_BRANCH/ apr  
+  $ svn checkout http://svn.apache.org/repos/asf/apr/apr-util/branches/APU_0_9_BRANCH/ apr-util
+  $ cd ..
+  $ ./buildconf
 
 Once extracted, whenever you want to sync with the latest httpd-2.0
 version and rebuild, run:
 
-  % cd httpd-2.0
-  % cvs up -dP
-  % make distclean && ./buildconf
+  $ cd httpd-2.0
+  $ svn update
+  $ make distclean && ./buildconf
+
+For httpd 2.1 (the development Apache 2.0 branch) use this instead
+
+  $ svn checkout https://svn.apache.org/repos/asf/httpd/httpd/trunk/ httpd-2.1
+  $ cd srclib
+  $ svn checkout http://svn.apache.org/repos/asf/apr/apr/trunk/ apr
+  $ svn checkout http://svn.apache.org/repos/asf/apr/apr-util/trunk/ apr-util
 
 =back
 
@@ -285,18 +283,28 @@ Open the package with:
 
 or an equivalent command.
 
-=item CVS Bleeding-Edge Version
+=item SVN Bleeding-Edge Version
 
-To download the cvs version of modperl-2.0 execute the following
+NOTE: as of November 17, 2004 mod_perl 2.0 has moved to subversion.
+
+To download the svn version of mod_perl-2.0 execute the following
 commands:
 
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+  $ svn checkout http://svn.apache.org/repos/asf/perl/modperl/trunk/ mod_perl-2.0
 
-The password is "anoncvs".
+Current mod_perl developers with commit access will need to use https instead:
 
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
+  $ svn checkout https://svn.apache.org/repos/asf/perl/modperl/trunk/ mod_perl-2.0
 
-You can also try the latest CVS snapshot:
+META: missing Apache-Test information
+
+In order to commit for the first time you will need to update your
+password.  To do that, log in to svn.apache.org and run the command "svnpasswd":
+
+  $ ssh svn.apache.org
+  $ svnpasswd
+  
+You can also try the latest cvs snapshot:
 
 http://cvs.apache.org/snapshots/modperl-2.0/
 
