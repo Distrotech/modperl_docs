@@ -246,9 +246,6 @@ C<L<Apache::ITERATE|/C_Apache__ITERATE_>> constant:
 This attribute is optional. If not supplied, the default value of
 C<L<Apache::TAKE1|/C_Apache__TAKE1_>> is used.
 
-META: the default may change to use a constant corresponding to the
-I<func> prototype.
-
 
 =head3 C<errmsg>
 
