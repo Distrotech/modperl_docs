@@ -4,6 +4,7 @@ APR:PerlIO -- An APR Perl IO layer
 
 =head1 SYNOPSIS
 
+  # under mod_perl
   use APR::PerlIO ();
   
   sub handler {
@@ -12,12 +13,19 @@ APR:PerlIO -- An APR Perl IO layer
       die "This Perl build doesn't support PerlIO layers"
           unless APR::PerlIO::PERLIO_LAYERS_ARE_ENABLED;
   
-      open my $fh, ">:APR", $filename, $r or die $!;
+      open my $fh, ">:APR", $filename, $r->pool or die $!;
       # work with $fh as normal $fh
       close $fh;
   
       return Apache::OK;
   }
+
+  # outside mod_perl
+  % perl -MApache2 -MAPR -MAPR::PerlIO -MAPR::Pool -le \
+  'open my $fh, ">:APR", "/tmp/apr", APR::Pool->new or die "$!"; \
+   print $fh "whoah!"; \
+   close $fh;'
+
 
 =head1 DESCRIPTION
 
@@ -55,7 +63,7 @@ Perl Interface:
 To use APR Perl IO to open a file the four arguments open() should be
 used. For example:
 
-  open my $fh, ">:APR", $filename, $r or die $!;
+  open my $fh, ">:APR", $filename, $r->pool or die $!;
 
 where:
 
@@ -64,8 +72,7 @@ sections separated by the C<:> character: the first section is the
 mode to open the file under (E<gt>, E<lt>, etc) and the second section
 must be a string I<APR>.
 
-the fourth argument can be a C<Apache::RequestRec> or
-C<Apache::ServerRec> object.
+the fourth argument must be an C<APR::Pool> object.
 
 the rest of the arguments are the same as described by the I<open()>
 manpage.
