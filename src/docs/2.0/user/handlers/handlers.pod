@@ -218,9 +218,10 @@ At this stage the C<STDERR> stream is not yet redirected to
 I<error_log>, and therefore any messages to that stream will be
 printed to the console the server is starting from (if such exists).
 
-This phase is of type C<RUN_ALL>.
+This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 
-The handler's configuration scope is C<SRV>.
+The handler's configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
 As we have seen in the C<MyApache::StartupLog::open_logs> handler, the
 I<open_logs> phase handlers accept four arguments: the configuration
@@ -265,9 +266,10 @@ configuration tree.
 
 META: once mod_perl will have the API for that.
 
-This phase is of type C<RUN_ALL>.
+This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 
-The handler's configuration scope is C<SRV>.
+The handler's configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
 In our C<MyApache::StartupLog> example we used the I<post_config()>
 handler:
@@ -299,9 +301,10 @@ structures which should be private to each process. For example
 C<Apache::DBI> pre-opens database connections during this phase and
 C<Apache::Resource> sets the process' resources limits.
 
-This phase is of type C<VOID>.
+This phase is of type C<L<VOID|/item_VOID>>.
 
-The handler's configuration scope is C<SRV>.
+The handler's configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
 In our C<MyApache::StartupLog> example we used the I<child_init()>
 handler:
@@ -441,10 +444,11 @@ mod_perl and the others by the default images handler, the Perl
 interpreter won't be available to other threads while the images are
 being served.
 
-This phase is of type C<RUN_ALL>.
+This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 
-The handler's configuration scope is C<SRV>, because it's not known
-yet which resource the request will be mapped to.
+The handler's configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because it's not
+known yet which resource the request will be mapped to.
 
 XXX: As of this moment C<PerlPreConnectionHandler> is not being
 executed by mod_perl. Stay tuned.
@@ -469,11 +473,12 @@ phase, as it gives them an opportunity to replace the standard HTTP
 processing with processing for some other protocols (e.g., POP3, FTP,
 etc.).
 
-This phase is of type C<RUN_FIRST>.
+This phase is of type C<L<RUN_FIRST|/item_RUN_FIRST>>.
 
-The handler's configuration scope is C<SRV>. Therefore the only way to
-run protocol servers different than the core HTTP is inside dedicated
-virtual hosts.
+The handler's configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>. Therefore the only
+way to run protocol servers different than the core HTTP is inside
+dedicated virtual hosts.
 
 A I<process_connection> handler accepts a connection record object as
 its only argument, a socket object can be retrieved from the
@@ -616,7 +621,7 @@ As before we start the httpd server:
 
 And try the new connection handler in action:
 
-  panic% telnet localhost 8010
+  panic% telnet localhost 8011
   Trying 127.0.0.1...
   Connected to localhost (127.0.0.1).
   Escape character is '^]'.
@@ -633,7 +638,7 @@ because of the output filter. And here is the implementation of the
 connection and the filter handlers.
 
   file:MyApache/EchoBB.pm
-  -------------------
+  -----------------------
   package MyApache::EchoBB;
   
   use strict;
@@ -774,7 +779,9 @@ be all lowercase.
 Those familiar with mod_perl 1.0 will find the HTTP request cycle in
 mod_perl 2.0 to be almost identical to the mod_perl 1.0's model. The
 only difference is in the I<response> phase which now includes
-filtering.
+filtering. Also the C<PerlHandler> directive has been renamed to
+C<PerlResponseHandler> to better match the corresponding Apache phase
+name (I<response>).
 
 The following diagram depicts the HTTP request life cycle and
 highlights which handlers are available to mod_perl 2.0:
@@ -833,13 +840,77 @@ parsed.
 This phase is usually used to do processings that must happen once per
 request.
 
-This phase is of type C<RUN_ALL>.
+This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 
-The handler's configuration scope is C<SRV>, because at this phase the
-request has not yet been associated with a particular filename or
-directory.
+The handler's configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because at this
+phase the request has not yet been associated with a particular
+filename or directory.
 
-Example:
+Consider the following registry script:
+
+  touch.pl
+  --------
+  use strict;
+  use warnings;
+  
+  use Apache::ServerUtil ();
+  use File::Spec::Functions qw(catfile);
+  
+  my $r = shift;
+  $r->content_type('text/plain');
+  
+  my $conf_file = catfile Apache::server_root_relative($r->pool, 'conf'),
+      "httpd.conf";
+  
+  printf "$conf_file is %0.2f minutes old", 60*24*(-M $conf_file);
+
+This registry script is supposed to print when the last time
+I<httpd.conf> has been modified. If you run this script several times
+you might be surprised that it reports the same thing all the
+time. Unless you happen to hit a recently started child process which
+will then report a different value.
+
+This happens because the C<-M> operator reports the difference between
+file's modification time and the value of a special perl variable
+C<$^T>. When we run scripts from the command line, this variable is
+always set to the time when the script gets invoked. Under mod_perl
+this variable is getting preset once when the child process starts and
+doesn't change since then, so all requests see the same time
+
+Armed with this knowledge, in order to make our code behave like the
+command line programs we need to reset C<$^T> to the request's start
+time, before C<-M> is used. We can change the script itself, but what
+if we need to do the same change for several other scripts and
+handlers? A simple C<PerlPostReadRequestHandler> handler, which will
+be executed as the very first thing of each requests, comes handy
+here:
+
+  package MyApache::TimeReset;
+  
+  use Apache::RequestRec ();
+  
+  use Apache::Const -compile => 'OK';
+  
+  sub handler {
+      my $r = shift;
+      $^T = $r->request_time;
+      return Apache::OK;
+  }
+  1;
+
+We could do:
+
+  $^T = time();
+
+But to make things more efficient we use C<$r-E<gt>request_time> which
+already stores the request's start time, and returns it without doing
+an additional system call.
+
+To enable it just add to I<httpd.conf>:
+
+  PerlPostReadRequestHandler MyApache::TimeReset
+
 
 =head2 PerlTransHandler
 
@@ -853,11 +924,12 @@ register new handlers for the following phases based on the URI.
 If no custom handlers is provided, the server's default rules
 (C<Alias> directives and the like) will continue to be followed.
 
-This phase is of type C<RUN_FIRST>.
+This phase is of type C<L<RUN_FIRST|/item_RUN_FIRST>>.
 
-The handler's configuration scope is C<SRV>, because at this phase the
-request has not yet been associated with a particular filename or
-directory.
+The handler's configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because at this
+phase the request has not yet been associated with a particular
+filename or directory.
 
 Example:
 
@@ -871,7 +943,7 @@ descibed earlier.
 
 It is the first handler to be invoked when serving a request.
 
-This phase is of type C<RUN_ALL>.
+This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 
 Example:
 
@@ -887,9 +959,10 @@ and to take a special action based on these. For example this phase
 can be used to block evil clients, while little resources were wasted
 on these.
 
-This phase is of type C<RUN_ALL>.
+This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 
-The handler's configuration scope is C<DIR>.
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 Example:
 
@@ -906,9 +979,10 @@ This phase can be used to restrict access from a certain IP address,
 time of the day or any other rule not connected to the user's
 identity.
 
-This phase is of type C<RUN_ALL>.
+This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 
-The handler's configuration scope is C<DIR>.
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 Example:
 
@@ -928,9 +1002,10 @@ successfully.  When Apache sends the HTTP header with this code, the
 browser will normally pop up a dialog box that prompts the user for
 login information.
 
-This phase is of type C<RUN_FIRST>.
+This phase is of type C<L<RUN_FIRST|/item_RUN_FIRST>>.
 
-The handler's configuration scope is C<DIR>.
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 =head2 PerlAuthzHandler
 
@@ -947,9 +1022,10 @@ indicate its acceptance of the user's authorization, or
 C<AUTH_REQUIRED> to indicate that the user is not authorized to access
 the requested document.
 
-This phase is of type C<RUN_FIRST>.
+This phase is of type C<L<RUN_FIRST|/item_RUN_FIRST>>.
 
-The handler's configuration scope is C<DIR>.
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 Example:
 
@@ -966,9 +1042,10 @@ corresponding icons which will be later used in the listing of files.
 
 Of course later phases may override the mime type set in this phase.
 
-This phase is of type C<RUN_FIRST>.
+This phase is of type C<L<RUN_FIRST|/item_RUN_FIRST>>.
 
-The handler's configuration scope is C<DIR>.
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 Example:
 
@@ -982,9 +1059,10 @@ generated. For example in this phase C<mod_env> populates the
 environment with variables configured with I<SetEnv> and I<PassEnv>
 directives.
 
-This phase is of type C<RUN_ALL>.
+This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 
-The handler's configuration scope is C<DIR>.
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 Example:
 
@@ -999,7 +1077,7 @@ This is the only phase that requires two directives under
 mod_perl. For example:
 
   <Location /perl>
-     SetHandler  perl-script
+     SetHandler perl-script
      PerlResponseHandler Apache::Registry
   </Location>
 
@@ -1007,9 +1085,10 @@ C<SetHandler> tells Apache that mod_perl is going to handle the
 response generation. C<PerlResponseHandler> tells mod_perl which
 handler is going to do the job.
 
-This phase is of type C<RUN_FIRST>.
+This phase is of type C<L<RUN_FIRST|/item_RUN_FIRST>>.
 
-The handler's configuration scope is C<DIR>.
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 Example:
 
@@ -1028,9 +1107,10 @@ is known, therefore the logging handlers usually record this
 information in various ways (e.g., logging to a flat file or a
 database).
 
-This phase is of type C<RUN_ALL>.
+This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 
-The handler's configuration scope is C<DIR>.
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 Example:
 
@@ -1041,6 +1121,13 @@ META: not implemented yet
 This phase is of type C<XXX>.
 
 The handler's configuration scope is C<XXX>.
+
+
+
+
+
+
+
 
 
 =head1 I/O Filtering
@@ -1135,7 +1222,8 @@ C<E<lt>VirtualHostE<gt>> or the global server configuration:
 This accomplishes the configuration of the connection input and output
 filters.
 
-[META: 
+[META: This belongs to the Apache::Filter manpage and should be moved
+there when this page is created.
 
 Inside a connection filter the current connection object can be
 retrieved with:
@@ -1146,9 +1234,6 @@ Inside a request filter the current request object can be retrieved
 with:
 
   my $r = $filter->r;
-
-This belongs to the Apache::Filter manpage and should be moved there
-when this page is created.
 
 ]
 
@@ -1164,9 +1249,10 @@ help you to understand the difference between the two interfaces.
 The C<PerlInputFilterHandler> handler registers a filter for input
 filtering.
 
-This handler is of type C<VOID>.
+This handler is of type C<L<VOID|/item_VOID>>.
 
-The handler's configuration scope is C<DIR>.
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 The following sections include several examples of the
 C<PerlInputFilterHandler> handler.
@@ -1176,9 +1262,10 @@ C<PerlInputFilterHandler> handler.
 The C<PerlOutputFilterHandler> handler registers and configures output
 filters.
 
-This handler is of type C<VOID>.
+This handler is of type C<L<VOID|/item_VOID>>.
 
-The handler's configuration scope is C<DIR>.
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 The following sections include several examples of the
 C<PerlOutputFilterHandler> handler.
@@ -1693,7 +1780,88 @@ discarding the body on C<HEAD>, the response would be:
 that's why the content length is reported as 25 and not 24 as in the
 real GET request.
 
+
+
 =head2 Request Input Filter
+
+Request filters are really non-different from connection filters,
+other than that they are working on request and response bodies and
+have an access to a request object. The filter implementation is
+pretty much identical. Let's look at the request input filter that
+lowercases the request's body C<MyApache::InputRequestFilterLC>:
+
+  file:MyApache/InputRequestFilterLC.pm
+  -------------------------------------
+  package MyApache::InputRequestFilterLC;
+  
+  use strict;
+  use warnings;
+  
+  use base qw(Apache::Filter);
+  
+  use APR::Brigade ();
+  use APR::Bucket ();
+  
+  use Apache::Const -compile => 'OK';
+  use APR::Const -compile => ':common';
+  
+  sub handler : FilterRequestHandler {
+      my($filter, $bb, $mode, $block, $readbytes) = @_;
+  
+      my $c = $filter->c;
+      my $bb_ctx = APR::Brigade->new($c->pool, $c->bucket_alloc);
+      my $rv = $filter->next->get_brigade($bb_ctx, $mode, $block, $readbytes);
+      return $rv unless $rv == APR::SUCCESS;
+  
+      while (!$bb_ctx->empty) {
+          my $b = $bb_ctx->first;
+  
+          $b->remove;
+  
+          if ($b->is_eos) {
+              $bb->insert_tail($b);
+              last;
+          }
+  
+          my $data;
+          my $status = $b->read($data);
+          return $status unless $status == APR::SUCCESS;
+  
+          $b = APR::Bucket->new(lc $data) if $data;
+  
+          $bb->insert_tail($b);
+      }
+  
+      Apache::OK;
+  }
+  
+  1;
+
+Now if we use the C<MyApache::Dump> response handler, we have
+developed before in this chapter, which dumps the query string and the
+content body as a response, and configure the server as follows:
+
+  <Location /lc_input>
+      SetHandler modperl
+      PerlResponseHandler    +MyApache::Dump
+      PerlInputFilterHandler +MyApache::InputRequestFilterLC
+  </Location>
+
+When issuing a POST request:
+
+ % echo "mOd_pErl RuLeS" | POST 'http://localhost:8002/dump_input?FoO=1&BAR=2'
+
+we get a response:
+
+  args:
+  FoO=1&BAR=2
+  content:
+  mod_perl rules
+
+indeed we can see that our filter has lowercased the POSTed body,
+before the content handler received it. You can see that the query
+string wasn't changed.
+
 
 =head2 Bucket Brigades and Stream-Oriented Request Output Filters
 
@@ -1853,7 +2021,7 @@ filter.
       my($filter, $bb) = @_;
   
       my $c = $filter->c;
-      my $new_bb = APR::Brigade->new($c->pool, $c->bucket_alloc);
+      my $bb_ctx = APR::Brigade->new($c->pool, $c->bucket_alloc);
   
       while (!$bb->empty) {
           my $bucket = $bb->first;
@@ -1861,7 +2029,7 @@ filter.
           $bucket->remove;
   
           if ($bucket->is_eos) {
-              $new_bb->insert_tail($bucket);
+              $bb_ctx->insert_tail($bucket);
               last;
           }
   
@@ -1875,10 +2043,10 @@ filter.
               $bucket = APR::Bucket->new($data);
           }
   
-          $new_bb->insert_tail($bucket);
+          $bb_ctx->insert_tail($bucket);
       }
   
-      my $rv = $filter->next->pass_brigade($new_bb);
+      my $rv = $filter->next->pass_brigade($bb_ctx);
       return $rv unless $rv == APR::SUCCESS;
   
       Apache::OK;
@@ -1917,6 +2085,8 @@ which designates the end of stream, we insert that bucket to the tail
 of the new bucket brigade and break the loop. Finally we pass the
 created brigade with modified data to the next filter and return.
 
+
+
 =head2 Filter Tips
 
 Various tips to use in filters.
@@ -1934,6 +2104,10 @@ request output filter:
 
 Request filters have an access to the request object, so we simply
 modify it.
+
+
+
+
 
 
 =head1 Handler (Hook) Types
