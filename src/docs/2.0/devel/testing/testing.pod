@@ -118,8 +118,8 @@ Run:
 
   % t/TEST -help
 
-to get the list of options you can use during testing. They are
-covered in the rest of this document.
+to get the list of options you can use during testing. Most options
+are covered further in this document.
 
 =head2 Basic Testing
 
@@ -280,6 +280,30 @@ Of course this file gets created only when the server starts, so you
 cannot run tail(1) on it before the server starts. Every time C<t/TEST
 -clean> is run, I<t/logs/error_log> gets deleted, therefore you have
 to run the tail(1) command again, when the server is started.
+
+=head2 Controlling the Apache::Test's Sound to Noise Ratio
+
+In addition to controlling the verbosity of the test scripts, you can
+control the amount of information printed by the C<Apache::Test>
+framework itself. Similar to Apache's log levels, C<Apache::Test> uses
+these levels for controlling its sound to noise ratio:
+
+  emerg alert crit error warning notice info debug
+
+where I<emerg> is the for the most important messages and I<debug> for
+the least important ones.
+
+Currently the default level is I<info>, therefore any messages which
+fall into the I<info> category and above (I<notice>, I<warning>,
+etc). If for example you want to see the I<debug> messages you can
+change the default level using I<-trace> option:
+
+  % t/TEST -trace=debug ...
+
+or if you want to get only I<warning> messages and above, use:
+
+  % t/TEST -trace=warning ...
+
 
 =head2 Stress Testing
 
