@@ -656,13 +656,12 @@ buckets in the bucket brigade):
   use Apache::Const -compile => qw(OK);
   sub filter {
       my($f, $bb) = @_;
-      
+  
       # ... process $bb
-      
+  
       my $rc = $f->next->pass_brigade($bb);
       return $rc unless $rc == APR::SUCCESS;
-      
-      # process $bb
+  
       return Apache::OK;
   }
 
