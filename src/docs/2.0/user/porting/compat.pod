@@ -1177,6 +1177,26 @@ to use the same code base under both mod_perl generations when the
 handler has to be a method.
 
 
+=head2 Stacked Handlers
+
+Both mod_perl 1.0 and 2.0 support the ability to register more
+than one handler in each runtime phase, a feature known as
+stacked handlers.  For example,
+
+  PerlAuthenHandler My::First My::Second
+
+The behavior of stacked Perl handlers differs between mod_perl 1.0
+and 2.0.  In 2.0, mod_perl respects the run-type of the underlying
+hook - it does not run all configured Perl handlers for each phase
+but instead behaves in the same way as Apache does when multiple
+handlers are configured, respecting (or ignoring) the return 
+value of each handler as it is called.
+
+See L<Single Phase's Multiple Handlers
+Behavior|docs::2.0::user::handlers::intro/Single_Phase_s_Multiple_Handlers_Behavior>
+for a complete description of each hook and its run-type.
+
+
 =head1 C<Apache::src>
 
 For those who write 3rd party modules using XS, this module was used

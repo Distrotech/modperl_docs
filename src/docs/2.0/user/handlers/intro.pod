@@ -238,7 +238,7 @@ following table specifies each handler's behavior in this situation:
   PerlOpenLogsHandler          RUN_ALL
   PerlPostConfigHandler        RUN_ALL
   PerlChildInitHandler         VOID
-  PerlChildExitHandler         RUN_ALL
+  PerlChildExitHandler         VOID
   
   PerlPreConnectionHandler     RUN_ALL
   PerlProcessConnectionHandler RUN_FIRST
