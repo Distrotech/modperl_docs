@@ -1,5 +1,5 @@
 
-require 5.6.1;
+require 5.6.0;
 
 use File::Find;
 use File::Spec;
