@@ -238,6 +238,7 @@ Dispatch function name defaults to C function name. If the dispatch
 name is just a prefix (I<mpxs_>, I<MPXS_>) the C function name is
 appended to it.
 
+See the explanation about function naming and arguments passing.
 
 =item * Argspec
 
@@ -296,6 +297,143 @@ In addition it creates a number of files in the I<xs/> directory:
   modperl_xs_sv_convert.h
   modperl_xs_typedefs.h
 
+=head1 mpxs_ vs MPXS_
+
+If you look at the source code there are functions starting with
+I<mpxs_> and those with I<MPXS_>.
+
+If you want to mess directly with the stack (i.e. without specifying
+the prototype of the function), there are two ways to do that. Either
+the function has to have a prototype C<...> (which stands for
+I<items>, I<MARK> and I<SP> arguments) or prefixed with I<MPXS_>,
+which are hooked directly into newXS().
+
+META: complete
+
+
+=head1 MP_INLINE vs C Macros vs Normal Functions
+
+To make the code maintainable and reusable functions and macros are
+used in when programming in C (and other languages :).
+
+When function is marked as I<inlined> it's merely a hint to the
+compiler to replace the call to a function with the code inside this
+function (i.e. inlined). Not every function can be inlined. Some
+typical reasons why inlining is sometimes not done include:
+
+=over
+
+=item *
+
+the function calls itself, that is, is recursive
+
+=item *
+
+the function contains loops such as C<for(;;)> or C<while()>
+
+=item *
+
+the function size is too large
+
+=back
+
+Most of the advantage of inline functions comes from avoiding the
+overhead of calling an actual function. Such overhead includes saving
+registers, setting up stack frames, etc. But with large functions the
+overhead becomes less important.
+
+Use the C<MP_INLINE> keyword in the declaration of the functions that
+are to be inlined. The functions should be inlined when:
+
+=over
+
+=item *
+
+Only ever called once (the I<wrappers> that are called from I<.xs>
+files), no matter what the size of code is.
+
+=item *
+
+Short bodies of code called in a I<hot> code (like
+I<modperl_env_hv_store>, which is called many times inside of a loop),
+where it is cleaner to see the code in function form rather than macro
+with lots of C<\>'s. Remember that an inline function takes much more
+space than a normal functions if called from many places in the code.
+
+=back
+
+Of course C macros are a bit faster then inlined functions, since
+there is not even I<short jump> to be made, the code is literally
+copied into the place it's called from. However using macros comes at
+a price:
+
+=over
+
+=item *
+
+Also unlike macros, in functions argument types are checked, and
+necessary conversions are performed correctly. With macros it's
+possible that weird things will happen if the caller has passed
+arguments of the wrong type when calling a macro.
+
+=item *
+
+One should be careful to pass only absolute values as I<"arguments">
+to macros. Consider a macro that returns an absolute value of the
+passed argument:
+
+  #define ABS(v) ( (v) >= 0 ? (v) : -(v) )
+
+In our example if you happen to pass a function it will be called
+twice:
+
+  abs_val = ABS(f());
+
+Since it'll be extended as:
+
+  abs_val = f() >= 0 ? f() : -f();
+
+You cannot do simple operation like increment--in our example it will
+be called twice:
+
+  abs_val = ABS(i++);
+
+Because it becomes:
+
+  abs_val = i++ >= 0 ? i++ : -i++;
+
+=item *
+
+It's dangerous to use the if() condition without enclosing the code in
+C<{}>, since the macro may be called from inside another if-else
+condition, which may cause the else part called if the if() part from
+the macro fails.
+
+But we always use C<{}> for the code inside the if-else condition, so
+it's not a problem here.
+
+=item *
+
+A multi-line macro can cause problems if someone uses the macro in a
+context that demands a single statement.
+
+  while (foo) MYMACRO(bar);
+
+But again, we always enclose any code in conditional with C<{}>, so
+it's not a problem for us.
+
+=item *
+
+Inline functions present a problem for debuggers and profilers,
+because the function is expanded at the point of call and loses its
+identity. This makes the debugging process a nightmare.
+
+A compiler will typically have some option available to disable
+inlining.
+
+=back
+
+In all other cases use normal functions.
 
 
 
