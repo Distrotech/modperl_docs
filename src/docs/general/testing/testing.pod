@@ -1225,6 +1225,22 @@ You should remember to run:
 so the configuration file will be re-generated when new tests are
 added.
 
+Also notice that if you manually add configuration the
+C<E<lt>LocationE<gt>> path can't include C<':'> characters in the
+first segment, due to Apache security protection on WinFU
+platforms. So please make sure that you don't create entries like:
+
+  <Location /Foo::bar/>
+
+You can include C<':'> characters in the further segments, so this is
+OK:
+
+  <Location /tests/Foo::bar/>
+
+Of course if your code is not intended to run on WinFU you can ignore
+this detail.
+
+
 =head2 Developing Response and Request Parts of a Test
 
 But in most cases you want to write a two parts test where the client
