@@ -686,7 +686,7 @@ When this option is disabled you can still read environment variables
 set by you.  For example when you use the following configuration:
 
   PerlOptions -SetupEnv
-  PerlModule Modperl::Registry
+  PerlModule ModPerl::Registry
   <Location /perl>
     PerlSetEnv TEST hi
     SetHandler perl-script
@@ -700,7 +700,7 @@ and you issue a request for this script:
   --------------
   use Data::Dumper;
   my $r = Apache->request();
-  $r->send_http_header('text/plain');
+  $r->content_type('text/plain');
   print Dumper(\%ENV);
 
 you should see something like this:
