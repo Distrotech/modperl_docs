@@ -307,7 +307,7 @@ sections:
 L<Apache Configuration in Perl|config/Apache_Configuration_in_Perl>
 
 L<Easing the Chores of Configuring Virtual Hosts with
-mod_macro|config/Configuring_Apache_mod_perl_wi>
+mod_macro|config/Configuring_Apache___mod_perl_with_mod_macro>
 
 L<Is There a Way to Provide a Different startup.pl File for Each
 Individual Virtual Host|config/Is_There_a_Way_to_Provide_a_Diff>
