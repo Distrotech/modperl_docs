@@ -53,8 +53,8 @@ a binary build that includes the Apache libraries and header files.
 Run, from a DOS window in the top-level directory of the 
 mod_perl sources,
 
-  perl Makefile.PL
-  nmake
+  C:\modperl_src> perl Makefile.PL
+  C:\modperl_src> nmake
 
 This will set up the Perl side of mod_perl for the library build.
 
@@ -95,11 +95,11 @@ the size of the DLL), by setting:
 
 Once mod_perl.so is built you may test mod_perl with:
 
-   nmake test
+   C:\modperl_src> nmake test
 
 after which, assuming the tests are OK,
 
-   nmake install
+   C:\modperl_src> nmake install
 
 will install the Perl side of mod_perl. The mod_perl.so file
 built under F<mod_perl-1.xx/src/modules/win32/Release> should
@@ -111,7 +111,7 @@ be copied to your Apache modules directory (eg, F<C:\Apache\modules>).
 
 Generating the Makefile as, for example,
 
- perl Makefile.PL APACHE_SRC=\Apache INSTALL_DLL=\Apache\modules
+  C:\modperl_src> perl Makefile.PL APACHE_SRC=\Apache INSTALL_DLL=\Apache\modules
 
 will build mod_perl (including mod_perl.so) entirely from 
 the command line. The arguments accepted include
@@ -148,9 +148,9 @@ not be defined.
 
 After this, running
 
-   nmake
-   nmake test
-   nmake install
+   C:\modperl_src> nmake
+   C:\modperl_src> nmake test
+   C:\modperl_src> nmake install
 
 will complete the installation.
 

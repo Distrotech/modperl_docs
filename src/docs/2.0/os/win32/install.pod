@@ -36,13 +36,13 @@ Having built and installed Apache-2, next obtain the
 mod_perl-2 sources from http://www.cpan.org/authors/id/D/DO/DOUGM/.
 After unpacking, run the command
 
-    perl Makefile.PL MP_AP_PREFIX=\Path\to\Apache2
+    C:\modperl_src> perl Makefile.PL MP_AP_PREFIX=\Path\to\Apache2
 
 where F<\Path\to\Apache2> is the path to the Apache-2
 package you earlier built. Then
 
-    nmake
-    nmake test
+    C:\modperl_src> nmake
+    C:\modperl_src> nmake test
 
 will build and test mod_perl-2. mod_perl-2 on Win32 is
 considered at an alpha stage of development, so not
@@ -50,7 +50,7 @@ all the tests may pass.
 
 The final command,
 
-    nmake install
+    C:\modperl_src> nmake install
 
 will install the necessary mod_perl-2 files into your
 Perl directory tree (you will also need to copy
@@ -60,7 +60,7 @@ also contains mod_perl-1, then some mod_perl-1 files will be
 overwritten by this procedure. This can be avoided by preparing
 the build as
 
-  perl Makefile.PL MP_AP_PREFIX=\Path\to\Apache2 MP_INST_APACHE2=1
+  C:\modperl_src> perl Makefile.PL MP_AP_PREFIX=\Path\to\Apache2 MP_INST_APACHE2=1
 
 which will subsequently lead to the mod_perl-2 files 
 being installed under an F<Apache2> subdirectory in your Perl tree. 

@@ -100,7 +100,7 @@ of mod_perl-1 on Win32, consider the C<printenv> script above
 with the C<sleep(10)> line uncommented. Using the Apache
 benchmarking tool C<ab> of the Apache-2 Win32 distribution:
 
-   ab -n 5 -c 5 http://localhost/perl/printenv
+   C:\Apache2\bin> ab -n 5 -c 5 http://localhost/perl/printenv
 
 to make 5 concurrent requests, we find the following results.
 For mod_perl-1/Apache-1:
