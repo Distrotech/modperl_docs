@@ -1,14 +1,14 @@
 =head1 NAME
 
-Apache::Process - Perl API for Apache process record
+Apache2::Process - Perl API for Apache process record
 
 
 
 
 =head1 Synopsis
 
-  use Apache::Process ();
-  use Apache::ServerRec ();
+  use Apache2::Process ();
+  use Apache2::ServerRec ();
   my $proc = $s->process;
   
   # global pool cleared on exit
@@ -27,11 +27,11 @@ Apache::Process - Perl API for Apache process record
 
 =head1 Description
 
-C<Apache::Process> provides the API for the Apache process object,
+C<Apache2::Process> provides the API for the Apache process object,
 which you can retrieve with
-C<L<$s-E<gt>process|docs::2.0::api::Apache::ServerRec/C_process_>>:
+C<L<$s-E<gt>process|docs::2.0::api::Apache2::ServerRec/C_process_>>:
 
-  use Apache::ServerRec ();
+  use Apache2::ServerRec ();
   $proc = $s->process;
 
 
@@ -39,7 +39,7 @@ C<L<$s-E<gt>process|docs::2.0::api::Apache::ServerRec/C_process_>>:
 
 =head1 API
 
-C<Apache::Process> provides the following functions and/or methods:
+C<Apache2::Process> provides the following functions and/or methods:
 
 
 
@@ -53,7 +53,7 @@ Get configuration pool object.
 =over 4
 
 =item obj: C<$proc>
-( C<L<Apache::Process object|docs::2.0::api::Apache::Process>> )
+( C<L<Apache2::Process object|docs::2.0::api::Apache2::Process>> )
 
 =item ret: C<$p>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
@@ -79,7 +79,7 @@ Get the global pool object.
 =over 4
 
 =item obj: C<$proc>
-( C<L<Apache::Process object|docs::2.0::api::Apache::Process>> )
+( C<L<Apache2::Process object|docs::2.0::api::Apache2::Process>> )
 
 =item ret: C<$p>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
@@ -106,7 +106,7 @@ The name of the program used to execute the program
 =over 4
 
 =item obj: C<$proc>
-( C<L<Apache::Process object|docs::2.0::api::Apache::Process>> )
+( C<L<Apache2::Process object|docs::2.0::api::Apache2::Process>> )
 
 =item ret: C<$short_name> (string)
 
