@@ -74,18 +74,18 @@ returned to the client.
 
 Different handler groups are supposed to return different values. The
 only value that can be returned by all handlers is C<Apache::OK>,
-which tells Apache that the handler has successfully finished it's
+which tells Apache that the handler has successfully finished its
 execution.
 
 C<Apache::DECLINED> is another return value that indicates success,
 but it's only relevant for
 L<phases|docs::2.0::user::handlers::intro/Single_Phase_s_Multiple_Handlers_Behavior>
-of type C<L<RUN_FIRST|/RUN_FIRST>>
+of type C<L<RUN_FIRST|/RUN_FIRST>>.
 
 L<HTTP handlers|docs::2.0::user::handlers::http> may also return
 C<Apache::DONE> which tells Apache to stop the normal L<HTTP request
 cycle|docs::2.0::user::handlers::http/HTTP_Request_Cycle_Phases> and
-fastforward to the
+fast forward to the
 C<L<PerlLogHandler|docs::2.0::user::handlers::http/PerlLogHandler>>,
 followed by
 C<L<PerlCleanupHandler|docs::2.0::user::handlers::http/PerlCleanupHandler>>.
@@ -107,8 +107,8 @@ manipulate the bucket brigade or the bucket. Normally it'd be an
 C<L<APR::|docs::2.0::api::APR::Const>> constant.
 
 L<Protocol handler|docs::2.0::user::handlers::protocols> return values
-aren't really handled by Apache, the protocol handler is supposed to
-take care of any errors by itself. The only special case is the
+aren't really handled by Apache, the handler is supposed to take care
+of any errors by itself. The only special case is the
 C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreConnectionHandler>>
 handler, which, if returning anything but C<Apache::OK>, will prevent
 from
