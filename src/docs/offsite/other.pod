@@ -206,6 +206,11 @@ http://linuxplanet.com/linuxplanet/print/1445/
 How to 'chroot' an Apache tree with Linux and Solaris
 http://penguin.epfl.ch/chroot.html
 
+http://www.etc.msys.ch/docs/chrooted_httpd.pdf talks about selected
+aspects of running a chrooted HTTP daemon and present strategies on
+how to set up a chrooted environment for more complex applications
+like database access or using CGI-scripts.
+
 Installing and Securing the Apache Webserver with SSL
 http://online.securityfocus.com/infocus/1356
 
