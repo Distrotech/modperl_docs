@@ -2185,7 +2185,7 @@ and C<L<APR::Table::overlap|docs::2.0::api::APR::Table/C_overlap_>>.
 
   use APR::Const -compile => qw(:uri);
 
-The C<:uri> group is for XXX constants.
+The C<:uri> group of constants is for manipulating URIs.
 
 
 
@@ -2420,6 +2420,8 @@ The C<:uri> group is for XXX constants.
 
 =back
 
+See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
+
 
 
 
@@ -2434,6 +2436,8 @@ The C<:uri> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 
 
@@ -2450,6 +2454,7 @@ The C<:uri> group is for XXX constants.
 
 =back
 
+See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 
 
@@ -2466,7 +2471,7 @@ The C<:uri> group is for XXX constants.
 
 =back
 
-
+See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 
 
@@ -2482,6 +2487,7 @@ The C<:uri> group is for XXX constants.
 
 =back
 
+See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 
 
@@ -2510,6 +2516,7 @@ The C<:uri> group is for XXX constants.
 
 =back
 
+See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 
 
