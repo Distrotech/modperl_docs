@@ -1,5 +1,15 @@
 2.0 docs todo:
 
+*** Areas that would be nice to document first ***
+
+- Automatic API docs generator from .h files
+  Owner: Lyle Brooks?
+
+- Directive handlers (custom config handlers)
+  Owner: stas
+
+*** General items ***
+
 ---
 
 Add a note somewhere that explains the layout of the documentation, in
@@ -28,6 +38,21 @@ has no effect. Instead either use perl-script or call
 $r->subprocess_env in the void context.
 
 ---
+
+On the cleanups from Bill Rowe's email (need to integrate this into
+the cleanup docs, the hook that we don't have yet):
+
+Cleanups are a LIFO stack.  When a pool is freed, first all sub-pools
+are freed.  Then all cleanups within that pool are run (the cleanups
+in the sub-pool already ran when those sub-pools were freed.)
+
+So if you register a cleanup, then create an apr object in the same
+pool, those apr object's cleanup runs before your registered cleanup.
+
+If you create an apr object and register your own cleanup, you still
+have that object until your registered cleanup is finished.
+
+
 
 ---
 
