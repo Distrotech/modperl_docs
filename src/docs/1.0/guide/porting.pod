@@ -2891,7 +2891,7 @@ In any case, C<%ENV> and the tables used by those methods are all
 cleared after the request is served. 
 
 The Perl C<%ENV> is cleared during startup, but the C environment is
-left in tact.  With a combo of forking C<`env`> and C<E<lt>PerlE<gt>>
+left intact.  With a combo of forking C<`env`> and C<E<lt>PerlE<gt>>
 sections you can do even do wildcards matching.  For example, this
 passes all environment variables that begin with the letter H:
 

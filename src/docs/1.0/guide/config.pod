@@ -1816,6 +1816,19 @@ variable L<MOD_PERL_TRACE|guide::debug/Debug_Tracing> then you should see
 some useful diagnostics when mod_perl is processing C<E<lt>PerlE<gt>>
 sections.
 
+=head2 Perl Section Tricks
+
+=over
+
+=item *
+
+The Perl C<%ENV> is cleared during startup, but the C environment is
+left intact and so you L<can use
+it|guide::porting/Passing_ENV_variables_to_CGI> to set C<@PassEnv>.
+
+=back
+
+
 =head2 References
 
 For more info see
