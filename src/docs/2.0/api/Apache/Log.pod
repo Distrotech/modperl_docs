@@ -639,6 +639,10 @@ See L<LogLevel Methods|/LogLevel_Methods>.
 
 See L<LogLevel Methods|/LogLevel_Methods>.
 
+Though Apache treats C<notice()> calls as special. The message is
+always logged regardless the value of C<ErrorLog>, unless the error
+log is set to use syslog. (For details see httpd-2.0/server/log.c.)
+
 
 
 =head2 C<warn>
