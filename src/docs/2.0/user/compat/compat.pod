@@ -177,7 +177,7 @@ load C<Apache::compat> at the startup:
   ----------------
   use Apache2; # if you have 1.0 and 2.0 installed
   use Apache::compat ();
-  use lib ...; # to find 1.0x Apache::Registry
+  #use lib ...; # to find 1.0x Apache::Registry
 
 then in I<httpd.conf>:
 
@@ -192,11 +192,24 @@ then in I<httpd.conf>:
 Notice that C<Apache::compat> has to be loaded before C<CGI.pm> if the
 latter module is used.
 
-META: complete
+The only reason you may want to use C<Apache::Registry> with mp2 is
+that because at this moment C<ModPerl::Registry> (and others) doesn't
+C<chdir()> into the script's dir like Apache::Registry does, because
+C<chdir()> affects the whole process under threads. This should be
+resolved by the time mod_perl 2.0 is released. But for now you can use
+C<Apache::Registry>. However you will have problems if you are using
+anything but the preforked MPM, the main reason why
+C<ModPerl::Registry> doesn't C<chdir()>.
 
-META: document that for now ModPerl::Registry doesn't chdir() into the
-script's dir like Apache::Registry does, because chdir() affects the
-whole process under threads.
+Otherwise C<ModPerl::Registry> modules are configured and used
+similarly to C<Apache::Registry> modules. Refer to one of the
+following manpages for more information:
+C<L<ModPerl::RegistryCooker|docs::2.0::api::ModPerl::RegistryCooker>>,
+C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>>,
+C<L<ModPerl::RegistryBB|docs::2.0::api::ModPerl::RegistryBB>>
+and
+C<L<ModPerl::PerlRun|docs::2.0::api::ModPerl::PerlRun>>.
+
 
 
 =head2 C<ModPerl::RegistryLoader>
@@ -204,8 +217,9 @@ whole process under threads.
 In mod_perl 1.0 it was only possible to preload scripts as
 C<Apache::Registry> handlers. In 2.0 the loader can use any of the
 registry classes to preload into. The old API works as before, but new
-options can be passed. See the I<L<ModPerl::RegistryLoader>> manpage
-for more information.
+options can be passed. See the
+C<L<ModPerl::RegistryLoader|docs::2.0::api::ModPerl::RegistryLoader>>
+manpage for more information.
 
 
 =head1 C<Apache::Constants>
