@@ -1139,9 +1139,11 @@ The handler's configuration scope is C<XXX>.
 
 
 
+=head1 Extending HTTP Protocol
 
-
-
+Extending HTTP under mod_perl is a trivial task.  Look at L<the
+example of adding a new method C<EMAIL>|/PerlHeaderParserHandler> for
+details.
 
 
 =head1 Maintainers
