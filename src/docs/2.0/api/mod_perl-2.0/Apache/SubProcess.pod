@@ -83,6 +83,6 @@ implementation which hides the internal datastructure).
 Therefore to write a portable code, you want to use select for
 perlio-disabled Perl and do nothing for perlio-enabled Perl, hence you
 can use something similar to the read_data() wrapper shown in the
-L<SYNOPSIS> section.
+L<SYNOPSIS|/SYNOPSIS> section.
 
 =cut

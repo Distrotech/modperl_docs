@@ -546,7 +546,7 @@ Notice that we have got the value of the environment variable I<TEST>.
 
 =head1 Handlers Directives
 
-See L<The handlers chapter|docs::2.0::user::handlers::handler>.
+See L<The handlers chapter|docs::2.0::user::handlers::index>.
 
 
 

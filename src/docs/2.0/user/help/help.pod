@@ -124,7 +124,7 @@ If you have general Perl questions, please refer to:
 http://lists.perl.org/.
 
 For other remotely related to mod_perl questions see the references to
-L<other documentation|docs::offisite::other>.
+L<other documentation|docs::offsite::other>.
 
 Finally, if you are posting to the list for the first time, please
 refer to the mod_perl mailing lists'
