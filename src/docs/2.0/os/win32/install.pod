@@ -1,6 +1,6 @@
 =head1 NAME
 
-install - installing mod_perl-2 for Win32
+mod_perl 2.0 Win32 Installation Instructions
 
 =head1 Description
 

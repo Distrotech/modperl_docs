@@ -1,12 +1,12 @@
 =head1 NAME
 
-Apache mod_perl-1.xx installation instructions for Win32
+mod_perl 1.0 Win32 Installation Instructions
 
 =head1 Description
 
-This document discusses how to install mod_perl under Win32,
-both in building from sources and in installing 
-pre-compiled binary packages.
+This document discusses how to install mod_perl 1.0 under Win32, both
+in building from sources and in installing pre-compiled binary
+packages.
 
 =head1 Building from sources
 
@@ -245,9 +245,9 @@ for bug and security fixes.
 
 =head1 See Also
 
-The directions for
-L<configuring mod_perl-1 on Win32|docs::1.0::os::win32::config>, 
-the L<mod_perl documentation|docs::index>, and http://take23.org/.
+The directions for L<configuring mod_perl 1.0 on
+Win32|docs::1.0::os::win32::config>, the L<mod_perl
+documentation|docs::index>, and http://take23.org/.
 
 =head1 Maintainers
 

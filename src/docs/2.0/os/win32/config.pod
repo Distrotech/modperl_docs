@@ -1,6 +1,6 @@
 =head1 NAME
 
-config - configuring mod_perl-2 for Win32
+Configuring mod_perl 2.0 for Win32
 
 =head1 Description
 
