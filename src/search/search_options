@@ -3,7 +3,7 @@
 # *** Automatically generated file.  Do not edit.  Modify ./make.pl instead! ***
 #    File: 'search_options'
 #     Use: generating the sidebar select options for searching
-# Created: Sun Jun 30 09:28:31 2002
+# Created: Mon Jul  1 00:45:05 2002
 #--------------------------------------------------------------------------------------
 
     search_areas = [
@@ -11,64 +11,70 @@
         "SecA"
         "SecB"
         "SecC"
-            "SecD"
-                "SecE"
+        "SecD"
+            "SecE"
                 "SecF"
                 "SecG"
-            "SecH"
-                "SecI"
+                "SecH"
+            "SecI"
                 "SecJ"
                 "SecK"
-            "SecL"
+                "SecL"
             "SecM"
             "SecN"
-        "SecO"
+            "SecO"
         "SecP"
         "SecQ"
         "SecR"
+        "SecS"
+        "SecT"
     ]
 
     search_labels = {
         ""          => 'Whole Site'
-        "SecA" => "Stories" 
-        "SecB" => "Download" 
-        "SecC" => "All Docs" 
-            "SecD" => "..1.0 Docs" 
-                "SecE" => "....Guide" 
-                "SecF" => "....Win32" 
-                "SecG" => "....API" 
-            "SecH" => "..2.0 Docs" 
-                "SecI" => "....User" 
-                "SecJ" => "....Developer" 
-                "SecK" => "....API" 
-            "SecL" => "..General Docs" 
-            "SecM" => "..Tutorials" 
-            "SecN" => "..OffSite Docs" 
-        "SecO" => "Getting Help" 
-        "SecP" => "Mailing Lists" 
-        "SecQ" => "Products" 
-        "SecR" => "Contribute"         
+        "SecA" => "What's mod_perl?" 
+        "SecB" => "Stories" 
+        "SecC" => "Download" 
+        "SecD" => "All Docs" 
+            "SecE" => "..1.0 Docs" 
+                "SecF" => "....Guide (1.0)" 
+                "SecG" => "....Win32 (1/.0)" 
+                "SecH" => "....API (1.0)" 
+            "SecI" => "..2.0 Docs" 
+                "SecJ" => "....User (2.0)" 
+                "SecK" => "....Developer (2.0)" 
+                "SecL" => "....API (2.0)" 
+            "SecM" => "..General Docs" 
+            "SecN" => "..Tutorials" 
+            "SecO" => "..OffSite Docs" 
+        "SecP" => "Getting Help" 
+        "SecQ" => "Mailing Lists" 
+        "SecR" => "Products" 
+        "SecS" => "Contribute" 
+        "SecT" => "About mod_perl"         
     }
 
     search_path_map = [
-        { path => "^docs/1.0/guide", section => "SecE" } 
-        { path => "^docs/1.0/win32", section => "SecF" } 
-        { path => "^docs/tutorials", section => "SecM" } 
-        { path => "^docs/2.0/devel", section => "SecJ" } 
-        { path => "^docs/2.0/user", section => "SecI" } 
-        { path => "^docs/offsite", section => "SecN" } 
-        { path => "^docs/2.0/api", section => "SecK" } 
-        { path => "^docs/general", section => "SecL" } 
-        { path => "^docs/1.0/api", section => "SecG" } 
-        { path => "^outstanding", section => "SecA" } 
-        { path => "^contribute", section => "SecR" } 
-        { path => "^download", section => "SecB" } 
-        { path => "^docs/1.0", section => "SecD" } 
-        { path => "^docs/2.0", section => "SecH" } 
-        { path => "^maillist", section => "SecP" } 
-        { path => "^products", section => "SecQ" } 
-        { path => "^help", section => "SecO" } 
-        { path => "^docs", section => "SecC" } 
+        { path => "^docs/2.0/devel", section => "SecK" } 
+        { path => "^docs/1.0/guide", section => "SecF" } 
+        { path => "^docs/1.0/win32", section => "SecG" } 
+        { path => "^docs/tutorials", section => "SecN" } 
+        { path => "^docs/2.0/user", section => "SecJ" } 
+        { path => "^docs/1.0/api", section => "SecH" } 
+        { path => "^docs/offsite", section => "SecO" } 
+        { path => "^docs/2.0/api", section => "SecL" } 
+        { path => "^docs/general", section => "SecM" } 
+        { path => "^outstanding", section => "SecB" } 
+        { path => "^contribute", section => "SecS" } 
+        { path => "^products", section => "SecR" } 
+        { path => "^download", section => "SecC" } 
+        { path => "^docs/1.0", section => "SecE" } 
+        { path => "^docs/2.0", section => "SecI" } 
+        { path => "^maillist", section => "SecQ" } 
+        { path => "^start", section => "SecA" } 
+        { path => "^about", section => "SecT" } 
+        { path => "^help", section => "SecP" } 
+        { path => "^docs", section => "SecD" } 
     ]
 -%]
     
