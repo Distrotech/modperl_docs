@@ -140,7 +140,7 @@ and grabbing the server version response header (C<Server>). Some
 servers choose to fully or partially conceal that header.
 
 This method should be invoked in the
-C<L<PerlPostConfigHandler|docs::2.0::user::handlers::server/PerlPostConfigHandler>>
+C<L<PerlPostConfigHandler|docs::2.0::user::handlers::server/C_PerlPostConfigHandler_>>
 phase, which will ensure that the Apache core version number will
 appear first.
 
@@ -160,7 +160,7 @@ server string at the server startup:
   }
 
 or of course you could register the
-C<L<PerlPostConfigHandler|docs::2.0::user::handlers::server/PerlPostConfigHandler>>
+C<L<PerlPostConfigHandler|docs::2.0::user::handlers::server/C_PerlPostConfigHandler_>>
 handler directly in F<httpd.conf>
 
 Now when the server starts, you will something like:

@@ -641,7 +641,7 @@ to set the timeout to 20 secs:
 Note that under threaded MPMs, some of the read/write accessors, will
 be able to set values only before threads are spawned (i.e. before the
 C<L<ChildInit
-phase|docs::2.0::user::handlers::server/PerlChildInitHandler>>).
+phase|docs::2.0::user::handlers::server/C_PerlChildInitHandler_>>).
 Therefore if you are developing your application on the non-threaded
 MPM, but planning to have it run under threaded mpm, you should not
 use those methods to set values after the ChildInit phase.
