@@ -838,7 +838,8 @@ immediately after the request has been read and HTTP headers were
 parsed.
 
 This phase is usually used to do processings that must happen once per
-request.
+request. For example C<Apache::Reload> is usually invoked at this
+phase to reload modified Perl modules.
 
 This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 
@@ -847,7 +848,7 @@ C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because at this
 phase the request has not yet been associated with a particular
 filename or directory.
 
-Consider the following registry script:
+Now, let's look at an example. Consider the following registry script:
 
   touch.pl
   --------
@@ -866,26 +867,31 @@ Consider the following registry script:
   printf "$conf_file is %0.2f minutes old", 60*24*(-M $conf_file);
 
 This registry script is supposed to print when the last time
-I<httpd.conf> has been modified. If you run this script several times
-you might be surprised that it reports the same thing all the
-time. Unless you happen to hit a recently started child process which
-will then report a different value.
+I<httpd.conf> has been modified, compared to the start of the request
+process time. If you run this script several times you might be
+surprised that it reports the same value all the time. Unless the
+request happens to be served by a recently started child process which
+will then report a different value. But most of the time the value
+won't be reported correctly.
 
 This happens because the C<-M> operator reports the difference between
-file's modification time and the value of a special perl variable
+file's modification time and the value of a special Perl variable
 C<$^T>. When we run scripts from the command line, this variable is
 always set to the time when the script gets invoked. Under mod_perl
 this variable is getting preset once when the child process starts and
-doesn't change since then, so all requests see the same time
+doesn't change since then, so all requests see the same time, when
+operators like C<-M>, C<-C> and C<-A> are used.
 
-Armed with this knowledge, in order to make our code behave like the
-command line programs we need to reset C<$^T> to the request's start
-time, before C<-M> is used. We can change the script itself, but what
-if we need to do the same change for several other scripts and
+Armed with this knowledge, in order to make our code behave similarly
+to the command line programs we need to reset C<$^T> to the request's
+start time, before C<-M> is used. We can change the script itself, but
+what if we need to do the same change for several other scripts and
 handlers? A simple C<PerlPostReadRequestHandler> handler, which will
 be executed as the very first thing of each requests, comes handy
 here:
 
+  file:MyApache/TimeReset.pm
+  --------------------------
   package MyApache::TimeReset;
   
   use Apache::RequestRec ();
@@ -903,26 +909,35 @@ We could do:
 
   $^T = time();
 
-But to make things more efficient we use C<$r-E<gt>request_time> which
-already stores the request's start time, and returns it without doing
-an additional system call.
+But to make things more efficient we use C<$r-E<gt>request_time> since
+the request object C<$r> already stores the request's start time, so
+we get it without performing an additional system call.
 
 To enable it just add to I<httpd.conf>:
 
   PerlPostReadRequestHandler MyApache::TimeReset
 
+either to the global section, or to the C<E<lt>VirtualHostE<gt>>
+section if you want this handler to be run only for a specific virtual
+host.
+
+
+
+
+
 
 =head2 PerlTransHandler
 
-The I<translate> phase provides an opportunity to translate the
-request's URI into an corresponding filename.
+The I<translate> phase is used to perform the translation of a
+request's URI into an corresponding filename. If no custom handler is
+provided, the server's standard translation rules (e.g., C<Alias>
+directives, mod_rewrite, etc.) will continue to be used. A
+C<PerlTransHandler> handler can alter the default translation
+mechanism or completely override it.
 
 In addition to doing the translation, this stage can be used to modify
 the URI itself and the request method. This is also a good place to
 register new handlers for the following phases based on the URI.
-
-If no custom handlers is provided, the server's default rules
-(C<Alias> directives and the like) will continue to be followed.
 
 This phase is of type C<L<RUN_FIRST|/item_RUN_FIRST>>.
 
@@ -931,21 +946,58 @@ C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because at this
 phase the request has not yet been associated with a particular
 filename or directory.
 
-Example:
+There are many useful things that can be performed at this
+stage. Let's look at the example handler that rewrites request URIs,
+similar to what mod_rewrite does. For example, if your website was
+originally made of static pages, and now you have moved to a dynamic
+page generation chances are that you don't want to change the old
+URIs, because you don't want to break links for those who link to your
+site. If the URI:
+
+  http://example.com/news/20021031/09/index.html
+
+is now handled by:
+
+  http://example.com/perl/news.pl?date=20021031&id=09&page=index.html
+
+the following handler can do the rewriting work transparent to
+I<news.pl>, so you can still use the former URI mapping:
+
+  file:MyApache/RewriteURI.pm
+  ---------------------------
+  package MyApache::RewriteURI;
+  
+  use strict;
+  use warnings;
+
+  use Apache::RequestRec ();
+  
+  use Apache::Const -compile => qw(DECLINED);
+  
+  sub handler {
+      my $r = shift;
+  
+      my ($date, $id, $page) = $r->uri =~ m|^/news/(\d+)/(\d+)/(.*)|;
+      $r->uri("/perl/news.pl");
+      $r->args("date=$date&id=$id&page=$page");
+  
+      return Apache::DECLINED;
+  }
+  1;
+
+The handler matches the URI and assigns a new URI via C<$r-E<gt>uri()>
+and the query string via C<$r-E<gt>args()>. It then returns
+C<Apache::DECLINED>, so the next translation handler will get invoked,
+if more rewrites and translations are needed.
+
+Of course if you need to do a more complicated rewriting, this handler
+can be easily adjusted to do so.
+
+To configure this module simply add to I<httpd.conf>:
+
+  PerlTransHandler +MyApache::RewriteURI
 
 
-=head2 PerlInitHandler
-
-When configured inside any section, but C<E<lt>VirtualHostE<gt>> this
-handler is an alias for C<L<PerlHeaderParserHandler>> described later.
-Otherwise it acts as an alias for C<L<PerlPostReadRequestHandler>>
-descibed earlier.
-
-It is the first handler to be invoked when serving a request.
-
-This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
-
-Example:
 
 
 
@@ -953,19 +1005,240 @@ Example:
 =head2 PerlHeaderParserHandler
 
 The I<header_parser> phase is the first phase to happen after the
-request has been mapped to its C<E<lt>LocationE<gt>> (or
-equivalent). At this phase the handler can examine the request headers
+request has been mapped to its C<E<lt>LocationE<gt>> (or an equivalent
+container). At this phase the handler can examine the request headers
 and to take a special action based on these. For example this phase
-can be used to block evil clients, while little resources were wasted
-on these.
+can be used to block evil clients targetting certain resources, while
+little resources were wasted so far.
 
 This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
-Example:
+This phase is very similar to
+C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>>, with the
+only difference that it's run after the request has been mapped to the
+resource. Both phases are useful for doing something once per request,
+as early as possible. And usually you can take any
+C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>> and turn
+it into C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> by
+simply changing the directive name in I<httpd.conf> and moving it
+inside the contrainer where it should be executed. Moreover, because
+of this similarity mod_perl provides a special directive
+C<L<PerlInitHandler|/PerlInitHandler>> which if found outside resource
+countainers behaves as
+C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>>,
+otherwise as C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>>.
 
+You already know that Apache handles the C<HEAD>, C<GET>, C<POST> and
+several other HTTP methods. But did you know that you can invent your
+own HTTP method as long as there is a client that supports it. If you
+think of emails, they are very similar to HTTP messages: they have a
+set of headers and a body, sometimes a multipart body. Therefore we
+can develop a handler that extends HTTP by adding a support for the
+C<EMAIL> method.  We can enable this protocol extension during and
+push the real content handler during the
+C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> phase:
+
+  <Location /email>
+      PerlHeaderParserHandler MyApache::SendEmail
+  </Location>
+
+and here is the C<MyApache::SendEmail> handler:
+
+  file:MyApache/SendEmail.pm
+  --------------------------
+  package MyApache::SendEmail;
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  use Apache::RequestUtil ();
+  
+  use Apache::Const -compile => qw(DECLINED OK);
+  
+  use constant METHOD        => 'EMAIL';
+  use constant SMTP_HOSTNAME => "localhost";
+  
+  sub handler {
+      my $r = shift;
+  
+      return Apache::DECLINED unless $r->method eq METHOD;
+  
+      Apache::method_register($r->pool, METHOD);
+      $r->handler("perl-script");
+      $r->push_handlers(PerlHandler => \&send_email_handler);
+  
+      return Apache::OK;
+  }
+  
+  sub send_email_handler {
+      my $r = shift;
+  
+      my %headers = map {$_ => $r->headers_in->get($_)} qw(To From Subject);
+      my $content = $r->content;
+  
+      my $status = send_email(\%headers, \$content);
+  
+      $r->content_type('text/plain');
+      $r->print($status ? "ACK" : "NACK");
+      return Apache::OK;
+  }
+  
+  sub content {
+      my $r = shift;
+  
+      $r->setup_client_block;
+      return '' unless $r->should_client_block;
+      my $len = $r->headers_in->get('content-length');
+      my $buf;
+      $r->get_client_block($buf, $len);
+  
+      return $buf;
+  }
+  
+  sub send_email {
+      my($rh_headers, $r_body) = @_;
+  
+      require MIME::Lite;
+      MIME::Lite->send("smtp", SMTP_HOSTNAME, Timeout => 60);
+  
+      my $msg = MIME::Lite->new(%$rh_headers, Data => $$r_body);
+      #warn $msg->as_string;
+      $msg->send;
+  }
+  
+  1;
+
+Let's get the less interesting code out of the way. The function
+content() grabs the request body. The function send_email() sends the
+email over SMTP. You should adjust the constant C<SMTP_HOSTNAME> to
+point to your outgoing SMTP server. You can replace this function with
+your own if you prefer to use a different method to send email.
+
+Now to the more interesting functions. The function C<handler()>
+returns immediately and passes the control to the next handler if the
+request method is not equal to C<EMAIL> (set in the C<METHOD>
+constant):
+
+      return Apache::DECLINED unless $r->method eq METHOD;
+
+Next it tells Apache that this new method is a valid one and that the
+C<perl-script" handler will do the processing. Finally it pushes the
+function C<send_email_handler()> to the C<PerlResponseHandler> list of
+handlers:
+
+      Apache::method_register($r->pool, METHOD);
+      $r->handler("perl-script");
+      $r->push_handlers(PerlResponseHandler => \&send_email_handler);
+
+The function terminates the header_parser phase by:
+
+    return Apache::OK;
+
+All other phases run as usual, so you can reuse any HTTP protocol
+hooks, such as authentication and fixup phases. 
+
+When the response phase starts C<send_email_handler()> is invoked,
+assuming that no other response handlers were inserted before it.  The
+response handler consists of three parts. Retrieve the email headers
+C<To>, C<From> and C<Subject>, and the body of the message:
+
+      my %headers = map {$_ => $r->headers_in->get($_)} qw(To From Subject);
+      my $content = $r->content;
+
+Then send the email:
+
+      my $status = send_email(\%headers, \$content);
+
+Finally return to the client a simple response acknowledging that
+email has been sent and finish the response phase by returning
+C<Apache::OK>:
+
+      $r->content_type('text/plain');
+      $r->print($status ? "ACK" : "NACK");
+      return Apache::OK;
+
+Of course you will want to add extra validations if you want to use
+this code in production. This is just a proof of concept
+implementation.
+
+As already mentioned when you extend an HTTP protocol you need to have
+a client that knows how to use the extension. So here is a simple
+client that uses C<LWP::UserAgent> to issue an C<EMAIL> method request
+over HTTP protocol:
+
+  use strict;
+  use warnings;
+  
+  require LWP::UserAgent;
+  
+  my $url = "http://localhost:8002/email/";
+  
+  my %headers = (
+      From    => 'example@example.com',
+      To      => 'example@example.com',
+      Subject => '3 weeks in Tibet',
+  );
+  
+  my $content = <<EOI;
+  I didn't have an email software,
+  but could use HTTP so I'm sending it over HTTP
+  EOI
+  
+  my $headers = HTTP::Headers->new(%headers);
+  my $req = HTTP::Request->new("EMAIL", $url, $headers, $content);
+  my $res = LWP::UserAgent->new->request($req);
+  print $res->is_success ? $res->content : "failed";
+
+most of the code is just a custom data. The actual code is made of
+four lines. Create C<HTTP::Headers> and C<HTTP::Request> object.
+Issue a request. At the end we print the response's content if it was
+successful or I<failed> if not.
+
+
+
+=head2 PerlInitHandler
+
+When configured inside any container directive, except
+C<E<lt>VirtualHostE<gt>>, this handler is an alias for
+C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> described
+later.  Otherwise it acts as an alias for
+C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>> described
+earlier.
+
+It is the first handler to be invoked when serving a request.
+
+This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
+
+The best example here would be to use
+C<L<Apache::Reload|docs::2.0::api::mod_perl-2.0::Apache::Reload>>
+which takes the benefit of this directive. Usually
+C<L<Apache::Reload|docs::2.0::api::mod_perl-2.0::Apache::Reload>> is
+configured as:
+
+  PerlInitHandler Apache::Reload
+  PerlSetVar ReloadAll Off
+  PerlSetVar ReloadModules "MyApache::*"
+
+which will monitor and reload all C<MyApache::*> modules that have
+been modified since the last request. However if we move the global
+configuration into a C<E<lt>LocationE<gt>> container:
+
+  <Location /devel>
+      PerlInitHandler Apache::Reload
+      PerlSetVar ReloadAll Off
+      PerlSetVar ReloadModules "MyApache::*"
+      SetHandler perl-script
+      PerlHandler ModPerl::Registry
+      Options +ExecCGI
+  </Location>
+
+C<L<Apache::Reload|docs::2.0::api::mod_perl-2.0::Apache::Reload>> will
+reload the modified modules, only when a request to the I</devel>
+namespace is issued, because C<L<PerlInitHandler|/PerlInitHandler>>
+plays the role of
+C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> here.
 
 
 
@@ -2110,7 +2383,7 @@ modify it.
 
 
 
-=head1 Handler (Hook) Types
+=head1 Perl*Handler Types
 
 For each phase there can be more than one handler assigned (also known
 as I<hooks>, because the C functions are called
@@ -2173,7 +2446,7 @@ other than C<Apache::OK> or C<Apache::DECLINED>.
 =back
 
 Also see L<mod_perl Directives Argument Types and Allowed
-Location|user::config::config/mod_perl_Directives_Argument_Types_and_Allowed_Location>
+Location|docs::2.0::user::config::config/mod_perl_Directives_Argument_Types_and_Allowed_Location>
 
 
 
