@@ -179,8 +179,7 @@ concerning the relative order of these and the C<LoadModule> directive.
 
 =head1 See Also
 
-The I<mod_perl> manpage, the L<Apache> manpage,
-http://perl.apache.org/, especially the guide, and http://take23.org/.
+The L<mod_perl documentation|docs::index>, and http://take23.org/.
 
 =head1 Maintainers
 

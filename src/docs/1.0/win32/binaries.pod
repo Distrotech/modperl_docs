@@ -14,7 +14,7 @@ There are at least two binary packages for Win32 that contain the
 necessary Perl and Apache binaries:
 
   http://www.indigostar.com/
-
+  
   ftp://theoryx5.uwinnipeg.ca/pub/other/perl-win32-bin-x.x.exe
 
 As well as including a number of non-core modules, both of these
@@ -79,7 +79,7 @@ repository, as well as ActiveState's, for requested packages.
 The mod_perl PPM package also includes the necessary Apache DLL
 C<mod_perl.so>; a post-installation script should be run which will
 offer to copy this file to your Apache modules directory (eg,
-F<C:\Apache\modules>).
+I<C:\Apache\modules>).
 
 Note that the mod_perl package available from this site will always
 use the latest mod_perl sources compiled against the latest official
@@ -169,16 +169,16 @@ might try sending a message to the maintainer of the repository asking
 if a particular package could be included.
 
 Alternatively, you can use the C<CPAN.pm> module to fetch, build, and
-install the module - see C<perldoc CPAN> for details. You will need the
-B<nmake> utility for this, download it from http://download.microsoft.com/download/vc15/Patch/1.52/W95/EN-US/Nmake15.exe
-(it's a self extracting archive, so run it and then copy the files into
-your F<Windows> directory).
+install the module - see C<perldoc CPAN> for details. You will need
+the B<nmake> utility for this, download it from
+http://download.microsoft.com/download/vc15/Patch/1.52/W95/EN-US/Nmake15.exe
+(it's a self extracting archive, so run it and then copy the files
+into your F<Windows> directory).
 
 =head1 See Also
 
-The I<mod_perl> manpage, the L<Apache> manpage,
-http://perl.apache.org/, especially the guide, http://take23.org/,
-http://httpd.apache.org/, and http://www.activestate.com/.
+The L<mod_perl documentation|docs::index>, http://httpd.apache.org/,
+and http://www.activestate.com/.
 
 =head1 Maintainers
 

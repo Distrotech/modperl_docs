@@ -18,23 +18,10 @@ including static requests, can have serious implications for
 production servers that often must handle concurrent or
 long-running requests.
 
-This situation will change with Apache/mod_perl 2.0, which is
-based on a multi-process/multi-thread approach using a native
-Win32 threads implementation. See
-http://perl.apache.org/~dougm/modperl_2.0.html for details.
-
-At the time of writing, Apache-2.0 is in a beta stage of
-development. mod_perl-2.0 is being actively developed, including the
-Win32 port; if you would like a preview and/or would like to
-contribute to the development process, see the documents on obtaining
-mod_perl-2.0 by cvs, which can be obtained from mod_perl's home page
-at http://perl.apache.org/. Alternatively, a
-mod_perl-2.0/Apache-2.0 binary distribution based on these cvs 
-sources is available from
-ftp://theoryx5.uwinnipeg.ca/pub/other/Apache2.tar.gz.
-See the accompanying F<Apache2.readme> file in this directory for more
-details. Be aware though that, being a pre-release version,
-bugs are most likely present.
+This situation changes with Apache/mod_perl 2.0, which is based on a
+multi-process/multi-thread approach using a native Win32 threads
+implementation See the L<mod_perl 2
+overview|docs::2.0::user::overview::overview> for more details.
 
 =head1 Does it really matter?
 
@@ -111,7 +98,7 @@ does. PerlEx is transparently supported by CGI.pm, so users of this
 package should be more or less covered. (A IIS-FastCGI accelerator is,
 regrettably, no longer available.)
 
-=head1 See ALso
+=head1 See Also
 
 http://perl.apache.org and http://httpd.apache.org, especially the
 discussion of Apache-2 and modperl-2.
