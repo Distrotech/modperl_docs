@@ -205,6 +205,12 @@ Now build it:
 
 =head3 Apache
 
+You need to have Apache built and installed prior to building
+mod_perl, only if you intend build a DSO mod_perl. If you intend to
+build a statically linked Apache+mod_perl, you only need to have the
+Apache source available (mod_perl will build and install Apache for
+you), you should skip this step.
+
   % cd httpd-2.x.xx
   % ./configure --prefix=$HOME/httpd/prefork --with-mpm=prefork
   % make && make install
