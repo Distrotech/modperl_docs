@@ -171,7 +171,7 @@ debugging process again and again.
 Under threaded mpms (e.g. worker), it's possible that you won't be
 able to debug unless you tell gdb to load the symbols from the threads
 library. So for example if on your OS that library is called
-I<libpthread.so> make sure to add:
+I<libpthread.so> make sure to run:
 
   sharedlibrary libpthread
 
