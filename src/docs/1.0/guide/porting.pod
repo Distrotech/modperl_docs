@@ -230,7 +230,7 @@ Here is the code that was actually executed:
     }
   }
 
-The code in the I<error.log> wasn't indented. I've indented it for you to
+The code in the I<error_log> wasn't indented. I've indented it for you to
 stress that the code was wrapped inside the handler() subroutine.
 
 What do we learn from this?

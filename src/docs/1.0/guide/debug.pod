@@ -263,7 +263,7 @@ execute the above command. In tcsh you would do something like this:
 
 For bash users the command is:
 
-  % alias err='tail -f /var/log/apache/error.log'
+  % alias err='tail -f /var/log/apache/error_log'
 
 and from now on in the shell you set the alias in, executing
 

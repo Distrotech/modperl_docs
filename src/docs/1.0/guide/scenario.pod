@@ -457,7 +457,7 @@ log and document trees. If this option is not used you will have to
 explicitly run make install in the Apache source directory.
 
 If C<make test> fails, look into
-I</usr/src/httpd_perl/mod_perl-x.xx/t/logs> and read the error.log
+I</usr/src/httpd_perl/mod_perl-x.xx/t/logs> and read the error_log
 file.  Also see L<make test fails|install/make_test_fails>.
 
 While doing C<perl Makefile.PL ...> mod_perl might complain by warning
