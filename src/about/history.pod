@@ -220,6 +220,13 @@ best resource for mod_perl programmers, was published in March 1999 by
 O'Reilly & Associates. While not the only book on the subject, it is
 still a must-have for any serious mod_perl programmer.
 
+At ApacheCon in Orlando in 1999, mod_perl officially became an Apache
+Software Foundation project, and Ask Bjørn Hansen, Eric Cholet and
+Stas Bekman were voted in as ASF members in addition to Doug
+MacEachern. Together they formed the mod_perl PMC (Project Management
+Committee) which is a group of committers to mod_perl who take
+responsibility for the long-term direction of the project).
+
 In March 2000, Perl 5.6.0 was released, bringing many new features to
 Perl and mod_perl programmers the world over.
 
@@ -249,7 +256,6 @@ valuable resource to everyone.
   - conferences w/ mod_perl present
   - when Doug and Stas funded? Stas: August 2001; end 2002
   - digest started?
-  - when PMC started
 
 
 =head1 The arrival of 2.0
