@@ -9,8 +9,8 @@ to run under mod_perl, which might provide you with inline-Perl
 coding, or MVC (Model/View/Controller) frameworks.
 
 You probably want to look at L<Choosing a Templating
-system|docs::tutorials::templates::comparison> for more information and
-in-depth analysis of some of the ones listed here.
+system|docs::tutorials::tmpl::comparison::comparison> for more
+information and in-depth analysis of some of the ones listed here.
 
 =head1 Apache::ASP
 
