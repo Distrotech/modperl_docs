@@ -28,6 +28,13 @@ platform you are running it on. Preferably upload the snapshot
 somewhere and post the URL to the location of the shapshot, especially
 if the snapshot is of a big size.
 
+=head2 Q. Fonts are too small/unreadable.
+
+This is a known problem with Internet Explorer, which comes shipped
+with its Font setting to I<Smaller>. You'll have to set it to
+I<Medium> unless you have extremely good eyes, which can be done by
+going to C<View -E<gt> Text Size> and selecting I<Medium>.
+
 =head2 Q. I cannot read the PDF version of the documents
 
 B<A>. The PDF files require a browser plugin or standalone PDF reader
