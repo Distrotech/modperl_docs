@@ -213,7 +213,7 @@ this value can be retrieved inside C<Apache::VarTest::handler()> with:
   $r->dir_config('VarTest');
 
 Alternatively use the Apache core directives C<SetEnv> and C<PassEnv>,
-which always populate C<r->suprocess_env>, but this doesn't happen
+which always populate C<r-E<gt>suprocess_env>, but this doesn't happen
 until the Apache fixup phase, which could be too late for your needs.
 
 =head2 perl-script

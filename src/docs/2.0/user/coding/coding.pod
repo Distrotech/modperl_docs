@@ -89,7 +89,7 @@ our modules:
   use strict;
   use warnings FATAL => 'all';
 
-C<FATAL => 'all'> escalate all warnings into fatal errors. So when
+C<FATAL =E<gt> 'all'> escalate all warnings into fatal errors. So when
 C<Apache::Whatever> is modified and reloaded by C<Apache::Reload> the
 request is aborted. Therefore if you follow this very healthy style
 and want to use C<Apache::Reload>, flex the strictness by changing it
