@@ -35,7 +35,7 @@ want to mix the two you will have to use something like the following:
       /* 1.0 code */
   #endif
 
-The C<20020329.1> is the value of the magic version number matching
+The C<20020903,3> is the value of the magic version number matching
 Apache 2.0.46, the earliest Apache version supported by mod_perl 2.0.
 
 =head1 Thread Safety
