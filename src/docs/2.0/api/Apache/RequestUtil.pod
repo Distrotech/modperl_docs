@@ -1073,7 +1073,8 @@ A reference to a string with the contents
 
 =back
 
-
+Note that if you assign to C<$r-E<gt>filename> you need to L<update
+its stat record|docs::2.0::api::Apache::RequestRec/C_filename_>.
 
 
 
