@@ -14,7 +14,6 @@
 
     <br>
 
-[% IF 1 %]
     <!-- search begin -->
 
 [%- INCLUDE search -%]
@@ -22,7 +21,6 @@
     <!-- search end -->
 
     <br>
-[% END %]
 
     <!-- menu short_cuts begin -->
 
