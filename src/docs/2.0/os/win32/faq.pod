@@ -49,12 +49,18 @@ This can be due to a number of reasons.
 
 =over 
 
-=item Verify that mod_perl.so was compiled against the same Perl and Apache
+=item *
+
+Verify that mod_perl.so was compiled against the same Perl and Apache
 versions that you are using.
 
-=item Check that the directory containing C<perl.exe> is in your I<PATH> environment variable.
+=item *
 
-=item Try inserting a directive
+Check that the directory containing C<perl.exe> is in your I<PATH> environment variable.
+
+=item *
+
+Try inserting a directive
 
    LoadFile "C:/Path/to/your/Perl/bin/perlxx.dll"
 
@@ -62,9 +68,11 @@ before the
 
    LoadModule perl_module modules/mod_perl.so
 
-directive.
+directive, where F<perlxx.dll> is the Perl dll in your Perl I<bin> directory.
 
-=item Try a reboot.
+=item *
+
+Try a reboot.
 
 =back
 
