@@ -402,7 +402,16 @@ future, it's documented in modperl_env.c:modperl_env_magic_set_all.)
 =head2 C<$ENV{GATEWAY_INTERFACE}>
 
 The environment variable C<$ENV{GATEWAY_INTERFACE}> is not special in
-mod_perl 2.0, but the same as any other CGI environment variables.
+mod_perl 2.0, but the same as any other CGI environment variables,
+i.e. it'll be enabled only if C<L<PerlOptions
++SetupEnv|docs::2.0::user::config::config/C_SetupEnv_>> is enabled and
+its value would be the default:
+
+  CGI/1.1
+
+or anything else Apache decides to set it to, but not:
+
+  CGI-Perl/1.1
 
 Instead use C<$ENV{MOD_PERL}> (available in both mod_perl
 generations), which is set to the mod_perl version, like so:
