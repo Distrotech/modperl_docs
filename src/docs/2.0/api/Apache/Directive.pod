@@ -86,6 +86,19 @@ Arguments are separated by a whitespace in the string.
 
 =back
 
+For example, in F<httpd.conf>:
+
+  PerlSwitches -M/opt/lib -M/usr/local/lib -wT
+
+And later:
+
+  my $tree = Apache::Directive->conftree;
+  my $node = $tree->lookup('PerlSwitches');
+  my $args = $node->args;
+
+C<$args> now contains the string "-M/opt/lib -M/usr/local/lib -wT"
+
+
 
 
 
@@ -110,6 +123,26 @@ The config tree to stringify
 =item since: 1.99_12
 
 =back
+
+For example: in F<httpd.conf>:
+
+  <Location /test>
+    SetHandler perl-script
+    PerlHandler Test::Module
+  </Location>
+
+And later:
+
+  my $tree = Apache::Directive->conftree;
+  my $node = $tree->lookup('Location', '/test/');
+  my $hash = $node->as_hash;
+
+C<$hash> now is:
+
+  {
+    'SetHandler'  => 'perl-script',
+    'PerlHandler' => 'Test::Module',
+  }
 
 
 
@@ -207,6 +240,19 @@ Get the F<filename> the configuration node was created from:
 
 =back
 
+For example:
+
+  my $tree = Apache::Directive->conftree;
+  my $node = $tree->lookup('VirtualHost', 'example.com');
+  my $filename = $node->filename;
+
+C<$filename> is now the full path to the F<httpd.conf> that
+VirtualHost was defined in.
+
+If the directive was added with 
+C<L<add_config()|docs::2.0::api::Apache::ServerUtil/C_add_config_>>,
+the filename will be the path to the F<httpd.conf> that trigerred
+that Perl code.
 
 
 
