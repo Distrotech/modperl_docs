@@ -27,7 +27,7 @@ Returns the currently running callback, like 'PerlResponseHandler'
 =item * exit
 
 Used internally to replace CORE::exit and terminate the request,
-not the whole children.
+not the current process.
 
 =back
 
