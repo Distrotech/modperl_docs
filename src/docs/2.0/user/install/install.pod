@@ -1,12 +1,22 @@
 =head1 NAME
 
-Installing mod_perl
+Installing mod_perl 2.0
 
 =head1 Description
 
 This chapter provides an in-depth mod_perl 2.0 installation coverage.
 
+
+
+
+
+
 =head1 Prerequisites
+
+Before building mod_perl 2.0 you need to have its prerequisites
+installed. If you don't have them, download and install them first,
+using the information in the following sections. Otherwise proceed
+directly to the mod_perl building instructions.
 
 The mod_perl 2.0 prerequisites are:
 
@@ -51,35 +61,80 @@ If that's not what you see rebuild Perl with C<-Dusethreads>.
 =back
 
 
+=head2 Downloading Stable Release Sources
+
+If you are going to install mod_perl on a production site, you want to
+use the officially released stable components. Since the latest stable
+versions change all the time you should check for the latest stable
+version at the listed below URLs:
+
+=over
+
+=item Perl
+
+Download from: I<http://cpan.org/src/README.html>
+
+This direct link which symlinks to the latest release should work too:
+I<http://cpan.org/src/stable.tar.gz>.
+
+For the purpose of examples in this chapter we will use the package
+named I<perl-5.8.x.tar.gz>, where I<x> should be replaced with the
+real version number.
+
+=item Apache
+
+Download from: I<http://www.apache.org/dist/httpd/>
+
+For the purpose of examples in this chapter we will use the package
+named I<httpd-2.x.xx.tar.gz>, where I<x.xx> should be replaced with
+the real version number.
+
+
+=back
 
 
 
+=head2 Getting Bleeding Edge CVS Sources
 
-=head1 Installing from Source
+If you really know what you are doing you can use the cvs versions of
+the components. Chances are that you don't want to them on a
+production site. You have been warned!
 
-First of all:
+=over
 
-  Apache 2.0 doesn't work with mod_perl 1.0.
-  Apache 1.0 doesn't work with mod_perl 2.0.
+=item Perl
 
-For Win32 specific details, see the documentation on
-L<Win32 installation|docs::2.0::os::win32::install>.
+  # (--delete to ensure a clean state)
+  % rsync -acvz --delete --force \
+    rsync://ftp.linux.activestate.com/perl-current/ perl-current
 
-Download the httpd-2.0 and modperl-2.0 tarballs, and extract them in the
-same directory.
+If you are re-building Perl after rsync-ing, make sure to cleanup first:
 
-Or use anoncvs (password is "anoncvs"):
+  % make distclean
+
+before running C<./Configure>.
+
+You'll also want to install (at least) LWP if you want to fully test
+mod_perl. You can install LWP with C<CPAN.pm> shell:
+
+  % perl -MCPAN -e 'install("LWP")'
+
+
+=item Apache
+
+To download the cvs version of httpd-2.0 and bring it to the same
+state of the distribution package, execute the following commands:
 
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
+
+The password is "anoncvs".
+
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co httpd-2.0
   % cd httpd-2.0/srclib
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apr
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apr-util
   % cd ..
   % ./buildconf
-  % ./configure --prefix=$HOME/apache-2.0 --with-mpm=prefork
-  % make && make install
 
 Once extracted, whenever you want to sync with the latest httpd-2.0
 version and rebuild, run:
@@ -87,46 +142,83 @@ version and rebuild, run:
   % cd httpd-2.0
   % cvs up -dP
   % make distclean && ./buildconf
-  % ./configure --prefix=$HOME/apache-2.0 --with-mpm=prefork
+
+=back
+
+
+
+=head2 Condiguring and Installing Prerequisites
+
+If you don't have the prerequisites installed yet, install them now.
+
+=over
+
+=item Perl
+
+  % cd perl-5.8.x
+  % ./Configure -des -Dusethreads
+  % make && make test && make install
+
+If you want to debug mod_perl segmentation faults, add the
+following I<./Configure> options:
+
+  -Doptimize='-g' -Dusedevel
+
+
+=item Apache
+
+  % cd httpd-2.x.xx
+  % ./configure --prefix=$HOME/httpd/prefork --with-mpm=prefork
   % make && make install
 
-For bleeding edge Perl:
-
-  # (--delete to ensure a clean state)
-  % rsync -acvz --delete --force \
-    rsync://ftp.linux.activestate.com/perl-current/ perl-current
-  % cd perl-current
-  % ./Configure -des -Dprefix=$HOME/bleedperl \
-    -Dusethreads -Doptimize='-g' -Dusedevel
-  % make && make test && make install
-  % ln -s $HOME/bleedperl/bin/perl5.x.x $HOME/bleedperl/bin/perl
-
-or otherwise make sure that your perl was built with threads enabled if
-you want to use a threaded MPM.
-
-If you are re-building Perl after rsync-ing, make sure to cleanup:
-
-  % make distclean
-
-before running C<./Configure>.
-
-You'll also want to install (at least) LWP into the bleedperl/lib
-directory if you want to fully test mod_perl, because normally a
-privately installed bleedperl won't find libraries installed in the
-normal places; it only looks in it's own lib tree. You can install LWP
-with CPAN.pm shell:
-
-  % $HOME/bleedperl/bin/perl -MCPAN -e 'install("LWP")'
+=back
 
 
-=head1 Compiling
+=head1 Installing mod_perl from Source
 
-=head2 Create the build environment
+Building from source is the best option, because it ensures a binary
+compatibility with Apache and Perl.
+
+For Win32 specific details, see the documentation on
+L<Win32 installation|docs::2.0::os::win32::install>.
+
+=head2 Downloading the mod_perl Source
+
+First download the mod_perl source.
+
+=over
+
+=item Stable Release
+
+Download from: I<http://perl.apache.org/download/>
+
+This direct link which symlinks to the latest release should work too:
+I<http://perl.apache.org/dist/mod_perl-2.0-current.tar.gz>.
+
+For the purpose of examples in this chapter we will use the package
+named I<mod_perl-2.x.xx.tar.gz>, where I<x.xx> should be replaced with
+the real version number.
+
+=item CVS Bleeding-Edge Version
+
+To download the cvs version of modperl-2.0 execute the following
+commands:
+
+  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+
+The password is "anoncvs".
+
+  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
+
+=back
+
+
+
+=head2 Configuring mod_perl
 
    % cd modperl-2.0
-   % perl Makefile.PL MP_AP_PREFIX=/home/stas/httpd/prefork \
+   % perl Makefile.PL MP_AP_PREFIX=$HOME/httpd/prefork \
      MP_INST_APACHE2=1
-   % make
 
 XXX: MP_INST_APACHE2=1 should become the default
 
@@ -281,7 +373,7 @@ Change the default mod_perl's 8K IO buffer size, e.g. to 16K:
 
   MP_CCOPTS=-DMP_IOBUFSIZE=16384
 
-=head3 Options File
+=head3 mod_perl Options File
 
 Options can also be specified in the file I<makepl_args.mod_perl2> or
 I<.makepl_args.mod_perl2>. The file can be placed under C<$ENV{HOME}>,
@@ -307,53 +399,49 @@ environment variable C<APACHE_TEST_COLOR> to 1 to enable the colored
 tracing which makes it easier to tell the reported errors and
 warnings, from the rest of the notifications.
 
-=head2 Compile mod_perl
+
+=head2 Re-using Configure Options
+
+Since mod_perl remembers what build options were used to build it if
+first place, you can use this knowledge to rebuild itself using the
+same options. Simply C<chdir(1)> to the mod_perl source directory and
+run:
+
+  % cd modperl-2.x.xx
+  % perl -MApache::Build -e rebuild
+
+
+
+=head2 Compiling mod_perl
+
+Next stage is to build mod_perl:
 
   % make
 
-=head2 Configure and compile Apache
 
-  % cd ../httpd-2.0
-  % ./configure --with-mpm=prefork
-  % make
 
-=head2 Test mod_perl
+=head2 Testing mod_perl
+
+When mod_perl has been built, it's very important to test that
+everything works on your machine:
 
   % make test
 
-L<Apache::Test Framework|docs::general::testing::testing> document covers the
-C<make test> suite.
+If something goes wrong with the test phase and want to figure out how
+to run individual tests and pass various options to the test suite,
+refer to the L<Apache::Test
+Framework|docs::general::testing::testing/Running_Tests> manual.
 
-META: probably need to link directly to the 'Running Tests' section.
+=head2 Installing mod_perl
 
-=head2 Howto generate source tables
+Once the test suite has passed, it's a time to install mod_perl.
 
-All mod_perl-2.0 xs code is generated from parsed header files.  While
-in pre-release mode, a version of these tables will be checked in to
-I<xs/tables/current>.  Should you wish to update these tables, here's
-how:
+  % make install
 
-NOTE: requires C::Scan 0.75, which at the moment is unreleased, there
-is a working copy here: http://perl.apache.org/~dougm/Scan.pm
+If you install mod_perl system wide, you probably need to become
+I<root> prior to doing the installation.
 
-NOTE: source_scan.pl is a HEAVY process, do not be alarmed.
-
-  % perl build/source_scan.pl apxs $apache_prefix/bin/apxs
-
-META: this is covered in L<Core
-Explained|devel::core_explained::core_explained> should probably
-move/point there.
-
-=head2 Re-using Build Options
-
-Since mod_perl remembers what build options were used to build it, you
-can use this knowledge to rebuild itself using the same
-options. Simply chdir(1) to the mod_perl source directory and run:
-
-  % cd modperl-2.0
-  % perl -MApache::Build -e rebuild
-
-=head1 Installing from Binary Packages
+=head1 Installing mod_perl from Binary Packages
 
 As of this writing only the binaries for the Win32 platform are
 available, kindly prepared and maintained by Randy Kobes.
@@ -369,13 +457,17 @@ corrections and patches.
 
 =item *
 
-Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
 
 =head1 Authors
 
 =over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =item *
 
