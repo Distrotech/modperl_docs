@@ -79,12 +79,25 @@ co-exists with the two versions.
 
 =head1 Thread Safety
 
+META: to be written
+
 =head1 'make test' Suite
 
 C<Apache::Test> testing framework that comes together with mod_perl
 2.x works with 1.x and 2.x mod_perl versions. Therefore you should
 consider porting your test suite to use L<the Apache::Test
 Framework|devel::testing::testing>.
+
+=head1 Apache specific notes
+
+=head2 ap_hard_timeout() and ap_kill_timeout()
+
+If the C part of the module in 1.x includes I<ap_hard_timeout()> and
+I<ap_kill_timeout()> functions simply remove these in 2.0. There is no
+replacement for these functions because Apache 2.0 uses non-blocking
+I/O.  As a side-effect of this change, Apache 2.0 no longer uses
+C<SIGALRM>, which has caused conflicts in mod_perl 1.xx.
+
 
 =head1 Maintainers
 
