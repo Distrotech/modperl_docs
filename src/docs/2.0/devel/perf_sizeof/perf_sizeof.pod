@@ -1,6 +1,6 @@
 =head1 NAME
 
-Measure C<sizeof> of Perl's C Structures
+Measure sizeof() of Perl's C Structures
 
 =head1 Description
 
