@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache::SubProcess -- Executing SubProcesses under mod_perl
+Apache2::SubProcess -- Executing SubProcesses under mod_perl
 
 
 
@@ -8,7 +8,7 @@ Apache::SubProcess -- Executing SubProcesses under mod_perl
 
 =head1 Synopsis
 
-  use Apache::SubProcess ();
+  use Apache2::SubProcess ();
   
   use Config;
   use constant PERLIO_IS_ENABLED => $Config{useperlio};
@@ -52,7 +52,7 @@ Apache::SubProcess -- Executing SubProcesses under mod_perl
 
 =head1 Description
 
-C<Apache::SubProcess> provides the Perl API for running and
+C<Apache2::SubProcess> provides the Perl API for running and
 communicating with processes spawned from mod_perl handlers.
 
 At the moment it's possible to spawn only external program in a new
@@ -81,7 +81,7 @@ Spawn a sub-process and return STD communication pipes:
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<$command> ( string )
 
@@ -155,7 +155,7 @@ spawn_proc_prog() in a void context and make the script detach and
 close/reopen its communication streams. For example, spawn a process
 as:
 
-  use Apache::SubProcess ();
+  use Apache2::SubProcess ();
   $r->spawn_proc_prog ('/path/to/detach_script.pl', $args);
 
 and the F</path/to/detach_script.pl> contents are:
