@@ -1,0 +1,154 @@
+=head1 NAME
+
+ModPerl::RegistryLoader - Compile ModPerl::RegistryCooker scripts at server startup
+
+=head1 SYNOPSIS
+
+  # in startup.pl
+  use ModPerl::RegistryLoader ();
+  
+  # explicit uri => filename mapping 
+  my $rlbb = ModPerl::RegistryLoader->new(
+      package => 'ModPerl::RegistryBB',
+      debug   => 1, # default 0
+  );
+
+  $rlbb->handler($uri, $filename);
+
+  # uri => filename mapping using a helper function
+  sub trans {
+      my $uri = shift; 
+      $uri =~ s|^/registry/|cgi-bin/|;
+      return Apache::server_root_relative($uri);
+  }
+  my $rl = ModPerl::RegistryLoader->new(
+      package => 'ModPerl::Registry',
+      trans   => \&trans,
+  );
+  $rl->handler($uri);
+
+
+=head1 DESCRIPTION
+
+This modules allows compilation of scripts, running under packages
+derived from C<ModPerl::RegistryCooker>, at server startup.  The
+script's handler routine is compiled by the parent server, of which
+children get a copy and thus saves some memory by initially sharing
+the compiled copy with the parent and saving the overhead of script's
+compilation on the first request in every httpd instance.
+
+=head1 METHODS
+
+=over
+
+=item new()
+
+When creating a new C<ModPerl::RegistryLoader> object, one has to
+specify which of the C<ModPerl::RegistryCooker> derived modules to
+use. For example if a script is going to run under
+C<Apache::RegistryBB> the object is initialized as:
+
+  my $rlbb = ModPerl::RegistryLoader->new(
+      package => 'ModPerl::RegistryBB',
+  );
+
+To turn the debugging on, set the I<debug> attribute to a true value:
+
+  my $rlbb = ModPerl::RegistryLoader->new(
+      package => 'ModPerl::RegistryBB',
+      debug   => 1,
+  );
+
+Instead of specifying explicitly a filename for each uri passed to
+handler(), a special attribute I<trans> can be set to a subroutine to
+perform automatic remapping.
+
+  my $rlbb = ModPerl::RegistryLoader->new(
+      package => 'ModPerl::RegistryBB',
+      trans   => \&trans,
+  );
+
+See the handler() item for an example of using the I<trans> attribute.
+
+=item handler()
+
+  $rl->handler($uri, [$filename]);
+
+The handler() method takes argument of C<uri> and optionally of
+C<filename>.
+
+URI to filename translation normally doesn't happen until HTTP request
+time, so we're forced to roll our own translation. If the filename is
+supplied it's used in translation.
+
+If the filename is omitted and a C<trans> subroutine was not set in
+new(), the loader will try using the C<uri> relative to the
+C<ServerRoot> configuration directive.  For example:
+
+  httpd.conf:
+  -----------
+  ServerRoot /usr/local/apache
+  Alias /registry/ /usr/local/apache/cgi-bin/
+
+  startup.pl:
+  -----------
+  use ModPerl::RegistryLoader ();
+  my $rl = ModPerl::RegistryLoader->new(
+      package => 'ModPerl::Registry',
+  );
+  # preload /usr/local/apache/cgi-bin/test.pl
+  $rl->handler(/registry/test.pl);
+
+To make the loader smarter about the URI-E<gt>filename translation,
+you may provide the C<new()> method with a C<trans()> function to
+translate the uri to filename.
+
+The following example will pre-load all files ending with I<.pl> in
+the I<cgi-bin> directory relative to C<ServerRoot>.
+
+  httpd.conf:
+  -----------
+  ServerRoot /usr/local/apache
+  Alias /registry/ /usr/local/apache/cgi-bin/
+
+  startup.pl:
+  -----------
+  {
+      # test the scripts pre-loading by using trans sub
+      use ModPerl::RegistryLoader ();
+      use DirHandle ();
+      use strict;
+  
+      my $dir = Apache::server_root_relative("cgi-bin");
+  
+      sub trans {
+          my $uri = shift; 
+          $uri =~ s|^/registry/|cgi-bin/|;
+          return Apache::server_root_relative($uri);
+      }
+  
+      my $rl = ModPerl::RegistryLoader->new(
+          package => "ModPerl::Registry",
+          trans   => \&trans,
+      );
+      my $dh = DirHandle->new($dir) or die $!;
+  
+      for my $file ($dh->read) {
+          next unless $file =~ /\.pl$/;
+          $rl->handler("/registry/$file");
+      }
+  }
+
+=back
+
+
+=head1 AUTHORS
+
+Doug MacEachern
+
+Stas Bekman
+
+=head1 SEE ALSO
+
+ModPerl::RegistryCooker(3), Apache(3), mod_perl(3)
+
