@@ -13,6 +13,9 @@ use Archive::Tar;
 use Compress::Zlib;
 use File::Copy;
 use Config;
+use Safe;
+use Digest::MD5;
+use IO::File;
 
 die "This only works for Win32" unless $^O =~ /Win32/i;
 die "No mod_perl ppm package available for this Perl" if ($] < 5.006001);
@@ -100,10 +103,12 @@ else {
 die 'Please specify an Apache directory' unless ($apache or $apache2);
 
 my $theoryx5 = 'http://theoryx5.uwinnipeg.ca';
-my ($ppd, $tgz, $ppdfile, $tgzfile);
+my ($ppd, $tgz, $ppdfile, $tgzfile, $checksums);
+my $cs = 'CHECKSUMS';
 
 # set appropriate ppd and tar.gz files
 if ($] < 5.008) {
+  $checksums = $theoryx5 . '/ppmpackages/x86/' . $cs;
   if ($apache2) {
     $ppdfile = 'mod_perl-2.ppd';
     $tgzfile = 'mod_perl-2.tar.gz';
@@ -111,7 +116,7 @@ if ($] < 5.008) {
     $tgz = $theoryx5 . '/ppmpackages/x86/' . $tgzfile;
   }
   else {
-    my $ans = prompt('Do you need EAPI support for mod_ssl?', 'no');
+   my $ans = prompt('Do you need EAPI support for mod_ssl?', 'no');
     if ($ans =~ /^n/i) {
       $ppdfile = 'mod_perl.ppd';
       $tgzfile = 'mod_perl.tar.gz';
@@ -127,6 +132,7 @@ if ($] < 5.008) {
   }
 }
 else {
+  $checksums = $theoryx5 . '/ppms/x86/' . $cs;
   if ($apache2) {
     $ppdfile = 'mod_perl.ppd';
     $tgzfile = 'mod_perl.tar.gz';
@@ -150,6 +156,19 @@ print "Fetching $tgz ...";
 getstore($tgz, $tgzfile);
 print " done!\n";
 die "Failed to fetch $tgz" unless -e $tgzfile;
+print "Fetching $checksums ...";
+getstore($checksums, $cs);
+print " done!\n";
+
+# check CHECKSUMS for the tar.gz file
+if (-e $cs) {
+  unless (verifyMD5($tgzfile)) {
+    print qq{CHECKSUM check for "$tgzfile" failed.\n};
+  }
+}
+else {
+  warn "Failed to fetch $checksums - will not verify CHECKSUMS.";
+}
 
 # edit the ppd file to reflect a local installation
 my $old = $ppdfile . 'old';
@@ -205,7 +224,7 @@ else {
 # clean up, if desired
 my $ans = prompt("Remove temporary installation files from $tmp?", 'yes');
 if ($ans =~ /^y/i) {
-  unlink ($ppdfile, $old, $tgzfile) 
+  unlink ($ppdfile, $old, $tgzfile, $cs) 
     or warn "Cannot unlink files from $tmp: $!";
 }
 
@@ -232,3 +251,47 @@ $Config{bin} to your PATH environment variable.
 For more information, visit http://perl.apache.org/.
 
 END
+
+# routine to verify the CHECKSUMS for a file
+# adapted from the MD5 check of CPAN.pm
+sub verifyMD5 {
+  my $file = shift;
+  my $fh = IO::File->new;
+  my $cksum;
+  unless (open $fh, 'CHECKSUMS') {
+    warn "Could not open CHECKSUMS: $!";
+    return;
+  }
+  local($/);
+  my $eval = <$fh>;
+  $eval =~ s/\015?\012/\n/g;
+  close $fh;
+  my $comp = Safe->new();
+  $cksum = $comp->reval($eval);
+  if ($@) {
+    warn $@;
+    return;
+  }
+  my ($is, $should);
+  unless (open(FILE, $file)) {
+    warn "Cannot open $file: $!";
+    return;
+  }
+  binmode(FILE);
+  unless ($is = Digest::MD5->new->addfile(*FILE)->hexdigest) {
+    warn "Could not compute checksum for $file: $!";
+    close(FILE);
+    return;
+  }
+  close(FILE);
+  if ($should = $cksum->{$file}->{md5}) {
+    my $test = $is eq $should ? 1 : 0;
+    printf qq{Checksum for "$file" is %s\n}, 
+      ($test == 1) ? 'OK.' : 'NOT OK.';
+    return $test;
+  }
+  else {
+    warn "Checksum data for $file not present in CHECKSUMS.\n";
+    return;
+  }
+}
