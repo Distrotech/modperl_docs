@@ -170,8 +170,10 @@ to save memory.
 =head1 C<Apache::Registry>, C<Apache::PerlRun> and Friends
 
 C<Apache::Registry>, C<Apache::PerlRun> and other modules from the
-registry family now live in the C<ModPerl::> namespace to avoid
-collisions with the versions from 1.0.
+registry family now live in the C<ModPerl::> namespace. In mod_perl
+2.0 we put mod_perl specific functionality into the C<ModPerl::>
+namespace, similar to C<APR::> and C<Apache::> which are used for apr
+and apache features, respectively.
 
 To run the C<Apache::Registry> module from mod_perl 1.0 you have to
 load C<Apache::compat> at the startup:
@@ -195,20 +197,56 @@ then in I<httpd.conf>:
 Notice that C<Apache::compat> has to be loaded before C<CGI.pm> if the
 latter module is used.
 
-The only reason you may want to use C<Apache::Registry> with mp2 is
-that because at this moment C<ModPerl::Registry> (and others) doesn't
-C<chdir()> into the script's dir like Apache::Registry does, because
+At this moment C<ModPerl::Registry> (and others) doesn't C<chdir()>
+into the script's dir like C<Apache::Registry> does, because
 C<chdir()> affects the whole process under threads. This should be
-resolved by the time mod_perl 2.0 is released. But for now you can use
-C<Apache::Registry>. However you will have problems if you are using
-anything but the preforked MPM, the main reason why
-C<ModPerl::Registry> doesn't C<chdir()>.
-
-Eventually this issue will get resolved, but so far nobody has done
-anything about it, besides Arthur Bergman who started working on
-C<ex::threads::cwd>. See:
+resolved by the time mod_perl 2.0 is released. Arthur Bergman works on
+the solution in form of: C<ex::threads::cwd>. See:
 http://www.perl.com/pub/a/2002/06/11/threads.html?page=2 Someone
 should pick up and complete this module to make it really useful.
+
+Meanwhile if you are using a prefork MPM and you have to rely on
+mod_perl performing chdir to the script's directory, you can use the
+following subclass of C<ModPerl::Registry>:
+
+  #file:ModPerl/RegistryPrefork.pm
+  #-------------------------------
+  package ModPerl::RegistryPrefork;
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  our $VERSION = '0.01';
+  
+  use base qw(ModPerl::Registry);
+  
+  use File::Basename ();
+  
+  sub handler : method {
+      my $class = (@_ >= 2) ? shift : __PACKAGE__;
+      my $r = shift;
+      return $class->new($r)->default_handler();
+  }
+  
+  sub chdir_file {
+      use File::Basename();
+      my $file = @_ == 2 ? $_[1] : $_[0]->{FILENAME};
+      my $dir = File::Basename::dirname($file);
+      chdir $dir or die "Can't chdir to $dir: $!";
+  }
+  
+  1;
+  __END__ 
+
+Adjust your I<httpd.conf> to have:
+
+  Alias /perl /path/to/perl/scripts
+  <Location /perl>
+     SetHandler perl-script
+     PerlResponseHandler Apache::RegistryPrefork
+     Options +ExecCGI
+     PerlOptions +ParseHeaders
+  </Location>
 
 Otherwise C<ModPerl::Registry> modules are configured and used
 similarly to C<Apache::Registry> modules. Refer to one of the
