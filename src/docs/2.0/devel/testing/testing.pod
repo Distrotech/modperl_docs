@@ -216,23 +216,47 @@ modules when they change on the disk, add to I<t/conf/extra.conf.in>:
 and restart the server.
 
 The I<-start-httpd> option always stops the server first if any is
-running. In case you have a server runnning on the same port, (for
-example if you develop the a few tests at the same time in different
-trees), you should run the server on a different port. C<Apache::Test>
-will try to automatically pick a free port, but you can explicitly
-tell on which port to run, using the I<-port> configuration option:
-
-META: -port=select is not yet committed!
-
-  % t/TEST -start-httpd -port 8799
-
-or by setting an evironment variable C<APACHE_PORT> to the desired
-value before starting the server.
+running.
 
 Normally when I<t/TEST> is run without specifying the tests to run,
 the tests will be sorted alphabetically. If tests are explicitly
 passed as arguments to I<t/TEST> they will be run in a specified
 order.
+
+=head2 Parallel Testing
+
+Sometimes you need to run more than one C<Apache::Test> framework
+instances at the same time. In this case you have to use different
+ports for each instance. You can specify explicitly which port to use,
+using the I<-port> configuration option. For example to run the server
+on port 34343:
+
+  % t/TEST -start-httpd -port=34343
+
+or by setting an evironment variable C<APACHE_PORT> to the desired
+value before starting the server.
+
+Specifying the port explicitly may not be the most convenient option
+if you happen to run many instances of the C<Apache::Test> framework.
+The I<-port=select> option comes to help. This option will
+automatically pick for the next available port. For example if you
+run:
+
+  % t/TEST -start-httpd -port=select
+
+and there is already one server from a different test suite which uses
+the default port 8529, the new server will try to use a higher port.
+
+There is one problem that remains to be resolved though. It's possible
+that two or more servers running I<-port=select> will still decide to
+use the same port, because when the server is configured it only tests
+whether the port is available but doesn't call bind()
+immediately. Thefore there is a race condition here, which needs to be
+resolved. Currently the workaround is to start the instances of the
+C<Apache::Test> framework with a slight delay between each other.
+Depending on the speed of you machine, 4-5 seconds can be a good
+choice. that's approximately the time it takes to configure and start
+the server on a quite slow machine.
 
 =head2 Verbose Testing
 
