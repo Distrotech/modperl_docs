@@ -68,19 +68,22 @@ clients like I<wget>, I<lwp-download>, etc. These two distributions
 are available from I<http://www.apache.org/dist/httpd/> and
 I<http://perl.apache.org/dist/>.
 
-The two packages are named I<apache_x.x.x.tar.gz> and
-I<mod_perl-x.xx.tar.gz>, where I<x.x.x> should be replaced with the
-real version numbers of mod_perl and Apache.
+Remember that mod_perl 1.0 works only with Apache 1.3, and L<mod_perl
+2.0|docs::2.0::user::index> requires Apache 2.0. In this chapter we talk 
+about mod_perl 1.0/Apache 1.3, hence the packages that you want are
+named I<apache_1.3.xx.tar.gz> and I<mod_perl-1.xx.tar.gz>, where I<xx>
+should be replaced with the real version numbers of mod_perl and
+Apache.
 
 Move the downloaded packages into a directory of your choice, I<e.g.>,
 I</home/stas/src/>, proceed with the described steps and you will have
 mod_perl installed:
 
   % cd /home/stas/src
-  % tar -zvxf apache_x.x.x.tar.gz
-  % tar -zvxf mod_perl-x.xx.tar.gz
-  % cd mod_perl-x.xx
-  % perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
+  % tar -zvxf apache_1.3.xx.tar.gz
+  % tar -zvxf mod_perl-1.xx.tar.gz
+  % cd mod_perl-1.xx
+  % perl Makefile.PL APACHE_SRC=../apache_1.3.xx/src \
       APACHE_PREFIX=/home/httpd DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
   % make && make test
   % su
@@ -139,14 +142,14 @@ The next step is to move to the directory with the source files:
 Uncompress and untar both sources.  GNU I<tar> allows this using a
 single command per file:
 
-  % tar -zvxf apache_x.x.x.tar.gz
-  % tar -zvxf mod_perl-x.xx.tar.gz
+  % tar -zvxf apache_1.3.xx.tar.gz
+  % tar -zvxf mod_perl-1.xx.tar.gz
 
 For non-GNU I<tar>'s, you may need to do this with two steps (which
 you can combine via a pipe):
 
-  % gzip -dc apache_x.x.x.tar.gz | tar -xvf -
-  % gzip -dc mod_perl-x.xx.tar.gz | tar -xvf -
+  % gzip -dc apache_1.3.xx.tar.gz | tar -xvf -
+  % gzip -dc mod_perl-1.xx.tar.gz | tar -xvf -
 
 Linux distributions supply C<tar> and C<gzip> and install them by
 default; for other systems these utilities should be obtained from
@@ -156,16 +159,16 @@ versions are available for every platform that Apache supports.
 
 =head2 Building mod_perl
 
-Move into the I</home/stas/src/mod_perl-x.xx/> source distribution
+Move into the I</home/stas/src/mod_perl-1.xx/> source distribution
 directory:
 
-  % cd mod_perl-x.xx
+  % cd mod_perl-1.xx
 
 The next step is to create the I<Makefile>. This step is no different
 in principle from the creation of the I<Makefile> for any other Perl
 module.
 
-  % perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
+  % perl Makefile.PL APACHE_SRC=../apache_1.3.xx/src \
     DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
 
 (Replace I<x.x.x> with the Apache distribution version number.)
@@ -199,7 +202,7 @@ I<Makefile.PL>.
 
 The I<httpd> executable can now be built by using the C<make>
 utility. (Note that the current working directory is still
-I</home/stas/src/mod_perl-x.xx/>):
+I</home/stas/src/mod_perl-1.xx/>):
 
   % make
 
@@ -207,7 +210,7 @@ This command prepares the mod_perl extension files, installs them in
 the Apache source tree and builds the I<httpd> executable (the web
 server itself) by compiling all the required files. Upon completion of
 the I<make> process, the working directory is restored to
-I</home/stas/src/mod_perl-x.xx/>.
+I</home/stas/src/mod_perl-1.xx/>.
 
 Running C<make test> will execute various mod_perl tests on the
 freshly built I<httpd> executable.
@@ -257,7 +260,7 @@ S<make install> to create the Apache directory tree and install
 Apache's header files (I<*.h>), default configuration files
 (I<*.conf>), the I<httpd> executable, and a few other programs.
 
-  # cd ../apache_x.x.x
+  # cd ../apache_1.3.xx
   # make install
 
 Note that, as with a plain Apache installation, any configuration
