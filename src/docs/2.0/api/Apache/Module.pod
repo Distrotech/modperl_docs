@@ -45,8 +45,8 @@ C<Apache::Module> provides the following functions and/or methods:
 
 =head2 C<cmds>
 
-An Apache::Command table that describes all of the directives this module
-defines.
+Get an C<L<Apache::Command|docs::2.0::api::Apache::Command>> object
+that describes all of the directives this module defines.
 
   $cmd_rec = $module->cmds();
 
