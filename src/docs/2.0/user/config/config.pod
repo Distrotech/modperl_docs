@@ -41,7 +41,89 @@ C<ServerRoot> is specified.
 
 If mod_perl has been statically linked it's automatically enabled.
 
+Win32 users need to make sure that the path to the Perl binary (e.g.,
+I<C:\Perl\bin>) is in the C<PATH> environment variable.
 
+
+
+
+
+=head1 Accessing the mod_perl 2.0 Modules
+
+In order to prevent from inadvertently loading mod_perl 1.0 modules
+mod_perl 2.0 Perl modules are installed into dedicated directories
+under I<Apache2/>. The C<Apache2> module prepends the locations of the
+mod_perl 2.0 libraries to C<@INC>, which are the same as the core
+C<@INC>, but with I<Apache2/> appended. This module has to be loaded
+just after mod_perl has been enabled. This can be accomplished with:
+
+  use Apache2 ();
+
+in the startup file. Only if you don't use a startup file you can add:
+
+  PerlModule Apache2
+
+to I<httpd.conf>, due to the order the C<PerlRequire> and
+C<PerlModule> directives are processed.
+
+
+
+
+
+
+=head1 Startup File
+
+Next usually a startup file with Perl code is loaded:
+
+  PerlRequire "/home/httpd/httpd-2.0/perl/startup.pl"
+
+It's used to adjust Perl modules search paths in C<@INC>, pre-load
+commonly used modules, pre-compile constants, etc. Here is a typical
+I<startup.pl> for mod_perl 2.0:
+
+  file:startup.pl
+  ---------------
+  use Apache2 ();
+  
+  use lib qw(/home/httpd/perl);
+  
+  # enable if the mod_perl 1.0 compatibility is needed
+  # use Apache::compat ();
+  
+  use ModPerl::Util (); #for CORE::GLOBAL::exit
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  use Apache::RequestUtil ();
+  
+  use Apache::Server ();
+  use Apache::ServerUtil ();
+  use Apache::Connection ();
+  use Apache::Log ();
+  
+  use APR::Table ();
+  
+  use ModPerl::Registry ();
+  
+  use Apache::Const -compile => ':common';
+  use APR::Const -compile => ':common';
+  
+  1;
+
+In this file the C<Apache2> modules is loaded, so the 2.0 modules will
+be found. Afterwards C<@INC> in adjusted to include non-standard
+directories with Perl modules:
+
+  use lib qw(/home/httpd/perl);
+
+If you need to use the backwards compatibility layer load:
+
+  use Apache::compat ();
+
+Next we preload the commanly used mod_perl 2.0 modules and precompile
+common constants.
+
+Finally as usual the I<startup.pl> file must be terminated with C<1;>.
 
 
 
@@ -71,10 +153,121 @@ whereas C<-I> does not.
 
 
 
+=head1 mod_perl 2.0 Handlers
+
+mod_perl 2.0 provides two types of handlers: C<modperl> and
+C<perl-script>.
+
+=head2 modperl
+
+Configured as:
+
+  SetHandler modperl
+
+The bare mod_perl handler type, which just calls the C<Perl*Handler>'s
+callback function. If you don't need the features provided by the
+I<perl-script> handler, with the C<modperl> handler, you can gain even
+more performance. (This handler isn't available in mod_perl 1.0.)
+
+Unless the C<Perl*Handler> callback running under the C<modperl>
+handler is configured with:
+
+  PerlOptions +SetupEnv
+
+or calls:
+
+  $r->subprocess_env;
+
+in a void context (which has the same effect as C<PerlOptions
++SetupEnv> for the handler that called it), only the following
+environment variables are accessible via C<%ENV>:
+
+=over
+
+=item *
+
+C<MOD_PERL> and C<GATEWAY_INTERFACE> (always)
+
+=item *
+
+C<PATH> and C<TZ> (if you had them defined in the shell or
+I<httpd.conf>)
+
+=back
+
+Therefore if you don't want to add the overhead of populating C<%ENV>,
+when you simply want to pass some configuration variables from
+I<httpd.conf>, consider using C<PerlSetVar> and C<PerlAddVar> instead
+of C<PerlSetEnv> and C<PerlPassEnv>. In your code you can retrieve the
+values using the C<dir_config()> method. For example if you set in
+I<httpd.conf>:
+
+  <Location /print_env2>
+      SetHandler modperl
+      PerlResponseHandler Apache::VarTest
+      PerlSetVar VarTest VarTestValue
+  </Location>
+
+this value can be retrieved inside C<Apache::VarTest::handler()> with:
+
+  $r->dir_config('VarTest');
+
+Alternatively use the Apache core directives C<SetEnv> and C<PassEnv>,
+which always populate C<r->suprocess_env>, but this doesn't happen
+until the Apache fixup phase, which could be too late for your needs.
+
+=head2 perl-script
+
+Configured as:
+
+  SetHandler perl-script
+
+Most mod_perl handlers use the I<perl-script> handler. Among other
+things it does:
+
+=over
+
+=item *
+
+C<PerlOptions +GlobalRequest> is in effect unless:
+
+  PerlOptions -GlobalRequest
+
+is specified.
+
+=item *
+
+C<PerlOptions +SetupEnv> is in effect unless:
+
+  PerlOption -SetupEnv
+
+is specified.
+
+=item *
+
+C<STDOUT> and C<STDOUT> get tied to the request object C<$r>, which
+makes possible to read from C<STDIN> and print directly to C<STDOUT>
+via C<CORE::print()>, instead of implicit calls like
+C<$r-E<gt>puts()>.
+
+=item *
+
+Several special global Perl variables are saved before the handler is
+called and restored afterwards (similar to mod_perl 1.0). This
+includes: C<%ENV>, C<@INC>, C<$/>, C<STDOUT>'s C<$|> and C<END> blocks
+array (C<PL_endav>).
+
+=back
 
 
 
-=head1 PerlOptions Directive
+
+
+
+
+
+
+=head1 C<PerlOptions> Directive
 
 The directive C<PerlOptions> provides fine-grained configuration for
 what were compile-time only options in the first mod_perl generation.
@@ -131,6 +324,8 @@ server and each wants to run a different version of a module with the
 same name.  This example will create two I<parent> Perl interpreters,
 one for each C<E<lt>VirtualHostE<gt>>, each with its own namespace and
 pointing to a different paths in C<@INC>:
+
+META: is -Mblib portable? (problems with -Mlib on Darwin/5.6.0?)
 
   <VirtualHost ...>
       ServerName dev1
@@ -351,64 +546,8 @@ Notice that we have got the value of the environment variable I<TEST>.
 
 =head1 Handlers Directives
 
-META: need to add descriptions
+See L<The handlers chapter|docs::2.0::user::handlers::handler>.
 
-=head2 PerlChildInitHandler
-
-=head2 PerlOpenLogsHandler
-
-=head2 PerlPostConfigHandler
-
-=head2 PerlPreConnectionHandler
-
-=head2 PerlProcessConnectionHandler
-
-=head2 PerlHeaderParserHandler
-
-=head2 PerlAccessHandler
-
-=head2 PerlAuthenHandler
-
-=head2 PerlAuthzHandler
-
-=head2 PerlTypeHandler
-
-=head2 PerlFixupHandler
-
-=head2 PerlResponseHandler
-
-=head2 PerlLogHandler
-
-=head2 PerlPostReadRequestHandler
-
-=head2 PerlInitHandler
-
-=head2 PerlTransHandler
-
-=head2 PerlOutputFilterHandler
-
-The mod_perl 2.0 interface to the Apache filtering API is much simpler
-than the C API, hiding most of the details underneath.  Perl filters
-are configured using the C<PerlOutputFilterHandler> directive. For
-example:
-
-  PerlOutputFilterHandler Apache::ReverseFilter
-
-This simply registers the filter, which can then be turned on using
-the core C<AddOutputFilter> directive:
-
-  <Location /filterme>
-      AddOutputFilter Apache::ReverseFilter
-  </Location>
-
-The C<Apache::ReverseFilter> handler will now be called for anything
-accessed in the I</filterme> URL space.  The C<AddOutputFilter>
-directive takes any number of filters. For example, the configuration:
-
-  AddOutputFilter INCLUDE Apache::ReverseFilter
-
-will first send the output to I<mod_include>, which will in turn pass
-its output down to C<Apache::ReverseFilter>.
 
 
 
