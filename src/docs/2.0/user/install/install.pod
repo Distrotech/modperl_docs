@@ -1,6 +1,10 @@
-=head1 Installing mod_perl
+=head1 NAME
+
+Installing mod_perl
 
 =head1 Prerequisites
+
+Lots of prerequisites
 
 =head1 Installing from Source
 

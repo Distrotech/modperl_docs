@@ -1,4 +1,6 @@
-=head1 Getting Your Feet Wet with mod_perl
+=head1 NAME
+
+Getting Your Feet Wet with mod_perl
 
 =head1 A Quick Guide to Getting Started with mod_perl
 

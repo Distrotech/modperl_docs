@@ -1,4 +1,6 @@
-=head1 Choosing a Templating System
+=head1 NAME
+
+Choosing a Templating System
 
 =head1 Introduction
 

@@ -1,4 +1,6 @@
-=head1 Coding with and for mod_perl
+=head1 NAME
+
+Coding with and for mod_perl
 
 =head1 Prerequisites
 

@@ -1,4 +1,6 @@
-=head1 Developing and Running Tests with the C<Apache::Test> Framework
+=head1 NAME
+
+Developing and Running Tests with the C<Apache::Test> Framework
 
 =head1 Introduction
 
@@ -1105,7 +1107,7 @@ declare some sub-tests as I<todo>. This distinction is useful when we
 know that some sub-test is failing but for some reason we want to flag
 it as a todo sub-test and not as a broken test. C<Test::Harness>
 recognizes I<todo> sub-tests if the standard output line contains the
-substring I< # TODO> after i<not ok> or I<not ok NUMBER> and is
+substring I< # TODO> after I<not ok> or I<not ok NUMBER> and is
 counted as a todo sub-test.  The text afterwards is the explanation of
 the thing that has to be done before this sub-test will succeed. For
 example:

@@ -1,4 +1,6 @@
-=head1 mod_perl Code Development Style Guide
+=head1 NAME
+
+mod_perl Code Development Style Guide
 
 =head1 Coding Style Guide
 

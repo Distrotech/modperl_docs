@@ -1,4 +1,6 @@
-=head1 Porting Modules from mod_perl 1.x to 2.x
+=head1 NAME
+
+Porting Modules from mod_perl 1.x to 2.x
 
 =head1 Introduction
 
