@@ -1,62 +1,50 @@
-[% # site map
-   # expects to be set:
-   # nav          - cache navigator object
-   # rel_doc_root - relative docs path (only for chapters!)
+[%- INCLUDE head
+    paget   = doc.meta.title
+    title   = "mod_perl: $paget"
+    content = ''
 -%]
 
-[% 
-   # first go up to the absolute root
-   l = nav; # remember last valid node 
-   p = nav.up;
-   WHILE p;
-       l = p;
-       p = p.up;
-   END;
+<!-- Swishcommand noindex -->
 
-   p = l; # last valid node
+<!-- logobox begin -->
+<div class="logobox">
+    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr valign="top">
 
-   # now go to the left
-   p = p.first;
+            [%- INCLUDE logo -%]
+            [%- INCLUDE navbar_global
+                    nav=doc.nav
+            -%]
 
-   # now recursively render all levels
-
-
-
-   IF p.parent_rel_path.defined;
-      prefix = p.parent_rel_path;
-   ELSE;
-      prefix = ".";
-   END;
-   IF rel_doc_root.defined;
-       prefix = "$prefix/$rel_doc_root";
-   END;
-
-   # walk through the top level nodes
-   count = 0;
-   selected = 0;
-   current = p;
-   buttons = [];
-   p = p.first;
-   WHILE p;
-       count = count + 1;
-       link = INCLUDE link prefix=prefix link=p.meta.link;
-       buttons.push({link => link, text => p.meta.stitle});
-       IF p.id == current.id;
-           selected = count;
-       END;
-       p = p.next; # next node
-   END;
--%]
-<div class="logo">
-<a href="http://perl.apache.org/"><img src="[% doc.dir.abs_doc_root %]/images/mod_perl2.jpg" border="0" alt="mod_perl icon" height="59" width="150"></a><br>
+            <!-- camel begin -->
+            <td align="right"><img src="[%- doc.dir.abs_doc_root -%]/images/logo/logo_blend_camel.gif" border="0" alt="mod_perl icon" width="40" height="49"></td>
+            <!-- camel end -->
+        </tr>
+    </table>
 </div>
-<br>
-<div class="menu">
-[% INCLUDE splash/pulldown 
-     select = selected
-     width  = "5%"
-     pad    = 0
-     border = 0
-     align   = 'left'
-%]
+<!-- logobox end -->
+
+<!-- left box begin -->
+<div class="leftbox">
+
+    [%- INCLUDE left_box
+        nav=doc.nav
+    -%]
+
 </div>
+<!-- left box end -->
+
+<!-- right box begin-->
+<div class="rightbox">
+    [%- INCLUDE sitemap_body -%]
+    
+    <br>
+    <hr noshade size="1">
+
+    [%- INCLUDE tail -%]
+
+</div>
+<!-- right box end -->
+
+</body>
+</html>
