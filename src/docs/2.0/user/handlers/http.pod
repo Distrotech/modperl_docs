@@ -295,7 +295,7 @@ To configure this module simply add to I<httpd.conf>:
 
 
 =head2 PerlMapToStorageHandler
-                                                                                                   
+
 META: add something here
 
 This phase is of type
