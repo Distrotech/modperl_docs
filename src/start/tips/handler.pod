@@ -18,7 +18,7 @@ local time.
   package My::Greeting;
   use strict;
   
-  use Apache::Constants ();
+  use Apache::Constants qw(OK);
   
   sub handler {
       my $r = shift;
@@ -32,7 +32,7 @@ local time.
   The local time is $now.
   EOT
   
-      return Apache::Constants::OK;
+      return OK;
   }
   1; # modules must return true
 
