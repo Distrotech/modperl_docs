@@ -53,6 +53,21 @@ most web browsers.
 The L<dedicated search page|XXX> provides a more flexible search
 options, including the explanation of these options.
 
+
+=head2 Q. The pages take too long to download!
+
+B<A>. Yes, we have a lot of documentation. That is definitely a good
+thing. But, for example, the guide alone takes 735 pages in PDF
+format, so you might be overwhelmed by the size of the files if you're
+downloading them each time from the net. In that case, we suggest that
+you L<download|/How_this_site_was_created> the sources, build the
+documentaion and read it off your hard disk.
+
+Another idea to make it load faster is to adjust your browser's
+caching. By caching the pages, you might not have to download them
+each time.
+
+
 =head2 Q. Why isn't your site running mod_perl?
 
 B<A>. 99% of this site is comprised of a static content, so it doesn't
