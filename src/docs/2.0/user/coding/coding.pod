@@ -1,10 +1,12 @@
 =head1 NAME
 
-Coding with and for mod_perl
+Writing mod_perl Handlers and Scripts
 
 =head1 Description
 
-This chapter covers the mod_perl coding specifics, different from normal Perl coding.
+This chapter covers the mod_perl coding specifics, different from
+normal Perl coding. Most other perl coding issues are covered in the
+perl manpages and rich literature.
 
 =head1 Prerequisites
 
@@ -199,11 +201,18 @@ under mod_perl.
 
 =head2 Request-localized Globals
 
+mod_perl 2.0 provides two types of C<SetHandler> handlers:
+C<L<modperl|docs::2.0::user::config::config/C_modperl_>> and
+C<L<perl-script|docs::2.0::user::config::config/C_perl_script_>>.
+Remember that the C<SetHandler> directive is only relevant for the
+response phase handlers, it neither needed nor affects non-response
+phases.
+
 Under the handler:
 
   SetHandler perl-script
 
-Several special global Perl variables are saved before the handler is
+several special global Perl variables are saved before the handler is
 called and restored afterwards. This includes: C<%ENV>, C<@INC>,
 C<$/>, C<STDOUT>'s C<$|> and C<END> blocks array (C<PL_endav>).
 
