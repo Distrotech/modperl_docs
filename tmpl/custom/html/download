@@ -1,12 +1,12 @@
 [% 
 # link to the pdf, source and other variants of the doc 
     # pdf block
-    IF doc.pdf_doc;
+    IF doc.pdf_doc.link;
         INCLUDE pdf_doc;
     END;
 
     # pdf block
-    IF doc.src_doc;
+    IF doc.src_doc.link;
         INCLUDE src_doc;
     END;
 -%]
