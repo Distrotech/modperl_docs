@@ -54,8 +54,6 @@ Content:
 - ask perl.com to link to perl.apache.org from 'perl sites' section.
   + also they need to add theperlreview.com
 
-- Need to resolve prompt issue. (user/root prompt)
-
 Search:
 -------
  - consider adding auto-focus feature:
@@ -125,6 +123,9 @@ Site Migration process:
   o move the /dist/ stuff, or symlink to it. 
   o remove all the pods from /dist/
   o remove apache-modlist.html
+
+- get Apache team to link to correct place at
+  http://httpd.apache.org/userslist.html
 
 ====================================================================
 
