@@ -156,9 +156,10 @@ ported but not listed here, please contact L<the modperl
 list|maillist::modperl>, so we can update this information:
 
   Apache::AuthExpire
-  Apache::AuthNetLDAP
   Apache::AuthenPasswd
   Apache::AuthenSmb
+  Apache::AuthNetLDAP
+  Apache::AuthPerLDAP
   Apache::AuthzNetLDAP
   Apache::AuthzPasswd
   Apache::Clean
