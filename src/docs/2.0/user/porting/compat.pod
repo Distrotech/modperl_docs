@@ -720,6 +720,18 @@ the function C<Apache::Module::get_config()>
 
 
 
+=head1 C<Apache::ModuleConfig::> Methods
+
+=head2 C<Apache::ModuleConfig-E<gt>get>
+
+C<Apache::ModuleConfig-E<gt>get> has been replaced with
+the function C<L<Apache::Module::get_config()|docs::2.0::api::Apache::Module/C_get_config_>>.
+
+
+
+
+
+
 
 =head1 C<Apache::Server::> Methods and Variables
 
