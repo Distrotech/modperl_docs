@@ -172,6 +172,10 @@ an empty string if there is nothing to read.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
+If you get the C<'Resource temporarily unavailable'> error, then you
+didn't ensure that the socket is in L<a blocking mode|/C_opt_set_>
+before using it.
+
 If timeout was set via C<timeout_set|/C_timeout_set_>, you may need to
 catch C<L<APR::TIMEUP|docs::2.0::api::APR::Const/C_APR__TIMEUP_>>
 exceptions. For example:
@@ -189,6 +193,13 @@ exceptions. For example:
 Examples:
 
   use APR::Socket ();
+  
+  # set the socket to the blocking mode if it isn't already
+  use APR::Const -compile => qw(SO_NONBLOCK);
+  if ($sock->opt_get(APR::SO_NONBLOCK)) {
+      $sock->opt_set(APR::SO_NONBLOCK => 0);
+  }
+  # read from/write to the socket (w/o handling possible failures)
   my $wanted = 1024;
   while (1) {
       # read from the socket

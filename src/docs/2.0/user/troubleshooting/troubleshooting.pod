@@ -230,9 +230,23 @@ http://rt.perl.org:80/rt3/Ticket/Display.html?id=24660
 
 
 
+
+=head2 APR::Socket::recv: Resource temporarily unavailable at ...
+
+You need to make sure that the socket is set to L<blocking
+mode|docs::2.0::api::APR::Socket/C_opt_set_> before using it.
+
+
+
+
+
+
 =head2 C<APR::UUID-E<gt>new> Hanging
 
 See L<Server Hanging at the Startup|/Server_Hanging_at_the_Startup>.
+
+
+
 
 
 
