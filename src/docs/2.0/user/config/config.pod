@@ -992,6 +992,25 @@ a combination of one or more option letters from the following list:
   s Perl sections
   t benchmark-ish timings
 
+Tracing options add to the previous setting and don't override it. So
+for example:
+
+   PerlTrace c
+   ...
+   PerlTrace f
+
+will set tracing level first to 'c' and later to 'cf'. If you wish to
+override settings, unset any previous setting by assigning 0 (zero),
+like so:
+
+   PerlTrace c
+   ...
+   PerlTrace 0
+   PerlTrace f
+
+now the tracing level is set only to 'f'. You can't mix the number 0
+with letters, it must be alone.
+
 When C<PerlTrace> is not specified, the tracing level will be set to
 the value of the C<$ENV{MOD_PERL_TRACE}> environment variable.
 
