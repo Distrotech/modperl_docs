@@ -1,0 +1,235 @@
+=head1 NAME
+
+C<APR::Table> -- A Perl API for manipulating paque string-content table
+
+=head1 SYNOPSIS
+
+  use APR::Table;
+  
+  $table = make($pool, $nelts);
+  $table_copy = $table->copy($pool);
+  
+  $table->clear();
+  
+  $table->set($key => $val);
+  $table->unset($key);
+  $table->add($key, $val);
+  
+  $val = $table->get($key);
+  @val = $table->get($key);
+  
+  $table->merge($key => $val);
+  overlap($table_a, $table_b, $flags);
+  $new_table = overlay($table_base, $table_overlay, $pool);
+
+=head1 DESCRIPTION
+
+C<APR::Table> allows its users to manipulate opaque string-content
+tables. The table is somewhat similar to the Perl hash, but allows
+multiply values for the same key.  An access to the records stored in
+the table always requires a key.
+
+The key-value pairs are stored in the order they are added.
+
+The keys are case-insensitive.
+
+However as of the current implementation if more than value for the
+same key is requested, the whole table it lineary searched, which is
+very inefficient unless the table is very small.
+
+C<APR::Table> provides a L<TIE Interface>.
+
+See I<apr/include/apr_tables.h> in ASF's I<apr> project for low level
+details.
+
+=head1 API
+
+The variables used in the API definition have the following
+I<"types">:
+
+=over
+
+=item * APR::Table
+
+C<$table_*>
+
+=item * APR::Pool
+
+C<$pool>
+
+=item * scalars: unsigned integers only (SVIV) (as C expects them)
+
+C<$nelts>, C<$flags>
+
+=item * scalars: (numerical (SVIV/SVNV) and strings (SVPV))
+
+C<$key>, C<$val>
+
+=back
+
+Function arguments (if any) and return values are shown in the
+function's synopsis.
+
+=over
+
+=item * make()
+
+  $table = make($pool, $nelts);
+
+Make a new table.
+
+param C<$pool>: The pool to allocate the pool out of.
+
+param C<$nelts>: The number of elements in the initial table.
+
+return: a new table.
+
+warning: This table can only store text data
+
+=item * copy()
+
+  $table_copy = $table->copy($pool);
+
+Create a new table and copy another table into it
+
+param C<$pool>: The pool to allocate the new table out of
+
+param C<$table>: The table to copy
+
+return: A copy of the table passed in
+
+=item * clear()
+
+  $table->clear();
+
+Delete all of the elements from a table.
+
+param C<$table>: A copy of the table passed in
+
+=item * set();
+
+  $table->set($key => $val);
+
+Add a key/value pair to a table, if another element already exists
+with the same key, this will over-write the old data.
+
+param C<$table>: The table to add the data to.
+
+param C<$key>: The key fo use.
+
+param C<$val>: The value to add.
+
+=item * add()
+
+  $table->add($key, $val);
+
+Add data to a table, regardless of whether there is another element
+with the same key.
+
+param C<$table>: The table to add to
+
+param C<$key>: The key to use
+
+param C<$val>: The value to add.
+
+=item * do()
+
+  META: ???
+
+=item * get()
+
+  $val = $table->get($key);
+  @val = $table->get($key);
+
+Get the value(s) associated with a given key.
+
+After this call, the data is still in the table.
+
+param C<$table>: The table to search for the key
+
+param C<$key>: The key to search for
+
+return: In the scalar context the first matching value returned. (The
+oldest in the table, if there is more than one value.) In the list
+context the whole table is traversed and all matching values are
+returned. If nothing matches I<undef> is returned.
+
+=item * unset();
+
+  $table->unset($key);
+
+Remove data from the table
+
+param C<$table>: The table to remove data from
+
+param C<$key>: The key of the data being removed
+
+
+=item * merge()
+
+  $table->merge($key => $val);
+
+Add data to a table by merging the value with data that has already
+been stored
+
+param C<$table>: The table to search for the data
+
+param C<$key>: The key to merge data for
+
+param C<$val>: The data to add
+
+remark: If the key is not found, then this function acts like add()
+
+=item * overlap()
+
+  overlap($table_a, $table_b, $flags);
+
+For each key/value pair in C<$table_b>, add the data to
+C<$table_a>. The definition of C<$flags> explains how C<$flags> define
+the overlapping method.
+
+param C<$table_a>: The table to add the data to.
+
+param C<$table_b>: The table to iterate over, adding its data to
+C<%table_a>.
+
+param C<$flags>: How to add the C<$table_b> to C<$table_a>.
+
+When C<$flags> == C<APR_OVERLAP_TABLES_SET>, if another element
+already exists with the same key, this will over-write the old data.
+
+When C<$flags> == C<APR_OVERLAP_TABLES_MERGE>, the key/value pair from
+C<$table_b> is added, regardless of whether there is another element
+with the same key in C<$table_a>.
+
+remark: This function is highly optimized, and uses less memory and
+CPU cycles than a function that just loops through table b calling
+other functions.
+
+=item * overlay()
+
+  $new_table = overlay($table_base, $table_overlay, $pool);
+
+Merge two tables into one new table. The resulting table may have more
+than one value for the same key.
+
+param C<$pool>: The pool to use for the new table
+
+param C<$table_overlay>: The first table to put in the new table
+
+param C<$table_base>: The table to add at the end of the new table
+
+return: A new table containing all of the data from the two passed in
+
+=back
+
+=head2 TIE Interface
+
+APR::Table sports TIE interface, so you can work with the C<$table>
+object as a hash.
+
+META: complete
+
+
+=cut
+
