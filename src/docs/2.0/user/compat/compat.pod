@@ -574,6 +574,12 @@ implementation in C<Apache::compat>.
 
 XXX: needs a better resolution
 
+=head2 C<$r-E<gt>send_http_header>
+
+This method is not needed in 2.0, though available in
+C<Apache::compat>. 2.0 handlers only need to set the I<Content-type>
+via C<$r-E<gt>content_type($type)>.
+
 =head2 C<$r-E<gt>server_root_relative>
 
 C<Apache::server_root_relative> is a function in 2.0.
