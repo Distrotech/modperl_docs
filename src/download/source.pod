@@ -53,7 +53,7 @@ Howto|contribute::cvs_howto>
 
 =back
 
-=head2 CVS Web Interface
+=head2 mod_perl 1.0 CVS Web Interface
 
 http://cvs.apache.org/viewcvs.cgi/modperl/
 
@@ -111,7 +111,7 @@ Howto|contribute::cvs_howto>
 
 =back
 
-=head2 CVS Web Interface
+=head2 mod_perl 2.0 CVS Web Interface
 
 http://cvs.apache.org/viewcvs.cgi/modperl-2.0/
 
