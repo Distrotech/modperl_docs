@@ -10,22 +10,10 @@ Basic Layout:
 - NS4, the navigation widgets are moved to the right, and need to
   scroll horizontally to get to them. e.g. download/source.html
 
-- TOC's stylesheet needs fixing, so the visited links will show as
-  such (they aren't now)
-
 - check that the stylesheet doesn't have fixed sizes, especially fonts!
 
 DocSet:
 -------
-
-- the sitemap doesn't show up as selected in the menu when you go there.
-
--       # if the pre section is too long ps2pdf fails to generate pdf,
-        # so split it into 40 lines chunks.
-        $result = '';
-        while ($text =~ /((?:[^\n]*\n){1,40})/sg) {
-           $result .= "<PRE>$1</PRE>\n";
-        }
 
 - how do we make L<foo|../search/swish.cgi> I cannot do search::swish,
   it's not a doc.
@@ -65,10 +53,6 @@ Content:
 - rewrite 404.html to be a plain hmtl to be copied as is to dst_html,
   with a link to perl.apache.org only.
 
-- move docs/2.0/world to docs/offsite and rename 'offsite' to 'other'
-  or something like that
-  STATUS: this is going to happen as a part of a bigger revamp by Thomas.
-
 - need to make the content review and adjust config.cfg files to
   provide good abstracts. The same goes for src html files -- should
   use the <meta name="description" value=""> to add abstracts here.
@@ -88,8 +72,6 @@ Content:
 
 - ask perl.com to link to perl.apache.org from 'perl sites' section.
   + also they need to add theperlreview.com
-
-- link 'books' title in the menu to the books section.
 
 Search:
 -------
