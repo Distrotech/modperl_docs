@@ -120,7 +120,7 @@ mod_perl series at ApacheWeek http://www.apacheweek.com/
 
 =item *
 
-mod_perl series at Developer Shed http://www.devshed.com/
+mod_perl series at Developer Shed http://www.devshed.com/Server_Side/Perl
 
 =item *
 
