@@ -583,6 +583,20 @@ or:
 C<Apache-E<gt>set_handlers> is avalable via
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
+=head2 C<Apache-E<gt>httpd_conf>
+
+C<Apache-E<gt>httpd_conf> is now C<$s-E<gt>add_config> or
+C<$r-E<gt>add_config>. e.g.:
+
+  require Apache::ServerUtil;
+  Apache->server->httpd_conf(['require valid-user']);
+
+See the C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>>
+manpage.
+
+C<Apache-E<gt>httpd_conf> is avalable via
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
+
 =head2 C<Apache::exit()>
 
 C<Apache::exit()> has been replaced with C<ModPerl::Util::exit()>,
