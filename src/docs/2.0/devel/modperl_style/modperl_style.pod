@@ -65,7 +65,7 @@ example is the best guide:
 Do:
 
    sub foo {
-       my ($self, $cond, $baz, $taz) = @_;
+       my($self, $cond, $baz, $taz) = @_;
   
        if ($cond) {
            bar();
