@@ -103,24 +103,6 @@ output in your web pages.  Embperl has several features which are
 especially useful for creating HTML, including dynamic tables, form
 field processing, URL escaping/unescaping, session handling, and more.
 
-
-=head1 Krang
-
-C<Krang> (http://krang.sourceforge.net/) is an Open Source
-web-publisher / content-management system designed for large-scale
-magazine-style websites.  It is a 100% Perl application using
-Apache/mod_perl and MySQL, as well as numerous CPAN modules.
-
-Krang provides a powerful and easy to use story and media editing
-environment for magazine editors, as well as a complete template
-development environment for web designers. On the back-end, Perl
-programmers can customize Krang to control the data entered in the
-story editor and add code to drive the templates to build output.
-Krang can be enhanced with add-ons containing new skins and other new
-features.  Krang easily handles large data sets and can manage
-multiple websites in a single installation.
-
-
 =head1 Mason
 
 C<Mason> (http://www.masonhq.com/) is a powerful Perl-based web site
