@@ -40,11 +40,11 @@
                                 <td colspan="2" height="5"><br class="smallbr"></td>
                             </tr>
                             <tr valign="top">
-                                <td><input type="radio" name="smb" value="[% doc.dir.path_from_base %]" checked></td>
+                                <td><input type="radio" name="sbm" value="[% doc.dir.path_from_base %]" checked></td>
                                 <td class="radio-font">This section</td>
                             </tr>
                             <tr valign="top">
-                                <td><input type="radio" name="smb" value=""></td>
+                                <td><input type="radio" name="sbm" value=""></td>
                                 <td class="radio-font">Whole site</td>
                             </tr>
                             <tr>
