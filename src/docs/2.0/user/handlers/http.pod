@@ -596,6 +596,8 @@ secret length, specified by the constant C<SECRET_LENGTH>.
   use warnings;
   
   use Apache::Const -compile => qw(OK DECLINED AUTH_REQUIRED);
+
+  use Apache::Access();
   
   use constant SECRET_LENGTH => 14;
   
@@ -701,6 +703,8 @@ properly authenticated:
   use warnings;
   
   use Apache::Const -compile => qw(OK AUTH_REQUIRED);
+
+  use Apache::Access ();
   
   my %protected = (
       'admin'  => ['stas'],
