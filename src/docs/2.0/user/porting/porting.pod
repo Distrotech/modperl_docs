@@ -358,6 +358,12 @@ META: In fact, before 2.0 is released you really have to say:
   use Apache2;
   use mod_perl 1.99;
 
+And you can even require a specific version (for example when a
+certain API has been added only starting from that version). For
+example to require version 1.99_08, you can say:
+
+  use mod_perl 1.9908;
+
 =head2 Should the Module Name Be Changed?
 
 If it is not possible to make your code run under both mod_perl
@@ -480,7 +486,6 @@ no longer exists in mod_perl 2.0:
       $r->send_http_header() unless Apache::exists_config_define("MODPERL2");
       ...
   }
-
 
 =head1 Maintainers
 
