@@ -82,6 +82,10 @@ The most recent changes are listed first.
 
 * guide::performance
 
+  o update the benchmark in the section "Apache::args
+    vs. Apache::Request::param vs. CGI::param" using Apache::Request
+    1.0.
+
   o Update the documentation on Apache::SizeLimit and
     Apache::GTopLimit which now both sport the shared and unshared
     memory thresholds.

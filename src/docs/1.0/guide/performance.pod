@@ -3930,43 +3930,61 @@ digest these numbers first.
 
 =head2 Apache::args vs. Apache::Request::param vs. CGI::param
 
-Let's write three C<Apache::Registry> scripts that use
+C<Apache::args>, C<Apache::Request::param> and C<CGI::param> are the
+three most common ways to process input arguments in mod_perl handlers
+and scripts. Let's write three C<Apache::Registry> scripts that use
 C<Apache::args>, C<Apache::Request::param> and C<CGI::param> to
-process the form's input and print it out. Notice that C<Apache::args>
+process a form's input and print it out. Notice that C<Apache::args>
 is considered identical to C<Apache::Request::param> only when you
-have a single valued keys, in case of multivalued keys (e.g. when
-using checkbox groups) you will have to write some more code, since if
-you do a simple:
+have single valued keys. In the case of multi-valued keys (e.g. when
+using check-box groups) you will have to write some extra code: If you
+do a simple:
 
   my %params = $r->args;
 
-only the last value will be stored and the rest will collapse,
-something that you will solve with C<Apache::Request::params> as:
+only the last value will be stored and the rest will collapse, because
+that's what happens when you turn a list into a hash. Assuming that
+you have the following list:
 
-  my @values = $q->params('key');
+  (rules => 'Apache', rules => 'Perl', rules => 'mod_perl')
 
-In addition C<Apache::Request> and C<CGI.pm> has many more functions
-that ease input processing, like handling file uploads. But
+and assign it to a hash, the following happens:
+
+  $hash{rules} = 'Apache';
+  $hash{rules} = 'Perl';
+  $hash{rules} = 'mod_perl';
+
+So at the end only the:
+
+  rules => 'mod_perl'
+
+pair will get stored.  With C<CGI.pm> or C<Apache::Request> you can
+solve this by extracting the whole list by its key:
+
+  my @values = $q->params('rules');
+
+In addition C<Apache::Request> and C<CGI.pm> have many more functions
+that ease input processing, like handling file uploads. However
 C<Apache::Request> is much faster since its guts are implemented in C,
-glued with Perl using the XS code.
+glued to Perl using XS code.
 
-Therefore assuming that the only functionality that you need is the
-parsing of the key-value pairs, and assuming that every key has a
-single value, we will compare the following almost identical scripts,
-by trying to pass various query strings.
+Assuming that the only functionality you need is the parsing of
+key-value pairs, and assuming that every key has a single value, we
+will compare the following almost identical scripts, by trying to
+pass various query strings.
 
-The code that we have used:
+Here's the code:
 
-  processing_with_apache_args.pl
-  ------------------------------
+  file:processing_with_apache_args.pl
+  -----------------------------------
   use strict;
   my $r = shift;
   $r->send_http_header('text/plain');
   my %args = $r->args;
   print join "\n", map {"$_ => ".$args{$_} } keys %args;
 
-  processing_with_apache_request.pl
-  ---------------------------------
+  file:processing_with_apache_request.pl
+  --------------------------------------
   use strict;
   use Apache::Request ();
   my $r = shift;
@@ -3975,8 +3993,8 @@ The code that we have used:
   my %args = map {$_ => $q->param($_) } $q->param;
   print join "\n", map {"$_ => ".$args{$_} } keys %args;
 
-  processing_with_cgi_pm.pl
-  ---------------------------------
+  file:processing_with_cgi_pm.pl
+  ------------------------------
   use strict;
   use CGI;
   my $r = shift;
@@ -3985,59 +4003,75 @@ The code that we have used:
   my %args = map {$_ => $q->param($_) } $q->param;
   print join "\n", map {"$_ => ".$args{$_} } keys %args;
 
-All three scripts were preloaded at the server startup:
+All three scripts are preloaded at server startup:
 
   <Perl>
-  use Apache::RegistryLoader ();
-  Apache::RegistryLoader->new->handler(
-                            "/perl/processing_with_cgi_pm.pl",
-            "[ROOT_DIR]/httpd/perl/processing_with_cgi_pm.pl"
-                    );
-  Apache::RegistryLoader->new->handler(
-                            "/perl/processing_with_apache_request.pl",
-            "[ROOT_DIR]/httpd/perl/processing_with_apache_request.pl"
-                    );
-  Apache::RegistryLoader->new->handler(
-                            "/perl/processing_with_apache_args.pl",
-            "[ROOT_DIR]/httpd/perl/processing_with_apache_args.pl"
-                    );
+      use Apache::RegistryLoader ();
+      Apache::RegistryLoader->new->handler(
+                                "/perl/processing_with_cgi_pm.pl",
+                     "/home/httpd/perl/processing_with_cgi_pm.pl"
+                        );
+      Apache::RegistryLoader->new->handler(
+                                "/perl/processing_with_apache_request.pl",
+                     "/home/httpd/perl/processing_with_apache_request.pl"
+                        );
+      Apache::RegistryLoader->new->handler(
+                                "/perl/processing_with_apache_args.pl",
+                     "/home/httpd/perl/processing_with_apache_args.pl"
+                        );
   </Perl>
 
-And the results:
+We use four different query strings, generated by:
 
-  -------------------------------------------------------------
-  name           query_length  | avtime completed failed    rps
-  -------------------------------------------------------------
-  apache_args              25  |     69      5000      0    698
-  apache_request           25  |     76      5000      0    632
-  apache_args             337  |     97      5000      0    500
-  cgi_pm                   25  |    115      5000      0    422
-  apache_request          337  |    159      5000      0    308
-  cgi_pm                  337  |    301      5000      0    163
-  --------------------------------------------------------------
-  Non-varying sub-test parameters:
-  --------------------------------------------------------------
-  concurrency : 50
-  connections : 5000
+  my @queries = (
+      join("&", map {"$_=" . 'e' x 10}  ('a'..'b')),
+      join("&", map {"$_=" . 'e' x 50}  ('a'..'b')),
+      join("&", map {"$_=" . 'e' x 5 }  ('a'..'z')),
+      join("&", map {"$_=" . 'e' x 10}  ('a'..'z')),
+  );
 
-We have used two different query strings, generated by:
-
-  my $query = [
-             join("&", map {"$_=".'e' x 10}  ('a'..'b')),
-             join("&", map {"$_=".'e' x 10}  ('a'..'z')),
-            ];
-
-The first one renders into:
+The first string is:
 
   a=eeeeeeeeee&b=eeeeeeeeee
 
-which is 25 characters in length. The other is similar but of 337
-characters in length. Now you can tell what are the numbers in the
-C<query_length> column of the report.
+which is 25 characters in length and consists of two key/value
+pairs. The second string is also made of two key/value pairs, but the
+value is 50 characters long (total 105 characters). The third and the
+forth strings are made from 26 key/value pairs, with the value lengths
+of 5 and 10 characters respectively, with total lengths of 207 and 337
+characters respectively. The C<query_len> column in the report table
+is one of these four total lengths.
 
-You can see that C<Apache::args> is much faster than the other two
-modules, whereas C<Apache::Request::param> is much faster than
-C<CGI::param>.
+We conduct the benchmark with concurrency level of 50 and generate
+5000 requests for each test.
+
+And the results are:
+
+  ---------------------------------------------
+  name   val_len pairs query_len |  avtime  rps
+  ---------------------------------------------
+  apreq     10      2       25   |    51    945
+  apreq     50      2      105   |    53    907
+  r_args    50      2      105   |    53    906
+  r_args    10      2       25   |    53    899
+  apreq      5     26      207   |    64    754
+  apreq     10     26      337   |    65    742
+  r_args     5     26      207   |    73    665
+  r_args    10     26      337   |    74    657
+  cgi_pm    50      2      105   |    85    573
+  cgi_pm    10      2       25   |    87    559
+  cgi_pm     5     26      207   |   188    263
+  cgi_pm    10     26      337   |   188    262
+  ---------------------------------------------
+
+Where C<apreq> stands for C<Apache::Request::param()>, C<r_args>
+stands for C<Apache::args()> or C<$r-E<gt>args()> and C<cgi_pm> stands
+for C<CGI::param()>.
+
+You can see that C<Apache::Request::param> and C<Apache::args> have
+similar performance with a few key/value pairs, but the former is
+faster with many key/value pairs. C<CGI::param> is significantly
+slower than the other two methods.
 
 =head2 Using $|=1 Under mod_perl and Better print() Techniques.
 
