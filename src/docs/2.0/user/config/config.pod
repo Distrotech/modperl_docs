@@ -400,8 +400,15 @@ It also provides control over what class of C<PerlInterpreter> is used
 for a C<E<lt>VirtualHostE<gt>> or location configured with
 C<E<lt>LocationE<gt>>, C<E<lt>DirectoryE<gt>>, etc.
 
-Options are enabled by prepending C<+> and disabled with C<->. The
-options include:
+L<$r-E<gt>is_perl_option_enabled($option)|docs::2.0::api::Apache::RequestUtil/C_is_perl_option_enabled_>
+and
+L<$s-E<gt>is_perl_option_enabled($option)|docs::2.0::api::Apache::ServerUtil/C_is_perl_option_enabled_>
+can be used at run-time to check whether a certain C<$option> has been
+enabled. (META: probably need to add/move this to the coding chapter)
+
+Options are enabled by prepending C<+> and disabled with C<->.
+
+The available options are:
 
 =head3 C<Enable>
 
