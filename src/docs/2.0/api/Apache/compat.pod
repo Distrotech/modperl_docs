@@ -1,4 +1,4 @@
-=head1 Name
+=head1 NAME
 
 Apache::compat -- 1.0 backward compatibility functions deprecated in 2.0
 
