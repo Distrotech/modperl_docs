@@ -132,7 +132,7 @@ sub get_date {
 
 sub get_timestamp {
     my ($mon,$day,$year) = (localtime ( time ) )[4,3,5];
-    sprintf "%02d/%02d/%04d", ++$mon, $day, 1900+$year;
+    return scalar gmtime() . ' GMT';
 }
 
 my %require_seen = ();
@@ -274,15 +274,14 @@ sub expand_dir {
     return \@files;
 }
 
-# which($short_exec_name)
-# Portable 'which' implementation.
-#
-# Parts borrowed from modperl-2.0/lib/Apache/Build.pm and modified to
-# take into account Win32 PATHEXT
-########################
 my @path_ext = ('');
-if (IS_WIN32 and $ENV{PATHEXT}) {
-    push @path_ext, split ';', $ENV{PATHEXT};
+if (IS_WIN32) {
+    if ($ENV{PATHEXT}) {
+        push @path_ext, split ';', $ENV{PATHEXT};
+    }
+    else {
+        push @path_ext, map { ".$_" } qw(com exe bat); # Win9X
+    }
 }
 sub which {
     for my $base (map { catfile $_, $_[0] } File::Spec->path()) {
@@ -352,6 +351,7 @@ C<DocSet::Util> - Commonly used functions
   confess($string);
   note($string);
 
+  my $exec_path = which('perldoc');
 
 =head1 DESCRIPTION
 
@@ -393,6 +393,22 @@ Since the patterns are compiled by insertion into m//, make sure that
 any C</> are escaped. Be careful with using quotemeta() for this,
 since you don't want to espace special regex char, e.g. C<^>, C<$>,
 etc.
+
+=item * which
+
+  my $exec_path = which('perldoc');
+
+a portable function to search for executables on the system.
+
+Accepts a single argument which is the name of the executable to
+search for. Returns the full path to the executable if found, an empty
+string otherwise.
+
+Parts of the implementation are borrowed from
+I<modperl-2.0/lib/Apache/Build.pm> and modified to take into an
+account Win32's C<PATHEXT> environment variable or the hardcoded list
+of known executable extensions for Win9x which doesn't have this
+variable.
 
 =item * dumper
 

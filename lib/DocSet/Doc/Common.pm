@@ -140,11 +140,12 @@ sub pod_pom_html_anchor {
     $anchor =~ s/^\s*|\s*$//g; # strip leading and closing spaces
     $anchor =~ s/\W/_/g;
     my $link = $title->present($self);
-    return qq{<a name="$anchor">$link</a>};
+    return qq{<a name="$anchor"></a><a href="#toc_$anchor">$link</a>};
 }
 
 # we want the pre sections look different from normal text. So we use
-# the vertical bar on the left
+# the vertical bar on the left. make sure to set the td.pre-bar class
+# style.css: td.pre-bar { background-color: #cccccc; }
 sub pod_pom_html_view_verbatim {
     my ($self, $text) = @_;
     for ($text) {
@@ -154,18 +155,11 @@ sub pod_pom_html_view_verbatim {
     }
 
     return <<PRE_SECTION;
-<table>
-  <tr>
-
-    <td bgcolor="#cccccc" width="1">
-      <br>
-    </td>
-
-    <td>
-      <pre>$text</pre>
-    </td>
-
-  </tr>
+<table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td class="pre-bar" width="1"><br></td>
+        <td><pre>$text</pre></td>
+    </tr>
 </table>
 PRE_SECTION
 
@@ -255,7 +249,7 @@ the current document object.
 
   my $anchor = $self->pod_pom_html_anchor($title);
 
-this is common function that takes the C<$title> Pod::POM object,
+this is a common function that takes the C<$title> Pod::POM object,
 converts it into a E<lt>a nameE<gt> html anchor and returns it.
 
 =item * pod_pom_html_view_verbatim

@@ -96,12 +96,15 @@ sub render_toc_level {
     my $link = "$title";     # must stringify to get the raw string
     $link =~ s/^\s*|\s*$//g; # strip leading and closing spaces
     $link =~ s/\W/_/g;       # META: put into a sub? see Doc::Common::pod_pom_html_anchor
-    $link = "#$link";        # prepand '#' for internal links
+    # prepand '#' for internal links
+    my $toc_link = "toc_$link"; # self referring toc entry
+    $link = "#$link";
 
     my %toc_entry = (
-        title => $title->present($mode), # run the formatting if any
-        link  => $link,
-        );
+        title    => $title->present($mode), # run the formatting if any
+        link     => $link,
+        toc_link => $toc_link,
+    );
 
     my @sub = ();
     $level++;
