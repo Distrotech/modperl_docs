@@ -12,6 +12,8 @@ same look-n-feel can be added.
   font: Trebuchet MS
   size: ???
 
+  e.g.: -adobe-utopia-medium-r-normal-*-*-120-*-*-p-*-iso8859-1
+
 It's a free truetype font from MS. You can grab it from this page:
 
   http://www.microsoft.com/typography/fontpack/default.htm
@@ -24,6 +26,8 @@ Are all created using:
 
   font: ???
   size: ???
+
+  e.g.: -adobe-utopia-medium-r-normal-*-*-120-*-*-p-*-iso8859-1
 
 =head1 favicon.ico
 
