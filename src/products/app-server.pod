@@ -112,6 +112,15 @@ OpenFrame you can write a single application for multiple downstream
 clients (ie, Web, WAP, iDTV, Email) and not have to worry about much
 except the presentation.
 
+=head1 PLP
+
+PLP (http://plp.juerd.nl/) is yet another Perl embedder, primarily for
+HTML documents. Unlike with other Perl embedders, there is no need to
+learn a meta-syntax or object model: one can just use the normal Perl
+constructs. PLP runs under mod_perl for speeds comparable to those of
+PHP, but can also be run as a CGI script.
+
+
 =head1 The Template Toolkit
 
 The Template Toolkit (http://template-toolkit.org/) is a fast,
