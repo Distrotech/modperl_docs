@@ -94,6 +94,40 @@ once mod_perl is running, you may want to use this function.
 
 The original C<exit()> is still available via C<CORE::exit()>.
 
+C<ModPerl::Util::exit> is implemented as a special C<die()> call,
+therefore if you call it inside C<eval BLOCK> or C<eval "STRING">,
+while an exception is being thrown, it is caught by C<eval>. For
+example:
+
+  exit;
+  print "Still running";
+
+will not print anything. But:
+
+  eval {
+     exit;
+  }
+  print "Still running";
+
+will print I<Still running>. So you either need to check for the
+exception:
+
+  eval {
+     exit;
+  }
+  exit if $@;
+  print "Still running";
+
+or use C<CORE::exit()>:
+
+  eval {
+     CORE::exit;
+  }
+  print "Still running";
+
+and nothing will be printed. The problem with the latter is the
+current process (or a Perl Interpreter) will be killed; something that
+you really want to avoid under mod_perl.
 
 
 =head1 See Also
