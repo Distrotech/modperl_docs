@@ -17,7 +17,7 @@ Apache::Log -- Perl API for Apache Logging Methods
   
   $s->log_error("server: log_error");
   $s->log_serror(__FILE__, __LINE__, Apache::LOG_ERR,
-                 0, "log_serror logging at err level");
+                 APR::SUCCESS, "log_serror logging at err level");
   $s->log_serror(Apache::LOG_MARK, Apache::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
   Apache::Server->log_error("routine warning");
@@ -224,7 +224,7 @@ gives an access to built-in status codes.
 For example:
 
   $s->log_serror(Apache::LOG_MARK, Apache::LOG_ERR,
-                 0, "log_serror logging at err level");
+                 APR::SUCCESS, "log_serror logging at err level");
   
   $s->log_serror(Apache::LOG_MARK, Apache::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
@@ -276,7 +276,7 @@ the same as C<$s-E<gt>log_error>.
 same as C<$s-E<gt>log_rerror>. For example:
 
   $s->log_rerror(Apache::LOG_MARK, Apache::LOG_ERR,
-                 0, "log_rerror logging at err level");
+                 APR::SUCCESS, "log_rerror logging at err level");
   
   $s->log_rerror(Apache::LOG_MARK, Apache::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
@@ -323,7 +323,8 @@ and the line number as the first arguments.
 
 is the same as:
 
-  $s->log_error(Apache::LOG_MARK, Apache::LOG_WARNING, 0, @warnings)
+  $s->log_error(Apache::LOG_MARK, Apache::LOG_WARNING,
+                APR::SUCCESS, @warnings)
 
 For example:
 
