@@ -111,6 +111,8 @@ To get the cutting edge Apache 2.0 and APR 0.9 projects:
     -r APR_0_9_BRANCH -d apr apr
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
     -r APU_0_9_BRANCH -d apr-util apr-util
+  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
+    -r APU_0_9_BRANCH -d apr-iconv apr-iconv
 
 For more information on using CVS see L<the CVS
 Howto|contribute::cvs_howto>

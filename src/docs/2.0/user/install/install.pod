@@ -150,6 +150,8 @@ apr-util projects, respectively.
     -r APR_0_9_BRANCH -d apr apr
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
     -r APU_0_9_BRANCH -d apr-util apr-util
+  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
+    -r APU_0_9_BRANCH -d apr-iconv apr-iconv
   % cd ..
   % ./buildconf
 
