@@ -18,6 +18,8 @@ local time.
   package My::Greeting;
   use strict;
   
+  use Apache::Constants ();
+  
   sub handler {
       my $r = shift;
       my $now = scalar localtime;
