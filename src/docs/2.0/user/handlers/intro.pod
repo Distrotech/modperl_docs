@@ -68,6 +68,59 @@ returned to the client.
 
 
 
+
+
+=head1 Handler Return Values
+
+Different handler groups are supposed to return different values. The
+only value that can be returned by all handlers is C<Apache::OK>,
+which tells Apache that the handler has successfully finished it's
+execution.
+
+C<Apache::DECLINED> is another return value that indicates success,
+but it's only relevant for
+L<phases|docs::2.0::user::handlers::intro/Single_Phase_s_Multiple_Handlers_Behavior>
+of type C<L<RUN_FIRST|/RUN_FIRST>>
+
+L<HTTP handlers|docs::2.0::user::handlers::http> may also return
+C<Apache::DONE> which tells Apache to stop the normal L<HTTP request
+cycle|docs::2.0::user::handlers::http/HTTP_Request_Cycle_Phases> and
+fastforward to the
+C<L<PerlLogHandler|docs::2.0::user::handlers::http/PerlLogHandler>>,
+followed by
+C<L<PerlCleanupHandler|docs::2.0::user::handlers::http/PerlCleanupHandler>>.
+L<HTTP handlers|docs::2.0::user::handlers::http> may return any HTTP
+status, which similarly to C<Apache::DONE> will cause an abort of the
+request cycle, by also will be interpreted as an error. Therefore you
+don't want to return C<Apache::HTTP_OK> from your HTTP response
+handler, but C<Apache::OK>. If you want to set the status for the HTTP
+response, use the C<$r-E<gt>status()> method.
+
+L<Filter handlers|docs::2.0::user::handlers::filters> return
+C<Apache::OK> to indicate that the filter has successfully
+finished. If the return value is C<Apache::DECLINED>, mod_perl will
+read and forward the data on behalf of the filter. Please notice that
+this feature is specific to mod_perl. If there is some problem with
+obtaining or sending the bucket brigades, or the buckets in it,
+filters need to return the error returned by the method that tried to
+manipulate the bucket brigade or the bucket. Normally it'd be an
+C<L<APR::|docs::2.0::api::APR::Const>> constant.
+
+L<Protocol handler|docs::2.0::user::handlers::protocols> return values
+aren't really handled by Apache, the protocol handler is supposed to
+take care of any errors by itself. The only special case is the
+C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreConnectionHandler>>
+handler, which, if returning anything but C<Apache::OK>, will prevent
+from
+C<L<PerlConnectionHandler|docs::2.0::user::handlers::protocols/PerlConnectionHandler>>
+to be
+run. C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreConnectionHandler>>
+handlers should always return C<Apache::OK>.
+
+
+
+
+
 =head1 mod_perl Handlers Categories
 
 The mod_perl handlers can be divided by their application scope in
@@ -271,15 +324,13 @@ other hooks.
 
 And here is the description of the possible types:
 
-=over
-
-=item * VOID
+=head2 C<VOID>
 
 Handlers of the type C<VOID> will be I<all> executed in the order they
 have been registered disregarding their return values. Though in
 mod_perl they are expected to return C<Apache::OK>.
 
-=item * RUN_FIRST
+=head2 C<RUN_FIRST>
 
 Handlers of the type C<RUN_FIRST> will be executed in the order they
 have been registered until the first handler that returns something
@@ -288,21 +339,18 @@ C<Apache::DECLINED>, the next handler in the chain will be run. If the
 return value is C<Apache::OK> the next phase will start. In all other
 cases the execution will be aborted.
 
-=item * RUN_ALL
+=head2 C<RUN_ALL>
 
 Handlers of the type C<RUN_ALL> will be executed in the order they
 have been registered until the first handler that returns something
 other than C<Apache::OK> or C<Apache::DECLINED>.
 
-=back
 
 For C API declarations see I<include/ap_config.h>, which includes
 other types which aren't exposed by mod_perl handlers.
 
 Also see L<mod_perl Directives Argument Types and Allowed
 Location|docs::2.0::user::config::config/mod_perl_Directives_Argument_Types_and_Allowed_Location>
-
-
 
 
 
