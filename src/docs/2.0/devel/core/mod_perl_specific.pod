@@ -197,7 +197,7 @@ filters there are four different combinations:
   ap_add_output_filter(name, (void*)ctx, NULL, c);
   ap_add_input_filter( name, (void*)ctx, r,    r->connection);
   ap_add_output_filter(name, (void*)ctx, r,    r->connection);
- 
+
 Here the name is one of:
 
   MODPERL_REQUEST_OUTPUT
