@@ -1,25 +1,25 @@
 [% # splash/menu: build menu as a sequence of buttons
    # ARGS:
-   #	buttons = [
-   #	    { link => 'page1.html', text => 'First Page' },
-   #	    { link => 'page2.html', text => 'Second Page' },
-   #	      ...
-   #	],
-   #	select	    # item to select in range 1..n (0: none)
+   #    buttons = [
+   #        { link => 'page1.html', text => 'First Page' },
+   #        { link => 'page2.html', text => 'Second Page' },
+   #          ...
+   #    ],
+   #    select         # item to select in range 1..n (0: none)
 -%]
 
 [% 
-	FOREACH button = buttons;
-		style = (select == loop.count or select == button.text) 
-			         ? splash.style.select : splash.style.default;
-		WRAPPER splash/domm_button
-		        width = width ? '100%' : 0;
-			INCLUDE splash/text 
-				content = button.text
-				link    = button.link
-				prelink = button.prelink
-				postlink = button.postlink;
-	END;
+        FOREACH button = buttons;
+               style = (select == loop.count or select == button.text) 
+                              ? splash.style.select : splash.style.default;
+               WRAPPER splash/domm_button
+                       width = width ? '100%' : 0;
+                     INCLUDE splash/text 
+                          content = button.text
+                          link    = button.link
+                          prelink = button.prelink
+                          postlink = button.postlink;
+        END;
     END
 %]
 

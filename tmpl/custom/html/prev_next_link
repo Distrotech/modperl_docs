@@ -2,8 +2,7 @@
    # expects to be set 
    # nav          - cache navigator object
    # rel_doc_root - relative docs path
-%]
-
+-%]
 <div class="navbarlocal">
 [% 
    prev = nav.prev;

@@ -1,11 +1,11 @@
 [% # splash/pull: menu as a vertical sequence of buttons
    # ARGS:
-   #	buttons = [
-   #	    { link => 'page1.html', text => 'First Page' },
-   #	    { link => 'page2.html', text => 'Second Page' },
-   #	      ...
-   #	],
-   #	select	    # item to select in range 1..n (0: none)
+   #    buttons = [
+   #        { link => 'page1.html', text => 'First Page' },
+   #        { link => 'page2.html', text => 'Second Page' },
+   #          ...
+   #    ],
+   #    select         # item to select in range 1..n (0: none)
 
     SET
         default = splash.style.default
@@ -17,15 +17,15 @@
     ;
 -%]
 [%  
-	FOREACH button = buttons;
-		navstyle = (select == loop.count or select == button.text)
-				? "activenav" : "notactivenav";
-		WRAPPER splash/domm_button
-		        width = width ? '100%' : 0;
-			INCLUDE splash/text 
-				content = button.text
-				link    = button.link;
-		END;
+        FOREACH button = buttons;
+               navstyle = (select == loop.count or select == button.text)
+                          ? "activenav" : "notactivenav";
+               WRAPPER splash/domm_button
+                       width = width ? '100%' : 0;
+                     INCLUDE splash/text 
+                          content = button.text
+                          link    = button.link;
+               END;
     END
 %]
 
