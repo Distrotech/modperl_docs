@@ -1096,10 +1096,10 @@ To build in this feature, configure with:
 =head2 PerlFreshRestart
 
 To reload C<PerlRequire>, C<PerlModule> and other C<use()>'d modules,
-and to flush the C<Apache::Registry> cache on server restart, add to 
+and to flush the C<Apache::Registry> cache on server restart, add to
 I<httpd.conf>:
 
-  PerlFreshRestart Off
+  PerlFreshRestart On
 
 Make sure you read L<Evil things might happen when using
 PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_using_PerlFreshRestart>.
@@ -1112,7 +1112,7 @@ mod_perl :)
 
 But note that even if you have
 
-  PerlFreshRestart No
+  PerlFreshRestart Off
 
 and mod_perl as a DSO you will still get a I<FreshRestart>.
 
