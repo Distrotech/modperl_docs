@@ -122,6 +122,35 @@ The uri to break apart
 
 
 
+
+=head2 C<unescape_url>
+
+Unescape URLs
+
+  unescape_url($url);
+
+=over 4
+
+=item arg1: C<$url> (string)
+
+The URL to unescape
+
+=item ret: nothing
+
+The argument C<$url> is now unescaped
+
+=item since: 1.99_10
+
+=back
+
+For example:
+
+  my $url = join '%20', qw(one two three);
+  Apache::URI::unescape_url($url);
+
+
+
+
 =head1 See Also
 
 L<mod_perl 2.0 documentation|docs::2.0::index>.
