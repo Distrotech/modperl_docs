@@ -110,6 +110,7 @@ sub pod_pom_html_view_seq_link_transform_path {
     my $doc_obj = get_render_obj();
 
     my $res_path = $doc_obj->transform_src_doc($path);
+    $res_path = path2uri($res_path);   # win32 fix, convert to URI
     unless ($res_path) {
         # report broken links if we were told to
         if (DocSet::RunTime::get_opts('validate_links')) {
