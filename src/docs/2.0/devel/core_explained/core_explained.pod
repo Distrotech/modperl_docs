@@ -299,20 +299,6 @@ In addition it creates a number of files in the I<xs/> directory:
   modperl_xs_sv_convert.h
   modperl_xs_typedefs.h
 
-=head1 mpxs_ vs MPXS_
-
-[SCRATCH THAT]
-If you look at the source code there are functions starting with
-I<mpxs_> and those with I<MPXS_>.
-
-If you want to mess directly with the stack (i.e. without specifying
-the prototype of the function), there are two ways to do that. Either
-the function has to have a prototype C<...> (which stands for
-I<items>, I<MARK> and I<SP> arguments) or prefixed with I<MPXS_>,
-which are hooked directly into newXS().
-
-[/SCRATCH THAT]
-
 =head1 Gluing Existing APIs
 
 If you have an API that you simply want to provide the Perl interface
@@ -374,9 +360,9 @@ examples. The following testing code exercises the interfaces we are
 about to develop, so refer to this code to see how the functions are
 invoked from Perl and what is returned:
 
-  file:t/response/TestApache/scoreboard.pm
+  file:t/response/TestApache/coredemo.pm
   ----------------------------------------
-  package TestApache::scoreboard;
+  package TestApache::coredemo;
   
   use strict;
   use warnings FATAL => 'all';
@@ -386,7 +372,7 @@ invoked from Perl and what is returned:
   use Apache::Test;
   use Apache::TestUtil;
   
-  use Apache::Scoreboard;
+  use Apache::CoreDemo;
   
   sub handler {
       my $r = shift;
@@ -397,24 +383,24 @@ invoked from Perl and what is returned:
       my $b = 3;
       my ($add, $subst);
   
-      $add = Apache::Scoreboard::print($a, $b);
+      $add = Apache::CoreDemo::print($a, $b);
       t_debug "print";
       ok !$add;
   
-      $add = Apache::Scoreboard::add($a, $b);
+      $add = Apache::CoreDemo::add($a, $b);
       ok t_cmp($a + $b, $add, "add");
   
-      $add = Apache::Scoreboard::add_sv($a, $b);
+      $add = Apache::CoreDemo::add_sv($a, $b);
       ok t_cmp($a + $b, $add, "add: return sv");
   
-      $add = Apache::Scoreboard::add_sv_sv($a, $b);
+      $add = Apache::CoreDemo::add_sv_sv($a, $b);
       ok t_cmp($a + $b, $add, "add: pass/return svs");
   
-      ($add, $subst) = @{ Apache::Scoreboard::add_subst($a, $b) };
+      ($add, $subst) = @{ Apache::CoreDemo::add_subst($a, $b) };
       ok t_cmp($a + $b, $add,   "add_subst: add");
       ok t_cmp($a - $b, $subst, "add_subst: subst");
   
-      $subst = Apache::Scoreboard::subst_sp($a, $b);
+      $subst = Apache::CoreDemo::subst_sp($a, $b);
       ok t_cmp($a - $b, $subst, "subst via SP");
   
       Apache::OK;
@@ -425,18 +411,18 @@ invoked from Perl and what is returned:
 The first case is the simplest: pass two integer arguments, print
 these to the STDERR stream and return nothing:
 
-  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  file:xs/Apache/CoreDemo/Apache__CoreDemo.h
   ----------------------------------------------
   static MP_INLINE
-  void mpxs_Apache__Scoreboard_print(int a, int b)
+  void mpxs_Apache__CoreDemo_print(int a, int b)
   {
       fprintf(stderr, "%d, %d\n", a, b);
   }
 
   file:xs/maps/modperl_functions.map
   ----------------------------------
-  MODULE=Apache::Scoreboard
-   mpxs_Apache__Scoreboard_print
+  MODULE=Apache::CoreDemo
+   mpxs_Apache__CoreDemo_print
 
 Now let's say that the I<b> argument is optional and in case it wasn't
 provided, we want to use a default value, e.g. 0. In that case we
@@ -444,8 +430,8 @@ don't need to change the code, but simply adjust the map file to be:
 
   file:xs/maps/modperl_functions.map
   ----------------------------------
-  MODULE=Apache::Scoreboard
-   mpxs_Apache__Scoreboard_print | | a, b=0
+  MODULE=Apache::CoreDemo
+   mpxs_Apache__CoreDemo_print | | a, b=0
 
 In the previous example, we didn't list the arguments in the map file
 since they were automatically retrieved from the source code. In this
@@ -455,40 +441,40 @@ in the same order as they are defined in the function.
 
 You may add an extra test that test teh default value assignment:
 
-      $add = Apache::Scoreboard::add($a);
+      $add = Apache::CoreDemo::add($a);
       ok t_cmp($a + 0, $add, "add (b=0 default)");
 
 The second case: pass two integer arguments and return their sum:
 
-  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  file:xs/Apache/CoreDemo/Apache__CoreDemo.h
   ----------------------------------------------
   static MP_INLINE
-  int mpxs_Apache__Scoreboard_add(int a, int b)
+  int mpxs_Apache__CoreDemo_add(int a, int b)
   {
       return a + b;
   }
 
   file:xs/maps/modperl_functions.map
   ----------------------------------
-  MODULE=Apache::Scoreboard
-   mpxs_Apache__Scoreboard_add
+  MODULE=Apache::CoreDemo
+   mpxs_Apache__CoreDemo_add
 
 The third case is similar to the previous one, but we return the sum
 as as a Perl scalar. Though in C we say SV*, in the Perl space we will
 get a normal scalar:
 
-  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  file:xs/Apache/CoreDemo/Apache__CoreDemo.h
   ----------------------------------------------
   static MP_INLINE
-  SV *mpxs_Apache__Scoreboard_add_sv(pTHX_ int a, int b)
+  SV *mpxs_Apache__CoreDemo_add_sv(pTHX_ int a, int b)
   {
       return newSViv(a + b);
   }
 
   file:xs/maps/modperl_functions.map
   ----------------------------------
-  MODULE=Apache::Scoreboard
-   mpxs_Apache__Scoreboard_add_sv
+  MODULE=Apache::CoreDemo
+   mpxs_Apache__CoreDemo_add_sv
 
 In the second example the XSUB function was converting the returned
 I<int> value to a Perl scalar behind the scenes. In this example we
@@ -502,10 +488,10 @@ examples XSUB was automatically converting Perl scalars in the
 argument list to the corresponding C variables, using the typemap
 definitions.
 
-  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  file:xs/Apache/CoreDemo/Apache__CoreDemo.h
   ----------------------------------------------
   static MP_INLINE
-  SV *mpxs_Apache__Scoreboard_add_sv_sv(pTHX_ SV *a_sv, SV *b_sv)
+  SV *mpxs_Apache__CoreDemo_add_sv_sv(pTHX_ SV *a_sv, SV *b_sv)
   {
       int a = (int)SvIV(a_sv);
       int b = (int)SvIV(b_sv);
@@ -515,8 +501,8 @@ definitions.
 
   file:xs/maps/modperl_functions.map
   ----------------------------------
-  MODULE=Apache::Scoreboard
-   mpxs_Apache__Scoreboard_add_sv_sv
+  MODULE=Apache::CoreDemo
+   mpxs_Apache__CoreDemo_add_sv_sv
 
 So this example is the same simple case of addition, though we
 manually convert the Perl variables to C variables, perform the
@@ -528,10 +514,10 @@ implement this without directly manipulating the stack before a
 function returns. The fifth case demonstrates a function that returns
 the result of addition and substruction operations on its arguments:
 
-  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  file:xs/Apache/CoreDemo/Apache__CoreDemo.h
   ----------------------------------------------
   static MP_INLINE
-  SV *mpxs_Apache__Scoreboard_add_subst(pTHX_ int a, int b)
+  SV *mpxs_Apache__CoreDemo_add_subst(pTHX_ int a, int b)
   {
       AV *av = newAV();
   
@@ -543,18 +529,18 @@ the result of addition and substruction operations on its arguments:
 
   file:xs/maps/modperl_functions.map
   ----------------------------------
-  MODULE=Apache::Scoreboard
-   mpxs_Apache__Scoreboard_add_subst
+  MODULE=Apache::CoreDemo
+   mpxs_Apache__CoreDemo_add_subst
 
 If you look at the corresponding testing code:
 
-      ($add, $subst) = @{ Apache::Scoreboard::add_subst($a, $b) };
+      ($add, $subst) = @{ Apache::CoreDemo::add_subst($a, $b) };
       ok t_cmp($a + $b, $add,   "add_subst: add");
       ok t_cmp($a - $b, $subst, "add_subst: subst");
 
 you can see that this technique comes at a price of needing to
 dereference the return value to turn it into a list. The actual code
-is very similar to the C<Apache::Scoreboard::add_sv> function which
+is very similar to the C<Apache::CoreDemo::add_sv> function which
 was doing only the addition operation and returning a Perl
 scalar. Here we perform the addition and the substraction operation
 and push the two results into a previously created I<AV*> data
@@ -567,10 +553,10 @@ or their types may vary and aren't known at compile time. Though
 notice that we still know that we are returning at compile time (zero
 or one arguments), I<int> in this example:
 
-  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  file:xs/Apache/CoreDemo/Apache__CoreDemo.h
   ----------------------------------------------
   static MP_INLINE
-  int mpxs_Apache__Scoreboard_subst_sp(pTHX_ I32 items, SV **MARK, SV **SP)
+  int mpxs_Apache__CoreDemo_subst_sp(pTHX_ I32 items, SV **MARK, SV **SP)
   {
       int a, b;
   
@@ -586,8 +572,8 @@ or one arguments), I<int> in this example:
 
   file:xs/maps/modperl_functions.map
   ----------------------------------
-  MODULE=Apache::Scoreboard
-   mpxs_Apache__Scoreboard_subst_sp | | ...
+  MODULE=Apache::CoreDemo
+   mpxs_Apache__CoreDemo_subst_sp | | ...
 
 In the map file we use a special token C<...> which tells the XSUB
 constructor to pass C<items>, C<MARK> and C<SP> arguments to the
@@ -623,13 +609,231 @@ C<SV*>.
 
 This section talks about cases where it's unknown at compile time how
 many return values will be or it's known that there will be more than
-one return value--something that C cannot handle via return mechanism.
+one return value--something that C cannot handle via its return
+mechanism.
 
-META: ...
+Let's rewrite the function C<mpxs_Apache__CoreDemo_add_subst> from
+the earlier section to return two results instead of a reference to a
+list:
 
+  file:xs/Apache/CoreDemo/Apache__CoreDemo.h
+  ----------------------------------------------
+  static XS(MPXS_Apache__CoreDemo_add_subst_sp)
+  {
+      dXSARGS;
+      int a, b;
+      
+      if (items != 2) {
+          Perl_croak(aTHX_ "usage: Apache::CoreDemo::add_subst_sp($a, $b)");
+      }
+      a = mp_xs_sv2_int(ST(0));
+      b = mp_xs_sv2_int(ST(1));
+      
+      SP -= items;
+      
+      if (GIMME == G_ARRAY) {
+  	EXTEND(sp, 2);
+  	PUSHs(sv_2mortal(newSViv(a + b)));
+  	PUSHs(sv_2mortal(newSViv(a - b)));
+      }
+      else {
+          XPUSHs(sv_2mortal(newSViv(a + b)));
+      }
+  
+      PUTBACK;
+  }
 
-=head2 Mapping Macro's to XS subs
+Before explaining the function here is the prototype we add to the map
+file:
 
+  file:xs/maps/modperl_functions.map
+  ----------------------------------
+  MODULE=Apache::CoreDemo
+  DEFINE_add_subst_sp | MPXS_Apache__CoreDemo_add_subst_sp | ...
+
+This declaration say that C<MPXS_Apache__CoreDemo_add_subst_sp>
+function will be called from the XS wrapper for the
+C<Apache::CoreDemo::add_subst_sp> with arguments:
+
+  aTHX_ I32 items, SP **sp, SV **MARK
+
+that's what the C<...> part in the third column stands for.
+
+In this function we manually manipulate the stack to retrieve the
+arguments passed on the Perl side and put the results back onto the
+stack.  Therefore the first thing we do is to initialize a few special
+variables using the C<dXSARGS> macro defined in I<XSUB.h>, which in
+fact calls a bunch of other macros. These variables help to manipulate
+the stack. C<dSP> is one of these macros and it declares and initial­
+izes a local copy of the Perl stack pointer C<sp> which . This local
+copy should always be accessed as C<SP>.
+
+We retrieve the original function arguments using the C<ST()>
+macros. C<ST(0)> and C<ST(1)> point to the first and the second
+argument on the stack, respectively. But first we check that we have
+exactly two arguments on the stack, and if not we abort the
+function. The C<items> variable is the function argument.
+
+Once we have retrieved all the arguments from the stack we set the
+local stack pointer C<SP> to point to the bottom of the stack (like
+there are no items on the stack):
+
+      SP -= items;
+
+Now we can do whatever processing is needed and put the results back
+on the stack. In our example we return the results of addition and
+substraction operations if the function is called in the list
+context. In the scalar context the function returns only the result of
+the addition operation. We use the C<GIMME> macro which tells us the
+context.
+
+In the list context we make sure that we have two spare slots on the
+stack since we are going to push two items, and then we push them
+using the C<PUSHs> macro:
+
+	EXTEND(sp, 2);
+	PUSHs(sv_2mortal(newSViv(a + b)));
+	PUSHs(sv_2mortal(newSViv(a - b)));
+
+Alternatively we could use:
+
+	XPUSHs(sv_2mortal(newSViv(a + b)));
+	XPUSHs(sv_2mortal(newSViv(a - b)));
+
+The C<XPUSHs> macro eI<X>tends the stack before pushing the item into
+it if needed. If we plan to push more than a single item onto the
+stack, it's more efficient to extend the stack in one call.
+
+In the scalar context we push only one item, so here we use the
+C<XPUSHs> macro:
+
+       XPUSHs(sv_2mortal(newSViv(a + b)));
+
+The last command we call is:
+
+      PUTBACK;
+
+which makes the local stack pointer global. This is a must call if the
+state of the stack was changed when the function is about to
+return. The stack changes if something was popped from or pushed to
+it, or both and changed the number of items on the stack.
+
+In our example we don't need to call C<PUTBACK> if the function is
+called in the list context. Because in this case we return two
+variables, the same as two function arguments, the count didn't
+change. Though in the scalar context we push onto the stack only one
+argument, so the function won't return what is expected. The simplest
+way to avoid errors here is to always call C<PUTBACK> when the stack
+is changed.
+
+For more information refer to the I<perlcall> manpage which explains
+the stack manipulation process in great details.
+
+Finally we test the function in the list and scalar contexts:
+
+  file:t/response/TestApache/coredemo.pm
+  ----------------------------------------
+  ...
+  my $a = 7;
+  my $b = 3;
+  my ($add, $subst);
+  
+  # list context
+  ($add, $subst) = Apache::CoreDemo::add_subst_sp($a, $b);
+  ok t_cmp($a + $b, $add,   "add_subst_sp list context: add");
+  ok t_cmp($a - $b, $subst, "add_subst_sp list context: subst");
+  
+  # scalar context
+  $add = Apache::CoreDemo::add_subst_sp($a, $b);
+  ok t_cmp($a + $b, $add,   "add_subs_spt scalar context: add");
+  ...
+
+=head2 Wrappers Functions for C Macros
+
+Let's say you have a C macro which you want to provide a Perl
+interface for. For example let's take a simple macro which performs
+the power of function:
+
+  file:xs/Apache/CoreDemo/Apache__CoreDemo.h
+  ----------------------------------------------
+  #define mpxs_Apache__CoreDemo_power(x, y) pow(x, y)
+
+To create the XS glue code we use the following entry in the map file:
+
+  file:xs/maps/modperl_functions.map
+  ----------------------------------
+  MODULE=Apache::CoreDemo
+  double:DEFINE_power | | double:x, double:y
+
+This works very similar to the C<MPXS_Apache__CoreDemo_add_subst_sp>
+function presented earlier. But since this is a macro the XS wrapper
+needs to know the types of the arguments and the return type, so these
+are added. The return type is added just before the function name and
+separated from it by the colon (C<:>), the argument types are
+specified in the third column. The type is always separated from the
+name of the variable by the colon (C<:>).
+
+And of course finally we need to test that the function works in Perl:
+
+  file:t/response/TestApache/coredemo.pm
+  ----------------------------------------
+  ...
+  my $a = 7;
+  my $b = 3;
+  my $power = Apache::CoreDemo::power($a, $b);
+  ok t_cmp($a ** $b, $power, "power macro");
+  ...
+
+=head1 Wrappers for modperl_, apr_ and ap_ APIs
+
+If you already have a C function whose name starts from I<modperl_>,
+I<apr_> or I<ap_> and you want to do something before calling the real
+C function, you can write a XS wrapper using the same method as in the
+L<MPXS_Apache__CoreDemo_add_subst_sp
+|/Functions_Returning_Variable_Number_of_Values>. The only difference
+is that it'll be clearly seen in the map file that this is a wrapper
+for an existing C API.
+
+Let's say that we have an existing C function apr_power(), this is how
+we declare its wrapper:
+
+  file:xs/maps/apr_functions.map
+  ----------------------------------
+  MODULE=APR::Foo
+  apr_power | MPXS_ | x, y
+
+The first column specifies the existing function's name, the second
+tells that the XS wrapper will use the C<MPXS_> prefix, which means
+that the wrapper must be called C<MPXS_apr_power>. The third column
+specifies the argument names, but no matter what you specify there the
+C<...> will be passed:
+
+  aTHX_ I32 items, SP **sp, SV **MARK
+
+so you can leave that column empty.
+
+If the forth column is empty this function will be called
+C<APR::Foo::power> in the Perl namespace. But you can use that column
+to give a different Perl name, e.g with:
+
+  apr_power | MPXS_ | x, y | pow
+
+This function will be available from Perl as C<APR::Foo::pow>.
+
+Similarly you can write a C<MPXS_odperl_power> wrapper for a
+C<modperl_power()> function but here you have to explicitly give the
+Perl function's name in the forth column:
+
+  file:xs/maps/apr_functions.map
+  ----------------------------------
+  MODULE=Apache::CoreDemo
+  modperl_power | MPXS_ | x, y | mypower
+
+and the Perl function will be called C<Apache::CoreDemo::mypower>.
+
+The C<MPXS_> wrapper's implementation is similar to
+L<MPXS_Apache__CoreDemo_add_subst_sp
+|/Functions_Returning_Variable_Number_of_Values>.
 
 =head1 MP_INLINE vs C Macros vs Normal Functions
 
