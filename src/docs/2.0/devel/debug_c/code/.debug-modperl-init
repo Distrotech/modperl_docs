@@ -47,7 +47,7 @@ modperl_init
 #continue
 
 # ADJUST: uncomment if you need to step through the code in apr libs
-sharedap
+#sharedap
 
 # ADJUST: uncomment if you need to step through the code in perlib
-sharedperl
+#sharedperl
