@@ -2,7 +2,26 @@
     # this template expects these vars to be set:
     # doc.dir.abs_doc_root - doc root
     # doc.dir.path_from_base
+
+    # search_opitons is an array and hash for generating the drop-down box.
 -%]
+
+
+[%- PROCESS search_options -%]
+[%- USE CGI -%]
+
+[%
+    IF doc.meta.link == 'search/searchresults.html';
+        PROCESS build_results_search_widgets;
+    ELSE;
+        PROCESS build_std_search_widgets;
+    END;
+%]
+
+
+
+
+
     <table border="0" cellspacing="0" cellpadding="0" width="150" align="center">
         <tr>
             <td class="menu-border" width="1"><br class="smallbr"></td>
@@ -27,36 +46,7 @@
             <td class="non-sel-bg" align="center">
                 <div class="nonselectedmenuitem">
                     <form method="post" action="[% doc.dir.abs_doc_root %]/search/swish.cgi" enctype="application/x-www-form-urlencoded" name="site_search_form">
-                        <table border="0" cellspacing="0" cellpadding="2">
-                            <tr>
-                                <td colspan="2" height="5"><br class="smallbr"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" align="center">
-                                    <!-- cannot more than 12 for NS to render properly! -->
-                                    <input type="text" name="query" size="12" maxlength="200" value="">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" height="5"><br class="smallbr"></td>
-                            </tr>
-                            <tr valign="top">
-                                <td><input type="radio" name="sbm" value="[% doc.dir.path_from_base %]" checked></td>
-                                <td class="radio-font">This section</td>
-                            </tr>
-                            <tr valign="top">
-                                <td><input type="radio" name="sbm" value=""></td>
-                                <td class="radio-font">Whole site</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" height="5"><br class="smallbr"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" align="center">
-                                    <input type="submit" name="submit" value="Search!">
-                                </td>
-                            </tr>
-                        </table>
+                        [% PROCESS search_widget %]
                     </form>
                 </div>
             </td>
@@ -67,3 +57,78 @@
             <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
         </tr>
     </table>
+
+
+
+[% BLOCK search_widget %]
+    <table border="0" cellspacing="0" cellpadding="2">
+
+        <tr>
+            <td colspan="2" align="center" nowrap="nowrap">[% search_input %]<br>
+            <input type="submit" name="submit" value="search">
+        </tr>
+
+        <tr valign="top">
+            <td align="center">[% search_options %]</td>
+        </tr>
+
+    </table>
+[% END %]
+
+[% BLOCK build_results_search_widgets %]
+
+    [%
+        stag = "[\%"
+        etag = "%\]"
+    %]
+
+    [% search_input = BLOCK %]
+
+        [% stag %] CGI.textfield( {
+                name    => 'query',
+                size    => 12,
+                maxlength => 200,
+            } )
+        [% etag %]
+
+    [% END %]
+
+    [% search_options = BLOCK %]
+
+        [% stag %] CGI.popup_menu( {
+                Name    => 'sbm',
+                Values  => search_areas,
+                Labels  => search_labels,
+                })
+        [% etag %]
+
+        [% IF 0 %]
+            [% stag %] IF search.results [% etag %]
+                <br>
+                <a href="#search_form"><span class="searchtext">Advanced</span></a>
+            [% stag %] END [% etag %]
+        [% END %]
+
+    [% END %]
+
+[% END %]
+
+
+[% BLOCK build_std_search_widgets %]
+
+    [% search_input = BLOCK %]
+        <input type="text" name="query" size="12" maxlength="200" value="">
+    [% END %]
+
+    [% search_options = BLOCK %]
+
+        [% CGI.popup_menu( {
+                Name    => 'sbm',
+                Values  => search_areas,
+                Labels  => search_labels,
+                Default => doc.dir.path_from_base,
+                })
+        %]
+    [% END %]
+[% END %]
+

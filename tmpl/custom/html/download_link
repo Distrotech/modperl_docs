@@ -1,13 +1,13 @@
 [%- # link to the pdf, source and other variants of the doc 
     # src block
     flag = 0;
-    IF doc.src_doc.link;
+    IF doc.src_doc.link && doc.meta.link != 'search/searchresults.html';
         INCLUDE src_doc;
     ELSE;
         flag = flag + 1;
     END;
     # pdf block
-    IF doc.pdf_doc.link;
+    IF doc.pdf_doc.link && doc.meta.link != 'search/searchresults.html';
         INCLUDE pdf_doc;
     ELSE;
         flag = flag + 1;

@@ -1,6 +1,11 @@
 [% # This template is used for rendering the search results
    # It expects the search hash ref to be set.
 -%]
+
+
+[% PROCESS search_options %]
+
+
 [% WRAPPER searchresults.html %]
 [%
     # Title takes up space for no reason
@@ -14,10 +19,11 @@
 
     ELSE;
         nav_bar_res = PROCESS nav_bar;
-        PROCESS search_form;
         nav_bar_res;
         PROCESS results_list;
         nav_bar_res IF search.navigation('hits') > search.config('page_size');
+        '<p><a name="search_form"></a>';
+        PROCESS search_form;
     END;
 %]
 [% END %]
@@ -54,11 +60,32 @@
 [% BLOCK show_message %]
 
     [% IF search.errstr %]
-        <font size="+2" color="red">[% search.errstr | html %]</font>
+        <font size="+2" color="red">
+        [% IF search.errstr == 'no results' %]
+            No Results
+        [% ELSE %]
+            [% search.errstr | html %]
+        [% END %]
+        </font>
+
+        [% IF search.errstr == 'no results' && CGI.param('sbm') %]
+            <br>(Try searching the whole site or use a different keyword)
+        [% END %]
     [% END %]
 
 [% END %]
 
+[% BLOCK sub_items %]
+    <ul>
+    [%- FOREACH sec = subs -%]
+
+    <li>[% CGI.checkbox('sbm', 0, sec.value, sec.label); %]
+        [%- IF sec.subs -%][%- PROCESS sub_items subs=sec.subs -%][%- END -%]</li>
+
+    [%- END -%]
+    </ul>
+
+[% END %]
 
 [% BLOCK search_form %]
 
@@ -66,7 +93,7 @@
     [% CGI.start_form( '-action' => CGI.script_name) %]
         [% CGI.textfield( {
             name    => 'query',
-            size    => 25,
+            size    => 40,
             maxlength => 200,
             } ) %]
 
@@ -74,8 +101,10 @@
         [% search.get_meta_name_limits %]
         [% search.get_sort_select_list %]
         [% search.get_index_select_list %]
-        [% search.get_limit_select %]
-        
+        [% SET limit = search.get_limit_select_tree %]
+        <br>
+        [% limit.description %]
+        [%- INCLUDE sub_items subs=limit.items -%]
     [% CGI.end_form.join('') %]
     </div>
 
@@ -92,14 +121,14 @@
                 &nbsp; [% search.navigation('from') %] to [% search.navigation('to') %] of [% search.navigation('hits') %] results.
             </td>
             <td align="right" class="searchtimes">
-                [% search.navigation('search_time') %] &nbsp; &nbsp;
+                [% search.navigation('search_time') %]
             </td>
         </tr>
 
         [% IF search.navigation('pages') %]
 
         <tr>
-            <td colspan="2" class="searchnav">
+            <td class="searchnav">
                 &nbsp;Page:
                 [% search.navigation('pages') %]
 
@@ -113,6 +142,10 @@
                     Next [% search.navigation('next_count') %]</a>
                 [% END %]
             </td>
+            <td align="right" class="searchnav">
+                <a href="#search_form"><span class="advanced-search">Advanced Search</span></a>
+            </td>
+            
         </tr>
         [% END %]
 

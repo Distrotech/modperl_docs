@@ -71,6 +71,7 @@ sub split_page {
 
     ## If a page doesn't have an "index_section" then it's probably a table of contents (index.html)
     ## so don't index it.
+    $tree->delete;
     return 0;
    
 
@@ -106,29 +107,32 @@ sub create_page {
 
     my $name = $section->look_down( '_tag', 'a', sub { defined($_[0]->attr('name')) } );
 
-    my @a_content = ('Unknown title');
     
     if ( $name ) {
+
+        my @a_content;
+        
         my $section_name = $name->attr('name');
         $uri->fragment( $section_name );
 
-        $section_name =~ tr/_//d;
+        if ( ! (@a_content = $name->content_list) ) {
+            $section_name =~ tr/_/ /;
+            @a_content = ( $section_name );
+        }
 
-        @a_content = $name->content_list ? $name->content_list : ( $section_name );
-    }
-
-
-    # Modify or create the title
+        # Modify or create the title
     
-    my $title = $head->look_down('_tag', 'title');
+        my $title = $head->look_down('_tag', 'title');
 
-    if ( $title ) {
-        $title->push_content( ': ', @a_content );
-    } else {
-        my $title = HTML::Element->new('title');
-        $title->push_content(  @a_content );
-        $head->push_content( $title );
+        if ( $title ) {
+            $title->push_content( ': ', @a_content );
+        } else {
+            my $title = HTML::Element->new('title');
+            $title->push_content(  @a_content );
+            $head->push_content( $title );
+        }
     }
+
 
 
 

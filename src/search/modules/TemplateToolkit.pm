@@ -1,6 +1,6 @@
 #=======================================================================
 #  Module for using Template-Toolkit for generating output
-#    $Id: TemplateToolkit.pm,v 1.2 2002/04/09 00:58:34 moseley Exp $
+#    $Id: TemplateToolkit.pm,v 1.3 2002/04/19 19:53:34 moseley Exp $
 #
 #=======================================================================
 package TemplateToolkit;
@@ -175,6 +175,17 @@ sub get_limit_select {
         ( $limit->{description} || 'Select: '),
         $q->$method( @options );
 }
+
+sub get_limit_select_tree {
+    my ( $results ) = @_;
+
+    my $limit = $results->config('select_by_meta');
+    return {} unless ref $limit eq 'HASH';
+
+    $limit->{description} ||= 'Select: ';
+    return $limit;
+}
+
 
 sub stopwords_removed {
     my $results = shift;

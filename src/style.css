@@ -52,7 +52,7 @@ div.nonselectedmenuitem a:link, div.nonselectedmenuitem a:visited, div.nonselect
     text-decoration: none;
 }
 
-div.nonselectedmenuitem a:hover { color: #999999; }
+div.nonselectedmenuitem a:hover {  text-decoration: underline; }
 
 div.selectedmenuitem {
     padding: 3px;
@@ -82,6 +82,11 @@ div.menu-title a:link, div.menu-title a:visited, div.menu-title a:active {
     color: #000000;
     text-decoration: none;
 }
+
+div.menu-title a:hover {
+    text-decoration: underline;
+}
+
 
 /* dark blue border color for menu-boxes */
 td.menu-border { background-color: #525d76; }
@@ -188,6 +193,20 @@ div.headline {
 /* Search Results */
 div.searchform { font-size: 1.0em; }
 
+input {
+    font-size: 12px;
+}
+
+select {
+    font-size: 12px;
+}
+
+td.searchtitle {
+    font-size: 12px;
+}
+    
+
+
 td.searchheader {
     background-color: #525d76;
     font-family: verdana, arial, helvetica, sans-serif;
@@ -203,6 +222,7 @@ td.searchtimes {
     font-size: 0.7em;
 /*    font-size: 0.6em; */
 }
+
 
 td.searchnav {
     background-color: #eeeeee;
@@ -297,12 +317,3 @@ td.camel-line-bottom { background-color: #525d76; }
 }
 
 .hr { height: 1px; }
-
-/* quotations, mainly for the first page */
-
-.quotation {
-    font-style: italic;
-}
-p.quotation {           /* Used to cite the author */
-    text-align: right;
-}
