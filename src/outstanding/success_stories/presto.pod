@@ -21,34 +21,31 @@ Date: Fri, 6 Mar 1998 10:03:41 -0800
 
 =back
 
- At the risk of this becoming a giant mod_perl lovefest, I'll second that.
- I've learned more about perl & apache in my dozen months or so of mod_perl
- than in my many years of work with apache & perl.  mod_perl has definately
- forced me to improve the quality of my perl coding manyfold & taught me more
- than I ever thought I wanted to know about Apache.
- 
-
- On Fri, Mar 06, 1998 at 06:53:36PM +0100, Eric Cholet wrote:
- > We've a mod_perl web site that allows subscribers to view news stories and
- > news photographs from a major news agency. All content is received via a
- > satellite link and users can view it in real time, as well as search
- > through a huge archive database.
- >
- > What I like about mod_perl is its "double" reward: not only is it fast and
- > efficient, but it has been an enlightening experience working with such an
- > elegant tool and reading this list.
- >
- > ----
- > Eric CHOLET - LOGILUNE
- > email: cholet@logilune.com
- > I am Pentium of Borg. Division is Futile. You will be approximated.
- 
-
- --
- Patrick Michael Kane
- <modus@pr.es.to>
- 
-
+  At the risk of this becoming a giant mod_perl lovefest, I'll second that.
+  I've learned more about perl & apache in my dozen months or so of mod_perl
+  than in my many years of work with apache & perl.  mod_perl has definately
+  forced me to improve the quality of my perl coding manyfold & taught me more
+  than I ever thought I wanted to know about Apache.
+  
+  On Fri, Mar 06, 1998 at 06:53:36PM +0100, Eric Cholet wrote:
+  > We've a mod_perl web site that allows subscribers to view news stories and
+  > news photographs from a major news agency. All content is received via a
+  > satellite link and users can view it in real time, as well as search
+  > through a huge archive database.
+  >
+  > What I like about mod_perl is its "double" reward: not only is it fast and
+  > efficient, but it has been an enlightening experience working with such an
+  > elegant tool and reading this list.
+  >
+  > ----
+  > Eric CHOLET - LOGILUNE
+  > email: cholet@logilune.com
+  > I am Pentium of Borg. Division is Futile. You will be approximated.
+  
+  --
+  Patrick Michael Kane
+  <modus@pr.es.to>
+  
 
 
 =cut

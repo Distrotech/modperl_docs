@@ -21,64 +21,56 @@ Date: Fri, 6 Mar 1998 16:58:39 -0600
 
 =back
 
- 30000 customers looking at live quotes, dynamic charts and news.
- "[...] More importantly, mod_perl allowed us to work the webserver and
- code around our design--not the other way around."
- 
-
- > I'm looking for more mod_perl success stories like the one that Jeff
- > posted the other day.  They will be used for vignettes in an
- > introductory chapter of the book that Doug and I are writing.  If you
- > have a story you'd like to share (particularly one in which mod_perl
- > "defeats" one of its competitors) could you mail it to me or post it
- > to the list?  For the vignettes we need some sort of identifying
- > information, either along the lines of "a major Southwestern
- > University" or "Kulturbox company of Berlin, Germany".
- 
-
- We just completed a website for Lind-Waldock & Co.
- (http://www.lind-waldock.com/), the world's largest discount commodities
- trading firm. The site is to be used by their customers (>30,000) for
- live and delayed quotes, dynamic charts, and news pertaining to the
- futures industry, as well as access to their online order entry
- system. The site will take quite a beating once all of their customers
- transition to it from Lind's previous Windows application--plenty of live and
- delayed data is auto-refreshed.
- 
-
- Scenario: Client needed to develop a website that could authenticate
- off their existing customer database, and many links needed to be
- dynamically generated to reflect the level of service that the
- customer subscribed to (this info also kept in the database). The
- customer area had to be SSL enabled, fast, and support a slew of Perl
- scripts that the quote vendor had already written. And of course, they
- needed the whole thing yesterday.
- 
-
- They already had Netscape Enterprise Server and we investigated some NSAPI
- solutions but were terribly disappointed with what Netscape had to
- offer. We did some tests and decided to run with Stronghold and
- mod_perl. We wrote less than 10 lines of code to get the site
- authenticating off the database using Apache_DBI and just a few more
- to handle the dynamic URL generation.
- 
-
- We began analysis on Dec 1, and delivered the completed site on Mar
- 4--with 2 weeks off for Christmas, no less! Two days after release,
- the site is averaging about 3 requests a second--and that is certain
- to grow exponentially as more customers make the switch from the old
- Windows application.
- 
-
- More importantly, mod_perl allowed us to work the webserver and code
- around our design--not the other way around.
- 
-
- -Fitz
- ___________________________________________________________________________
- Brian W. Fitzpatrick        fitz@onShore.com        http://www.onShore.com/
- 
-
+  30000 customers looking at live quotes, dynamic charts and news.
+  "[...] More importantly, mod_perl allowed us to work the webserver and
+  code around our design--not the other way around."
+  
+  > I'm looking for more mod_perl success stories like the one that Jeff
+  > posted the other day.  They will be used for vignettes in an
+  > introductory chapter of the book that Doug and I are writing.  If you
+  > have a story you'd like to share (particularly one in which mod_perl
+  > "defeats" one of its competitors) could you mail it to me or post it
+  > to the list?  For the vignettes we need some sort of identifying
+  > information, either along the lines of "a major Southwestern
+  > University" or "Kulturbox company of Berlin, Germany".
+  
+  We just completed a website for Lind-Waldock & Co.
+  (http://www.lind-waldock.com/), the world's largest discount commodities
+  trading firm. The site is to be used by their customers (>30,000) for
+  live and delayed quotes, dynamic charts, and news pertaining to the
+  futures industry, as well as access to their online order entry
+  system. The site will take quite a beating once all of their customers
+  transition to it from Lind's previous Windows application--plenty of live and
+  delayed data is auto-refreshed.
+  
+  Scenario: Client needed to develop a website that could authenticate
+  off their existing customer database, and many links needed to be
+  dynamically generated to reflect the level of service that the
+  customer subscribed to (this info also kept in the database). The
+  customer area had to be SSL enabled, fast, and support a slew of Perl
+  scripts that the quote vendor had already written. And of course, they
+  needed the whole thing yesterday.
+  
+  They already had Netscape Enterprise Server and we investigated some NSAPI
+  solutions but were terribly disappointed with what Netscape had to
+  offer. We did some tests and decided to run with Stronghold and
+  mod_perl. We wrote less than 10 lines of code to get the site
+  authenticating off the database using Apache_DBI and just a few more
+  to handle the dynamic URL generation.
+  
+  We began analysis on Dec 1, and delivered the completed site on Mar
+  4--with 2 weeks off for Christmas, no less! Two days after release,
+  the site is averaging about 3 requests a second--and that is certain
+  to grow exponentially as more customers make the switch from the old
+  Windows application.
+  
+  More importantly, mod_perl allowed us to work the webserver and code
+  around our design--not the other way around.
+  
+  -Fitz
+  ___________________________________________________________________________
+  Brian W. Fitzpatrick        fitz@onShore.com        http://www.onShore.com/
+  
 
 
 =cut
