@@ -48,6 +48,15 @@ APR::Table - Perl API for manipulating APR opaque string-content tables
 C<APR::Table> allows its users to manipulate opaque string-content
 tables.
 
+On the C level the "opaque string-content" means: you can put in
+'\0'-terminated strings and whatever you put in your get out.
+
+On the Perl level that means that we convert scalars into strings and
+store those strings. Any special information that was in the Perl
+scalar is not stored. So for example if a scalar was marked as utf8,
+tainted or tied, that information is not stored. When you get the data
+back as a Perl scalar you get only the string.
+
 The table's structure is somewhat similar to the Perl's hash
 structure, but allows multiple values for the same key.  An access to
 the records stored in the table always requires a key.
