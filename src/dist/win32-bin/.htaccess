@@ -1,0 +1,17 @@
+AddType text/plain .asc .md5 .readme .mod_list .lst
+AddType application/octet-stream .exe .dll .so
+AddIcon (SIG,/icons/quill.gif) .asc KEYS
+AddDescription "PGP signature" *.asc
+AddDescription "MD5 checksum" *.md5
+AddDescription "README" *.readme
+AddDescription "Perl module list" *.mod_list
+AddDescription "Developer PGP/GPG keys" KEYS
+AddDescription "Win32 executable" *.exe
+AddDescription "PPM package description" *.ppd
+AddDescription "Repository summary" *.ppm
+AddDescription "Perl install script" install_*
+AddDescription "Win32 library" *.so *.dll
+AddDescription "Data file" *.dat
+AddDescription "Package listing" *.lst
+AddIcon /icons/binary.gif *exe.0?? *.so *.dll
+AddIcon /icons/layout.gif *.ppd
