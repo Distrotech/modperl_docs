@@ -1230,7 +1230,8 @@ The C<:http> group is for XXX constants.
 
   use Apache::Const -compile => qw(:input_mode);
 
-The C<:input_mode> group is for XXX constants.
+The C<:input_mode> group is used by
+C<L<get_brigade|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
 
 
 
