@@ -702,8 +702,6 @@ properly authenticated:
   
   use Apache::Const -compile => qw(OK AUTH_REQUIRED);
   
-  use constant SECRET_LENGTH => 14;
-  
   my %protected = (
       'admin'  => ['stas'],
       'report' => [qw(stas boss)],
