@@ -700,6 +700,8 @@ These directives are enabled only in a threaded mod_perl+Apache combo:
 
 The number of interpreters to clone at startup time.
 
+Default value: 3
+
 =head2 C<PerlInterpMax>
 
 If all running interpreters are in use, mod_perl will clone new
@@ -708,21 +710,32 @@ interpreters is reached. when C<PerlInterpMax> is reached, mod_perl
 will block (via COND_WAIT()) until one becomes available (signaled via
 COND_SIGNAL()).
 
+Default value: 5
+
 =head2 C<PerlInterpMinSpare>
 
 The minimum number of available interpreters this parameter will clone
 interpreters up to C<PerlInterpMax>, before a request comes in.
+
+Default value: 3
+
 
 =head2 C<PerlInterpMaxSpare>
 
 mod_perl will throttle down the number of interpreters to this number
 as those in use become available.
 
+Default value: 3
+
+
 =head2 C<PerlInterpMaxRequests>
 
 The maximum number of requests an interpreter should serve, the
 interpreter is destroyed when the number is reached and replaced with
 a fresh clone.
+
+Default value: 2000
+
 
 =head2 C<PerlInterpScope>
 
@@ -769,6 +782,9 @@ possible to do so on a per-virtualhost basis:
 
   PerlInterpScope connection
 
+Default value: C<request>
+
+
 
 =head1 Debug Directives
 
@@ -800,8 +816,8 @@ equivalents) from the following list:
   s ( 64) perl sections
   t (128) benchmark-ish timings
 
-When C<level> is not specified, the tracing level will be set to the
-value of the C<$ENV{MOD_PERL_TRACE}> environment variable.
+When C<PerlTrace> is not specified, the tracing level will be set to
+the value of the C<$ENV{MOD_PERL_TRACE}> environment variable.
 
 
 
