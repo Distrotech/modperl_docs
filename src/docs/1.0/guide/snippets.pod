@@ -1277,7 +1277,28 @@ mod_perl list)
       my $session_cookie = "SESSION_ID=$session->{'_ID'}";
       $r->header_out("Set-Cookie" => $session_cookie);
   }
-  
+
+=head1 Detecting a Client Abort
+
+META: should be annotated at some point. (an example was posted to the
+mod_perl list)
+
+  # IsClientConnected? Might already be disconnected for busy
+  # site, if a user hits stop/reload
+  my $conn = $r->connection;
+  my $is_connected = $conn->aborted ? 0 : 1;
+  if ($is_connected) {
+      my $fileno = $conn->fileno;
+      if (defined $fileno) {
+          my $s = IO::Select->new($fileno);
+          $is_connected = $s->can_read(0) ? 0 : 1;
+      }
+  }
+
+More comments in this thread:
+http://marc.theaimsgroup.com/?l=apache-modperl&m=100057943909683&w=2
+
+
 
 =head1 Using DESTROY to Finalize Output
 
