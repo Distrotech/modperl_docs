@@ -115,10 +115,11 @@ Your mileage may vary.
 The DSO module (C<mod_so>) adds size and complexity to your binaries.
 
 Refer to the section L<"Pros and Cons of Building mod_perl as
-DSO|guide::install/Pros_and_Cons_of_Building_mod_pe"> for more information.
+DSO|guide::install/Pros_and_Cons_of_Building_mod_perl_as_DSO">
+for more information.
 
 Build details: L<Build mod_perl as DSO inside Apache source tree via
-APACI|guide::install/Build_mod_perl_as_a_DSO_inside_t>
+APACI|guide::install/Build_mod_perl_as_a_DSO_outside_the_Apache_Source_Tree_via_APXS>
 
 =item 4
 
@@ -238,7 +239,8 @@ zero static objects, like images), this might be the perfect choice
 for you!
 
 For implementation notes, see the "L<One Plain and One mod_perl
-enabled Apache Servers|guide::scenario/One_Plain_and_One_mod_perl_enabl>"
+enabled
+Apache Servers|guide::scenario/One_Plain_and_One_mod_perl_enabled_Apache_Servers>"
 section in the implementations chapter.
 
 =head2 One Plain Apache and One mod_perl-enabled Apache Servers
@@ -297,8 +299,7 @@ rewrite the requests back to C<httpd_docs> (much slower) and you still
 need the attention of the heavy servers.  This is not an issue if you
 hide the internal port implementations, so the client sees only one
 server running on port C<80>. (See L<Publishing Port Numbers other
-than
-80|guide::config/Publishing_Port_Numbers_other_th>)
+than 80|guide::config/Publishing_Port_Numbers_other_than_80>)
 
 The disadvantages:
 
@@ -342,7 +343,8 @@ not want a buffering server in this case.
 
 Before you go on with this solution you really want to look at the
 L<Adding a Proxy Server in http Accelerator
-Mode|guide::strategy/Adding_a_Proxy_Server_in_http_Ac> section.
+Mode|guide::strategy/Adding_a_Proxy_Server_in_http_Accelerator_Mode>
+section.
 
 For implementation notes see the "L<One Plain and One mod_perl enabled
 Apache Servers|guide::scenario/One_Plain_and_One_mod_perl_enabl>" section in
@@ -682,10 +684,10 @@ only.
 
 For implementation details, see the sections L<Running One Webserver
 and Squid in httpd Accelerator
-Mode|guide::scenario/Running_One_Webserver_and_Squid_> and L<Running Two
-Webservers and Squid in httpd Accelerator
-Mode|guide::scenario/Running_Two_webservers_and_Squid> in the implementations
-chapter.
+Mode|guide::scenario/Running_One_Webserver_and_Squid_in_httpd_Accelerator_Mode>
+and L<Running Two Webservers and Squid in httpd Accelerator
+Mode|guide::scenario/Running_Two_webservers_and_Squid_in_httpd_Accelerator_Mode>
+in the implementations chapter.
 
 =head2 Apache's mod_proxy
 

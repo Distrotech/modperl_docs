@@ -276,7 +276,7 @@ script I wrote to fetch the latest lines from the file (with a bonus
 of colored output for easier reading).  You might need to ask your ISP
 to install this script for general use. See L<Watching the error_log
 file without telneting to the
-server|guide::snippets/Watching_the_error_log_File_With> .
+server|guide::snippets/Watching_the_error_log_File_Without_Telneting_to_the_Server> .
 
 =head2 The Importance of Warnings
 
@@ -1075,7 +1075,8 @@ C<Apache::MyModule::cleanup()> performs the cleanup, obviously.
 =head1 Handling Server Timeout Cases and Working with $SIG{ALRM}
 
 A similar situation to L<Pressed Stop button
-disease|guide::debug/Handling_the_User_pressed_Stop_> happens when the
+disease|guide::debug/Handling_the__User_pressed_Stop_button__case> 
+happens when the
 browser times out the connection (is it about 2 minutes?).  There are
 cases when your script is about to perform a very long operation and
 there is a chance that its duration will be longer than the client's
@@ -1099,7 +1100,7 @@ the original underlying C handler.  This was fixed in mod_perl 1.19_01
 (L<CVS version|guide::download/mod_perl>).  As a matter of fact none of the
 C<local $SIG{FOO}> signals restores the original C handler - read
 L<Debugging Signal Handlers
-($SIG{FOO})|guide::debug/Debugging_Signal_Handlers_SIG_> for a debug
+($SIG{FOO})|guide::debug/Debugging_Signal_Handlers___SIG_FOO__> for a debug
 technique and a possible workaround.
 
 =head1 Looking inside the server
@@ -1334,7 +1335,7 @@ Modules|guide::modules/Apache__VMonitor____Visual_System_and_Apache_Server_Monit
 =head1 Sometimes My Script Works, Sometimes It Does Not
 
 See L<Sometimes it Works Sometimes it does
-Not|guide::porting/Sometimes_it_Works_Sometimes_it>
+Not|guide::porting/Sometimes_it_Works__Sometimes_it_Doesn_t>
 
 =head1 Code Debug
 
@@ -3023,8 +3024,9 @@ status is 'W' (waiting).  This means that it has hung.
 
 But if you have fifty processes, it can be quite hard to spot such a
 process.  L<Apache::Watchdog::RunAway is a hanging processes monitor
-and terminator|guide::modules/Apache_Watchdog_RunAway_Hang> that implements
-this feature and should be used to solve this kind of problem.
+and terminator|guide::modules/Apache__Watchdog__RunAway___Hanging_Processes_Monitor_and_Terminator>
+that implements this feature and should be used to solve this kind of
+problem.
 
 If you've got a real problem, and the processes hang one after the
 other, the time will come when the number of hanging processes is
@@ -3034,7 +3036,7 @@ server is down.  It is easy to detect this situation, attempt to
 resolve it and notify the administrator using a simple crontab
 watchdog that requests some very light script periodically.  (See
 L<Monitoring the Server. A
-watchdog.|guide::control/Monitoring_the_Server_A_watchdo>)
+watchdog.|guide::control/Monitoring_the_Server___A_watchdog_>)
 
 In the watchdog you set a timeout appropriate for your service, which
 may be anything from a few seconds to a few minutes.  If the server
@@ -3917,7 +3919,7 @@ Download the module from L<CPAN|guide::download/CPAN_Downloads>.
 
 C<Apache::DebugInfo> offers the ability to monitor various bits of
 per-request data.  Its functionality is similar to
-L<Apache::DumpHeaders|guide::debug/Debugging_mod_perl_>
+L<Apache::DumpHeaders|guide::debug/Apache__DumpHeaders___Watch_HTTP_Transaction_Via_Headers>
 while offering several additional features, including the ability to:
 
 =over
