@@ -1,6 +1,7 @@
 Name: Randy Kobes
 Email: randy@theoryx5.uwinnipeg.ca
 Summary: Win32 maintainer
+Image: randy-kobes.jpg
 
 Randy Kobes has helped with the port of mod_perl on Win32, and
 maintains <a href="../../docs/1.0/os/win32/install.html">binary and
