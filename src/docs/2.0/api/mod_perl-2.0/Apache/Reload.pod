@@ -116,7 +116,7 @@ When you do that, the modules that have been changed, will be
 magically reloaded on the next request. This option works with any
 mode described before.
 
-=head2 Performance Issues
+=head1 Performance Issues
 
 This modules is perfectly suited for a development environment. Though
 it's possible that you would like to use it in a production
@@ -145,14 +145,14 @@ memory consumption may grow significantly.
 Therefore doing a full server stop and restart is probably a better
 solution.
 
-=head2 Debug
+=head1 Debug
 
 If you aren't sure whether the modules that are supposed to be
 reloaded, are actually getting reloaded, turn the debug mode on:
 
   PerlSetVar ReloadDebug On
 
-=head2 Threaded MPM and Multiple Perl Interpreters
+=head1 Threaded MPM and Multiple Perl Interpreters
 
 If you use C<Apache::Reload> with a threaded MPM and multiple Perl
 interpreters, the modules will be reloaded by each interpreter as they
@@ -168,7 +168,7 @@ Perl interpreter will have its own copy of the syntax tree for the
 reloaded subroutines.
 
 
-=head2 Pseudo-hashes
+=head1 Pseudo-hashes
 
 The short summary of this is: Don't use pseudo-hashes. They are
 deprecated since Perl 5.8 and will be removed in 5.10
