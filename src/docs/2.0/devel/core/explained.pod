@@ -1104,6 +1104,13 @@ For example to import an I<read_type_e> C<enum> for APR, add:
 
 Notice that I<_e> part at the end of the enum name has gone.
 
+in case of Apache constants remove the leading C<ap_> and terminating
+C</_(t|e)$/>. For example I<ap_conn_keepalive_e> needs to be added as:
+
+  my %enums_wanted = (
+      Apache => { map { $_, 1 } qw(conn_keepalive) },
+  );
+
 After adding/modifying the datastructures make sure to run C<make
 source_scan> or C<perl build/source_scan.pl> and verify that the
 wanted constant or enum were picked by the source scanning
