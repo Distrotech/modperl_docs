@@ -18,7 +18,6 @@
            title = ''
 -%]
 <div class="adtext">
-   <br>
     <a href="http://www.modperlcookbook.org/">
         The mod_perl Developer's Cookbook<br><br>
         <img src="[% doc.dir.abs_doc_root %]/images/ads/modperlcookbook.jpg" 
@@ -34,7 +33,6 @@
            title = ''
 -%]
 <div class="adtext">
-    <br>
     <a href="http://www.oreilly.com/catalog/modperlpr/">
          mod_perl Pocket Reference<br><br>
         <img src="[% doc.dir.abs_doc_root %]/images/ads/modperlpr.jpg" 
