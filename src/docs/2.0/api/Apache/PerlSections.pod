@@ -165,6 +165,8 @@ For example:
 
   <Perl>
   
+  $Apache::PerlSections::Save = 1;
+  
   $Port = 8529;
   
   $Location{"/perl"} = {
@@ -187,9 +189,10 @@ For example:
        },
      },
   };
+  </Perl>
   
+  <Perl>
   print Apache::PerlSections->dump;
-  
   </Perl>
 
 This will print something like this:
@@ -222,6 +225,11 @@ This will print something like this:
   
   1;
   __END__
+
+
+It is important to put the call to C<dump> in it's own C<E<lt>Perl E<gt>>
+section, otherwise the content of the current C<E<lt>Perl E<gt>> section
+will not be dumped.
 
 
 
