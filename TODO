@@ -1,27 +1,33 @@
 # things to do for mod_perl site infrastructure
 
-- Basic
+Basic Layout:
+-------------
 
- o NS4, cannot make bg-image to render
+- NS4, cannot make bg-image to render
 
- o NS4, this pages is messed up: dst_html/download/bundles.html
+- NS4, this pages is messed up: dst_html/download/bundles.html
 
- o NS4, if PRE is long the page is scrolled to the right! See
-   dst_html/docs/2.0/devel/debug_c/debug_c.html#Analyzing_the_core_File
+- NS4, if PRE is long the page is scrolled to the right! See
+  dst_html/docs/2.0/devel/debug_c/debug_c.html#Analyzing_the_core_File
 
-- Menu: 
+Menu: 
+-----
 
-  o Need to try to make the menu smaller
+- Need to try to make the menu smaller
 
-- Internal links (e.g. in src/docs/1.0/guide) aren't hyperlinked.
+Internal links:
+--------------_
 
-- src/about/help.html, should be completed
+- links (e.g. in src/docs/1.0/guide) aren't hyperlinked yet.
 
 style.css:
+----------
 
-- consider using: font-family: helvetica, arial, verdana, sans-serif;
+- the pdf/src images are a little bit too big vertically, so if some
+  pages don't have this icon the bar following the title jumps.
 
 Templates:
+----------
 
 - consider passing the class name to the wrap_box template, so the
   'content' doesn't have to wrap itself in a <div> tag. If class is
@@ -34,9 +40,42 @@ Templates:
   images which will just be of the same size (spacer image?). Not sure
   though.
 
+Content:
+--------
+
+- need to make the content review and adjust config.cfg files to
+  provide good abstracts. The same goes for src html files -- should
+  use the <meta name="description" value=""> to add abstracts here.
+
+- src/about/help.pod, should be completed
+
+Search:
+-------
+
+- make the search return hits linked to the sections, not pages
+
+- make the indices for each docset. So users will be able to search
+  sub-sets from the page they are on. No need for making indices for
+  single pages, since it doesn't add an added value, users have a
+  search function in the browser. However this could make sense if the
+  engine returns links to the sub-sections of the page.
+
+  the 'search' template needs to be adjusted to link to these
+  sub-indices.
+
+- can we make the returned preview of the hits preserve the structure?
+  e.g. searching for 'strict' finds lost of code examples, but the
+  <pre> formatting is lost. So it's harder to make a good use of these
+  previews.
+
+- can we take the swish-e further and instead of linking to the static
+  page, link to a page created dynamically, by taking the static page
+  and highlighting the matched words, similar to google's cache?
+
 ====================================================================
 
 Later:
+------
 
 - Think about porting the conferences stuff
 
