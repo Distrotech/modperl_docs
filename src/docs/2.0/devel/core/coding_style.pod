@@ -131,7 +131,7 @@ The same goes for C<;> in the last statement of the block. Almost
 always add it even if it's not required, so when you add a new
 statement you don't have to remember to add C<;> on a previous line.
 
-Do:0
+Do:
 
   sub foo {
       statement1;
@@ -139,7 +139,7 @@ Do:0
       statement3;
   }
 
-Don't
+Don't:
 
   sub foo {
       statement1;
