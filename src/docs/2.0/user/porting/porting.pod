@@ -1271,6 +1271,17 @@ version correctly, by running this code:
 There is more information about this issue here:
 http://pause.perl.org/pause/query?ACTION=pause_04about#conventions
 
+Some modules, like C<CGI.pm> may work under mod_perl and without it,
+and will want to use the mod_perl 1.0 API if that's available, or
+mod_perl 2.0 API otherwise. So the following idiom could be used for
+this purpose.
+
+  use constant MP_GEN => $ENV{MOD_PERL}
+      ? eval { require mod_perl;  $mod_perl::VERSION >= 1.99 ? 2 : 1 }
+      : 0;
+
+It sets the constant C<MP_GEN> to 0 if mod_perl is not available, to 1
+if running under mod_perl 1.0 and 2 for mod_perl 2.0.
 
 Here's another way to find out the mod_perl version. In the server
 configuration file you can use a special configuration "define" symbol
