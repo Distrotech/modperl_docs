@@ -1,5 +1,9 @@
 ErrorDocument 404 /404.html
 
+AddType text/plain .pod
+AddType text/plain .orig
+AddType text/plain .txt
+
 ### URI remapping ###
 
 # Documentation included in the old site.
