@@ -1,0 +1,171 @@
+This is an original RFC sent to the mod_perl list. The follow-up
+thread can be found here:
+http://forum.swarthmore.edu/epigone/modperl/ginthandswang
+
+------------------8<--------------------8<---------------------------
+
+This is a proposal for the mod_perl 2.0 documentation project.
+
+The project to consist of 3 parts:
+
+mod_perl documentation project:
+-------------------------------
+
+A. mod_perl user guide
+B. mod_perl core developer guide
+C. mod_perl related guides
+
+A is obvious.
+
+B is a new thing. If people can "easily" find they way around mod_perl
+guts, more patches, rather just bug reports, will be sent,
+
+C is an old and a new thing at the same time. The current guide
+includes a lot of material which is not directly related to
+mod_perl. I had a hard time deciding what should be included and what
+not. C is here to make things easier for everbody. It should make the
+user guide (A) much slimmer and therefore easier to absorb, without
+losing all the important and interesting information (which will be
+moved to C and extended there). Here are some other reasons:
+
+- mod_perl community includes many great minds whose daily occupation
+  extends far beyond strictly mod_perl programming. So we *can* put
+  these minds to contribute in many other areas, if they are already
+  feeling comfortable contributing to the mod_perl project. This
+  allows us, mod_perl tribe, to learn a lot more without living the
+  mod_perl scope.
+
+- some topics, are not directly related to mod_perl, but used by all
+  of us daily, and hence they eventually become accepted for
+  discussion and on-topic. Templating systems and work with databases
+  are two good examples of such a system. Just like with mod_perl,
+  having these threads summarized, can greatly reduce future traffic
+  on the list and have everybody benefit from it.
+
+- many mod_perl mailing list users realize that they can get almost
+  *any* question answered on the list, because of the high expertise
+  of the people on the list. We try hard to prevent from mod_perl list
+  becoming a high volume off topic list, but nevertheless these
+  threads happen. At least we want to benefit from them and have the
+  conclusions summarized for others to reuse. Note that I'm in no way
+  try to encourage people to start off-topic threads.
+
+- mod_perl community is seeking a world domination. we can easily
+  bring more attention to the mod_perl project by creating documents
+  which can be re-used by the rest of the world, in non-mod_perl
+  related projects. Since we, mod_perl community, host these
+  documents, people get exposed to mod_perl without any special
+  marketing effort and eventually discover its marvels and move to use
+  mod_perl.
+
+That's all said, this idea can become true only if people will take
+over sub-projects, since obviously it cannot be done as a one man job.
+
+What we would like to see happen is the following:
+
++ we start laying out the infrastructure for the project: directory
+  layout, source pod files conventions, tools for converting the pods
+  into html, ps, pdf, xml, ...
+
++ we discuss an initial table of contents for each project (see
+  below).
+
++ each project will have its pumpkin which will make sure that all
+  chapters of the project adher to the same style, avoid duplication,
+  etc.
+
++ inside each project, every chapter will have its own pumpkin, whose
+  responsibility will be to maintain the documentation of the given
+  chapter. Other contributors will delegate their patches to the
+  chapter pumpkins and the latter will incorporate the changes into
+  the document.
+
++ I'll start as the doc pumkin for the whole project and all
+  sub-projects and will seek to delegate the sub-projects to other
+  folks, as I won't be able to cope with such a big beast anymore.
+
++ Because of multiplicity it'll be much harder to make sure that there
+  will be not much duplication of materials. We will see how we will
+  handle this problem.
+
++ The current guide will eventually get folded into the new plethora
+  of guides.
+
+Here is the initial proposal. This is just something I threw together
+in a few minutes, this will change when we actually start doing
+things. Your comments are welcome.
+
+
+mod_perl user guide
+----------------------
+Part I: Intro
+- Introduction into mod_perl
+- Getting Started Fast
+
+Part II: Setup
+- Installation
+- Configuration
+- Server Controlling
+
+Part III: Writing Code
+- Coding
+- Porting
+- API
+
+Part IV: Databases
+- Working with DataBases
+- Sharing Data between threads/processes
+- IPC?
+
+Part V: Performance
+- Performance
+
+Part VI: Solving Problems
+- Error Handling
+- Troubleshooting
+- Getting Helped
+
+
+mod_perl core developer guide
+---------------------------
+- mod_perl internals
+- debugging
+- submitting patches and
+
+
+
+mod_perl related guides
+--------------------------
+Part I: DataBases
+- Intro
+- Choosing the right database for the right task
+- Database Abstraction Layer
+- SQL in the Perl way
+
+Part II: Templates
+- Intro
+- Choosing the right template for the right task
+- Apache::Template
+-
+
+Part III: Serving Email
+- Intro
+- raw SMTP
+- sendmail
+- qmail
+- postfix
+- ...
+
+Part IV: Application Servers/Toolkits/Embedding Perl
+- Intro
+- AxKit
+- Embperl
+- Apache::ASP
+- Apache::Pagekit
+- HTML::Mason
+- ...
+
+Part V: ???
+- ...
+
+
