@@ -4,7 +4,8 @@
 
 my $base_path = $ENV{MODPERL_SITE} || die "must set \$ENV{MODPERL_SITE}";
 
-die "Don't use trailing slash in MODPERL_SITE" if $base_path =~ m!/$!;
+$base_path =~ s[/$][];
+
 
 
 @servers = (
@@ -52,18 +53,38 @@ sub split_page {
 
 
     my $tree = HTML::TreeBuilder->new;
-    $tree->parse( ${$params{content}} );  # Why not allow a scalar ref?
+    $tree->store_comments(1);
+
+        $tree->parse( ${$params{content}} );  # Why not allow a scalar ref?
     $tree->eof;
 
+
+    # Find the <head> section for use in all split pages
     my $head = $tree->look_down( '_tag', 'head' );
 
-    for my $section ( $tree->look_down( '_tag', 'div', 'class', 'index_section' ) ) {
-        create_page( $head->clone, $section->clone, \%params )
-    }
+
+    # Now create a new "document" for each
+    create_page( $head->clone, $_->clone, \%params )
+        for $tree->look_down( '_tag', 'div', 'class', 'index_section' );
+
+
+    # Indexed the page in sections, just return
+    return 0 if $params{found};
+
+    # No sections found, so index the entire page (probably index.html)
+
+    # Stip base_path
+    #my $url = $params{uri}->as_string;
+    #$url =~ s/^$base_path//;
+
+    my $new_content = $tree->as_HTML(undef,"\t");
+    output_content( $params{server}, $params{content},
+                    $params{uri}, $params{response} );
+
 
     $tree->delete;
 
-    return !$params{found};  # tell spider.pl to not index the page
+    return 0; # don't index
 }
 
 sub create_page {
@@ -95,11 +116,14 @@ sub create_page {
 
     # Extract out part of the path to use for limiting searches to parts of the document tree.
 
-    if ( $uri =~ m!$base_path/([^/]+)/.+$! ) {
-        my $meta = HTML::Element->new('meta', name=> 'section', content => $1);
+    if ( $uri =~ m!$base_path/(.+)$! ) {
+        my $path = $1;
+        $path =~ s{[^/]$}{};  # remove file name, if one
+        my $meta = HTML::Element->new('meta', name=> 'section', content => $path);
         $head->push_content( $meta );
     }
-        
+
+
 
     my $body = HTML::Element->new('body');
     my $doc  = HTML::Element->new('html');
@@ -107,6 +131,9 @@ sub create_page {
     $body->push_content( $section );
     $doc->push_content( $head, $body );
 
+    # If we want to stip the base_path
+    #my $url = $uri->as_string;
+    #$url =~ s/$base_path//;
 
     my $new_content = $doc->as_HTML(undef,"\t");
     output_content( $params->{server}, \$new_content,

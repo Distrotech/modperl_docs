@@ -15,11 +15,13 @@
     INCLUDE page_toc toc=doc.toc;
 
     # render the content
-    "<!-- SwishCommand index -->";
+    # index_section is used to break up the doc into sections for indexing
+
     FOREACH sec = doc.body;
         '<div class="index_section">';
+        '<!-- SwishCommand index -->';
         sec;
-        "<br><br>";
+        "<br><br>\n";
         IF loop.count == loop.size;
             INCLUDE navbar_local_bottom
                 nav=doc.nav
@@ -27,9 +29,9 @@
         ELSE;
             INCLUDE top_link;
         END;
-        "<br><br>";
+        "<br><br>\n";
+        '<!-- SwishCommand noindex -->';
         "</div>\n\n";
     END;
-    "<!-- SwishCommand noindex -->";
 %]
 <!-- end content-->

@@ -123,21 +123,22 @@ Since we want to index only the real content, we use:
 =item *
 
 Since we want to be able to search any sub-section of the site, the
-search form includes the hidden variable C<section>. For example:
+search form includes the hidden variable C<sbm> (mnemonics: 'search by
+meta'). For example:
 
-  <input type="checkbox" name="section" value="docs/1.0/guide" />
+  <input type="checkbox" name="sbm" value="docs/1.0/guide" />
 
 will search all the documents under I<docs/1.0/guide> directory.
 
-the correct value for the C<section> variable are set in the template when
+the correct value for the C<sbm> variable are set in the template when
 the site is created. 
 
 The main search page I</search/swish.cgi>, has multiply checkboxes for
-the for the C<section> variable so you can limit searches to only selected
+the for the C<sbm> variable so you can limit searches to only selected
 sections.
 
 The C<$ENV{MODPERL_SITE}> mentioned earlier is matched against the
-C<section> variable to extract only the wanted subsets of the hits:
+C<sbm> variable to extract only the wanted subsets of the hits:
 
   $uri =~ m!$ENV{MODPERL_SITE}{/([^/]+)/.+$!
 
