@@ -1490,6 +1490,25 @@ You might need to change the executable paths according to your
 system.  List the names of the databases you want to backup using
 the C<db_names> array.
 
+Here is another version using C<File::Backup>:
+
+  #!/usr/bin/perl -w
+  use strict;
+  
+  use File::Backup qw|backup|;
+  
+  backup(
+     'from'          => "/home/mire/www",
+     'to'            => "/opt/backup/box/some_dir",
+     'torootname'    => "example_backup_",
+     'keep'          => 4,
+     'tar'           => "/bin/tar",
+     'compress'      => "/usr/bin/bzip2",
+     'tarflags'      => "cvf",
+     'compressflags' => "",
+     'tarsuffix'     => '.tar',
+  );
+
 Now make the script executable and arrange the crontab entry to run
 the backup script nightly.  Note that the disk space used by the
 backups will grow without bound and you should remove the old backups.

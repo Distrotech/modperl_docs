@@ -26,6 +26,9 @@ The most recent changes are listed first.
  o Added some Apache::Cookie login page example with internal
    redirects. [Alan Bailward, <alan (at) ufies.org>]
 
+ o Added a short version of the mysql back script ["mire"
+   <mire@sezampro.yu>]
+
 * performance.pod
 
  o Note about browser not rendering immediately even under $|=1.
