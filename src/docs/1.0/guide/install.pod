@@ -1559,7 +1559,7 @@ Build Apache:
      --enable-module=rewrite
   % make
 
-Note: C<libperl.a> and C<libphp4.a> do not exist at this time. They
+Note: I<libperl.a> and I<libphp4.a> do not exist at this time. They
 will be generated during compilation.
 
 =item 1
