@@ -120,9 +120,9 @@ default: cache_it()
 
 default: read_script()
 
-=item * rewrite_shebang()
+=item * shebang_to_perl()
 
-default: rewrite_shebang()
+default: shebang_to_perl()
 
 =item * get_script_name()
 
