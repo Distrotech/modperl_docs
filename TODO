@@ -15,6 +15,9 @@ Basic Layout:
 DocSet:
 -------
 
+- need to add source modification control dependency on
+  index_(bot|top).html files
+
 - how do we make L<foo|../search/swish.cgi> I cannot do search::swish,
   it's not a doc.
   STATUS: need to extend pod parser with U<title (url|relative url)>
@@ -52,7 +55,7 @@ Content:
 
 =for html <hr>
 <p><b>
-$Id: TODO,v 1.78 2002/07/13 16:00:55 stas Exp $
+$Id: TODO,v 1.79 2002/08/02 02:29:46 stas Exp $
 </b></p>
 
 =cut
