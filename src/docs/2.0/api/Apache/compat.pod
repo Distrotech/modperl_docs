@@ -115,6 +115,8 @@ overriding:
 
 =item * C<Apache::RequestRec::notes>
 
+=item * C<Apache::RequestRec::filename>
+
 =item * C<Apache::RequestRec::finfo>
 
 =item * C<Apache::Connection::local_addr>
