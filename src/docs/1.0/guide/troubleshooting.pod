@@ -230,9 +230,9 @@ Segmentation fault followed by this error:
 
   exit signal Segmentation fault (11)
 
-The solution is not rely on PHP's built-in MySQL support, and instead
-build it with your local MySQL support files, by adding
-C<--with-mysql=/path/to/mysql> to your C<./configure> line.
+The solution is to not rely on PHP's built-in MySQL support, and
+instead build mod_php with your local MySQL support files by adding
+C<--with-mysql=/path/to/mysql> during C<./configure>.
 
 =head2 foo ... at /dev/null line 0
 
