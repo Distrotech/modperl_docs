@@ -82,6 +82,15 @@ If you need to use the same I<httpd.conf> for 1.0 and 2.0, use:
       PerlFreshRestart
   </IfDefine>
 
+=head2 Apache Configuration Customization
+
+mod_perl 2.0 has slightly changed the mechanism for L<adding custom
+configuration
+directives|docs::2.0::user::config::custom> and now also makes it easy to 
+access an Apache parsed configuration tree's values.
+
+META: add L<> to the config tree access when it'll be written.
+
 
 
 
@@ -183,15 +192,15 @@ C<Apache::Constants> has been replaced by three classes:
 
 =over
 
-=item C<L<Apache::Const>>
+=item C<L<Apache::Const|docs::2.0::api::mod_perl-2.0::Apache::Const>>
 
 Apache constants
 
-=item C<L<APR::Const>>
+=item C<L<APR::Const|docs::2.0::api::mod_perl-2.0::APR::Const>>
 
 Apache Portable Runtime constants
 
-=item C<L<ModPerl::Const>>
+=item C<L<ModPerl::Const|docs::2.0::api::mod_perl-2.0::ModPerl::Const>>
 
 mod_perl specific constants
 
@@ -282,7 +291,9 @@ C<Apache-E<gt>define> has been replaced with
 C<Apache::exists_config_define()> residing inside
 C<Apache::ServerUtil>.
 
-See the C<L<Apache::ServerUtil>> manpage.
+See the
+C<L<Apache::ServerUtil|docs::2.0::api::mod_perl-2.0::Apache::ServerUtil>>
+manpage.
 
 =head2 C<Apache::exit()>
 
@@ -290,7 +301,9 @@ C<Apache::exit()> has been replaced with C<ModPerl::Util::exit()>,
 which is a function (not a method) and accepts a single optional
 argument: status, whose default is 0 (== do nothing).
 
-See the C<L<ModPerl::Util>> manpage.
+See the
+C<L<ModPerl::Util|docs::2.0::api::mod_perl-2.0::ModPerl::Util>>
+manpage.
 
 =head2 C<Apache::gensym()>
 
@@ -315,7 +328,8 @@ use:
 
   Apache->server->log_error
 
-instead. See the C<L<Apache::Log>> manpage.
+instead. See the
+C<L<Apache::Log|docs::2.0::api::mod_perl-2.0::Apache::Log>> manpage.
 
 
 
@@ -335,7 +349,7 @@ first argument instead of the server object. e.g.:
 where the last argument C<$data> is optional, and if supplied will be
 passed as the first argument to the callback function.
 
-See the C<L<APR::Pool>> manpage.
+See the C<L<APR::Pool|docs::2.0::api::mod_perl-2.0::APR::Pool>> manpage.
 
 
 
@@ -352,15 +366,16 @@ See the next item
 =head2 C<$r-E<gt>lookup_uri>
 
 C<$r-E<gt>lookup_file> and C<$r-E<gt>lookup_uri> didn't change their
-functionality but moved into C<L<Apache::SubRequest>>. Before using
-them, add:
+functionality but moved into
+C<L<Apache::SubRequest|docs::2.0::api::mod_perl-2.0::Apache::SubRequest>>.
+Before using them, add:
 
   use Apache::SubRequest;
 
 =head2 C<$r-E<gt>get_remote_host>
 
 C<$r-E<gt>get_remote_host> has been renamed and moved into the package
-C<L<Apache::Connection>>:
+C<L<Apache::Connection|docs::2.0::api::mod_perl-2.0::Apache::Connection>>:
 
   use Apache::Connection;
   $r->connection->get_remote_host();
@@ -413,7 +428,7 @@ C<$r-E<gt>read($buf, $r-E<gt>headers_in-E<gt>{'content-length'}>)
 =back
 
 Instead you should use C<Apache::Request>'s C<params()> and similar
-methods to do the parsing for you. See the C<L<Apache::Request>>
+methods to do the parsing for you. See the C<L<Apache::Request|docs::2.0::api::mod_perl-2.0::Apache::Request>>
 manpage.
 
 XXX: ...when Apache::Request will be ported to 2.0. For now you can
@@ -474,12 +489,12 @@ See the L<Apache::RequestRec> manpage.
 =head2 C<$r-E<gt>log_reason>
 
 C<$r-E<gt>log_reason> is not available in mod_perl 2.0 API. Use the
-other standard logging functions provided by the C<L<Apache::Log>>
+other standard logging functions provided by the C<L<Apache::Log|docs::2.0::api::mod_perl-2.0::Apache::Log>>
 module. For example:
 
   $r->log_error("it works!");
 
-See the C<L<Apache::Log>> manpage.
+See the C<L<Apache::Log|docs::2.0::api::mod_perl-2.0::Apache::Log>> manpage.
 
 
 =head2 C<$r-E<gt>register_cleanup>
@@ -584,27 +599,33 @@ mtime() now belongs to the module L<Apache::RequestRec>.
 
 =head2 C<discard_request_body()>
 
-This function now belongs to the module C<L<Apache::Response>>.
+This function now belongs to the module
+C<L<Apache::Response|docs::2.0::api::mod_perl-2.0::Apache::Response>>.
 
 =head2 C<meets_conditions()>
 
-This function now belongs to the module C<L<Apache::Response>>.
+This function now belongs to the module
+C<L<Apache::Response|docs::2.0::api::mod_perl-2.0::Apache::Response>>.
 
 =head2 C<set_content_length()>
 
-This function now belongs to the module C<L<Apache::Response>>.
+This function now belongs to the module
+C<L<Apache::Response|docs::2.0::api::mod_perl-2.0::Apache::Response>>.
 
 =head2 C<set_etag()>
 
-This function now belongs to the module C<L<Apache::Response>>.
+This function now belongs to the module
+C<L<Apache::Response|docs::2.0::api::mod_perl-2.0::Apache::Response>>.
 
 =head2 C<set_last_modified()>
 
-This function now belongs to the module C<L<Apache::Response>>.
+This function now belongs to the module
+C<L<Apache::Response|docs::2.0::api::mod_perl-2.0::Apache::Response>>.
 
 =head2 C<update_mtime()>
 
-This function now belongs to the module C<L<Apache::Response>>.
+This function now belongs to the module
+C<L<Apache::Response|docs::2.0::api::mod_perl-2.0::Apache::Response>>.
 
 
 
@@ -619,7 +640,8 @@ A few C<Apache::Util> functions have changed their interface.
 
 C<Apache::Util::size_string()> has been replaced with
 C<APR::String::format_size()>, which returns formatted strings of only
-4 characters long. See the C<L<APR::String>> manpage.
+4 characters long. See the
+C<L<APR::String|docs::2.0::api::mod_perl-2.0::APR::String>> manpage.
 
 =head2 C<Apache::Util::escape_uri()>
 
