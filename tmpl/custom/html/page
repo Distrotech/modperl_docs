@@ -13,7 +13,7 @@
 <!-- Swishcommand noindex -->
 
 <!-- left box (NAV)-->
-<div class='leftbox'>
+<div class="leftbox">
     [% INCLUDE logo %]
     <br>
     [% INCLUDE menu_main
@@ -29,12 +29,17 @@
 <!-- end left box-->
 
 <!-- right box-->
-<div class='rightbox'>
+<div class="rightbox">
+<form method="post" action="/modperl-site/search/swish.cgi" enctype="application/x-www-form-urlencoded">
     [% INCLUDE page_body %]
-    <br><hr>
+    <br>
+   	<hr noshade size="1">
     [% INCLUDE tail %]
+    <input type="hidden" name="metaname" value="swishdefault">
+    <input type="hidden" name="sort" value="swishrank">
+    <input type="hidden" name="what" value="[% %]">
+</form>
 </div>
 <!-- end right box-->
-
 </body>
 </html>

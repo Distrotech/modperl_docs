@@ -4,7 +4,6 @@
    # nav          - cache navigator object
    # rel_doc_root - relative docs path
 -%]
-<div class="navbarlocal">
 [%- prev = nav.prev;
    next = nav.next;
    IF prev;
@@ -16,21 +15,20 @@
 -%]
 [% IF prev_link || rel_doc_root || next_link -%]
     [%- IF prev_link -%]
-<a href="[% prev_link %]"><img src="[% doc.dir.abs_doc_root %]/images/nav/page_prev.gif" alt="previous page" border=0 width=48 height=20></a>
+<a href="[% prev_link %]"><img src="[% doc.dir.abs_doc_root %]/images/nav/page_prev.gif" alt="previous page" border="0" width="49" height="20"></a>
     [%- ELSE -%]
-<img src="[% doc.dir.abs_doc_root %]/images/nav/page_noprev.gif" alt="next page" border=0 width=49 height=20>
+<img src="[% doc.dir.abs_doc_root %]/images/nav/page_noprev.gif" alt="next page" border="0" width="49" height="20">
     [%- END -%]
     [%- IF rel_doc_root -%]
-<a href="[% rel_doc_root %]/index.html"><img src="[% doc.dir.abs_doc_root %]/images/nav/page_parent.gif" alt="up" border=0 height=20 width=25></a>
+<a href="[% rel_doc_root %]/index.html"><img src="[% doc.dir.abs_doc_root %]/images/nav/page_parent.gif" alt="up" border="0" height="20" width="25"></a>
     [%- ELSE -%]
-<img src="[% doc.dir.abs_doc_root %]/images/nav/page_noparent.gif" alt="parent page" border=0 height=20 width=25>
+<img src="[% doc.dir.abs_doc_root %]/images/nav/page_noparent.gif" alt="parent page" border="0" height="20" width="25">
     [%- END -%]
     [%- IF next_link -%]
-<a href="[% next_link %]"><img src="[% doc.dir.abs_doc_root %]/images/nav/page_next.gif" alt="next page" border=0 width=48 height=20></a>
+<a href="[% next_link %]"><img src="[% doc.dir.abs_doc_root %]/images/nav/page_next.gif" alt="next page" border="0" width="49" height="20"></a>
     [%- ELSE -%]
-<img src="[% doc.dir.abs_doc_root %]/images/nav/page_nonext.gif" alt="next page" border=0 width=49 height=20>
+<img src="[% doc.dir.abs_doc_root %]/images/nav/page_nonext.gif" alt="next page" border="0" width="49" height="20">
     [%- END -%]
 [%- ELSE -%]
-<img src="[% doc.dir.abs_doc_root %]/images/trans_pix.gif" alt="navigation" border=0 width=123 height=20>
+<img src="[% doc.dir.abs_doc_root %]/images/trans_pix.gif" alt="navigation" border="0" width="123" height="20">
 [%- END -%]
-</div>

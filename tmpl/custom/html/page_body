@@ -5,7 +5,6 @@
 %]
 
 <!-- content-->
-<div class="content">
 [%
     INCLUDE title;
 
@@ -33,6 +32,4 @@
     END;
     "<!-- SwishCommand noindex -->";
 %]
-</div>
 <!-- end content-->
-

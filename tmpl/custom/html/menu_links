@@ -11,13 +11,23 @@
     ['http://use.perl.org/', 'Use Perl'],
        ]; 
 %]
-<div class='menulinks'>
+<div class="menulinks">
 [% WRAPPER wrap_box 
            title = 'sister sites'
 -%]
 [%- FOREACH but = buttons %]
-<div class='nonselectedmenuitem'><a href="[% but.0 %]">[% but.1 %]</a></div>
+		<tr>
+			<td class="menu-border"><br></td>
+			<td class="non-sel-bg">
+				<div class="nonselectedmenuitem">
+                    <a href="[% but.0 %]">[% but.1 %]</a>
+				</div>
+			</td>
+			<td class="menu-border"><br></td>
+		</tr>
 [% END %]
+		<tr>
+			<td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+		</tr>
 [% END %]
 </div>
-

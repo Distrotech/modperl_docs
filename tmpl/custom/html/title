@@ -1,1 +1,14 @@
-[% IF doc.meta.title.defined %]<h1 class='headline'>[% doc.meta.title %]</h1>[% END %]
+[% IF doc.meta.title.defined %]
+    <tr>
+    	<td>
+        <!--title-->
+        <table border="0" width="100%" cellspacing="0" cellpadding="3">
+            <tr>
+                <td bgcolor="#525A73" class="headline">[% doc.meta.title %]</td>
+            </tr>
+        </table>
+    	</td>
+    </tr>
+[% END %]
+</table>
+<br class="medbr">

@@ -1,47 +1,69 @@
-<div class='ad'>
+<div class="ad">
 [% WRAPPER wrap_box 
            title = 'Books'
 -%]
-<div class="adtext">
-    <a href="http://www.modperl.com/">
-        Writing Apache Modules with Perl and C<br><br>
-        <img src="[% doc.dir.abs_doc_root %]/images/ads/wrapmod.jpg" 
-             border=0 align="middle" width=107 height=140 
-             alt="Writing Apache Modules with Perl and C"><br><br>
-        By Lincoln Stein, Doug MacEachern
-    </a>
-</div>
+    <!--books top-line seprator-->
+    <tr>
+        <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+    </tr>
+    <tr>
+        <td class="menu-border" width="1"><br></td>
+        <td class="ad-bg">
+            <div class="adtext">
+            <br>Writing Apache Modules with Perl and C<br><br>
+                <a href="http://www.modperl.com/">
+                    <img src="[% doc.dir.abs_doc_root %]/images/ads/wrapmod.jpg" border="1" align="middle" width="107" height="140" class="img-border" alt="Writing Apache Modules with Perl and C">
+                </a>
+                <br><br>
+                <em>By Lincoln Stein, Doug MacEachern</em>
+            </div>
+        </td>
+        <td class="menu-border" width="1"><br></td>
+    </tr> 
 
 [% END %]
 
 [% WRAPPER wrap_box 
            title = ''
 -%]
-<div class="adtext">
-    <a href="http://www.modperlcookbook.org/">
-        The mod_perl Developer's Cookbook<br><br>
-        <img src="[% doc.dir.abs_doc_root %]/images/ads/modperlcookbook.jpg" 
-             border=0 align="middle" width=113 height=140 
-             alt="The mod_perl Developer's Cookbook"><br><br>
-        By Geoffrey Young, Paul Lindner, Randy Kobes
-    </a>
-</div>
-
+    <tr>
+        <td class="menu-border" width="1"><br></td>
+        <td class="ad-bg">
+            <div class="adtext">
+                The mod_perl Developer's Cookbook<br><br>
+                <a href="http://www.modperlcookbook.org/">
+                    <img src="[% doc.dir.abs_doc_root %]/images/ads/modperlcookbook.jpg" border="1" align="middle" width="113" height="140" class="img-border" alt="The mod_perl Developer's Cookbook">
+                </a>
+                <br><br>
+                <em>By Geoffrey Young, Paul Lindner, Randy Kobes</em>
+            </div>
+        </td>
+        <td class="menu-border" width="1"><br></td>
+    </tr> 
 [% END %]
 
 [% WRAPPER wrap_box 
            title = ''
 -%]
-<div class="adtext">
-    <a href="http://www.oreilly.com/catalog/modperlpr/">
-         mod_perl Pocket Reference<br><br>
-        <img src="[% doc.dir.abs_doc_root %]/images/ads/modperlpr.jpg" 
-             border=0 align="middle" width=85 height=140
-             alt="mod_perl Pocket Reference"><br><br>
-        By Andrew Ford
-    </a>
-</div>
+    <tr>
+        <td class="menu-border" width="1"><br></td>
+        <td class="ad-bg">
+            <div class="adtext">
+                mod_perl Pocket Reference<br><br>
+                <a href="http://www.oreilly.com/catalog/modperlpr/">
+                    <img src="[% doc.dir.abs_doc_root %]/images/ads/modperlpr.jpg" border="1" align="middle" width="85" height="140" class="img-border" alt="mod_perl Pocket Reference">
+                </a>
+                    <br><br>
+                    <em>By Andrew Ford</em>
+            </div>
+        </td>
+        <td class="menu-border" width="1"><br></td>
+    </tr> 
+    
+    <!--books bottom-line seprator-->
+    <tr>
+        <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+    </tr>
 [% END %]
+
 </div>
-
-

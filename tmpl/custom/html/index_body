@@ -3,7 +3,6 @@
 -%]
 
 <!-- content-->
-<div class="content">
 [%
     INCLUDE title;
 
@@ -34,4 +33,4 @@
         rel_doc_root=doc.dir.rel_doc_root;
 
 %]
-</div>
+<!-- end content-->

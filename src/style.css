@@ -4,35 +4,88 @@ body {
     color: #000000; 
 }
 
-.headline {
-    padding: 5px;
-    /* width:100%;  works in NS4, but not in Moz/Opera */
-    margin-top:2px;
-    background-color: #525D76;
-    color: #ffffff;
-    border-style:none;
-    border:1px;
-    font-size:1.4em;
-    margin-right:0px;  /* 100% width span for NS4 */
-    font-weight: bold; /* fixup for NS4, because of margin-right */
+p {
+    font-family: helvetica, arial, verdana, sans-serif; 
+    font-size: 1.0em;
+    color: #000000; 
 }
 
 h1, h2, h3, h4 {
     color: #525D76;
-    font-size:1.2em;
+    font-size: 1.2em;
+    font-family: helvetica, arial, verdana, sans-serif;
 }  
 
-
 a:link    { color: #0000ff;} 
-a:visited { color: #0000ff;}
-a:active  { color: #0000ff;}
-a:hover   { color: #0000ff;}
+a:visited { color: #993333;}
+a:active  { color: #666666;}
+a:hover   { color: #666666;}
 
-
-code { 
-    font-family: courier new, courier, monospace;
+td.menu-title-bg {
+    background-color: #828DA6;
 }
 
+td.non-sel-bg {
+    background-color: #eeeeee;
+}
+
+td.sel-bg {
+    background-color: #525D76;
+}
+
+div.nonselectedmenuitem a:link, div.nonselectedmenuitem a:visited, div.nonselectedmenuitem a:active {
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 12px;
+    color: #525D76;
+    text-decoration: none;
+}
+
+div.nonselectedmenuitem {
+    padding: 3px;
+    color: #000000;
+    font-family: verdana, helvetica, arial, sans-serif;
+    font-size: 12px;
+    background-color: #eeeeee;
+}
+
+div.selectedmenuitem a, div.selectedmenuitem a:link, div.selectedmenuitem a:visited, div.selectedmenuitem a:active {
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 12px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+div.selectedmenuitem {
+    background-color: #525D76;
+    padding: 3px;
+}
+
+div.nonselectedmenuitem a:hover, div.selectedmenuitem a:hover {
+    color: #999999;
+}
+
+div.menu-title {
+    padding: 3px;
+    color: #000000;
+    font-family: verdana, helvetica, arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #828DA6;
+    text-align: center;
+}
+
+td.menu-border {
+    background-color: #525D76;
+}
+
+/* standard html tags */
+
+td.search {
+    background-color: #525D76;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 11px;
+    color: #ffffff;
+}
 
 /* main boxes */
 div.leftbox {
@@ -47,9 +100,14 @@ div.rightbox {
     position: absolute;
     top: 5px;
     left: 190px;
-    padding: px;
+    padding: 5px;
     padding-right:10px; 
+    border: 1px;
+    border-style: none;
+    border-color: #000000;
 }
+
+
 
 /* boxes in the left box */
 div.logo {
@@ -64,7 +122,7 @@ div.menumain {
     border: 1px;
     padding: 5px;
     border-style: none;
-    /* background-color: #ffffff; */
+   /* background-color: #ffffff; */
 }
 
 div.menulinks {
@@ -78,136 +136,149 @@ div.ad {
     border: 1px;
     padding: 5px;
     border-style: none;
-   /* background-color: #ffffff; */
+   /* background-color: #ffffff;*/
 }
 
 div.ad a:link    {text-decoration: none; color: #525d76;}
 div.ad a:visited {text-decoration: none; color: #525d76;}
 div.ad a:active  {text-decoration: none; color: #525d76;}
-div.ad a:hover   {text-decoration: none; color: #525d76;}
+div.ad a:hover   {text-decoration: none; color: #666666;}
 
 div.adtext {
-    font-size: 0.7em;
-    text-align:center;
-}
-
-.table-head {}
-.table-top {
+    font-family: helvetica, arial, verdana, sans-serif;
     font-size: 0.8em;
-    background-color: #cccccc;
-    color: #525d76;
-
-}
-.table-cell { 
-    background-color: #eeeeee;
-    vertical-align:top;
-}
-.table-surround { 
-    background-color: black; 
-}
-.table-light { 
-    background-color: #00cc99; 
-}
-
-div.selectedmenuitem {
-    font-weight: bold;
-    font-size:12px;
-    margin-bottom:5px;
-    margin-top:5px;
-}
-
-div.selectedmenuitem a:link    {text-decoration: none; color: #525D76;}
-div.selectedmenuitem a:visited {text-decoration: none; color: #525D76;}
-div.selectedmenuitem a:active  {text-decoration: none; color: #525D76;}
-div.selectedmenuitem a:hover   {text-decoration: none; color: #525D76;}
-
-div.nonselectedmenuitem {
-    font-size:12px;
-    margin-bottom:5px;
-    margin-top:5px;
-}
-
-div.nonselectedmenuitem a:link    {text-decoration: none; color: #525D76;}
-div.nonselectedmenuitem a:visited {text-decoration: none; color: #525D76;}
-div.nonselectedmenuitem a:active  {text-decoration: none; color: #525D76;}
-div.nonselectedmenuitem a:hover   {text-decoration: none; color: #525D76;}
-
-/* boxes in the right box */
-div.content {
-    border: 1px;
-    border-style: none;
-    border-color: #000000;
-    background-color: #ffffff;
+    text-align: center;
     padding: 5px;
-    padding-left: 8px;
-    padding-right: 8px;
 }
 
-div.navbarglobal {
-    padding:5px;
-    padding-left: 8px;
-    border: 1px;
-    border-style: none;
-    border-color: #000000;
-    background-color: #ffffff;
-    color: #000000;
+
+/*breacrumb*/
+td.navbarglobal {
+    font-family: verdana, helvetica, sans-serif;
+    color: #828DA6;
+    font-size: 0.85em;
 }
 
-div.navbarglobal a {text-decoration: none; color: #828DA6;}
 
-div.navbarlocal {
-    text-align: right;
+td.navbarglobal a:link, td.navbarglobal a:visited, td.navbarglobal a:active {
+    text-decoration: none; 
+    color: #828DA6;
+    font-family:  verdana, sans-serif;
+}
+
+td.navbarglobal a:hover {
+    text-decoration: none; 
+    color: #666666;
+    font-family:  verdana, sans-serif;
+}
+
+div.index_section {
+    font-family: helvetica, arial, verdana, sans-serif; 
+    font-size: 1.0em;
+    color: #000000; 
 }
 
 div.tail {
-    padding:5px;
-    font-size: 0.6em;
+    padding: 5px;
+    font-size: 0.85em;
     font-family: helvetica, arial, verdana, sans-serif;
     border: 1px;
     border-style: none;
     border-color: #000000;
-    background-color: #ffffff;
+    /*background-color: #ffffff;*/
+    margin-right: 0px;
 }
 
-div.toc {
-    font-size: 0.9em;
+
+/* various font defs */
+.headline {
+    color: #ffffff;
+    font-family: helvetica, arial, verdana, sans-serif;
+    font-size:1.5em;
+    font-weight: bold;
 }
 
-div.toc a {text-decoration: none; color: #0000ff;}
-
-
-div.download {
-    font-size: 0.8em;
+code { 
+    font-family: courier new, courier, monospace;
 }
 
-td.gray, td.white {
+/* lists */
+dl, ul {
+    color: #000000;
+    font-size: 1.0em;
+    font-family: helvetica, arial, verdana, sans-serif;
+}
+
+dl a:link, dl a:active, ul a, ul a:link, ul a:active, ul a:visited, ul a:hover  {
+    text-decoration: none; 
+    color: #0000ff;
+}
+
+dl a:visited {
+    text-decoration: none; 
+    color: #993333;
+}
+
+dl a:hover {
+    text-decoration: none; 
+    color: #666666;
+}
+
+/* formfields */
+.input-fld { 
+    height: auto;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 12px;
+}
+
+.submit-but {
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 10px;
+    height: auto;
+}
+
+/* misc */
+
+/* border-color for ad-images */
+.img-border {
+    color: #000000;
+}
+
+
+/* font specs for download widget */
+td.download a:link, td.download a:active , td.download a:visited {
+    text-decoration: none;
+    font-size: 0.85em;
+    font-family: helvetica, arial, verdana, sans-serif;
+}
+
+td.download a:hover {
+    text-decoration: none;
+    color: #666666;
+    font-size: 0.85em;
+    font-family: helvetica, arial, verdana, sans-serif;
+}
+
+/* "spacegif" substitute in menus */
+td.blue-bg {
+    background-color: #525D76;
+}
+
+td.ad-bg {
     background-color: #eeeeee;
 }
 
-td.gray a, td.gray a:link, td.gray a:visited, td.gray a:active, td.gray a:hover{
-    font-family: verdana, helvetica, sans-serif;
-    font-size: 12px;
-    color: #525D76;
-    text-decoration: none;
-}
-
-
-td.white, td.white a, td.white a:link, td.white a:visited, td.white a:active {
-    font-family: verdana, helvetica, sans-serif;
-    font-size: 12px;
-    color: #525D76;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-td.white a:hover {
-		color: #666666
-}
-
+/* hack aimed for opera instead of using space.gif*/
 .smallbr {
-	font-family: helvetica, arial, verdana, sans-serif;
-	font-size: 1px;
-	line-height: 1px;
+    font-family: helvetica, arial, verdana, sans-serif;
+    font-size: 1px;
+    line-height: 1px;
 }
 
+.medbr {
+    font-family: helvetica, arial, verdana, sans-serif;
+    font-size: 8px;
+    line-height: 8px;
+}
 
+.hr { height: 1px; }

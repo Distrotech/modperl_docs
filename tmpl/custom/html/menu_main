@@ -34,21 +34,34 @@
        link = INCLUDE link prefix=prefix link=p.meta.link;
        IF p.id == current.id;
            style = 'selectedmenuitem';
+           td_style = 'sel-bg';
        ELSE;
            style = 'nonselectedmenuitem';
+           td_style = 'non-sel-bg';
        END;
-       buttons.push({link => link, text => p.meta.stitle, style => style});
+       buttons.push({link => link, text => p.meta.stitle, style => style, td_style => td_style});
        p = p.next; # next node
    END;
 -%]
 
-<div class='menumain'>
+<div class="menumain">
 [% WRAPPER wrap_box 
            title = 'perl.apache.org'
 -%]
 [%- FOREACH but = buttons %]
-<div class='[% but.style  %]'><a href="[% but.link %]">[% but.text %]</a></div>
+		<tr>
+			<td class="menu-border"><br></td>
+			<td class="[% but.td_style %]">
+				<div class="[% but.style %]">
+				    <a href="[% but.link %]">[% but.text %]</a>
+				</div>
+			</td>
+			<td class="menu-border"><br></td>
+		</tr>
+
 [% END %]
+		<tr>
+			<td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+		</tr>
 [% END %]
 </div>
-

@@ -3,20 +3,17 @@
    # nav          - cache navigator object
    # rel_doc_root - relative docs path
 %]
-<table width="100%" border=0>
-<tr>
-<td align="left">
-[% INCLUDE search %]
-</td>
-<td align="center">
-<div class="download">
-[% INCLUDE download_link %]
-</div>
-</td>
-<td align="right">
-[% INCLUDE prev_next_link %]
-</td>
-</tr></table>
-
-
-
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr valign="middle">
+        <td align="left" width="33%">
+            [% INCLUDE search %]
+        </td>
+        <td align="center" class="download" width="33%">
+            [% INCLUDE download_link %]
+        </td>
+        <td align="right" width="33%">
+            [% INCLUDE prev_next_link %]
+        </td>
+    </tr>
+</table>
+<!--this line break must be here for ns4-->
