@@ -149,6 +149,41 @@ in your I<httpd.conf>.
 This can also happen when you try to run a non-mod_perl Apache server 
 using the configuration from a mod_perl server.
 
+=head2 symbol __floatdisf: referenced symbol not found
+
+This problem is experienced by users on certain Solaris versions. When
+the server is built with modules that use the C<__floatdisf> symbol it
+can't be started. e.g.:
+
+  Cannot load /usr/local/apache/libexec/libproxy.so into server:
+  ld.so.1: ../bin/httpd: fatal: relocation error: file
+  /usr/local/apache/libexec/libproxy.so: symbol __floatdisf: referenced
+  symbol not found
+
+The missing symbol is in I<libgcc.a>.  Use
+
+  % gcc -print-libgcc-file-name
+
+to see where that file is. Once found you have to relink the module
+with that file. You can also look for it in the gcc tree, e.g. under
+I<gcc-3.2.1/gcc>.
+
+First, configure and install Apache. Next, relink I<mod_proxy.so> or
+I<mod_negotiation.so>, or whatever the module that reports the problem
+with I<libgcc.a>.
+
+  % cd apache_1.3.27/src/modules
+  % ld -G -o mod_proxy.so mod_proxy.lo /pathto/libgcc.a
+
+(adjust the I</pathto/> to point to the right file from the gcc output
+stage.)
+
+You can now verify with C<nm> that I<mod_proxy.so> includes that
+symbol.
+
+
+
+
 =head2 RegistryLoader: Translation of uri [...] to filename failed
 
   RegistryLoader: Translation of uri [/home/httpd/perl/test.pl] to filename 
