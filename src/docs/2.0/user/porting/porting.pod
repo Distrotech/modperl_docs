@@ -1319,6 +1319,10 @@ the following trick:
   sub handler_mp2 : method { ... }
   *handler = MP2 ? \&handler_mp2 : \&handler_mp1;
 
+Note that this requires at least Perl 5.6.0, the I<:method> attribute
+is not supported by older Perl versions, which will fail to compile
+such code.
+
 Here are two complete examples. The first example implements
 C<MyApache::Method> which has a single method that works for both
 mod_perl generations:
