@@ -1593,7 +1593,17 @@ modify it.
 
 =head1 Writing Well-Behaving Filters
 
-META: to be written. 
+META: to be written. Meanwhile collecting important inputs from
+various sources.
+
+[
+
+This one will be expanded by Geoff at some point:
+
+HTTP output filter developers are ought to handle conditional GETs
+properly... (mostly for the reason of efficiency?)
+
+]
 
 [
 
