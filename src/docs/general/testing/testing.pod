@@ -1415,6 +1415,17 @@ is compatible with the version of Apache used then it will be
 automatically compiled by I<t/TEST> with C<-DAPACHE1> or C<-DAPACHE2>
 so you can conditionally compile it to suit different httpd versions.
 
+In additon to the single-digit form,
+
+  #define HTTPD_TEST_REQUIRE_APACHE 2.0.48
+
+and
+
+  #define HTTPD_TEST_REQUIRE_APACHE 2.1
+
+are also supported, allowing for conditional compilation based on
+criteria similar to I<have_min_apache_version()>.
+
 =item *
 
 If there is a section bounded by:
