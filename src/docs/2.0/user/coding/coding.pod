@@ -8,6 +8,15 @@ This chapter covers the mod_perl coding specifics, different from normal Perl co
 
 =head1 Prerequisites
 
+=head1 Where the Methods Live
+
+mod_perl 2.0 has all its methods spread across many modules. In order
+to use these methods the modules containing them have to be loaded
+first. If you don't do that mod_perl will complain that it can't find
+the methods in question. The module
+C<L<ModPerl::MethodLookup|docs::2.0::api::ModPerl::MethodLookup>> can
+be used to find out which modules need to be used.
+
 =head1 Goodies Toolkit
 
 =head2 Environment Variables
@@ -18,19 +27,28 @@ mod_perl sets the following environment variables:
 
 =item * 
 
-C<MOD_PERL> - is set to the mod_perl version the server is running
-under. e.g.:
+C<$ENV{MOD_PERL}> - is set to the mod_perl version the server is
+running under. e.g.:
 
   mod_perl/1.99_03-dev
 
-If this C<$ENV{MOD_PERL}> doesn't exist, most likely you are
-not running under mod_perl.
+If C<$ENV{MOD_PERL}> doesn't exist, most likely you are not running
+under mod_perl.
+
+  die "I refuse to work without mod_perl!" unless exists $ENV{MOD_PERL};
+
+However to check which version is used it's better to use the
+following technique:
+
+  use mod_perl;
+  use constant MP2 => ($mod_perl::VERSION >= 1.99);
+  # die "I want mod_perl 2.0!" unless MP2;
 
 =item *
 
-C<GATEWAY_INTERFACE> - is set to C<CGI-Perl/1.1> for compatibility
-with mod_perl 1.0. This variable is deprecated in mod_perl 2.0. Use
-C<MOD_PERL> instead.
+C<$ENV{GATEWAY_INTERFACE}> - is set to C<CGI-Perl/1.1> for
+compatibility with mod_perl 1.0. This variable is deprecated in
+mod_perl 2.0. Use C<$ENV{MOD_PERL}> instead.
 
 =back
 
