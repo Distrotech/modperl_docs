@@ -759,28 +759,16 @@ Something is not implemented
 
 
 
-=head2 C<:filemode>
+=head2 C<:fopen>
 
-  use APR::Const -compile => qw(:filemode);
+  use APR::Const -compile => qw(:fopen);
 
-The C<:filemode> group is for XXX constants.
-
-
-
-
-=head3 C<APR::BINARY>
-
-=over
-
-=item since: 1.99_12
-
-=back
+The C<:fopen> group is for XXX constants.
 
 
 
 
-
-=head3 C<APR::BUFFERED>
+=head3 C<APR::FOPEN_BINARY>
 
 =over
 
@@ -792,7 +780,7 @@ The C<:filemode> group is for XXX constants.
 
 
 
-=head3 C<APR::CREATE>
+=head3 C<APR::FOPEN_BUFFERED>
 
 =over
 
@@ -804,7 +792,7 @@ The C<:filemode> group is for XXX constants.
 
 
 
-=head3 C<APR::DELONCLOSE>
+=head3 C<APR::FOPEN_CREATE>
 
 =over
 
@@ -816,7 +804,7 @@ The C<:filemode> group is for XXX constants.
 
 
 
-=head3 C<APR::EXCL>
+=head3 C<APR::FOPEN_DELONCLOSE>
 
 =over
 
@@ -828,7 +816,7 @@ The C<:filemode> group is for XXX constants.
 
 
 
-=head3 C<APR::PEND>
+=head3 C<APR::FOPEN_EXCL>
 
 =over
 
@@ -840,7 +828,7 @@ The C<:filemode> group is for XXX constants.
 
 
 
-=head3 C<APR::READ>
+=head3 C<APR::FOPEN_PEND>
 
 =over
 
@@ -852,7 +840,7 @@ The C<:filemode> group is for XXX constants.
 
 
 
-=head3 C<APR::TRUNCATE>
+=head3 C<APR::FOPEN_READ>
 
 =over
 
@@ -864,7 +852,19 @@ The C<:filemode> group is for XXX constants.
 
 
 
-=head3 C<APR::WRITE>
+=head3 C<APR::FOPEN_TRUNCATE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+=head3 C<APR::FOPEN_WRITE>
 
 =over
 
@@ -1006,17 +1006,17 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head2 C<:fileprot>
+=head2 C<:fprot>
 
-  use APR::Const -compile => qw(:fileprot);
+  use APR::Const -compile => qw(:fprot);
 
-The C<:fileprot> group is used by
+The C<:fprot> group is used by
 C<L<$finfo-E<gt>protection|docs::2.0::api::APR::Finfo/C_protection_>>.
 
 
 
 
-=head3 C<APR::FILEPROT_GEXECUTE>
+=head3 C<APR::FPROT_GEXECUTE>
 
 Execute by group
 
@@ -1031,7 +1031,7 @@ Execute by group
 
 
 
-=head3 C<APR::FILEPROT_GREAD>
+=head3 C<APR::FPROT_GREAD>
 
 Read by group
 
@@ -1044,7 +1044,7 @@ Read by group
 
 
 
-=head3 C<APR::FILEPROT_GSETID>
+=head3 C<APR::FPROT_GSETID>
 
 Set group id
 
@@ -1057,7 +1057,7 @@ Set group id
 
 
 
-=head3 C<APR::FILEPROT_GWRITE>
+=head3 C<APR::FPROT_GWRITE>
 
 Write by group
 
@@ -1070,7 +1070,7 @@ Write by group
 
 
 
-=head3 C<APR::FILEPROT_OS_DEFAULT>
+=head3 C<APR::FPROT_OS_DEFAULT>
 
 use OS's default permissions
 
@@ -1083,7 +1083,7 @@ use OS's default permissions
 
 
 
-=head3 C<APR::FILEPROT_UEXECUTE>
+=head3 C<APR::FPROT_UEXECUTE>
 
 Execute by user
 
@@ -1096,7 +1096,7 @@ Execute by user
 
 
 
-=head3 C<APR::FILEPROT_UREAD>
+=head3 C<APR::FPROT_UREAD>
 
 Read by user
 
@@ -1109,7 +1109,7 @@ Read by user
 
 
 
-=head3 C<APR::FILEPROT_USETID>
+=head3 C<APR::FPROT_USETID>
 
 Set user id
 
@@ -1122,7 +1122,7 @@ Set user id
 
 
 
-=head3 C<APR::FILEPROT_UWRITE>
+=head3 C<APR::FPROT_UWRITE>
 
 Write by user
 
@@ -1135,7 +1135,7 @@ Write by user
 
 
 
-=head3 C<APR::FILEPROT_WEXECUTE>
+=head3 C<APR::FPROT_WEXECUTE>
 
 Execute by others
 
@@ -1148,7 +1148,7 @@ Execute by others
 
 
 
-=head3 C<APR::FILEPROT_WREAD>
+=head3 C<APR::FPROT_WREAD>
 
 Read by others
 
@@ -1161,7 +1161,7 @@ Read by others
 
 
 
-=head3 C<APR::FILEPROT_WSTICKY>
+=head3 C<APR::FPROT_WSTICKY>
 
 Sticky bit
 
@@ -1174,7 +1174,7 @@ Sticky bit
 
 
 
-=head3 C<APR::FILEPROT_WWRITE>
+=head3 C<APR::FPROT_WWRITE>
 
 Write by others
 

@@ -400,8 +400,8 @@ Get the access permissions of the file.  Mimics Unix access rights.
 =item obj: C<$finfo>
 ( C<L<APR::Finfo object|docs::2.0::api::APR::Finfo>> )
 
-=item return: C<$prot> ( C<L<:fileprot
-constant|docs::2.0::api::APR::Const/C__fileprot_>> )
+=item return: C<$prot> ( C<L<:fprot
+constant|docs::2.0::api::APR::Const/C__fprot_>> )
 
 =item since: 1.99_17
 
