@@ -29,9 +29,6 @@ Menu:
 style.css:
 ----------
 
-- Section headings that are links back to the page's TOC fade to gray on
-  hover.  
-
 - TOC links are blue w/o underline, and links in page have underline.
   Need to coordinate links better.
 
@@ -54,14 +51,8 @@ General:
 Content:
 --------
 
-- rewrite 404.html to be a plain hmtl to be copied as is to dst_html,
+- rewrite 404.html to be a plain html to be copied as is to dst_html,
   with a link to perl.apache.org only.
-
-- need to make the content review and adjust config.cfg files to
-  provide good abstracts. The same goes for src html files -- should
-  use the <meta name="description" value=""> to add abstracts here.
-
-- src/about/help.pod, should be completed
 
 - how about adding a page: 'link to us', with a selection of a few
   logos/buttons for people to reuse, including a copy-n-paste-ready
@@ -72,15 +63,29 @@ Content:
 
   banners:  468x60 and 150x40
 
+  STATUS: Per Einar working on it. See banners.
+          150x40 doesn't seem like a good banner size.
+
 - ask perl.com to link to perl.apache.org from 'perl sites' section.
   + also they need to add theperlreview.com
 
+- Need a good mod_perl banner. Most importantly, it must make it clear
+  what mod_perl is all about:
+    o related to web serving
+    o uses Apache and Perl
+    o fast, powerful, foo
+  
+  Building on the current logo, it should also probably include the
+  Apache feather and the Perl camel, to make people see instantly that
+  it's related to those 2.
+
+  Per Einar suggested having the [modperl] logo with a bullet going
+  through, using thr catch-phrase "Faster than a speeding bullet".
+
+  Anyway, we probably need some graphic designer to make it look good.
+
 Search:
 -------
-
-- looks that the search checkboxes are messed up! offsite and
-  tutorials are in the 1.0 group
-
  - consider adding auto-focus feature:
 
   <body background="[% doc.dir.abs_doc_root %]/images/bgline.gif"
@@ -161,5 +166,10 @@ Later:
 - should probaly move the logos from
   http://wypug.digital-word.com/mod_perl/ to the new site.
 
+  STATUS: should be TGZed and added as link from "Link to us"
+  page. Being done now.
+
 - we definitely should include the master PNG/SVG versions of the new
   logo on the site.
+  
+  STATUS: On "Link to Us" page.
