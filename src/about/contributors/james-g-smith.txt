@@ -1,9 +1,9 @@
 Name: James G. Smith
-Email: JGSmith@TAMU.Edu
+Email: jsmith@cpan.org
 Summary: mod_perl digest, various modules.
 
-James took over the maintainership of the mod_perl mailing list digest
-after Geoffrey Young didn't have enough time anymore, and is now
+James took over the maintainership of the mod_perl mailing list
+digest from Geoffrey Young, with whom it originated, and is now
 trying to send it off to the mailing list as often as he can.
 
 He has also contributed a number of modules to the CPAN, such as
