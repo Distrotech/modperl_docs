@@ -1066,7 +1066,7 @@ See the L<Apache::Util> manpage.
 C<Apache::Util::validate_password()> has been replaced with
 C<APR::password_validate()>. For example:
 
-   my $ok = Apache::Util::validate_password("stas", "ZeO.RAc3iYvpA");
+   my $ok = Apache::Util::password_validate("stas", "ZeO.RAc3iYvpA");
 
 
 
