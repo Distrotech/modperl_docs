@@ -1026,12 +1026,12 @@ Set to true when the server is starting.
 
 =head1 See Also
 
-perl(1),
-Apache::Constants(3),
-Apache::Registry(3),
-Apache::Debug(3),
-Apache::Options(3),
-CGI::Apache(3)
+perl,
+L<Apache::Constants>,
+L<Apache::Registry>,
+L<Apache::Debug>,
+L<Apache::Options>,
+CGI
 
 Apache C API notes at http://httpd.apache.org/docs/
 
