@@ -225,13 +225,14 @@ This problem is only known to be caused by installing gnu ld under Solaris.
 
 =head2 "exit signal Segmentation fault (11)" with mysql
 
-If you build mod_perl and php in the same binary, you might get
+If you build mod_perl and mod_php in the same binary, you might get
 Segmentation fault followed by this error:
 
   exit signal Segmentation fault (11)
 
-Solution: re-compile PHP without the built-in MySQL support (you can
-still connect to MySQL).
+The solution is not rely on PHP's built-in MySQL support, and instead
+build it with your local MySQL support files, by adding
+C<--with-mysql=/path/to/mysql> to your C<./configure> line.
 
 =head2 foo ... at /dev/null line 0
 
