@@ -582,8 +582,8 @@ you were allowed to install it, although some essential package is not
 installed.
 
 The most frequent pitfall is a missing gdbm library.  See L<Missing or
-Misconfigured libgdbm.so|install/Missing_or_Misconfigured_libgdbm> for
-more info.
+Misconfigured libgdbm.so|install/Missing_or_Misconfigured_libgdbm_so>
+for more info.
 
 But why guess, when we can actually see the real error message and
 understand what the real problem is.  To get a real error message,
@@ -1919,7 +1919,7 @@ there are plenty out there to choose from.
 
 David Harris has started an effort to build better RPM/SRPM mod_perl
 packages.  You will find the link to David's site from
-http://perl.apache.org/distributions.html.
+http://perl.apache.org/download/distributions.html .
 
 Features of this RPM:
 
@@ -2117,10 +2117,11 @@ those provided by the RedHat distributions, you may be in for a bit of
 a surprise.  Installing the Apache RPM will go just fine, and
 http://localhost will bring up some type of web page for you.
 However, after installation of the mod_perl RPM, the L<How can I tell
-whether mod_perl is running|install/How_can_I_tell_whether_mod_perl_>
-test will show that Apache is not mod_perl enabled.  This is because
-mod_perl needs to be added as a separate module using Apache's Dynamic
-Shared Objects.
+whether mod_perl is
+running|install/How_can_I_tell_whether_mod_perl_is_running_> test will
+show that Apache is not mod_perl enabled.  This is because mod_perl
+needs to be added as a separate module using Apache's Dynamic Shared
+Objects.
 
 To use mod_perl as a DSO, make the following modifications to your
 Apache configuration files:
@@ -2738,7 +2739,7 @@ home for it.  You have a few options:
 =item *
 
 Reduce resources usage (see L<Limiting the size of the
-processes|performance/Limiting_the_Size_of_the_Process>).
+processes|performance/Limiting_the_Size_of_the_Processes>).
 
 =item *
 
@@ -3029,8 +3030,8 @@ Note that if you run scripts under the C<Apache::Registry> handler, it
 takes care of overriding the C<exit()> call for you, so it's not an
 issue.  For reasons and implementations see: L<Terminating requests
 and processes, exit()
-function|porting/Terminating_requests_and_process> and also L<Writing
-Mod Perl scripts and Porting plain CGIs to
+function|porting/Terminating_requests_and_processes__the_exit___and_child_terminate___functions>
+and also L<Writing Mod Perl scripts and Porting plain CGIs to
 it|porting/>.
 
 =head2 Testing via lwp-request
@@ -3050,9 +3051,8 @@ response content.
 
 To see the server version only.
 
-Use C<http://www.example.com:port_number> if your server is listening
-to a port other than port 80.
-
+Specify the port number if your server is listening to a port other
+than port 80. For example: C<http://www.example.com:8080>.
 
 =head1 General Notes
 

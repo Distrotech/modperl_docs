@@ -85,8 +85,8 @@ the command:
     DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
 
 There are many additional optional parameters.  You can find some of
-them later in this section and in the L<Server Configuration|config/mod_perl_Configuration_>
-section.
+them later in this section and in the L<Server
+Configuration|config/mod_perl_Configuration> section.
 
 While running C<perl Makefile.PL ...> the process will check for
 prerequisites and tell you if something is missing.  If you are
@@ -238,7 +238,8 @@ If your programming techniques are sloppy, some of your scripts will
 not work and they may exhibit strange behaviour.  Depending on the
 degree of sloppiness they may need anything from minor tweaking to a
 major rewrite to make them work properly.  (See L<Sometimes My Script
-Works, Sometimes It Does Not|debug/Sometimes_My_Script_Works_Somet> )
+Works, Sometimes It Does 
+Not|debug/Sometimes_My_Script_Works__Sometimes_It_Does_Not> )
 
 The above setup is very basic, but as with Perl, you can start to
 benefit from mod_perl from the very first moment you try it.  As you
@@ -428,8 +429,8 @@ which fails.
 [META:
 It's very important to use the same compiler you build the perl with.
 See the section 'L<What Compiler Should Be Used to Build
-mod_perl|install/What_Compiler_Should_Be_Used_to_>' for more
-information.
+mod_perl|install/What_Compiler_Should_Be_Used_to_Build_mod_perl_>' 
+for more information.
 
 [META: --- Hmm, what's the option that overrides the compiler when
 building Apache from mod_perl. Check also whether mod_perl supplies
@@ -462,7 +463,7 @@ file.  Also see L<make test fails|install/make_test_fails>.
 While doing C<perl Makefile.PL ...> mod_perl might complain by warning
 you about a missing library C<libgdbm>. This is a crucial warning. See
 L<Missing or Misconfigured
-libgdbm.so|install/Missing_or_Misconfigured_libgdbm> for more info.
+libgdbm.so|install/Missing_or_Misconfigured_libgdbm_so> for more info.
 
 Now rename C<httpd> to C<httpd_perl>:
 
@@ -524,12 +525,12 @@ users, by using either mod_proxy's C<ProxyPass> directive or a proxy
 server like Squid.
 
 For more details see L<Publishing Port Numbers other than
-80|config/Publishing_Port_Numbers_other_th>, L<Running One Webserver
+80|config/Publishing_Port_Numbers_other_than_80>, L<Running One Webserver
 and Squid in httpd Accelerator
-Mode|scenario/Running_One_Webserver_and_Squid_>, L<Running Two
-Webservers and Squid in httpd Accelerator
-Mode|scenario/Running_Two_webservers_and_Squid> and L<Using
-mod_proxy|scenario/mod_proxy>.
+Mode|scenario/Running_One_Webserver_and_Squid_in_httpd_Accelerator_Mode>,
+L<Running Two Webservers and Squid in httpd Accelerator
+Mode|scenario/Running_Two_webservers_and_Squid_in_httpd_Accelerator_Mode>
+and L<Using mod_proxy|scenario/mod_proxy>.
 
 Now we proceed to the mod_perl specific directives.  It will be a good
 idea to add them all at the end of C<httpd.conf>, since you are going

@@ -193,7 +193,7 @@ try adding this to I<httpd.conf>:
 =head2 Value of $x will not stay shared at - line 5
 
 L<my() Scoped Variable in Nested 
-Subroutines|perl/my_Scoped_Variable_in_Nested_S>.
+Subroutines|perl/my___Scoped_Variable_in_Nested_Subroutines>.
 
 
 
@@ -205,7 +205,7 @@ Subroutines|perl/my_Scoped_Variable_in_Nested_S>.
 =head2 Value of $x may be unavailable at - line 5.
 
 L<my() Scoped Variable in Nested 
-Subroutines|perl/my_Scoped_Variable_in_Nested_S>.
+Subroutines|perl/my___Scoped_Variable_in_Nested_Subroutines>.
 
 
 
@@ -251,7 +251,7 @@ C<PERL_STACKED_HANDLERS=1> or more simply C<EVERYTHING=1>.
 Most often you will find that you really do have a syntax error.
 However the other reason might be that a script running under
 C<Apache::Registry> is using C<__DATA__> or C<__END__> tokens. L<Learn
-why|porting/_END_and_DATA_tokens>.
+why|porting/__END___and___DATA___tokens>.
 
 
 
@@ -332,7 +332,7 @@ Therefore C<$0> is set to I</dev/null> and that's what you see.
 =head2 Preventing mod_perl Processes From Going Wild
 
 See the sections "L<Non-Scheduled Emergency Log
-Rotation|control/Non_Scheduled_Emergency_Log_Rota>" and "L<All RAM
+Rotation|control/Non_Scheduled_Emergency_Log_Rotation>" and "L<All RAM
 Consumed|control/All_RAM_Consumed>"
 
 
@@ -351,14 +351,14 @@ Starting from mod_perl version 1.23 this option is disabled by default.
 =head2 My CGI/Perl Code Gets Returned as Plain Text Instead of Being Executed by the Webserver
 
 See L<My CGI/Perl Code Gets Returned as Plain Text Instead of Being
-Executed by the Webserver|config/My_CGI_Perl_Code_Gets_Returned_a>.
+Executed by the Webserver|config/My_CGI_Perl_Code_Gets_Returned_as_Plain_Text_Instead_of_Being_Executed_by_the_Webserver>.
 
 
 
 =head2 Incorrect line number reporting in error/warn log messages
 
 See L<Use of uninitialized value at (eval 80) line
-12.|troubleshooting/Use_of_uninitialized_value_at_e>
+12.|troubleshooting/Use_of_uninitialized_value_at__eval_80__line_12_>
 
 
 
@@ -397,8 +397,9 @@ That's the C<$SIG{PIPE}> handler installed by mod_perl/C<Apache::SIG>,
 which is called if a connection times out or if the client presses the
 'Stop' button.  It gives you an opportunity to do cleanups if the
 script was aborted in the middle of its execution.  See L<Handling the
-'User pressed Stop button' case|debug/Handling_the_User_pressed_Stop_>
-for more info.
+'User pressed Stop button'
+case|debug/Handling_the__User_pressed_Stop_button__case> for more
+info.
 
 If your mod_perl version is earlier than 1.17 you might also get the 
 message in the following section...
@@ -496,12 +497,12 @@ C<$q-E<gt>param('test')>'s return value or the default value (C<''>
 empty string in our example).
 
 Also read about L<Finding the Line Which Triggered the Error or
-Warning|debug/Finding_the_Line_Which_Triggered>.
+Warning|debug/Finding_the_Line_Which_Triggered_the_Error_or_Warning>.
 
 =head2 Undefined subroutine &Apache::ROOT::perl::test_2epl::some_function called at
 
 See L<Names collisions with Modules and
-libs|porting/Name_collisions_with_Modules_and>.
+libs|porting/Name_collisions_with_Modules_and_libs>.
 
 
 
@@ -530,7 +531,7 @@ same message to stderr.
 Perl 5.005+ plus is recommended for its improved malloc.c and other
 features that improve mod_perl and are turned on by default.
 
-See also L</Out_of_memory!>
+See also L</Out_of_memory_>
 
 =head2 Out of memory!
 
@@ -705,8 +706,8 @@ process is hanging in perl_destruct() while trying to cleanup.  This
 cleanup normally isn't a requirement, you can disable it by setting
 the PERL_DESTRUCT_LEVEL environment variable to -1.  See the section
 "L<Speeding up the Apache Termination and
-Restart|control/Speeding_up_the_Apache_Terminati>" for more 
-information.
+Restart|control/Speeding_up_the_Apache_Termination_and_Restart>" for 
+more information.
 
 
 =head2 httpd keeps on growing after each restart

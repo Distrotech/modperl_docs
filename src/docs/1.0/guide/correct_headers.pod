@@ -118,7 +118,7 @@ this argument first.
   use Date::Parse;
   # Date::Parse parses RCS format, Apache::Util::parsedate doesn't
   $Mtime ||=
-    Date::Parse::str2time(substr q$Date: 2002/01/06 16:54:56 $, 6);
+    Date::Parse::str2time(substr q$Date: 2002/02/04 13:50:25 $, 6);
   $r->set_last_modified($Mtime);
 
 =head2 2.1.3) Expires and Cache-Control
@@ -596,9 +596,7 @@ http://vancouver-webpages.com/CacheNow/
 
 Lincoln Stein, Doug MacEachern: Writing Apache Modules with Perl and
 C, O'Reilly, 1-56592-567-X. Selected chapters available online at
-http://www.modperl.com . Amazon page at
-http://www.amazon.com/exec/obidos/ASIN/156592567X/writinapachemodu/
-
+http://www.modperl.com/ .
 
 =head1 Other resources
 

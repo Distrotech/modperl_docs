@@ -274,7 +274,7 @@ Flash.net: Internet Service Provider
 1,603,000 unique visitors/month Aug-1999
 
 http://www.flash.net
-http://www.mediametrix.com/TopRankings/TopRankings.html
+http://www.mediametrix.com/
 
 Apache/1.2.4 mod_perl/1.00 on Solaris
 

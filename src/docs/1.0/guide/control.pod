@@ -53,7 +53,7 @@ be omitted and under some operating systems they will need to be preceded by
 a minus sign, e.g. C<kill -15> or C<kill -TERM> followed by the PID.
 
 
-=head1 Server Stopping and Restarting 
+=head1 Server Stopping and Restarting
 
 We will concentrate here on the implications of sending C<TERM>,
 C<HUP>, and C<USR1> signals (as arguments to kill(1)) to a mod_perl
@@ -1648,7 +1648,7 @@ running under mod_perl that has caused all the RAM or all the disk to
 be used. The following tips should help you prevent these problems,
 before if at all they hit you.
 
-=head2 All RAM Consumed 
+=head2 All RAM Consumed
 
 Sometimes calling an undefined subroutine in a module can cause a
 tight loop that consumes all the available memory.  Here is a way to

@@ -47,7 +47,7 @@ who is allowed to write and run a CGI script can at least read (if not
 write) any other files that belong to the same user and/or group the
 web server is running as.  Note that L<it's impossible to run
 C<suEXEC> and C<cgiwrap> extensions under
-mod_perl|install/Is_it_possible_to_run_mod_perl_e>.
+mod_perl|install/Is_it_possible_to_run_mod_perl_enabled_Apache_as_suExec_>.
 
 Another issue is the security of the database connections.  If you use
 C<Apache::DBI>, by hacking the C<Apache::DBI> code you can pick a
@@ -262,9 +262,9 @@ solutions suggested at the beginning of this chapter.
 Allows running a few instances of the same or different OSs on the
 same machine. This technology comes in two flavors:
 
-open source: http://www.freemware.org/ also known as plex86
+Open source: http://www.plex86.org/
 
-commercial: http://www.vmware.com/
+Commercial: http://www.vmware.com/
 
 So you may want to run a separate OS for each of your clients
 
@@ -310,12 +310,12 @@ L<Easing the Chores of Configuring Virtual Hosts with
 mod_macro|config/Configuring_Apache___mod_perl_with_mod_macro>
 
 L<Is There a Way to Provide a Different startup.pl File for Each
-Individual Virtual Host|config/Is_There_a_Way_to_Provide_a_Diff>
+Individual Virtual Host|config/Is_There_a_Way_to_Provide_a_Different_startup_pl_File_for_Each_Individual_Virtual_Host>
 
 L<Is There a Way to Modify @INC on a Per-Virtual-Host or Per-Location
-Basis.|config/Is_There_a_Way_to_Modify_INC_on> 
+Basis.|config/Is_There_a_Way_to_Modify__INC_on_a_Per_Virtual_Host_or_Per_Location_Basis_> 
 
 L<A Script From One Virtual Host Calls a Script with the Same Path
-From the Other Virtual Host|config/A_Script_From_One_Virtual_Host_C>
+From the Other Virtual Host|config/A_Script_From_One_Virtual_Host_Calls_a_Script_with_the_Same_Path_From_the_Other_Virtual_Host>
 
 =cut

@@ -13,14 +13,14 @@ please L<tell me|help/Contacting_me>.
 =head1 my() scoped variable in nested subroutines
 
 See the section "L<my() Scoped Variable in Nested 
-Subroutines|perl/my_Scoped_Variable_in_Nested_S>".
+Subroutines|perl/my___Scoped_Variable_in_Nested_Subroutines>".
 
 
 
 =head1 Segfaults caused by PerlFreshRestart
 
 See the section L<Evil things might happen when using
-PerlFreshRestart|troubleshooting/Evil_things_might_happen_when_us>
+PerlFreshRestart|troubleshooting/Evil_things_might_happen_when_using_PerlFreshRestart>
 
 
 =cut

@@ -3,9 +3,6 @@
 Code Snippets
 
 
-
-
-
 =head1 Redirecting Errors to the Client Instead of error_log
 
 Many error conditions result in an I<exception> (or I<signal> -- same
@@ -924,9 +921,9 @@ status and issuing redirect.
 
 So if a client submits a request of this kind:
 
-  http://www.example.com/news/?uri=http://www.example-2.com/
+  http://www.example.com/news/?uri=http://www2.example.com/
 
-C<$uri> will hold I<http://www.example-2.com/news/> and that's where
+C<$uri> will hold I<http://www2.example.com/news/> and that's where
 the request will be redirected.
 
 
@@ -1274,10 +1271,10 @@ HTTP result code independent from the handler return code (perhaps a
 log_status() method? or at least an C<Apache::LOG_HANDLER_RESULT>
 config variable?).
 
-In the meantime, there's
-L<Apache::RedirectLogFix|snippets/Code_Snippets_>.
+In the meantime, there's C<Apache::RedirectLogFix>, distributed with
+mod_perl.
 
-Put this in your I<httpd.conf>
+Add to your I<httpd.conf>:
 
   PerlLogHandler Apache::RedirectLogFix
 

@@ -285,10 +285,6 @@ at http://perl.apache.org/dist/mod_perl_traps.html .
 
 =over
 
-=item * PerlMonth
-
-http://perlmonth.com
-
 =item * ApacheToday
 
 http://apachetoday.com
@@ -476,12 +472,12 @@ Dean Roehrich's XS CookBookA and CookBookB
 http://search.cpan.org/search?dist=CookBookA
 http://search.cpan.org/search?dist=CookBookB
 
-a series of articles at PerlMonth.com by Steven McDougall:
-http://www.perlmonth.com/columns/modules/modules.html?issue=6
-http://www.perlmonth.com/columns/modules/modules.html?issue=7
-http://www.perlmonth.com/columns/modules/modules.html?issue=8
-http://www.perlmonth.com/columns/modules/modules.html?issue=9
-http://www.perlmonth.com/columns/modules/modules.html?issue=10
+a series of articles by Steven McDougall:
+http://world.std.com/~swmcd/steven/perl/pm/xs/intro/index.html
+http://world.std.com/~swmcd/steven/perl/pm/xs/concepts.html
+http://world.std.com/~swmcd/steven/perl/pm/xs/tools/index.html
+http://world.std.com/~swmcd/steven/perl/pm/xs/modules/modules.html
+http://world.std.com/~swmcd/steven/perl/pm/xs/nw/NW.html
 
 I<Advanced Perl Programming> By Sriram Srinivasan. Published by
 O'Reilly & Associates. ISBN: 1-56592-220-4. Chapters 18-20.
@@ -525,9 +521,6 @@ to perl5-porters-help@perl.org for more information about the
 subscription options.
 
 =back
-
-See also http://tile.net/listserv/perl5portersdigest.html and
-http://tile.net/lists/perl5porters.html .
 
 List's archive is available at
 http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/.
@@ -631,7 +624,7 @@ Using Apache with Suexec on Linux
 http://linuxplanet.com/linuxplanet/print/1445/
 
 Installing and Securing the Apache Webserver with SSL
-http://www.securityfocus.com/focus/sun/articles/apache-inst.html?&_ref=1653102939
+http://www.securityfocus.com/infocus/1356
 
 
 =item * mod_throttle_access
@@ -657,7 +650,7 @@ mod_throttle_access is available at http://www.fremen.org/apache/
 =item *
 
 Introduction to Structured Query Language:
-http://w3.one.net/~jhoffman/sqltut.htm
+http://www.dbbm.fiocruz.br/class/Lecture/d17/sql/jhoffman/sqltut.html
 
 =item *
 
@@ -679,7 +672,7 @@ http://www.fugue.com/dbi/
 
 =item * DBI mailing list archives
 
-http://outside.organic.com/mail-archives/dbi-users/
+http://www.bitmechanic.com/mail-archives/dbi-users/
 http://www.xray.mpe.mpg.de/mailing-lists/dbi/
 
 =back

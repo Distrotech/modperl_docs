@@ -83,12 +83,12 @@ techniques, preventing the server from eating up all your disk space
 in a matter of minutes, and more.
 
 (META: fix this)
-The L<mod_perl Status. Peeking into the Server's Perl Innards|config/mod_perl_Configuration_>
-chapter shows you the ways you can peek at what is going on in a
-mod_perl-enabled server while it is running. Like looking at the value
-of some global variable, what database connections are open, looking
-up what modules are loaded and their paths, what is the value of
-C<@INC>, and much more.
+The L<mod_perl Status. Peeking into the Server's Perl
+Innards|config/mod_perl_Configuration> chapter shows you the ways you
+can peek at what is going on in a mod_perl-enabled server while it is
+running. Like looking at the value of some global variable, what
+database connections are open, looking up what modules are loaded and
+their paths, what is the value of C<@INC>, and much more.
 
 Every programmer needs to know how to debug her program. It is an
 _easy_ task with plain Perl. Just invoke the program with the C<-d>
@@ -124,8 +124,8 @@ The L<Choosing an Operating System and Hardware|hardware/> chapter
 gives you an idea on how to choose the software and hardware for the
 webserver.
 
-The L<mod_perl Advocacy|advocacy/mod_perl_Advocacy_> tries to make it
-easier to advocate mod_perl around the world.
+The L<mod_perl Advocacy|advocacy/> tries to make it easier to advocate
+mod_perl around the world.
 
 The L<Getting Help and Further Learning|help/> chapter refers you to
 other related information resources, like learning Perl programming

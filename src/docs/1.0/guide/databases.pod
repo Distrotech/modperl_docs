@@ -156,8 +156,8 @@ die()'s while tables are locked, they will stay neatly locked as your
 connection won't be closed either.
 
 See the section L<Handling the 'User pressed Stop button'
-case|debug/Handling_the_User_pressed_Stop_> for more information on
-prevention.
+case|debug/Handling_the__User_pressed_Stop_button__case>
+for more information on prevention.
 
 =head2 Troubleshooting
 
@@ -358,8 +358,8 @@ disk access. Different usage profiles require vastly different
 performance needs.
 
 This is basically a similar idea to having L<two Apache
-servers|strategy/One_Plain_Apache_and_One_mod_per>, each optimized for
-its specific requirements.
+servers|strategy/One_Plain_Apache_and_One_mod_perl_enabled_Apache_Servers>,
+each optimized for its specific requirements.
 
 
 =head1 Some useful code snippets to be used with relational Databases
