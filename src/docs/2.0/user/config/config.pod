@@ -138,6 +138,11 @@ Finally as usual the I<startup.pl> file must be terminated with C<1;>.
 
   META: to be written
 
+=head2 C<PerlLoadModule>
+
+  META: to be written
+  discused somewhere in docs::2.0::user::config::custom
+
 =head2 C<PerlSetVar>
 
   META: to be written
@@ -816,6 +821,7 @@ General directives:
   PerlSwitches                 ITERATE    SRV
   PerlRequire                  ITERATE    SRV
   PerlModule                   ITERATE    SRV
+  PerlLoadModule               RAW_ARGS   SRV
   PerlOptions                  ITERATE    DIR
   PerlSetVar                   TAKE2      DIR
   PerlAddVar                   ITERATE2   DIR
