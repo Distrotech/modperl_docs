@@ -1,4 +1,4 @@
-=head1 mod_perl Documentation proeject's Style Guide
+=head1 mod_perl Documentation project's Style Guide
 
 =head1 Introduction
 
@@ -9,12 +9,15 @@ To read this document in the proper way, run:
 
   % perldoc ./style.pod
 
+Or convert it to HTML:
+
+  % pod2html --infile=style.pod --outfile=style.html
+
 =head1 Formatting
 
 The documentation format is a plain POD (Plain Old Documentation),
-which then will be converted into HTML, XML, PS, PDF and other
-formats. You can learn the syntax of this format from the I<perlpod>
-manpage.
+which then will be converted into HTML, PS, PDF and other formats. You
+can learn the syntax of this format from the I<perlpod> manpage.
 
 =head1 Document structure
 
@@ -33,8 +36,8 @@ content. e.g.:
   This is the title of the document
 
 There should be no POD escape characters in this section, since it can
-be used in places where it's not possible to render things like I<> or
-B<>.
+be used in places where it's not possible to render things like
+IE<lt>E<gt> or BE<lt>E<gt>.
 
 This section won't appear in the finally rendered document
 
@@ -88,14 +91,35 @@ editor to remove these new line chars, or use Perl:
 
   % perl -pi -e 's|\cM||' filename.pod
 
+If you want to iterate over all files in a directory:
+
+  % find . -type f -exec perl -pi -e 's|\cM||' {} \;
+
+though watch for binaries, like images, which may get corrupted with
+the above command. So something like more fine tuned command is
+safer:
+
+  % find . -type f -name "*.pod" -exec perl -pi -e 's|\cM||' {} \;
+
+
 =item *
 
-Use CE<lt>ModuleE<gt> for module names, directives, etc.
+Use CE<lt>ModuleE<gt> for module names, directives, function names,
+etc. If correcting older documentation, remember not to leave any
+quotes around the old names (for example, don't do CE<lt>"GET"E<gt>,
+but just CE<lt>GETE<gt>).
+
+Some older documentation uses BE<lt>E<gt> for module names. This was
+because C<pod2man> didn't make CE<lt>E<gt> stand out enough. If you
+spot any of these, please replace them with CE<lt>E<gt>. Use
+BE<lt>E<gt> for stressing very important things. Use them
+infrequently, since if there are many phrases in bold the original
+intention is getting lost.
 
 =item *
 
 Use IE<lt>filenameE<gt> for filenames, URIs and things that are
-generally written in italics
+generally written in italics.
 
 =item *
 
@@ -114,13 +138,30 @@ interpret this tag.
 
 URLs are left unmarked. Pod2Html automatically identifies and
 highlights them. If later we would like to do that inline, we can have
-an easy s/// one liner.
+an easy C<s///> one liner.
 
 =item *
 
-Linking between items in the same doc and across documents. Currently
+Linking between items in the same doc and across documents: Currently
 use the technique explained in perlpod man page. It's not very
 sophisticated, but we will have to think about some better technique.
+
+Currently, you can do this: for example, if editing the document
+I<guide/performance.pod>, you can link to the I<install.pod> one by
+using
+
+  L<installation instructions|guide::install>
+
+or
+
+  L<installation instructions|docs::1.0::guide::install>
+
+[the second example doesn't work yet, need to be fixed]
+
+There are some other linking limitations; e.g. you can't link directly
+to the I<index.html> of a section, and you can't link using relative
+URIs. The latter limitation comes from the perlpodspec and hopefully
+will be improved in the future.
 
 =item *
 
@@ -145,11 +186,14 @@ Use the head tags:
 
   =head(1,2,3...)
 
+Please try to avoid titles in B<ALLCAPS>. Use caps like B<This>, which
+are a little more I<normal>.
+
 =item *
 
 Code examples:
 
-META: not implemented yet! Currently use F<>
+META: not implemented yet! Currently use FE<lt>E<gt>
 
 A new pod tag:
 
@@ -157,7 +201,7 @@ A new pod tag:
 
 becomes:
 
- <p><i>Example 1.1: This is a title</i></p> 
+ <p><i>Example 1.1: This is a title</i></p>
 
 =item *
 
@@ -272,6 +316,28 @@ will make the release broken. Another approach is to add some tail
 (ending token), but it's a mess I think. I develop the text using
 I<cperl-mode.el> in xemacs which shows all space characters not
 followed by any text - this helps a lot!
+
+=item *
+
+Changes: In many directories, you will find a file named
+I<Changes.pod>. This file contains the latest changes to a certain
+documentation section, sorted by date (newest first). If you have made
+any changes and sending a patch, it would be nice of you to include
+the updated I<Changes.pod> file together with the patch.
+
+A typical entry would look like this:
+
+  =head1 Fri 19 Apr 18:37:00 CET 2002
+  
+  * Fixed some things and then other things, and then some other
+    things bla bla bla. [John Doe E<lt>john.doe (at) aol.comE<gt>]
+  
+  * Other changes to I<file.pod>, and to I<otherfile.pod>. [stas]
+
+Please try to keep things correctly aligned here (ie. the first
+characters on each line should be vertically aligned with eachother),
+as this file will most often be viewed as text.
+
 
 =back
 
