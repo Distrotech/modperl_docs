@@ -383,12 +383,27 @@ You should get something like this:
 
   0000d010 T apr_table_compress
 
+If you get the message:
+
+ nm: /usr/local/apache2/lib/libapr-0.so.0: no symbols
+
+that means that the library was stripped. You probably want to obtain
+Apache 2.x or libapr source, matching your binary and check it
+instead. Or rebuild it with debugging enabled, which will not strip
+the symbols.
+
 Note that the "grep table_compress" is only an example, the exact
 string you are looking for is the name of the "undefined symbol" from
-the error_log.  So, if you got "undefined symbol: apr_holy_grail" then
-you would do
+the I<error_log> file.  So, if you get:
+
+  undefined symbol apr_holy_grail
+
+then you would do:
 
   % nm /usr/local/apache2/lib/libapr-0.so.0 | grep holy_grail
+
+
+
 
 =item Step 3
 
