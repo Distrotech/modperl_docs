@@ -1484,7 +1484,7 @@ To upload a string as a file, use:
 Retrieves the content from the response resulted from doing
 C<UPLOAD>. It's equal to:
 
-  my $body UPLOAD(@_)->content;
+  my $body = UPLOAD(@_)->content;
 
 For example, this code retrieves the content of the response resulted
 from file upload request:
