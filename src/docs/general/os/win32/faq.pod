@@ -213,6 +213,29 @@ using the I<Apache2> module, as described in
 L<accessing mod_perl 2
 modules|docs::2.0::user::config::config/Accessing_the_mod_perl_2_0_Modules>.
 
+=head2 When starting Apache, an error concerning a missing entry point in mod_perl.so appears.
+
+This might be due to an incompatibility between the installed mod_perl
+files in the Perl tree and the mod_perl.so library within the Apache
+(or Apache2) modules directory. If you're installing mod_perl via ppm, first 
+try removing mod_perl (or mod_perl-dev, if you're using the 
+development version):
+
+  ppm> remove mod_perl
+
+Next, remove (or move to another location) the mod_perl.so
+library under the Apache (or Apache2) modules directory:
+
+  C:\> del Apache2\modules\mod_perl.so
+
+(assuming F<C:\Apache2> is your top-level Apache2 directory).
+You may have to stop Apache to be able to do this. Then install 
+mod_perl via ppm:
+
+  ppm> install mod_perl
+
+and ensure that the post-install script successfully fetches
+and installs F<mod_perl.so>.
 
 =head2 I get a "Can't locate object method ..." error.
 
