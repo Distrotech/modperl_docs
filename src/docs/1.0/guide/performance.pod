@@ -4248,8 +4248,9 @@ your HTML header that require the browser to load a separate file. In
 that case, the user won't be able to see the content at once, no
 matter if you flush the buffers or not.
 
-A workaround for this might be to use an output filter that replaces
-these tags with the files they refer to.
+A workaround for this might be to use an L<output
+filter|guide::modules/Apache__Filter___Alter_the_output_of_previous_handlers>
+that replaces these tags with the files they refer to.
 
 =head2 Global vs. Fully Qualified Variables
 
