@@ -1004,20 +1004,23 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head2 C<:fileperms>
+=head2 C<:fileprot>
 
-  use APR::Const -compile => qw(:fileperms);
+  use APR::Const -compile => qw(:fileprot);
 
-The C<:fileperms> group is for XXX constants.
+The C<:fileprot> group is used by
+C<L<$finfo-E<gt>protection|docs::2.0::api::APR::Finfo/C_protection_>>.
 
 
 
 
-=head3 C<APR::GEXECUTE>
+=head3 C<APR_FILEPROT_GEXECUTE>
+
+Execute by group
 
 =over
 
-=item since: 1.99_12
+=item since: 1.99_17
 
 =back
 
@@ -1025,11 +1028,157 @@ The C<:fileperms> group is for XXX constants.
 
 
 
-=head3 C<APR::GREAD>
+
+=head3 C<APR_FILEPROT_GREAD>
+
+Read by group
 
 =over
 
-=item since: 1.99_12
+=item since: 1.99_17
+
+=back
+
+
+
+
+=head3 C<APR_FILEPROT_GSETID>
+
+Set group id
+
+=over
+
+=item since: 1.99_17
+
+=back
+
+
+
+
+=head3 C<APR_FILEPROT_GWRITE>
+
+Write by group
+
+=over
+
+=item since: 1.99_17
+
+=back
+
+
+
+
+=head3 C<APR_FILEPROT_OS_DEFAULT>
+
+use OS's default permissions
+
+=over
+
+=item since: 1.99_17
+
+=back
+
+
+
+
+=head3 C<APR_FILEPROT_UEXECUTE>
+
+Execute by user
+
+=over
+
+=item since: 1.99_17
+
+=back
+
+
+
+
+=head3 C<APR_FILEPROT_UREAD>
+
+Read by user
+
+=over
+
+=item since: 1.99_17
+
+=back
+
+
+
+
+=head3 C<APR_FILEPROT_USETID>
+
+Set user id
+
+=over
+
+=item since: 1.99_17
+
+=back
+
+
+
+
+=head3 C<APR_FILEPROT_UWRITE>
+
+Write by user
+
+=over
+
+=item since: 1.99_17
+
+=back
+
+
+
+
+=head3 C<APR_FILEPROT_WEXECUTE>
+
+Execute by others
+
+=over
+
+=item since: 1.99_17
+
+=back
+
+
+
+
+=head3 C<APR_FILEPROT_WREAD>
+
+Read by others
+
+=over
+
+=item since: 1.99_17
+
+=back
+
+
+
+
+=head3 C<APR_FILEPROT_WSTICKY>
+
+Sticky bit
+
+=over
+
+=item since: 1.99_17
+
+=back
+
+
+
+
+=head3 C<APR_FILEPROT_WWRITE>
+
+Write by others
+
+=over
+
+=item since: 1.99_17
 
 =back
 
@@ -1037,85 +1186,6 @@ The C<:fileperms> group is for XXX constants.
 
 
 
-=head3 C<APR::GWRITE>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<APR::UEXECUTE>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<APR::UREAD>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<APR::UWRITE>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<APR::WEXECUTE>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<APR::WREAD>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<APR::WWRITE>
-
-=over
-
-=item since: 1.99_12
-
-=back
 
 
 
@@ -1125,16 +1195,19 @@ The C<:fileperms> group is for XXX constants.
 
   use APR::Const -compile => qw(:filetype);
 
-The C<:filetype> group is for XXX constants.
+The C<:filetype> group is used by
+C<L<$finfo-E<gt>filetype|docs::2.0::api::APR::Finfo/C_filetype_>>.
 
 
 
 
-=head3 C<APR::NOFILE>
+=head3 C<APR::FILETYPE_BLK>
+
+a file is a block device
 
 =over
 
-=item since: 1.99_12
+=item since: 1.99_17
 
 =back
 
@@ -1142,11 +1215,14 @@ The C<:filetype> group is for XXX constants.
 
 
 
-=head3 C<APR::REG>
+
+=head3 C<APR::FILETYPE_CHR>
+
+a file is a character device
 
 =over
 
-=item since: 1.99_12
+=item since: 1.99_17
 
 =back
 
@@ -1154,11 +1230,13 @@ The C<:filetype> group is for XXX constants.
 
 
 
-=head3 C<APR::DIR>
+=head3 C<APR::FILETYPE_DIR>
+
+a file is a directory
 
 =over
 
-=item since: 1.99_12
+=item since: 1.99_17
 
 =back
 
@@ -1166,11 +1244,13 @@ The C<:filetype> group is for XXX constants.
 
 
 
-=head3 C<APR::CHR>
+=head3 C<APR::FILETYPE_LNK>
+
+a file is a symbolic link
 
 =over
 
-=item since: 1.99_12
+=item since: 1.99_17
 
 =back
 
@@ -1178,11 +1258,13 @@ The C<:filetype> group is for XXX constants.
 
 
 
-=head3 C<APR::BLK>
+=head3 C<APR::FILETYPE_NOFILE>
+
+the file type is undedetermined.
 
 =over
 
-=item since: 1.99_12
+=item since: 1.99_17
 
 =back
 
@@ -1190,11 +1272,13 @@ The C<:filetype> group is for XXX constants.
 
 
 
-=head3 C<APR::PIPE>
+=head3 C<APR::FILETYPE_PIPE>
+
+a file is a FIFO or a pipe.
 
 =over
 
-=item since: 1.99_12
+=item since: 1.99_17
 
 =back
 
@@ -1202,11 +1286,13 @@ The C<:filetype> group is for XXX constants.
 
 
 
-=head3 C<APR::LNK>
+=head3 C<APR::FILETYPE_REG>
+
+a file is a regular file.
 
 =over
 
-=item since: 1.99_12
+=item since: 1.99_17
 
 =back
 
@@ -1214,11 +1300,13 @@ The C<:filetype> group is for XXX constants.
 
 
 
-=head3 C<APR::SOCK>
+=head3 C<APR::FILETYPE_SOCK>
+
+a file is a [unix domain] socket.
 
 =over
 
-=item since: 1.99_12
+=item since: 1.99_17
 
 =back
 
@@ -1226,13 +1314,20 @@ The C<:filetype> group is for XXX constants.
 
 
 
-=head3 C<APR::UNKFILE>
+=head3 C<APR::FILETYPE_UNKFILE>
+
+a file is of some other unknown type or the type cannot be determined.
 
 =over
 
-=item since: 1.99_12
+=item since: 1.99_17
 
 =back
+
+
+
+
+
 
 
 
@@ -1242,12 +1337,16 @@ The C<:filetype> group is for XXX constants.
 
   use APR::Const -compile => qw(:finfo);
 
-The C<:finfo> group is for XXX constants.
+The C<:finfo> group is used by
+C<L<stat()|docs::2.0::api::APR::Finfo/C_stat_>> and
+C<L<$finfo-E<gt>valid|docs::2.0::api::APR::Finfo/C_valid_>>.
 
 
 
 
 =head3 C<APR::FINFO_ATIME>
+
+Access Time
 
 =over
 
@@ -1261,6 +1360,8 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_CSIZE>
 
+Storage size consumed by the file
+
 =over
 
 =item since: 1.99_12
@@ -1272,6 +1373,8 @@ The C<:finfo> group is for XXX constants.
 
 
 =head3 C<APR::FINFO_CTIME>
+
+Creation Time
 
 =over
 
@@ -1285,6 +1388,8 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_DEV>
 
+Device
+
 =over
 
 =item since: 1.99_12
@@ -1296,6 +1401,8 @@ The C<:finfo> group is for XXX constants.
 
 
 =head3 C<APR::FINFO_DIRENT>
+
+an atomic unix apr_dir_read()
 
 =over
 
@@ -1309,6 +1416,8 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_GPROT>
 
+Group protection bits
+
 =over
 
 =item since: 1.99_12
@@ -1320,6 +1429,8 @@ The C<:finfo> group is for XXX constants.
 
 
 =head3 C<APR::FINFO_GROUP>
+
+Group id
 
 =over
 
@@ -1333,6 +1444,8 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_ICASE>
 
+whether device is case insensitive
+
 =over
 
 =item since: 1.99_12
@@ -1344,6 +1457,8 @@ The C<:finfo> group is for XXX constants.
 
 
 =head3 C<APR::FINFO_IDENT>
+
+device and inode
 
 =over
 
@@ -1357,6 +1472,8 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_INODE>
 
+Inode
+
 =over
 
 =item since: 1.99_12
@@ -1368,6 +1485,8 @@ The C<:finfo> group is for XXX constants.
 
 
 =head3 C<APR::FINFO_LINK>
+
+Stat the link not the file itself if it is a link
 
 =over
 
@@ -1381,6 +1500,8 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_MIN>
 
+type, mtime, ctime, atime, size
+
 =over
 
 =item since: 1.99_12
@@ -1392,6 +1513,8 @@ The C<:finfo> group is for XXX constants.
 
 
 =head3 C<APR::FINFO_MTIME>
+
+Modification Time
 
 =over
 
@@ -1405,6 +1528,8 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_NAME>
 
+name in proper case
+
 =over
 
 =item since: 1.99_12
@@ -1416,6 +1541,8 @@ The C<:finfo> group is for XXX constants.
 
 
 =head3 C<APR::FINFO_NLINK>
+
+Number of links
 
 =over
 
@@ -1429,6 +1556,8 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_NORM>
 
+All fields provided by an atomic unix apr_stat()
+
 =over
 
 =item since: 1.99_12
@@ -1440,6 +1569,8 @@ The C<:finfo> group is for XXX constants.
 
 
 =head3 C<APR::FINFO_OWNER>
+
+user and group
 
 =over
 
@@ -1453,6 +1584,8 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_PROT>
 
+all protections
+
 =over
 
 =item since: 1.99_12
@@ -1464,6 +1597,8 @@ The C<:finfo> group is for XXX constants.
 
 
 =head3 C<APR::FINFO_SIZE>
+
+Size of the file
 
 =over
 
@@ -1477,6 +1612,8 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_TYPE>
 
+Type
+
 =over
 
 =item since: 1.99_12
@@ -1488,6 +1625,8 @@ The C<:finfo> group is for XXX constants.
 
 
 =head3 C<APR::FINFO_UPROT>
+
+User protection bits
 
 =over
 
@@ -1501,6 +1640,8 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_USER>
 
+User id
+
 =over
 
 =item since: 1.99_12
@@ -1513,11 +1654,17 @@ The C<:finfo> group is for XXX constants.
 
 =head3 C<APR::FINFO_WPROT>
 
+World protection bits
+
 =over
 
 =item since: 1.99_12
 
 =back
+
+
+
+
 
 
 
