@@ -64,7 +64,7 @@ sub split_page {
 
     # Now create a new "document" for each
     create_page( $head->clone, $_->clone, \%params )
-        for $tree->look_down( '_tag', 'div', 'class', 'index_section' );
+        for $tree->look_down( '_tag', 'div', 'class', 'index-section' );
 
 
     ## If a page doesn't have an "index_section" then it's probably a table of contents (index.html)
