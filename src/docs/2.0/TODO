@@ -1,10 +1,6 @@
 2.0 docs todo:
 ---
 
-The MapToStorage hook needs to be added to the request cycle diagram
-
----
-
 mp2 Utilities need to be documented (a separate document?):
 
 mp2bug - (should also be mentioned in user/help/help.pod)
