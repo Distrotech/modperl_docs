@@ -76,7 +76,11 @@ the C<connect()> method, e.g.:
   $dbh = DBI->connect("$dsn$sid", $user, $password)
       or die "Cannot connect: " . $DBI::errstr;
 
-
+Also remember that C<DBD::Oracle> requires that I<ORACLE_HOME> (and
+any other stuff like I<NSL_LANG> stuff) be in C<%ENV> when
+C<DBD::Oracle> is loaded (which might happen indirectly via the C<DBI>
+module. Therefore you need to make sure that wherever that load
+happens C<%ENV> is properly set by that time.
 
 
 =head1 Maintainers
