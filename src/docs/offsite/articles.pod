@@ -101,9 +101,12 @@ http://www.linux-magazin.de/Artikel/ausgabe/1998/08/Pounder/pounder.html .
 =item *
 
 mod_perl articles at Perl.com
+
 http://www.perl.com/pub/q/Article_Archive#mod_perl (better use search
 and you will find other mod_perl articles which weren't catalogued
 under mod_perl category)
+
+Articles by David E. Wheeler: http://www.oreillynet.com/pub/au/1059
 
 =item *
 
