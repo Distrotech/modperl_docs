@@ -22,7 +22,11 @@
         delay_min       => .0001,
 
         # Ignore images files
-        test_url        => sub { $_[0]->path !~ /\.(?:gif|jpe?g|.png)$/i },
+        test_url => sub {
+            return if $_[0]->path =~ /\.(?:gif|jpeg|.png|.gz)$/i;
+            return unless $_[0]->path =~ m!^/preview/modperl-site!;
+            return 1;
+        },
 
         # Only index text/html
         test_response   => sub { return $_[2]->content_type =~ m[text/html] },
