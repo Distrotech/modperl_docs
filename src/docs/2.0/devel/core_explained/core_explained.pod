@@ -228,8 +228,8 @@ I<xs/tables/current>. For example I<xs/maps/modperl_functions.map> is
 converted into I<xs/tables/current/ModPerl/FunctionTable.pm>.
 
 If you don't want to do a visual check on how XS code will be
-generated, just rebuild the project starting with C<perl
-Makefile.PL>. Otherwise run:
+generated, just rebuild the project starting with C<perl Makefile.PL
+MP_GENERATE_XS=1>. Otherwise run:
 
   % make xs_generate
 
@@ -239,7 +239,8 @@ directory is correct.
 =head2 XS generation process
 
 As mentioned before XS code is generated in the I<WrapXS> directory
-either during C<perl Makefile.PL> via xs_generate() or explicitly via:
+either during C<perl Makefile.PL> via xs_generate() if
+C<MP_GENERATE_XS=1> is used or explicitly via:
 
   % make xs_generate
 
