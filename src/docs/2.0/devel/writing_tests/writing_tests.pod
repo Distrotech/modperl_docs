@@ -973,16 +973,36 @@ as a last argument for plan():
 
 =item * skip_unless()
 
-Instead of using a scalar as a last argument to plan() to tell whether
-to skip the test or not, it's better to use skip_unless() which also
-prints the reason for skipping the test if the condition is not
-satisfied. For example:
+Alternatively to specifying a last argument for plan(), the
+skip_unless() function can be called before plan(), to decide whether
+to skip the whole test or not. plan() won't be reached if skip_unless
+decides to skip the test.
 
-  plan tests => 5, skip_unless(sub { $a == $b }, "$a != $b");
+skip_unless()'s argument is a list of things to test. The list can
+include scalars, which are passed to have_module(), and hash
+references. The hash references have a condition code reference as a
+key and a reason for failure as a value. The condition code is run and
+if it fails the provided reason is used to tell user why the test was
+skipped.
 
-skip_unless() executes the code reference in the first argument and if
-it returns a false value C<$reason> gets printed as a reason for test
-skipping.
+For example:
+
+  skip_unless({sub {$a==$b} => "$a != $b!"
+               sub {$a==1}  => "$a != 1!"},
+              'LWP',
+              'cgi_d',
+               {sub {0} => "forced to be skipped"},
+             );
+  plan tests => 5;
+
+In this example, the first argument is a hash reference which includes
+two pairs of condition test functions and the corresponding reasons,
+the second and the third arguments are scalars passed to have_module()
+and the last argument is another hash reference with a single
+condition. This is just to demonstrate that you can supply conditions
+in various syntaxes without particular order. If any of the
+requirements from this list fail, plan() won't be called since
+skip_unless() will call exit().
 
 =item * have_module()
 
