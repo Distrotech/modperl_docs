@@ -1598,7 +1598,9 @@ Request part:
    my $config = Apache::Test::config();
    my $hostport = Apache::TestRequest::hostport($config);
 
-How to get the request object?
+Getting the request object? 
+Apache::TestRequest::user_agent()
+
 
 =head2 Starting Multiple Servers
 
