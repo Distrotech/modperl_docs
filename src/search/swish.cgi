@@ -18,7 +18,7 @@ use lib qw( modules );  ### This may need to be adjusted!
 #
 #    To display documentation for this program type "perldoc swish.cgi"
 #
-#    swish.cgi $Revision: 1.7 $ Copyright (C) 2001 Bill Moseley swishscript@hank.org
+#    swish.cgi $Revision: 1.8 $ Copyright (C) 2001 Bill Moseley swishscript@hank.org
 #    Example CGI program for searching with SWISH-E
 #
 #    This example program will only run under an OS that supports fork().
@@ -37,7 +37,7 @@ use lib qw( modules );  ### This may need to be adjusted!
 #
 #    The above lines must remain at the top of this program
 #
-#    $Id: swish.cgi,v 1.7 2002/04/06 14:42:26 moseley Exp $
+#    $Id: swish.cgi,v 1.8 2002/06/30 22:32:17 moseley Exp $
 #
 ####################################################################################
 
@@ -523,15 +523,29 @@ sub handler {
 sub merge_read_config {
     my $config = shift;
 
+
     set_default_debug_flags();
 
     set_debug($config);  # get from config or from %ENV
 
+
     return $config unless $config->{config_file};
+
+    unless ( -e $config->{config_file} ) {
+        # If any debugging messages set report this -- there's a default normally set
+        # so don't want to always report, although would be nice to avoid the stat()
+        log_msg("Config file '$config->{config_file}': $!")
+            if $config->{debug};
+        return $config;
+    }
 
     my $return = do $config->{config_file};
 
-    return $config unless ref $return eq 'HASH';
+    unless ( ref $return eq 'HASH' ) {
+        log_msg("Config file '$config->{config_file}': $! $@" );
+        return $config;
+    }
+
 
     if ( $config->{debug} || $return->{debug} ) {
         require Data::Dumper;
@@ -545,6 +559,12 @@ sub merge_read_config {
 
     # Merge settings
     return { %$config, %$return };
+}
+
+#--------------------------------------------------------------------------------------------------
+sub log_msg {
+    my $time = scalar localtime;
+    warn "$time\t", @_;
 }
 
 #--------------------------------------------------------------------------------------------------
@@ -680,7 +700,7 @@ sub process_request {
 
     eval { require $file };
     if ( $@ ) {
-        warn "$0 $@\n";
+        log_msg( "$0 $@");
         print <<EOF;
 Content-Type: text/html
 
@@ -853,7 +873,7 @@ sub run_query {
     };
 
     if ( $@ ) {
-        warn "$0 $@"; # if $conf->{debug};
+        log_msg("$0 $@"); # if $conf->{debug};
         $self->errstr( "Service currently unavailable" );
         return $self;
     }
@@ -1385,7 +1405,7 @@ sub run_swish {
                     eval { require "$package.pm" };
                     if ( $@ ) {
                         $self->errstr( "Failed to load Highlighting Module - check error log" );
-                        warn "$0: $@";
+                        log_msg("$0: $@");
                         $highlight = '';
                         next;
                     } else {
@@ -1463,7 +1483,7 @@ sub real_fork {
 
 
         unless ( exec $self->{prog},  $self->swish_command ) {
-            warn "Child process Failed to exec '$self->{prog}' Error: $!";
+            log_msg("Child process Failed to exec '$self->{prog}' Error: $!");
             print "Failed to exec Swish";  # send this message to parent.
             exit;
         }
@@ -2516,7 +2536,7 @@ Please do not contact the author or any of the swish-e developers directly.
 
 =head1 LICENSE
 
-swish.cgi $Revision: 1.7 $ Copyright (C) 2001 Bill Moseley search@hank.org
+swish.cgi $Revision: 1.8 $ Copyright (C) 2001 Bill Moseley search@hank.org
 Example CGI program for searching with SWISH-E
 
 
