@@ -53,6 +53,13 @@ Howto|contribute::cvs_howto>
 
 =back
 
+=head2 CVS Web Interface
+
+http://cvs.apache.org/viewcvs.cgi/modperl/
+
+
+
+
 =head1 mod_perl 2.0
 
 Be sure to read the I<README> and I<INSTALL> documents (in the
@@ -103,6 +110,10 @@ For more information on using CVS see L<the CVS
 Howto|contribute::cvs_howto>
 
 =back
+
+=head2 CVS Web Interface
+
+http://cvs.apache.org/viewcvs.cgi/modperl-2.0/
 
 =cut
 
