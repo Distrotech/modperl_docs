@@ -300,13 +300,17 @@ of that directive. Otherwise, C<undef> is returned.
 
 =back
 
-For example for a container definition:
+For example for a container block:
 
   <Location /foo>
   ...
   </Location>
 
 I<'/foo'> will be returned.
+
+
+
+
 
 
 
@@ -361,14 +365,14 @@ The server this command is appearing in
 Pool for scratch memory; persists during configuration, but destroyed
 before the first request is served.
 
-  $p = $parms->temp_pool;
+  $temp_pool = $parms->temp_pool;
 
 =over 4
 
 =item obj: C<$parms>
 ( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
 
-=item ret: C<$p>
+=item ret: C<$temp_pool>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
 =item since: 1.99_12
