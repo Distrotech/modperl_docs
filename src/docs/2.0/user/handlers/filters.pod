@@ -7,13 +7,192 @@ Input and Output Filters
 This chapter discusses mod_perl's input and output filter handlers.
 
 
-=head1 I/O Filtering
+=head1 I/O Filtering Concepts
+
+Before introducing the APIs mod_perl provides for Apache Filtering,
+there are several important concepts to understand.
+
+=head2 Two Methods for Manipulating Data
 
 Apache 2.0 considers all incoming and outgoing data as chunks of
 information, disregarding their kind and source or storage
 methods. These data chunks are stored in I<buckets>, which form
-I<bucket brigades>. Both input and output filters filter the data in
-bucket brigades.
+I<bucket brigades>. Input and output filters massage the data in
+I<bucket brigades>.
+
+mod_perl 2.0 filters can work with raw data, directly manipulating the
+bucket brigades or using the simplified streaming interface where the
+filter object acts similar to a filehandle, which can be read from and
+printed to.
+
+=head2 HTTP Request Versus Connection Filters
+
+HTTP request filters are applied when Apache serves an HTTP request.
+
+HTTP request input filters get invoked on the body of the HTTP request
+only if the body is consumed by the content handler.  HTTP request
+headers are not passed through the HTTP request input filters.
+
+HTTP response output filters get invoked on the body of the HTTP
+response if the content handler has generated one. HTTP response
+headers are not passed through the HTTP response output filters.
+
+Connection level filters are applied at the connection level.
+
+A connection may be configured to serve one or more HTTP requests, or
+handle other protocols. Connection filters see all the incoming and
+outgoing data. If an HTTP request is served, connection filters can
+modify the HTTP headers and the body of request and response.  If a
+different protocol is served over connection (e.g. IMAP), the data
+could have a completely different pattern, than the HTTP protocol
+(headers + body).
+
+Apache supports several other filter types, which mod_perl 2.0 may
+support in the future.
+
+=head2 Filter Handler Multiple Invocations
+
+Unlike other Apache handlers, filter handlers may get invoked more
+than once during the same request. For example if the content handler
+sends a string, and then forces a flush, following by more data:
+
+  $r->print("foo");
+  $r->rflush;
+  $r->print("bar");
+
+the output filter will be invoked once on the data sent before the
+flush, and then once more for the data after the flush.  There are
+many other situations when the filter gets invoked more than
+once. What's important to remember is when coding a filter one should
+never assume that the filter is always going to be invoked
+once. Therefore a typical filter handler may need to split its logic
+in three parts.
+
+Jumping ahead we will show some pseudo-code that represents all three
+parts. This is how a typical filter looks like:
+
+  sub handler {
+      my $filter = shift;
+  
+      # runs on first invocation
+      unless ($filter->ctx) {
+          init($filter);
+          $filter->ctx(1);
+      }
+  
+      # runs on all invocations
+      process($filter);
+  
+      # runs on the last invocation
+      if ($filter->seen_eos) {
+          finalize($filter);
+      }
+  
+      return Apache::OK;
+  }
+  sub init     { ... }
+  sub process  { ... }
+  sub finalize { ... }
+
+Let's explain each part using this pseudo-filter.
+
+=over
+
+=item 1 Initialization
+
+During the initialization, the filter runs all the code that should be
+performed only once across multiple invocations of the filter (this is
+during a single request). The filter context is used to accomplish
+that task. For each new request the filter context is created before
+the filter is called for the first time and its destroyed at the end
+of the request.
+
+      unless ($filter->ctx) {
+          init($filter);
+          $filter->ctx(1);
+      }
+
+When the filter is invoked for the first time C<$filter-E<gt>ctx>
+returns C<undef> and the custom function init() is called. This
+function could for example retrieve some configuration data set in
+I<httpd.conf> or initialize some datastructure to its defaults.
+
+To make sure that init() won't be called on the following invocations,
+we must set the filter context before the first invocation is
+completed:
+
+          $filter->ctx(1);
+
+In practice, the context is used to store real data and not just as a
+flag.  For example the following filter counts the number of times it
+was invoked during a single request:
+
+  sub handler {
+      my $filter = shift;
+  
+      my $ctx = $filter->ctx;
+      $ctx->{invoked}++;
+      $filter->ctx($ctx);
+      if ($filter->seen_eos) {
+          warn "filter was invoked $ctx->{invoked} times\n";
+      }
+  
+      return Apache::DECLINED;
+  }
+
+We will see more examples later in this chapter.
+
+=item 2 Processing
+
+The next part:
+
+      process($filter);
+
+is unconditionally invoked on every filter invocation. That's where
+the incoming data is read, modified and sent out to the next filter in
+the filter chain. Here is an example that lowers the case of the
+characters passing through:
+
+  use constant READ_SIZE  => 1024;
+  sub process {
+      my $filter = shift;
+      while ($filter->read(my $data, READ_SIZE)) {
+          $filter->print(lc $data);
+      }
+  }
+
+=item 3 Finalization
+
+Finally, some filters need to know when they are invoked for the last
+time, in order to perform various cleanups and/or flush any remaining
+data. Apache indicates this event by a special end of stream
+"token". The filter can check whether this is the last time its
+called, by calling C<$filter-E<gt>seen_eos>:
+
+      if ($filter->seen_eos) {
+          finalize($filter);
+      }
+
+This check should be done at the end of the filter handler, because
+sometimes the EOS "token" comes attached to the tail of data (the last
+invocation gets both the data and EOS) and sometimes it comes all
+alone (the last invocation gets only EOS).
+
+Jumping ahead, filters directly manipulating bucket brigades, have to
+look for a bucket whose type is C<EOS> to accomplish the same. We will
+see examples later in the chapter.
+
+=back
+
+
+
+
+
+=head2 Blocking Calls
+
+
+
+=head1 mod_perl Filters Interface
 
 =head2 PerlInputFilterHandler
 
@@ -46,9 +225,8 @@ C<PerlOutputFilterHandler> handler.
 =head2 Connection vs. HTTP Request Filters
 
 Currently the mod_perl filters allow connection and request level
-filtering. Apache supports several other types, which mod_perl 2.0
-will probably support in the future. mod_perl filter handlers specify
-the type of the filter using the method attributes.
+filtering. mod_perl filter handlers specify the type of the filter
+using the method attributes.
 
 Request filter handlers are declared using the C<FilterRequestHandler>
 attribute. Consider the following request input and output filters
