@@ -8,61 +8,382 @@ This chapter provides an indepth mod_perl 2.0 configuration details.
 
 =head1 mod_perl configuration directives
 
-=head2 Installing handlers
+Similar to mod_perl 1.x, in order to use mod_perl 2.0 a few
+configuration settings should be added to I<httpd.conf>. They are
+quite similar to 1.x settings but some directives were renamed and new
+directives were added.
 
-=over 4
+=head1 Enabling mod_perl
 
-=item PerlChildInitHandler
+To enable mod_perl built as DSO add to I<httpd.conf>:
 
-=item PerlOpenLogsHandler
+  LoadModule perl_module modules/mod_perl.so
 
-=item PerlPostConfigHandler
+This setting specifies the location of the mod_perl module relative to
+the C<ServerRoot> setting, therefore you should put it somewhere after
+C<ServerRoot> is specified.
 
-=item PerlPreConnectionHandler
+If mod_perl has been statically linked it's automatically enabled.
 
-=item PerlProcessConnectionHandler
 
-=item PerlHeaderParserHandler
 
-=item PerlAccessHandler
+=head1 Perl's Command Line Switches
 
-=item PerlAuthenHandler
+Now you can pass any Perl's command line switches in I<httpd.conf>
+using the C<PerlSwitches> directive. For example to enable warnings
+and Taint checking add:
 
-=item PerlAuthzHandler
+  PerlSwitches -wT
 
-=item PerlTypeHandler
+As an alternative to using C<use lib> in I<startup.pl> to adjust
+C<@INC>, now you can use the command line switch to do the same:
 
-=item PerlFixupHandler
+  PerlSwitches -Mlib=/home/stas/modperl
 
-=item PerlOutputFilterHandler
 
-=item PerlResponseHandler
 
-=item PerlLogHandler
 
-=item PerlPostReadRequestHandler
 
-=item PerlInitHandler
+=head1 PerlOptions Directive
 
-=item PerlTransHandler
+The directive C<PerlOptions> provides fine-grained configuration for
+what were compile-time only options in the first mod_perl generation.
+It also provides control over what class of C<PerlInterpreter> is used
+for a C<E<lt>VirtualHostE<gt>> or location configured with
+C<E<lt>LocationE<gt>>, C<E<lt>DirectoryE<gt>>, etc.
 
-=back
+Options are enabled by prepending C<+> and disabled with C<->. The
+options include:
 
-=head2 General directives
+=head2 C<Enable>
 
-=over 4
+On by default, can be used to disable mod_perl for a given
+C<VirtualHost>. For example:
 
-=item PerlSwitches switches
+  <VirtualHost ...>
+      PerlOptions -Enable
+  </VirtualHost>
 
-pass switches to the Perl command line. For example, to enable
-warnings:
+=head2 C<Clone>
 
-  PerlSwitches -w
+Share the parent Perl interpreter, but give the C<VirtualHost> its own
+interpreter pool. For example should you wish to fine tune interpreter
+pools for a given virtual host:
 
-=item PerlTrace [level]
+  <VirtualHost ...>
+      PerlOptions +Clone
+      PerlInterpStart 2
+      PerlInterpMax 2
+  </VirtualHost>
 
-set the trace level. This directive is enabled when mod_perl is compiled with
-the MP_TRACE option. C<level> is either:
+This might be worthwhile in the case where certain hosts have their
+own sets of large-ish modules, used only in each host.  By tuning each 
+host to have its own pool, that host will continue to reuse the Perl
+allocations in their specific modules.
+
+When cloning a Perl interpreter, to inherit base Perl interpreter's
+C<PerlSwitches> use:
+
+  <VirtualHost ...>
+      ...
+      PerlSwitches +inherit
+  </VirtualHost>
+
+
+=head2 C<Parent>
+
+Create a new parent Perl interpreter for the given C<VirtualHost> and
+give it its own interpreter pool (implies the C<Clone> option).
+
+A common problem with mod_perl 1.x was the shared namespace between
+all code within the process.  Consider two developers using the same
+server and each wants to run a different version of a module with the
+same name.  This example will create two I<parent> Perl interpreters,
+one for each C<E<lt>VirtualHostE<gt>>, each with its own namespace and
+pointing to a different paths in C<@INC>:
+
+  <VirtualHost ...>
+      ServerName dev1
+      PerlOptions +Parent
+      PerlSwitches -Mblib=/home/dev1/lib/perl
+  </VirtualHost>
+
+  <VirtualHost ...>
+      ServerName dev2
+      PerlOptions +Parent
+      PerlSwitches -Mblib=/home/dev2/lib/perl
+  </VirtualHost>
+
+Or even for a given location, for something like "dirty" cgi scripts:
+
+  <Location /cgi-bin>
+      PerlOptions +Parent
+      PerlInterpMaxRequests 1
+      PerlInterpStart 1
+      PerlInterpMax 1
+      PerlResponseHandler ModPerl::Registry
+  </Location>
+
+will use a fresh interpreter with its own namespace to handle each
+request.
+
+=head2 C<Perl*Handler>
+
+Disable C<Perl*Handlers>, all compiled in handlers are enabled by
+default.
+
+Suppose one of the hosts does not want to allow users to configure
+C<PerlAuthenHandler>, C<PerlAuthzHandler>, C<PerlAccessHandler> and
+E<lt>PerlE<gt> sections:
+
+  <VirtualHost ...>
+      PerlOptions -Authen -Authz -Access -Sections
+  </VirtualHost>
+
+Or maybe everything but the response handler:
+
+  <VirtualHost ...>
+      PerlOptions None +Response
+  </VirtualHost>
+
+=head2 C<AutoLoad>
+
+Resolve C<Perl*Handlers> at startup time, which includes loading the
+modules from disk if not already loaded.
+
+In mod_perl 1.x, configured C<Perl*Handlers> which are not a fully
+qualified subroutine names are resolved at request time, loading the
+handler module from disk if needed.  In mod_perl 2.0, configured
+C<Perl*Handlers> are resolved at startup time.  By default, modules
+are not auto-loaded during startup-time resolution.  It is possible to
+enable this feature with:
+
+  PerlOptions +Autoload
+
+Consider this configuration:
+
+  PerlResponseHandler Apache::Magick
+
+In this case, C<Apache::Magick> is the package name, and the
+subroutine name will default to I<handler>.  If the C<Apache::Magick>
+module is not already loaded, C<PerlOptions +Autoload> will attempt to
+pull it in at startup time. With this option enabled you don't have to
+explicitly load the handler modules. For example you don't need to
+add:
+
+  PerlModule Apache::Magick
+
+in our example.
+
+=head2 C<GlobalRequest>
+
+Setup the global C<request_rec> for use with C<Apache-E<gt>request>.
+This setting is needed for example if you use C<CGI.pm> to process the
+incoming request.
+
+=head2 C<ParseHeaders>
+
+Scan output for HTTP headers, same functionality as mod_perl 1.x's
+C<PerlSendHeaders>, but more robust. This option is usually needs to
+be enabled for registry scripts which send the HTTP header with:
+
+  print "Content-type: text/html\n\n";
+
+=head2 C<MergeHandlers>
+
+Turn on merging of C<Perl*Handler> arrays. For example with a setting:
+
+  PerlFixupHandler Apache::FixupA
+  
+  <Location /inside>
+      PerlFixupHandler Apache::FixupB
+  </Location>
+
+a request for I</inside> only runs C<Apache::FixupB> (1.x
+behavior). But with this configuration:
+
+  PerlFixupHandler Apache::FixupA
+  
+  <Location /inside>
+      PerlOptions +MergeHandlers
+      PerlFixupHandler Apache::FixupB
+  </Location>
+
+a request for I</inside> will run both C<Apache::FixupA> and
+C<Apache::FixupB> handlers.
+
+
+
+
+
+=head1 Handlers Directives
+
+META: need to add descriptions
+
+=head2 PerlChildInitHandler
+
+=head2 PerlOpenLogsHandler
+
+=head2 PerlPostConfigHandler
+
+=head2 PerlPreConnectionHandler
+
+=head2 PerlProcessConnectionHandler
+
+=head2 PerlHeaderParserHandler
+
+=head2 PerlAccessHandler
+
+=head2 PerlAuthenHandler
+
+=head2 PerlAuthzHandler
+
+=head2 PerlTypeHandler
+
+=head2 PerlFixupHandler
+
+=head2 PerlResponseHandler
+
+=head2 PerlLogHandler
+
+=head2 PerlPostReadRequestHandler
+
+=head2 PerlInitHandler
+
+=head2 PerlTransHandler
+
+=head2 PerlOutputFilterHandler
+
+The mod_perl 2.0 interface to the Apache filtering API is much simpler
+than the C API, hiding most of the details underneath.  Perl filters
+are configured using the C<PerlOutputFilterHandler> directive. For
+example:
+
+  PerlOutputFilterHandler Apache::ReverseFilter
+
+This simply registers the filter, which can then be turned on using
+the core C<AddOutputFilter> directive:
+
+  <Location /filterme>
+      AddOutputFilter Apache::ReverseFilter
+  </Location>
+
+The C<Apache::ReverseFilter> handler will now be called for anything
+accessed in the I</filterme> URL space.  The C<AddOutputFilter>
+directive takes any number of filters. For example, the configuration:
+
+  AddOutputFilter INCLUDE Apache::ReverseFilter
+
+will first send the output to I<mod_include>, which will in turn pass
+its output down to C<Apache::ReverseFilter>.
+
+
+
+
+
+
+
+=head1 Threads Mode Specific Directives
+
+These directives are enabled only in a threaded mod_perl+Apache combo:
+
+=head2 C<PerlInterpStart>
+
+The number of intepreters to clone at startup time.
+
+=head2 C<PerlInterpMax>
+
+If all running interpreters are in use, mod_perl will clone new
+interpreters to handle the request, up until this number of
+interpreters is reached. when C<PerlInterpMax> is reached, mod_perl
+will block (via COND_WAIT()) until one becomes available (signaled via
+COND_SIGNAL()).
+
+=head2 C<PerlInterpMinSpare>
+
+The minimum number of available interpreters this parameter will clone
+interpreters up to C<PerlInterpMax>, before a request comes in.
+
+=head2 C<PerlInterpMaxSpare>
+
+mod_perl will throttle down the number of interpreters to this number
+as those in use become available.
+
+=head2 C<PerlInterpMaxRequests>
+
+The maximum number of requests an interpreter should serve, the
+interpreter is destroyed when the number is reached and replaced with
+a fresh clone.
+
+=head2 C<PerlInterpScope>
+
+As mentioned, when a request in a threaded mpm is handled by mod_perl,
+an interpreter must be pulled from the interpreter pool.  The
+interpreter is then only available to the thread that selected it,
+until it is released back into the interpreter pool.  By default, an
+interpreter will be held for the lifetime of the request, equivalent
+to this configuration:
+
+  PerlInterpScope request
+
+For example, if a C<PerlAccessHandler> is configured, an interpreter
+will be selected before it is run and not released until after the
+logging phase.
+
+Intepreters will be shared across subrequests by default, however, it
+is possible to configure the intepreter scope to be per-subrequest on
+a per-directory basis:
+
+  PerlInterpScope subrequest
+
+With this configuration, an autoindex generated page, for example,
+would select an interpreter for each item in the listing that is
+configured with a Perl*Handler.
+
+It is also possible to configure the scope to be per-handler:
+
+  PerlInterpScope handler
+
+With this configuration, an interpreter will be selected before
+C<PerlAccessHandlers> are run, and putback immediately afterwards,
+before Apache moves onto the authentication phase.  If a
+C<PerlFixupHandler> is configured further down the chain, another
+interpreter will be selected and again putback afterwards, before
+C<PerlResponseHandler> is run.
+
+For protocol handlers, the interpreter is held for the lifetime of the
+connection.  However, a C protocol module might hook into mod_perl
+(e.g. mod_ftp) and provide a C<request_rec> record.  In this case, the
+default scope is that of the request.  Should a mod_perl handler want
+to maintain state for the lifetime of an ftp connection, it is
+possible to do so on a per-virtualhost basis:
+
+  PerlInterpScope connection
+
+
+
+
+
+
+
+=head1 Retrieving Server Startup Options
+
+The httpd server startup options can be retrieved using
+C<Apache::exists_config_define()>. For example to check whether the
+server has been started in a single mode use:
+
+  if (Apache::exists_config_define("ONE_PROCESS")) {
+      print "Running in a single mode";
+  }
+
+
+
+=head1 Debug Directives
+
+=head2 C<PerlTrace [level]>
+
+set the trace level. This directive is enabled when mod_perl is
+compiled with the MP_TRACE option. C<level> is either:
 
   all
 
@@ -83,151 +404,8 @@ equivalents) from the following list:
 When C<level> is not specified, the tracing level will be set to the
 value of the MOD_PERL_TRACE environment variable.
 
-=back
-
-=head2 Threaded mode directives
-
-These directives are enabled only in a threaded mod_perl+Apache combo.
-
-=over 4
-
-=item PerlInterpStart
-
-Number of Perl interpreters to start
-
-=item PerlInterpMax
-
-Max number of running Perl interpreters
-
-=item PerlInterpMaxSpare
-
-Max number of spare Perl interpreters
-
-=item PerlInterpMinSpare
-
-Min number of spare Perl interpreters
-
-=item PerlInterpMaxRequests
-
-Max number of requests per Perl interpreters
-
-=item PerlInterpScope
-
-Scope for which selected interpreter should be held, one of:
-I<request>, I<connection>, I<handler>, I<subrequest>.
-
-The default is I<request>.
-
-=back
-
-=head2 PerlOptions Directive
-
-Enable/Disable Options.  Options include:
-
-=over 4
-
-=item Parent
-
-Create a new parent Perl interpreter for the given VirtualHost and
-give it its own interpreter pool (implies Clone).
-
-=item Clone
-
-Share the parent Perl interpreter, but give the VirtualHost its own
-interpreter pool.
-
-Use:
-
-  PerlSwitches +inherit
-
-to inherit base Perl interpreter's C<PerlSwitches>.
-
-=item Enable
-
-On by default, used to disable mod_perl for a given VirtualHost.
-
-=item Perl*Handler
-
-Disable Perl*Handlers, all compiled in handlers are enabled by default.
-
-=item AutoLoad
-
-Resolve Perl*Handlers at startup time, includes loading the module
-from disk if not already loaded.
-
-=item GlobalRequest
-
-Setup the global request_rec for use with Apache-E<gt>request
-
-=item ParseHeaders
-
-Scan output for HTTP headers, same functionality as 1.x's
-PerlSendHeaders, but more robust.
-
-=item MergeHandlers
-
-Turn on merging of Perl*Handler arrays, example:
-
- PerlFixupHandler One::fixup
-
- <Location /foo>
-     PerlFixupHandler Another::fixup
- </Location>
-
-By default, a request for /foo only runs B<Another::fixup> (1.x behavior)
-I<PerlOptions +MergeHandlers> (inside Location /foo) will run both
-B<One::fixup> and B<Another::fixup>.
-
-=back
-
-Examples:
-
- # disable mod_perl for this host
- <VirtualHost ...>
-     PerlOptions -Enable
- </VirtualHost>
-
- # create 2 Parent Perls,
- # each pointing to a different developer library tree
- <VirtualHost ...>
-     ServerName dev1
-     PerlOptions +Parent
-     PerlSwitches -Mblib=/home/dev1/lib/perl
- </VirtualHost>
-
- <VirtualHost ...>
-     ServerName dev2
-     PerlOptions +Parent
-     PerlSwitches -Mblib=/home/dev2/lib/perl
- </VirtualHost>
-
- # give VirtualHost its own interpreter pool
- <VirtualHost ...>
-     PerlOptions +Clone
-     PerlInterpStart 2
-     PerlInterpMax 2
- </VirtualHost>
-
- # disable handlers
- <VirtualHost ...>
-     PerlOptions -Authen -Authz -Access
- </VirtualHost>
 
 
-
-
-
-
-
-=head1 Retrieving Server Startup Options
-
-The httpd server startup options can retrieved using
-C<Apache::exists_config_define()>. For example this checks whether the
-server has been started in a single mode:
-
-  if (Apache::exists_config_define("ONE_PROCESS")) {
-      print "Running in a single mode";
-  }
 
 
 =head1 Maintainers
@@ -240,6 +418,10 @@ corrections and patches.
 =item *
 
 Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
 

@@ -330,37 +330,37 @@ request, equivalent to this configuration:
 
   PerlInterpScope request
 
-For example, if a PerlAccessHandler is configured, an interpreter will
-be selected before it is run and not released until after the logging
-phase.
+For example, if a C<PerlAccessHandler> is configured, an interpreter
+will be selected before it is run and not released until after the
+logging phase.
 
 Intepreters will be shared across subrequests by default, however, it
-is possible configure the intepreter scope to be per-subrequest on
+is possible to configure the intepreter scope to be per-subrequest on
 a per-directory basis:
 
   PerlInterpScope subrequest
 
-With this configuration, an autoindex generated page for example would 
+With this configuration, an autoindex generated page for example would
 select an interpreter for each item in the listing that is configured
-with a Perl*Handler.
+with a C<Perl*Handler>.
 
 It is also possible to configure the scope to be per-handler:
 
   PerlInterpScope handler
 
 With this configuration, an interpreter will be selected before
-PerlAccessHandlers are run, and putback immediately afterwards, before
-Apache moves onto the authentication phase.  If a PerlFixupHandler is
-configured further down the chain, another interpreter will be
-selected and again putback afterwards, before PerlResponseHandler is
-run.
+C<PerlAccessHandlers> are run, and putback immediately afterwards,
+before Apache moves onto the authentication phase.  If a
+C<PerlFixupHandler> is configured further down the chain, another
+interpreter will be selected and again putback afterwards, before
+C<PerlResponseHandler> is run.
 
 For protocol handlers, the interpreter is held for the lifetime of the
 connection.  However, a C protocol module might hook into mod_perl
-(e.g. mod_ftp) and provide a request_rec.  In this case, the default
-scope is that of the request.  Should a mod_perl handler want to
-maintain state for the lifetime of an ftp connection, it is possible
-to do so on a per-virtualhost basis:
+(e.g. mod_ftp) and provide a C<request_rec> record.  In this case, the
+default scope is that of the request.  Should a mod_perl handler want
+to maintain state for the lifetime of an ftp connection, it is
+possible to do so on a per-virtualhost basis:
 
   PerlInterpScope connection
 
@@ -735,9 +735,9 @@ pull it in at startup time.
 
 The mod_perl-2.0 interface to the Apache filter API is much simpler
 than the C API, hiding most of the details underneath.  Perl filters
-are configured using the C<PerlFilterHandler> directive, for example:
+are configured using the C<PerlOutputFilterHandler> directive, for example:
 
-  PerlFilterHandler Apache::ReverseFilter
+  PerlOutputFilterHandler Apache::ReverseFilter
 
 This simply registers the filter, which can then be turned on using
 the core C<AddOutputFilter> directive:
