@@ -853,6 +853,7 @@ with the performance penalty of an extra C<stat()> system call. If you
 don't want this extra call, you'd have to write:
 
   use APR::Finfo;
+  use Apache::RequestRec;
   use APR::Const -compile => qw(WWRITE);
   my $is_writable = $r->finfo->protection & APR::WWRITE,
 
