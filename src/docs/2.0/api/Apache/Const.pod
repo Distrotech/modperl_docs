@@ -422,11 +422,13 @@ yet.
 
   use Apache::Const -compile => qw(:context);
 
-The C<:context> group is for constants that allow directive
-handlers to check what kind of context (Location/Directory/Server/etc)
-they are in. For more information, see L<Apache::CmdParms>
+The C<:context> group is used by the
+(C<L<$parms-E<gt>check_cmd_context|docs::2.0::api::Apache::Command/C_check_cmd_context_>>)
+method.
 
 =head3 C<Apache::NOT_IN_VIRTUALHOST>
+
+The command is not in a E<lt>VirtualHostE<gt> block.
 
 =over
 
@@ -437,6 +439,8 @@ they are in. For more information, see L<Apache::CmdParms>
 
 
 =head3 C<Apache::NOT_IN_LIMIT>
+
+The command is not in a E<lt>LimitE<gt> block.
 
 =over
 
@@ -451,6 +455,8 @@ they are in. For more information, see L<Apache::CmdParms>
 
 =head3 C<Apache::NOT_IN_DIRECTORY>
 
+The command is not in a E<lt>DirectoryE<gt> block.
+
 =over
 
 =item since: 1.99_16
@@ -464,6 +470,8 @@ they are in. For more information, see L<Apache::CmdParms>
 
 =head3 C<Apache::NOT_IN_LOCATION>
 
+The command is not in a E<lt>LocationE<gt>/E<lt>LocationMatchE<gt> block.
+
 =over
 
 =item since: 1.99_16
@@ -476,6 +484,8 @@ they are in. For more information, see L<Apache::CmdParms>
 
 
 =head3 C<Apache::NOT_IN_FILES>
+
+The command is not in a E<lt>FilesE<gt>/E<lt>FilesMatchE<gt> block.
 
 =over
 
@@ -491,6 +501,10 @@ they are in. For more information, see L<Apache::CmdParms>
 
 =head3 C<Apache::NOT_IN_DIR_LOC_FILE>
 
+The command is not in a E<lt>FilesE<gt>/E<lt>FilesMatchE<gt>, 
+E<lt>LocationE<gt>/E<lt>LocationMatchE<gt> or 
+E<lt>DirectoryE<gt> block.
+
 =over
 
 =item since: 1.99_16
@@ -503,6 +517,8 @@ they are in. For more information, see L<Apache::CmdParms>
 
 
 =head3 C<Apache::GLOBAL_ONLY>
+
+The directive appears outside of any container directives.
 
 =over
 
