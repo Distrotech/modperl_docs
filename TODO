@@ -57,6 +57,8 @@ Content:
   image. Could probably go into About section, which can be split into
   a few pages, making About a DocSet.
 
+  banners:  468x60 and 150x40
+
 - add to the success stories: http://perl.com/pub/a/2001/10/17/etoys.html
 
 - ask perl.com to link to perl.apache.org from 'perl sites' section.
@@ -69,6 +71,13 @@ Content:
 
 Search:
 -------
+
+- the served from the site pages don't set Last-Modified headers,
+  which is needed by swish-e. If apache.org doesn't change the
+  behavior for perl.apache.org we should try to set it in .htaccess:
+
+  SetOutputFilter ???
+
 
  - consider adding auto-focus feature:
 
