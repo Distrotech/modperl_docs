@@ -15,14 +15,14 @@
 <!-- left box (NAV)-->
 <div class="leftbox">
     [% INCLUDE logo %]
-    <br>
+
     [% INCLUDE menu_main
               nav=doc.nav
               rel_doc_root=doc.dir.rel_doc_root;
     %]
-    <br>
+
     [% INCLUDE menu_links %]
-    <br>
+
     [% INCLUDE ad %]
     <br><br>
 </div>
