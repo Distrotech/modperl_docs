@@ -269,6 +269,17 @@ case is:
 When I<filter/api> test is running it calls
 mpxs_Apache__Filter_print() which is when the breakpoint is reached.
 
+=item * Debugging code in shared objects created by C<Inline.pm>
+
+This is not strictly related to mod_perl, but sometimes when trying to
+reproduce a problem (e.g. for a p5p bug-report) outside mod_perl, the
+code has to be written in C. And in certain cases, Inline can be just
+the right tool to do it quickly. However if you want to interactively
+debug the library that it creates, it might get tricky. So similar to
+the previous sections, here is a gdb F<code/.debug-inline> startup
+script that will save you a lot of time. All the details and a sample
+perl script are inside the gdb script.
+
 =back
 
 
