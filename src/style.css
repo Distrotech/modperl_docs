@@ -288,7 +288,12 @@ div.search-form {
     font-family: helvetica, arial, verdana, sans-serif;
     font-size: 1.0em;  
     background-color: white;
-    color: white;
+    color: #000000;
+}
+
+/* List of site sections in search.tt */
+li.search-list {
+    list-style: none;
 }
 
 
