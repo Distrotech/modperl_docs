@@ -1216,6 +1216,10 @@ you want to make sure that your mod_perl server is running under the
 taint mode, you can't use the C<PERL5LIB> and C<PERLLIB> environment
 variables.
 
+However there is the I<perl5lib> module on CPAN, which, if loaded,
+bypasses perl's security and will affect C<@INC>. Use it only if you
+know what you are doing.
+
 =head2 Modifying C<@INC> on a Per-VirtualHost
 
 If Perl used with mod_perl was built with ithreads support one can
