@@ -6,12 +6,29 @@ mod_perl 1.0 Win32 Installation Instructions
 
 This document discusses how to install mod_perl 1.0 under Win32, both
 in building from sources and in installing pre-compiled binary
-packages. At present, an ActivePerl-compatible Perl, compiled
-with Visual C++, is the most common one used in the Win32 
+packages. Unless you are using an all-in-one package, you should
+first install Perl and Apache, either from the sources or as binaries.
+The Perl sources are available from
+
+    http://www.cpan.org/src/
+
+with directions for building contained in F<README.win32>.
+ActiveState also makes the sources available for their binary
+builds at
+
+    ftp://ftp.activestate.com/ActivePerl/src/
+
+which may contain, in particular, Win32-specific fixes not in the
+CPAN Perl sources. As a binary, at present, an ActivePerl-compatible 
+Perl, compiled with Visual C++, is the most common one used in the Win32 
 mod_perl/Apache environment; you can obtain such a prebuilt Perl
 binary from
 
     http://www.activestate.com/
+
+The Apache sources and binaries are available at
+
+   http://httpd.apache.org/
 
 When installing Perl or other related binaries, subtelties may arise
 in using path names that have spaces in them - you may, for example, 
@@ -19,6 +36,11 @@ have to specify F<C:\Program Files\> by the DOS 8.3 path name
 F<C:\Progra~1\> in certain Apache directives. If you want to avoid
 this, install, if possible, these packages to locations without spaces
 in their names (eg, F<C:\Perl> for Perl and F<C:\Apache> for Apache). 
+
+In the following, it may be necessary to invoke certain commands 
+through a DOS prompt. A DOS window may be opened either through
+a I<Command Prompt> option of the I<Start> menu, or by choosing
+to run, from the Start menu, C<command> or C<cmd>, as appropriate. 
 
 =head1 Building from sources
 

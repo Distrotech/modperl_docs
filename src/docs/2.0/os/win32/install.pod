@@ -16,32 +16,51 @@ addressed in the multi-thread/multi-process approach of mod_perl
 
 =head1 Installing
 
-As of this writing, mod_perl-2 is known to compile and work
-with an ActivePerl-compatable Perl (builds 6xx), based on
-perl-5.6.1, available from
+Unless you are using an all-in-one package, you should
+first install Perl and Apache, either from the sources or as binaries.
+The Perl sources are available from
+
+    http://www.cpan.org/src/
+
+with directions for building contained in F<README.win32>.
+ActiveState also makes the sources available for their binary
+builds at
+
+    ftp://ftp.activestate.com/ActivePerl/src/
+
+which may contain, in particular, Win32-specific fixes not in the
+CPAN Perl sources. As a binary, at present, an ActivePerl-compatible 
+Perl, compiled with Visual C++, is the most common one used in the Win32 
+mod_perl/Apache environment; you can obtain such a prebuilt Perl
+binary from
 
     http://www.activestate.com/
 
-It also works with perl-5.8 compiled with the default compile-time 
+The Apache sources and binaries are available at
+
+   http://httpd.apache.org/
+
+As of this writing, mod_perl-2 is known to compile and work
+with an ActivePerl-compatable Perl (builds 6xx), based on
+perl-5.6.1. It also works with perl-5.8 compiled with the default compile-time 
 flags in the Win32 F<Makefile>. Because of improved threading support,
 it is expected sometime in the future that perl-5.8 will be the 
-recommended Perl for Win32 mod_perl-2. ActiveState expects to have
-a beta perl-5.8 Win32 binary ready in late 2002; see the section
+recommended Perl for Win32 mod_perl-2. ActiveState currently has
+a beta perl-5.8 Win32 binary ready for testing; see the section
 on Apache/mod_perl binaries below to obtain another perl-5.8
 Win32 binary package.
 
-Apache 2.0 and mod_perl 2.0 can be obtained in two ways - either as
-binaries, or through building from the sources.  As with most packages
-of a more complex nature, it is best, when possible, to build things
-from the sources. However, this requires some experience with using
-Visual C++.
-
-When installing Perl or other related binaries, subtelties may arise
+When installing Perl or other related binaries, subtleties may arise
 in using path names that have spaces in them - you may, for example, 
 have to specify F<C:\Program Files\> by the DOS 8.3 path name 
 F<C:\Progra~1\> in certain Apache directives. If you want to avoid
 this, install, if possible, these packages to locations without spaces
-in their names (eg, F<C:\Perl> for Perl and F<C:\Apache2> for Apache2). 
+in their names (eg, F<C:\Perl> for Perl and F<C:\Apache2> for Apache2).
+
+In the following, it may be necessary to invoke certain commands 
+through a DOS prompt. A DOS window may be opened either through
+a I<Command Prompt> option of the I<Start> menu, or by choosing
+to run, from the Start menu, C<command> or C<cmd>, as appropriate. 
 
 =head2 Building from sources
 
