@@ -38,7 +38,7 @@ http://httpd.apache.org/dist/.
 
 =head1 Squid - Internet Object Cache
 
-http://squid.nlanr.net/
+http://www.squid-cache.org/
 
 Squid Linux 2.x Redhat RPMs : http://home.earthlink.net/~intrep/linux/
 

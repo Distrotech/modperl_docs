@@ -231,19 +231,19 @@ http://www.xray.mpe.mpg.de/mailing-lists/dbi/
 
 =item * Home page
 
-http://squid.nlanr.net/
+http://www.squid-cache.org/
 
 =item * FAQ
 
-http://squid.nlanr.net/Squid/FAQ/FAQ.html
+http://www.squid-cache.org/Doc/FAQ/FAQ.html
 
 =item * Users Guide
 
-http://squid.nlanr.net/Squid/Users-Guide/
+http://www.squid-cache.org/Doc/Users-Guide/
 
 =item * Mailing lists
 
-http://squid.nlanr.net/Squid/mailing-lists.html
+http://www.squid-cache.org/mailing-lists.html
 
 =back
 
