@@ -276,8 +276,8 @@ where the function was called from.
 
 is the same as:
 
-  $s->log_error(Apache::LOG_MARK, Apache::LOG_WARNING|Apache::LOG_NOERRNO,
-                0, @warnings)
+  $s->log_error(Apache::LOG_MARK, Apache::LOG_WARNING, 0, @warnings)
+
 For example:
 
   $s->warn('routine server warning');
