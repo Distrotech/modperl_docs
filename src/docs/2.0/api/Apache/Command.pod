@@ -181,40 +181,6 @@ The bit mask representing the overrides this command is allowed in (i.e OR_ALL/A
 
 
 
-=head2 C<soak_end_container>
-
-META: This probably belongs in Apache::CmdParams
-
-Read all data between the current E<lt>CommandE<gt> and the matching
-E<lt>/CommandE<gt>.  All of this data is forgotten immediately.
-
-  $ret = $cmd->soak_end_container($directive);
-
-=over 4
-
-=item obj: C<$cmd>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
-
-The cmd_parms to pass to the directives inside the container
-
-=item arg1: C<$directive> ( string )
-
-The directive name to read until
-
-=item ret: C<$ret> ( string )
-
-Error string on failure, C<undef> on success
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-
-
 =head1 See Also
 
 L<mod_perl 2.0 documentation|docs::2.0::index>.
