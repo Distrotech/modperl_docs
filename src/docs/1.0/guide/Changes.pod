@@ -1406,8 +1406,8 @@ The most recent changes are listed first.
   Apache::SizeLimit and Apache::GTopLimit
 
 * perlformance: links from
- http://www.realtime.net/~parkerm/perl/conf98/index.htm
- and http://www.realtime.net/~parkerm/perl/conf98/sld006.htm
+ www.realtime.net/~parkerm/perl/conf98/index.htm
+ and www.realtime.net/~parkerm/perl/conf98/sld006.htm
  were dead (I removed them :( (Peter Skov)
 
 * snippets: added "Caching the POSTed Data" (Doug)

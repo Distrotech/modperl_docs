@@ -46,8 +46,8 @@ Source/Binary Distributions: http://perl.apache.org/distributions.html
 
 Every Apache project rolls a new tar.gz snapshot of the latest CVS
 version every 6 hours. You can grab the latest mod_perl CVS snapshot
-from http://perl.apache.org/snapshots/modperl/, all the mod_perl
-related projects are available from http://perl.apache.org/snapshots/.
+from http://cvs.apache.org/snapshots/modperl/, all the mod_perl
+related projects are available from http://cvs.apache.org/snapshots/.
 
 RPM: http://perl.apache.org/rpm/
 
@@ -75,7 +75,7 @@ http://www.fremen.org/apache/mod_throttle_access.html
 Ask Bjoern Hansen has written the C<mod_proxy_add_forward.c> module
 for Apache that sets the C<X-Forwarded-For> field when doing a
 ProxyPass, similar to what Squid does.  His module is available from
-one of these URLs: http://modules.apache.org/search?id=124,
+one of these URLs: http://modules.apache.org/,
 http://develooper.com/code/mpaf/mod_proxy_add_forward.c or
 http://www.cpan.org/authors/id/ABH/mod_proxy_add_forward.c, complete
 with instructions on how to compile it and whatnot.
@@ -120,7 +120,7 @@ The homepage of mod_redundancy is http://www.ask-the-guru.com .
 
 You will find the definitive guide to load balancing techniques 
 at the High-Availability Linux Project site --
-http://www.henge.com/~alanr/ha/
+http://linux-ha.org/
 
 =head2 lbnamed - a Load Balancing Name Server Written in Perl
 
@@ -148,7 +148,7 @@ http://www.usenix.org/publications/library/proceedings/usenix99/full_papers/aron
 The latest ip filter includes some simple load balancing code, that
 allows a round-robin distribution onto several machines via
 ipnat. That may be a simple solution for a few specific load problem.
-http://coombs.anu.edu.au/~avalon/ipf3.4beta3.tgz
+http://coombs.anu.edu.au/~avalon/
 
 =head1 Apache::Request
 
