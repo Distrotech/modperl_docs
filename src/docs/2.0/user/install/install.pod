@@ -66,6 +66,16 @@ If you want to run applications that take benefit of Perl's
 I<threads.pm> Perl version 5.8.1 or higher w/ithreads enabled is
 required. Perl 5.8.0's I<threads.pm> doesn't work with mod_perl 2.0.
 
+=item Static prefork build
+
+Perl with ithreads support version 5.6.1 or higher
+
+Perl without ithreads support version 5.8.2 or higher
+
+=item Static non-prefork build
+
+Perl with ithreads support version 5.8.0 or higher
+
 =back
 
 =item * CPAN Perl Modules
