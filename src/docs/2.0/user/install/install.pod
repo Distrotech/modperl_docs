@@ -289,7 +289,9 @@ I<Makefile.PL> file, but requires one or more configuration options:
   % cd modperl-1.99_xx
   % perl Makefile.PL <options>
 
-where I<options> is an optional list of (key,value) pairs.
+where I<options> is an optional list of key/value pairs.  These
+options can include all the usual options supported by
+C<ExtUtils::MakeMaker> (e.g., C<PREFIX>, C<LIB>, etc.).
 
 The following sections give the details about all the available
 options, but let's mention first an important one.
