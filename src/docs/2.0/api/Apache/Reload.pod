@@ -19,7 +19,8 @@ Apache::Reload - Reload Perl Modules when Changed on Disk
   PerlSetVar ReloadAll Off
   PerlSetVar ReloadModules "ModPerl::* Apache::*"
   #PerlSetVar ReloadDebug On
-
+  #PerlSetVar ReloadConstantRedefineWarnings Off
+  
   # Reload a single module from within itself:
   package My::Apache::Module;
   use Apache::Reload;
@@ -185,6 +186,30 @@ If you aren't sure whether the modules that are supposed to be
 reloaded, are actually getting reloaded, turn the debug mode on:
 
   PerlSetVar ReloadDebug On
+
+=head1 Silencing 'Constant subroutine ... redefined at' Warnings
+
+If a module defines constants, e.g.:
+
+  use constant PI => 3.14;
+
+and gets re-loaded, Perl issues a mandatory warnings which can't be
+silenced by conventional means (since Perl 5.8.0). This is because
+constants are inlined at compile time, so if there are other modules
+that are using constants from this module, but weren't reloaded they
+will see different values. Hence the warning is mandatory. However
+chances are that most of the time you won't modify the constant
+subroutine and you don't want I<error_log> to be cluttered with
+(hopefully) irrelevant warnings. In such cases, if you haven't
+modified the constant subroutine, or you know what you are doing, you
+can tell C<Apache::Reload> to shut those for you (it overrides
+C<$SIG{__WARN__}> to accomplish that):
+
+  PerlSetVar ReloadConstantRedefineWarnings Off
+
+For the reasons explained above this option is turned on by default.
+
+since: mod_perl 1.99_10
 
 =head1 Problems With Reloading Modules Which Do Not Declare Their Package Name
 
