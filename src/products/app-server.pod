@@ -119,6 +119,14 @@ programs using Perl.
 This is not free software but nothing is hidden, the complete Perl
 source code is included so that you may explore how it works.
 
+=head1 Uttu
+
+C<Uttu> (http://uttu.tamu.edu/) is a web-application driver that
+provides support for writing application frameworks.  This support
+includes configuration, database connectivity, caching,
+uri-to-filename translation, and application installation.  Uttu makes
+working with multiple virtual hosts and C<HTML::Mason>, Template
+Toolkit, or C<AxKit> almost trivial.
 
 =cut
 
