@@ -4,6 +4,9 @@
    # rel_doc_root - relative docs path
 %]
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td colspan="3" height="3"><br class="smallbr"></td>
+    </tr>
     <tr valign="middle">
         <td align="left" width="33%" nowrap>
             [% INCLUDE search %]
