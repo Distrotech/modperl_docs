@@ -88,7 +88,7 @@ C<Apache::Test> testing framework that comes together with mod_perl
 consider porting your test suite to use L<the Apache::Test
 Framework|devel::testing::testing>.
 
-=head1 Apache specific notes
+=head1 Apache C Code Specific Notes
 
 =head2 ap_hard_timeout() and ap_kill_timeout()
 
