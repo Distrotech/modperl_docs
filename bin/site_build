@@ -59,7 +59,7 @@ sub update {
 sub online_sync {
     qx{ cp -r $rel/ $dst/ };
     qx{ find $dst -type d -exec chmod g+rwx {} \; >/dev/null 2>&1 };
-    qx{ find $dst -type d -exec chmod g+wr {} \;  >/dev/null 2>&1 };
+    qx{ find $dst -type f -exec chmod g+wr {} \;  >/dev/null 2>&1 };
 }
 
 sub fs_is_full {
