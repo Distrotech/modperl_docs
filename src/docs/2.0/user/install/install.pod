@@ -94,11 +94,40 @@ Default is 1, set to 0 to disable.
 
 =item MP_USE_DSO
 
-Build mod_perl as a DSO. This is the default.
+Build mod_perl as a DSO (I<mod_perl.so>). This is the default. It'll
+be turned off if C<MP_USE_STATIC=1> is used.
 
 =item MP_USE_STATIC
 
-Build mod_perl static.
+Build static mod_perl (I<mod_perl.a>). This is the default. It'll be
+turned off if C<MP_USE_DSO=1> is used.
+
+C<MP_USE_DSO> and C<MP_USE_STATIC> are both enabled by default. So
+mod_perl is built once as I<mod_perl.a> and I<mod_perl.so>, but
+afterwards you can choose which of the two to use.
+
+META: The following is not implemented yet.
+
+  mod_perl and ends up with a src/modules/perl/mod_perl.{so,a} and
+  src/modules/perl/ldopts.  to link modperl static with httpd, we just
+  need some config.m4 magic to add `ldopts` and mod_perl.a to the build.
+  so one could then build httpd like so:
+  
+  ln -s ~/apache/modperl-2.0/src/modules/perl $PWD/src/modules
+  ./configure --with-mpm=prefork --enable-perl=static ...
+  
+  we not be configuring/building httpd for the user as 1.x attempted.
+  
+  downside is one will need to have configured httpd first, so that
+  headers generated.  so it will probably be more like:
+  
+  ./configure --with-mpm=prefork ...
+  (go build modperl)
+  ./config.nice --enable-perl=static && make
+  
+  we could of course provide a wrapper script todo this, but don't want
+  to have this stuff buried and tangled like it is in 1.x
+
 
 =item MP_STATIC_EXTS
 
