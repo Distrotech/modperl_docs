@@ -163,7 +163,7 @@ If you don't have the prerequisites installed yet, install them now.
   % ./Configure -des
 
 If you L<need the threads
-support|docs::2.0::user::install::install.html/Prerequisites>, run:
+support|docs::2.0::user::install::install/Prerequisites>, run:
 
   % ./Configure -des -Dusethreads
 
