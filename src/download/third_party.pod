@@ -151,7 +151,8 @@ LibGTop is a library that fetches system related information such as
 CPU Load, Memory Usage and information about running processes. The
 module C<GTop> provides a Perl interface to this library.
 
-http://home-of-linux.org/gnome/libgtop/
+ftp://ftp.gnome.org/pub/GNOME/stable/sources/gtop/
+http://fr.rpmfind.net/linux/rpm2html/search.php?query=libgtop
 
 =head1 Maintainers
 

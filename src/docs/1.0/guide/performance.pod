@@ -762,8 +762,9 @@ desired places. If you have C<GTop> modules installed, which is a perl
 glue to the C<libgtop> library, it's exactly what we need.
 
 Note: C<GTop> requires the C<libgtop> library but is not available for
-all platforms.  Visit http://www.home-of-linux.org/gnome/libgtop/ to
-check whether your platform/flavor is supported.
+all platforms. See the docs in the source at
+ftp://ftp.gnome.org/pub/GNOME/stable/sources/gtop/ to check whether
+your platform/flavor is supported.
 
 C<GTop> provides an API for retrieval of information about processes
 and the whole system. We are interested only in memory sampling API

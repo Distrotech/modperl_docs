@@ -203,7 +203,8 @@ More information is available in the module's extensive manpage.
 
 It requires C<Apache::Scoreboard> and C<GTop> to work.  C<GTop> in
 turn requires the C<libgtop> library but is not available for all
-platforms.  Visit http://www.home-of-linux.org/gnome/libgtop/ to check whether
+platforms.  See the docs in the source at
+ftp://ftp.gnome.org/pub/GNOME/stable/sources/gtop/ to check whether
 your platform/flavor is supported.
 
 =head1 Apache::GTopLimit - Limit Apache httpd processes
