@@ -450,8 +450,8 @@ cases.
 You should create a small script to drive C<Apache::TestSmoke>,
 usually I<t/SMOKE.PL>. If you don't have it already, create it:
 
-  file:t/SMOKE.PL
-  ---------------
+  #file:t/SMOKE.PL
+  #---------------
   #!perl
   
   use strict;
@@ -666,20 +666,20 @@ Generate a C<POST> request.
 
 Read content to C<POST> from string:
 
-  % t/TEST -post /TestApache::post -content 'name=dougm&company=covalent'
+  % t/TEST -post /TestApache__post -content 'name=dougm&company=covalent'
 
 Read content to C<POST> from C<STDIN>:
 
-  % t/TEST -post /TestApache::post -content - < foo.txt
+  % t/TEST -post /TestApache__post -content - < foo.txt
 
 Generate a content body of 1024 bytes in length:
 
-  % t/TEST -post /TestApache::post -content x1024
+  % t/TEST -post /TestApache__post -content x1024
 
 The same but print only the response headers, e.g. useful to just
 check C<Content-length>:
 
-  % t/TEST -post -head /TestApache::post -content x1024
+  % t/TEST -post -head /TestApache__post -content x1024
 
 =item * -header
 
@@ -777,8 +777,8 @@ We want our package to reside under the I<lib> directory:
 
 Now we adjust the I<lib/Apache/Amazing.pm> to look like this:
 
-  file:lib/Apache/Amazing.pm
-  --------------------------
+  #file:lib/Apache/Amazing.pm
+  #--------------------------
   package Apache::Amazing;
   
   use strict;
@@ -806,8 +806,8 @@ responding with I<"Amazing!">.
 
 Next adjust or create the I<Makefile.PL> file:
 
-  file:Makefile.PL
-  ----------------
+  #file:Makefile.PL
+  #----------------
   require 5.6.1;
   
   use ExtUtils::MakeMaker;
@@ -861,8 +861,8 @@ directory:
 First we create I<t/TEST.PL> which will be automatically converted
 into I<t/TEST> during I<perl Makefile.PL> stage:
 
-  file:t/TEST.PL
-  --------------
+  #file:t/TEST.PL
+  #--------------
   #!perl
   
   use strict;
@@ -898,8 +898,8 @@ file has any placeholders like C<@documentroot@>, these will be
 replaced with the real values specific for the used server. In our
 case we put the following configuration bits into this file:
 
-  file:t/conf/extra.conf.in
-  -------------------------
+  #file:t/conf/extra.conf.in
+  #-------------------------
   # this file will be Include-d by @ServerRoot@/httpd.conf
   
   # where Apache::Amazing can be found
@@ -918,14 +918,18 @@ C<Apache::Amazing> module running as a mod_perl handler. Notice that:
       SetHandler modperl
 
 is mod_perl 2.0 configuration, if you are running under mod_perl 1.0
-use the appropriate setting.
+use:
+
+      SetHandler perl-script
+
+which also works for mod_perl 2.0.
 
 As mentioned before you can use C<Apache::Reload> to automatically
 reload the modules under development when they change. The setup for
 this module goes into I<t/conf/extra.conf.in> as well.
 
-  file:t/conf/extra.conf.in
-  -------------------------
+  #file:t/conf/extra.conf.in
+  #-------------------------
   PerlModule Apache::Reload
   PerlPostReadRequestHandler Apache::Reload
   PerlSetVar ReloadAll Off
@@ -935,8 +939,8 @@ For more information about C<Apache::Reload> refer to its manpage.
 
 Now we can create a simple test:
 
-  file:t/basic.t
-  -----------
+  #file:t/basic.t
+  #-----------
   use strict;
   use warnings FATAL => 'all';
   
@@ -966,15 +970,15 @@ Don't forget to put in the relevant information about your module, or
 arrange for C<ExtUtils::MakeMaker::WriteMakefile()> to do this for you
 with:
 
-  file:Makefile.PL
-  ----------------
+  #file:Makefile.PL
+  #----------------
   WriteMakefile(
-               ...
+      #...
       dist  => {
-                PREOP => 'pod2text lib/Apache/Amazing.pm > $(DISTVNAME)/README',
-               },
-               ...
-               );
+          PREOP => 'pod2text lib/Apache/Amazing.pm > $(DISTVNAME)/README',
+      },
+      #...
+  );
 
 in this case I<README> will be created from the documenation POD
 sections in I<lib/Apache/Amazing.pm>, but the file has to exists for
@@ -984,8 +988,8 @@ and finally we adjust or create the I<MANIFEST> file, so we can
 prepare a complete distribution. Therefore we list all the files that
 should enter the distribution including the I<MANIFEST> file itself:
 
-  file:MANIFEST
-  -------------
+  #file:MANIFEST
+  #-------------
   lib/Apache/Amazing.pm
   t/TEST.PL
   t/basic.t
@@ -1072,15 +1076,15 @@ the token C<@ServerRoot@> will be replaced with the value defined by
 the C<ServerRoot> directive, so you can write a file that does the
 following:
 
-  file:my-extra.conf.in
-  ---------------------
+  #file:my-extra.conf.in
+  #---------------------
   PerlSwitches -I@ServerRoot@/../lib
 
 and assuming that the I<ServerRoot> is I<~/modperl-2.0/t/>, when
 I<my-extra.conf> will be created, it'll look like:
 
-  file:my-extra.conf
-  ------------------
+  #file:my-extra.conf
+  #------------------
   PerlSwitches -I~/modperl-2.0/t/../lib
 
 The valid tokens are defined in C<%Apache::TestConfig::Usage> and also
@@ -1179,6 +1183,8 @@ So I<t/response/TestApache/write.pm> becomes: I</TestApache__write>.
 
 Now a simple response test may look like this:
 
+  #file:t/response/TestApache/write.pm
+  #-----------------------------------
   package TestApache::write;
   
   use strict;
@@ -1204,19 +1210,20 @@ use the C<Apache::Constants> module instead [/F].
 
 The configuration part for this test will be autogenerated by the
 C<Apache::Test> framework and added to the autogenerated file
-I<t/conf/httpd.conf>. In our case the following configuration section
-will be added.
+I<t/conf/httpd.conf> when C<make test> or C<t/TEST -configure> is
+run. In our case the following configuration section will be added:
 
-  <Location /TestApache::write>
+  <Location /TestApache__write>
      SetHandler modperl
      PerlResponseHandler TestApache::write
   </Location>
 
 You should remember to run:
 
-  % t/TEST -clean
+  % t/TEST -configure
 
-so when you run your new tests the new configuration will be added.
+so the configuration file will be re-generated when new tests are
+added.
 
 =head2 Developing Response and Request Parts of a Test
 
@@ -1233,8 +1240,8 @@ of the test by yourself. It's quite easy, all you have to do is to
 generate requests and check the response. So a typical test will look
 like this:
 
-  file:t/apache/cool.t
-  --------------------
+  #file:t/apache/cool.t
+  #--------------------
   use strict;
   use warnings FATAL => 'all';
 
@@ -1250,7 +1257,7 @@ like this:
   my $hostport = Apache::TestRequest::hostport($config) || '';
   t_debug("connecting to $hostport");
   
-  my $received = GET_BODY "/TestApache::cool";
+  my $received = GET_BODY "/TestApache__cool";
   my $expected = "COOL";
   
   ok t_cmp(
@@ -1264,8 +1271,8 @@ function (e.g. it works with regexs as well).
 
 And the corresponding response part:
 
-  file:t/response/TestApache/cool.pm
-  ----------------------------------
+  #file:t/response/TestApache/cool.pm
+  #----------------------------------
   package TestApache::cool;
   
   use strict;
@@ -1286,7 +1293,7 @@ And the corresponding response part:
 Again, remember to run I<t/TEST -clean> before running the new test so
 the configuration will be created for it.
 
-As you can see the test generates a request to I</TestApache::cool>,
+As you can see the test generates a request to I</TestApache__cool>,
 and expects it to return I<"COOL">. If we run the test:
 
   % ./t/TEST t/apache/cool
@@ -1586,7 +1593,7 @@ equivalent to:
 Mostly useful for debugging, for example:
 
   use Apache::TestUtil;
-  t_debug POST_STR '/test.pl';
+  t_debug POST_STR '/test.pl', content => 'foo';
 
 =item * HEAD
 
@@ -1698,8 +1705,8 @@ internally.
 Here is an example from C<ModPerl::Registry> closure tests. Using the
 counter closure problem under C<ModPerl::Registry>:
 
-  file:cgi-bin/closure.pl
-  -----------------------
+  #file:cgi-bin/closure.pl
+  #-----------------------
   #!perl -w
   print "Content-type: text/plain\r\n\r\n";
   
@@ -1718,8 +1725,8 @@ gets executed by the same server instance, the first time it'll return
 makes sure that its two subsequent requests hit the same server
 instance:
 
-  file:closure.t
-  --------------
+  #file:closure.t
+  #--------------
   ...
   my $url = "/same_interp/cgi-bin/closure.pl";
   my $same_interp = Apache::TestRequest::same_interp_tie($url);
@@ -1960,8 +1967,8 @@ can tell it to run all but a few tests.
 
 If all files in a directory I<t/foo> should be skipped, create:
 
-  file:t/foo/all.t
-  ----------------
+  #file:t/foo/all.t
+  #----------------
   print "1..0\n";
 
 Alternatively you can specify which tests should be skipped from a
@@ -1971,8 +1978,8 @@ the C<*> wildcharacter for multiply files matching.
 
 For example if in mod_perl 2.0 test suite we create the following file:
 
-  file:t/SKIP
-  -----------
+  #file:t/SKIP
+  #-----------
   # skip all files in protocol
   protocol
   
@@ -2144,8 +2151,8 @@ are specified on the command line only those will be run/passed to
 ok(), the rest will be skipped.  If no sub-tests are specified, sok()
 works just like ok().  For example, you can write this test:
 
-  file:skip_subtest_2.t
-  ---------------------
+  #file:skip_subtest_2.t
+  #---------------------
   use Apache::Test;
   plan tests => 4;
   sok {1};
@@ -2219,8 +2226,8 @@ Usually this is done by printing the comment of what the sub-test
 does, what is the expected value and what's the received value. This
 is a good example of debug friendly sub-test:
 
-  file:debug_comments.t
-  ---------------------
+  #file:debug_comments.t
+  #---------------------
   use Apache::Test;
   use Apache::TestUtil;
   plan tests => 1;
@@ -2420,7 +2427,7 @@ response handler it finds. For example for the response handler:
 
 it will put into I<t/conf/httpd.conf>:
 
-  <Location /TestResponse::nice>
+  <Location /TestResponse__nice>
       SetHandler modperl
       PerlResponseHandler TestResponse::nice
   </Location>
@@ -2437,7 +2444,7 @@ C<__DATA__> section, as in this example:
 These directives will be wrapped into the C<E<lt>LocationE<gt>>
 section and placed into I<t/conf/httpd.conf>:
 
-  <Location /TestResponse::nice>
+  <Location /TestResponse__nice>
       SetHandler modperl
       PerlResponseHandler TestResponse::nice
       PerlSetVar Foo Bar
@@ -2480,7 +2487,7 @@ you should use a special C<E<lt>BaseE<gt>>..C<E<lt>/BaseE<gt>> block:
 Now the autogenerated section will look like this:
 
   PerlSetVar Config ServerConfig
-  <Location /TestResponse::nice>
+  <Location /TestResponse__nice>
      SetHandler modperl
      PerlResponseHandler TestResponse::nice
      PerlSetVar Config LocalConfig
@@ -2504,7 +2511,7 @@ container. For example:
       <VirtualHost TestPreConnection::note>
           PerlPreConnectionHandler TestPreConnection::note
   
-          <Location /TestPreConnection::note>
+          <Location /TestPreConnection__note>
               SetHandler modperl
               PerlResponseHandler TestPreConnection::note::response
           </Location>
@@ -2811,16 +2818,20 @@ go:
 META: to be completed
 
 run .t test under the perl debugger
-% t/TEST -debug perl t/modules/access.t
+
+  % t/TEST -debug perl t/modules/access.t
 
 run .t test under the perl debugger (nonstop mode, output to t/logs/perldb.out)
-% t/TEST -debug perl=nostop t/modules/access.t
+
+  % t/TEST -debug perl=nostop t/modules/access.t
 
 turn on -v and LWP trace (1 is the default) mode in Apache::TestRequest
-% t/TEST -debug lwp t/modules/access.t
+
+  % t/TEST -debug lwp t/modules/access.t
 
 turn on -v and LWP trace mode (level 2) in Apache::TestRequest
-% t/TEST -debug lwp=2 t/modules/access.t
+
+  % t/TEST -debug lwp=2 t/modules/access.t
 
 
 =head2 Tracing
