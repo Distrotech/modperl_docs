@@ -562,9 +562,10 @@ executed from the base location I</perl> add:
   </Location>
 
 It's important to notice that C<PerlAccessHandler> can be configured
-for any subsection of the site, no matter whether it's served by
-mod_perl or not. For example to run the handler from our example for
-all requests to the server simply add to I<httpd.conf>:
+for any subsection of the site, no matter whether it's served by a
+mod_perl response handler or not. For example to run the handler from
+our example for all requests to the server simply add to
+I<httpd.conf>:
 
   <Location />
       PerlAccessHandler MyApache::BlockByIP
@@ -682,9 +683,9 @@ I</perl/>:
 
 Just like C<PerlAccessHandler> and other mod_perl handlers,
 C<PerlAuthenHandler> can be configured for any subsection of the site,
-no matter whether it's served by mod_perl or not. For example to use
-the authentication handler from the last example for any requests to
-the site, simply use:
+no matter whether it's served by a mod_perl response handler or
+not. For example to use the authentication handler from the last
+example for any requests to the site, simply use:
 
   <Location />
       PerlAuthenHandler MyApache::SecretLengthAuth
@@ -1157,9 +1158,10 @@ and to I<logs/eric.log>:
   127.0.0.1 [Sat Aug 31 01:50:39 2002] "/users/eric/test.pl" 200 8
 
 It's important to notice that C<PerlLogHandler> can be configured for
-any subsection of the site, no matter whether it's served by mod_perl
-or not. For example to run the handler from our example for all
-requests to the server simply add to I<httpd.conf>:
+any subsection of the site, no matter whether it's served by a
+mod_perl response handler or not. For example to run the handler from
+our example for all requests to the server, simply add to
+I<httpd.conf>:
 
   <Location />
       PerlLogHandler MyApache::LogPerUser
