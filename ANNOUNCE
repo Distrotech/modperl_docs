@@ -1,0 +1,71 @@
+What?
+-----
+As you may know, we have been at work for a while trying to create a
+new site for mod_perl: not only a new design, but a more sensible
+organization of all the documentation we currently have at hand. We
+have now come to the point where we are very satisfied with the design
+and overall usability of the site, so we will present this to you as
+Release Candidate 1 before releasing it officially.
+
+Where?
+------
+The site is now located at this URL:
+
+     http://perl.apache.org/release/
+
+When the Release Candidate gets all bugs rolled out, we will release
+it to its correct address, http://perl.apache.org/.
+
+What should I do?
+-----------------
+
+Throughout development, the site has been tested extensively on many
+different OS/browser combinations: Unix, MacOS and Windows
+mostly. However, we can of course not be sure that it's working
+correctly for everyone.
+
+This is why we ask for your help: take some time to browse the site,
+and take note of:
+- errors with browsers (crashes and/or rendering problems)
+- usability: are you satisfied with the navigation and organization
+  of the content?
+- your general satisfaction with how the site is.
+
+The site has been designed with respect to the HTML 4.0 and CSS 2
+standards, and it is therefore normal that the rendering might be
+flawed in some (few) browsers that do not support this. However, we
+have still made sure that the content is accessible by everyone, so
+even text-browsers should make the site usable.
+
+Where to report?
+----------------
+First of all, you should check the list of reported bugs here:
+    http://perl.apache.org/site-issues.txt
+If your issue is already listed, we will take care of it.
+
+If your issue isn't listed, you will have to contact the docs-dev
+list:
+
+     http://perl.apache.org/release/maillist/docs-dev.html
+
+To post, send an e-mail to:
+
+     docs-dev (at) perl.apache.org
+
+You do not have to be subscribed to post, but your message will have
+to be approved first so it might take some hours to get a response.
+
+When reporting, we will need as detailed information as possible:
+- your Operating System name/release
+- the browser you are using: name + release
+- a detailed report of the *exact* problem you are having
+
+Please be as precise as possible to help us find out the problem and
+fix it. Furthermore, if you have a fix, we will appreciate that.
+
+Try to refrain from too general design questions: we have spent a
+considerable amount of time on the design and are now more concerned
+with the fact that the site *works* for everyone.
+
+Enjoy your new site, mod_perlers!
+
