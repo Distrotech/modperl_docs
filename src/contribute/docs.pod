@@ -2,6 +2,11 @@
 
 Contribute to the Documentation
 
+=head1 Description
+
+Once you have read the documentation provided for mod_perl, you will
+probably have some additions of your own, which are always welcome.
+
 =head1 Submit Corrections
 
 There is a lot of mod_perl documentation. And we are sure it includes
@@ -9,7 +14,7 @@ documentation bugs. So if you spot any make sure to report them.
 
 The documentation includes code examples, which sometimes were written
 without testing, so it's possible that they are broken. If some
-example doesn't work for you, please, let us know.
+example doesn't work for you, please let us know.
 
 If you notice bad grammar of English and speling, don't hesitate to
 tell us where and what you think is the best way to korrectink
@@ -40,7 +45,13 @@ If the correction is minor, please specify the full URL you are
 talking about.
 
 If the correction is medium to large use the cvs repository and submit
-the patch against the latest version. L<This document|download::docs>
-explains how to use the cvs repository.
+the patch against the latest version, or even better, just send us the
+modified document. L<This document|download::docs> explains how to use
+the cvs repository.
+
+Note that if you for some reason cannot use the CVS repository, each
+page contains a I<src> link in the upper-right corner. From there you
+can access the POD/HTML source of documents, which you can then modify
+and send to us.
 
 =cut

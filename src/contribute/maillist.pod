@@ -2,6 +2,11 @@
 
 Contribute at the Mailing List
 
+=head1 Description
+
+The first way to contribute to the mod_perl community is by following
+the mailing list and helping out anyone else having problems.
+
 =head1 Answering Questions
 
 Since mod_perl is an open source technology, its main support facility

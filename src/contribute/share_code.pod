@@ -2,6 +2,11 @@
 
 Contribute by Sharing Code
 
+=head1 Description
+
+Your Perl and mod_perl know-how is more than welcome as contributions
+to Apache modules or to mod_perl itself.
+
 =head1 mod_perl Patches
 
 If you have modified the mod_perl source code, improved and extended
