@@ -773,8 +773,6 @@ secret length, specified by the constant C<SECRET_LENGTH>.
   use Apache::RequestUtil ();
   
   use Apache::Const -compile => qw(OK DECLINED HTTP_UNAUTHORIZED);
-
-  use Apache::Access();
   
   use constant SECRET_LENGTH => 14;
   
