@@ -95,6 +95,14 @@ You can enable the debugging mode with the setting:
 
   PerlSetVar ReloadDebug On
 
+=head2 Threaded MPM and Multiple Perl Interpreters
+
+If you use C<Apache::Reload> with a threaded MPM and multiple Perl
+interpreters, the modules will be reloaded by each interpreter as they
+are used, not every interpreters at once.  Similar to mod_perl 1.x
+where each child has its own Perl interpreter, the modules are
+reloaded as each child is hit with a request.
+
 =head1 PSUEDOHASHES
 
 The short summary of this is: Don't use psuedohashes. Use an array
