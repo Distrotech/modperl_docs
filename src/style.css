@@ -171,6 +171,10 @@ div.tail {
     margin-right: 0px;
 }
 
+p.copyright {
+    font-size: 0.7em;
+}
+
 div.headline {
     background-color: #525d76;
     font-family: helvetica, arial, verdana, sans-serif;
