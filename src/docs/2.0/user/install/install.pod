@@ -329,6 +329,12 @@ directory, passed via the C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option:
 Before you proceed make sure that Apache 2.0 has been downloaded and
 extracted. mod_perl B<cannot> be built before that.
 
+If this is an svn checkout and not an official distribution tarball,
+you need to first run:
+
+  % cd httpd-2.0
+  % ./buildconf
+
 To enable statically linking mod_perl into Apache, use the
 C<L<MP_USE_STATIC|/MP_USE_STATIC>> flag like this:
 
