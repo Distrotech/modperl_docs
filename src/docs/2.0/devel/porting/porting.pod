@@ -110,13 +110,14 @@ The variable C<$mod_perl::VERSION> should be used in conditionals to
 use the appropriate code for 1.0 or 2.0. You can use it to load
 C<Apache::compat> if running under mod_perl 2.0:
 
+  use mod_perl;
   if ($mod_perl::VERSION >= 2.0) {
       require Apache::compat;
   }
 
 META: while 2.0 is not released, use:
 
-  $mod_perl::VERSION >= 1.99
+  if ($mod_perl::VERSION >= 1.99) {
 
 XS modules will need I<Makefile.PL>/C<#ifdef> logic to work with both
 versions.  But the applications that use them should not need to know
