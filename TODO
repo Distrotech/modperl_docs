@@ -198,3 +198,7 @@ Later:
   on our page, looks more impressive if it's locally hosted like the
   Netcraft one: either fetch results and build our own graph, or just
   fetch their graph.
+
+- Adjust things in start with more examples.
+  STATUS: Per Einar working on it, but hard to give good example of
+  mod_perl that's easy :)
