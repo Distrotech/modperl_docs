@@ -352,7 +352,8 @@ constant|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>>.
 
 =item ret: C<$data> ( string )
 
-the read data buffer
+the read data buffer. The buffer will contain an empty string if no
+data was read.
 
 =item since: 1.99_15
 
