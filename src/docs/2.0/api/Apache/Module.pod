@@ -11,11 +11,11 @@ Apache::Module - Perl API for creating and working with Apache modules
   
   # iterate over the whole module list
   for (my $modp = Apache::Module::top_module(); $modp; $modp = $modp->next) {
-      my $name                = $modp->name;
-      my $index               = $modp->module_index;
-      my $apache_api_version  = $modp->apache_api_version;
-      my $commands            = $modp->cmds;
-      my $minor_version       = $modp->minor_version;
+      my $name                  = $modp->name;
+      my $index                 = $modp->module_index;
+      my $ap_api_major_version  = $modp->ap_api_major_version;
+      my $ap_api_minor_version  = $modp->ap_api_minor_version;
+      my $commands              = $modp->cmds;
   }
   
   # find a specific module
@@ -68,19 +68,19 @@ C<Apache::Module> provides the following functions and/or methods:
 
 
 
-=head2 C<apache_api_version>
+=head2 C<ap_api_major_version>
 
 Get the httpd API version this module was build against, B<not> the
 module's version.
 
-  $version = $module->apache_api_version();
+  $major_version = $module->ap_api_major_version();
 
 =over 4
 
 =item obj: C<$module>
 ( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
 
-=item ret: C<$version> ( integer )
+=item ret: C<$major_version> ( integer )
 
 =item since: 1.99_17
 
@@ -88,6 +88,33 @@ module's version.
 
 This methid is used to check that module is compatible with this
 version of the server before loading it.
+
+
+
+
+
+
+=head2 C<ap_api_minor_version>
+
+Get the module API minor version.
+
+  $minor_version = $module->ap_api_minor_version();
+
+=over 4
+
+=item obj: C<$module>
+( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
+
+=item ret: C<$minor_version> ( integer )
+
+=item since: 1.99_12
+
+=back
+
+C<ap_api_minor_version()> provides API feature milestones.
+
+It's not checked during module init.
+
 
 
 
@@ -245,31 +272,6 @@ loaded:
   }
 
 
-
-
-
-
-
-=head2 C<minor_version>
-
-Get the module API minor version.
-
-  $minor_version = $module->minor_version();
-
-=over 4
-
-=item obj: C<$module>
-( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
-
-=item ret: C<$minor_version> ( integer )
-
-=item since: 1.99_12
-
-=back
-
-C<minor_version()> provides API feature milestones.
-
-It's not checked during module init.
 
 
 
