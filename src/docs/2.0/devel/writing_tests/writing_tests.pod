@@ -704,7 +704,7 @@ C<$Config{usefoo}> is equal to 'define'. So one can tell:
 
   plan tests => 2, have_perl 'ithreads';
 
-and if the Perl wasn't compiled with C<-Dusethreads> the condition
+and if the Perl wasn't compiled with C<-Duseithreads> the condition
 will be false and the test will be skipped.
 
 =item * have_lwp()
@@ -725,6 +725,58 @@ META: to be written
 
 
 =back
+
+
+=head2 Auto Configuration
+
+C<Apache::Test> automatically adds the configuration section for each
+response part. If you put some configuration bits into the C<__DATA__>
+section of the response part, which declares a package:
+
+  package TestResponse::nice;
+  ... some code
+  1;
+  __DATA__
+  PerlRequire "Foo.pm"
+
+these will be wrapped into the E<lt>LocationE<gt> section and placed
+into configuration file for you:
+
+  <Location /TestResponse::nice>
+     SetHandler modperl
+     PerlResponseHandler TestResponse::nice
+     PerlRequire "Foo.pm"
+  </Location>
+
+META: to be completed
+
+=head2 Tests with Non-threads perl versus threaded Perl
+
+Since the tests are supposed to run properly under non-threaded and
+threaded perl, you have to worry to enclose the threaded perl specific
+configuration bits in:
+
+  <IfDefine PERL_USEITHREADS>
+      ... configuration bits
+  </IfDefine>
+
+For example C<PerlOptions +Parent> is valid only for the threaded
+perl, therefore you have to write:
+
+  <IfDefine PERL_USEITHREADS>
+     # a new interpreter pool
+     PerlOptions +Parent
+  </IfDefine>
+
+Just like the configuration, the test's code has to work for both
+versions as well. Therefore you should wrap the code specific to the
+threaded perl into:
+
+  if (have_perl 'ithreads'){
+      # ithread specific code
+  }
+
+which is essentially does a lookup in $Config{useithreads}.
 
 
 =head1 When Tests Should Be Written
