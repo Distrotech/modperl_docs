@@ -25,7 +25,7 @@ to place the I<modperl-docs> directory in:
 
 You will now find a directory called I<modperl-docs> in the current
 working directory which contains all the sources needed to build the
-site.
+site. See the L<CVS Howto|contribute::cvs_howto> for more information.
 
 Another way to download the sources, if you don't want to use CVS, is
 to get the snapshots available from
