@@ -19,13 +19,13 @@ abstract = doc.meta.abstract or "Manuals, Hints, Guidelines, Scenarios, Troubles
 -%]
 
 [%- "        $l\n" FOREACH l = [ doc.headers.link, default_headers.link ] -%]
-        <meta name="description" content="mod_perl documentation: [% abstract | uri | html %]">
+        <meta name="description" content="mod_perl documentation: [% abstract | html %]">
 [%- FOREACH m = ["name", "http-equiv"];
         SET merge = {};
         merge.import(default_headers.meta.$m); # deep copy
         merge.import(doc.headers.meta.$m);     # merge 
         FOREACH key = merge.keys; %]
-        <meta [% m %]="[% key %]" content="[% merge.$key | uri | html  %]">
+        <meta [% m %]="[% key %]" content="[% merge.$key | html  %]">
 [%-     END;
 END -%]
 
