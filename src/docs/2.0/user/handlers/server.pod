@@ -115,6 +115,14 @@ phases:
 
 And the I<httpd.conf> configuration section:
 
+  <IfModule prefork.c>
+    StartServers         4
+    MinSpareServers      4
+    MaxSpareServers      4
+    MaxClients           10
+    MaxRequestsPerChild  0
+  </IfModule>
+  
   PerlModule            MyApache::StartupLog
   PerlOpenLogsHandler   MyApache::StartupLog::open_logs
   PerlPostConfigHandler MyApache::StartupLog::post_config
