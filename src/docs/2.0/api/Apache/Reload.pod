@@ -239,7 +239,7 @@ Let's say that there is a module C<My::Utils>:
   #----------------
   package My::Utils;
   BEGIN { warn __PACKAGE__ , " was reloaded\n" }
-  use base qw('Exporter');
+  use base qw(Exporter);
   @EXPORT = qw(colour);
   sub colour { "white" }
   1;
