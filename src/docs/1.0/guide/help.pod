@@ -225,9 +225,9 @@ programs: http://www.refcards.com.
 
 =back
 
-=item * mod_perl Guide
+=item * 
 
-by Stas Bekman at http://perl.apache.org/guide
+L<mod_perl Guide|docs::1.0::guide::index> by Stas Bekman.
 
 =item * mod_perl FAQ
 

@@ -11,7 +11,7 @@ Apache/mod_proxy).  Two database servers (Dual P800, FreeBSD, Mysql)
 which are replicated, and the one mod_perl server (PIII 800, FreeBSD,
 Apache/mod_perl).  The idea to use the proxy server to intercept any
 requests for text or images which was not dynamic came directly from
-the mod_perl guide (http://perl.apache.org/guide/).
+the mod_perl guide (http://perl.apache.org/docs/1.0/guide/).
 
 It's been a rough ride sometimes, as I've been in the process of
 learning the guts of Apache and more about perl than I ever thought

@@ -13,8 +13,7 @@ Except where noted the language of all documents is English.
 
 =head1 What is mod_perl?
 
-http://perl.apache.org/guide/intro.html#What_is_mod_perl
-
+See the L<mod_perl Guide|docs::1.0::guide::intro>.
 
 =head1 What you need to know to be able to use mod_perl
 
@@ -48,9 +47,7 @@ show that you have made the effort of reading the documentation.
 =head2 Other documentation
 
 There are dozens of references to many authoritative resources at
-
-http://perl.apache.org/guide/help.html
-
+the L<mod_perl Guide's help chapter|docs::1.0::guide::help>
 
 =head1 How to get on (and off!) the mod_perl mailing list
 
@@ -368,16 +365,7 @@ or `mc' to search the .pod source directly.
 
 =head2 Finding the Guide
 
-META: when we get links to work, we need to change the links here
-
-The URL of the Guide is:
-
-http://perl.apache.org/guide/
-
-The sources are available from CPAN and other mirrors:
-
-http://www.cpan.org/authors/id/S/ST/STAS/
-
+Simply go to the <mod_perl Guide|docs::1.0::guide::index>.
 
 =head2 Corrections and Contributions
 
@@ -387,11 +375,23 @@ Corrections and additions to the Guide are welcome.  The original is
 kept in .pod format, and it is converted to other formats by Perl
 code.  The Guide changes rather frequently (the CVS snapshot is
 updated every six hours!) so if you want to make a contribution make
-sure that you get the latest version of the Guide source from
+sure that you get the latest version of the Guide source from the cvs
+repository:
 
-http://stason.org/guide-snapshots
+  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" login
 
-and make your changes to the .pod source only.  In the first instance,
-post your changes to the mod_perl List for comment.
+password: "anoncvs".
+
+  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" co modperl-docs
+
+The guide's in the I<src/docs/1.0/guide> directory.
+
+Please make your changes to the .pod source only and then post the
+output of
+
+  % cvs diff -u filename(s)
+
+ot the whole modified files to the L<modperl-docs mailing
+list|maillist::list-docs-dev>.
 
 =cut
