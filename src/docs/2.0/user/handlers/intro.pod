@@ -172,7 +172,8 @@ which was the case with Apache 1.3.
 
 In order to make the filtering mechanism efficient and avoid
 unnecessary copying, while keeping the data abstracted, the I<Bucket
-Brigades> technology was introduced.
+Brigades> technology was introduced. It's also used in L<protocol
+handlers|docs::2.0::user::handlers::protocols>.
 
 A bucket represents a chunk of data.  Buckets linked together comprise
 a brigade. Each bucket in a brigade can be modified, removed and
