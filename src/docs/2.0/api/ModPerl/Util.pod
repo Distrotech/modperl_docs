@@ -1,0 +1,21 @@
+=head1 NAME
+
+ModPerl::Util -- Helper mod_perl 2.0 Functions
+
+=head1 SYNOPSIS
+
+  use ModPerl::Util;
+  
+  $callback = Apache::current_callback;
+  
+  ModPerl::Util::exit();
+  
+  ModPerl::Util::untaint($) # secret API?
+
+=head1 DESCRIPTION
+
+C<ModPerl::Util> provides mod_perl 2.0 util functions.
+
+META: complete
+
+=cut
