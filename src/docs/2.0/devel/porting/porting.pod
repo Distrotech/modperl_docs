@@ -4,33 +4,374 @@ Porting Apache:: Modules from mod_perl 1.0 to 2.0
 
 =head1 Description
 
-If you have released an C<Apache::Foo> module on CPAN you may wonder
-what steps you should take to make your code working under mod_perl
-2.0 while still preserving 1.0 backwards compatibility. This document
-attempts to answer some of the questions related to this issue.
+This document describes the various options for porting a mod_perl 1.0
+Apache module so that it runs on a Apache 2.0 / mod_perl 2.0
+server. It's also helpful to those who start developing mod_perl 2.0
+handlers.
 
-API changes are listed in L<the backwards compatibility
+=head1 Introduction
+
+In the vast majority of cases, a perl Apache module that runs under
+mod_perl 1.0 will B<not> run under mod_perl 2.0 without at least some
+degree of modification.
+
+Even a very simple module that does not in itself need any changes
+will at least need the mod_perl 2.0 Apache modules loaded, because in
+mod_perl 2.0 basic functionality, such as access to the request object
+and returning an HTTP status, is not found where, or implemented how
+it used to be in mod_perl 1.0.
+
+Most real-life modules will in fact need to deal with the following
+changes:
+
+=over
+
+=item *
+
+methods that have moved to a different (new) package
+
+=item *
+
+methods that must be called differently (due to changed prototypes)
+
+=item *
+
+methods that have ceased to exist (functionality provided in some
+other way)
+
+=back
+
+B<Do not be alarmed!> One way to deal with all of these issues is to
+load the C<L<Apache::compat|docs::2.0::api::Apache::compat>>
+compatibility layer bundled with mod_perl 2.0. This magic spell will
+make almost any 1.0 module run under 2.0 without further changes. It
+is by no means the solution for every case, however, so please read
+carefully the following discussion of this and other options.
+
+There are three basic options for porting. Let's take a quick look at
+each one and then discuss each in more detail.
+
+=over
+
+=item 1 Run the module on 2.0 under C<Apache::compat> with no further changes
+
+As we have said mod_perl 2.0 ships with a module,
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>, that provides a
+complete drop-in compatibility layer for 1.0
+modules. C<Apache::compat> does the following:
+
+=over
+
+=item *
+
+Loads all the mod_perl 2.0 Apache:: modules
+
+=item *
+
+Adjusts method calls where the prototype has changed
+
+=item *
+
+Provides Perl implementation for methods that no longer exist in 2.0
+
+=back
+
+The drawback to using C<Apache::compat> is the performance hit, which
+can be significant.
+
+Authors of CPAN and other publicly distributed modules should not use
+C<Apache::compat> since this forces its use in environments where the
+administrator may have chosen to optimize memory use by making all
+code run natively under 2.0.
+
+=item 2 Modify the module to run only under 2.0
+
+If you are not interested in providing backwards compatibility with
+mod_perl 1.0, or if you plan to leave your 1.0 module in place and
+develop a new version compatible with 2.0, you will need to make
+changes to your code. How significant or widespread the changes are
+depends largely of course on your existing code.
+
+Several sections of this document provide detailed information on how
+to rewrite your code for mod_perl 2.0 Several tools are provided to
+help you, and it should be a relatively painless task and one that you
+only have to do once.
+
+=item 3 Modify the module so that it runs under both 1.0 and 2.0
+
+You need to do this if you want to keep the same version number for
+your module, or if you distribute your module on CPAN and want to
+maintain and release just one codebase.
+
+This is a relatively simple ehancement of option (2) above. The module
+tests to see which version of mod_perl is in use and then executes the
+appropriate method call.
+
+=back
+
+The following sections provide more detailed information and
+instructions for each of these three porting strategies.
+
+=head1 Using the C<Apache::compat> Layer
+
+The C<L<Apache::compat|docs::2.0::api::Apache::compat>> module tries
+to hide the changes in API prototypes between version 1.0 and 2.0 of
+mod_perl, and implements "virtual methods" for the methods and
+functions that actually no longer exist.
+
+C<Apache::compat> is extremely easy to use. Either add at the very
+beginning of startup.pl:
+
+  use Apache2;
+  use Apache::compat;
+
+or add to httpd.conf:
+
+  PerlModule Apache2
+  PerlModule Apache::compat
+
+That's all there is to it. Now you can run your 1.0 module unchanged.
+
+Remember, however, that using C<Apache::compat> will make your module
+run slower. It can create a larger memory footprint than you need and
+it implements functionality in pure Perl that is provided in much
+faster XS in mod_perl 1.0 as well as in 2.0. This module was really
+designed to assist in the transition from 1.0 to 2.0. Generally you
+will be better off if you port your code to use the mod_perl 2.0 API.
+
+It's also especially important to repeat that C<L<CPAN module
+developers are requested not to use this module in their
+code|docs::2.0::api::Apache::compat/Use_in_CPAN_Modules>>, since this
+takes the control over performance away from users.
+
+=head1 Porting a Perl Module to Run under mod_perl 2.0
+
+Note: API changes are listed in L<the backwards compatibility
 document|docs::2.0::user::compat::compat/>.
 
-=head1 Should the Module Name Be Changed?
+The following sections will guide you through the steps of porting
+your modules to mod_perl 2.0.
 
-While you can change the name of the module, it's the best to try to
-preserve the name and use some workarounds if your module cannot be
-ported to run under 1.0 and 2.0 at the same time.
+=head2 Using C<ModPerl::MethodLookup> to Discover Which mod_perl 2.0 Modules Need to Be Loaded
 
-Most of the CPAN C<Apache::> modules for mod_perl 1.0 should work with
-mod_perl 2.0 without any change. Modules including XS code may or may
-not work, depending on whether they use Apache API that have changed
-in Apache 2.0.
+It would certainly be nice to have our mod_perl 1.0 code run on the
+mod_perl 2.0 server unmodified. So first of all, try your luck and
+test the code.
+
+It's almost certain that your code won't work when you try, however,
+because mod_perl 2.0 splits functionality across many more modules
+than version 1.0 did, and you have to load these modules before the
+methods that live in them can be used. So the first step is to figure
+out which these modules are and C<use()> them.
+
+The L<MethodLookup module|docs::2.0::api::ModPerl::MethodLookup>
+provided with mod_perl 2.0 allows you to find out which module
+contains the functionality you are looking for. Simply provide it with
+the name of the mod_perl 1.0 method that has moved to a new module,
+and it will tell you what the module is.
+
+For example, let's say we have a mod_perl 1.0 code snippet:
+
+  $r->content_type('text/plain');
+  $r->print("Hello cruel world!");
+
+If we run this, mod_perl 2.0 will complain that the method
+C<content_type()> can't be found. So we use C<ModPerl::MethodLookup>
+to figure out which module provides this method. We can just run this
+from the command line:
+
+  % perl -MApache2 -MModPerl::MethodLookup -le \
+    'print((ModPerl::MethodLookup::lookup_method(shift))[0])' \
+    content_type
+
+This prints:
+
+  to use method 'content_type' add:
+           use Apache::RequestRec ();
+
+We do what it says and add this C<use()> statement to our code,
+restart our server (unless we're using
+C<L<Apache::Reload|docs::2.0::api::Apache::Reload>>), and mod_perl
+will no longer complain about this particular method.
+
+Since you may need to use this technique quite often you may want to
+C<L<define an
+alias|docs::2.0::api::ModPerl::MethodLookup/Command_Line_Lookups>>. Once 
+defined the last command line lookup can be accomplished with:
+
+  % lookup content_type
+
+=head3 Handling Methods Existing In More Than One Package
+
+Some methods exists in several classes. For example this is the case
+with the C<print()> method. We know the drill:
+
+  % lookup print
+
+This prints:
+
+  There is more than one class with method 'print'
+  try one of:
+        use Apache::RequestIO ();
+        use Apache::Filter ();
+
+So there is more than one package that has this method. Since we know
+that we call the C<print()> method with the C<$r> object, it must be
+the C<Apache::RequestIO> module that we are after. Indeed, loading
+this module solves the problem.
+
+=head3 Using C<ModPerl::MethodLookup> Programmatically
+
+The issue of picking the right module, when more than one matches, can
+be resolved when using C<ModPerl::MethodLookup> programmatically --
+C<L<lookup_method|docs::2.0::api::ModPerl::MethodLookup/lookup_method__>>
+accepts an object as an optional second argument, which is used if
+there is more than one module that contains the method in
+question. C<ModPerl::MethodLookup> knows that C<Apache::RequestIO> and
+and C<Apache::Filter> expect an object of type C<Apache::RequestRec>
+and type C<Apache::Filter> respectively. So in a program running under
+mod_perl we can call:
+
+  ModPerl::MethodLookup::lookup_method('print', $r);
+
+Now only one module will be matched.
+
+This functionality can be used in
+C<L<AUTOLOAD|docs::2.0::api::ModPerl::MethodLookup/AUTOLOAD>>, for
+example, although most users will not have a need for this robust of
+solution.
+
+=head3 Pre-loading All mod_perl 2.0 Modules
+
+Now if you use a wide range of methods and functions from the mod_perl
+1.0 API, the process of finding all the modules that need to be loaded
+can be quite frustrating. In this case you may find the function
+C<L<preload_all_modules()|docs::2.0::api::ModPerl::MethodLookup/preload_all_modules__>>
+to be the right tool for you. This function preloads B<all> mod_perl
+2.0 modules, implementing their API in XS.
+
+While useful for testing and development, it is not recommended to use
+this function in production systems. Before going into production you
+should remove the call to this function and load only the modules that
+are used, in order to save memory.
+
+CPAN module developers should B<not> be tempted to call this function
+from their modules, because it prevents the user of their module from
+optimizing her system's memory usage.
+
+=head2 Handling Missing and Modified mod_perl 1.0 Methods and Functions
+
+The mod_perl 2.0 API is modelled even more closely upon the Apache API
+than was mod_perl version 1.0. Just as the Apache 2.0 API is
+substantially different from that of Apache 1.0, therefore, the
+mod_perl 2.0 API is quite different from that of mod_perl
+1.0. Unfortunately, this means that certain method calls and functions
+that were present in mod_perl version 1.0 are missing or modified in
+mod_perl 2.0.
+
+If mod_perl 2.0 tells you that some method is missing and it can't be
+found using
+L<ModPerl::MethodLookup|/Using_ModPerl::MethodLookup_to_Discover_Which_mod_perl_2.0_Modules_Need_to_Be_Loaded>,
+it's most likely because the method doesn't exist in the mod_perl 2.0
+API. It's also possible that the method does still exist, but
+nevertheless it doesn't work, since its usage has changed (e.g. its
+prototype has changed, or it requires ditfferent arguments, etc.).
+
+In either of these cases, refer to L<the backwards compatibility
+document|docs::2.0::user::compat::compat/> for an exhaustive list of
+API calls that have been modified or removed.
+
+=head3 Methods that No Longer Exist
+
+Some methods that existed in mod_perl 1.0 simply do not exist anywhere
+in version 2.0 and you must therefore call a different method o
+methods to get the functionality you want.
+
+For example, suppose we have a mod_perl 1.0 code snippet:
+
+  $r->log_reason("Couldn't open the session file: $@");
+
+If we try to run this under mod_perl 2.0 it will complain about the
+call to C<log_reason()>. But when we use C<ModPerl::MethodLookup> to see
+which module to load in order to call that method, nothing is found:
+
+  % perl -MApache2 -MModPerl::MethodLookup -le \
+    'print((ModPerl::MethodLookup::lookup_method(shift))[0])' \
+    log_reason
+
+This prints:
+
+  don't know anything about method 'log_reason'
+
+Looks like we are calling a non-existent method! Our next step is to
+refer to L<the backwards compatibility
+document|docs::2.0::user::compat::compat/>, wherein we find that as we
+suspected, the method C<log_reason()> no longer exists, and that
+L<instead we should use the other standard logging
+functions|docs::2.0::user::compat::compat/C__r_E_gt_log_reason_>
+provided by the C<Apache::Log> module.
+
+=head3 Methods Whose Usage Has Been Modified
+
+Some methods still exist, but their usage has been modified, and your
+code must call them in the new fashion or it will generate an
+error. Most often the method call requires new or different arguments.
+
+For example, say our mod_perl 1.0 code said:
+
+  $parsed_uri = Apache::URI->parse($r, $r->uri);
+
+This code causes mod_perl 2.0 to complain first about not being able
+to load the method C<parse()> via the package Apache::URI. We use the
+tools described above to discover that the package containing our
+method has moved and change our code to load and use C<APR::URI>:
+
+  $parsed_uri = APR::URI->parse($r, $r->uri);
+
+But we still get an error. It's a little cryptic, but it gets the
+point across:
+
+  p is not of type APR::Pool at /path/to/OurModule.pm line 9.
+
+What this is telling us is that the method C<parse> requires an
+APR::Pool object as its first argument. (Some methods whose usage has
+changed emit more helpful error messages prefixed with "Usage: ...")
+So we change our code to:
+
+  $parsed_uri = APR::URI->parse($r->pool, $r->uri);
+
+and all is well in the world again.
+
+=head2 Requiring a specific mod_perl version.
+
+To require a module to run only under 2.0, simply add:
+
+  use Apache2;
+  use mod_perl 2.0;
+
+META: In fact, before 2.0 is released you really have to say:
+
+  use Apache2;
+  use mod_perl 1.99;
+
+=head2 Should the Module Name Be Changed?
+
+If it is not possible to make your code run under both mod_perl
+versions (see below), you will have to maintain two separate versions
+of your own code. While you can change the name of the module for the
+new version, it's best to try to preserve the name and use some
+workarounds.
 
 Let's say that you have a module C<Apache::Friendly> whose release
 version compliant with mod_perl 1.0 is 1.57. You keep this version on
-CPAN and release a new version 2.01 which is compliant with 2.0 and
-preserves the name of the module. It's possible that a user may need
-to have both versions of the module on the same machine. Since the two
-have the same name they obviously cannot live under the same tree. One
-attempt to solve that problem is to use C<MP_INST_APACHE2>
-I<Makefile.PL>'s option. If the module is configured as:
+CPAN and release a new version, 2.01, which is compliant with mod_perl
+2.0 and preserves the name of the module. It's possible that a user
+may need to have both versions of the module on the same
+machine. Since the two have the same name they obviously cannot live
+under the same tree.
+
+One attempt to solve this problem is to use I<Makefile.PL>'s
+C<MP_INST_APACHE2> option. If the module is configured as:
 
   % perl Makefile.PL MP_INST_APACHE2=1
 
@@ -38,49 +379,85 @@ it'll be installed relative to the I<Apache2/> directory.
 
 META: but of course this won't work in non-core mod_perl, since a
 generic C<Makefile.PL> has no idea what to do about
-MP_INST_APACHE2=1. Need to provide copy-n-paste recipe for this. Or
+C<MP_INST_APACHE2=1>. Need to provide copy-n-paste recipe for this. Or
 even add to the core a supporting module that will handle this
 functionality.
 
 The second step is to change the documentation of your 2.0 compliant
-module to say:
+module to instruct users to C<use Apache2 ();> in their code (or in
+I<startup.pl> or via C<PerlModule Apache2> in I<httpd.conf>) before
+the module is required. This will cause C<@INC> to be modified to
+include the I<Apache2/> directory first.
 
-  use Apache2 ();
-
-in the code before the module is required or in I<startup.pl> or
-
-  PerlModule Apache2
-
-in I<httpd.conf>. This will C<@INC> to look in the I<Apache2/>
-directory first.
-
-The introduction of I<Apache2/> directory is similar to how Perl
+The introduction of the I<Apache2/> directory is similar to how Perl
 installs its modules in a version specific directory. For example:
 
   lib/5.7.1
   lib/5.7.2
 
-=head1 Requiring a specific mod_perl version.
 
-To require a module to run only under 2.0, simply add:
+=head2 Using C<Apache::compat> As a Tutorial
 
-  use Apache2;
-  use mod_perl 2.0;
+Even if you have followed the recommendation and eschewed use of the
+C<L<Apache::compat|docs::2.0::api::Apache::compat>> module, you may
+find it useful to learn how the API has been changed and how to modify
+your own code. Simply look at the C<Apache::compt> source code and see
+how the functionality should be implemented in mod_perl 2.0.
 
-to your module. You can also use the variable
-C<$mod_perl::VERSION>. But you should always load C<Apache2> first, so
-it'll adjust C<@INC>, if mod_perl 2.0 is installed on the same base
-with mod_perl 1.0.
+For example, mod_perl 2.0 doesn't provide the C<Apache-E<gt>gensym>
+method. As we can see if we look at the C<Apache/compat.pm> source,
+the functionality is now available via the core Perl module C<Symbol>
+and its C<gensym()> function. (Since mod_perl 2.0 works only with Perl
+versions 5.6 and higher, and C<Symbol.pm> is included in the core Perl
+distribution since version 5.6.0, there was no reason to keep
+providing C<Apache-E<gt>gensym>.)
 
-META: Well before 2.0 is released you really have to say:
+So if the original code looked like:
 
-  use Apache2;
-  use mod_perl 1.99;
+  my $fh = Apache->gensym;
+  open $fh, $file or die "Can't open $file: $!";
 
-In the configuration file you can use a special configuration "define"
-symbol C<MODPERL2> which is enabled internally, as if the server had
-been started with C<-DMODPERL2>.
+in order to port it mod_perl 2.0 we can write:
 
+  my $fh = Symbol::gensym;
+  open $fh, $file or die "Can't open $file: $!";
+
+Or we can even skip loading C<Symbol.pm>, since under Perl version 5.6
+and higher we can just do:
+
+  open my $fh, $file or die "Can't open $file: $!";
+
+=head1 Porting a Module to Run under both mod_perl 2.0 and mod_perl 1.0
+
+Sometimes code needs to work with both mod_perl versions. This is the
+case for writers of publically available and CPAN modules who wish to
+continue to maintain a single code base, rather than supplying two
+separate implementations.
+
+=head2 Making Code Conditional on Running mod_perl Version
+
+In this case you can test for which version of mod_perl your code is
+running under and act appropriately.
+
+To continue our example above, let's say we want to support opening a
+filehandle in both mod_perl 2.0 and mod_perl 1.0. Our code can make
+use of the variable C<$mod_perl::VERSION>:
+
+  use mod_perl;
+  use constant MP2 => ($mod_perl::VERSION >= 1.99);
+  # ...
+  require Symbol if MP2;
+  # ...
+  
+  my $fh = MP2 ? Symbol::gensym : Apache->gensym;
+  open $fh, $file or die "Can't open $file: $!";
+
+Here's another way to find out the mod_perl version. In the server
+configuration file you can use a special configuration "define" symbol
+C<MODPERL2>, which is magically enabled internally, as if the server
+had been started with C<-DMODPERL2>.
+
+  # in httpd.conf
   <IfDefine MODPERL2>
       # 2.0 configuration
   </IfDefine>
@@ -89,193 +466,23 @@ been started with C<-DMODPERL2>.
   </IfDefine>
 
 From within Perl code this can be tested with
-C<Apache::exists_config_define()>, for example:
+C<Apache::exists_config_define()>. For example, we can use this method
+to decide whether or not to call C<$r-E<gt>send_http_header()>, which
+no longer exists in mod_perl 2.0:
 
-  if (Apache::exists_config_define("MODPERL2")) {
-      # some 2.0 specific code
-  }
-
-=head1 Porting mod_perl 1.0 Modules to Work with mod_perl 2.0.
-
-The following sections will guide you through the steps of porting
-your modules to mod_perl 2.0.
-
-=head2 Figuring Out What Modules Need to be Loaded
-
-It'd be certainly nice to have our mod_perl 1.0 code run on the
-mod_perl 2.0 server unmodified. So first of all, try your luck and
-test the code.
-
-It's almost certain that your code won't work when you try, because
-mod_perl 2.0 splits the functionality across many modules, and you
-have to load them before the methods that live in them can be used. So
-the first step is to L<figure out what these modules
-are|docs::2.0::api::ModPerl::MethodLookup> and C<use()> them.
-
-For example if we have a mod_perl 1.0 code snippet:
-
-  $r->content_type('text/plain');
-  $r->print("Hello cruel world!");
-
-and we run it, mod_perl 2.0 will complain that the method
-C<content_type> can't be found. So off we go to figure out which
-module provides this method:
-
-  % perl -MApache2 -MModPerl::MethodLookup -le \
-     'print((ModPerl::MethodLookup::lookup_method(shift))[0])' \
-      content_type
-
-and we get:
-
-  to use method 'content_type' add:
-          use Apache::RequestRec ();
-
-We copy-n-paste this snippet to our code and mod_perl doesn't complain
-about this particular method anymore (of course after you've either
-restarted the server or used
-C<L<Apache::Reload|docs::2.0::api::Apache::Reload>>). However now it
-complains about the missing C<print> method.  We know the drill, we
-will use the above snippet again and add the missing module. Since we
-have to repeat this procedure more than once why not defining C<L<an
-alias|docs::2.0::api::ModPerl::MethodLookup/Command_Line_Lookups>> and 
-then use it:
-
-  % lookup print
-  There is more than one class with method 'print'
-  try one of:
-        use Apache::RequestIO ();
-        use Apache::Filter ();
-
-Hmm, indeed there is more than one package that has this method. Since
-we know, that we call it with the C<$r> object, it must be the
-C<Apache::RequestIO> module that we are after. Indeed, loading this
-module solves the problem.
-
-The issue of picking the right module, when more than one matches, can
-be resolved programmatically--
-C<L<lookup_method|docs::2.0::api::ModPerl::MethodLookup/lookup_method__>>
-accepts an object as an optional second argument, which is used if
-there is more than one module that contains the method in
-question. C<ModPerl::MethodLookup> knows that C<Apache::RequestIO>
-expects an object of type C<Apache::RequestRec>, and C<Apache::Filter>
-of type C<Apache::Filter>. So if we call:
-
-  ModPerl::MethodLookup::lookup_method('print', $r);
-
-only one module will be matched. This functionality can be used in
-C<L<AUTOLOAD|docs::2.0::api::ModPerl::MethodLookup/AUTOLOAD>>.
-
-Now if you use a wide range of used APIs, the process of finding all
-the modules that need to be loaded can be quite frustrating. In that
-case you may find the function
-C<L<preload_modules()|docs::2.0::api::ModPerl::MethodLookup/preload_all_modules__>>
-to be right pill. This function preloads B<all> mod_perl 2.0 modules,
-implementing their API in XS. However before going in production, you
-should consider removing the call to this function and to load only
-the modules that are used, in order to save memory. CPAN module
-developers in no way should be tempted to call this function from
-their modules, because it prevents from the user of their module to
-optimize the memory usage.
-
-=head2 Handling Missing and Modified mod_perl 1.0 APIs
-
-mod_perl 2.0 had to modify or remove certain APIs to adhere to the
-substantial changes the Apache C API went through. It wasn't core
-developers desire to break the API, but simply there was no other
-choice.  If you figure out that some method is reported missing and
-can't be found using
-L<ModPerl::MethodLookup|/Figuring_Out_What_Modules_Need_to_be_Loaded>,
-chances are that this method doesn't exist in mod_perl 2.0 API. Also
-it's possible that the method exists, but it still doesn't work, since
-its prototype has been changed (e.g., some functions now require a
-pool object). Instead of guessing, refer to L<the backwards
-compatibility
-document|docs::2.0::user::compat::compat/> to learn which APIs were
-modified or removed.
-
-If the code includes methods whose API have been changed or these
-methods no longer exist, you have to options:
-
-=over
-
-=item 1
-
-Port your code to use the mod_perl 2.0 API.
-
-=item 2
-
-Use the C<L<Apache::compat|docs::2.0::api::Apache::compat>> module.
-
-=back
-
-If you need to have your code working with both mod_perl versions,
-which is the case for CPAN module writers who wish to continue to
-maintain a single code base, rather than supplying two separate
-implementations, the variable C<$mod_perl::VERSION> should be used.
-
-For example, the method C<send_http_header> doesn't exist in mod_perl
-2.0 API. Therefore our code that is supposed to work under both
-mod_perl versions may look like this:
-
-  use mod_perl;
-  use constant MP2 => ($mod_perl::VERSION >= 1.99);
-  ...
   sub handler {
       my $r = shift;
       $r->content_type('text/html');
-      $r->send_http_header() unless MP2;
+      $r->send_http_header() unless Apache::exists_config_define("MODPERL2");
       ...
   }
 
-The C<L<Apache::compat|docs::2.0::api::Apache::compat>> module tries
-to hide the changes in API prototypes and implement the removed
-methods and functions. However it does that in pure Perl, so things
-are going to be slower. This module is useful for the transition
-stage, but you are better off to port your code to use the mod_perl
-2.0 API.
 
-It's especially important to repeat that C<L<CPAN module developers are
-requested not to use this module in their
-code|docs::2.0::api::Apache::compat/Use_in_CPAN_Modules>>, since it takes the control over
-performance away from users.
+=head1 Porting XS Code and Makefile.PL
 
-However the C<L<Apache::compat|docs::2.0::api::Apache::compat>> module
-is also useful to learn how the API have been changed. Simply look at
-the source code and see how it should be implemented in mod_perl 2.0.
-For example mod_perl 2.0 doesn't provide the C<Apache-E<gt>gensym>
-method. If we look at the C<Apache/compat.pm> source, we can see that
-it loads the module C<Symbol> and calls its C<gensym()> function
-instead. mod_perl 2.0 works with Perl versions 5.6 and higher, and
-C<Symbol.pm> is included in the core distribution since that version,
-so was no reason to keep providing C<Apache-E<>gensym>. So if the
-original code looked as:
-
-  my $fh = Apache->gensym;
-  open $fh, $file or die "Can't open $file: $!";
-
-in order to port it mod_perl 2.0 we can write:
-
-  use mod_perl;
-  use constant MP2 => ($mod_perl::VERSION >= 1.99);
-  ...
-  require Symbol if MP2;
-  ...
-  
-  my $fh = MP2 ? Symbol::gensym : Apache->gensym;
-  open $fh, $file or die "Can't open $file: $!";
-
-If we don't need to keep the backwards compatibility with mod_perl
-1.0, we don't even have to use the C<Symbol> module, since under Perl
-version 5.6 and higher we can just do:
-
-  open my $fh, $file or die "Can't open $file: $!";
-
-
-=head2 Porting XS Code and Makefile.PL
-
-If your module's XS code relies on Apache and mod_perl C APIs, it's
-very likely that you will have to adjust the XS code to the Apache 2.0
-and mod_perl 2.0 C API.
+If your module's XS code relies on the Apache and mod_perl C APIs,
+it's very likely that you will have to adjust the XS code to the
+Apache 2.0 and mod_perl 2.0 C API.
 
 The C API has changed a lot, so chances are that you are much better
 off not to mix the two APIs in the same XS file. However if you do
@@ -296,9 +503,7 @@ As for porting I<Makefile.PL>, it's only an issue if it was using
 C<Apache::src>. A new configuration system is in works. So watch this
 space for updates on this issue.
 
-META: ModPerl::MM is a likely candidate for the new replacement of
-Apache::src
-
+META: ModPerl::MM is a likely candidate for the new replacement of Apache::src
 
 =head1 Thread Safety
 
@@ -318,23 +523,21 @@ working with PerlIO, you can use the C<PERLIO_LAYERS> constant. e.g.:
 
   #ifdef PERLIO_LAYERS
   #include "perliol.h"
-  #else 
+  #else
   #include "iperlsys.h"
   #endif
 
 
 =head1 'make test' Suite
 
-C<Apache::Test> testing framework that comes together with mod_perl
-2.0 works with 1.0 and 2.0 mod_perl versions. Therefore you should
-consider porting your test suite to use L<the Apache::Test
+The C<Apache::Test> testing framework that comes together with
+mod_perl 2.0 works with 1.0 and 2.0 mod_perl versions. Therefore you
+should consider porting your test suite to use L<the Apache::Test
 Framework|docs::general::testing::testing>.
 
 =head1 Apache C Code Specific Notes
 
-=head2 Apache Core Documentation
-
-Most of documentation dedicated for migration to Apache 2.0 can be
+Most of the documentation covering migration to Apache 2.0 can be
 found at: http://httpd.apache.org/docs-2.0/developer/
 
 The Apache 2.0 API documentation now resides in the C header files,
@@ -350,7 +553,7 @@ used doesn't seem to exist in Apache 2.0, first refer to the "compat"
 header files, such as: I<include/ap_compat.h>,
 I<srclib/apr/include/apr_compat.h>, and
 I<srclib/apr-util/include/apu_compat.h>, which list functions whose
-names have changed but which are otherwise the same. If failed,
+names have changed but which are otherwise the same. If this fails,
 proceed to look in other headers files in the following directories:
 
 =over
@@ -386,7 +589,11 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =head1 Authors
 
-=over 
+=over
+
+=item *
+
+Nick Tonkin E<lt>nick (at) tonkinresolutions.comE<gt>
 
 =item *
 
