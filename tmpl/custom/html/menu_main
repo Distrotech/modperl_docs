@@ -49,19 +49,19 @@
            title = 'perl.apache.org'
 -%]
 [%- FOREACH but = buttons %]
-		<tr>
-			<td class="menu-border"><br></td>
-			<td class="[% but.td_style %]">
-				<div class="[% but.style %]">
-				    <a href="[% but.link %]">[% but.text %]</a>
-				</div>
-			</td>
-			<td class="menu-border"><br></td>
-		</tr>
+        <tr>
+            <td class="menu-border"><br></td>
+            <td class="[% but.td_style %]">
+                <div class="[% but.style %]">
+                    <a href="[% but.link %]">[% but.text %]</a>
+                </div>
+            </td>
+            <td class="menu-border"><br></td>
+        </tr>
 
 [% END %]
-		<tr>
-			<td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
-		</tr>
+        <tr>
+            <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+        </tr>
 [% END %]
 </div>

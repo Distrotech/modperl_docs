@@ -33,7 +33,7 @@
 <form method="post" action="/modperl-site/search/swish.cgi" enctype="application/x-www-form-urlencoded">
     [% INCLUDE page_body %]
     <br>
-   	<hr noshade size="1">
+    <hr noshade size="1">
     [% INCLUDE tail %]
     <input type="hidden" name="metaname" value="swishdefault">
     <input type="hidden" name="sort" value="swishrank">

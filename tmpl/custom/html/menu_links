@@ -16,18 +16,18 @@
            title = 'sister sites'
 -%]
 [%- FOREACH but = buttons %]
-		<tr>
-			<td class="menu-border"><br></td>
-			<td class="non-sel-bg">
-				<div class="nonselectedmenuitem">
+        <tr>
+            <td class="menu-border"><br></td>
+            <td class="non-sel-bg">
+                <div class="nonselectedmenuitem">
                     <a href="[% but.0 %]">[% but.1 %]</a>
-				</div>
-			</td>
-			<td class="menu-border"><br></td>
-		</tr>
+                </div>
+            </td>
+            <td class="menu-border"><br></td>
+        </tr>
 [% END %]
-		<tr>
-			<td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
-		</tr>
+        <tr>
+            <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+        </tr>
 [% END %]
 </div>

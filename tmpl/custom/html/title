@@ -1,13 +1,13 @@
 [% IF doc.meta.title.defined %]
     <tr>
-    	<td>
+        <td>
         <!--title-->
         <table border="0" width="100%" cellspacing="0" cellpadding="3">
             <tr>
                 <td bgcolor="#525A73" class="headline">[% doc.meta.title %]</td>
             </tr>
         </table>
-    	</td>
+        </td>
     </tr>
 [% END %]
 </table>

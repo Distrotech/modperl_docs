@@ -5,35 +5,35 @@
 -%]
 [% IF nav -%]
     [% # prepare the sects to show where are we relative 
-       # to the absolute root
-       parents = [];
-       p = nav.up;
-       nav_not_empty = 0;
-       WHILE p;
-           parents.unshift(p);
-           p = p.up;
-	   nav_not_empty = 1; 
-       END;
+        # to the absolute root
+        parents = [];
+        p = nav.up;
+        nav_not_empty = 0;
+        WHILE p;
+            parents.unshift(p);
+            p = p.up;
+            nav_not_empty = 1; 
+        END;
     
-       sects = [];
-       FOREACH p = parents;
-           SET path = [];
-           IF p.parent_rel_path.defined; # top level has no rel_path
-               path.push(p.parent_rel_path);
-           END;
-           IF rel_doc_root.defined;
-               path.push(rel_doc_root);
-           END;
-	   nav_not_empty = 1; 
-           link = path.join("/");
-           sects.push({link => "$link/index.html", text => p.index_node.stitle});
-       END;
-       # a page has index as its parent, so we push it here
-       IF rel_doc_root.defined;
-	   nav_not_empty = 1; 
-           sects.push({link => "$rel_doc_root/index.html", 
-                       text => nav.index_node.stitle});
-       END;
+        sects = [];
+        FOREACH p = parents;
+            SET path = [];
+            IF p.parent_rel_path.defined; # top level has no rel_path
+                path.push(p.parent_rel_path);
+            END;
+            IF rel_doc_root.defined;
+                path.push(rel_doc_root);
+            END;
+            nav_not_empty = 1; 
+            link = path.join("/");
+            sects.push({link => "$link/index.html", text => p.index_node.stitle});
+        END;
+        # a page has index as its parent, so we push it here
+        IF rel_doc_root.defined;
+            nav_not_empty = 1; 
+            sects.push({link => "$rel_doc_root/index.html", 
+                        text => nav.index_node.stitle});
+        END;
     -%]
 
 
