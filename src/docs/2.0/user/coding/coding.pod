@@ -203,17 +203,106 @@ Refer to the I<perllexwarn> manpage for more information.
 In the following sections we discuss the specifics of Apache behavior
 relevant to mod_perl developers.
 
-=head2 Sending HTTP Response Headers
+=head2 HTTP Response Headers
+
+=head3 Generating HTTP Response Headers
+
+The best approach for generating HTTP response headers is by using the
+L<mod_perl API|docs::2.0::api::Apache::RequestRec>. Some common
+headers have dedicated methods, others are set by manipulating the
+C<L<headers_out|docs::2.0::api::Apache::RequestRec/C_headers_out_>>
+table directly.
+
+For example to set the I<Content-type> header you should call
+C<L<$r-E<gt>content_type|docs::2.0::api::Apache::RequestRec/C_content_type_>>:
+
+  use Apache::RequestRec ();
+  $r->content_type('text/html');
+
+To C<L<set|docs::2.0::api::APR::Table/C_set_>> a custom header
+I<My-Header> you should call:
+
+  use Apache::RequestRec ();
+  use APR::Table;
+  $r->headers_out->set(My-Header => "SomeValue");
+
+If you are inside a registry script L<you can still
+access|docs::2.0::user::coding::coding/Getting_the_C__r__Object> the
+C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> object.
+
+Howerever you can choose a slower method of generating headers by just
+printing them out before printing any response. This will work only if
+C<L<PerlOptions
++ParseHeaders|docs::2.0::user::config::config/C_ParseHeaders_>> is
+in effect. For example:
+
+   print "Content-type: text/html\n";
+   print "My-Header: SomeValue\n";
+   print "\n";
+
+This method is slower since Apache needs to parse the text to identify
+certain headers it needs to know about. It also has several
+limitations which we will now discuss.
+
+When using this approach you must make sure that the C<STDOUT>
+filehandle is not set to flush the data after each print (which is set
+by the value of a special perl variable C<$|>). Here we assume that
+STDOUT is the currently C<select()>ed filehandle and C<$|> affects it.
+
+For example this code won't work:
+
+   local $| = 1;
+   print "Content-type: text/html\n";
+   print "My-Header: SomeValue\n";
+   print "\n";
+
+Having a true C<$|> causes the first print() call to flush its data
+immediately, which is sent to the internal HTTP header parser, which
+will fail since it won't see the terminating C<"\n\n">. One solution
+is to make sure that STDOUT won't flush immediately, like so:
+
+   local $| = 0;
+   print "Content-type: text/html\n";
+   print "My-Header: SomeValue\n";
+   print "\n";
+
+Notice that we C<local()>ize that change, so it L<won't affect any
+other
+code|docs::general::perl_reference::perl_reference/The_Scope_of_the_Special_Perl_Variables>.
+
+If you send headers line by line and their total length is bigger than
+8k, you will have the header parser problem again, since mod_perl will
+flush data when the 8k buffer gets full. In which case the solution is
+not to print the headers one by one, but to buffer them all in a
+variable and then print the whole set at once.
+
+Notice that you don't have any of these problems with mod_cgi, because
+it ignores any of the flush attempts by Perl. mod_cgi simply opens a
+pipe to the external process and reads any output sent from that
+process at once.
+
+If you use C<$r> to set headers as explained at the beginning of this
+section, you won't encounter any of these problems.
+
+Finally, If you don't want Apache to send its own headers and you want
+to send your own set of headers (non-parsed headers handlers) use
+explain the
+C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache::RequestRec/C_assbackwards_>>
+method. Notice that registry handlers will do that for you if the
+script's name start with the C<nph-> prefix.
+
+
+=head3 Forcing HTTP Response Headers Out
 
 Apache 2.0 doesn't provide a method to force HTTP response headers
 sending (what used to be done by C<send_http_header()> in Apache
 1.3). HTTP response headers are sent as soon as the first bits of the
 response body are seen by the special core output filter that
-generates these headers. When the response handler send the first
+generates these headers. When the response handler sends the first
 chunks of body it may be cached by the mod_perl internal buffer or
 even by some of the output filters. The response handler needs to
-flush in order to tell all the components participating in the sending
-of the response to pass the data out.
+flush the output in order to tell all the components participating in
+the sending of the response to pass the data out.
 
 For example if the handler needs to perform a relatively long-running
 operation (e.g. a slow db lookup) and the client may timeout if it
@@ -230,11 +319,14 @@ setting the I<Content-Type> header, following by an immediate flush:
   }
 
 If this doesn't work, check whether you have configured any
-third-party output filters for the resource in question. Improperly
-written filter may ignore the orders to flush the data.
+third-party output filters for the resource in question. L<Improperly
+written
+filter|docs::2.0::user::handlers::filters/Writing_Well_Behaving_Filters>
+may ignore the command to flush the data.
 
-META: add a link to the notes on how to write well-behaved filters
-at handlers/filters
+
+
+
 
 =head2 Sending HTTP Response Body
 
@@ -246,10 +338,16 @@ This happens due to the Apache 2.0 HTTP architecture specifics. One of
 the issues is that the HTTP response filters are not setup before the
 response phase.
 
+
+
+
 =head1 Perl Specifics in the mod_perl Environment
 
 In the following sections we discuss the specifics of Perl behavior
 under mod_perl.
+
+
+
 
 =head2 Request-localized Globals
 
@@ -295,6 +393,87 @@ what you are doing.
 
 You can still call C<CORE::exit> to kill the interpreter, again if you
 know what you are doing.
+
+
+
+
+=head1 C<ModPerl::Registry> Handlers Family
+
+=head2 A Look Behind the Scenes
+
+If you have a CGI script F<test.pl>:
+
+  #!/usr/bin/perl
+  print "Content-type: text/plain\n\n";
+  print "Hello";
+
+a typical registry family handler turns it into something like:
+
+  package foo_bar_baz;
+  sub handler {
+      local $0 = "/full/path/to/test.pl";
+  #line 1 test.pl
+      #!/usr/bin/perl
+      print "Content-type: text/plain\n\n";
+      print "Hello";
+  }
+
+Turning it into an almost full-fledged mod_perl handler. The only
+difference is that it handles the return status for you. (META: more
+details on return status needed.)
+
+It then executes it as:
+
+  foo_bar_baz::handler($r);
+
+passing the C<L<$r|docs::2.0::api::Apache::RequestRec>> object as the
+only argument to the C<handler()> function.
+
+Depending on the used registry handler the package is made of the file
+path, the uri or anything else. Check the handler's documentation to
+learn which method is used.
+
+
+
+=head2 Getting the C<$r> Object
+
+As explained in L<A Look Behind the Scenes|/A_Look_Behind_the_Scenes>
+the C<$r> object is always passed to the registry script's special
+function C<handler> as the first and the only argument, so you can get
+this object by accessing C<@_>, since:
+
+  my $r = shift;
+  print "Content-type: text/plain\n\n";
+  print "Hello";
+
+is turned into:
+
+  sub handler {
+      my $r = shift;
+      print "Content-type: text/plain\n\n";
+      print "Hello";
+  }
+
+behind the scenes. Now you can use C<$r> to call various mod_perl
+methods, e.g. rewriting the script as:
+
+  my $r = shift;
+  $r->content_type('text/plain');
+  $r->print();
+
+If you are deep inside some code and can't get to the entry point to
+reach for C<$r>, you can use
+C<L<Apache-E<gt>request|docs::2.0::api::Apache::RequestUtil/C_request_>>.
+
+
+
+
+
+
+
+
+
+
 
 
 =head1 Threads Coding Issues Under mod_perl
