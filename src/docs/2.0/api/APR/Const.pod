@@ -586,30 +586,93 @@ The C<:shutdown_how> group is for XXX constants.
 
   use APR::Const -compile => qw(:socket);
 
-The C<:socket> group is for XXX constants.
+The C<:socket> group is for the
+C<L<APR::Socket|docs::2.0::api::APR::Socket>> object constants, in
+methods C<L<opt_get|docs::2.0::api::APR::Socket/C_opt_get_>> and
+C<L<opt_set|docs::2.0::api::APR::Socket/C_opt_set_>>.
+
+The following section discusses in detail each of the C<:socket>
+constants.
 
 =head3 C<APR::SO_DEBUG>
 
+Turns on debugging information
+
+Possible values:
+
+XXX
 
 =head3 C<APR::SO_DISCONNECTED>
 
+Queries the disconnected state of the socket.  (Currently only used on
+Windows)
+
+Possible values:
+
+XXX
 
 =head3 C<APR::SO_KEEPALIVE>
 
+Keeps connections active
+
+Possible values:
+
+XXX
 
 =head3 C<APR::SO_LINGER>
 
+Lingers on close if data is present
 
 =head3 C<APR::SO_NONBLOCK>
+
+Turns blocking IO mode on/off for socket.
+
+Possible values:
+
+  1 nonblocking
+  0 blocking
+
+For example, to set the socket to a blocking IO mode:
+
+  use APR::Socket ();
+  use APR::Const    -compile => qw(SO_NONBLOCK);
+  ...
+  my $oldval = $sock->opt_set(APR::SO_NONBLOCK, 0);
+  die "failed to set the socket to a blocking IO mode: $ARP::err"
+      unless defined $oldval;
 
 
 =head3 C<APR::SO_RCVBUF>
 
+Controls the C<ReceiveBufferSize> setting
+
+Possible values:
+
+XXX
 
 =head3 C<APR::SO_REUSEADDR>
 
+The rules used in validating addresses supplied to bind should allow
+reuse of local addresses.
+
+Possible values:
+
+XXX
 
 =head3 C<APR::SO_SNDBUF>
+
+Controls the C<SendBufferSize> setting
+
+Possible values:
+
+XXX
+
+
+
+
+
+
+
 
 
 
