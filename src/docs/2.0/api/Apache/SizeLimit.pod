@@ -2,6 +2,8 @@
 
 Apache::SizeLimit - Because size does matter.
 
+
+
 =head1 Synopsis
 
 This module allows you to kill off Apache httpd processes if they grow
@@ -20,7 +22,8 @@ the process size on every request:
 
 Or you can just check those requests that are likely to get big, such
 as CGI requests.  This way of checking is also easier for those who
-are mostly just running CGI scripts under C<ModPerl::Registry>:
+are mostly just running CGI scripts under
+C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>>:
 
   # in your script:
   use Apache::SizeLimit;
@@ -38,11 +41,14 @@ every N times.  To do so, put this in your startup.pl or CGI:
 This will only check the process size every other time the process
 size checker is called.
 
+
+
+
 =head1 Description
 
 This module is highly platform dependent, please read the
-L<Caveats|/Caveats> section.  It also does not work under threaded
-MPMs, as explained below.
+L<Caveats|/Caveats> section.  It also does not work L<under threaded
+MPMs|/Supported_MPMs>.
 
 This module was written in response to questions on the mod_perl
 mailing list on how to tell the httpd process to exit if it gets too
@@ -73,6 +79,10 @@ can use both if you are feeling paranoid.  Most users use the
 technique shown in this module and set their C<MaxRequestsPerChild>
 value to C<0>.
 
+
+
+
+
 =head1 Shared Memory Options
 
 In addition to simply checking the total size of a process, this
@@ -89,6 +99,10 @@ is because it only kills off processes that are truly using too much
 physical RAM, allowing most processes to live longer and reducing the
 process churn rate.
 
+
+
+
+
 =head1 Caveats
 
 This module is platform dependent, since finding the size of a process
@@ -97,7 +111,11 @@ supported.  In particular, the limits on minimum shared memory and
 maximum shared memory are currently only supported on Linux and BSD.
 If you can contribute support for another OS, please do.
 
-Currently supported OSes:
+
+
+
+
+=head2 Supported OSes
 
 =over 4
 
@@ -144,7 +162,7 @@ course.
 
 
 
-=head1 Threaded MPMs
+=head2 Supported MPMs
 
 At this time, C<Apache::SizeLimit> does not support use under threaded
 MPMs.  This is because there is no efficient way to get the memory
@@ -154,10 +172,14 @@ list|maillist::dev>.
 
 
 
+
+
 =head1 Copyright
 
 mod_perl 2.0 and its core modules are copyrighted under
 The Apache Software License, Version 2.0.
+
+
 
 
 
