@@ -1,20 +1,19 @@
 <table border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <td class="menu-border" colspan="6" height="1"><br class="smallbr"></td>
+        <td class="menu-border" colspan="5" height="1"><br class="smallbr"></td>
     </tr>
     <tr>
         <td class="menu-border" width="1"><br class="smallbr"></td>
-        <td class="search" width="60" align="center">Search</td>
         <td class="search">
             <input type="text" name="query" size="15" maxlength="200" class="input-fld" value="">
         </td>
         <td class="menu-border" width="1"><br class="smallbr"></td>
         <td class="search" width="2" align="center">
-            <input type="submit" name="submit" value=" Go " class="submit-but">
+            <input type="submit" name="submit" value="Search" class="submit-but">
          </td>
         <td class="menu-border" width="1"><br class="smallbr"></td>
     </tr>
     <tr>
-        <td class="menu-border" colspan="6" height="1"><br class="smallbr"></td>
+        <td class="menu-border" colspan="5" height="1"><br class="smallbr"></td>
     </tr>
 </table>
