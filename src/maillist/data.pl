@@ -209,6 +209,11 @@ DESC
                     comment => '',
                    },
                    {
+                    title   => 'marc.theaimsgroup.com',
+                    link    => 'http://marc.theaimsgroup.com/?l=apache-test-dev',
+                    comment => '',
+                   },
+                   {
                     title   => 'Mbox file',
                     link    => 'http://httpd.apache.org/mail/test-dev/',
                     comment => '',
@@ -235,6 +240,11 @@ DESC
                 help             => 'test-cvs-help@httpd.apache.org',
                },
       archives => [
+                   {
+                    title   => 'marc.theaimsgroup.com',
+                    link    => 'http://marc.theaimsgroup.com/?l=apache-test-cvs',
+                    comment => '',
+                   },
                    {
                     title   => 'Mbox file',
                     link    => 'http://httpd.apache.org/mail/test-cvs/',

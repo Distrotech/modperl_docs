@@ -50,6 +50,10 @@ mailto:test-cvs-help@httpd.apache.org
 
 =over
 
+=item * marc.theaimsgroup.com
+
+http://marc.theaimsgroup.com/?l=apache-test-cvs 
+
 =item * Mbox file
 
 http://httpd.apache.org/mail/test-cvs/ 

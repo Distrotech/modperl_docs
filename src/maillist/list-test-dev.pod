@@ -54,6 +54,10 @@ mailto:test-dev-help@httpd.apache.org
 
 http://www.apachelabs.org/test-dev/ 
 
+=item * marc.theaimsgroup.com
+
+http://marc.theaimsgroup.com/?l=apache-test-dev 
+
 =item * Mbox file
 
 http://httpd.apache.org/mail/test-dev/ 
