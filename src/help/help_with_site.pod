@@ -103,13 +103,13 @@ list|maillist::docs-dev>.
 
 However, B<do not> email the maintainer with general questions, even
 if they are related to the material in the doc they maintain, but
-always ask at <the modperl user list|maillist::modperl>. While we make
-e-mail addresses available, that doesn't mean you should just hope for
-them to answer any questions you might think they have the answer
-to. If you need help, ask your question at the mailing list. Otherwise
-you run a very high risk of your e-mail just being deleted immediately
-without ever being answered. All questions are usually answered at the
-list, so don't worry about asking there.
+always ask at L<the modperl user list|maillist::modperl>. While we
+make e-mail addresses available, that doesn't mean you should just
+hope for them to answer any questions you might think they have the
+answer to. If you need help, ask your question at the mailing
+list. Otherwise you run a very high risk of your e-mail just being
+deleted immediately without ever being answered. All questions are
+usually answered at the list, so don't worry about asking there.
 
 The rule is:
 
