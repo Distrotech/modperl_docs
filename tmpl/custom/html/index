@@ -10,16 +10,14 @@
     content = ''
 -%]
 
-<div class='leftcont'>
+<div class='leftbox'>
     [% INCLUDE menu_top_level nav=doc.nav; %]
     <br>
     [% INCLUDE ad -%]
 </div>
 
-<div class='cbox'>
-    <div class='content'>
-        [% INCLUDE index_body %]
-    </div>
+<div class='rightbox'>
+    [% INCLUDE index_body %]
     <br>
     [% INCLUDE tail %]
 </div>

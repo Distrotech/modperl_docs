@@ -10,7 +10,7 @@
     content = ''
 -%]
 
-<div class='leftcont'>
+<div class='leftbox'>
     [% INCLUDE menu_top_level
               nav=doc.nav
               rel_doc_root=doc.dir.rel_doc_root;
@@ -19,12 +19,12 @@
     [% INCLUDE ad -%]
 </div>
 
-<div class='cbody'>
-    <div class='content'>
-        [% INCLUDE page_body %]
-    </div>
+<!-- right box-->
+<div class='rightbox'>
+    [% INCLUDE page_body %]
     <br>
     [% INCLUDE tail %]
+<!-- end right box-->
 </div>
 
 </body>

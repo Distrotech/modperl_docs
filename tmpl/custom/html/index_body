@@ -1,6 +1,11 @@
 [%
     INCLUDE navbar_global nav=doc.nav;
+%]
+<br>
 
+<!-- content-->
+<div class='content'>
+[%
     INCLUDE title;
 
     IF doc.body.top;
@@ -18,3 +23,4 @@
     END;
 
 %]
+</div>

@@ -2,7 +2,12 @@
     INCLUDE navbar_global 
         nav=doc.nav
         rel_doc_root=doc.dir.rel_doc_root;
+%]
+<br>
 
+<!-- content-->
+<div class='content'>
+[%
     INCLUDE title;
 
     INCLUDE navbar_local
@@ -25,6 +30,6 @@
 
 
 %]
-
-
+</div>
+<!-- end content-->
 
