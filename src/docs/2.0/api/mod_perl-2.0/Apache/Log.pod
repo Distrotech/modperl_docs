@@ -1,0 +1,288 @@
+=head1 NAME
+
+Apache::Log -- Perl API for Apache Logging Methods
+
+
+
+=head1 Synopsis
+
+  #in startup.pl
+  #-------------
+  use Apache::Log;
+  my $s = Apache->server;
+  
+  $s->log_error("server: log_error");
+  
+  $s->log_serror(Apache::LOG_MARK, Apache::LOG_ERR,
+                 0, "log_serror logging at err level");
+  
+  $s->log_serror(Apache::LOG_MARK, Apache::LOG_DEBUG,
+                 APR::ENOTIME, "debug print");
+
+  #in a handler
+  #------------
+  use Apache::Log;
+  sub handler{
+      my $r = shift;
+      $r->log_error("request: log_error");
+  
+      my $rlog = $r->log;
+      for my $level qw(emerg alert crit error warn notice info debug) {
+          no strict 'refs';
+          $rlog->$level($package, "request: $level log level");
+      }
+
+      # can use server methods as well
+      my $s = $r->server;
+      $s->log_error("server: log_error");
+  
+      $r->log_rerror(Apache::LOG_MARK, Apache::LOG_DEBUG,
+                     APR::ENOTIME, "in debug");
+  
+      $s->log_serror(Apache::LOG_MARK, Apache::LOG_INFO, 0,
+                     "server info");
+  
+      $s->log_serror(Apache::LOG_MARK, Apache::LOG_ERR,
+                     APR::ENOTIME, "fatal error");
+
+      $s->warn('routine server warning');
+      Apache->warn("routine warning");
+
+  }
+
+
+
+=head1 Description
+
+C<Apache::Log> provides the Perl API for Apache logging methods.
+
+
+
+
+=head1 Constants
+
+The following constants (sorted from the most severe level to the
+least severe) are used in logging methods to specify the log level at
+which the message should be logged:
+
+=over 
+
+=item * C<Apache::LOG_EMERG>
+
+=item * C<Apache::LOG_ALERT>
+
+=item * C<Apache::LOG_CRIT>
+
+=item * C<Apache::LOG_ERR>
+
+=item * C<Apache::LOG_WARNING>
+
+=item * C<Apache::LOG_NOTICE>
+
+=item * C<Apache::LOG_INFO>
+
+=item * C<Apache::LOG_DEBUG>
+
+=back
+
+For example if the current C<LogLevel> is set to I<warning>, only
+messages with log level of the level I<warning> or higher (I<err>,
+I<crit>, I<elert> and I<emerg>) will be logged. Therefore this:
+
+  $r->log_rerror(Apache::LOG_MARK, Apache::LOG_WARNING,
+                 APR::ENOTIME, "warning!");
+
+will log the message, but this one won't:
+
+  $r->log_rerror(Apache::LOG_MARK, Apache::LOG_INFO,
+                 APR::ENOTIME, "just an info");
+
+It will be logged only if the server log level is set to I<info> or
+I<debug>. (either in the configuration file or using the
+C<$s-E<gt>loglevel()> method.)
+
+Other constants:
+
+=over 
+
+=item * C<Apache::LOG_LEVELMASK>
+
+used to mask off the level value, to make sure that the log level's
+value is within the proper bits range. e.g.:
+
+ $loglevel &= LOG_LEVELMASK;
+
+=item * C<Apache::LOG_TOCLIENT>
+
+used to give content handlers the option of including the error text
+in the C<ErrorDocument> sent back to the client. When
+C<Apache::LOG_TOCLIENT> is passed to C<log_rerror()> the error message
+will be saved in the C<$r>'s notes table, keyed to the string
+I<"error-notes">, if and only if the severity level of the message is
+C<Apache::LOG_WARNING> or greater and there are no other
+I<"error-notes"> entry already set in the request record's notes
+table. Once the I<"error-notes"> entry is set, it is up to the content
+handler to determine whether this text should be send back to the
+client.  For example:
+
+  $r->log_rerror(Apache::LOG_MARK, Apache::LOG_ERR|Apache::LOG_TOCLIENT,
+                 APR::ENOTIME, "request log_rerror");
+
+now the log message can be retrieved via:
+
+  $r->notes->get("error-notes");
+
+Remember that client generated text streams sent back to the client
+MUST be escaped to prevent CSS attacks.
+
+=item * C<Apache::LOG_STARTUP>
+
+is set only during the startup.
+
+=back
+
+
+
+
+
+
+
+=head1 Server Logging Methods
+
+=head2 C<$s-E<gt>log_error()>
+
+  $s->log_error(@message);
+
+just logs the supplied message. For example:
+
+  $s->log_error("running low on memory");
+
+=head2 C<$s-E<gt>log_serror()>
+
+  log_serror($file, $line, $level, $status, @message);
+
+where:
+
+ * $file    The file in which this function is called
+ * $line    The line number on which this function is called
+ * $level   The level of this error message
+ * $status  The status code from the previous command
+ * @message The log message
+
+This function provides a fine control of when the message is logged,
+gives an access to built-in status codes.
+
+For example:
+
+  $s->log_serror(Apache::LOG_MARK, Apache::LOG_ERR,
+                 0, "log_serror logging at err level");
+  
+  $s->log_serror(Apache::LOG_MARK, Apache::LOG_DEBUG,
+                 APR::ENOTIME, "debug print");
+
+=head2 C<$s-E<gt>log()>
+
+  my $slog = $s->log;
+
+returns a handle which can be used to log messages of different
+level. See the next entry.
+
+=head2 emerg(), alert(), crit(), error(), warn(), notice(), info(), debug()
+
+  $s->log->emerg(@message);
+
+after getting the log handle with C<$s-E<gt>log>, use these methods to
+control when messages should be logged.
+
+For example:
+
+  my $slog = $s->log;
+  $slog->debug("just ", "some debug info");
+  $slog->warn(@warnings);
+  $slog->crit("dying");
+
+
+
+
+
+
+
+=head1 Request Logging Methods
+
+=head2 C<$r-E<gt>log_error()>
+
+  $r->log_error(@message);
+
+logs the supplied message (similar to C<$s-E<gt>log_error>). For
+example:
+
+  $r->log_error("the request is about to end");
+
+the same as C<$s-E<gt>log_error>.
+
+=head2 C<$r-E<gt>log_rerror()>
+
+  log_rerror($file, $line, $level, $status, @message);
+
+same as C<$s-E<gt>log_rerror>. For example:
+
+  $s->log_rerror(Apache::LOG_MARK, Apache::LOG_ERR,
+                 0, "log_rerror logging at err level");
+  
+  $s->log_rerror(Apache::LOG_MARK, Apache::LOG_DEBUG,
+                 APR::ENOTIME, "debug print");
+
+=head2 C<$r-E<gt>log()>
+
+  my $rlog = $r->log;
+
+Similar to C<$s-E<gt>log()>
+
+=head2 emerg(), alert(), crit(), error(), warn(), notice(), info(), debug()
+
+Similar to the server's log functions with the same names.
+
+For example:
+
+  $rlog->debug("just ", "some debug info");
+  $rlog->warn(@req_warnings);
+  $rlog->crit("dying");
+
+
+
+
+=head1 General Functions
+
+=head2 C<Apache::LOG_MARK()>
+
+  my($file, $line) = Apache::LOG_MARK();
+
+Though looking like a constant, this is a function, which returns a
+list of two items: C<(__FILE__, __LINE__)>, i.e. the file and the line
+where the function was called from.
+
+
+
+
+
+
+=head1 Aliases
+
+=head2 C<$s-E<gt>warn()>
+
+  $s->warn(@warnings);
+
+C<$s-E<gt>warn()> is an alias to C<$s-E<gt>log-E<gt>warn()>.
+
+For example:
+
+  $s->warn('routine server warning');
+
+=head2 C<Apache-E<gt>warn()>
+
+  Apache->warn(@warnings);
+
+C<Apache-E<gt>warn()> is an alias to C<$s-E<gt>log-E<gt>warn()>.
+
+
+=cut
