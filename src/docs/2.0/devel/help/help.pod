@@ -14,6 +14,17 @@ to the mod_perl 2.0 developers.
 
 =head1 mod_perl
 
+=head2 Submitting Patches
+
+If you submit patches the I<Porting/patching.pod> manpage can be very
+useful. You can find it I<perl-5.7.0/Porting/patching.pod> or similar
+or read it online at
+http://sunsite.ualberta.ca/Documentation/Misc/perl-5.6.1/Porting/patching.html.
+
+Note that we prefer the patches inlined into an email. This makes
+easier to comment on them. If your email client mangles the spacing
+and wraps lines, then send them as MIME attachments.
+
 =head2 mod_perl 2.0 Core Development Discussion List
 
 This list is used by the mod_perl 2.0 core developers to discuss
@@ -119,6 +130,22 @@ mailing list subscription: mailto:httpd-2.0-cvs-subscribe@apache.org
 archive: http://marc.theaimsgroup.com/?l=apache-cvs&r=1&w=2
 
 =back
+
+=over
+
+=item *
+
+Apache source code cross-reference (LXR):
+http://lxr.webperf.org/
+
+=item *
+
+Apache source code through Doxygen documentation system:
+
+http://docx.webperf.org/
+
+
+=item *
 
 
 =head2 Apache Portable Runtime (APR)
