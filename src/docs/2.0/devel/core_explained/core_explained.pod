@@ -317,6 +317,14 @@ for function arguments without writing any code
 
 META: complete
 
+C<MPXS_> functions are final C<XSUBs> and always accept:
+
+  aTHX_ I32 items, SP **sp, SV **MARK
+
+as their arguments. Whereas C<mpxs_> functions are either intermediate
+thin wrappers for the existing C functions or functions that do
+something by themselves. C<MPXS_> functions also can be used for
+writing thin wrappers for C macros.
 
 =head1 Adding Wrappers for existing APIs and Creating New APIs
 
@@ -657,13 +665,19 @@ file:
   MODULE=Apache::CoreDemo
   DEFINE_add_subst_sp | MPXS_Apache__CoreDemo_add_subst_sp | ...
 
-This declaration say that C<MPXS_Apache__CoreDemo_add_subst_sp>
-function will be called from the XS wrapper for the
-C<Apache::CoreDemo::add_subst_sp> with arguments:
+The C<mpxs_> functions declare in the third column the arguments that
+they expect to receive (and optionally the default values). The
+C<MPXS> functions are the real C<XSUBs> and therefore they always
+accept:
 
   aTHX_ I32 items, SP **sp, SV **MARK
 
-that's what the C<...> part in the third column stands for.
+as their arguments. Thefore it doesn't matter what is placed in this
+column when the C<MPXS_> function is declared. Usually for
+documentation the Perl side arguments are listed. For example you can
+say:
+
+  DEFINE_add_subst_sp | MPXS_Apache__CoreDemo_add_subst_sp | x, y
 
 In this function we manually manipulate the stack to retrieve the
 arguments passed on the Perl side and put the results back onto the
@@ -811,12 +825,13 @@ we declare its wrapper:
 The first column specifies the existing function's name, the second
 tells that the XS wrapper will use the C<MPXS_> prefix, which means
 that the wrapper must be called C<MPXS_apr_power>. The third column
-specifies the argument names, but no matter what you specify there the
-C<...> will be passed:
+specifies the argument names, but for C<MPXS_> no matter what you
+specify there the C<...> will be passed:
 
   aTHX_ I32 items, SP **sp, SV **MARK
 
-so you can leave that column empty.
+so you can leave that column empty, but here we use C<x> and C<y> to
+remind us that these two arguments are passed from Perl.
 
 If the forth column is empty this function will be called
 C<APR::Foo::power> in the Perl namespace. But you can use that column
@@ -826,7 +841,7 @@ to give a different Perl name, e.g with:
 
 This function will be available from Perl as C<APR::Foo::pow>.
 
-Similarly you can write a C<MPXS_odperl_power> wrapper for a
+Similarly you can write a C<MPXS_modperl_power> wrapper for a
 C<modperl_power()> function but here you have to explicitly give the
 Perl function's name in the forth column:
 
