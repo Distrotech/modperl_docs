@@ -55,7 +55,7 @@ Apache::Log - Perl API for Apache Logging Methods
                      APR::ENOTIME, "in debug");
   
       $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_INFO,
-                     APR::SUCESS, "server info");
+                     APR::SUCCESS, "server info");
   
       $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
                      APR::ENOTIME, "fatal error");
@@ -153,7 +153,7 @@ which the message should be logged:
 
 
 Make sure to compile the APR status constants before using them. For
-example to compile C<APR::SUCESS> and all the APR error status
+example to compile C<APR::SUCCESS> and all the APR error status
 constants do:
 
   use APR::Const    -compile => qw(:error SUCCESS);
