@@ -49,13 +49,6 @@ Templates:
   'content' doesn't have to wrap itself in a <div> tag. If class is
   passed then we can use it in <td class="">
 
-- currently we have (page_no(prev|parent|next).gif which don't have
-  the text on the them. We need this to make sure that the widget
-  doesn't move left/right when there is no prev or next, or
-  parent. But it doesn't look nice. Consider to use completely empty
-  images which will just be of the same size (spacer image?). Not sure
-  though.
-
 Content:
 --------
 

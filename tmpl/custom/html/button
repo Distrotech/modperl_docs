@@ -1,4 +1,4 @@
-[%  # splash/button: a bar with rounded corners
+[%  # button: a bar 
     #
     #  ARGS: content, style
     # STYLE: col, bgcol, align, width

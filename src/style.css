@@ -26,7 +26,7 @@ td.menu-title-bg {
 }
 
 td.non-sel-bg {
-    background-color: #eeeeee;
+    background-color: #ffffff;
 }
 
 td.sel-bg {
@@ -35,42 +35,40 @@ td.sel-bg {
 
 div.nonselectedmenuitem a:link, div.nonselectedmenuitem a:visited, div.nonselectedmenuitem a:active {
     font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 12px;
+    font-size: 0.9em;
     color: #525d76;
     text-decoration: none;
 }
 
 div.selectedmenuitem a, div.selectedmenuitem a:link, div.selectedmenuitem a:visited, div.selectedmenuitem a:active {
     font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 12px;
+    font-size: 0.9em;
     color: #ffffff;
     text-decoration: none;
 }
 
 div.nonselectedmenuitem {
     padding: 3px;
-    color: #000000;
-    font-family: verdana, helvetica, arial, sans-serif;
-    font-size: 12px;
-    background-color: #eeeeee;
+    background-color: #ffffff;
 }
 
 div.selectedmenuitem {
     padding: 3px;
-    color: #000000;
-    font-family: verdana, helvetica, arial, sans-serif;
-    font-size: 12px;
     background-color: #525d76;
 }
 
-div.nonselectedmenuitem a:hover, div.selectedmenuitem a:hover {
+div.nonselectedmenuitem a:hover {
     color: #999999;
+}
+
+div.selectedmenuitem a:hover {
+    color: #cccc99;
 }
 
 div.menu-title {
     padding: 3px;
     color: #000000;
-    font-family: verdana, helvetica, arial, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     font-size: 14px;
     font-weight: bold;
     background-color: #828da6;
@@ -94,9 +92,11 @@ td.search {
 div.leftbox {
     position: absolute;
     top: 5px;
-    left: 5px;
+    left: 0px;
     width: 170px;
-    padding: 0px;
+    border: 1px;
+    border-style: none;
+    border-color: #000000;
 }
 
 div.rightbox {
@@ -111,11 +111,9 @@ div.rightbox {
 }
 
 
-
 /* boxes in the left box */
 div.logo {
-    width: 150px;
-    padding: 5px;  /* 0px works in NS4 */
+    width: 175px;
     border: 1px;
     border-style: none;
     /* background-color: #ffffff; */
@@ -123,22 +121,21 @@ div.logo {
 
 div.menumain {
     border: 1px;
-    padding: 5px;
     border-style: none;
-   /* background-color: #ffffff; */
+    width: 175px;
 }
 
 div.menulinks {
     border: 1px;
-    padding: 5px;
     border-style: none;
+    width: 175px;
     /* background-color: #ffffff; */
 }
 
 div.ad {
     border: 1px;
-    padding: 5px;
     border-style: none;
+    width: 175px;
    /* background-color: #ffffff;*/
 }
 
@@ -157,22 +154,21 @@ div.adtext {
 
 /*breacrumb*/
 td.navbarglobal {
-    font-family: verdana, helvetica, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     color: #828da6;
     font-size: 0.85em;
 }
 
-
 td.navbarglobal a:link, td.navbarglobal a:visited, td.navbarglobal a:active {
     text-decoration: none; 
     color: #828da6;
-    font-family:  verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
 }
 
 td.navbarglobal a:hover {
     text-decoration: none; 
     color: #666666;
-    font-family:  verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
 }
 
 div.index_section {
@@ -194,13 +190,12 @@ div.tail {
 
 
 /* various font defs */
-.headline {
-    color: #ffffff;
-    font-family: helvetica, arial, verdana, sans-serif;
-    font-size: 1.2em;
-}
 td.headline {
     background-color: #525a73;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 1.2em;
 }
 
 code { 
@@ -233,7 +228,7 @@ dl a:hover {
 .input-fld { 
     height: auto;
     font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 12px;
+    font-size: 1em;
 }
 
 .submit-but {
@@ -270,7 +265,7 @@ td.blue-bg {
 }
 
 td.ad-bg {
-    background-color: #eeeeee;
+    background-color: #ffffff;
 }
 
 /* hack aimed for opera instead of using space.gif*/
