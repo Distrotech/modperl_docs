@@ -86,12 +86,14 @@ and for parentheses-lovers:
 
   use Apache::Const -compile => qw(:cmd_how);
 
-The C<:cmd_how> group is for XXX constants.
-
-
-
+The C<:cmd_how> constants group is used in
+C<L<@APACHE_MODULE_COMMANDS|docs::2.0::user::config::custom/C_args_how_>>
+and
+C<L<$cmds-E<gt>args_how()|docs::2.0::api::Apache::Command/C_args_how_>>
 
 =head3 C<Apache::FLAG>
+
+One of I<On> or I<Off>
 
 =over
 
@@ -104,6 +106,8 @@ The C<:cmd_how> group is for XXX constants.
 
 
 =head3 C<Apache::ITERATE>
+
+One argument, occuring multiple times
 
 =over
 
@@ -118,6 +122,8 @@ The C<:cmd_how> group is for XXX constants.
 
 =head3 C<Apache::ITERATE2>
 
+Two arguments, the second occurs multiple times
+
 =over
 
 =item since: 1.99_12
@@ -129,6 +135,8 @@ The C<:cmd_how> group is for XXX constants.
 
 
 =head3 C<Apache::NO_ARGS>
+
+No arguments at all
 
 =over
 
@@ -142,6 +150,8 @@ The C<:cmd_how> group is for XXX constants.
 
 =head3 C<Apache::RAW_ARGS>
 
+The command will parse the command line itself
+
 =over
 
 =item since: 1.99_12
@@ -153,6 +163,8 @@ The C<:cmd_how> group is for XXX constants.
 
 
 =head3 C<Apache::TAKE1>
+
+One argument only
 
 =over
 
@@ -166,6 +178,8 @@ The C<:cmd_how> group is for XXX constants.
 
 =head3 C<Apache::TAKE12>
 
+One or two arguments
+
 =over
 
 =item since: 1.99_12
@@ -177,6 +191,8 @@ The C<:cmd_how> group is for XXX constants.
 
 
 =head3 C<Apache::TAKE123>
+
+One, two or three arguments
 
 =over
 
@@ -190,6 +206,8 @@ The C<:cmd_how> group is for XXX constants.
 
 =head3 C<Apache::TAKE13>
 
+One or three arguments
+
 =over
 
 =item since: 1.99_12
@@ -201,6 +219,8 @@ The C<:cmd_how> group is for XXX constants.
 
 
 =head3 C<Apache::TAKE2>
+
+Two arguments
 
 =over
 
@@ -214,6 +234,8 @@ The C<:cmd_how> group is for XXX constants.
 
 =head3 C<Apache::TAKE23>
 
+Two or three arguments
+
 =over
 
 =item since: 1.99_12
@@ -225,6 +247,8 @@ The C<:cmd_how> group is for XXX constants.
 
 
 =head3 C<Apache::TAKE3>
+
+Three arguments
 
 =over
 
