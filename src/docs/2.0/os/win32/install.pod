@@ -18,16 +18,30 @@ addressed in the multi-thread/multi-process approach of mod_perl
 
 As of this writing, mod_perl-2 is known to compile and work
 with an ActivePerl-compatable Perl (builds 6xx), based on
-perl-5.6.1. It also works with perl-5.8 compiled with the
-default compile-time flags in the Win32 F<Makefile>. Because of
-improved threading support, it is expected sometime in the future
-that perl-5.8 will be the recommended Perl for Win32 mod_perl-2.
+perl-5.6.1, available from
+
+    http://www.activestate.com/
+
+It also works with perl-5.8 compiled with the default compile-time 
+flags in the Win32 F<Makefile>. Because of improved threading support,
+it is expected sometime in the future that perl-5.8 will be the 
+recommended Perl for Win32 mod_perl-2. ActiveState expects to have
+a beta perl-5.8 Win32 binary ready in late 2002; see the section
+on Apache/mod_perl binaries below to obtain another perl-5.8
+Win32 binary package.
 
 Apache 2.0 and mod_perl 2.0 can be obtained in two ways - either as
 binaries, or through building from the sources.  As with most packages
 of a more complex nature, it is best, when possible, to build things
 from the sources. However, this requires some experience with using
 Visual C++.
+
+When installing Perl or other related binaries, subtelties may arise
+in using path names that have spaces in them - you may, for example, 
+have to specify F<C:\Program Files\> by the DOS 8.3 path name 
+F<C:\Progra~1\> in certain Apache directives. If you want to avoid
+this, install, if possible, these packages to locations without spaces
+in their names (eg, F<C:\Perl> for Perl and F<C:\Apache2> for Apache2). 
 
 =head2 Building from sources
 
