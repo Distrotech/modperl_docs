@@ -716,6 +716,72 @@ truss(1) stops the process after it dumps core and prevents Apache
 from reaping it.  So, you could hit the clients/threads limit if you
 segfault a lot.
 
+=head1 Expanding C Macros
+
+Perl, mod_perl and httpd C code makes an extensive use of C macros,
+which sometimes use many other macros in their definitions, so it
+becomes quite a task to figure out how to figure out what a certain
+macro expands to, especially when the macro expands to different
+values in differnt environments. Luckily there are ways to automate
+the expansion process.
+
+=head2 Expanding C Macros with C<make>
+
+The mod_perl I<Makefile>'s include a rule for macro expansions which
+you can find by looking for the C<c.i.> rule. To expand all macros in
+a certain C file, you should run C<make filename.c>, which will create
+I<filename.i> with all macros expanded in it. For example to create
+I<apr_perlio.i> with all macros used in I<apr_perlio.c>:
+
+  % cd modperl-2.0/xs/APR/PerlIO
+  % make apr_perlio.i
+
+the I<apr_perlio.i> file now lists all the macros:
+
+  % less apr_perlio.i
+  # 1 "apr_perlio.c"
+  # 1 "<built-in>"
+  #define __VERSION__ "3.1.1 (Mandrake Linux 8.3 3.1.1-0.4mdk)"
+  ...
+
+=head2 Expanding C Macros with C<gdb>
+
+With gcc-3.1 or higher and gdb-5.2-dev or higher you can expand macros
+in gdb, when you step through the code. e.g.:
+
+  (gdb) macro expand pTHX_
+  expands to:  PerlInterpreter *my_perl __attribute__((unused)),
+  (gdb) macro expand PL_dirty
+  expands to: (*Perl_Tdirty_ptr(my_perl))
+
+For each library that you want to use this feature with you have to
+compile it with:
+
+  CFLAGS="-gdwarf-2 -g3"
+
+or whatever is appropriate for your system, refer to the gcc manpage
+for more info.
+
+To compile perl with this debug feature, pass C<-Doptimize='-gdwarf-2
+-g3'> to C<./Configure>. For Apache run:
+
+  CFLAGS="-gdwarf-2 -g3" ./configure [...]
+
+for mod_perl you don't have to do anything, as it'll pick the
+C<$Config{optimize}> Perl flags automatically, if Perl is compiled
+with C<-DDEBUGGING> (which is implied on most systems, if you use
+C<-Doptimize='-g'> or similar.)
+
+Notice that this will make your libraries B<huge>! e.g. on Linux 2.4
+Perl 5.8.0's normal I<libperl.so> is about 0.8MB on linux, compiled
+with C<-Doptimize='-g'> about 2.7MB and with C<-Doptimize='-gdwarf-2
+-g3'> 12.5MB. C<httpd> is also becomes about 10 times bigger with this
+feature enabled. I<mod_perl.so> instead of 0.2k becomes 11MB. You get
+the idea. Of course since you may want this only during the
+development/debugging, that shouldn't be a problem.
+
+The complete details are at:
+http://sources.redhat.com/gdb/current/onlinedocs/gdb_10.html#SEC69
 
 =head1 Maintainers
 
