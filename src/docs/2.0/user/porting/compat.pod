@@ -822,9 +822,9 @@ See also
 C<L<PerlChildExitHandler|docs::2.0::user::handlers::server/C_PerlChildExitHandler_>>.
 
 In order to register a cleanup handler to be run only once when the
-main server (not each child process) shutsdown, you can register a
-cleanup handler on the
-C<L<base_server_pool()|docs::2.0::api::Apache::ServerUtil/C_base_server_pool_>>.
+main server (not each child process) shuts down, you can register a
+cleanup handler with
+C<L<server_shutdown_cleanup_register()|docs::2.0::api::Apache::ServerUtil/C_server_shutdown_cleanup_register_>>.
 
 
 =head2 C<$s-E<gt>uid>

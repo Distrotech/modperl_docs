@@ -47,8 +47,7 @@ Apache::ServerUtil - Perl API for Apache server record utils
   $s->method_register('NEWGET');
   
   # register server shutdown callback
-  $base_server_pool = Apache::ServerUtil::base_server_pool();
-  $base_server_pool->cleanup_register(sub { Apache::OK });
+  Apache::ServerUtil::server_shutdown_register_cleanup(sub { Apache::OK });
   
   # do something only when the server restarts
   my $cnt = Apache::ServerUtil::restart_count();
@@ -188,22 +187,25 @@ whether the component information is displayed or not.
 
 
 
-=head2 C<base_server_pool>
+=head2 C<server_shutdown_cleanup_register>
 
-Get the base server pool object:
+Register server shutdown cleanup callback:
 
-  $base_server_pool = Apache::ServerUtil::base_server_pool();
+  Apache::ServerUtil::server_shutdown_cleanup_register($sub);
 
 =over 4
 
-=item ret: C<base_server_pool>
-( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
+=item arg1: C<$sub> ( CODE ref or SUB name )
+
+
+
+=item ret: no return value
 
 =item since: 1.99_18
 
 =back
 
-This pool can be used to register a callback to be run once at the
+This function can be used to register a callback to be run once at the
 server shutdown (compared to
 C<L<PerlChildExitHandler|docs::2.0::user::handlers::server/C_PerlChildExitHandler_>>
 which will execute the callback for each exiting child process).
@@ -212,13 +214,12 @@ For example in order to arrange the function C<do_my_cleanups()> to be
 run every time the server shuts down (or restarts), run the following
 code at the server startup:
 
-  $base_server_pool = Apache::ServerUtil::base_server_pool();
-  $base_server_pool->cleanup_register(\&do_my_cleanups);
+  Apache::ServerUtil::server_shutdown_cleanup_register(\&do_my_cleanups);
 
 It's necessary to run this code at the server startup (normally
-F<startup.pl>. Cleanup handlers registered after the
+F<startup.pl>. The function will croak if run after the
 C<L<PerlPostConfigHandler|docs::2.0::user::handlers::server/C_PerlPostConfigHandler_>>
-phase will be silently ignored.
+phase.
 
 
 
