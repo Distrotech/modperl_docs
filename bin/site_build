@@ -1,5 +1,7 @@
 #!/usr/bin/perl -w
 
+use strict;
+
 my $src = "/home/perlwww/apache.org/modperl-docs";
 my $rel = "$src/dst_html";
 my $dst = "/www/perl.apache.org";
@@ -13,7 +15,7 @@ $ENV{PERL5LIB} = "$HOME/lib/perl5/5.00503:$HOME/lib/perl5/site_perl/5.005:$HOME/
 
 chdir $src;
 # Do different things depending on our name
-($name) = $0 =~ m|([^/]+)$|;
+my($name) = $0 =~ m|([^/]+)$|;
 
 update($name);
 
