@@ -361,22 +361,22 @@ handlers.
           last if $bb_in->is_empty;
   
           while (!$bb_in->is_empty) {
-              my $bucket = $bb_in->first;
+              my $b = $bb_in->first;
   
-              $bucket->remove;
+              $b->remove;
   
-              if ($bucket->is_eos) {
-                  $bb_out->insert_tail($bucket);
+              if ($b->is_eos) {
+                  $bb_out->insert_tail($b);
                   last;
               }
   
-              if ($bucket->read(my $data)) {
+              if ($b->read(my $data)) {
                   $last++ if $data =~ /^[\r\n]+$/;
                   # could do some transformation on data here
-                  $bucket = APR::Bucket->new($data);
+                  $b = APR::Bucket->new($data);
               }
   
-              $bb_out->insert_tail($bucket);
+              $bb_out->insert_tail($b);
           }
   
           my $fb = APR::Bucket::flush_create($c->bucket_alloc);
@@ -411,12 +411,12 @@ are going to simplify the handler. The whole handler can be
 represented by the following pseudo-code:
 
   while ($bb_in = get_brigade()) {
-      while ($bucket_in = $bb_in->get_bucket()) {
-          $bucket_in->read(my $data);
+      while ($b_in = $bb_in->get_bucket()) {
+          $b_in->read(my $data);
           # do something with data
-          $bucket_out = new_bucket($data);
+          $b_out = new_bucket($data);
   
-          $bb_out->insert_tail($bucket_out);
+          $bb_out->insert_tail($b_out);
       }
       $bb_out->insert_tail($flush_bucket);
       pass_brigade($bb_out);
@@ -443,7 +443,7 @@ of code:
 
 with just one line:
 
-          $c->output_fiilters->fflush($bb_out);
+          $c->output_filters->fflush($bb_out);
 
 If you look at the complete handler, the loop is terminated when one
 of the following conditions occurs: an error happens, the end of
@@ -538,8 +538,8 @@ the buckets in the brigade. The handler now becomes:
           last if $data =~ /^[\r\n]+$/;
   
           # could transform data here
-          my $bucket = APR::Bucket->new($data);
-          $bb->insert_tail($bucket);
+          my $b = APR::Bucket->new($data);
+          $bb->insert_tail($b);
   
           $c->output_filters->fflush($bb);
       }

@@ -21,7 +21,7 @@ APR::Error - Perl API for APR/Apache/mod_perl exceptions
 C<APR::Error> handles APR/Apache/mod_perl exceptions for you, while
 leaving you in control.
 
-Apache and APR API return status code for almost all methods, so if
+Apache and APR API return a status code for almost all methods, so if
 you didn't check the return code and handled any possible problems,
 you may have silent failures which may cause all kind of obscure
 problems. On the other hand checking the status code after each call
@@ -50,7 +50,7 @@ were eval'ing several commands in one block), file and line number
 where that function was invoked from. More attributes could be added
 in the future.
 
-C<APR::Error> uses method overloading, such that in boolean and
+C<APR::Error> uses Perl operator overloading, such that in boolean and
 numerical contexts, the object returns the status code; in the string
 context the full error message is returned.
 
@@ -93,27 +93,44 @@ read|docs::2.0::api::APR::Socket/C_recv_>:
   warn "read $rlen bytes\n";
 
 and in certain cases it times out. The code will die and log the
-reason for the failure, which is fine, but later on you decide that
-you want to give the read another chance before dying. In which case
-you rewrite the code to handle the exception like so:
+reason for the failure, which is fine, but later on you may decide
+that you want to have another attempt to read before dying. In which
+case you rewrite the code to handle the exception like this:
 
   use APR::Const -compile => qw(TIMEUP);
   my $buff;
-  retry:
-  my $rlen = eval { $sock->recv($buff, 1024) };
+  my $tries = 0;
+  RETRY: my $rlen = eval { $sock->recv($buff, 1024) };
   if ($@) {
-     die $@ unless ref $@ && $@ == APR::TIMEUP;
-     goto retry;
+      die $@ unless ref $@ && $@ == APR::TIMEUP;
+      goto RETRY if $tries++ < 3;
   }
   warn "read $rlen bytes\n";
 
 Notice that we handle non-object and non-C<APR::Error> exceptions as
 well, by simply rethrowing them.
 
+You certainly want to have a limit on how many times the code retries
+the operation as in this example and you probably want to add some
+fine grained sleep time between attempts, which can be achieved with
+C<select>. As a result the retry code may look like this:
+
+  use APR::Const -compile => qw(TIMEUP);
+  my $tries = 0;
+  RETRY: my $rlen = eval { $sock->recv($buff, 1024) };
+  if ($@) {
+      die $@ unless ref $@ && $@ == APR::TIMEUP;
+      if ($tries++ < 3) {
+          # sleep 250msec
+          select undef, undef, undef, 0.25;
+          goto RETRY;
+      }
+  }
+  warn "read $rlen bytes\n";
 
 Finally, the class is called C<APR::Error> because it needs to be used
 outside mod_perl as well, when called from
-C<L<APR|docs::2.0::api::APR>> applications written in perl.
+C<L<APR|docs::2.0::api::APR>> applications written in Perl.
 
 
 =head1 API

@@ -314,7 +314,7 @@ To configure this module simply add to I<httpd.conf>:
 =head2 PerlMapToStorageHandler
 
 The I<map_to_storage> phase is used to perform the translation of a
-request's URI into an corresponding filename. If no custom handler is
+request's URI into a corresponding filename. If no custom handler is
 provided, the server will try to walk the filesystem trying to find
 what file or directory corresponds to the request's URI. Since usually
 mod_perl handler don't have corresponding files on the filesystem, you
