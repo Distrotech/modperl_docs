@@ -15,6 +15,11 @@ Basic Layout:
 DocSet:
 -------
 
+- There is some bug with resolving L<> which happens only on
+  apache.org. L<docs::index> gets resolved as docs/1.0/api/index.html
+  See:
+  http://perl.apache.org/release/maillist/email-etiquette.html#The_mod_perl_documentation
+
 - need to be able to copy elements from the <head> section of the
   source html into the target file. Since this may cause collisions
   with preset headers, need to override the preset header's elements
