@@ -826,7 +826,7 @@ find out with the I<current_callback> method.  This method is most
 useful to I<PerlDispatchHandlers> which wish to take action for
 certain phases only.
 
-  if($r->current_callback eq "PerlLogHandler") {
+  if ($r->current_callback eq "PerlLogHandler") {
       $r->warn("Logging request");
   }
 
@@ -2308,20 +2308,19 @@ simple example, showing how to add your own Configuration directives.
   use Apache::ExtUtils qw(command_table);
   use Apache::src ();
   
-  my @directives = (
-                  {   name        =>  'Directive4',
-                      errmsg      =>  'Anything',
-                      args_how    =>  'RAW_ARGS',
-                      req_override=>  'OR_ALL',
-                  },
-                 );
-    
+  my @directives = ({
+      name        =>  'Directive4',
+      errmsg      =>  'Anything',
+      args_how    =>  'RAW_ARGS',
+      req_override=>  'OR_ALL',
+  });
+   
   command_table(\@directives);
   
   WriteMakefile(
-    'NAME'      => 'Apache::TestDirective',
-    'VERSION_FROM' => 'TestDirective.pm',
-    'INC'       => Apache::src->new->inc,
+      NAME         => 'Apache::TestDirective',
+      VERSION_FROM => 'TestDirective.pm',
+      INC          => Apache::src->new->inc,
   );
 
   TestDirective.pm
@@ -2332,15 +2331,15 @@ simple example, showing how to add your own Configuration directives.
   use Apache::ModuleConfig ();
   use DynaLoader ();
 
-  if($ENV{MOD_PERL}) {
-    no strict;
-    $VERSION = '0.01';
-    @ISA = qw(DynaLoader);
-     __PACKAGE__->bootstrap($VERSION); #command table, etc.
+  if ($ENV{MOD_PERL}) {
+      no strict;
+      $VERSION = '0.01';
+      @ISA = qw(DynaLoader);
+      __PACKAGE__->bootstrap($VERSION); #command table, etc.
   }
   
   sub Directive4 {
-    warn "Directive4 @_\n";
+      warn "Directive4 @_\n";
   }
   
   1;
