@@ -30,7 +30,7 @@ Apache::CmdParms - Perl API for Apache command parameters object
       $info = $parms->info;
       
       # which methods are <Limit>ed ?
-      $limit = $parms->limited;
+      $is_limited = $parms->method_is_limited('GET');
       
       # which allow-override bits are set
       $override = $parms->override;
@@ -178,28 +178,33 @@ The string passed in C<cmd_data>
 
 
 
-=head2 C<limited>
+=head2 C<method_is_limited>
 
-Which methods are currently E<lt>LimitE<gt>ed
+Discover if a method is E<lt>LimitE<gt>ed in the current scope
 
-  $limit = $parms->limited;
+  $is_limited = $parms->method_is_limited($method);
 
 =over 4
 
 =item obj: C<$parms>
 ( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
 
-=item ret: C<$limit> ( integer )
+=item arg1: C<$method> (string)
 
-=item since: 1.99_12
+The name of the method to check for
+
+=item ret: C<$is_limited> ( boolean )
+
+=item since: 1.99_15
 
 =back
 
-  META: and how exactly is it supposed to be used, should this be
-  tested against $r->method_number (e.g. Apache::M_POST) ? what's
-  $limit?  (notice that the test of this method isn't so good, it
-  tests some hardcoded -1 value, how do you know that it does what you
-  think it does?)
+For example, to check if the C<GET> method is being E<lt>LimitE<gt>ed
+in the current scope, do:
+
+  if ($parms->method_is_limited('GET') {
+      die "...";
+  }
 
 
 
