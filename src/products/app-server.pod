@@ -33,6 +33,19 @@ as HTML, WAP or text using either W3C standard techniques, or flexible
 custom code. C<AxKit> also uses a built-in Perl interpreter to provide
 some amazingly powerful techniques for XML transformation.
 
+=head1 The bivio OLTP Platform (bOP)
+
+The bivio OLTP Platform (http://www.bivio.biz/hm/why-bOP) (bOP) is a
+declarative, multi-layered Perl application development framework.
+Adapters have been written for Apache/mod_perl, sendmail, Oracle, and
+Postgres.  The Model layer generates SQL for CRUD, lists, and HTTP
+forms.  Views are content-independent hierarchies of widgets.  Tasks
+control security, execution order, and state transitions.  Facades map
+qualified names to URLs, strings, fonts, colors, icons, files, and
+views.  bOP provides a full-suite of services including dynamic
+tracing, configuration, logging, class loading, type hierarchy, unit
+testing, and acceptance testing.
+
 =head1 Embperl
 
 C<Embperl> (http://perl.apache.org/embperl/) is a system for building
