@@ -357,6 +357,17 @@ See the
 C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>>
 manpage.
 
+=head2 C<Apache-E<gt>untaint>
+
+C<Apache-E<gt>untaint> has moved to
+C<L<Apache::ServerUtil|docs::2.0::api::ModPerl::Util>> and now is a
+function, rather a class method. It'll will untaint all its
+arguments. You shouldn't be using this function unless you know what
+you are doing. Refer to the I<perlsec> manpage for more information.
+
+C<L<Apache::compat|docs::2.0::api::Apache::compat>> provides the
+backward compatible with mod_perl 1.0 implementation.
+
 =head2 C<Apache-E<gt>get_handlers>
 
 Avalable via C<Apache::compat>. To get handlers for the server level,
@@ -655,9 +666,25 @@ via C<$r-E<gt>content_type($type)>.
 
 =head2 C<$r-E<gt>server_root_relative>
 
-C<Apache::server_root_relative> is a function in 2.0.
+C<Apache::server_root_relative> is a function in 2.0 and its first
+argument is the I<pool> object. For example:
 
+  # during request
   my $conf_dir = Apache::server_root_relative($r->pool, 'conf');
+  # during startup
+  my $conf_dir = Apache::server_root_relative($s->pool, 'conf');
+
+The old way:
+
+  my $conf_dir = Apache::server_root_relative('Apache', 'conf');
+
+will work as well, but you shouldn't use it, because it'll internally
+use a global pool, which is a bit slower, but the worst drawback is
+that every time you use this way the allocated from this pool memory
+won't be cleaned up, till the server quits so there will be a memory
+leak. When you are inside a request and use C<$r-E<gt>pool>, this pool
+is freed at the end of each request.
+
 
 See the L<Apache::ServerUtil> manpage.
 
