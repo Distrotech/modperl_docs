@@ -49,7 +49,7 @@ other way)
 =back
 
 B<Do not be alarmed!> One way to deal with all of these issues is to
-load the C<L<Apache::compat|docs::2.0::api::Apache::compat>>
+load the C<L<Apache2::compat|docs::2.0::api::Apache2::compat>>
 compatibility layer bundled with mod_perl 2.0. This magic spell will
 make almost any 1.0 module run under 2.0 without further changes. It
 is by no means the solution for every case, however, so please read
@@ -60,18 +60,18 @@ each one and then discuss each in more detail.
 
 =over
 
-=item 1 Run the module on 2.0 under C<Apache::compat> with no further changes
+=item 1 Run the module on 2.0 under C<Apache2::compat> with no further changes
 
 As we have said mod_perl 2.0 ships with a module,
-C<L<Apache::compat|docs::2.0::api::Apache::compat>>, that provides a
+C<L<Apache2::compat|docs::2.0::api::Apache2::compat>>, that provides a
 complete drop-in compatibility layer for 1.0
-modules. C<Apache::compat> does the following:
+modules. C<Apache2::compat> does the following:
 
 =over
 
 =item *
 
-Loads all the mod_perl 2.0 Apache:: modules
+Loads all the mod_perl 2.0 Apache2:: modules
 
 =item *
 
@@ -83,11 +83,11 @@ Provides Perl implementation for methods that no longer exist in 2.0
 
 =back
 
-The drawback to using C<Apache::compat> is the performance hit, which
+The drawback to using C<Apache2::compat> is the performance hit, which
 can be significant.
 
 Authors of CPAN and other publicly distributed modules should not use
-C<Apache::compat> since this forces its use in environments where the
+C<Apache2::compat> since this forces its use in environments where the
 administrator may have chosen to optimize memory use by making all
 code run natively under 2.0.
 
@@ -119,34 +119,32 @@ appropriate method call.
 The following sections provide more detailed information and
 instructions for each of these three porting strategies.
 
-=head1 Using C<Apache::porting>
+=head1 Using C<Apache2::porting>
 
 META: to be written. this is a new package which makes chunks of this
 doc simpler. for now see the
-C<L<Apache::porting|docs::2.0::api::Apache::porting>> manpage.
+C<L<Apache2::porting|docs::2.0::api::Apache2::porting>> manpage.
 
 
-=head1 Using the C<Apache::compat> Layer
+=head1 Using the C<Apache2::compat> Layer
 
-The C<L<Apache::compat|docs::2.0::api::Apache::compat>> module tries
+The C<L<Apache2::compat|docs::2.0::api::Apache2::compat>> module tries
 to hide the changes in API prototypes between version 1.0 and 2.0 of
 mod_perl, and implements "virtual methods" for the methods and
 functions that actually no longer exist.
 
-C<Apache::compat> is extremely easy to use. Either add at the very
+C<Apache2::compat> is extremely easy to use. Either add at the very
 beginning of startup.pl:
 
-  use Apache2;
-  use Apache::compat;
+  use Apache2::compat;
 
 or add to httpd.conf:
 
-  PerlModule Apache2
-  PerlModule Apache::compat
+  PerlModule Apache2::compat
 
 That's all there is to it. Now you can run your 1.0 module unchanged.
 
-Remember, however, that using C<Apache::compat> will make your module
+Remember, however, that using C<Apache2::compat> will make your module
 run slower. It can create a larger memory footprint than you need and
 it implements functionality in pure Perl that is provided in much
 faster XS in mod_perl 1.0 as well as in 2.0. This module was really
@@ -155,7 +153,7 @@ will be better off if you port your code to use the mod_perl 2.0 API.
 
 It's also especially important to repeat that C<L<CPAN module
 developers are requested not to use this module in their
-code|docs::2.0::api::Apache::compat/Use_in_CPAN_Modules>>, since this
+code|docs::2.0::api::Apache2::compat/Use_in_CPAN_Modules>>, since this
 takes the control over performance away from users.
 
 =head1 Porting a Perl Module to Run under mod_perl 2.0
@@ -194,16 +192,16 @@ C<content_type()> can't be found. So we use C<ModPerl::MethodLookup>
 to figure out which module provides this method. We can just run this
 from the command line:
 
-  % perl -MApache2 -MModPerl::MethodLookup -e print_method content_type
+  % perl -MModPerl::MethodLookup -e print_method content_type
 
 This prints:
 
   to use method 'content_type' add:
-           use Apache::RequestRec ();
+           use Apache2::RequestRec ();
 
 We do what it says and add this C<use()> statement to our code,
 restart our server (unless we're using
-C<L<Apache::Reload|docs::2.0::api::Apache::Reload>>), and mod_perl
+C<L<Apache2::Reload|docs::2.0::api::Apache2::Reload>>), and mod_perl
 will no longer complain about this particular method.
 
 Since you may need to use this technique quite often you may want to
@@ -231,12 +229,12 @@ This prints:
 
   There is more than one class with method 'print'
   try one of:
-        use Apache::RequestIO ();
-        use Apache::Filter ();
+        use Apache2::RequestIO ();
+        use Apache2::Filter ();
 
 So there is more than one package that has this method. Since we know
 that we call the C<print()> method with the C<$r> object, it must be
-the C<Apache::RequestIO> module that we are after. Indeed, loading
+the C<Apache2::RequestIO> module that we are after. Indeed, loading
 this module solves the problem.
 
 =head3 Using C<ModPerl::MethodLookup> Programmatically
@@ -246,9 +244,9 @@ be resolved when using C<ModPerl::MethodLookup> programmatically --
 C<L<lookup_method|docs::2.0::api::ModPerl::MethodLookup/lookup_method__>>
 accepts an object as an optional second argument, which is used if
 there is more than one module that contains the method in
-question. C<ModPerl::MethodLookup> knows that C<Apache::RequestIO> and
-and C<Apache::Filter> expect an object of type C<Apache::RequestRec>
-and type C<Apache::Filter> respectively. So in a program running under
+question. C<ModPerl::MethodLookup> knows that C<Apache2::RequestIO> and
+and C<Apache2::Filter> expect an object of type C<Apache2::RequestRec>
+and type C<Apache2::Filter> respectively. So in a program running under
 mod_perl we can call:
 
   ModPerl::MethodLookup::lookup_method('print', $r);
@@ -314,7 +312,7 @@ If we try to run this under mod_perl 2.0 it will complain about the
 call to C<log_reason()>. But when we use C<ModPerl::MethodLookup> to see
 which module to load in order to call that method, nothing is found:
 
-  % perl -MApache2 -MModPerl::MethodLookup -le \
+  % perl -MModPerl::MethodLookup -le \
     'print((ModPerl::MethodLookup::lookup_method(shift))[0])' \
     log_reason
 
@@ -328,7 +326,7 @@ document|docs::2.0::user::porting::compat/>, wherein we find that as we
 suspected, the method C<log_reason()> no longer exists, and that
 L<instead we should use the other standard logging
 functions|docs::2.0::user::porting::compat/C__r_E_gt_log_reason_>
-provided by the C<Apache::Log> module.
+provided by the C<Apache2::Log> module.
 
 =head3 Methods Whose Usage Has Been Modified
 
@@ -338,10 +336,10 @@ error. Most often the method call requires new or different arguments.
 
 For example, say our mod_perl 1.0 code said:
 
-  $parsed_uri = Apache::URI->parse($r, $r->uri);
+  $parsed_uri = Apache2::URI->parse($r, $r->uri);
 
 This code causes mod_perl 2.0 to complain first about not being able
-to load the method C<parse()> via the package Apache::URI. We use the
+to load the method C<parse()> via the package Apache2::URI. We use the
 tools described above to discover that the package containing our
 method has moved and change our code to load and use C<APR::URI>:
 
@@ -365,12 +363,10 @@ and all is well in the world again.
 
 To require a module to run only under 2.0, simply add:
 
-  use Apache2;
   use mod_perl 2.0;
 
 META: In fact, before 2.0 is released you really have to say:
 
-  use Apache2;
   use mod_perl 1.99;
 
 And you can even require a specific version (for example when a
@@ -387,50 +383,18 @@ of your own code. While you can change the name of the module for the
 new version, it's best to try to preserve the name and use some
 workarounds.
 
-Let's say that you have a module C<Apache::Friendly> whose release
-version compliant with mod_perl 1.0 is 1.57. You keep this version on
-CPAN and release a new version, 2.01, which is compliant with mod_perl
-2.0 and preserves the name of the module. It's possible that a user
-may need to have both versions of the module on the same
-machine. Since the two have the same name they obviously cannot live
-under the same tree.
+META: need to discuss this more.
 
-One attempt to solve this problem is to use I<Makefile.PL>'s
-C<MP_INST_APACHE2> option. If the module is configured as:
-
-  % perl Makefile.PL MP_INST_APACHE2=1
-
-it'll be installed relative to the I<Apache2/> directory.
-
-META: but of course this won't work in non-core mod_perl, since a
-generic C<Makefile.PL> has no idea what to do about
-C<MP_INST_APACHE2=1>. Need to provide copy-n-paste recipe for this. Or
-even add to the core a supporting module that will handle this
-functionality.
-
-The second step is to change the documentation of your 2.0 compliant
-module to instruct users to C<use Apache2 ();> in their code (or in
-I<startup.pl> or via C<PerlModule Apache2> in I<httpd.conf>) before
-the module is required. This will cause C<@INC> to be modified to
-include the I<Apache2/> directory first.
-
-The introduction of the I<Apache2/> directory is similar to how Perl
-installs its modules in a version specific directory. For example:
-
-  lib/5.7.1
-  lib/5.7.2
-
-
-=head2 Using C<Apache::compat> As a Tutorial
+=head2 Using C<Apache2::compat> As a Tutorial
 
 Even if you have followed the recommendation and eschewed use of the
-C<L<Apache::compat|docs::2.0::api::Apache::compat>> module, you may
+C<L<Apache2::compat|docs::2.0::api::Apache2::compat>> module, you may
 find it useful to learn how the API has been changed and how to modify
-your own code. Simply look at the C<Apache::compat> source code and see
+your own code. Simply look at the C<Apache2::compat> source code and see
 how the functionality should be implemented in mod_perl 2.0.
 
 For example, mod_perl 2.0 doesn't provide the C<Apache-E<gt>gensym>
-method. As we can see if we look at the C<Apache/compat.pm> source,
+method. As we can see if we look at the C<Apache2/compat.pm> source,
 the functionality is now available via the core Perl module C<Symbol>
 and its C<gensym()> function. (Since mod_perl 2.0 works only with Perl
 versions 5.6 and higher, and C<Symbol.pm> is included in the core Perl
@@ -495,24 +459,24 @@ the required bits of configuration into it.
 
 =head4 I<httpd.conf>
 
-Next, I configure the C<Apache::Reload> module, so we don't have to
+Next, I configure the C<Apache2::Reload> module, so we don't have to
 constantly restart the server after we modify C<Apache::MP3>. In order
 to do that add to I<httpd.conf>:
 
-  PerlModule Apache::Reload
-  PerlInitHandler Apache::Reload
+  PerlModule Apache2::Reload
+  PerlInitHandler Apache2::Reload
   PerlSetVar ReloadAll Off
-  PerlSetVar ReloadModules "ModPerl::* Apache::*"
+  PerlSetVar ReloadModules "ModPerl::* Apache2::*"
   PerlSetVar ReloadConstantRedefineWarnings Off
 
-You can refer to C<L<the Apache::Reload
-manpage|docs::2.0::api::Apache::Reload>> for more information if 
+You can refer to C<L<the Apache2::Reload
+manpage|docs::2.0::api::Apache2::Reload>> for more information if 
 you aren't familiar with this module. The part:
 
   PerlSetVar ReloadAll Off
   PerlSetVar ReloadModules "ModPerl::* Apache::*"
 
-tells C<Apache::Reload> to monitor only modules in the C<ModPerl::>
+tells C<Apache2::Reload> to monitor only modules in the C<ModPerl::>
 and C<Apache::> namespaces. So C<Apache::MP3> will be monitored. If
 your module is named C<Foo::Bar>, make sure to include the right
 pattern for the C<ReloadModules> directive. Alternatively simply have:
@@ -531,7 +495,7 @@ going to change those constants. Therefore I've used the setting
 
 If you do change those constants, refer to the section on
 C<L<ReloadConstantRedefineWarnings
-|docs::2.0::api::Apache::Reload/Silencing__Constant_subroutine_____redefined_at__Warnings>>.
+|docs::2.0::api::Apache2::Reload/Silencing__Constant_subroutine_____redefined_at__Warnings>>.
 
 Next I configured C<Apache::MP3>. In my case I've followed the
 C<Apache::MP3> documentation, created a directory I<mp3/> under the
@@ -551,8 +515,8 @@ Now my I<httpd.conf> looked like this:
   
   PerlRequire "/home/httpd/2.0/perl/startup.pl"
   
-  PerlModule Apache::Reload
-  PerlInitHandler Apache::Reload
+  PerlModule Apache2::Reload
+  PerlInitHandler Apache2::Reload
   PerlSetVar ReloadAll Off
   PerlSetVar ReloadModules "ModPerl::* Apache::*"
   PerlSetVar ReloadConstantRedefineWarnings Off
@@ -574,13 +538,12 @@ Now my I<httpd.conf> looked like this:
 
 Since chances are that no mod_perl 1.0 module will work out of box
 without at least preloading some modules, I've enabled the
-C<Apache::compat> module. Now my I<startup.pl> looked like this:
+C<Apache2::compat> module. Now my I<startup.pl> looked like this:
 
   #file:startup.pl
   #---------------
-  use Apache2 ();
   use lib qw(/home/httpd/2.0/perl);
-  use Apache::compat;
+  use Apache2::compat;
 
 =head4 I<Apache/MP3.pm>
 
@@ -650,7 +613,7 @@ I'm using the following aliases to save typing:
 
 (I also have a similar set of aliases for mod_perl 1.0)
 
-=head3 Porting with C<Apache::compat>
+=head3 Porting with C<Apache2::compat>
 
 I have configured my server to listen on port 8002, so I issue a
 request http://localhost:8002/mp3/ in one console:
@@ -668,7 +631,7 @@ which expands to:
 When the request is issued, the I<error_log> file tells me:
 
   [Thu Jun 05 15:29:45 2003] [error] [client 127.0.0.1] 
-  Usage: Apache::RequestRec::new(classname, c, base_pool=NULL) 
+  Usage: Apache2::RequestRec::new(classname, c, base_pool=NULL) 
   at .../Apache/MP3.pm line 60.
 
 Looking at the code:
@@ -679,7 +642,7 @@ Looking at the code:
 
 The problem is that handler wasn't invoked as method, but had C<$r>
 passed to it (we can tell because C<new()> was invoked as
-C<Apache::RequestRec::new()>, whereas it should have been
+C<Apache2::RequestRec::new()>, whereas it should have been
 C<Apache::MP3::new()>. Why I<Apache::MP3> wasn't passed as the first
 argument? I go to L<the mod_perl 1.0 backward compatibility
 document|docs::2.0::user::porting::compat/> and find that
@@ -839,24 +802,23 @@ and I haven't got any warnings logged. Certainly I may have missed
 some usage patterns which may be still problematic. But this is good
 enough for this tutorial.
 
-=head3 Getting Rid of the C<Apache::compat> Dependency
+=head3 Getting Rid of the C<Apache2::compat> Dependency
 
-The final stage is going to get rid of C<Apache::compat> since this is
-a CPAN module, which must not load C<Apache::compat> on its own.  I'm
+The final stage is going to get rid of C<Apache2::compat> since this is
+a CPAN module, which must not load C<Apache2::compat> on its own.  I'm
 going to make C<Apache::MP3> work with mod_perl 2.0 all by itself.
 
-The first step is to comment out the loading of C<Apache::compat> in
+The first step is to comment out the loading of C<Apache2::compat> in
 I<startup.pl>:
 
   #file:startup.pl
   #---------------
-  use Apache2 ();
   use lib qw(/home/httpd/2.0/perl);
-  #use Apache::compat ();
+  #use Apache2::compat ();
 
-=head3 Ensuring that C<Apache::compat> is not loaded
+=head3 Ensuring that C<Apache2::compat> is not loaded
 
-The second step is to make sure that C<Apache::compat> doesn't get
+The second step is to make sure that C<Apache2::compat> doesn't get
 loaded indirectly, through some other module. So I've added this line
 of code to I<Apache/MP3.pm>:
 
@@ -865,17 +827,17 @@ of code to I<Apache/MP3.pm>:
   @@ -3,2 +3,6 @@
   
   +BEGIN {
-  +    die "Apache::compat is loaded loaded" if $INC{'Apache/compat.pm'};
+  +    die "Apache2::compat is loaded loaded" if $INC{'Apache2/compat.pm'};
   +}
   +
    use strict;
 
 and indeed, even though I've commented out the loading of
-C<Apache::compat> from I<startup.pl>, this module was still getting
+C<Apache2::compat> from I<startup.pl>, this module was still getting
 loaded. I knew that because the request to I</mp3> were failing with
 the error message:
 
-  Apache::compat is loaded loaded at ...
+  Apache2::compat is loaded loaded at ...
 
 There are several ways to find the guilty party, you can C<grep(1)>
 for it in the perl libraries, you can override
@@ -884,30 +846,30 @@ C<CORE::GLOBAL::require()> in I<startup.pl>:
   BEGIN { 
     use Carp;
     *CORE::GLOBAL::require = sub { 
-        Carp::cluck("Apache::compat is loaded") if $_[0] =~ /compat/;
+        Carp::cluck("Apache2::compat is loaded") if $_[0] =~ /compat/;
         CORE::require(@_);
     };
   }
 
-or you can modify I<Apache/compat.pm> and make it print the calls
+or you can modify I<Apache2/compat.pm> and make it print the calls
 trace when it gets compiled:
 
-  --- Apache/compat.pm.orig   2003-06-03 16:11:07.000000000 +1000
-  +++ Apache/compat.pm        2003-06-03 16:11:58.000000000 +1000
+  --- Apache2/compat.pm.orig   2003-06-03 16:11:07.000000000 +1000
+  +++ Apache2/compat.pm        2003-06-03 16:11:58.000000000 +1000
   @@ -1,5 +1,9 @@
-   package Apache::compat;
+   package Apache2::compat;
   
   +BEGIN {
   +    use Carp;
-  +    Carp::cluck("Apache::compat is loaded by");
+  +    Carp::cluck("Apache2::compat is loaded by");
   +}
 
 I've used this last technique, since it's the safest one to use.
-Remember that C<Apache::compat> can also be loaded with:
+Remember that C<Apache2::compat> can also be loaded with:
 
-    do "Apache/compat.pm";
+    do "Apache2/compat.pm";
 
-in which case, neither C<grep(1)>'ping for C<Apache::compat>, nor
+in which case, neither C<grep(1)>'ping for C<Apache2::compat>, nor
 overriding C<require()> will do the job.
 
 When I've restarted the server and tried to use C<Apache::MP3> (I
@@ -915,31 +877,31 @@ wasn't preloading it at the server startup since I wanted the server
 to start normally and cope with problem when it's running), the
 I<error_log> had an entry:
 
-  Apache::compat is loaded by at .../Apache2/Apache/compat.pm line 6
-    Apache::compat::BEGIN() called at .../Apache2/Apache/compat.pm line 8
-    eval {...} called at .../Apache2/Apache/compat.pm line 8
-    require Apache/compat.pm called at .../5.9.0/CGI.pm line 169
+  Apache2::compat is loaded by at .../Apache2/compat.pm line 6
+    Apache2::compat::BEGIN() called at .../Apache2/compat.pm line 8
+    eval {...} called at .../Apache2/compat.pm line 8
+    require Apache2/compat.pm called at .../5.9.0/CGI.pm line 169
     require CGI.pm called at .../site_perl/5.9.0/Apache/MP3.pm line 8
-    Apache::MP3::BEGIN() called at .../Apache2/Apache/compat.pm line 8
+    Apache::MP3::BEGIN() called at .../Apache2/compat.pm line 8
 
 (I've trimmed the whole paths of the libraries and the trace itself,
 to make it easier to understand.)
 
 We could have used C<Carp::carp()> which would have told us only the
-fact that C<Apache::compat> was loaded by C<CGI.pm>, but by using
+fact that C<Apache2::compat> was loaded by C<CGI.pm>, but by using
 C<Carp::cluck()> we've obtained the whole stack backtrace so we also
 can learn which module has loaded C<CGI.pm>.
 
 Here I've learned that I had an old version of C<CGI.pm> (2.89) which
-automatically loaded C<Apache::compat> (which L<should be never done
+automatically loaded C<Apache2::compat> (which L<should be never done
 by CPAN
-modules|docs::2.0::api::Apache::compat/Use_in_CPAN_Modules>). Once
+modules|docs::2.0::api::Apache2::compat/Use_in_CPAN_Modules>). Once
 I've upgraded C<CGI.pm> to version 2.93 and restarted the server,
-C<Apache::compat> wasn't getting loaded any longer.
+C<Apache2::compat> wasn't getting loaded any longer.
 
 =head3 Installing the C<ModPerl::MethodLookup> Helper
 
-Now that C<Apache::compat> is not loaded, I need to deal with two
+Now that C<Apache2::compat> is not loaded, I need to deal with two
 issues: modules that need to be loaded and APIs that have changed.
 
 For the second issue I'll have to refer to the L<the mod_perl 1.0
@@ -958,7 +920,6 @@ So now my I<startup.pl> looked like:
 
   #file:startup.pl
   #---------------
-  use Apache2 ();
   use lib qw(/home/httpd/2.0/perl);
   
   {
@@ -968,7 +929,7 @@ So now my I<startup.pl> looked like:
     use Carp;
     sub handler {
   
-        # look inside mod_perl:: Apache:: APR:: ModPerl:: excluding DESTROY
+        # look inside mod_perl:: Apache2:: APR:: ModPerl:: excluding DESTROY
         my $skip = '^(?!DESTROY$';
         *UNIVERSAL::AUTOLOAD = sub {
             my $method = $AUTOLOAD;
@@ -1018,7 +979,7 @@ replace this code with mod_perl 2.0 equivalent:
    no warnings 'redefine';  # XXX: remove when done with porting
   
   -use Apache::Constants qw(:common REDIRECT HTTP_NO_CONTENT DIR_MAGIC_TYPE HTTP_NOT_MODIFIED);
-  +use Apache::Const -compile => qw(:common REDIRECT HTTP_NO_CONTENT
+  +use Apache2::Const -compile => qw(:common REDIRECT HTTP_NO_CONTENT
   +                                 DIR_MAGIC_TYPE HTTP_NOT_MODIFIED);
   +
    use Apache::MP3::L10N;
@@ -1026,10 +987,10 @@ replace this code with mod_perl 2.0 equivalent:
    use Socket 'sockaddr_in';
 
 and I also had to adjust the constants, since what used to be C<OK>,
-now has to be C<Apache::OK>, mainly because in mod_perl 2.0 there is
+now has to be C<Apache2::OK>, mainly because in mod_perl 2.0 there is
 an enormous amount of constants (coming from Apache and APR) and most
-of them are grouped in C<Apache::> or C<APR::> namespaces. The
-C<L<Apache::Const|docs::2.0::api::Apache::Const>> and
+of them are grouped in C<Apache2::> or C<APR::> namespaces. The
+C<L<Apache2::Const|docs::2.0::api::Apache2::Const>> and
 C<L<APR::Const|docs::2.0::api::APR::Const>> manpage provide more
 information on available constants.
 
@@ -1037,7 +998,7 @@ This search and replace accomplished the job:
 
   % perl -pi -e 's/return\s(OK|DECLINED|FORBIDDEN| \
     REDIRECT|HTTP_NO_CONTENT|DIR_MAGIC_TYPE| \
-    HTTP_NOT_MODIFIED)/return Apache::$1/xg' Apache/MP3.pm
+    HTTP_NOT_MODIFIED)/return Apache2::$1/xg' Apache/MP3.pm
 
 As you can see the regex explicitly lists all constants that were used
 in C<Apache::MP3>. Your situation may vary. Here is the patch:
@@ -1053,7 +1014,7 @@ the regex pattern:
        my $mime = $self->r->lookup_file("$dir/$d")->content_type;
   
   -    push(@directories,$d) if !$seen{$d}++ && $mime eq DIR_MAGIC_TYPE;
-  +    push(@directories,$d) if !$seen{$d}++ && $mime eq Apache::DIR_MAGIC_TYPE;
+  +    push(@directories,$d) if !$seen{$d}++ && $mime eq Apache2::DIR_MAGIC_TYPE;
   
        # .m3u files should be configured as audio/playlist MIME types in your apache .conf file
        push(@playlists,$d) if $mime =~ m!^audio/(playlist|x-mpegurl|mpegurl|x-scpls)$!;
@@ -1062,7 +1023,7 @@ And I move on, the next error is:
 
   [Fri Jun 06 17:28:00 2003] [error] [client 127.0.0.1]
   Can't locate object method "header_in" via package 
-  "Apache::RequestRec" at .../Apache/MP3.pm line 85.
+  "Apache2::RequestRec" at .../Apache2/MP3.pm line 85.
 
 The L<porting document|docs::2.0::user::porting::compat> quickly
 L<reveals|docs::2.0::user::porting::compat/C__r_E_gt_err_header_out_>
@@ -1103,7 +1064,7 @@ So I follow the suggestion and load C<APR::Table()>:
   
   +use APR::Table ();
   +
-   use Apache::Const -compile => qw(:common REDIRECT HTTP_NO_CONTENT
+   use Apache2::Const -compile => qw(:common REDIRECT HTTP_NO_CONTENT
                                     DIR_MAGIC_TYPE HTTP_NOT_MODIFIED);
 
 I continue issuing the request and adding the missing modules again
@@ -1116,17 +1077,17 @@ added the following modules:
    use warnings;
    no warnings 'redefine';  # XXX: remove when done with porting
   
-  +use Apache::Connection ();
-  +use Apache::SubRequest ();
-  +use Apache::Access ();
-  +use Apache::RequestIO ();
-  +use Apache::RequestUtil ();
-  +use Apache::RequestRec ();
-  +use Apache::ServerUtil ();
-  +use Apache::Log;
+  +use Apache2::Connection ();
+  +use Apache2::SubRequest ();
+  +use Apache2::Access ();
+  +use Apache2::RequestIO ();
+  +use Apache2::RequestUtil ();
+  +use Apache2::RequestRec ();
+  +use Apache2::ServerUtil ();
+  +use Apache2::Log;
    use APR::Table ();
   
-   use Apache::Const -compile => qw(:common REDIRECT HTTP_NO_CONTENT
+   use Apache2::Const -compile => qw(:common REDIRECT HTTP_NO_CONTENT
 
 The AUTOLOAD code helped me to trace the modules that contain the
 existing APIs, however I still have to deal with APIs that no longer
@@ -1151,7 +1112,7 @@ In 2.0 lingo, we just need to set the C<content_type()>:
   
   -  $self->r->send_http_header( $self->html_content_type );
   +  $self->r->content_type( $self->html_content_type );
-     return Apache::OK if $self->r->header_only;
+     return Apache2::OK if $self->r->header_only;
   
      print start_html(
   @@ -336,7 +336,7 @@
@@ -1160,22 +1121,22 @@ In 2.0 lingo, we just need to set the C<content_type()>:
   
   -  $r->send_http_header('audio/mpegurl');
   +  $r->content_type('audio/mpegurl');
-     return Apache::OK if $r->header_only;
+     return Apache2::OK if $r->header_only;
   
      # local user
   @@ -495,7 +495,7 @@
-     return Apache::DECLINED unless my ($directories,$mp3s,$playlists,$txtfiles)
+     return Apache2::DECLINED unless my ($directories,$mp3s,$playlists,$txtfiles)
        = $self->read_directory($dir);
   
   -  $self->r->send_http_header( $self->html_content_type );
   +  $self->r->content_type( $self->html_content_type );
-     return Apache::OK if $self->r->header_only;
+     return Apache2::OK if $self->r->header_only;
   
      $self->page_top($dir);
 
 also I've noticed that there was this code:
 
-  return Apache::OK if $self->r->header_only;
+  return Apache2::OK if $self->r->header_only;
 
 This technique is no longer needed in 2.0, since Apache 2.0
 automatically discards the body if the request is of type C<HEAD> --
@@ -1185,7 +1146,7 @@ proxies. So you may decide not to make a special case for C<HEAD>
 requests.
 
 At this point I was able to browse the directories and play files via
-most options without relying on C<Apache::compat>.
+most options without relying on C<Apache2::compat>.
 
 There were a few other APIs that I had to fix in the same way, while
 trying to use the application, looking at the I<error_log> referring
@@ -1202,7 +1163,7 @@ C<Apache::MP3> were:
 =item C<send_fd()>
 
 As of this writing we don't have this function in the core, because
-Apache 2.0 doesn't have it (it's in C<Apache::compat> but implemented
+Apache 2.0 doesn't have it (it's in C<Apache2::compat> but implemented
 in a slow way). However we may provide one in the future. Currently
 one can use the function C<sendfile()> which requires a filename as an
 argument and not the file descriptor. So I have fixed the code:
@@ -1213,7 +1174,7 @@ argument and not the file descriptor. So I have fixed the code:
   -      close(FILE);
   +
   +    if($r->content_type eq 'audio/x-scpls'){
-  +      $r->sendfile($r->filename) || return Apache::NOT_FOUND;
+  +      $r->sendfile($r->filename) || return Apache2::NOT_FOUND;
 
 =item C<log_reason>
 
@@ -1297,14 +1258,14 @@ had been started with C<-DMODPERL2>.
   </IfDefine>
 
 From within Perl code this can be tested with
-C<Apache::exists_config_define()>. For example, we can use this method
+C<Apache2::exists_config_define()>. For example, we can use this method
 to decide whether or not to call C<$r-E<gt>send_http_header()>, which
 no longer exists in mod_perl 2.0:
 
   sub handler {
       my $r = shift;
       $r->content_type('text/html');
-      $r->send_http_header() unless Apache::exists_config_define("MODPERL2");
+      $r->send_http_header() unless Apache2::exists_config_define("MODPERL2");
       ...
   }
 
@@ -1335,26 +1296,26 @@ is not supported by older Perl versions, which will fail to compile
 such code.
 
 Here are two complete examples. The first example implements
-C<MyApache::Method> which has a single method that works for both
+C<MyApache2::Method> which has a single method that works for both
 mod_perl generations:
 
 The configuration:
 
-  PerlModule MyApache::Method
+  PerlModule MyApache2::Method
   <Location /method>
       SetHandler perl-script
-      PerlHandler MyApache::Method->handler
+      PerlHandler MyApache2::Method->handler
   </Location>
 
 The code:
 
-  #file:MyApache/Method.pm
-  package MyApache::Method;
+  #file:MyApache2/Method.pm
+  package MyApache2::Method;
   
-  # PerlModule MyApache::Method
+  # PerlModule MyApache2::Method
   # <Location /method>
   #      SetHandler perl-script
-  #      PerlHandler MyApache::Method->handler
+  #      PerlHandler MyApache2::Method->handler
   #  </Location>
   
   use strict;
@@ -1365,10 +1326,10 @@ The code:
   
   BEGIN {
       if (MP2) {
-          require Apache::RequestRec;
-          require Apache::RequestIO;
-          require Apache::Const;
-          Apache::Const->import(-compile => 'OK');
+          require Apache2::RequestRec;
+          require Apache2::RequestIO;
+          require Apache2::Const;
+          Apache2::Const->import(-compile => 'OK');
       }
       else {
           require Apache;
@@ -1386,30 +1347,30 @@ The code:
      MP2 ? $r->content_type('text/plain')
          : $r->send_http_header('text/plain');
      print "$class was called\n";
-     return MP2 ? Apache::OK : Apache::Constants::OK;
+     return MP2 ? Apache2::OK : Apache::Constants::OK;
   }
 
 Here are two complete examples. The second example implements
-C<MyApache::Method2>, which is very similar to C<MyApache::Method>,
+C<MyApache2::Method2>, which is very similar to C<MyApache2::Method>,
 but uses separate methods for mod_perl 1.0 and 2.0 servers.
 
 The configuration is the same:
 
-  PerlModule MyApache::Method2
+  PerlModule MyApache2::Method2
   <Location /method2>
       SetHandler perl-script
-      PerlHandler MyApache::Method2->handler
+      PerlHandler MyApache2::Method2->handler
   </Location>
 
 The code:
 
-  #file:MyApache/Method2.pm
-  package MyApache::Method2;
+  #file:MyApache2/Method2.pm
+  package MyApache2::Method2;
   
-  # PerlModule MyApache::Method
+  # PerlModule MyApache2::Method
   # <Location /method>
   #      SetHandler perl-script
-  #      PerlHandler MyApache::Method->handler
+  #      PerlHandler MyApache2::Method->handler
   #  </Location>
   
   use strict;
@@ -1421,10 +1382,10 @@ The code:
   BEGIN {
       warn "running $mod_perl::VERSION!\n";
       if (MP2) {
-          require Apache::RequestRec;
-          require Apache::RequestIO;
-          require Apache::Const;
-          Apache::Const->import(-compile => 'OK');
+          require Apache2::RequestRec;
+          require Apache2::RequestIO;
+          require Apache2::Const;
+          Apache2::Const->import(-compile => 'OK');
       }
       else {
           require Apache;
@@ -1449,351 +1410,30 @@ The code:
       my($class, $r) = @_;
       $r->content_type('text/plain');
       $r->print("mp2: $class was called\n");
-      return Apache::OK();
+      return Apache2::OK();
   }
 
 Assuming that mod_perl 1.0 is listening on port 8001 and mod_perl 2.0
 on 8002, we get the following results:
 
   % lynx --source http://localhost:8001/method
-  MyApache::Method was called
+  MyApache2::Method was called
 
   % lynx --source http://localhost:8001/method2
-  mp1: MyApache::Method2 was called
+  mp1: MyApache2::Method2 was called
 
   % lynx --source http://localhost:8002/method
-  MyApache::Method was called
+  MyApache2::Method was called
 
   % lynx --source http://localhost:8002/method2
-  mp2: MyApache::Method2 was called
+  mp2: MyApache2::Method2 was called
 
 
 
 
 =head1 The Conflict of mp1 vs mp2 vs mp22 vs ... vs mpNN
 
-The following sections summarise issues involving co-existence of
-several mod_perl generations on CPAN and user's filesystem.
-
-
-=head2 Why mod_perl2 didn't Rename its API
-
-The reason for not renaming mp2 core and 3rd party modules APIs to
-embed the version number like (mod_perl2, Apache2::Cookie,
-Apache2::Scoreboard, Apache2::SizeLimit, etc.) is very simple and
-logical. Even though the internals of mp2 core and 3rd party modules
-are totally different from their mp1 counterparts, for the most parts
-the user API hasn't changed at all. Renaming the API is
-counterproductive, as it'll will impose extra work on the modperl
-users, and dangerous as the added complication may drive the users
-away to use other similar technologies which don't have this kludge.
-
-Add to the fact that one Apache-2.2 is released, if mp2 doesn't manage
-to make the incompatible changes in Apache 2.2 transparent to modperl
-users, there will be mp2.2, and we would have needed to make yet
-another namespace rename, even though 99% of the API will be the same
-as mp2.0. Then there will be mp2.4, mp2.6, mp2.8, mp3.0, etc. I hope
-you get the idea.
-
-mp2 provides a Perl API for libapr and libaprutil projects (which can
-be used even if you don't run modperl). At the moment there is libapr
-0.9.x, 1.x and 2.x will be released soon. All those are partially
-incompatible. Since modperl provides only a partial mapping to the C
-APR API the mod_perl users so far can run their code unmodified no
-matter whether they have libapr-0.9, libapr-1.0 or libapr-2.0
-installed. If we were to embed the numbers in the API, users would
-have had to rewrite their application to make it support each new
-release of APR.
-
-Let's look at the multiple C libraries you have installed on your
-machine. 99% of the libraries do not change their API naming when they
-release a new version. Take for example the Berkley DB library. It had
-dbopen(3) for its 1st generation, and 2nd, and 3rd, and 4th.
-
-I hope you now understand why the API should not include a generation
-number in it.
-
-=over
-
-=item Q. Why not use some smart namespace aliasing? e.g. to alias
-C<Apache2::SizeLimit> to C<Apache::SizeLimit> at run time, so the old
-application will work just as well.
-
-A. That would be a workable solution, if the Apache C API didn't have
-methods, which have exactly the same name and arguments in 1.3 and
-2.0, but which do totally different things. One example is
-C<L<Apache::Connection::local_addr|docs::2.0::user::porting::compat/C__connection_E_gt_remote_addr_>>,
-which in mp1 returned a C Socket object which was decoded by
-C<Socket::sockaddr_in>, whereas in mp2 it returns an
-C<APR::SockAddr> object.
-
-
-=back
-
-
-
-
-
-=head2 Platform Support for Multiple Generations of the Same Project
-
-The next issue to look at is the platform/language support for
-multiple generations of the same project.
-
-99% of users will have only one mod_perl installed under the same perl
-tree. So for most users the following issues are non-existent. For
-those few users that need to have more than one mod_perl installed
-under the same tree, the problems and their solutions are discussed
-next.
-
-=head3 (.pm|.so) Files Collision
-
-Again, let's start with the C libraries, and again use Berkley DB
-example.
-
-The public C API lives in its header files. Those headers files don't
-change much between generations, some APIs are modified, others remain
-as before. The header files usually keep the same names. So how can
-you have Berkley DB 1 and 4 on the same machine, while most of the
-header files have the same names? This is done by installing each
-generation into a different sub-directory. On my machine I have db1
-and db4, let's look at F<db.h> header file:
-
-  /usr/include/db1/db.h
-  /usr/include/db4/db.h
-
-Notice that it's the same name, and there is no problem. When an
-application wants to use either of the two the user tells it which of
-the include directories to use at compile time.
-
-The binary of the C library is usually just one file (.so or .a on
-unices), so on my machine I have:
-
-  /usr/lib/libdb1.so
-  /usr/lib/libdb-4.so
-
-let's ignore the fact that those are symlinks for the purpose of this
-discussion. Again the application at compile time is told which of the
-two libraries it should use at loading time.
-
-Now, let's go back to Perl. Perl doesn't provide any support for
-multiple generations of the same project. There are a few workarounds:
-
-=over
-
-=item 1
-
-install a different perl for each separate version of project, in
-which case there is no problem with co-existence.
-
-=item 2
-
-install the second generation in some other directory and adjust
-C<@INC> at perl startup, so that this new directory will appear first.
-
-C<only> and C<only::install> (http://search.cpan.org/dist/only/) do
-exactly that.
-
-=back
-
-mp2 users have to use one of these workarounds. In the case of the
-second workaround, mod_perl uses its own implementation, called
-F<Apache2.pm>. In order to make mp2 co-exist with mp1 install, one
-needs to install mp2 modules in a sub-directory C<Apache2/>. The
-modperl core installer will make sure that this happens if it detects
-that mp1 was installed. 3rd party modules writers need to use
-C<L<ModPerl::MM::WriteMakefile|docs::2.0::api::ModPerl::MM>> which
-will do the right thing. At run time loading F<Apache.pm> will
-L<adjust
-@INC|docs::2.0::user::config::config/Accessing_the_mod_perl_2_0_Modules>
-to include the right paths.
-
-F<Apache2.pm> which is better than C<only::install> because if you
-don't have mp1 installed, F<Apache2.pm> becomes a no-op, as mp2 is not
-getting installed into the F<Apache2/> directory, unless you
-explicitly ask the installer to do so (by passing the
-C<MP_INST_APACHE2=1> option during C<perl Makefile.PL> phase).
-
-Serious modperl users will use the first workaround, which they were
-doing with mp1 too. Why? Because to get the best performance from
-mod_perl, you want to have a custom-compiled perl tuned for your
-needs: http://modperlbook.org/html/ch15_04.html
-
-
-=head3 Documentation and Manpages
-
-If mp2 installs its F<.pm> files under F<Apache2/> C<perldoc> won't
-find those. The alternative solution is to use C<mp2doc> provided by
-mp2, which will find the right docs.
-
-As for manpages, only one set of manpages can be installed and this
-true for any project (e.g. You can have several generations of the
-same C library installed, but you will have only one set of manpages).
-That's of course ignoring the use of the environment variable
-C<MANPATH>.
-
-So use C<mp2doc> or the online docs:
-http://perl.apache.org/docs/2.0/api/ which you can also L<build
-locally|download::docs>.
-
-
-
-
-=head3 CPAN Shells
-
-In case you have mp1 and mp2 under the same perl and mp2 is installed
-under the F<Apache2/> subdirectory, in order for CPAN shell to find
-you mp2 modules you need to invoke it as:
-
- % perl -MApache2 -MCPAN -eshell
-
-For CPANPLUS:
-
- % perl -MApache2 -MCPANPLUS -eshell
-
-If you have only mp2 and you didn't ask to install it under the
-F<Apache2/> subdirectory, no special invocation technique is required.
-
-
-
-
-
-=head2 CPAN Index
-
-Since mod_perl 2.0 was released users have noticed a problem with CPAN
-clients, which started to fetch mp2 core and 3rd party modules, in the
-case when users were still using mp1. This is not a problem of the mp2
-core or the 3rd party mod_perl modules, but a problem of PAUSE indexer
-which indexes only the latest version of each namespace, without
-supporting projects which have more than one generation, while
-preserving the same namespace, as in the case with mod_perl.
-
-This is not an issue specific to mod_perl and 3rd party Apache
-modules, it's a long existing problem with other modules such as
-C<GD>, C<SQLite>, C<Sun::Solaris::*>, etc.
-
-For example: there are two internally incompatible versions of
-C<Apache::Scoreboard> (but which otherwise work identically for
-users): http://search.cpan.org/~stas/Apache-Scoreboard-2.02/
-http://search.cpan.org/~dougm/Apache-Scoreboard-0.10/. Notice that
-each generation is developed and maintained by a different developer.
-Now C<Apache::VMonitor> which works with mp1 and mp2
-(http://search.cpan.org/dist/Apache-VMonitor/) requires a different
-generation of C<Apache::Scoreboard> depending on whether mp1 or mp2 is
-used. If the PAUSE doesn't index both generations CPAN clients cannot
-satisfy the C<Apache::VMonitor> prerequisites list. This example shows
-that this is not a problem of mp2 core, but of many other packages.
-
-The ideal solution is fix PAUSE indexer to support META.yml's
-C<generation>:
-http://module-build.sourceforge.net/META-spec-new.html#generation and
-to at least index the highest version number of each generation (or
-better index them all). That should be done using a new index file, to
-keep the older CPAN clients working correctly.  Then CPAN clients
-could be adjusted to use that information to make an intelligent
-automatic and/or interactive selection of the right generation, when
-resolving dependencies or executing plain install requests.
-
-Further Ken Williams and John Peacock has suggested an alternative to
-F<META.yml> C<generation> keyword. They offer to use something like a
-"backcompat_to" field, so each distribution will be able to tell
-what's the lowest version it is backcompatible with. That will work
-too, but requires the same changes in PAUSE indexer and the CPAN
-clients.
-
-Jos I. Boumans, the main developer of CPANPLUS, suggests that the
-PAUSE indexer should index all versions of the same module on CPAN, to
-make it easier on the CPAN clients to resolve prerequisites.
-
-If the multiply version indexing is provided, to further simplify the
-work of CPAN clients I've suggested that the work of figuring out
-which mod_perl (or any other project) generation should be installed,
-by creating a convention, where a developer will upload something like
-SmartInstall::project_name (e.g.: SmartInstall::mod_perl) to CPAN, and
-the CPAN client will simply download it, when asked to install
-'project_name', that program will figure out what version is suitable
-for a user and download and install it. But that still requires to
-have multiple revisions index to be available.
-
-
-=over
-
-=item Q. Why this issue was not resolved earlier?
-
-A. The issue was raised several times on the perl5-porters and
-cpan-discuss lists over the period of the last few years. But nothing
-was implemented. You can read the details:
-
-May 2003:
-http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2003-05/msg00220.html
-
-Oct 2003:
-http://www.mail-archive.com/cpan-discuss@perl.org/msg00000.html
-Dec 2003:
-http://www.mail-archive.com/cpan-discuss@perl.org/msg00033.html
-
-Dec 2004:
-http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2004-12/msg00510.html
-http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2004-12/msg00484.html
-
-Amongst other proposed solutions, Autrijus has posted a concrete
-solution to how to fix that:
-http://www.mail-archive.com/cpan-discuss@perl.org/msg00012.html
-
-=item Q. Is it possible to find the non-indexed distros?
-
-A. The easiest way is to use http://search.cpan.org/
-
-If you use C<CPAN> shell, you can use the C<'d'> command:
-
-  cpan> d /mod_perl/
-  Distribution    D/DO/DOUGM/mod_perl-1.27.tar.gz
-  Distribution    G/GO/GOZER/mod_perl-1.28.tar.gz
-  Distribution    G/GO/GOZER/mod_perl-1.29.tar.gz
-  Distribution    G/GO/GOZER/mod_perl-2.0.0-RC1.tar.gz
-  Distribution    G/GO/GOZER/mod_perl-2.0.0-RC2-XMas.tar.gz
-
-(META: I can't seem to find a similar functionality in CPANPLUS
-shells, if you know how please let me know.)
-
-
-=item Q. Why not Put Several Generation in the Same Distro
-
-A. 1) That doesn't fix the indexing problem.
-
-2) It introduces a huge maintenance problem
-
-  cd mod_perl-1.29_01-dev
-  find . | wc -l
-  285
-  
-  cd mod_perl-2.0.0-RC3/
-  find . | wc -l
-  1022
-
-gives you an idea of how big each project is, and why it's not the
-best solution to throw things together.
-
-When mp2.2 comes out will 3 generations of the modules will be need
-into the same distro? And when mp2.4 comes out? and mp2.6? etc. You
-get the idea.
-
-3) It doesn't work if different generations are maintained by
-different authors.
-
-4) It will enforce users of both versions to upgrade when one of the
-generations makes a new release. While this may work for small
-modules, in case of mod_perl core each upgrade is not to be taken
-lightly, a lot of time, each update goes through a long acceptance
-process, so enforcing one when it's not needed is evil.
-
-It will also force including new not well tested changes in one
-generation, when the other needs to be released.
-
-=back
-
-
-
-
+META: should something be said here?
 
 =head2 Distributors
 
@@ -1812,8 +1452,6 @@ non-conflicting, by building all mp2 core and 3rd party modules into
 F<Apache2/> subdir, in which case the two will always co-exist. But
 this is not the most logical approach since 99% of users will want
 only one generation of mod_perl core and 3rd party modules.
-
-
 
 
 
