@@ -19,7 +19,14 @@ Enabling C<use diagnostics;> generally helps you to determine the
 source of the problem and how to solve it.  See L<diagnostics
 pragma|guide::debug/diagnostics_pragma> for more information.
 
+
+
+
+
 =head1 Building and Installation
+
+
+
 
 =head2 Bareword "gensym" not allowed while "strict subs"
 
@@ -46,7 +53,28 @@ first by setting a C<PERL5LIB> or a similar environment
 variable. Unset it and repeat the build process to solve the problem.
 
 
-=head2 make test issues
+
+
+
+=head2 C<No rule to make target ... CORE/config.h>
+
+If while running C<'make'> you get a message:
+
+  make: *** No rule to make target
+  `/usr/lib/perl5/5.8.3/i386-linux/CORE/config.h',
+  needed by `Makefile'.  Stop.
+
+That means that your Perl installation is incomplete. Usually this is
+the case on package based distros, where perl is split across multiple
+packages.  Usually you need to install the Perl-devel package to be
+able to build any other Perl modules that include XS extensions.
+
+
+
+
+
+
+=head1 make test Issues
 
 See L<make Troubleshooting|guide::install/make_Troubleshooting> and
 L<make test Troubleshooting|guide::install/make_test_Troubleshooting>
@@ -307,6 +335,15 @@ try adding this to I<httpd.conf>:
 
   PerlModule Apache
 
+
+
+
+
+
+
+
+
+
 =head1 Code Parsing and Compilation
 
 =head2 Value of $x will not stay shared at - line 5
@@ -379,6 +416,16 @@ or
   -Xlinker -E
 
 This problem is only known to be caused by installing gnu ld under Solaris.
+
+
+
+
+
+
+
+
+
+
 
 =head1 Runtime
 
@@ -678,6 +725,19 @@ To solve this problem rebuild mod_perl and Perl against the same
 I<glibc> version or get new binary packages built against the same
 I<glibc> version.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 =head1 Shutdown and Restart
 
 =head2 Evil things might happen when using PerlFreshRestart
@@ -772,6 +832,17 @@ during graceful restarts.  See the (sub)thread:
 http://aspn.activestate.com/ASPN/Mail/Message/modperl/304620 (META: we
 don't have code samples, so if you have such please let us know).
 
+
+
+
+
+
+
+
+
+
+
+
 =head1 OS Specific Notes
 
 =head2 RedHat Linux
@@ -850,6 +921,12 @@ with:
 
 
 
+
+
+
+
+
+
 =head1 Problematic Perl Modules
 
 Here is the list of Perl Modules that are known to have problems under
@@ -864,6 +941,11 @@ C<IPC::Open*> family and more... and it works fine with mod_perl.
 
 =back
 
+
+
+
+
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
@@ -876,6 +958,10 @@ corrections and patches.
 Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
+
+
+
+
 
 
 =head1 Authors
