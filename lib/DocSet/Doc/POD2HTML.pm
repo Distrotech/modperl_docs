@@ -4,12 +4,12 @@ use strict;
 use warnings;
 
 use File::Spec::Functions;
+use File::Basename ();
 
 use DocSet::Util;
+use DocSet::RunTime;
 
 require Pod::POM;
-#require Pod::POM::View::HTML;
-#my $view_mode = 'Pod::POM::View::HTML';
 my $view_mode = 'DocSet::Doc::POD2HTML::View::HTML';
 
 use DocSet::Doc::Common ();
@@ -24,6 +24,8 @@ my %split_by = map {"head".$_ => 1} 1..4;
 
 sub convert {
     my($self) = @_;
+
+    set_render_obj($self);
 
     my $pom = $self->{parsed_tree};
 
@@ -58,6 +60,8 @@ sub convert {
     my $tmpl_root = $self->{tmpl_root};
     $self->{output} = proc_tmpl($tmpl_root, $tmpl_file, $mode, {doc => $vars} );
 
+    unset_render_obj();
+
 }
 
 
@@ -91,6 +95,11 @@ use vars qw(@ISA);
 require Pod::POM::View::HTML;
 @ISA = qw( Pod::POM::View::HTML);
 
+use DocSet::RunTime;
+
+use File::Spec::Functions;
+use File::Basename;
+
 sub view_head1 {
     my ($self, $head1) = @_;
     return "<h1>" . $self->anchor($head1->title) . "</h1>\n\n" .
@@ -115,9 +124,34 @@ sub view_head4 {
         $head4->content->present($self);
 }
 
+sub view_seq_file {
+    my ($self, $path) = @_;
+    my $doc_obj = get_render_obj();
+    my $base_dir = dirname catfile $doc_obj->{src_root}, $doc_obj->{src_uri};
+    my $file = catfile $base_dir, $path;
+    #warn "file: $file";
+
+    # XXX: may need to test the location at dest_path, not src, to
+    # make sure that the file actually gets copied
+    return -e $file ? qq{<a href="$path">$path</a>} : qq{<i>$path</i>};
+}
+
 *anchor        = \&DocSet::Doc::Common::pod_pom_html_anchor;
-*view_seq_link = \&DocSet::Doc::Common::pod_pom_html_view_seq_link;
 *view_verbatim = \&DocSet::Doc::Common::pod_pom_html_view_verbatim;
+*view_seq_link_transform_path = \&DocSet::Doc::Common::pod_pom_html_view_seq_link_transform_path;
+
+#*view_seq_link = \&DocSet::Doc::Common::pod_pom_html_view_seq_link;
+
+#use DocSet::Util;
+## META: temp override
+## the one in superclass screws up URLs in L<>: L<http://foo.bar.com>
+## should view_seq_text be called at all on these parts?
+#sub view_seq_text {
+#    my ($self, $text) = @_;
+#dumper $self;
+##print $self->[CMD];
+#    return $text;
+#}
 
 1;
 
@@ -147,6 +181,24 @@ For the rest of the super class methods see C<DocSet::Doc>.
 =item * convert
 
 =back
+
+=head1 Rendering Class
+
+documents using this class are rendered via
+C<DocSet::Doc::POD2HTML::View::HTML>, which is a subclass of
+C<Pod::POM::View::HTML>.
+
+C<view_head{1-4}()> are overridden to add the E<lt>a nameE<gt> anchors
+next to the headers for proper hyperlinking.
+
+view_seq_file() is overriden too. Here we search for the file relative
+to the location of the document and if we find it we link to it
+otherwise the default behaviour applies (the file path is turned into
+italics).
+
+The following rendering methods: view_verbatim(), anchor() and
+view_seq_link_transform_path() are defined in the
+C<DocSet::Doc::Common> class and documented there.
 
 =head1 AUTHORS
 

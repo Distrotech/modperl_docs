@@ -2,8 +2,12 @@ package DocSet::Doc;
 
 use strict;
 use warnings;
+
 use DocSet::Util;
+use DocSet::RunTime;
+
 use URI;
+use File::Spec::Functions;
 
 sub new {
     my $class = shift;
@@ -42,9 +46,12 @@ sub render {
     $abs_doc_root .= "/$rel_doc_root"
         if defined $rel_doc_root and $rel_doc_root ne '.';
 
+    $abs_doc_root =~ s|^./||; # IE/Mac can't handle path ./../foo
+
     $self->{dir} = {
-        abs_doc_root => $abs_doc_root,
-        rel_doc_root => $rel_doc_root,
+        abs_doc_root   => $abs_doc_root,
+        rel_doc_root   => $rel_doc_root,
+        path_from_base => $self->{path_from_base},
     };
 
     $self->{nav} = DocSet::NavigateCache->new($cache->path, $src_uri);
@@ -115,6 +122,21 @@ sub toc {
     }
 }
 
+# search for the source doc with base $base, and resolve it to a relative 
+# to abs_doc_root path and return it 
+# if not found return undef
+sub transform_src_doc {
+    my($self, $path) = @_;
+
+    if (my $path = find_src_doc($path)) {
+        my $path = catfile $self->{dir}{abs_doc_root}, $path;
+        $path =~ s|/\./|/|; # avoid .././foo links.
+        return $path;
+    }
+
+    return undef;
+}
+
 
 # abstract methods
 #sub src_filter {}
@@ -170,6 +192,7 @@ render the output document and write it to its final destination.
 
 Fetches the source of the document. The source can be read from
 different media, i.e. a file://, http://, relational DB or OCR :)
+(but these are left for subclasses to implement :)
 
 A subclass may implement a "source" filter. For example if the source
 document is written in an extended POD the source filter may convert
@@ -186,6 +209,16 @@ a simple set/get-able accessor to the I<meta> attribute.
 =item * toc
 
 a simple set/get-able accessor to the I<toc> attribute
+
+=item * transform_src_doc
+
+  my $doc_src_path = $self->transform_src_doc($path);
+
+search for the source doc with path of C<$path> at the search paths
+defined by the configuration file I<search_paths> attribute (similar
+to the C<@INC> search in Perl) and if found resolve it to a relative
+to C<abs_doc_root> path and return it. If not found return the
+C<undef> value.
 
 =back
 

@@ -230,6 +230,43 @@ C<DocSet::Source::POD> - A class for parsing input document in the POD format
 
 =head1 DESCRIPTION
 
+META: not sure if the customized implementation of L<> belongs
+here. But it works as follows:
+
+Assuming that the main I<config.cfg> specifies the following argument:
+
+     dir => {
+             ...
+  
+             # search path for pods, etc. must put more specific paths first!
+             search_paths => [qw(
+                 docs/2.0/api/mod_perl-2.0 
+                 docs/2.0/api/ModPerl-Registry 
+                 docs/2.0 
+                 docs/1.0
+                 .
+             )],
+  
+             # what extensions to search for
+             search_exts => [qw(pod pm html)],
+  
+ 	    },	
+
+Whenever the pod includes L<Title|foo::bar/section>, the code will
+first convert C<foo::bar> into I<foo/bar> and then will try to find
+the file I<foo/bar.pod> in the search path (similar to C<@INC>), as
+well as files I<foo/bar.pm> and I<foo/bar.html> under dir I<src>. If
+other C<search_exts> are specified they will be searched as well. If
+there is a much the link will be created, otherwise only the title of
+the link will be displayed.
+
+Notice that the C<search_paths> must specify more specific paths
+first. If you don't they won't be searched. Currently this is done
+only to optimize memory usage and some speed, not sure if that's very
+important. But this is different from how Perl does search with
+C<@INC> since DocSet reads all the files in memory once and then
+reuses this data.
+
 =head2 METHODS
 
 =over 

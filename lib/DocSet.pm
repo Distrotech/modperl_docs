@@ -1,6 +1,6 @@
 package DocSet;
 
-$VERSION = '0.11';
+$VERSION = '0.12';
 
 =head1 NAME
 
@@ -21,7 +21,7 @@ Options:
   -d    generate PDF file
   -f    force a complete rebuild
   -a    print available hypertext anchors (not implemented)
-  -l    do hypertext links validation (not implemented)
+  -l    perform L<> links validation in pod docs
   -e    slides mode (for presentations) (not implemented)
   -m    executed from Makefile (forces rebuild,
 				no PS/PDF file,

@@ -5,11 +5,11 @@ use warnings;
 
 use Carp;
 
-use File::Find;
 use File::Basename ();
 use File::Spec::Functions;
 
 use DocSet::Util;
+use DocSet::RunTime ();
 
 use constant TRACE => 1;
 
@@ -125,8 +125,60 @@ sub read_config {
     # so this value is relevant only for the real top parent node
     $self->{dir}{abs_doc_root} = '.';
 
+    $self->{dir}{path_from_base} ||= '';
+
     $self->{dir}{src_root} = File::Basename::dirname $config_file;
+
+    if ($self->{dir}{search_paths}) {
+        DocSet::RunTime::scan_src_docs($self->{dir}{src_root},
+                                       $self->{dir}{search_paths},
+                                       $self->{dir}{search_exts}
+                                      );
+    }
+
     # dumper $self;
+
+}
+
+# child config inherits parts from the parent config
+# and adjusts its paths
+sub merge_config {
+    my($self, $src_rel_dir) = @_;
+
+    my $parent_o = $self->{parent_o};
+
+    # inherit 'file' attributes if not set in the child 
+    my $files = $self->{file} || {};
+    while ( my($k, $v) = each %{ $parent_o->{file}||{} }) {
+        $self->{file}{$k} = $v unless $files->{$k};
+    }
+
+    # inherit 'dir' attributes if not set in the child 
+    my $dirs = $self->{dir} || {};
+    while ( my($k, $v) = each %{ $parent_o->{dir}||{} }) {
+        $self->{dir}{$k} = $v unless $dirs->{$k};
+    }
+
+    # a chapter object won't set this one
+    if ($src_rel_dir) {
+        $self->{dir}{src_rel_dir} = $src_rel_dir;
+
+        # append the relative to parent_o's src dir segments
+        # META: hardcoded paths!
+        for my $k ( qw(dst_html dst_ps dst_split_html) ) {
+            $self->{dir}{$k} .= "/$src_rel_dir";
+        }
+
+        # only path with no leading ./ or closing /
+        $self->{dir}{path_from_base} = join "/", grep /./,
+            $self->{dir}{path_from_base}, $src_rel_dir;
+
+        # set path to the abs_doc_root 
+        # META: hardcoded paths! (but in this case it doesn't matter,
+        # as long as it's set in the config file
+        $self->{dir}{abs_doc_root} = 
+            join '/', ("..") x ($self->{dir}{dst_html} =~ tr|/|/|);
+    }
 
 }
 
@@ -178,43 +230,6 @@ sub add_node {
     return scalar @values;
 }
 
-# child config inherits parts from the parent config
-# and adjusts its paths
-sub merge_config {
-    my($self, $src_rel_dir) = @_;
-
-    my $parent_o = $self->{parent_o};
-
-    # inherit 'file' attributes if not set in the child 
-    my $files = $self->{file} || {};
-    while ( my($k, $v) = each %{ $parent_o->{file}||{} }) {
-        $self->{file}{$k} = $v unless $files->{$k};
-    }
-
-    # inherit 'dir' attributes if not set in the child 
-    my $dirs = $self->{dir} || {};
-    while ( my($k, $v) = each %{ $parent_o->{dir}||{} }) {
-        $self->{dir}{$k} = $v unless $dirs->{$k};
-    }
-
-    # a chapter object won't set this one
-    if ($src_rel_dir) {
-        $self->{dir}{src_rel_dir} = $src_rel_dir;
-
-        # append the relative to parent_o's src dir segments
-        # META: hardcoded paths!
-        for my $k ( qw(dst_html dst_ps dst_split_html) ) {
-            $self->{dir}{$k} .= "/$src_rel_dir";
-        }
-
-        # set path to the abs_doc_root 
-        # META: hardcoded paths! (but in this case it doesn't matter,
-        # as long as it's set in the config file
-        $self->{dir}{abs_doc_root} = 
-            join '/', ("..") x ($self->{dir}{dst_html} =~ tr|/|/|);
-    }
-
-}
 
 # return a list of files potentially to be copied
 #
@@ -265,22 +280,6 @@ sub files_to_copy {
 
 }
 
-sub expand_dir {
-    my @files = ();
-    if ($] >= 5.006) {
-       find(sub {push @files, $File::Find::name}, $_[0]);
-    }
-    else {
-        # perl 5.005.03 on FreeBSD doesn't set the dir it chdir'ed to
-        # need to move this to compat level?
-        require Cwd;
-        my $cwd;
-        find(sub {$cwd = Cwd::cwd(); push @files, catfile $cwd, $_}, $_[0]);
-    }
-
-    return \@files;
-}
-
 sub set {
     my($self, %args) = @_;
     @{$self}{keys %args} = values %args;
@@ -308,8 +307,20 @@ sub get_file {
 
 sub get_dir {
     my $self = shift;
+
     return () unless @_;
-    my @values = map {exists $self->{dir}{$_} ? $self->{dir}{$_} : ''} @_;
+
+    my @values = ();
+    for (@_) {
+        if (exists $self->{dir}{$_}) {
+            push @values, $self->{dir}{$_}
+        }
+        else {
+            cluck "no entry for dir: $_";
+            push @values, '';
+        }
+    }
+
     return wantarray ? @values : $values[0];
 }
 
@@ -541,6 +552,17 @@ I<config.cfg> file:
              # location of the templates relative to the root dir
              # (searched left to right)
              tmpl       => [qw(tmpl/custom tmpl/std tmpl)],
+
+             # search path for pods, etc. must put more specific paths first!
+             search_paths => [qw(
+                 docs/2.0/api/mod_perl-2.0
+                 docs/2.0/api/ModPerl-Registry
+                 docs/2.0
+                 docs/1.0
+             )],
+             # what extensions to search for
+             search_exts => [qw(pod pm html)],
+
  	    },	
 
 =item * file
@@ -751,6 +773,8 @@ One of the useful examples would be:
 
 META: does copy_skip apply to all sub-docsets, if sub-docsets specify
 their own copy_glob?
+
+Make sure to escape C</> chars.
 
 =back
 

@@ -7,11 +7,12 @@ use Symbol ();
 use File::Basename ();
 use File::Copy ();
 use File::Path ();
+use File::Find ();
 use Data::Dumper;
 use Carp;
 use Template;
 
-use DocSet::RunTime;
+require DocSet::RunTime; # interdependency with DocSet::Util
 
 use vars qw(@ISA @EXPORT);
 @ISA    = qw(Exporter);
@@ -19,7 +20,7 @@ use vars qw(@ISA @EXPORT);
              create_dir filename filename_ext require_package dumper
              sub_trace note get_date get_timestamp proc_tmpl
              build_matchmany_sub banner should_update confess cluck
-             format_bytes);
+             carp format_bytes expand_dir);
 
 # copy_file($src_path, $dst_path);
 # copy a file at $src_path to $dst_path, 
@@ -190,12 +191,14 @@ sub proc_tmpl {
 sub should_update {
     my($src_path, $dst_path) = @_;
 
+    die "cannot find $src_path" unless -e $src_path;
+
     # to rebuild or not to rebuild
     my $not_modified = 
         (-e $dst_path and -M $dst_path < -M $src_path) ? 1 : 0;
 
     my $reason = $not_modified ? 'not modified' : 'modified';
-    if (get_opts('rebuild_all')) {
+    if (DocSet::RunTime::get_opts('rebuild_all')) {
         return (1, "$reason / forced");
     } else {
         return (!$not_modified, $reason);
@@ -253,6 +256,22 @@ sub format_bytes {
   }
 }
 
+sub expand_dir {
+    my @files = ();
+    if ($] >= 5.006) {
+       File::Find::find(sub {push @files, $File::Find::name}, $_[0]);
+    }
+    else {
+        # perl 5.005_03 on FreeBSD doesn't set the dir it chdir'ed to
+        # need to move this to compat level?
+        require Cwd;
+        my $cwd;
+        File::Find::find(sub {$cwd = Cwd::cwd(); push @files, catfile $cwd, $_}, $_[0]);
+    }
+
+    return \@files;
+}
+
 
 sub dumper {
     print Dumper @_;
@@ -266,13 +285,19 @@ sub dumper {
 #}
 
 *confess = \*Carp::confess;
-*cluck = \*Carp::cluck;
+*cluck   = \*Carp::cluck;
+*carp    = \*Carp::carp;
 
 sub note {
-    return unless get_opts('verbose');
+    return unless DocSet::RunTime::get_opts('verbose');
     print join("\n", @_), "\n";
-
 }
+
+
+#sub error {
+#    return unless DocSet::RunTime::get_opts('verbose');
+#    cluck(join("\n", @_), "\n");
+#}
 
 
 1;
@@ -344,11 +369,21 @@ META: to be completed (see SYNOPSIS meanwhile)
 
 =item * build_matchmany_sub
 
+Since the patterns are compiled by insertion into m//, make sure that
+any C</> are escaped. Be careful with using quotemeta() for this,
+since you don't want to espace special regex char, e.g. C<^>, C<$>,
+etc.
+
 =item * dumper
 
 =item * confess
 
+=item * cluck
+
+=item * carp
+
 =item * note
+
 
 =back
 

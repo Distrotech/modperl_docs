@@ -77,8 +77,9 @@ sub write_index_file {
     }
 
     my $dir = {
-        abs_doc_root => $self->get_dir('abs_doc_root'),
-        rel_doc_root => $self->get_dir('rel_parent_root'),
+        abs_doc_root   => $self->get_dir('abs_doc_root'),
+        rel_doc_root   => $self->get_dir('rel_parent_root'),
+        path_from_base => $self->get_dir('path_from_base'),
     };
 
     my $meta = {

@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use DocSet::Util;
+use DocSet::RunTime;
 
 use vars qw(@ISA);
 require DocSet::Source::POD;
@@ -21,6 +22,8 @@ my %split_by = map {"head".$_ => 1} 1..4;
 
 sub convert {
     my($self) = @_;
+
+    set_render_obj($self);
 
     my $pom = $self->{parsed_tree};
 
@@ -49,6 +52,8 @@ sub convert {
     my $tmpl_root = $self->{tmpl_root};
     $self->{output} = proc_tmpl($tmpl_root, $tmpl_file, $mode, {doc => $vars} );
 
+    unset_render_obj();
+
 }
 
 
@@ -76,6 +81,12 @@ sub slice_by_head {
 
 
 package DocSet::Doc::POD2HTML::View::HTMLPS;
+
+use DocSet::RunTime;
+use DocSet::Util;
+
+use File::Spec::Functions;
+use File::Basename;
 
 use vars qw(@ISA);
 require Pod::POM::View::HTML;
@@ -108,9 +119,29 @@ sub view_head4 {
         $head4->content->present($self);
 }
 
+sub view_seq_file {
+    my ($self, $path) = @_;
+    my $doc_obj = get_render_obj();
+    my $base_dir = dirname catfile $doc_obj->{src_root}, $doc_obj->{src_uri};
+    my $file = catfile $base_dir, $path;
+    #warn "file: $file";
+
+    return qq{<i>$path</i>} unless -e $file;
+
+    # since we cannot link to the text files which should stay as is
+    # from ps/pdf, we simply include them inlined
+    my $content = '';
+    read_file($file, \$content);
+
+    return qq{<i>$path</i>:\n\n<pre>$content</pre>\n\n};
+}
+
+
 *anchor        = \&DocSet::Doc::Common::pod_pom_html_anchor;
-*view_seq_link = \&DocSet::Doc::Common::pod_pom_html_view_seq_link;
 *view_verbatim = \&DocSet::Doc::Common::pod_pom_html_view_verbatim;
+*view_seq_link_transform_path = \&DocSet::Doc::Common::pod_pom_html_view_seq_link_transform_path;
+
+#*view_seq_link = \&DocSet::Doc::Common::pod_pom_html_view_seq_link;
 
 1;
 
@@ -140,6 +171,35 @@ For the rest of the super class methods see C<DocSet::Doc>.
 =item * convert
 
 =back
+
+=head1 Rendering Class
+
+documents using this class are rendered via
+C<DocSet::Doc::POD2HTML::View::HTMLPS>, which is a subclass of
+C<Pod::POM::View::HTML>.
+
+Since we want the final PDF document which potentially includes many
+chapters in it to look more as a book and have a nice Table of
+Contents, we need to change the default structure of C<=head1> specs,
+so the C<=head1 NAME> becomes a title of the chapter and removed from
+the POD source, therefore we need to bump up all the remaining
+C<=headX> headers by one. i.e. C<=head1> is rendered as C<=head2>,
+C<=head3> as C<=head3>, etc. Therefore we override the super class's
+methods C<view_head{1-4}>. In addition we put E<lt>a nameE<gt> anchors
+next to the headers so the PDF document can be hyperlinked if the
+reader supports this feature.
+
+view_seq_file() is overriden too. Here we search for the file relative
+to the location of the document and if we find it we include its
+contents since the PDFs are created for making dead tree copies and
+therefore linking is not an option. Notice that it's OK to say
+FE<lt>/etc/passwdE<gt> since it won't be found unless you actually put
+it under the current documents path or put the source document in
+the I</> path.
+
+The following rendering methods: view_verbatim(), anchor() and
+view_seq_link_transform_path() are defined in the
+C<DocSet::Doc::Common> class and documented there.
 
 =head1 AUTHORS
 

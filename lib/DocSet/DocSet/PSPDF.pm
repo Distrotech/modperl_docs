@@ -55,9 +55,10 @@ sub write_index_file {
     my($self) = @_;
 
     my $dir = {
-               abs_doc_root => $self->get_dir('abs_doc_root'),
-               rel_doc_root => '..', # META: probably wrong! (see write_index_html_file())
-              };
+        abs_doc_root => $self->get_dir('abs_doc_root'),
+        rel_doc_root => '..', # META: probably wrong, could be ../..! (see write_index_html_file())
+        path_from_base => $self->get_dir('path_from_base'),
+    };
 
     my $meta = {
                 title    => $self->get('title'),

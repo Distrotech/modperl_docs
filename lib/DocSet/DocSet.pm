@@ -81,6 +81,9 @@ sub scan {
                             $rel_dir);
         $self->set_dir(rel_parent_root => $rel_dir);
     }
+    else {
+        $self->set_dir(rel_parent_root => '.');
+    }
 
     ###
     # scan the nodes of the current level and cache the meta and other
@@ -199,12 +202,12 @@ sub chapter_scan_n_cache {
     my $src_root      = $self->get_dir('src_root');
     my $dst_root      = $self->get_dir('dst_root');
     my $abs_doc_root  = $self->get_dir('abs_doc_root');
-    my $src_path      = "$src_root/$src_file",
+    my $src_path      = "$src_root/$src_file";
 
     my $src_ext = filename_ext($src_file)
-        or die "cannot get an extension for $src_file";
+        or die "cannot get an extension for $src_file [$src_path]";
     my $src_mime = $self->ext2mime($src_ext)
-        or die "unknown extension: $src_ext";
+        or die "unknown extension: $src_ext [$src_path]";
     (my $basename = $src_file) =~ s/\.$src_ext$//;
 
     # destination paths
@@ -233,17 +236,18 @@ sub chapter_scan_n_cache {
     require_package($conv_class);
 
     my $chapter = $conv_class->new(
-         docset       => $self,
-         tmpl_mode    => $self->get('tmpl_mode'),
-         tmpl_root    => $self->get_dir('tmpl'),
-         src_root     => $src_root,
-         dst_root     => $dst_root,
-         src_uri      => $src_file,
-         src_path     => $src_path,
-         dst_path     => $dst_path,
-         rel_dst_path => $rel_dst_path,
-         rel_doc_root => $rel_doc_root,
-         abs_doc_root => $abs_doc_root,
+         docset         => $self,
+         tmpl_mode      => $self->get('tmpl_mode'),
+         tmpl_root      => $self->get_dir('tmpl'),
+         src_root       => $src_root,
+         dst_root       => $dst_root,
+         src_uri        => $src_file,
+         src_path       => $src_path,
+         dst_path       => $dst_path,
+         rel_dst_path   => $rel_dst_path,
+         rel_doc_root   => $rel_doc_root,
+         abs_doc_root   => $abs_doc_root,
+         path_from_base => $self->get_dir('path_from_base'),
         );
 
     $chapter->scan();
