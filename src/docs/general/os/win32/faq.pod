@@ -199,6 +199,12 @@ in a multi-threaded environment.
 Try putting the path to your mysql DLLs (eg, F<D:\mysql\lib\opt>) in
 your I<PATH> environment variable.
 
+=head2 With mod_perl 2.0, I get an error about not finding
+I<Apache.pm> when using I<CGI.pm>.
+
+Try upgrading CGI.pm to the latest version - earlier versions 
+were not mod_perl 2.0 aware.
+
 =head1 See Also
 
 The discussion of 
