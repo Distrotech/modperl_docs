@@ -10,10 +10,20 @@ p {
     color: #000000;
 }
 
-h1, h2, h3, h4 {
+h1 { font-size: 1.3em; }
+h2 { font-size: 1.2em; }
+h3 { font-size: 1.1em; }
+h4 { font-size: 1.0em; }
+
+h1, h2, h3, h4, h2 a:link, h2 a:visited, h3 a:link, h3 a:visited, h4 a:link, h4 a:visited  {
     color: #525d76;
-    font-size: 1.2em;
+    text-decoration: none;
     font-family: helvetica, arial, verdana, sans-serif;
+}
+
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover {
+    color: #999999;
+    text-decoration: none;
 }
 
 a:link    { color: #0000ff;}
@@ -22,7 +32,7 @@ a:active  { color: #666666;}
 a:hover   { color: #666666;}
 
 /* light blue bg-color for menu-titles */
-td.menu-title-bg { background-color: #828DA6; }
+td.menu-title-bg { background-color: #828da6; }
 
 /* light gray/white bg-color for non-selected menu-items */
 td.non-sel-bg { background-color: #eeeeee; }
@@ -263,6 +273,8 @@ td.blue-bg { background-color: #525d76; }
 
 /* light gray/white bg-color for ad-sec */
 td.ad-bg { background-color: #eeeeee; }
+
+td.pre-bar { background-color: #cccccc; }
 
 /* lines for camel */
 td.camel-line-top { background-color: #bfcfe7; }

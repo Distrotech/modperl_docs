@@ -13,5 +13,8 @@
             <td align="left" valign="top" width="50%" nowrap>[%- INCLUDE download_link -%]</td>
             <td align="right" valign="top" width="50%" nowrap>[%- INCLUDE prev_next_link -%]</td>
         </tr>
+        <tr>
+            <td colspan="2" height="6"><br class="smallbr"></td>
+        </tr>
     </table>
     <!-- download and local navigation end -->
