@@ -1,8 +1,0 @@
-Name: Jonathan M. Hollin
-Email: netmaster@digital-word.com
-URL: http://wypug.digital-word.com/
-Summary: Site help.
-
-Jonathan is using mod_perl to create Shapeshifter, a Content
-Management System. He has been helping out the mod_perl community
-through work on the website, especially for the logo contest.

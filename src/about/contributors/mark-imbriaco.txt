@@ -1,9 +1,0 @@
-Name: Mark Imbriaco
-Email: perlhacker@earthlink.net
-Summary: Original mailing list. First Apache:: module. Original Win95 build.
-
-For setting up the original mod_perl mail list and administration of
-that list for two years.  Mark was also the first person besides Doug
-to write an <code>Apache::*</code> module, the first version of
-<code>Apache::ePerl</code>.  He was also the first person to build and
-run mod_perl under Windows 95!
