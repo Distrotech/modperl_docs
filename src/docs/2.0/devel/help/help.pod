@@ -1,0 +1,214 @@
+=head1 NAME
+
+Getting Help with mod_perl 2.0 Core Development
+
+=head1 Introduction
+
+This document covers the resources available to the mod_perl 2.0 core
+developer. Please notice that you probably want to read the L<user's
+help documentation|../../user/help/help.pod> if you have problems
+using mod_perl.
+
+The following mailing lists and resources can be of a major interest
+to the mod_perl 2.0 developers.
+
+=head1 mod_perl
+
+=head2 mod_perl 2.0 Core Development Discussion List
+
+This list is used by the mod_perl 2.0 core developers to discuss
+design issues, solve problems and send patches and exchange ideas.
+
+=over
+
+=item *
+
+mailing list subscription: mailto:dev-subscribe@perl.apache.org
+
+=item *
+
+archive: http://marc.theaimsgroup.com/?l=apache-modperl-dev&r=1&w=2#apache-modperl-dev
+
+=back
+
+When reporting problems, be sure to include the output of:
+
+ % perl build/config.pl
+
+which generates the output from:
+
+=over 4
+
+=item perl -V
+
+=item httpd -V
+
+=item Makefile.PL options
+
+=back
+
+You can also use I<build/bugreport.pl>.
+
+If you get segmentation faults please send the stack backtrace to the
+modperl developers list.
+
+META: link to the place explaining how to get it
+
+
+=head2 mod_perl 2.0 Core Development CVS Commits List
+
+This list's traffic is comprised of solely cvs commits, so this is the
+place to be if you want to see mod_perl 2.0 evolve before your eyes.
+
+=over
+
+=item *
+
+mailing list subscription: mailto:modperl-cvs-subscribe@apache.org
+
+=item *
+
+archive: http://marc.theaimsgroup.com/?l=apache-modperl-cvs&r=1&w=2#apache-modperl-cvs
+
+=back
+
+=head2 Apache-Test
+
+The C<Apache-Test> project, originally developed as a part of mod_perl
+2.0, is now a part of the Apache C<httpd-test> project. You get this
+repository automatically when checking out the mod_perl-2.0 cvs
+repository.
+
+To retrieve the whole httpd-test project, run: 
+
+  cvs co httpd-test
+
+=over
+
+=item discussion/problems report:
+
+mailing list subscription: mailto:test-dev-subscribe@httpd.apache.org
+
+archive: META: ???
+
+=item cvs commits
+
+mailing list subscription: mailto:test-cvs-subscribe@httpd.apache.org
+
+archive: META: ???
+
+=back
+
+
+=head1 Apache
+
+=head2 httpd 2.0
+
+=over
+
+=item discussion/problems report:
+
+mailing list subscription: mailto:dev-subscribe@httpd.apache.org
+
+archive: http://marc.theaimsgroup.com/?l=apache-new-httpd&r=1&w=
+
+=item cvs commits
+
+mailing list subscription: mailto:httpd-2.0-cvs-subscribe@apache.org
+
+archive: http://marc.theaimsgroup.com/?l=apache-cvs&r=1&w=2
+
+=back
+
+
+=head2 Apache Portable Runtime (APR)
+
+The Apache Portable Run-time libraries have been designed to provide a
+common interface to low level routines across any platform. mod_perl
+comes with a partial Perl APR API.
+
+=over
+
+=item discussion/problems report:
+
+mailing list subscription: mailto:apr-dev-subscribe@apache.org
+
+archive: http://marc.theaimsgroup.com/?l=apr-dev&r=1&w=2
+
+=item cvs commits
+
+mailing list subscription: mailto:apr-cvs-subscribe@apache.org
+
+archive: http://marc.theaimsgroup.com/?l=apr-cvs&r=1&w=2
+
+=back
+
+
+
+=head2 Perl 5
+
+Currently mod_perl 2.0 requires perl 5.6.1 and higher.
+
+If you think you have found a bug in perl 5 report it to the
+perl5-porters mailing list. Otherwise please choose the appropriate
+list from the extensive perl related lists: http://lists.perl.org/.
+
+=over
+
+=item discussion/problems reports:
+
+mailing list subscription: mailto:perl5-porters-subscribe@perl.org
+
+archive: http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/
+and http://archive.develooper.com/perl5-porters@perl.org/
+
+news gateway: news://news.perl.com/perl.porters-gw/
+
+=item perforce
+
+Perl uses C<perforce> for its source revision control, see
+I<Porting/repository.pod> manpage coming with Perl for more
+information.
+
+the perforce repository: http://public.activestate.com/gsar/APC/
+or ftp://ftp.linux.activestate.com/pub/staff/gsar/APC/
+
+the Perl Repository Browser:
+http://public.activestate.com/cgi-bin/perlbrowse
+
+the Perl cross-reference: http://pxr.perl.org/source/
+
+mailing list subscription: perl5-changes-subscribe@perl.org
+
+archive: http://archive.develooper.com/perl5-changes@perl.org/
+
+=back
+
+
+
+
+
+
+=head1 More Help
+
+There is a L<parallel help document|../../user/help/help.pod> in the
+user documentation set which covers mod_perl user's issues.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=head1 Authors
+
+=over
+
+=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=item * 
+
+=back
+
+=cut
