@@ -7,8 +7,7 @@ mod_perl 1.x versus mod_perl 2.x compatibility issues
 mod_perl 2.x is trying hard to be back compatible with mod_perl
 1.x. However some things (mostly APIs) have been changed. In order to
 gain a complete compatibilty with 1.x while running under 2.x, you
-should build mod_perl with C<MP_COMPAT_1X=1> and load the
-compatibility module as early as possible:
+should load the compatibility module as early as possible:
 
   use Apache::compat;
 
@@ -25,10 +24,9 @@ be used instead.
 
 =head1 Configuration Directives
 
-To continue using mod_perl configuration files from 1.x, build
-mod_perl with C<MP_COMPAT_1X=1>. To migrate the configuration files to
-the 2.x syntax, you may need to do certain adjustments if you use any
-of the configuration directives listed in the following sections.
+To migrate the configuration files to the 2.x syntax, you may need to
+do certain adjustments if you use any of the configuration directives
+listed in the following sections.
 
 Remember that if you use any of the new directives you configuration
 won't work anymore with mod_perl 1.x.
