@@ -1,25 +1,35 @@
 This is mod_perl 2.0 docs documentation+site project repository
 
-The repository is called modperl-docs. The src/docs/2.0 is also checked
-out into modperl-2.0 tree.
+the mod_perl project at the Apache Software Foundation lives here
 
-You can get the repository in one of these ways:
+  http://svn.apache.org/repos/asf/perl/
 
- % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+and uses the following structure
 
-password: anoncvs
+  modperl/trunk           # equivalent to cvs HEAD - currently
+                          # the mod_perl 2.0 development branch
 
- % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-docs
+  modperl/tags            # every official mod_perl release
 
-The documentation CVS snapshots (rolled every 6 hours) can be
-downloaded from http://cvs.apache.org/snapshots/modperl-docs/
+  modperl/docs/trunk      # the mod_perl documentation project
+
+Developers with commit access should use https:// to access
+these repositories. See
+
+  http://svnbook.red-bean.com/
+
+for svn information in general, and 
+
+  http://svnbook.red-bean.com/en/1.0/apa.html
+
+for a discussion of svn for cvs users (including migration tools):
 
 You probably want to subscribe to these two mailing lists:
 
 docs-cvs-subscribe@perl.apache.org
 docs-dev-subscribe@perl.apache.org
 
-The first one is for cvs commits and the second is for discussions.
+The first one is for commits and the second is for discussions.
 
 Then you can post to the modperl-docs discussion list. To post take
 the docs-dev-subscribe@perl.apache.org address and remove the
@@ -28,30 +38,13 @@ address so we won't get spammed. Thanks.
 
 You can generate diffs with:
 
-% cvs diff -u filename(s)
-
-Or you create: ~/.cvsrc with:
-cvs -z9
-update -dP
-diff -u
-
-(which includes other useful opts) and then you just need
-
-% cvs diff filename(s)
+% svn diff filename(s)
 
 Send the commits aligned in the body of the message so we can comment on
-them. Unless your browser mangles formatted text.
-
-Thanks!
+them. Unless your browser mangles formatted text. Thanks!
 
 Docs Dev mainling list's archive:
 Epigone: http://mathforum.org/epigone/modperl-docs-dev 
-
-There is also rsync interface for those who want to keep local mirrors
-and hopefull offload the main apache.org servers:
-
-  rsync://cvs.apache.org/modperl-docs     modperl-docs CVS tree, exported  (updated 4x/day)
-  rsync://cvs.apache.org/modperl-docs-cvs modperl-docs CVS Repository.
 
 If you are interested in helping us creating great documentation by
 reviewing what gets committed and submitting new docs and patches,
