@@ -22,7 +22,7 @@ a:active  { color: #666666;}
 a:hover   { color: #666666;}
 
 td.menu-title-bg {
-    background-color: #828DA6;
+    background-color: #828da6;
 }
 
 td.non-sel-bg {
@@ -199,6 +199,9 @@ div.tail {
     font-family: helvetica, arial, verdana, sans-serif;
     font-size:1.5em;
     font-weight: bold;
+}
+td.headline {
+    background-color: #525a73;
 }
 
 code { 
