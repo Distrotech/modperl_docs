@@ -478,6 +478,11 @@ contain an empty string if there was nothing to read.
 
 =back
 
+It's important to know that certain bucket types (e.g. file bucket),
+may perform a split and insert extra buckets following the current
+one. Therefore never call C<L<$b-E<gt>remove|/C_remove_>>, before
+calling C<$b-E<gt>read>, or you may lose data.
+
 Examples:
 
 Blocking read:
