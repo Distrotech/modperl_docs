@@ -116,8 +116,9 @@ connection record object.
 
 Now let's look at the following two examples of connection
 handlers. The first using the connection socket to read and write the
-data and the second using bucket brigades to accomplish the same and
-allow for connection filters to do their work.
+data and the second using L<bucket
+brigades|docs::2.0::user::handlers::intro/Bucket_Brigades> to
+accomplish the same and allow for connection filters to do their work.
 
 =head3 Socket-based Protocol Module
 

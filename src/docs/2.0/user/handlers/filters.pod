@@ -17,13 +17,32 @@ there are several important concepts to understand.
 Apache 2.0 considers all incoming and outgoing data as chunks of
 information, disregarding their kind and source or storage
 methods. These data chunks are stored in I<buckets>, which form
-I<bucket brigades>. Input and output filters massage the data in
-I<bucket brigades>.
+L<bucket
+brigades|docs::2.0::user::handlers::intro/Bucket_Brigades>. Input and
+output filters massage the data in I<bucket brigades>.
 
-mod_perl 2.0 filters can work with raw data, directly manipulating the
-bucket brigades or using the simplified streaming interface where the
-filter object acts similar to a filehandle, which can be read from and
-printed to.
+mod_perl 2.0 filters can directly manipulate the bucket brigades or
+use the simplified streaming interface where the filter object acts
+similar to a filehandle, which can be read from and printed to.
+
+Even though you don't use bucket brigades directly when you use the
+streaming filter interface (which works on bucket bridades behind the
+scenes), it's still important to understand bucket brigades. For
+example you need to know that an output filter will be invoked as many
+times as the number of bucket brigades sent from the upstream filter
+or content handler. Or you need to know that the end of stream
+indicator (EOS) is sometimes sent in a separate bucket brigade, so it
+shouldn't be a surprise that the filter was invoked even though no
+real data went through. As we delve into the filter details you will
+see that L<understanding bucket
+brigades|docs::2.0::user::handlers::intro/Bucket_Brigades>, will help
+to understand how filters work.
+
+Moreover you will need to understand bucket brigades if you plan to
+implement L<protocol modules|docs::2.0::user::handlers::protocols>.
+
+
+
 
 =head2 HTTP Request Versus Connection Filters
 
