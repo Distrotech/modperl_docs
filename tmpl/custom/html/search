@@ -5,7 +5,7 @@
                 <tr>
                     <td class="menu-border" width="1"><br class="smallbr"></td>
                     <td class="search" width="60" align="center">Search</td>
-                    <td class="menu-border"><input type="text" name="query" size="15" maxlength="200" class="input-fld" value="Press enter"></td>
+                    <td class="search"><input type="text" name="query" size="15" maxlength="200" class="input-fld" value="Press enter"></td>
                     <td class="menu-border" width="1"><br class="smallbr"></td>
                 </tr>
                 <tr>
