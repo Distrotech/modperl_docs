@@ -29,9 +29,6 @@ DocSet:
   the same page. need to do that checking and unconditionally complain
   when this happens.
 
-- On Win32, relative links are generated with backslahes (..\..\)
-  instead of slashes like it should be for URLs (../../).
-
 Menu: 
 -----
 
