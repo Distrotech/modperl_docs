@@ -770,6 +770,8 @@ builtins to reverse the upstream buffer:
   
   use strict;
   
+  use Apache::Const -compile => 'OK';
+  
   sub handler {
       my $filter = shift;
   
@@ -906,6 +908,8 @@ telling Apache we have handled the connection:
   use APR::Socket ();
   
   use constant BUFF_LEN => 1024;
+  
+  use Apache::Const -compile => 'OK';
   
   sub handler {
       my Apache::Connection $c = shift;
@@ -1053,7 +1057,9 @@ with this configuration:
   use strict;
   use Apache::Connection ();
   use APR::Socket ();
-  
+    
+  use Apache::Const -compile => qw(OK DECLINED);
+ 
   my @cmds = qw(motd date who quit);
   my %commands = map { $_, \&{$_} } @cmds;
   
