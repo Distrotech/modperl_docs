@@ -193,8 +193,9 @@ for builds 6xx.
 
 =head2 All in one packages
 
-There is an IndigoPerl Perl/Apache 2 binary package available from
-L<http://www.indigostar.com/> containing mod_perl 2. As well,
+Perl/Apache 2 binary packages containing mod_perl 2 are available from
+L<http://www.indigostar.com/> and
+L<http://www.devside.net/>. As well,
 at L<http://www.apache.org/dyn/closer.cgi/perl/win32-bin/> 
 there is a self-extracting
 archive F<Perl-5.8-win32-bin.exe> containing a binary version
