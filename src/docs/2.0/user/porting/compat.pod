@@ -878,16 +878,16 @@ and you can use this object's methods to retrieve the wanted bits of
 information, so if you had a code like:
 
   use Socket 'sockaddr_in';
-  my ($serverport, $serveraddr) = sockaddr_in($r->connection->local_addr);
-  my ($remoteport, $remoteaddr) = sockaddr_in($r->connection->remote_addr);
+  my ($serverport, $serverip) = sockaddr_in($r->connection->local_addr);
+  my ($remoteport, $remoteip) = sockaddr_in($r->connection->remote_addr);
 
 now it'll be written as:
 
   require APR::SockAddr;
   my $serverport = $c->local_addr->port_get;
-  my $serveraddr = $c->local_addr->ip_get;
+  my $serverip   = $c->local_addr->ip_get;
   my $remoteport = $c->remote_addr->port_get;
-  my $remoteaddr = $c->remote_addr->ip_get;
+  my $remoteip   = $c->remote_addr->ip_get;
 
 META: it's not simple to fix this in the compat layer, since it'll
 break the API for normal Apache 2.0 modules. Stay tuned for solutions.
