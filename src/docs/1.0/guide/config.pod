@@ -448,6 +448,7 @@ is actually the same as:
   Alias /cgi-bin /home/httpd/cgi-bin
   <Location /cgi-bin>
     SetHandler cgi-script
+    Options +ExecCGI
   </Location>
 
 where latter directive invokes mod_cgi. You shouldn't use the
