@@ -26,30 +26,7 @@ fable of the shepherd boy and the wolves).
 
 For more information See L<Get help with mod_perl|guide::help/Get_help_with_mod_perl>.
 
-=head1 Contacting me
-
-Hi, I wrote this document to help people with mod_perl.  It does not
-mean that if you have any question regarding mod_perl, perl or
-whatever you think I might know, you should send it directly to me.
-Please see the L<Get help with mod_perl|guide::help/Get_help_with_mod_perl>
-section and follow the guidelines described there.
-
-However, you are welcome to submit corrections and suggestions
-directly to me at
-stas (at) stason.org?subject=mod_perl%20guide%20corrections.  If you are
-going to submit heavy corrections of the text (I love those!), please
-help me by downloading the source pages in POD from
-http://www.stason.org/guide-snapshots/, directly editing them and
-sending them to me.  I will use Emacs Ediff to perform an easy merge
-of such changes.  Thank you!
-
-I<PLEASE DO NOT SEND QUESTIONS DIRECTLY TO ME, I didn't invite those
-by writing the guide.  They will all be immediately deleted.  Please
-ask questions on the L<mod_perl list|maillist::list-modperl> and if we can
-answer your question, one (or more) of us will answer it on the list.
-Thank you!>
-
-=head2 How to Report Problems
+=head1 How to Report Problems
 
 Always send these details:
 
