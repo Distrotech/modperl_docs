@@ -29,6 +29,9 @@ The most recent changes are listed first.
 
 * perf_reference:
 
+  o revamp the "Remedies for Inner Subroutines" section to use modern
+    techniques [Brian McCauley <nobull /at/ cpan.org>]
+
   o added a section on overriding functions to trace their failure.
 
   o inlined Mike Guy's news article about closures

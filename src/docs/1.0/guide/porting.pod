@@ -88,7 +88,7 @@ and prints its value to the browser while incrementing it.
   
   print "Content-type: text/plain\r\n\r\n";
   
-  my $counter = 0;
+  my $counter = 0; # Explicit initialization technically redundant
   
   for (1..5) {
     increment_counter();
@@ -195,8 +195,8 @@ Here is the code that was actually executed:
     
     print "Content-type: text/plain\r\n\r\n";
     
-    my $counter = 0;
-    
+    my $counter = 0; # Explicit initialization technically redundant
+
     for (1..5) {
       increment_counter();
     }
@@ -228,51 +228,65 @@ nested inside the C<handler> subroutine.
 
 It's important to understand that the I<inner subroutine> effect
 happens only with code that C<Apache::Registry> wraps with a
-declaration of the C<handler> subroutine. If you put your code into a
-library or module, which the main script require()'s or use()'s, this
-effect doesn't occur.
+declaration of the C<handler> subroutine.  If you put all your code
+into modules, which the main script C<use()>s, this effect doesn't
+occur.
 
-For example if we move the code from the script into the subroutine
-I<run>, place the subroutines into the I<mylib.pl> file, save it in
-the same directory as the script itself and require() it, there will
-be no problem at all. (Don't forget the C<1;> at the end of the
-library or the require() might fail.)
+Do not use Perl4-style libraries.  Subroutines in such libraries will
+only be available to the first script in any given interpreter thread
+to C<require()> a library of any given name.  This can lead to
+confusing sporadic failures.
 
-  mylib.pl:
-  ---------
-  my $counter;
-  sub run{
-    print "Content-type: text/plain\r\n\r\n";
-    $counter = 0;
-    for (1..5) {
-      increment_counter();
-    }
+The easiest and the fastest way to solve the nested subroutines
+problem is to switch every lexically scoped variable foe which you get
+the warning for to a package variable. The C<handler> subroutines are
+never called re-entrantly and each resides in a package to itself.
+Most of the usual disadvantates of package scoped variables are,
+therefore, not a concern.  Note, however, that whereas explicit
+initialization is not always necessary for lexical variables it is
+usually necessary for these package variables as they persist in
+subsequent executions of the handler and unlike lexical variables,
+don't get automatically destroyed at the end of each handler.
+
+
+  counter.pl:
+  ----------
+  #!/usr/bin/perl -w
+  use strict;
+  
+  print "Content-type: text/plain\r\n\r\n";
+  
+  # In Perl <5.6 our() did not exist, so:
+  #   use vars qw($counter);
+  our $counter = 0; # Explicit initialization now necessary
+
+  for (1..5) {
+    increment_counter();
   }
+  
   sub increment_counter{
     $counter++;
     print "Counter is equal to $counter !\r\n";
   }
-  1;
 
-  counter.pl:
-  ----------
-  use strict;
-  require "./mylib.pl";
-  run();
+If the variable contains a reference it may hold onto lots of
+unecessary memory (or worse) if the reference is left to hang about
+until the next call to the same handler.  For such variables you
+should use C<local> so that the value is removed when the C<handler>
+subroutine exits.
 
-This solution provides the easiest and the fastest way to solve the
-nested subroutines problem, since all you have to do is to move the
-code into a separate file, by first wrapping the initial code into
-some function that you later will call from the script and keeping the
-lexically scoped variables that could cause the problem out of this
-function.
+  my $query = CGI->new;
 
-But as a general rule of thumb, unless the script is very short, I
-tend to write all the code in external libraries, and to have only a
-few lines in the main script.  Generally the main script simply calls
-the main function of my library.  Usually I call it C<init()> or
-C<run()>.  I don't worry about nested subroutine effects anymore
-(unless I create them myself :).
+becomes:
+
+  local our $query = CGI->new;
+
+All this is very interesting but as a general rule of thumb, unless
+the script is very short, I tend to write all the code in external
+libraries, and to have only a few lines in the main script.  Generally
+the main script simply calls the main function of my library.  Usually
+I call it C<init()> or C<run()>.  I don't worry about nested
+subroutine effects anymore (unless I create them myself :).
 
 The section 'L<Remedies for Inner
 Subroutines|general::perl_reference::perl_reference/Remedies_for_Inner_Subroutines>' discusses 

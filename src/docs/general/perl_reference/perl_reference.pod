@@ -863,16 +863,17 @@ Subroutines|general::perl_reference::perl_reference/my___Scoped_Variable_in_Nest
 problem, Perl will always alert you.
 
 Given that you have a script that has this problem, what are the ways
-to solve it? There are many of them and we will discuss some of them
-here.
+to solve it? There have been many suggested in the past, and we
+discuss some of them here.
 
 We will use the following code to show the different solutions.
 
   multirun.pl
   -----------
-  #!/usr/bin/perl -w
+  #!/usr/bin/perl
   
   use strict;
+  use warnings;
   
   for (1..3){
     print "run: [time $_]\n";
@@ -925,20 +926,27 @@ what we are going to see. Indeed, when we run the script we see:
   Counter is equal to 5 !
   Counter is equal to 6 !
 
-Obviously, the C<$counter> variable is not reinitialized on each
-execution of run(). It retains its value from the previous execution,
-and sub increment_counter() increments that.
+Apparently, the C<$counter> variable is not reinitialized on each
+execution of run(), it retains its value from the previous execution,
+and increment_counter() increments that.  Actually that is not quite
+what happens.  On each execution of run() a new C<$counter> variable
+is initialized to zero but increment_counter() remains bound to the
+C<$counter> variable from the first call to run().
 
-One of the workarounds is to use globally declared variables, with the
-C<vars> pragma.
+The simplest of the work-rounds is to use package-scoped variables.
+These can be declared using C<our> or, on older versions of Perl, the
+C<vars> pragma.  Note that whereas using C<my> declaration also
+implicitly initializes variables to undefined the C<our> declaration
+does not, and so you will probably need to add explicit initialisation
+for variables that lacked it.
 
   multirun1.pl
-  -----------
-  #!/usr/bin/perl -w
+  ------------
+  #!/usr/bin/perl
   
   use strict;
-  use vars qw($counter);
-  
+  use warnings;  
+
   for (1..3){
     print "run: [time $_]\n";
     run();
@@ -946,7 +954,7 @@ C<vars> pragma.
   
   sub run {
   
-    $counter = 0;
+    our $counter = 0;
   
     increment_counter();
     increment_counter();
@@ -977,11 +985,37 @@ By the way, the warning we saw before has gone, and so has the
 problem, since there is no C<my()> (lexically defined) variable used
 in the nested subroutine.
 
-Another approach is to use fully qualified variables. This is better,
-since less memory will be used, but it adds a typing overhead:
+In the above example we know C<$counter> is just a simple small
+scalar.  In the general case variables could reference external
+resource handles or large data structures.  In that situation the fact
+that the variable would not be released immediately when run()
+completes could be a problem.  To avoid this you can put C<local> in
+front of the C<our> declaration of all variables other than simple
+scalars.  This has the effect of restoring the variable to its
+previous value (usually undefined) upon exit from the current scope.
+As a side-effect C<local> also initializes the variables to C<undef>.
+So, if you recall that thing I said about adding explicit
+initialization when you replace C<my> by C<our>, well, you can forget
+it again if you replace C<my> with C<local our>.
+
+Be warned that C<local> will not release circular data structures.  If
+the original CGI script relied upon process termination to clean up
+after it then it will leak memory as a registry script.
+
+A varient of the package variable approach is not to declare your
+variables, but instead to use explicit package qualifiers.  This has
+the advantage on old versions of Perl that there is no need to load
+the C<vars> module, but it adds a significant typing overhead.
+Another downside is that you become dependant on the "used only once"
+warning to detect typos in variable names.  The explicit package name
+approach is not really suitable for registry scripts because it
+pollutes the C<main::> namespace rather than staying properly within
+the namespace that has been allocated.  Finally, note that the
+overhead of loading the C<vars> module only has to be paid once per
+Perl interpreter.
 
   multirun2.pl
-  -----------
+  ------------
   #!/usr/bin/perl -w
   
   use strict;
@@ -1019,10 +1053,11 @@ users copy-and-paste 10Mb core dump files into a form's text fields
 and then submit it for your script to process.
 
   multirun3.pl
-  -----------
-  #!/usr/bin/perl -w
+  ------------
+  #!/usr/bin/perl
   
   use strict;
+  use warnings;
   
   for (1..3){
     print "run: [time $_]\n";
@@ -1056,10 +1091,11 @@ This technique is often used to enable a called function to modify
 variables in a calling function.
 
   multirun4.pl
-  -----------
-  #!/usr/bin/perl -w
+  ------------
+  #!/usr/bin/perl
   
   use strict;
+  use warnings;
   
   for (1..3){
     print "run: [time $_]\n";
@@ -1092,10 +1128,11 @@ it is not updatable as would be the case of calling the function with
 a literal, e.g. I<increment_counter(5)>).
 
   multirun5.pl
-  -----------
-  #!/usr/bin/perl -w
+  ------------
+  #!/usr/bin/perl
   
   use strict;
+  use warnings;
   
   for (1..3){
     print "run: [time $_]\n";
@@ -1120,14 +1157,27 @@ The approach given above should be properly documented of course.
 
 Here is a solution that avoids the problem entirely by splitting the
 code into two files; the first is really just a wrapper and loader,
-the second file contains the heart of the code.
+the second file contains the heart of the code.  This second file must
+go into a directory in your C<@INC>.  Some people like to put the
+library in the same directory as the script but this assumes that the
+current working directory will be equal to the directory where the
+script is located and also that C<@INC> will contain C<'.'>, neither
+of which are assumptions you should expect to hold in all cases.
+
+Note that the name chosen for the library must be unique throughout
+the entire server and indeed every server on which you many ever
+install the script.  This solution is probably more trouble than it is
+worth - it is only oncluded because it was mentioned in previous
+versions of this guide.
 
   multirun6.pl
-  -----------
-  #!/usr/bin/perl -w
+  ------------
+  #!/usr/bin/perl
   
   use strict;
-  require 'multirun6-lib.pl' ;
+  use warnings;
+
+  require 'multirun6-lib.pl';
   
   for (1..3){
     print "run: [time $_]\n";
@@ -1138,7 +1188,8 @@ Separate file:
 
   multirun6-lib.pl
   ----------------
-  use strict ;
+  use strict;
+  use warnings;
   
   my $counter;
 
@@ -1156,7 +1207,53 @@ Separate file:
   
   1 ;
 
-Now you have at least six workarounds to choose from.
+An alternative verion of the above, that mitigates some of the
+disadvantages, is to use a Perl5-style Exporter module rather than a
+Perl4-style library.  The global uniqueness requirement still applies
+to the module name, but at least this is a problem Perl programmers
+should already be familiar with when creating modules.
+
+  multirun7.pl
+  ------------
+  #!/usr/bin/perl
+  
+  use strict;
+  use warnings;
+  use My::Multirun7;
+  
+  for (1..3){
+    print "run: [time $_]\n";
+    run();
+  }
+
+Separate file:
+
+  My/Multirun7.pm
+  ---------------
+  package My::Multirun7;
+  use strict;
+  use warnings;
+  use base qw( Exporter );
+  our @EXPORT = qw( run );
+
+  my $counter;
+
+  sub run {
+    $counter = 0;
+
+    increment_counter();
+    increment_counter();
+  }
+  
+  sub increment_counter{
+    $counter++;
+    print "Counter is equal to $counter !\n";
+  }
+  
+  1 ;
+
+Now you have at least five workarounds to choose from (not counting
+numbers 2 and 6).
 
 For more information please refer to perlref and perlsub manpages.
 
