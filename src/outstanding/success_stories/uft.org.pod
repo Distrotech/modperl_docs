@@ -25,14 +25,28 @@ URL: http://www.uft.org/
 
 =back
 
-  The New York-based United Federation of Teachers, a 150,000-member teachers union for New York City's teachers in the city's five boroughs and 1,300 schools, has moved their site from a proprietary Windows-based system to a new system built on mod_perl and other open source technologies.
+  The New York-based United Federation of Teachers, a 150,000-member
+  teachers union for New York City's teachers in the city's five
+  boroughs and 1,300 schools, has moved their site from a proprietary
+  Windows-based system to a new system built on mod_perl and other open
+  source technologies.
   
-  The site uses the (mod_perl-based) Krang content management system (http://krang.sf.net/) for publishing, enabling a wider range of people to contribute content with a consistent look-and-feel and a workflow system to handle the review process.  The new site also features integration with the union's existing AS/400 systems, and further integration work is underway to bring more resources on-line for a wider audience.
+  The site uses the (mod_perl-based) Krang content management system
+  (http://krang.sf.net/) for publishing, enabling a wider range of
+  people to contribute content with a consistent look-and-feel and a
+  workflow system to handle the review process.  The new site also
+  features integration with the union's existing AS/400 systems, and
+  further integration work is underway to bring more resources on-line
+  for a wider audience.
   
-  My company, Plus Three (http://plusthree.com/) did the technical work on this project.  Plus Three specializes in helping large non-profit and political organizations achieve their goals with open source software.
+  My company, Plus Three (http://plusthree.com/) did the technical work
+  on this project.  Plus Three specializes in helping large non-profit
+  and political organizations achieve their goals with open source
+  software.
   
   An article about the project was published in eWeek here:
   http://www.eweek.com/article2/0,1759,1754012,00.asp
+
 
 =cut
 
