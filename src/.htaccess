@@ -1,0 +1,7 @@
+# embperl
+RedirectPermanent /Embperl/ http://perl.apache.org/embperl/
+RedirectPermanent /perl/Embperl/ http://perl.apache.org/embperl/
+RedirectPermanent /embperl.html /embperl/
+
+# ASP
+Redirect /asp http://www.apache-asp.org/
