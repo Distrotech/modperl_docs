@@ -369,7 +369,7 @@ extracted. mod_perl B<cannot> be build before that.
 To enable statically linking mod_perl into Apache, use the
 C<L<MP_USE_STATIC|/MP_USE_STATIC>> flag like this:
 
-  % perl Makefile.PL MP_USE_STATIC=1 MP_AP_BUILD=1 \
+  % perl Makefile.PL MP_USE_STATIC=1 \
     MP_AP_PREFIX=$HOME/src/httpd-2.x \
     MP_AP_CONFIGURE="--with-mpm=prefork"
 
@@ -404,11 +404,6 @@ be turned off if C<MP_USE_STATIC=1> is used.
 
 Build static mod_perl (I<mod_perl.a>). This is the default. It'll be
 turned off if C<MP_USE_DSO=1> is used.
-
-=head4 MP_AP_BUILD
-
-Configure and build httpd in C<MP_AP_PREFIX>, linking mod_perl statically
-to it.
 
 =head4 MP_STATIC_EXTS
 
@@ -512,9 +507,6 @@ I</home/httpd/httpd-2.0/bin/apxs>.
 =head4 MP_AP_CONFIGURE
 
 The command-line arguments to pass to httpd's configure script.
-
-C<MP_AP_CONFIGURE> has no effect unless C<MP_AP_BUILD> is also
-specified.
 
 =head4 MP_AP_PREFIX
 
