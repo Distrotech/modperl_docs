@@ -42,10 +42,10 @@
         <tr>
             <td class="navbarglobal" valign="top" height="20">
                 [%- IF nav_not_empty == 1 -%]
-                    [%- WRAPPER splash/domm_button 
-                                 width = "100%"
-                                 align = 'left'
-                                 col   = splash.style.select.col.fore
+                    [%- WRAPPER button 
+                            width = "100%"
+                            align = 'left'
+                            col   = splash.style.select.col.fore
                     -%]
                         [%- FOREACH sec = sects -%]<a href="[% sec.link %]"><b>[% sec.text %]</b></a>&nbsp;/&nbsp;[%- END -%]
                     [%- END -%]

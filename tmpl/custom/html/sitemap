@@ -52,7 +52,7 @@
 </div>
 <br>
 <div class="menu">
-[% INCLUDE splash/domm_pulldown 
+[% INCLUDE splash/pulldown 
      select = selected
      width  = "5%"
      pad    = 0
