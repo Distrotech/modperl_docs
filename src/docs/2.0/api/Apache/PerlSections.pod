@@ -13,7 +13,7 @@ Apache::PerlSections - Default Handler for Perl sections
   
   #run the server as whoever starts it
   $User  = getpwuid(>) || >;
-  $Group = getgrgid()) || ); 
+  $Group = getgrgid()) || );
   
   $ServerAdmin = $User;
   
@@ -110,18 +110,20 @@ except the ones whose names start with I<secure>:
 
 
 
- 
-=head1 @PerlConfig and $PerlConfig
 
-This array and scalar can be used to introduce litteral configuration
+
+=head1 C<@PerlConfig> and C<$PerlConfig>
+
+This array and scalar can be used to introduce literal configuration
 into the apache configuration. For example:
 
   push @PerlConfig, 'Alias /foo /bar';
 
 Or:
   $PerlConfig .= "Alias /foo /bar\n";
-  
-See also C<L<$r-E<gt>add_config|docs::2.0::api::Apache::RequestUtil/C_add_config_>>
+
+See also
+C<L<$r-E<gt>add_config|docs::2.0::api::Apache::RequestUtil/C_add_config_>>
 
 
 
@@ -148,15 +150,17 @@ C<L<Apache::Status|docs::2.0::api::Apache::Status>>.
 
 
 
-=head1 PerlSections dumping
+=head1 PerlSections Dumping
+
+
 
 =head2 Apache::PerlSections-E<gt>dump
 
 This method will dump out all the configuration variables mod_perl
 will be feeding to the apache config gears. The output is suitable to
-read back in via C<eval>
+read back in via C<eval>.
 
-Example:
+For example:
 
   <Perl>
 
@@ -181,7 +185,7 @@ Example:
          Allow => 'from foo.com',
        },
      },
-  };  
+  };
 
   print Apache::PerlSections->dump;
 
@@ -218,10 +222,18 @@ This will print something like this:
   1;
   __END__
 
+
+
+
+
 =head2 Apache::PerlSections-E<gt>store
 
 This method will call the C<dump> method, writing the output
 to a file, suitable to be pulled in via C<require> or C<do>.
+
+
+
+
 
 =head1 Advanced API
 
@@ -234,7 +246,7 @@ handler argument must be given to the section:
 
   <Perl handler="My::PerlSection::Handler" somearg="test1">
     $foo = 1;
-    $bar = 2; 
+    $bar = 2;
   </Perl>
 
 And in My/PerlSection/Handler.pm:
@@ -246,24 +258,33 @@ And in My/PerlSection/Handler.pm:
 
 So, when that given C<E<lt>Perl E<gt>> block in encountered, the code
 within will first be evaluated, then the handler routine will be
-invoked with 3 arguments
+invoked with 3 arguments:
 
-C<$self> is self-explanatory
+=over
 
-C<$parms> is the
-C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>> for this
-Container, for example, you might want to call C<$parms>-E<gt>server()
-to get the current server.
+=item arg1: C<$self>
 
-C<$args> is an C<L<APR::Table|docs::2.0::api::APR::Table>> object of
-the section arguments, the 2 guaranteed ones will be:
+self-explanatory
+
+=item arg2: C<$parms>
+( C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>> )
+
+C<$parms> is specific for the current Container, for example, you
+might want to call C<$parms-E<gt>server()> to get the current server.
+
+=item arg3: C<$args>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>>)
+
+the table object of the section arguments. The 2 guaranteed ones will
+be:
 
   $args->{'handler'} = 'My::PerlSection::Handler';
-  
-  $args->{'package'} = 'Apache::ReadConfig'; 
+  $args->{'package'} = 'Apache::ReadConfig';
 
 Other C<name="value"> pairs given on the C<E<lt>Perl E<gt>> line will
 also be included.
+
+=back
 
 At this point, it's up to the handler routing to inspect the namespace
 of the C<$args>-E<gt>{'package'} and chooses what to do.
@@ -312,9 +333,13 @@ change it to be:
 
 
 
+
+
 =head1 See Also
 
 L<mod_perl 2.0 documentation|docs::2.0::index>.
+
+
 
 
 
