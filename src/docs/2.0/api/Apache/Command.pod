@@ -46,11 +46,11 @@ C<Apache::Command> provides the following functions and/or methods:
 
 What the command expects as arguments:
 
-  $how = $obj->args_how();
+  $how = $cmd->args_how();
 
 =over 4
 
-=item obj: C<$obj>
+=item obj: C<$cmd>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
 =item ret: C<$how> ( C<L<Apache::Const :cmd_how
@@ -73,11 +73,11 @@ The flag value representing the type of this command
 
 Get I<usage> message for that command, in case of syntax errors:
 
-  $error = $obj->errmsg();
+  $error = $cmd->errmsg();
 
 =over 4
 
-=item obj: C<$obj>
+=item obj: C<$cmd>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
 =item ret: C<$error> ( string )
@@ -98,11 +98,11 @@ The error message
 
 Get the name of this command:
 
-  $name = $obj->name();
+  $name = $cmd->name();
 
 =over 4
 
-=item obj: C<$obj>
+=item obj: C<$cmd>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
 =item ret: C<$name> ( string )
@@ -150,11 +150,11 @@ the last command.
 
 What overrides need to be allowed to enable this command:
 
-  $override = $obj->req_override
+  $override = $cmd->req_override
 
 =over 4
 
-=item obj: C<$obj>
+=item obj: C<$cmd>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
 =item ret: C<$override> ( C<L<Apache::Const :override
