@@ -466,11 +466,14 @@ integrity of a user's path through a web site.
 
 It's available from CPAN.
 
-=item * C<HTTP::RecordedSession>
+=item * C<Apache::Recorder> and C<HTTP::RecordedSession>
 
-C<HTTP::RecordedSession> acts as an HTTP session "recorder". An user
-service's usage session is recorded and then can be played back.
-C<HTTP::Monkeywrench> and C<HTTP::WebTest> are currently supported.
+C<Apache::Recorder> is a mod_perl handler that records an HTTP session
+and stores it on the web server's file system.
+C<HTTP::RecordedSession> reads the recorded session from the file
+system, and formats it for playback using C<HTTP::WebTest> or
+C<HTTP::Monkeywrench>.  This is useful when writing acceptance and
+regression tests.
 
 It's available from CPAN.
 
