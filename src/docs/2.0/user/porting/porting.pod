@@ -1300,6 +1300,150 @@ L<mod_perl 1.0 and 2.0 Constants Coexistence|docs::2.0::user::compat/mod_perl_1_
 
 =back
 
+=head2 Method Handlers
+
+Method handlers in mod_perl are declared L<using the I<'method'>
+attribute|docs::2.0::user::porting::compat/Method_Handlers>. However 
+if you want to have the same code base for mod_perl 1.0 and 2.0
+applications, whose handler has to be a method, you will need to do
+the following trick:
+
+  sub handler_mp1 ($$)     { ... }
+  sub handler_mp2 : method { ... }
+  *handler = MP2 ? \&handler_mp2 : \&handler_mp1;
+
+Here are two complete examples. The first example implements
+C<MyApache::Method> which has a single method that works for both
+mod_perl generations:
+
+The configuration:
+
+  PerlModule MyApache::Method
+  <Location /method>
+      SetHandler perl-script
+      PerlHandler MyApache::Method->handler
+  </Location>
+
+The code:
+
+  #file:MyApache/Method.pm
+  package MyApache::Method;
+  
+  # PerlModule MyApache::Method
+  # <Location /method>
+  #      SetHandler perl-script
+  #      PerlHandler MyApache::Method->handler
+  #  </Location>
+  
+  use strict;
+  use warnings;
+  
+  use mod_perl;
+  use constant MP2 => $mod_perl::VERSION < 1.99 ? 0 : 1;
+  
+  BEGIN {
+      if (MP2) {
+          require Apache::RequestRec;
+          require Apache::RequestIO;
+          require Apache::Const;
+          Apache::Const->import(-compile => 'OK');
+      }
+      else {
+          require Apache;
+          require Apache::Constants;
+          Apache::Constants->import('OK');
+      }
+  }
+  
+  sub handler_mp1 ($$)     { &run }
+  sub handler_mp2 : method { &run }
+  *handler = MP2 ? \&handler_mp2 : \&handler_mp1;
+  
+  sub run {
+     my($class, $r) = @_;
+     MP2 ? $r->content_type('text/plain')
+         : $r->send_http_header('text/plain');
+     print "$class was called\n";
+     return MP2 ? Apache::OK : Apache::Constants::OK;
+  }
+
+Here are two complete examples. The second example implements
+C<MyApache::Method2>, which is very similar to C<MyApache::Method>,
+but uses separate methods for mod_perl 1.0 and 2.0 servers.
+
+The configuration is the same:
+
+  PerlModule MyApache::Method2
+  <Location /method2>
+      SetHandler perl-script
+      PerlHandler MyApache::Method2->handler
+  </Location>
+
+The code:
+
+  #file:MyApache/Method2.pm
+  package MyApache::Method2;
+  
+  # PerlModule MyApache::Method
+  # <Location /method>
+  #      SetHandler perl-script
+  #      PerlHandler MyApache::Method->handler
+  #  </Location>
+  
+  use strict;
+  use warnings;
+  
+  use mod_perl;
+  use constant MP2 => $mod_perl::VERSION < 1.99 ? 0 : 1;
+  
+  BEGIN {
+      warn "running $mod_perl::VERSION!\n";
+      if (MP2) {
+          require Apache::RequestRec;
+          require Apache::RequestIO;
+          require Apache::Const;
+          Apache::Const->import(-compile => 'OK');
+      }
+      else {
+          require Apache;
+          require Apache::Constants;
+          Apache::Constants->import('OK');
+      }
+  }
+  
+  sub handler_mp1 ($$)     { &mp1 }
+  sub handler_mp2 : method { &mp2 }
+  
+  *handler = MP2 ? \&handler_mp2 : \&handler_mp1;
+  
+  sub mp1 {
+     my($class, $r) = @_;
+     $r->send_http_header('text/plain');
+     $r->print("mp1: $class was called\n");
+     return Apache::Constants::OK();
+  }
+  
+  sub mp2 {
+      my($class, $r) = @_;
+      $r->content_type('text/plain');
+      $r->print("mp2: $class was called\n");
+      return Apache::OK();
+  }
+
+Assuming that mod_perl 1.0 is listening on port 8001 and mod_perl 2.0
+on 8002, we get the following results:
+
+  % lynx --source http://localhost:8001/method
+  MyApache::Method was called
+
+  % lynx --source http://localhost:8001/method2
+  mp1: MyApache::Method2 was called
+
+  % lynx --source http://localhost:8002/method
+  MyApache::Method was called
+
+  % lynx --source http://localhost:8002/method2
+  mp2: MyApache::Method2 was called
 
 
 

@@ -1146,6 +1146,11 @@ See the I<attributes> manpage.
 If C<Class-E<gt>method> syntax is used for a C<Perl*Handler>, the
 C<:method> attribute is not required.
 
+The porting tutorial provides
+L<examples|docs::2.0::user::porting::porting/Method_Handlers> on how
+to use the same code base under both mod_perl generations when the
+handler has to be a method.
+
 
 =head1 C<Apache::src>
 
