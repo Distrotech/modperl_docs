@@ -17,7 +17,16 @@ APR::Const - Perl Interface for APR Constants
 
 The C<:common> group is for XXX constants.
 
+
+
+
 =head3 C<APR::SUCCESS>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -29,175 +38,688 @@ The C<:common> group is for XXX constants.
 
 The C<:error> group is for XXX constants.
 
+
+
+
 =head3 C<APR::EABOVEROOT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EABSOLUTE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EACCES>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EAGAIN>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EBADDATE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EBADF>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EBADIP>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EBADMASK>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EBADPATH>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EBUSY>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ECONNABORTED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ECONNREFUSED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ECONNRESET>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EDSOOPEN>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EEXIST>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EFTYPE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EGENERAL>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EHOSTUNREACH>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EINCOMPLETE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EINIT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EINPROGRESS>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EINTR>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EINVAL>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EINVALSOCK>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EMFILE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EMISMATCH>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ENAMETOOLONG>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::END>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ENETUNREACH>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ENFILE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ENODIR>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ENOENT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ENOLOCK>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ENOMEM>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ENOPOLL>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ENOPOOL>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ENOPROC>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ENOSHMAVAIL>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ENOSOCKET>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ENOSPC>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ENOSTAT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ENOTDIR>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ENOTEMPTY>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ENOTHDKEY>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ENOTHREAD>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ENOTIME>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ENOTIMPL>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ENOTSOCK>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EOF>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EPATHWILD>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EPIPE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::EPROC_UNKNOWN>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ERELATIVE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ESPIPE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::ESYMNOTFOUND>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::ETIMEDOUT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EXDEV>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -209,31 +731,112 @@ The C<:error> group is for XXX constants.
 
 The C<:filemode> group is for XXX constants.
 
+
+
+
 =head3 C<APR::BINARY>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::BUFFERED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::CREATE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::DELONCLOSE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::EXCL>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::PEND>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::READ>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::TRUNCATE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::WRITE>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -246,34 +849,124 @@ The C<:filemode> group is for XXX constants.
 The C<:filepath> group is for XXX constants.
 
 
+
+
+
 =head3 C<APR::FILEPATH_ENCODING_LOCALE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FILEPATH_ENCODING_UNKNOWN>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FILEPATH_ENCODING_UTF8>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FILEPATH_NATIVE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FILEPATH_NOTABOVEROOT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FILEPATH_NOTABSOLUTE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FILEPATH_NOTRELATIVE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FILEPATH_SECUREROOT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FILEPATH_SECUREROOTTEST>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FILEPATH_TRUENAME>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -285,31 +978,112 @@ The C<:filepath> group is for XXX constants.
 
 The C<:fileperms> group is for XXX constants.
 
+
+
+
 =head3 C<APR::GEXECUTE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::GREAD>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::GWRITE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::UEXECUTE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::UREAD>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::UWRITE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::WEXECUTE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::WREAD>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::WWRITE>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -321,31 +1095,112 @@ The C<:fileperms> group is for XXX constants.
 
 The C<:filetype> group is for XXX constants.
 
+
+
+
 =head3 C<APR::NOFILE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::REG>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::DIR>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::CHR>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::BLK>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::PIPE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::LNK>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::SOCK>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::UNKFILE>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -357,73 +1212,280 @@ The C<:filetype> group is for XXX constants.
 
 The C<:finfo> group is for XXX constants.
 
+
+
+
 =head3 C<APR::FINFO_ATIME>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FINFO_CSIZE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FINFO_CTIME>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FINFO_DEV>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FINFO_DIRENT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FINFO_GPROT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FINFO_GROUP>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FINFO_ICASE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FINFO_IDENT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FINFO_INODE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FINFO_LINK>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FINFO_MIN>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FINFO_MTIME>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FINFO_NAME>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FINFO_NLINK>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FINFO_NORM>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FINFO_OWNER>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FINFO_PROT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FINFO_SIZE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FINFO_TYPE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FINFO_UPROT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FINFO_USER>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FINFO_WPROT>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -435,16 +1497,52 @@ The C<:finfo> group is for XXX constants.
 
 The C<:flock> group is for XXX constants.
 
+
+
+
 =head3 C<APR::FLOCK_EXCLUSIVE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::FLOCK_NONBLOCK>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FLOCK_SHARED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::FLOCK_TYPEMASK>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -456,19 +1554,64 @@ The C<:flock> group is for XXX constants.
 
 The C<:hook> group is for XXX constants.
 
+
+
+
 =head3 C<APR::HOOK_FIRST>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::HOOK_LAST>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::HOOK_MIDDLE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::HOOK_REALLY_FIRST>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::HOOK_REALLY_LAST>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -480,16 +1623,52 @@ The C<:hook> group is for XXX constants.
 
 The C<:limit> group is for XXX constants.
 
+
+
+
 =head3 C<APR::LIMIT_CPU>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::LIMIT_MEM>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::LIMIT_NOFILE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::LIMIT_NPROC>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -501,22 +1680,76 @@ The C<:limit> group is for XXX constants.
 
 The C<:lockmech> group is for XXX constants.
 
+
+
+
 =head3 C<APR::LOCK_DEFAULT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::LOCK_FCNTL>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::LOCK_FLOCK>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::LOCK_POSIXSEM>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::LOCK_PROC_PTHREAD>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::LOCK_SYSVSEM>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -528,22 +1761,76 @@ The C<:lockmech> group is for XXX constants.
 
 The C<:poll> group is for XXX constants.
 
+
+
+
 =head3 C<APR::POLLERR>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::POLLHUP>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::POLLIN>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::POLLNVAL>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::POLLOUT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::POLLPRI>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -555,10 +1842,28 @@ The C<:poll> group is for XXX constants.
 
 The C<:read_type> group is for XXX constants.
 
+
+
+
 =head3 C<APR::BLOCK_READ>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::NONBLOCK_READ>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -570,13 +1875,40 @@ The C<:read_type> group is for XXX constants.
 
 The C<:shutdown_how> group is for XXX constants.
 
+
+
+
 =head3 C<APR::SHUTDOWN_READ>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::SHUTDOWN_READWRITE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::SHUTDOWN_WRITE>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -594,13 +1926,25 @@ C<L<opt_set|docs::2.0::api::APR::Socket/C_opt_set_>>.
 The following section discusses in detail each of the C<:socket>
 constants.
 
-=head3 C<APR::SO_DEBUG>
 
-Turns on debugging information
+
+
+=head3 C<APR::SO_DEBUG>
 
 Possible values:
 
 XXX
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+Turns on debugging information
+
+
+
 
 =head3 C<APR::SO_DISCONNECTED>
 
@@ -611,6 +1955,17 @@ Possible values:
 
 XXX
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
 =head3 C<APR::SO_KEEPALIVE>
 
 Keeps connections active
@@ -619,9 +1974,34 @@ Possible values:
 
 XXX
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
+
+
 =head3 C<APR::SO_LINGER>
 
 Lingers on close if data is present
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
 
 =head3 C<APR::SO_NONBLOCK>
 
@@ -641,6 +2021,19 @@ For example, to set the socket to a blocking IO mode:
   die "failed to set the socket to a blocking IO mode: $ARP::err"
       unless defined $oldval;
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
+
+
 
 =head3 C<APR::SO_RCVBUF>
 
@@ -649,6 +2042,19 @@ Controls the C<ReceiveBufferSize> setting
 Possible values:
 
 XXX
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
+
 
 =head3 C<APR::SO_REUSEADDR>
 
@@ -659,6 +2065,19 @@ Possible values:
 
 XXX
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
+
+
 =head3 C<APR::SO_SNDBUF>
 
 Controls the C<SendBufferSize> setting
@@ -667,6 +2086,11 @@ Possible values:
 
 XXX
 
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -681,6 +2105,9 @@ the error variable XXXXXX.
 
 The following section discusses in detail each of the available
 C<:status> constants.
+
+
+
 
 =head3 C<APR::TIMEUP>
 
@@ -712,10 +2139,28 @@ The operation did not finish before the timeout.
 The C<:table> group is for C<overlap()> and C<compress()> constants.
 See C<L<APR::Table|docs::2.0::api::APR::Table>> for details.
 
+
+
+
 =head3 C<APR::OVERLAP_TABLES_MERGE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::OVERLAP_TABLES_SET>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -727,79 +2172,348 @@ See C<L<APR::Table|docs::2.0::api::APR::Table>> for details.
 
 The C<:uri> group is for XXX constants.
 
+
+
+
 =head3 C<APR::URI_ACAP_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::URI_FTP_DEFAULT_PORT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::URI_GOPHER_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::URI_HTTPS_DEFAULT_PORT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
 
 =head3 C<APR::URI_HTTP_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 
 =head3 C<APR::URI_IMAP_DEFAULT_PORT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::URI_LDAP_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 
 =head3 C<APR::URI_NFS_DEFAULT_PORT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
 
 =head3 C<APR::URI_NNTP_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 
 =head3 C<APR::URI_POP_DEFAULT_PORT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
 
 =head3 C<APR::URI_PROSPERO_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 
 =head3 C<APR::URI_RTSP_DEFAULT_PORT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
 
 =head3 C<APR::URI_SIP_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
+
 
 
 =head3 C<APR::URI_SNEWS_DEFAULT_PORT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<APR::URI_SSH_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<APR::URI_TELNET_DEFAULT_PORT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
 
 =head3 C<APR::URI_TIP_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
 
 
 =head3 C<APR::URI_UNP_OMITPASSWORD>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
+
 
 =head3 C<APR::URI_UNP_OMITPATHINFO>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
 
 
 =head3 C<APR::URI_UNP_OMITQUERY>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
+
+
 
 =head3 C<APR::URI_UNP_OMITSITEPART>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
+
 
 
 =head3 C<APR::URI_UNP_OMITUSER>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
 
 =head3 C<APR::URI_UNP_OMITUSERINFO>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
 
 
 =head3 C<APR::URI_UNP_REVEALPASSWORD>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
+
 
 =head3 C<APR::URI_WAIS_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
 
 
 =head1 See Also

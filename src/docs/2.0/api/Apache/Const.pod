@@ -18,40 +18,149 @@ Apache::Const - Perl Interface for Apache Constants
 
 The C<:cmd_how> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::FLAG>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::ITERATE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
 
 =head3 C<Apache::ITERATE2>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::NO_ARGS>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::RAW_ARGS>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::TAKE1>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::TAKE12>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::TAKE123>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::TAKE13>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::TAKE2>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::TAKE23>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::TAKE3>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -63,28 +172,100 @@ The C<:cmd_how> group is for XXX constants.
 
 The C<:common> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::AUTH_REQUIRED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::DECLINED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::DONE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::FORBIDDEN>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::NOT_FOUND>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::OK>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::REDIRECT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::SERVER_ERROR>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -96,7 +277,16 @@ The C<:common> group is for XXX constants.
 
 The C<:config> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::DECLINE_CMD>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -108,22 +298,76 @@ The C<:config> group is for XXX constants.
 
 The C<:filter_type> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::FTYPE_CONNECTION>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::FTYPE_CONTENT_SET>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::FTYPE_NETWORK>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::FTYPE_PROTOCOL>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::FTYPE_RESOURCE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::FTYPE_TRANSCODE>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -138,24 +382,46 @@ The C<:conn_keepalive> group is used by the
 (C<L<$c-E<gt>keepalive|docs::2.0::api::Apache::Connection/C_keepalive_>>)
 method.
 
+
+
+
 =head3 C<Apache::CONN_UNKNOWN>
 
 The connection is at an unknown state, e.g., initialized but not open
 yet.
 
-since: 1.99_13
+=over
+
+=item since: 1.99_13
+
+=back
+
+
+
 
 =head3 C<Apache::CONN_CLOSE>
 
 The connection will be closed at the end of the current HTTP request.
 
-since: 1.99_13
+=over
+
+=item since: 1.99_13
+
+=back
+
+
+
 
 =head3 C<Apache::CONN_KEEPALIVE>
 
 The connection will be kept alive at the end of the current HTTP request.
 
-since: 1.99_13
+=over
+
+=item since: 1.99_13
+
+=back
+
 
 
 
@@ -166,148 +432,580 @@ since: 1.99_13
 
 The C<:http> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::HTTP_ACCEPTED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_BAD_GATEWAY>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_BAD_REQUEST>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_CONFLICT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_CONTINUE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_CREATED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_EXPECTATION_FAILED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_FAILED_DEPENDENCY>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_FORBIDDEN>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_GATEWAY_TIME_OUT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_GONE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_INSUFFICIENT_STORAGE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_INTERNAL_SERVER_ERROR>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_LENGTH_REQUIRED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_LOCKED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_METHOD_NOT_ALLOWED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_MOVED_PERMANENTLY>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_MOVED_TEMPORARILY>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_MULTIPLE_CHOICES>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_MULTI_STATUS>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_NON_AUTHORITATIVE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_NOT_ACCEPTABLE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_NOT_EXTENDED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_NOT_FOUND>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_NOT_IMPLEMENTED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_NOT_MODIFIED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_NO_CONTENT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_OK>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_PARTIAL_CONTENT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_PAYMENT_REQUIRED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_PRECONDITION_FAILED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_PROCESSING>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_PROXY_AUTHENTICATION_REQUIRED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_RANGE_NOT_SATISFIABLE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_REQUEST_ENTITY_TOO_LARGE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_REQUEST_TIME_OUT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_REQUEST_URI_TOO_LARGE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_RESET_CONTENT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_SEE_OTHER>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_SERVICE_UNAVAILABLE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_SWITCHING_PROTOCOLS>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_TEMPORARY_REDIRECT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_UNAUTHORIZED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_UNPROCESSABLE_ENTITY>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_UNSUPPORTED_MEDIA_TYPE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::HTTP_UPGRADE_REQUIRED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_USE_PROXY>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::HTTP_VARIANT_ALSO_VARIES>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -319,22 +1017,76 @@ The C<:http> group is for XXX constants.
 
 The C<:input_mode> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::MODE_EATCRLF>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::MODE_EXHAUSTIVE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::MODE_GETLINE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::MODE_INIT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::MODE_READBYTES>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::MODE_SPECULATIVE>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -346,37 +1098,136 @@ The C<:input_mode> group is for XXX constants.
 
 The C<:log> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::LOG_ALERT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::LOG_CRIT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::LOG_DEBUG>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::LOG_EMERG>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::LOG_ERR>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::LOG_INFO>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::LOG_LEVELMASK>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::LOG_NOTICE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::LOG_STARTUP>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::LOG_TOCLIENT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::LOG_WARNING>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -388,88 +1239,340 @@ The C<:log> group is for XXX constants.
 
 The C<:methods> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::METHODS>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_BASELINE_CONTROL>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_CHECKIN>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_CHECKOUT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_CONNECT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_COPY>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_DELETE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_GET>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_INVALID>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_LABEL>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_LOCK>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_MERGE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_MKACTIVITY>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_MKCOL>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_MKWORKSPACE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_MOVE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_OPTIONS>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_PATCH>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_POST>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_PROPFIND>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_PROPPATCH>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_PUT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_REPORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_TRACE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_UNCHECKOUT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::M_UNLOCK>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_UPDATE>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::M_VERSION_CONTROL>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -481,49 +1584,184 @@ The C<:methods> group is for XXX constants.
 
 The C<:mpmq> group is for querying MPM properties.
 
+
+
+
 =head3 C<Apache::MPMQ_NOT_SUPPORTED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::MPMQ_STATIC>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::MPMQ_DYNAMIC>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::MPMQ_MAX_DAEMON_USED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::MPMQ_IS_THREADED>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::MPMQ_IS_FORKED>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::MPMQ_HARD_LIMIT_DAEMONS>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::MPMQ_HARD_LIMIT_THREADS>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::MPMQ_MAX_THREADS>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::MPMQ_MIN_SPARE_DAEMONS>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::MPMQ_MIN_SPARE_THREADS>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::MPMQ_MAX_SPARE_DAEMONS>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::MPMQ_MAX_SPARE_THREADS>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::MPMQ_MAX_REQUESTS_DAEMON>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::MPMQ_MAX_DAEMONS>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -536,34 +1774,124 @@ The C<:mpmq> group is for querying MPM properties.
 
 The C<:options> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::OPT_ALL>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::OPT_EXECCGI>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::OPT_INCLUDES>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::OPT_INCNOEXEC>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::OPT_INDEXES>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::OPT_MULTI>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::OPT_NONE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::OPT_SYM_LINKS>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::OPT_SYM_OWNER>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::OPT_UNSET>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -575,34 +1903,124 @@ The C<:options> group is for XXX constants.
 
 The C<:override> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::ACCESS_CONF>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::OR_ALL>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::OR_AUTHCFG>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::OR_FILEINFO>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::OR_INDEXES>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::OR_LIMIT>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::OR_NONE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::OR_OPTIONS>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::OR_UNSET>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::RSRC_CONF>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -615,13 +2033,40 @@ The C<:override> group is for XXX constants.
 The C<:platform> group is for constants that may
 differ from OS to OS.
 
+
+
+
 =head3 C<Apache::CRLF>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::CR>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::LF>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -633,16 +2078,52 @@ differ from OS to OS.
 
 The C<:remotehost> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::REMOTE_DOUBLE_REV>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::REMOTE_HOST>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::REMOTE_NAME>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::REMOTE_NOLOOKUP>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -654,13 +2135,40 @@ The C<:remotehost> group is for XXX constants.
 
 The C<:satisfy> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::SATISFY_ALL>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
 
 
 =head3 C<Apache::SATISFY_ANY>
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head3 C<Apache::SATISFY_NOSPEC>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -672,7 +2180,16 @@ The C<:satisfy> group is for XXX constants.
 
 The C<:types> group is for XXX constants.
 
+
+
+
 =head3 C<Apache::DIR_MAGIC_TYPE>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
