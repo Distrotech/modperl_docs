@@ -44,6 +44,12 @@ If mod_perl has been statically linked it's automatically enabled.
 For Win32 specific details, see the documentation on
 L<Win32 configuration|docs::2.0::os::win32::config>.
 
+Remember that you can't use mod_perl until you have configured Apache
+to use it. You need to configure L<Registry
+scripts|docs::2.0::user::intro::start_fast/Registry_Scripts> or
+L<custom
+handlers|docs::2.0::user::intro::start_fast/Handler_Modules>.
+
 
 
 =head1 Accessing the mod_perl 2.0 Modules
