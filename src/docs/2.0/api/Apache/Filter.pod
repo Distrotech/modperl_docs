@@ -1091,7 +1091,7 @@ post 2.0 release.
 
 =item ret: C<$ret> ( SCALAR )
 
-=item since: 1.99_10
+=item since: subject to change
 
 =back
 
@@ -1109,7 +1109,7 @@ post 2.0 release.
 
 =item ret: C<$ret> ( integer )
 
-=item since: 1.99_10
+=item since: subject to change
 
 =back
 
