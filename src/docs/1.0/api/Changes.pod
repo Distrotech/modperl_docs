@@ -9,6 +9,11 @@ documents, since you've read these last time.
 
 The most recent changes are listed first.
 
+=head1 Thu Apr 18 12:28:00 CET 2002
+
+* Fixed titles and added C<CE<lt>E<gt>> around all function names. [Per
+  Einar Ellefsen E<lt>per.einar (at) skynet.be E<gt>]
+
 =head1 Wed Mar 20 21:20:20 SGT 2002
 
 * Imported the pod file from the mod_perl distribution and cleaned up
