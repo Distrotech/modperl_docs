@@ -199,8 +199,8 @@ callback function. If you don't need the features provided by the
 I<perl-script> handler, with the C<modperl> handler, you can gain even
 more performance. (This handler isn't available in mod_perl 1.0.)
 
-Unless the C<Perl*Handler> callback running under the C<modperl>
-handler is configured with:
+Unless the C<Perl*Handler> callback, running under the C<modperl>
+handler, is configured with:
 
   PerlOptions +SetupEnv
 
@@ -1032,17 +1032,19 @@ C<Apache::exists_config_define()>, for example:
 
 =head1 Perl Interface to the Apache Configuration Tree
 
-META: any volunteers to write this section? see
-t/response/TestApache/conftree.pm for examples of using the api.
+For now refer to the
+L<Apache::Directive|docs::2.0::api::Apache::Directive> manpage and the
+test I<t/response/TestApache/conftree.pm> in the mod_perl source
+distribution.
 
-L<Apache::Directive|docs::2.0::api::modperl_2.0::Apache::Directive>.
-
-
-
-
+META: need help to write the tutorial section on this with examples.
 
 
+=head1 General Issues
 
+=head2 Is There a Way to Modify C<@INC> on a Per-VirtualHost
+
+You can, using the L<PerlOptions +Parent|/C_Parent_> option.
 
 
 =head1 Maintainers
@@ -1051,10 +1053,6 @@ Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
 =over
-
-=item *
-
-Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
 
 =item *
 
@@ -1069,6 +1067,10 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 =item *
 
 Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
 
