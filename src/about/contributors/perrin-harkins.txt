@@ -1,7 +1,0 @@
-Name: Perrin Harkins
-Email: perrin@elem.com
-Location: Brooklyn, New York
-Summary: Documentation. Some code patches.
-
-Various documentation patches, <code>Apache::SizeLimit</code> patches,
-articles on templating modules and system architecture.

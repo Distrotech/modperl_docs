@@ -1,7 +1,0 @@
-Name: Salvador Ortiz Garcia
-Email: sortiz@cfe.gob.mx
-Summary: bug fixing, API.
-
-Salvador has helped bang out bugs and traps with <i>sfio</i> enabled
-mod_perls, along with various bug spotting and stopping since the
-early days.  He has also contributed to the Apache/Perl API.
