@@ -1,15 +1,12 @@
 [% # This template is used for rendering the search results
    # It expects the search hash ref to be set.
 -%]
-
-
-[% PROCESS search_options %]
-
-
-[% WRAPPER searchresults.html %]
-[%
+[%- WRAPPER searchresults.html -%]
+    [%
     # Title takes up space for no reason
     # PROCESS swish_header;
+
+    PROCESS search_options;
 
     title = PROCESS title;
 
@@ -19,13 +16,27 @@
 
     ELSE;
         nav_bar_res = PROCESS nav_bar;
-        nav_bar_res;
-        PROCESS results_list;
-        nav_bar_res IF search.navigation('hits') > search.config('page_size');
-        '<p><a name="search_form"></a><br><br></p>';
-        PROCESS search_form;
-    END;
-%]
+    -%]
+        <table cellpadding="1" cellspacing="0" border="0">
+            [% nav_bar_res %]
+            <tr>
+                <td height="10" colspan="2"><br></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                [% PROCESS results_list %]
+                </td>   
+            </tr>
+        [% IF search.navigation('hits') > search.config('page_size') %]
+            <tr>
+            <td height="10" colspan="2"><br></td>
+            </tr>
+            [% nav_bar_res %] 
+        [% END %]
+        </table>
+        <p><a name="search_form"></a><br><br></p>
+        [% PROCESS search_form %]
+   [% END %]
 [% END %]
 
 
@@ -102,7 +113,6 @@
 [% BLOCK nav_bar %]
 
     [% search.stopwords_removed %]
-    <table cellpadding="1" cellspacing="0" border="0" width="100%">
         <tr>
             <td class="search-header">
                 &nbsp;Results for <b>[% search.query_simple | html %]</b>
@@ -133,11 +143,8 @@
             <td align="right" class="search-nav">
                 <a href="#search_form">Advanced Search</a>
             </td>
-            
         </tr>
         [% END %]
-
-    </table>
 
 [% END %]
 

@@ -138,7 +138,7 @@ Since we want to be able to search any sub-section of the site, the
 search form includes the hidden variable C<sbm> (mnemonics: 'search by
 meta'). For example:
 
-  <input type="checkbox" name="sbm" value="docs/1.0/guide" />
+  <input type="checkbox" name="sbm" value="docs/1.0/guide">
 
 will search all the documents under I<docs/1.0/guide> directory.
 

@@ -1,8 +1,5 @@
 
         <div class="footer">
-            <div class="changes">
-                [%- INCLUDE changes_link -%]
-            </div>
             <hr noshade size="1">
             <!-- footer (tail )-->
             <p class="modified">Last modified [% doc.last_modified %]</p>

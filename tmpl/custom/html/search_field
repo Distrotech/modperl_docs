@@ -47,7 +47,7 @@
                 [% etag %]
             </td>
             
-            <td nowrap="nowrap"><input type="image" src="[% doc.dir.abs_doc_root %]/images/go.gif" border="0" hspace="0" alt="search" /></td>
+            <td nowrap="nowrap"><input type="image" src="[% doc.dir.abs_doc_root %]/images/go.gif" border="0" hspace="0" alt="search"></td>
         </tr>
     </table>
 [% END %]
@@ -71,7 +71,7 @@
                         })
                 %]
             </td>
-            <td nowrap="nowrap"><input type="image" src="[% doc.dir.abs_doc_root %]/images/go.gif" width="29" height="20" border="0" hspace="0" alt="search" /></td>
+            <td nowrap="nowrap"><input type="image" src="[% doc.dir.abs_doc_root %]/images/go.gif" width="29" height="20" border="0" hspace="0" alt="search"></td>
         </tr>
 
     </table>
