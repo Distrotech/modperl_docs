@@ -1,6 +1,6 @@
 =head1 NAME 
 
-How to use mod_perl's MethodHandlers 
+How to use mod_perl's Method Handlers
 
 =head1 Description
 
