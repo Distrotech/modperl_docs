@@ -1348,10 +1348,207 @@ will generate the hooks and stuff.
 
 =back
 
-=head2 Request Generation Methods
+=head2 Request and Response Methods
 
-META: here goes the explanation of shortcuts: GET_BODY, POST_BODY,
-etc.
+If you have LWP (libwww-perl) installed its C<LWP::UserAgent> serves
+as an user agent in tests, otherwise C<Apache::TestClient> tries to
+emulate partial LWP functionality. So most of the LWP documentation
+applies here, but the C<Apache::Test> framework provides shortcuts
+that hide many details, making the test writing a simple and swift
+task. Before using these shortcuts C<Apache::TestRequest> should be
+loaded, and its import() method will fetch the shortcuts into the
+caller namespace:
+
+  use Apache::TestRequest;
+
+Request generation methods issue a request and return a response
+object (C<HTTP::Response> if LWP is available). They are documented in
+the C<HTTP::Request::Common> manpage. The following methods are
+available:
+
+=over
+
+=item * GET
+
+Issues the C<GET> request. For example, issue a request and retrieve
+the response content:
+
+  $url = "$location?foo=1&bar=2";
+  $res = GET $url;
+  $str = $res->content;
+
+To set request headers, supply them after the C<$url>, e.g.:
+
+  $res = GET $url, 'Content-type' => 'text/html';
+
+=item * HEAD
+
+Issues the C<HEAD> request. For example issue a request and check that
+the response's I<Content-type> is I<text/plain>:
+
+  $url = "$location?foo=1&bar=2";
+  $res = HEAD $url;
+  ok $res->content_type() eq 'text/plain';
+
+=item * POST
+
+Issues the C<POST> request. For example:
+
+  $content = 'PARAM=%33';
+  $res = POST $location, content => $content;
+
+The second argument to C<POST> can be a reference to an array or a
+hash with key/value pairs to emulate HTML E<lt>formE<gt> C<POST>ing.
+
+=item * PUT
+
+Issues the C<PUT> request.
+
+=item * OPTIONS
+
+META: ???
+
+=back
+
+These are two special methods added by the C<Apache::Test> framework:
+
+=over
+
+=item * UPLOAD
+
+This special method allows to upload a file or a string which will
+look as an uploaded file to the server. To upload a file use:
+
+  UPLOAD $location, filename => $filename;
+
+You can add extra request headers as well:
+
+  UPLOAD $location, filename => $filename, 'X-Header-Test' => 'Test';
+
+To upload a string as a file, use:
+
+  UPLOAD $location, content => 'some data';
+
+=item * UPLOAD_BODY
+
+Retrieves the content from the response resulted from doing
+C<UPLOAD>. It's equal to:
+
+  my $body UPLOAD(@_)->content;
+
+For example, this code retrieves the content of the response resulted
+from file upload request:
+
+  my $str = UPLOAD_BODY $location, filename => $filename;
+
+=back
+
+
+Once the response object is returned, various response object methods
+can be applied to it. Probably the most useful ones are:
+
+  $content = $res->content;
+
+to retrieve the content fo the respose and:
+
+  $content_type = $res->header('Content-type');
+
+to retrieve specific headers.
+
+Refer to the C<HTTP::Response> manpage for a complete reference of
+these and other methods.
+
+A few response retrieval shortcuts can be used to retrieve the wanted
+parts of the response. To apply these simply add the shortcut name to
+one of the request shortcuts listed earlier. For example instead of
+retrieving the content part of the response via:
+
+  $res = GET $url;
+  $str = $res->content;
+
+simply use:
+
+  $str = GET_BODY $url;
+
+=over
+
+=item * RC
+
+returns the I<response code>, equivalent to:
+
+  $res->code;
+
+For example to test whether some URL is bogus:
+
+  use Apache::Const 'NOT_FOUND';
+  ok GET_RC('/bogus_url') == NOT_FOUND;
+
+You usually need to import and use C<Apache::Const> constants for the
+response code comparisons, rather then using codes' corresponding
+numerical values directly. You can import groups of code as well. For
+example:
+
+  use Apache::Const ':common';
+
+Refer to the C<Apache::Const> manpage for a complete reference. Also
+you may need to use C<APR> and mod_perl constants, which reside in
+C<APR::Const> and C<ModPerl::Const> modules respectively.
+
+=item * OK
+
+tests whether the response was successful, equivalent to:
+
+  $res->is_success;
+
+For example:
+
+  ok GET_OK '/foo';
+
+=item * STR
+
+returns the response (both, headers and body) as a string and is
+equivalent to:
+
+  $res->as_string;
+
+Mostly useful for debugging, for example:
+
+  use Apache::TestUtil;
+  t_debug POST_STR '/test.pl';
+
+=item * HEAD
+
+returns the headers part of the response as a multi-line string.
+
+For example, this code dumps all the response headers:
+
+  use Apache::TestUtil;
+  t_debug GET_HEAD '/index.html';
+
+=item * BODY
+
+returns the response body and is equivalent to:
+
+  $res->content;
+
+For example, this code validates that the response's body is the one
+that was expected:
+
+  use Apache::TestUtil;
+  ok GET_BODY('/index.html') eq $expect;
+
+=back
+
+=head2 Other Request Generation helpers
+
+META: these methods need documentation
+
+Request part:
+
+   Apache::TestRequest::scheme('http'); #force http for t/TEST -ssl 
+   Apache::TestRequest::module($module);
+   my $config = Apache::Test::config();
+   my $hostport = Apache::TestRequest::hostport($config);
 
 =head2 Starting Multiple Servers
 
@@ -2146,7 +2343,8 @@ to a minimum and let Perl do the rest of the job for us.
 
 META: Virtual host?
 
-META: to be completed
+META: a special -configure time method in response part:
+APACHE_TEST_CONFIGURE
 
 
 =head2 Threaded versus Non-threaded Perl Test's Compatibility
