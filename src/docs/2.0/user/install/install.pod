@@ -309,7 +309,7 @@ Build C<Apache::*.xs> as static extensions.
 
 Link with I<libgtop> and enable I<libgtop> reporting.
 
-=head2 MP_COMPAT_1X
+=head4 MP_COMPAT_1X
 
 C<MP_COMPAT_1X=1> or a lack of it enables several mod_perl 1.0
 back-compatibility features, which are deprecated in mod_perl
@@ -374,6 +374,8 @@ equivalents|docs::2.0::user::porting::compat/Configuration_Files_Porting>
 instead.
 
 =back
+
+
 
 =head4 MP_DEBUG
 
