@@ -11,11 +11,21 @@
 -%]
 
 <div class='leftcont'>
-[% INCLUDE menu_top_level
-          nav=doc.nav
-          rel_doc_root=doc.dir.rel_doc_root;
-%]
-<br>
-[% INCLUDE ad -%]
+    [% INCLUDE menu_top_level
+              nav=doc.nav
+              rel_doc_root=doc.dir.rel_doc_root;
+    %]
+    <br>
+    [% INCLUDE ad -%]
 </div>
-</body></html>
+
+<div class='cbody'>
+    <div class='content'>
+        [% INCLUDE page_body %]
+    </div>
+    <br>
+    [% INCLUDE tail %]
+</div>
+
+</body>
+</html>
