@@ -107,7 +107,7 @@ You need to do this if you want to keep the same version number for
 your module, or if you distribute your module on CPAN and want to
 maintain and release just one codebase.
 
-This is a relatively simple ehancement of option (2) above. The module
+This is a relatively simple enhancement of option (2) above. The module
 tests to see which version of mod_perl is in use and then executes the
 appropriate method call.
 
@@ -150,8 +150,8 @@ takes the control over performance away from users.
 
 =head1 Porting a Perl Module to Run under mod_perl 2.0
 
-Note: API changes are listed in L<the backwards compatibility
-document|docs::2.0::user::porting::compat/>.
+Note: API changes are listed in L<the mod_perl 1.0 backward
+compatibility document|docs::2.0::user::porting::compat/>.
 
 The following sections will guide you through the steps of porting
 your modules to mod_perl 2.0.
@@ -168,8 +168,8 @@ than version 1.0 did, and you have to load these modules before the
 methods that live in them can be used. So the first step is to figure
 out which these modules are and C<use()> them.
 
-The L<MethodLookup module|docs::2.0::api::ModPerl::MethodLookup>
-provided with mod_perl 2.0 allows you to find out which module
+The C<L<ModPerl::MethodLookup|docs::2.0::api::ModPerl::MethodLookup>>
+module provided with mod_perl 2.0 allows you to find out which module
 contains the functionality you are looking for. Simply provide it with
 the name of the mod_perl 1.0 method that has moved to a new module,
 and it will tell you what the module is.
@@ -270,7 +270,7 @@ optimizing her system's memory usage.
 
 =head2 Handling Missing and Modified mod_perl 1.0 Methods and Functions
 
-The mod_perl 2.0 API is modelled even more closely upon the Apache API
+The mod_perl 2.0 API is modeled even more closely upon the Apache API
 than was mod_perl version 1.0. Just as the Apache 2.0 API is
 substantially different from that of Apache 1.0, therefore, the
 mod_perl 2.0 API is quite different from that of mod_perl
@@ -284,7 +284,7 @@ L<ModPerl::MethodLookup|/Using_ModPerl::MethodLookup_to_Discover_Which_mod_perl_
 it's most likely because the method doesn't exist in the mod_perl 2.0
 API. It's also possible that the method does still exist, but
 nevertheless it doesn't work, since its usage has changed (e.g. its
-prototype has changed, or it requires ditfferent arguments, etc.).
+prototype has changed, or it requires different arguments, etc.).
 
 In either of these cases, refer to L<the backwards compatibility
 document|docs::2.0::user::porting::compat/> for an exhaustive list of
@@ -442,12 +442,794 @@ and higher we can just do:
 
   open my $fh, $file or die "Can't open $file: $!";
 
+
+
+
+
+
+
+
+
+=head2 How C<Apache::MP3> was ported to mod_perl 2.0
+
+C<Apache::MP3> is an elaborate application that uses a lot of mod_perl
+API. After porting it, I have realized that if you go through the
+notes or even better try to do it by yourself, referring to the notes
+only when in trouble, you will most likely be able to port any other
+mod_perl 1.0 module to run under mod_perl 2.0. So here the log of what
+I have done while doing the porting.
+
+Please notice that this tutorial should be considered as-is and I'm
+not claiming that I have got everything polished, so if you still find
+problems, that's absolutely OK. What's important is to try to learn
+from the process, so you can attack other modules on your own.
+
+I've started to work with C<Apache::MP3> version 3.03 which you can
+retrieve from Lincoln's CPAN directory:
+http://search.cpan.org/CPAN/authors/id/L/LD/LDS/Apache-MP3-3.03.tar.gz
+Even though by the time you'll read this there will be newer versions
+available it's important that you use the same version as a starting
+point, since if you don't, the notes below won't make much sense.
+
+=head3 Preparations
+
+First of all, I scratched most of mine I<httpd.conf> and I<startup.pl>
+leaving the bare minimum to get mod_perl started. This is needed to
+ensure that once I've completed the porting, the module will work
+correct on other users systems. For example if my I<httpd.conf> and
+I<startup.pl> were loading some other modules, which in turn may load
+modules that a to-be-ported module may rely on, the ported module may
+work for me, but once released, it may not work for others. It's the
+best to create a new I<httpd.conf> when doing the porting putting only
+the required bits of configuration into it.
+
+=head4 I<httpd.conf>
+
+Next, I configure the C<Apache::Reload> module, so we don't have to
+constantly restart the server after we modify C<Apache::MP3>. In order
+to do that add to I<httpd.conf>:
+
+  PerlModule Apache::Reload
+  PerlInitHandler Apache::Reload
+  PerlSetVar ReloadAll Off
+  PerlSetVar ReloadModules "ModPerl::* Apache::*"
+  PerlSetVar ReloadConstantRedefineWarnings Off
+
+You can refer to C<L<the Apache::Reload
+manpage|docs::2.0::api::Apache::Reload>> for more information if 
+you aren't familiar with this module. The part:
+
+  PerlSetVar ReloadAll Off
+  PerlSetVar ReloadModules "ModPerl::* Apache::*"
+
+tells C<Apache::Reload> to monitor only modules in the C<ModPerl::>
+and C<Apache::> namespaces. So C<Apache::MP3> will be monitored. If
+your module is named C<Foo::Bar>, make sure to include the right
+pattern for the C<ReloadModules> directive. Alternatively simply have:
+
+  PerlSetVar ReloadAll On
+
+which will monitor all modules in C<%INC>, but will be a bit slower,
+as it'll have to C<stat(3)> many more modules on each request.
+
+Finally, C<Apache::MP3> uses constant subroutines. Because of that you
+will get lots of warnings every time the module is modified, which I
+wanted to avoid. I can safely shut those warnings off, since I'm not
+going to change those constants. Therefore I've used the setting
+
+  PerlSetVar ReloadConstantRedefineWarnings Off
+
+If you do change those constants, refer to the section on
+C<L<ReloadConstantRedefineWarnings
+|docs::2.0::api::Apache::Reload/Silencing__Constant_subroutine_____redefined_at__Warnings>>.
+
+Next I configured C<Apache::MP3>. In my case I've followed the
+C<Apache::MP3> documentation, created a directory I<mp3/> under the
+server document root and added the corresponding directives to
+I<httpd.conf>.
+
+Now my I<httpd.conf> looked like this:
+
+  #file:httpd.conf
+  #---------------
+  Listen 127.0.0.1:8002
+  #... standard Apache configuration bits omitted ...
+  
+  LoadModule perl_module modules/mod_perl.so
+  
+  PerlSwitches -wT
+  
+  PerlModule Apache::Reload
+  PerlInitHandler Apache::Reload
+  PerlSetVar ReloadAll Off
+  PerlSetVar ReloadModules "ModPerl::* Apache::*"
+  PerlSetVar ReloadConstantRedefineWarnings Off
+  
+  AddType audio/mpeg     mp3 MP3
+  AddType audio/playlist m3u M3U
+  AddType audio/x-scpls  pls PLS
+  AddType application/x-ogg ogg OGG
+  <Location /mp3>
+    SetHandler perl-script
+    PerlResponseHandler Apache::MP3
+    PerlSetVar PlaylistImage playlist.gif
+    PerlSetVar StreamBase http://localhost:8002
+    PerlSetVar BaseDir /mp3
+  </Location>
+
+
+=head4 I<startup.pl>
+
+Since chances are that no mod_perl 1.0 module will work out of box
+without at least preloading some modules, I've enabled the
+C<Apache::compat> module. Now my I<startup.pl> looked like this:
+
+  #file:startup.pl
+  #---------------
+  use Apache2 ();
+  use lib qw(/home/httpd/2.0/perl);
+  use Apache::compat;
+
+=head4 I<Apache/MP3.pm>
+
+Before I even started porting C<Apache::MP3>, I've added the warnings
+pragma to I<Apache/MP3.pm> (which wasn't there because mod_perl 1.0
+had to work with Perl versions prior to 5.6.0, which is when the
+C<warnings> pragma was added):
+
+  #file:apache_mp3_prep.diff
+  --- Apache/MP3.pm.orig 2003-06-03 18:44:21.000000000 +1000
+  +++ Apache/MP3.pm      2003-06-03 18:44:47.000000000 +1000
+  @@ -2,6 +2,9 @@
+   # $Id: porting.pod,v 1.5 2003/06/06 09:21:57 stas Exp $
+  
+   use strict;
+  +use warnings;
+  +no warnings 'redefine';  # XXX: remove when done with porting
+  +
+
+From now on, I'm going to use unified diffs which you can apply using
+C<patch(1)>. Though you may have to refer to its manpage on your
+platform since the usage flags may vary. On linux I'd apply the above
+patch as:
+
+  % cd ~/perl/blead-ithread/lib/site_perl/5.9.0/
+  % patch -p0 < apache_mp3_prep.diff
+
+assuming that I<Apache/MP3.pm> is located in the directory
+I<~/perl/blead-ithread/lib/site_perl/5.9.0/>.
+
+I've enabled the C<warnings> pragma even though I did have warnings
+turned globally in I<httpd.conf> with:
+
+  PerlSwitches -wT
+
+it's possible that some badly written module has done:
+
+  $^W = 0;
+
+without localizing the change, affecting other code. Also notice that
+the I<taint> mode was enabled from I<httpd.conf>, something that you
+shouldn't forget to do.
+
+I have also told the C<warnings> pragma not to complain about
+redefined subs via:
+
+  no warnings 'redefine';  # XXX: remove when done with porting
+
+I will remove that code, once porting is completed.
+
+At this point I was ready to start the porting process and I have
+started the server.
+
+  % hup2
+
+I'm using the following aliases to save typing:
+
+  alias err2      "tail -f ~/httpd/prefork/logs/error_log"
+  alias acc2      "tail -f ~/httpd/prefork/logs/access_log"
+  alias stop2     "~/httpd/prefork/bin/apachectl stop"
+  alias start2    "~/httpd/prefork/bin/apachectl start"
+  alias restart2  "~/httpd/prefork/bin/apachectl restart"
+  alias graceful2 "~/httpd/prefork/bin/apachectl graceful"
+  alias hup2 "stop2; sleep 3; start2; err2"
+
+(I also have a similar set of aliases for mod_perl 1.0)
+
+=head3 Porting with C<Apache::compat>
+
+I have configured my server to listen on port 8002, so I issue a
+request http://localhost:8002/mp3/ in one console:
+
+  % lynx --dump http://localhost:8002/mp3/
+
+keeping the I<error_log> open in the other:
+
+  % err2
+
+which expands to:
+
+  % tail -f ~/httpd/prefork/logs/error_log
+
+When the request is issued, the I<error_log> file tells me:
+
+  [Thu Jun 05 15:29:45 2003] [error] [client 127.0.0.1] 
+  Usage: Apache::RequestRec::new(classname, c, base_pool=NULL) 
+  at .../Apache/MP3.pm line 60.
+
+Looking at the code:
+
+  58: sub handler ($$) {
+  59:   my $class = shift;
+  60:   my $obj = $class->new(@_) or die "Can't create object: $!";
+
+The problem is that handler wasn't invoked as method, but had C<$r>
+passed to it (we can tell because C<new()> was invoked as
+C<Apache::RequestRec::new()>, whereas it should have been
+C<Apache::MP3::new()>. Why I<Apache::MP3> wasn't passed as the first
+argument? I go to L<the mod_perl 1.0 backward compatibility
+document|docs::2.0::user::porting::compat/> and find that
+L<method handlers|docs::2.0::user::porting::compat/Method_Handlers>
+are now marked using the I<method> subroutine attribute. So I modify
+the code:
+
+  --- Apache/MP3.pm.0     2003-06-05 15:29:19.000000000 +1000
+  +++ Apache/MP3.pm       2003-06-05 15:38:41.000000000 +1000
+  @@ -55,7 +55,7 @@
+   my $NO  = '^(no|false)$';  # regular expression
+   my $YES = '^(yes|true)$';  # regular expression
+  
+  -sub handler ($$) {
+  +sub handler : method {
+     my $class = shift;
+     my $obj = $class->new(@_) or die "Can't create object: $!";
+     return $obj->run();
+
+and issue the request again (no server restart needed).
+
+This time we get a bunch of looping redirect responses, due to a bug
+in mod_dir which kicks in to handle the existing dir and messing up
+with C<$r-E<gt>path_info> keeping it empty at all times. I thought I
+could work around this by not having the same directory and location
+setting, e.g. by moving the location to be I</songs/> while keeping
+the physical directory with mp3 files as I<$DocumentRoot/mp3/>, but
+C<Apache::MP3> won't let you do that. So a solution suggested by
+Justin Erenkrantz is to simply shortcut that piece of code with:
+
+  --- Apache/MP3.pm.1     2003-06-06 14:50:59.000000000 +1000
+  +++ Apache/MP3.pm       2003-06-06 14:51:11.000000000 +1000
+  @@ -253,7 +253,7 @@
+     my $self = shift;
+     my $dir = shift;
+  
+  -  unless ($self->r->path_info){
+  +  unless ($self->r->path_info eq ''){
+       #Issue an external redirect if the dir isn't tailed with a '/'
+       my $uri = $self->r->uri;
+       my $query = $self->r->args;
+
+which is equivalent to removing this code, until the bug is fixed (it
+was still there as of Apache 2.0.46). But the module still works
+without this code, because if you issue a request to I</mp3> (w/o
+trailing slash) mod_dir, will do the redirect for you, replacing the
+code that we just removed. In any case this got me past this problem.
+
+Since I have turned on the warnings pragma now I was getting loads of
+I<uninitialized value> warnings from C<$r-E<gt>dir_config()> whose
+return value were used without checking whether they are defined or
+not. But you'd get them with mod_perl 1.0 as well, so they are just an
+example of not-so clean code, not really a relevant obstacle in my
+pursuit to port this module to mod_perl 2.0. Unfortunately they were
+cluttering the log file so I had to fix them. I've defined several
+convenience functions:
+
+  sub get_config {
+      my $val = shift->r->dir_config(shift);
+      return defined $val ? $val : '';
+  }
+  
+  sub config_yes { shift->get_config(shift) !~ /$YES/oi; }
+  sub config_no  { shift->get_config(shift) !~ /$NO/oi; }
+
+and replaced them as you can see in this patch:
+F<code/apache_mp3_2.diff>, it was 194 lines long so I didn't inline it
+here, but it was quick to create with a few regexes search-n-replace
+manipulations in xemacs.
+
+Now I have the browsing of the root I</mp3/> directory and its
+sub-directories working. If I click on I<'Fetch'> of a particular song
+it works too. However if I try to I<'Stream'> a song, I get a 500
+response with error_log telling me:
+
+  [Fri Jun 06 15:33:33 2003] [error] [client 127.0.0.1] Bad arg length
+  for Socket::unpack_sockaddr_in, length is 31, should be 16 at
+  .../5.9.0/i686-linux-thread-multi/Socket.pm line 370.
+
+It would be certainly nice for I<Socket.pm> to use C<Carp::carp()>
+instead of C<warn()> so we will know where in the C<Apache::MP3> code
+this problem was triggered. However reading the I<Socket.pm> manpage
+reveals that C<sockaddr_in()> in the list context is the same as
+calling an explicit C<unpack_sockaddr_in()>, and in the scalar context
+it's calling C<pack_sockaddr_in()>. So I have found C<sockaddr_in> was
+the only I<Socket.pm> function used in C<Apache::MP3> and I have found
+this code in the function C<is_local()>:
+
+  my $r = $self->r;
+  my ($serverport,$serveraddr) = sockaddr_in($r->connection->local_addr);
+  my ($remoteport,$remoteaddr) = sockaddr_in($r->connection->remote_addr);
+  return $serveraddr eq $remoteaddr;
+
+Since something is wrong with function calls
+C<$r-E<gt>connection-E<gt>local_addr> and/or
+C<$r-E<gt>connection-E<gt>remote_addr> and I referred to L<the
+mod_perl 1.0 backward compatibility
+document|docs::2.0::user::porting::compat> and found L<the relevant
+entry|docs::2.0::user::porting::compat/C__connection_E_gt_remote_addr_>
+on these two functions. Indeed the API have changed. Instead of
+returning a packed C<SOCKADDR_IN> string, Apache now returns an
+C<L<APR::SocketAddr|docs::2.0::api::APR::SocketAddr>> object, which I
+can query to get the bits of information I'm interested in. So I
+applied this patch:
+
+  --- Apache/MP3.pm.3     2003-06-06 15:36:15.000000000 +1000
+  +++ Apache/MP3.pm       2003-06-06 15:56:32.000000000 +1000
+  @@ -1533,10 +1533,9 @@
+   # allows the player to fast forward, pause, etc.
+   sub is_local {
+     my $self = shift;
+  -  my $r = $self->r;
+  -  my ($serverport,$serveraddr) = sockaddr_in($r->connection->local_addr);
+  -  my ($remoteport,$remoteaddr) = sockaddr_in($r->connection->remote_addr);
+  -  return $serveraddr eq $remoteaddr;
+  +  my $c = $self->r->connection;
+  +  require APR::SockAddr;
+  +  return $c->local_addr->ip_get eq $c->remote_addr->ip_get;
+   }
+  
+   # Check if the requesting client is on the local network, as defined by
+
+And voila, the streaming option now works. I get a warning on I<'Use
+of uninitialized value'> on line 1516 though, but again this is
+unrelated to the porting issues, just a flow logic problem, which
+wasn't triggered without the warnings mode turned on. I have fixed it
+with:
+
+  --- Apache/MP3.pm.4     2003-06-06 15:57:15.000000000 +1000
+  +++ Apache/MP3.pm       2003-06-06 16:04:48.000
+  @@ -1492,7 +1492,7 @@
+     my $suppress_auth = shift;
+     my $r = $self->r;
+  
+  -  my $auth_info;
+  +  my $auth_info = '';
+     # the check for auth_name() prevents an anno
+     # the apache server log when authentication
+     if ($r->auth_name && !$suppress_auth) {
+  @@ -1509,10 +1509,9 @@
+     }
+  
+     my $vhost = $r->hostname;
+  -  unless ($vhost) {
+  -    $vhost = $r->server->server_hostname;
+  -    $vhost .= ':' . $r->get_server_port unless
+  -  }
+  +  $vhost = $r->server->server_hostname unless
+  +  $vhost .= ':' . $r->get_server_port unless $
+  +
+     return "http://${auth_info}${vhost}";
+   }
+
+This completes the first part of the porting. I have tried to use all
+the visible functions of the interface and everything seemed to work
+and I haven't got any warnings logged. Certainly I may have missed
+some usage patterns which may be still problematic. But this is good
+enough for this tutorial.
+
+=head3 Getting Rid of the C<Apache::compat> Dependency
+
+The final stage is going to get rid of C<Apache::compat> since this is
+a CPAN module, which must not load C<Apache::compat> on its own.  I'm
+going to make C<Apache::MP3> work with mod_perl 2.0 all by itself.
+
+The first step is to comment out the loading of C<Apache::compat> in
+I<startup.pl>:
+
+  #file:startup.pl
+  #---------------
+  use Apache2 ();
+  use lib qw(/home/httpd/2.0/perl);
+  #use Apache::compat ();
+
+=head3 Ensuring that C<Apache::compat> is not loaded
+
+The second step is to make sure that C<Apache::compat> doesn't get
+loaded indirectly, through some other module. So I've added this line
+of code to I<Apache/MP3.pm>:
+
+  --- Apache/MP3.pm.5     2003-06-06 16:17:50.000000000 +1000
+  +++ Apache/MP3.pm       2003-06-06 16:21:14.000000000 +1000
+  @@ -1,6 +1,10 @@
+   package Apache::MP3;
+   # $Id: porting.pod,v 1.5 2003/06/06 09:21:57 stas Exp $
+  
+  +BEGIN {
+  +    die "Apache::compat is loaded loaded" if $INC{'Apache/compat.pm'};
+  +}
+  +
+   use strict;
+   use warnings;
+   no warnings 'redefine';  # XXX: remove when done with porting
+
+and indeed, even though I've commented out the loading of
+C<Apache::compat> from I<startup.pl>, this module was still getting
+loaded. I knew that because the request to I</mp3> were failing with
+the error message:
+
+  Apache::compat is loaded loaded at ...
+
+There are several ways to find the guilty party, you can C<grep(1)>
+for it in the perl libraries, you can override
+C<CORE::GLOBAL::require()> in I<startup.pl>:
+
+  BEGIN { 
+    use Carp;
+    *CORE::GLOBAL::require = sub { 
+        Carp::cluck("Apache::compat is loaded") if $_[0] =~ /compat/;
+        CORE::require(@_);
+    };
+  }
+
+or you can modify I<Apache/compat.pm> and make it print the calls
+trace when it gets compiled:
+
+  --- Apache/compat.pm.orig   2003-06-03 16:11:07.000000000 +1000
+  +++ Apache/compat.pm        2003-06-03 16:11:58.000000000 +1000
+  @@ -1,5 +1,9 @@
+   package Apache::compat;
+  
+  +BEGIN {
+  +    use Carp;
+  +    Carp::cluck("Apache::compat is loaded by");
+  +}
+
+I've used this last technique, since it's the safest one to use.
+Remember that C<Apache::compat> can also be loaded with:
+
+    do "Apache/compat.pm";
+
+in which case, neither C<grep(1)>'ping for C<Apache::compat>, nor
+overriding C<require()> will do the job.
+
+When I've restarted the server and tried to use C<Apache::MP3> (I
+wasn't preloading it at the server startup since I wanted the server
+to start normally and cope with problem when it's running), the
+I<error_log> had an entry:
+
+  Apache::compat is loaded by at .../Apache2/Apache/compat.pm line 6
+    Apache::compat::BEGIN() called at .../Apache2/Apache/compat.pm line 8
+    eval {...} called at .../Apache2/Apache/compat.pm line 8
+    require Apache/compat.pm called at .../5.9.0/CGI.pm line 169
+    require CGI.pm called at .../site_perl/5.9.0/Apache/MP3.pm line 8
+    Apache::MP3::BEGIN() called at .../Apache2/Apache/compat.pm line 8
+
+(I've trimmed the whole paths of the libraries and the trace itself,
+to make it easier to understand.)
+
+We could have used C<Carp::carp()> which would have told us only the
+fact that C<Apache::compat> was loaded by C<CGI.pm>, but by using
+C<Carp::cluck()> we've obtained the whole stack backtrace so we also
+can learn which module has loaded C<CGI.pm>.
+
+Here I've learned that I had an old version of C<CGI.pm> (2.89) which
+automatically loaded C<Apache::compat> (which L<should be never done
+by CPAN
+modules|docs::2.0::api::Apache::compat/Use_in_CPAN_Modules>). Once
+I've upgraded C<CGI.pm> to version 2.93 and restarted the server,
+C<Apache::compat> wasn't getting loaded any longer.
+
+=head3 Installing the C<ModPerl::MethodLookup> Helper
+
+Now that C<Apache::compat> is not loaded, I need to deal with two
+issues: modules that need to be loaded and APIs that have changed.
+
+For the second issue I'll have to refer to the L<the mod_perl 1.0
+backward compatibility document|docs::2.0::user::porting::compat>.
+
+But the first issue can be easily worked out using
+C<L<ModPerl::MethodLookup|docs::2.0::user::api::ModPerl::MethodLookup>>.
+As explained in the section L<Using C<ModPerl::MethodLookup>
+Programmatically|/Using_C_ModPerl__MethodLookup__Programmatically>
+I've added the
+C<L<AUTOLOAD|docs::2.0::api::ModPerl::MethodLookup/C_AUTOLOAD_>> code to
+my I<startup.pl> so it'll automatically lookup the packages that I
+need to load based on the request method and the object type.
+
+So now my I<startup.pl> looked like:
+
+  #file:startup.pl
+  #---------------
+  use Apache2 ();
+  use lib qw(/home/httpd/2.0/perl);
+  
+  {
+    package ModPerl::MethodLookupAuto;
+    use ModPerl::MethodLookup;
+  
+    use Carp;
+    sub handler {
+  
+        # look inside mod_perl:: Apache:: APR:: ModPerl:: excluding DESTROY
+        my $skip = '^(?!DESTROY$';
+        *UNIVERSAL::AUTOLOAD = sub {
+            my $method = $AUTOLOAD;
+            return if $method =~ /DESTROY/;
+            my ($hint, @modules) =
+                ModPerl::MethodLookup::lookup_method($method, @_);
+            $hint ||= "Can't find method $AUTOLOAD";
+            croak $hint;
+        };
+        return 0;
+    }
+  }
+  1;
+
+and I add to my I<httpd.conf>:
+
+  PerlChildInitHandler ModPerl::MethodLookupAuto
+
+=head3 Adjusting the code to run under mod_perl 2
+
+I restart the server and off I go to complete the second porting
+stage.
+
+The first error that I've received was:
+
+  [Fri Jun 06 16:28:32 2003] [error] failed to resolve handler `Apache::MP3'
+  [Fri Jun 06 16:28:32 2003] [error] [client 127.0.0.1] Can't locate
+  object method "boot" via package "mod_perl" at .../Apache/Constants.pm
+  line 8. Compilation failed in require at .../Apache/MP3.pm line 12.
+
+I go to line 12 and find the following code:
+
+  use Apache::Constants qw(:common REDIRECT HTTP_NO_CONTENT
+                           DIR_MAGIC_TYPE HTTP_NOT_MODIFIED);
+
+Notice that I did have mod_perl 1.0 installed, so the
+C<Apache::Constant> module from mod_perl 1.0 couldn't find the
+C<boot()> method which doesn't exist in mod_perl 2.0. If you don't
+have mod_perl 1.0 installed the error would simply say, that it can't
+find I<Apache/Constants.pm> in C<@INC>. In any case, we are going to
+replace this code with mod_perl 2.0 equivalent:
+
+  --- Apache/MP3.pm.6     2003-06-06 16:33:05.000000000 +1000
+  +++ Apache/MP3.pm       2003-06-06 17:03:43.000000000 +1000
+  @@ -9,7 +9,9 @@
+   use warnings;
+   no warnings 'redefine';  # XXX: remove when done with porting
+  
+  -use Apache::Constants qw(:common REDIRECT HTTP_NO_CONTENT DIR_MAGIC_TYPE HTTP_NOT_MODIFIED);
+  +use Apache::Const -compile => qw(:common REDIRECT HTTP_NO_CONTENT
+  +                                 DIR_MAGIC_TYPE HTTP_NOT_MODIFIED);
+  +
+   use Apache::MP3::L10N;
+   use IO::File;
+   use Socket 'sockaddr_in';
+
+and I also had to adjust the constants, since what used to be C<OK>,
+now has to be C<Apache::OK>, mainly because in mod_perl 2.0 there is
+an enormous amount of constants (coming from Apache and APR) and most
+of them are grouped in C<Apache::> or C<APR::> namespaces. The
+C<L<Apache::Const|docs::2.0::user::api::Apache::Const>> and
+C<L<APR::Const|docs::2.0::user::api::APR::Const>> manpage provide more
+information on available constants.
+
+This search and replace accomplished the job:
+
+  % perl -pi -e 's/return\s(OK|DECLINED|FORBIDDEN| \
+    REDIRECT|HTTP_NO_CONTENT|DIR_MAGIC_TYPE| \
+    HTTP_NOT_MODIFIED)/return Apache::$1/xg' Apache/MP3.pm
+
+As you can see the regex explicitly lists all constants that were used
+in C<Apache::MP3>. Your situation may vary. Here is the patch:
+F<code/apache_mp3_7.diff>.
+
+I had to manually fix the C<DIR_MAGIC_TYPE> constant which didn't fit
+the regex pattern:
+
+  --- Apache/MP3.pm.8     2003-06-06 17:24:33.000000000 +1000
+  +++ Apache/MP3.pm       2003-06-06 17:26:29.000000000 +1000
+  @@ -1055,7 +1055,7 @@
+  
+       my $mime = $self->r->lookup_file("$dir/$d")->content_type;
+  
+  -    push(@directories,$d) if !$seen{$d}++ && $mime eq DIR_MAGIC_TYPE;
+  +    push(@directories,$d) if !$seen{$d}++ && $mime eq Apache::DIR_MAGIC_TYPE;
+  
+       # .m3u files should be configured as audio/playlist MIME types in your apache .conf file
+       push(@playlists,$d) if $mime =~ m!^audio/(playlist|x-mpegurl|mpegurl|x-scpls)$!;
+
+And I move on, the next error is:
+
+  [Fri Jun 06 17:28:00 2003] [error] [client 127.0.0.1]
+  Can't locate object method "header_in" via package 
+  "Apache::RequestRec" at .../Apache/MP3.pm line 85.
+
+The L<porting document|docs::2.0::user::porting::compat> quickly
+L<reveals|docs::2.0::user::porting::compat/C__r_E_gt_err_header_out_>
+me that C<header_in()> and its brothers C<header_out()> and
+C<err_header_out()> are R.I.P. and that I have to use the
+corresponding functions C<headers_in()>, C<headers_out()> and
+C<err_headers_out()> which are available in mod_perl 1.0 API as well.
+
+So I adjust the code to use the new API:
+
+  % perl -pi -e 's|header_in\((.*?)\)|headers_in->{$1}|g' Apache/MP3.pm
+  % perl -pi -e 's|header_out\((.*?)\s*=>\s*(.*?)\);|headers_out->{$1} = $2;|g' Apache/MP3.pm
+
+which results in this patch: F<code/apache_mp3_9.diff>.
+
+On the next error C<L<ModPerl::MethodLookup's
+AUTOLOAD|docs::2.0::api::ModPerl::MethodLookup/AUTOLOAD>> kicks in. 
+Instead of complaining:
+
+  [Fri Jun 06 18:35:53 2003] [error] [client 127.0.0.1] 
+  Can't locate object method "FETCH" via package "APR::Table" 
+  at .../Apache/MP3.pm line 85.
+
+I now get:
+
+  [Fri Jun 06 18:36:35 2003] [error] [client 127.0.0.1] 
+  to use method 'FETCH' add:
+        use APR::Table ();
+  at .../Apache/MP3.pm line 85
+
+So I follow the suggestion and load C<APR::Table()>:
+
+  --- Apache/MP3.pm.10    2003-06-06 17:57:54.000000000 +1000
+  +++ Apache/MP3.pm       2003-06-06 18:37:33.000000000 +1000
+  @@ -9,6 +9,8 @@
+   use warnings;
+   no warnings 'redefine';  # XXX: remove when done with porting
+  
+  +use APR::Table ();
+  +
+   use Apache::Const -compile => qw(:common REDIRECT HTTP_NO_CONTENT
+                                    DIR_MAGIC_TYPE HTTP_NOT_MODIFIED);
+
+I continue issuing the request and adding the missing modules again
+and again till I get no more complaints. During this process I've
+added the following modules:
+
+  --- Apache/MP3.pm.11    2003-06-06 18:38:47.000000000 +1000
+  +++ Apache/MP3.pm       2003-06-06 18:39:10.000000000 +1000
+  @@ -9,6 +9,14 @@
+   use warnings;
+   no warnings 'redefine';  # XXX: remove when done with porting
+  
+  +use Apache::Connection ();
+  +use Apache::SubRequest ();
+  +use Apache::Access ();
+  +use Apache::RequestIO ();
+  +use Apache::RequestUtil ();
+  +use Apache::RequestRec ();
+  +use Apache::ServerUtil ();
+  +use Apache::Log;
+   use APR::Table ();
+  
+   use Apache::Const -compile => qw(:common REDIRECT HTTP_NO_CONTENT
+
+The AUTOLOAD code helped me to trace the modules that contain the
+existing APIs, however I still have to deal with APIs that no longer
+exist. Rightfully the helper code says that it doesn't know which
+module defines the method: C<send_http_header()> because it no longer
+exists in Apache 2.0 vocabulary:
+
+  [Fri Jun 06 18:40:34 2003] [error] [client 127.0.0.1] 
+  Don't know anything about method 'send_http_header'
+  at .../Apache/MP3.pm line 498
+
+So I go back to the L<porting
+document|docs::2.0::user::porting::compat> and find the L<relevant 
+entry|docs::2.0::user::porting::compat/C__r_E_gt_send_http_header_>.
+In 2.0 lingo, we just need to set the C<content_type()>:
+
+  --- Apache/MP3.pm.12    2003-06-06 18:43:42.000000000 +1000
+  +++ Apache/MP3.pm       2003-06-06 18:51:23.000000000 +1000
+  @@ -138,7 +138,7 @@
+   sub help_screen {
+     my $self = shift;
+  
+  -  $self->r->send_http_header( $self->html_content_type );
+  +  $self->r->content_type( $self->html_content_type );
+     return Apache::OK if $self->r->header_only;
+  
+     print start_html(
+  @@ -336,7 +336,7 @@
+     my $r = $self->r;
+     my $base = $self->stream_base;
+  
+  -  $r->send_http_header('audio/mpegurl');
+  +  $r->content_type('audio/mpegurl');
+     return Apache::OK if $r->header_only;
+  
+     # local user
+  @@ -495,7 +495,7 @@
+     return Apache::DECLINED unless my ($directories,$mp3s,$playlists,$txtfiles)
+       = $self->read_directory($dir);
+  
+  -  $self->r->send_http_header( $self->html_content_type );
+  +  $self->r->content_type( $self->html_content_type );
+     return Apache::OK if $self->r->header_only;
+  
+     $self->page_top($dir);
+
+also I've noticed that there was this code:
+
+  return Apache::OK if $self->r->header_only;
+
+This technique is no longer needed in 2.0, since Apache 2.0
+automatically discards the body if the request is of type C<HEAD> --
+the handler should still deliver the whole body, which helps to
+calculate the content-length if this is relevant to play nicer with
+proxies. So you may decide not to make a special case for C<HEAD>
+requests.
+
+At this point I was able to browse the directories and play files via
+most options without relying on C<Apache::compat>.
+
+There were a few other APIs that I had to fix in the same way, while
+trying to use the application, looking at the I<error_log> referring
+to the L<porting document|docs::2.0::user::porting::compat> and
+applying the suggested fixes. I'll make sure to send all these fixes
+to Lincoln Stein, so the new versions will work correctly with
+mod_perl 2.0. I also had to fix other C<Apache::MP3::> files, which
+come as a part of the C<Apache-MP3> distribution, pretty much using
+the same techniques explained here. A few extra fixes of interest in
+C<Apache::MP3> were:
+
+=over
+
+=item C<send_fd()>
+
+As of this writing we don't have this function in the core, because
+Apache 2.0 doesn't have it (it's in C<Apache::compat> but implemented
+in a slow way). However we may provide one in the future. Currently
+one can use the function C<sendfile()> which requires a filename as an
+argument and not the file descriptor. So I have fixed the code:
+
+  -    if($r->request($r->uri)->content_type eq 'audio/x-scpls'){
+  -      open(FILE,$r->filename) || return 404;
+  -      $r->send_fd(\*FILE);
+  -      close(FILE);
+  +
+  +    if($r->content_type eq 'audio/x-scpls'){
+  +      $r->sendfile($r->filename) || return Apache::NOT_FOUND;
+
+=item C<log_reason>
+
+C<log_reason> is now C<log_error>:
+
+  -  $self->r->log_reason('Invalid parameters -- possible attempt to circumvent checks.');
+  +  $r->log_error('Invalid parameters -- possible attempt to circumvent checks.')
+;
+
+=back
+
+I have found the porting process to be quite interesting, especially
+since I have found several bugs in Apache 2.0 and documented a few
+undocumented API changes. It was also fun, because I've got to listen
+to mp3 files when I did things right, and was getting silence in my
+headphones and a visual irritation in the form of I<error_log>
+messages when I didn't ;)
+
+
+
 =head1 Porting a Module to Run under both mod_perl 2.0 and mod_perl 1.0
 
-Sometimes code needs to work with both mod_perl versions. This is the
-case for writers of publically available and CPAN modules who wish to
-continue to maintain a single code base, rather than supplying two
-separate implementations.
+Sometimes code needs to work with both mod_perl versions. For example
+this is the case with CPAN module developers who wish to continue to
+maintain a single code base, rather than supplying two separate
+implementations.
 
 =head2 Making Code Conditional on Running mod_perl Version
 
