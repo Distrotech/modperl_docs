@@ -39,12 +39,12 @@ environment.
 It can be a good idea to tighten up some of your Perl programming
 practices, since mod_perl doesn't tolerate sloppy programming.
 
-This chapter relies on a certain level of Perl knowledge. Please
-read through the L<Perl Reference|general::perl_reference::perl_reference/Perl_Reference_> chapter and make sure you
-know the material covered there. This will allow me to concentrate on
-pure mod_perl issues and make them more prominent to the experienced
-Perl programmer, which would otherwise be lost in the sea of Perl
-background notes.
+This chapter relies on a certain level of Perl knowledge. Please read
+through the L<Perl Reference|general::perl_reference::perl_reference>
+chapter and make sure you know the material covered there. This will
+allow me to concentrate on pure mod_perl issues and make them more
+prominent to the experienced Perl programmer, which would otherwise be
+lost in the sea of Perl background notes.
 
 Additional resources:
 
@@ -136,7 +136,8 @@ when the script contains a named nested subroutine (a named - as
 opposed to anonymous - subroutine defined inside another subroutine)
 that refers to a lexically scoped variable defined outside this nested
 subroutine.  This effect is explained in L<my() Scoped Variable in
-Nested Subroutines|general::perl_reference::perl_reference/my_Scoped_Variable_in_Nested_S>.
+Nested 
+Subroutines|general::perl_reference::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>.
 
 Do you see a nested named subroutine in my script? I don't!  What's
 going on? Maybe it's a bug? But wait, maybe the perl interpreter sees
@@ -483,7 +484,8 @@ An example of such a case would be:
   }
 
 To make sure you don't miss these bugs always test your CGI in
-L<single process mode|general::control::control/Running_a_Server_in_Single_Process_Mode>.
+L<single process
+mode|general::control::control/Running_a_Server_in_Single_Process_Mode>.
 
 To solve this particular C</o> modifier problem refer to L<Compiled
 Regular Expressions|general::perl_reference::perl_reference/Compiled_Regular_Expressions>.
@@ -498,7 +500,7 @@ C<Apache::ROOT::perl::test_2epl>.
 =head1 @INC and mod_perl
 
 The basic Perl C<@INC> behaviour is explained in section L<use(), require(),
-do(), %INC and @INC Explained|general::perl_reference::perl_reference/use_require_do_INC_and>.
+do(), %INC and @INC Explained|general::perl_reference::perl_reference/use____require____do_____INC_and__INC_Explained>.
 
 When running under mod_perl, once the server is up C<@INC> is frozen
 and cannot be updated.  The only opportunity to I<temporarily> modify
@@ -1201,7 +1203,7 @@ server configuration. The script should not be used to initialize the
 variables on its first invocation.  To do that, you would need to
 replace each occurrence of return() and warn() with die(). If you do
 that, take a look at the section "L<Redirecting Errors to the Client
-instead of error_log|guide::snippets/Redirecting_Errors_to_the_Client>".
+instead of error_log|guide::snippets/Redirecting_Errors_to_the_Client_Instead_of_error_log>".
 
 I used the above approach when I had a huge configuration file that
 was loaded only at server startup, and another little configuration
@@ -1990,11 +1992,12 @@ You can use backticks as a possible workaround:
 But you're throwing performance out the window either way. It's best
 not to fork at all if you can avoid it. See the "L<Forking or
 Executing subprocesses from
-mod_perl|guide::performance/Forking_and_Executing_Subprocess>" section
-to learn about implications of forking.
+mod_perl|guide::performance/Forking_and_Executing_Subprocesses_from_mod_perl>"
+section to learn about implications of forking.
 
-Also read about L<Apache::SubProcess|guide::porting/CGI_to_mod_perl_Porting__mod_perl_Coding_guidelines__> for
-overridden system() and exec() implementations that work with mod_perl.
+Also read about
+L<Apache::SubProcess|guide::modules/Apache__SubProcess> for overridden
+system() and exec() implementations that work with mod_perl.
 
 =head1 Using format() and write()
 
@@ -2236,8 +2239,8 @@ several requests, global variables persist inside the same process
 from request to request. This means that you must never rely on the
 value of the global variable if it wasn't initialized at the beginning
 of the request processing. See "L<Variables globally, lexically scoped
-and fully qualified|general::perl_reference::perl_reference/Variables_Globally_Lexically_Sc>" for more
-info.
+and fully 
+qualified|general::perl_reference::perl_reference/Variables_Globally__Lexically_Scoped_And_Fully_Qualified>" for more information.
 
 You should avoid using global variables unless it's impossible without
 them, because it will make code development harder and you will
@@ -2245,7 +2248,7 @@ have to make certain that all the variables are initialized before
 they are used. Use my() scoped variables wherever you can.
 
 You should be especially careful with L<Perl Special
-Variables|general::perl_reference::perl_reference/The_Scope_of_the_Special_Perl_Va> which cannot be
+Variables|general::perl_reference::perl_reference/The_Scope_of_the_Special_Perl_Variables> which cannot be
 lexically scoped.  You have to use local() instead.
 
 =head1 Generating correct HTTP Headers
@@ -2550,9 +2553,9 @@ won't be reinitialized, since the subroutine won't be recompiled.
 
 Why can't we use a lexical without hitting the nested subroutine
 effect? Because when we've discussed L<Apache::Registry
-secrets|guide::porting/Exposing_Apache_Registry_secret> we have seen that the
-code is wrapped in a C<handler> routine, effectively turning any
-subroutines within the file a script resides in into nested
+secrets|guide::porting/Exposing_Apache__Registry_secrets> we have seen
+that the code is wrapped in a C<handler> routine, effectively turning
+any subroutines within the file a script resides in into nested
 subroutines. Hence we are forced to use a global in this situation.
 
 Let's make our smart method more elaborate with respect to the
@@ -2651,7 +2654,7 @@ C<PerlFreshRestart> is C<On>.
 =back
 
 Make sure you read L<Evil things might happen when using
-PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_us>.
+PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_using_PerlFreshRestart>.
 
 =head1 END blocks
 
@@ -2685,7 +2688,7 @@ called at the CleanUp processing phase of each request and thus can be
 used to emulate plain perl's C<END{}> block behavior.
 
 The last paragraph is very important for handling the case of L<'User
-Pressed the Stop Button'|guide::debug/Handling_the_User_pressed_Stop_>.
+Pressed the Stop Button'|guide::debug/Handling_the__User_pressed_Stop_button__case>.
 
 If you only want something to run once in the parent on shutdown or
 restart you can use  C<$r-E<gt>register_cleanup()> in the I<startup.pl>.
@@ -3033,9 +3036,10 @@ Under perl 5.6.0 we can do this instead:
 =head1 Code has been changed, but it seems the script is running the old code
 
 Files pulled in via C<use> or C<require> statements are not
-automatically reloaded when they change on disk. See L<Reloading Modules
-and Required Files|guide::porting/Reloading_Modules_and_Required_F> for more
-info.
+automatically reloaded when they change on disk. See L<Reloading
+Modules and Required
+Files|guide::porting/Reloading_Modules_and_Required_Files> for more
+information.
 
 =head1 The Script Is Too Dirty, But It Does The Job And I Cannot Afford To Rewrite It.
 
@@ -3516,7 +3520,7 @@ Perl modules. This breaks the backward compatibility, but gives us
 better performance, mainly because the internals of many of these Perl
 modules are implemented in C, therefore we should get a significant
 improvement in speed. The section "L<TMTOWTDI: Convenience and
-Performance|guide::performance/TMTOWTDI_Convenience_and_Habit_>"
+Performance|guide::performance/TMTOWTDI__Convenience_and_Habit_vs__Performance>"
 compares the three approaches.
 
 What we are going to do is to replace C<CGI.pm> and C<CGI::Cookie>

@@ -166,7 +166,7 @@ as such on Win32, except in this context within Apache.
 See the discussion of configuring 
 L<Apache::Registry|docs::1.0::guide::config/My_CGI_Perl_Code_Gets_Returned_as_Plain_Text_Instead_of_Being_Executed_by_the_Webserver>; for mod_perl 2.0, a
 L<different
-configuration|docs::2.0::user::compat::compat/The_C_Apache__Registry__Family>
+configuration|docs::2.0::user::compat::compat/C_Apache__Registry___C_Apache__PerlRun__and_Friends>
 is required.
 
 =head2 I get a "Save-As" dialogue box when calling a script.

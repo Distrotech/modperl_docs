@@ -185,8 +185,9 @@ lines.  In addition, under mod_perl, certain uses of the C<eval>
 operator and "here documents" are known to throw off Perl's line
 numbering, so the messages reporting warnings and errors can have
 incorrect line numbers. (See L<Finding the Line Which Triggered the
-Error or Warning|guide::debug/Finding_the_Line_Which_Triggered> for more
-information).
+Error or
+Warning|guide::debug/Finding_the_Line_Which_Triggered_the_Error_or_Warning>
+for more information).
 
 Getting the trace helps a lot.
 
@@ -366,7 +367,7 @@ at runtime turn into unique anonymous variables on each scope exit.
 
 For more information see: L<Using global variables and sharing them
 between
-modules/packages|general::perl_reference::perl_reference/Using_Global_Variables_and_Shari>
+modules/packages|general::perl_reference::perl_reference/Using_Global_Variables_and_Sharing_Them_Between_Modules_Packages>
 and an article by Mark-Jason Dominus about how Perl handles variables
 and namespaces, and the difference between C<use vars()> and C<my()> -
 http://www.plover.com/~mjd/perl/FAQs/Namespaces.html .
@@ -858,7 +859,7 @@ explained in the previous section.
 First of all there is nothing to worry about, as long as you don't
 forget to turn the warnings On.  If you do happen to have the 
 "L<my() Scoped Variable in Nested 
-Subroutines|general::perl_reference::perl_reference/my_Scoped_Variable_in_Nested_S>"
+Subroutines|general::perl_reference::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>"
 problem, Perl will always alert you.
 
 Given that you have a script that has this problem, what are the ways
@@ -2457,7 +2458,7 @@ So what if we don't want to touch C<$SIG{__DIE__}> at all? We can
 overcome this by overriding the core die function. This is slightly
 more complex than implementing a C<$SIG{__DIE__}> handler, but is far
 less magical, and is the right thing to do, according to the
-L<perl5-porters mailing list|guide::help/Get_help_with_Perl>.
+L<perl5-porters mailing list|docs::offsite::other/Perl>.
 
 Overriding core functions has to be done from an external
 package/module. So we're going to add that to our C<My::Exception>

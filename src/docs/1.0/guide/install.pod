@@ -1203,10 +1203,13 @@ changed by the time you read this document.  That's why I have used
 the I<x.x.x> convention, instead of using hardcoded version numbers.
 Remember to replace the I<xx> place-holders with the version numbers
 of the distributions you are about to use.  To find out the latest
-stable version number, visit the components' sites.  So if I say
-http://perl.apache.org/dist/mod_perl-1.xx.tar.gz , go to
-http://perl.apache.org/dist/ in order to learn the version number of
-the latest stable release and download the appropriate file.
+stable version number, visit the components' sites.  So if the
+instructions say:
+
+  http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
+
+go to http://perl.apache.org/download/ in order to learn the version
+number of the latest stable release and download the appropriate file.
 
 Unless otherwise noted, all the components install themselves into a
 default location.  When you run C<make install> the installation

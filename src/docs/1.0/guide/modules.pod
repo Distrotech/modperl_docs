@@ -124,7 +124,7 @@ C<Apache::Session> for you.
 =head1 Apache::DBI - Initiate a persistent database connection
 
 See L<mod_perl and relational
-Databases|guide::databases/Apache_DBI_Initiate_a_persist>
+Databases|guide::databases/Apache__DBI___Initiate_a_persistent_database_connection>
 
 =head1 Apache::Watchdog::RunAway - Hanging Processes Monitor and Terminator
 

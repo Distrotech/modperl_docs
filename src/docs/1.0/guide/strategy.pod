@@ -239,8 +239,8 @@ zero static objects, like images), this might be the perfect choice
 for you!
 
 For implementation notes, see the "L<One Plain and One mod_perl
-enabled
-Apache Servers|guide::scenario/One_Plain_and_One_mod_perl_enabled_Apache_Servers>"
+enabled Apache
+Servers|guide::scenario/One_Plain_and_One_mod_perl_enabled_Apache_Servers>"
 section in the implementations chapter.
 
 =head2 One Plain Apache and One mod_perl-enabled Apache Servers
