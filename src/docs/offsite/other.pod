@@ -220,9 +220,6 @@ http://www.bpfh.net/simes/computing/chroot-break.html
 Jails: Confining the omnipotent root:
 http://docs.freebsd.org/44doc/papers/jail/jail.html
 
-FreeBSD Developers' Handbook: The Jail Subsystem
-http://www.freebsd.org/doc/en_US.ISO8859-1/books/developers-handbook/jail.html
-
 =back
 
 =head1 DBI and SQL
@@ -235,7 +232,7 @@ http://www.dbbm.fiocruz.br/class/Lecture/d17/sql/jhoffman/sqltut.html
 
 =item * SQL for Web Nerds by Philip Greenspun
 
-http://www.arsdigita.com/books/sql/
+http://philip.greenspun.com/sql
 
 =item * Jeffrey Baker's DBI Examples and Performance Tuning
 
@@ -246,14 +243,10 @@ Baker).
 
 http://dbi.perl.org/
 
-=item * DBI mailing list information
-
-http://www.fugue.com/dbi/ 
-
 =item * DBI mailing list archives
 
-http://www.bitmechanic.com/mail-archives/dbi-users/
-http://www.xray.mpe.mpg.de/mailing-lists/dbi/
+http://www.mail-archive.com/dbi-users@perl.org/
+http://groups.google.com/groups?hl=en&lr=&ie=UTF-8&oe=UTF-8&group=perl.dbi.usershttp://www.xray.mpe.mpg.de/mailing-lists/dbi/
 
 =back
 
@@ -296,19 +289,13 @@ http://www.cvshome.org/docs/
 
 =item * CVS Quick Reference Card
 
-http://www.refcards.com/about/cvs.html
+http://refcards.com/refcards/cvs/index.html
 
 =back
 
 =head1 Performance and Scalability
 
 =over
-
-=item * Techniques and Technologies for Scaling Internet Services mailing list.
-
-The list's address: scalable@arctic.org.
-Subscribe by sending a message to scalable-subscribe@arctic.org.
-Archive: http://archive.develooper.com/scalable@arctic.org/
 
 =item * Solaris 2.x - Tuning Your TCP/IP Stack and More
 
