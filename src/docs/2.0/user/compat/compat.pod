@@ -7,8 +7,8 @@ mod_perl 1.x versus mod_perl 2.x compatibility issues
 mod_perl 2.x is trying hard to be back compatible with mod_perl
 1.x. However some things (mostly APIs) have been changed. In order to
 gain a complete compatibilty with 1.x while running under 2.x, you
-should build mod_perl with C<MP_COMPAT_1X=1> and simply load the
-compatibility module:
+should build mod_perl with C<MP_COMPAT_1X=1> and load the
+compatibility module as early as possible:
 
   use Apache::compat;
 
@@ -23,7 +23,61 @@ improvement.
 This document explains what APIs have changed and what new APIs should
 be used instead.
 
-=head1 Apache methods
+=head1 Configuration Directives
+
+To continue using mod_perl configuration files from 1.x, build
+mod_perl with C<MP_COMPAT_1X=1>. To migrate the configuration files to
+the 2.x syntax, you may need to do certain adjustments if you use any
+of the configuration directives listed in the following sections.
+
+Remember that if you use any of the new directives you configuration
+won't work anymore with mod_perl 1.x.
+
+=head2 PerlHandler
+
+Replaced with C<PerlResponseHandler>.
+
+=head2 PerlSendHeader
+
+Replaced with C<PerlOptions +/-ParseHeaders> directive.
+
+  PerlSendHeader On  => Options +ParseHeaders
+  PerlSendHeader Off => Options -ParseHeaders
+
+=head2 PerlSetupEnv
+
+Replaced with C<PerlOptions +/-SetupEnv> directive.
+
+  PerlSendHeader On  => Options +SetupEnv
+  PerlSendHeader Off => Options -SetupEnv
+
+=head2 PerlTaintCheck
+
+Now can be turned on with:
+
+  PerlSwitches -T
+
+The default is I<Off>. You cannot turn it I<Off> once it's turned
+I<On>.
+
+=head2 PerlWarn
+
+Now can be turned on with:
+
+  PerlSwitches -w
+
+
+
+
+
+=head1 Apache API
+
+To continue using Apache API from 1.x, load the compatibility module
+as early as possible:
+
+  use Apache::compat;
+
+at the server startup.
 
 =head2 gensym
 
@@ -35,13 +89,23 @@ for gensym() function, since now it can be done with:
 The C function modperl_perl_gensym() is available for XS/C extension
 writers, though.
 
-=head1 Apache::Registry and Apache::PerlRun
+=head2 Apache::File
 
-=head1 Apache::File
+
+
+=head1 Apache::Registry and Apache::PerlRun and Other mod_cgi Emulators
+
+C<Apache::Registry> and C<Apache::PerlRun> now live in the
+C<ModPerl::> namespace to avoid collisions with the versions from 1.x.
+
+META: complete
+
 
 =head1 Apache::StatINC
 
 C<Apache::StatINC> has been replaced by C<Apache::Reload>.
+
+
 
 =head1 Maintainers
 
