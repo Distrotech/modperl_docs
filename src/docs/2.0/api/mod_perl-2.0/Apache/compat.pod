@@ -1,0 +1,59 @@
+=head1 NAME
+
+Apache::compat -- 1.x backward compatibility functions deprecated in 2.x
+
+=head1 SYNOPSIS
+
+  use Apache::compat;
+
+=head1 DESCRIPTION
+
+C<Apache::compat> includes all the functions that are deprecated in
+mod_perl 2.x. If you code uses any of these functions you should just
+include this module in your code and everything should work.
+
+However, certain functionality is not optimized and therefore it's the
+best to try to port your code not to use deprecated functions and stop
+using the compatibility layer.
+
+=head1 API
+
+META: complete
+
+Function arguments (if any) and return values are shown in the
+function's synopsis.
+
+=over
+
+=item * $r->header_in()
+
+  $r->header_in( $header_name, [$value] )
+
+Return the value of a client header:
+
+   $ct = $r->header_in($key);
+
+Set or modify the value of a client header:
+
+   $r->header_in($key, $val);
+
+=item * $r->header_out()
+
+  $r->header_out( $header, $value )
+
+Return the value of a response header:
+
+   $ct = $r->header_out($key);
+
+Set or modify the value of a response header:
+
+   $r->header_out($key, $val);
+
+You should not define any I<"Content-XXX"> headers by calling this
+method, because these headers use their own specific methods.
+
+=item *
+
+=back
+
+=cut
