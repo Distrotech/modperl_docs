@@ -75,6 +75,7 @@ If the code needs to behave differently depending on whether it's
 running under one of the threaded MPMs, or not, the
 C<Apache::MPM_IS_THREADED> constant can be used. For example:
 
+  use APR::OS ();
   if (Apache::MPM_IS_THREADED) {
       my $id = APR::OS::thread_current();
       print "current thread id: $id";
