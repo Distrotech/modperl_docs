@@ -12,8 +12,8 @@ Apache::ServerUtil - Perl API for XXX
   $s = Apache->server;
   my $srv_cfg = $s->dir_config;
   
-  # get 'conf/' dir path using $r
-  my $conf_dir = $s->server_root_relative($r->pool, 'conf');
+  # get 'conf/' dir path using $s
+  my $conf_dir = $s->server_root_relative('conf');
   
   # server level PerlOptions flags lookup
   $s->push_handlers(ChildExit => \&child_exit)
