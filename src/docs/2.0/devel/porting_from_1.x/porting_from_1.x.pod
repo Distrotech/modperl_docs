@@ -1,37 +1,46 @@
 =head1 NAME
 
-Porting Modules from mod_perl 1.x to 2.x
+Porting C<Apache::> Modules from mod_perl 1.0 to 2.0
 
 =head1 Description
 
 If you have released an C<Apache::Foo> module on CPAN you may wonder
-what steps you should take to make your code working under 2.x while
-still preserving 1.x compatibility. This document attempts to answer
-some of the questions related to this issue.
+what steps you should take to make your code working under mod_perl
+2.0 while still preserving 1.0 compatibility. This document attempts
+to answer some of the questions related to this issue.
 
 =head1 Should the Module Name Be Changed?
 
 While you can change the name of the module, it's the best to try to
-preserve the name and use some workarounds, if your module cannot be
-ported to run under 1.x and 2.x at the same time.
+preserve the name and use some workarounds if your module cannot be
+ported to run under 1.0 and 2.0 at the same time.
 
-Most of the existing 1.x modules on CPAN should work with 2.x without
-any change. The ones that will not work are the .xs modules.
+Most of the CPAN C<Apache::> modules for mod_perl 1.0 should work with
+mod_perl 2.0 without any change. Modules including XS code may or may
+not work, depending on whether they use Apache API that have changed
+in Apache 2.0.
 
-Let's say that you have a module C<Apache::Foo> whose release version
-complient with mod_perl 1.x is 1.57. You keep this version on CPAN and
-release a new version 2.01 which is complient with 2.x and preserves
-the name of the module. It's possible that a user may need to have
-both versions of the module on the same machine. Since the two have
-the same name they obviously cannot live under the same tree. One
+Let's say that you have a module C<Apache::Friendly> whose release
+version complient with mod_perl 1.0 is 1.57. You keep this version on
+CPAN and release a new version 2.01 which is complient with 2.0 and
+preserves the name of the module. It's possible that a user may need
+to have both versions of the module on the same machine. Since the two
+have the same name they obviously cannot live under the same tree. One
 attempt to solve that problem is to use C<MP_INST_APACHE2>
 I<Makefile.PL>'s option. If the module is configured as:
 
   % perl Makefile.PL MP_INST_APACHE2=1
 
-it'll be installed relative to the I<Apache2/> directory. The second
-step is to change the documentation of your 2.x complient module to
-say:
+it'll be installed relative to the I<Apache2/> directory.
+
+META: but of course this won't work in non-core mod_perl, since a
+generic C<Makefile.PL> has no idea what to do about
+MP_INST_APACHE2=1. Need to provide copy-n-paste recipe for this. Or
+even add to the core a supporting module that will handle this
+functionality.
+
+The second step is to change the documentation of your 2.0 complient
+module to say:
 
   use Apache2 ();
 
@@ -50,24 +59,47 @@ installs its modules in a version specific directory. For example:
 
 =head1 Requiring a specific mod_perl version.
 
-To require a module to run only under 2.x, simply add:
+To require a module to run only under 2.0, simply add:
 
   use mod_perl 2.0;
 
 to your module. You can also use the variable C<$mod_perl::VERSION>.
 
-=head1 Adjusting Modules to Work with 1.x and 2.x.
+In the configuration file you can use a special configuration define
+C<MODPERL2> which is enabled internally, as if the server had been
+started with C<-DMODPERL2>.
 
-It's possible to adjust your module to work with both 2.x and
-1.x. This is quite easy if your aren't using XS. Interfaces that are
-deprecated in 2.x can be enabled by adding:
+ <IfDefine MODPERL2>
+     # 2.0 configuration
+ </IfDefine>
+ <IfDefine !MODPERL2>
+     # else
+ </IfDefine>
+
+From within Perl code this can be tested with
+C<Apache::exists_config_define()>, for example:
+
+  if (Apache::exists_config_define("MODPERL2")) {
+      # some 2.0 specific code
+  }
+
+=head1 Adjusting Modules to Work with 1.0 and 2.0.
+
+It's possible to adjust your module to work with both 2.0 and
+1.0. This is quite easy if your aren't using XS. Interfaces that are
+deprecated in 2.0 can be enabled by adding:
 
   use Apache::compat();
 
 in the code or I<startup.pl>.
 
 The variable C<$mod_perl::VERSION> should be used in conditionals to
-use the appropriate code for 1.x or 2.x.
+use the appropriate code for 1.0 or 2.0. You can use it to load
+C<Apache::compat> if running under mod_perl 2.0:
+
+  if ($mod_perl::VERSION >= 2.0) {
+      require Apache::compat;
+  }
 
 XS modules will need I<Makefile.PL>/C<#ifdef> logic to work with both
 versions.  But the applications that use them should not need to know
@@ -81,22 +113,45 @@ co-exists with the two versions.
 
 META: to be written
 
+  #ifdef MP_THREADED
+      /* threads specific code goes here */
+  #endif
+
+
+=head1 PerlIO
+
+PerlIO layer has become usable only in perl 5.8.0, so if you plan on
+working with PerlIO, you can use the C<PERLIO_LAYERS> constant. e.g.:
+
+  #ifdef PERLIO_LAYERS
+  #include "perliol.h"
+  #else 
+  #include "iperlsys.h"
+  #endif
+
+
 =head1 'make test' Suite
 
 C<Apache::Test> testing framework that comes together with mod_perl
-2.x works with 1.x and 2.x mod_perl versions. Therefore you should
+2.0 works with 1.0 and 2.0 mod_perl versions. Therefore you should
 consider porting your test suite to use L<the Apache::Test
 Framework|devel::testing::testing>.
 
 =head1 Apache C Code Specific Notes
 
-=head2 ap_hard_timeout() and ap_kill_timeout()
+=head2 Apache Core Documentation
 
-If the C part of the module in 1.x includes I<ap_hard_timeout()> and
-I<ap_kill_timeout()> functions simply remove these in 2.0. There is no
-replacement for these functions because Apache 2.0 uses non-blocking
-I/O.  As a side-effect of this change, Apache 2.0 no longer uses
-C<SIGALRM>, which has caused conflicts in mod_perl 1.xx.
+Most of documentation dedicated for migration to Apache 2.0 can be
+found at: http://httpd.apache.org/docs-2.0/developer/
+
+=head2 ap_soft_timeout(), ap_reset_timeout(), ap_hard_timeout() and ap_kill_timeout()
+
+If the C part of the module in 1.0 includes C<ap_soft_timeout()>,
+C<ap_reset_timeout()>, C<ap_hard_timeout()> and C<ap_kill_timeout()>
+functions simply remove these in 2.0. There is no replacement for
+these functions because Apache 2.0 uses non-blocking I/O.  As a
+side-effect of this change, Apache 2.0 no longer uses C<SIGALRM>,
+which has caused conflicts in mod_perl 1.0.
 
 
 =head1 Maintainers
