@@ -1178,7 +1178,9 @@ with configuration directives.  A few of which include:
 
 =item *
 
-Method calls faster than subroutine calls!
+Method calls faster than subroutine calls! 
+
+(XXX: only in the future)
 
 =item *
 

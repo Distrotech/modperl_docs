@@ -1,23 +1,23 @@
 =head1 NAME
 
-Migrating from mod_perl 1.x to mod_perl 2.x
+Migrating from mod_perl 1.0 to mod_perl 2.0
 
 =head1 Description
 
-This chapter explains how to port code from mod_perl 1.x to mod_perl
-2.x.
+This chapter explains how to port code from mod_perl 1.0 to mod_perl
+2.0.
 
 
 
 
-=head1 Configuration Porting
+=head1 Configuration Files Porting
 
-To migrate the configuration files to the mod_perl 2.x syntax, you may
+To migrate the configuration files to the mod_perl 2.0 syntax, you may
 need to do certain adjustments if you use any of the configuration
 directives listed in the following sections.
 
 Remember that if you use any of the new directives, your configuration
-won't work anymore with mod_perl 1.x.
+won't work anymore with mod_perl 1.0.
 
 =head2 C<PerlHandler>
 
@@ -61,27 +61,27 @@ Warnings now can be enabled globally with:
 
 =head1 Code Porting
 
-mod_perl 2.x is trying hard to be back compatible with mod_perl
-1.x. However some things (mostly APIs) have been changed. In order to
-gain a complete compatibilty with 1.x while running under 2.x, you
+mod_perl 2.0 is trying hard to be back compatible with mod_perl
+1.0. However some things (mostly APIs) have been changed. In order to
+gain a complete compatibilty with 1.0 while running under 2.0, you
 should load the compatibility module as early as possible:
 
   use Apache::compat;
 
 at the server startup. And unless there are forgotten things or bugs,
-your code should work without any changes under 2.x series.
+your code should work without any changes under 2.0 series.
 
-If you have mod_perl 1.x and 2.x installed on the same system and the
+If you have mod_perl 1.0 and 2.0 installed on the same system and the
 two use the same perl libraries directories (e.g. I</usr/lib/perl5>),
 make sure to load first the C<Apache2> module which will perform the
 necessary adjustments to C<@INC>.
 
-  use Apache2; # if you have 1.x and 2.x installed
+  use Apache2; # if you have 1.0 and 2.0 installed
   use Apache::compat;
 
-However, unless you want to keep the 1.x compatibility, you should try
+However, unless you want to keep the 1.0 compatibility, you should try
 to remove the compatibility layer and adjust your code to work under
-2.x without it. You want to do it mainly for the performance
+2.0 without it. You want to do it mainly for the performance
 improvement.
 
 This document explains what APIs have changed and what new APIs should
@@ -92,16 +92,16 @@ be used instead.
 
 C<Apache::Registry>, C<Apache::PerlRun> and other modules from the
 registry family now live in the C<ModPerl::> namespace to avoid
-collisions with the versions from 1.x.
+collisions with the versions from 1.0.
 
-To run the C<Apache::Registry> module from mod_perl 1.x you have to
+To run the C<Apache::Registry> module from mod_perl 1.0 you have to
 load C<Apache::compat> at the startup:
 
   file:startup.pl:
   ----------------
-  use Apache2; # if you have 1.x and 2.x installed
+  use Apache2; # if you have 1.0 and 2.0 installed
   use Apache::compat ();
-  use lib ...; # to find 1.xx Apache::Registry
+  use lib ...; # to find 1.0x Apache::Registry
 
 then in I<httpd.conf>:
 
@@ -162,7 +162,7 @@ splitting it into an array. You can also set the query string by
 passing a string to this method.
 
 C<$r-E<gt>content()> and C<$r-E<gt>args()> in an array context were
-mistakes that never should have been part of the mod_perl 1.x
+mistakes that never should have been part of the mod_perl 1.0
 API. There multiple reason for that, among others:
 
 =over
@@ -212,7 +212,7 @@ gone from the API.
 
 =head2 C<$r-E<gt>connection-E<gt>user>
 
-This method is deprecated in 1.x and C<$r-E<gt>user> should be used
+This method is deprecated in 1.0 and C<$r-E<gt>user> should be used
 instead for both versions of mod_perl. C<Apache::user()> method is
 available since mod_perl version 1.24_01.
 
@@ -252,7 +252,7 @@ extensions writers.
 
 C<header_in()>, C<header_out()> and C<err_header_out()> are not
 available in 2.0. Use C<headers_in()>, C<headers_out()> and
-C<err_headers_out()> instead (which should be used in 1.x as
+C<err_headers_out()> instead (which should be used in 1.0 as
 well). For example you need to replace:
 
   $r->err_header_out("Pragma" => "no-cache");
@@ -313,7 +313,7 @@ configure:
 
 =head2 C<send_fd()> and C<send_fd_length()>
 
-currently available only in the 1.x compatibility layer. The problem
+currently available only in the 1.0 compatibility layer. The problem
 is that Apache has changed the API and the its functionality. See the
 implementation in C<Apache::compat>.
 
@@ -393,7 +393,7 @@ See the L<APR::URI> manpage.
 
 =head2 Method Handlers
 
-In mod_perl 1.x the method handlers could be specified by using the
+In mod_perl 1.0 the method handlers could be specified by using the
 C<($$)> prototype:
 
   package Bird;
