@@ -419,12 +419,12 @@ div.quotation {
     font-style: normal;
     font-weight: bold;
     text-align: justify;
-    padding-top: 10;
-    padding-right: 40;
-    padding-bottom: 10;
-    padding-left: 40;
-    margin-right: 20;
-    margin-left: 20;
+    padding-top: 10px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    margin-right: 20px;
+    margin-left: 20px;
     border-width: 0;
     border-style: solid;
 }
@@ -434,6 +434,6 @@ div.quote-details {
     font-family: helvetica, arial, verdana, sans-serif;
     font-weight: normal;
     font-size: 0.9em;
-    margin-top: 10;
+    margin-top: 10px;
     float: right;
 }
