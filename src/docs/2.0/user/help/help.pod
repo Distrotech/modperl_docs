@@ -205,53 +205,22 @@ example:
 
 At the moment the second test suite is not run if the first one fails.
 
+
+
+
 =head2 Resolving Segmentation Faults
 
 If during C<make test> or the use of mod_perl you get a segmentation
-fault you should send to the list a stack backtrace. This
-L<section|devel::debug::c/Analyzing_Dumped_Core_Files> explains how to
-extract this backtrace.
+fault you should send to the list a stack backtrace.  L<This
+section|devel::debug::c/Analyzing_Dumped_Core_Files> explains how to
+get the core file and extract this backtrace. Once a proper stack
+backtrace is obtained append it to the bug report as explained in the
+previous section.
 
-Of course to generate a useful backtrace you need to have mod_perl
-with debugging symbols in it (and probably perl and/or httpd too) and
-also to be able to see the arguments in the calls trace. To accomplish
-that do:
 
-=over
 
-=item * mod_perl
 
-rebuild mod_perl with C<MP_DEBUG=1>.
 
-  % perl Makefile.PL MP_DEBUG=1 ...
-  % make && make test && make install
-
-=item * httpd
-
-If the segfault happens inside I<ap_> or I<apr_> calls, rebuild httpd
-with C<--enable-maintainer-mode>:
-
-  % ./configure --enable-maintainer-mode ...
-  % make && make install
-
-=item * perl
-
-If the segfault happens inside I<Perl_> calls, rebuild perl with
-C<-Doptimize='-g'>:
-
-  % ./Configure -Doptimize='-g' ...
-  % make && make test && make install
-
-=item * 3rd party perl modules
-
-if the trace happens in one of the 3rd party perl modules, make sure
-to rebuild them, now that you've perl re-built with debugging
-flags. They will automatically pick the right compile flags from perl.
-
-=back
-
-Once a proper stack backtrace is obtained append it to the bug report
-as explained in the previous section.
 
 =head2 Please Ask Only Questions Related to mod_perl
 
