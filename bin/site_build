@@ -21,7 +21,7 @@ my $dst = "/www/perl.apache.org";
 umask 0002;
 
 my $HOME = $ENV{HOME};
-$ENV{PATH} = "/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/local/bin:/usr/X11R6/bin:$HOME";
+$ENV{PATH} = "/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/local/bin:/usr/X11R6/bin:$HOME/bin";
 
 $ENV{PERL5LIB} = "$HOME/lib/perl5/5.00503:$HOME/lib/perl5/site_perl/5.005:$HOME/lib/perl5/site_perl:$HOME/lib/perl5";
 
@@ -67,9 +67,17 @@ sub online_sync {
 }
 
 sub fs_is_full {
-    my $x = qx{ df | grep /x2 };
-    my ($s) = ($x =~ /(\d+)\%/);
-    # when size(fs)>=95 we most likely will fail to create files 
-    return $s > 94 ? 1 : 0;
+    # get available disk space
+    my $disk = qx{ df | grep /x2 };
+    my ($disk_avail) = ($disk =~ /(\d+)\s+\d+\%/); # avail is before capacity
+
+    # get size of site
+    my $site = qx{ du -c $rel | grep total };
+    my ($site_size) = ($site =~ /^(\d+)/);
+
+    # print "site_size = $site_size , disk_avail = $disk_avail";
+
+    # give us a margin of 50MB
+    return $site_size + 50*1024 > $disk_avail ? 1 : 0;
 
 }
