@@ -179,6 +179,13 @@ stuck in.
 
 Finally send all these details to the modperl mailing list.
 
+=head1 Help on Related Topics
+
+When developing with mod_perl, you often find yourself having
+questions regarding other projects and topics like Apache, Perl, SQL,
+etc. L<This document|docs::offsite::other> will help you find the
+right resource where you can find the answers to your questions.
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
