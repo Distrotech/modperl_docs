@@ -1,0 +1,81 @@
+=head1 NAME
+
+mod_perl Documentation project's Changes File Specs
+
+=head1 Description
+
+This doc clears the confusion regarding the need and the maintenance
+guidelines of I<Changes.pod> files in the project.
+
+=head1 Who Has Contributed What And When
+
+All the modifications of every single file can be viewed via C<cvs
+log> command. e.g., to check the history of this very file, one would
+run:
+
+  % cvs log admin/changes_file.pod
+
+Which will display all the commit logs, who has committed the change,
+who has submitted the changes, etc.
+
+=head1 The Art of Changes File
+
+The I<Changes.pod> document is not the same as the history of all
+changes. This document is for end user consumption, who is interested
+to know what are the major changes since the last time she read the
+documents. Or minor but important changes, like bug fixes.
+
+Therefore the I<Changes.pod> document is only needed when some
+sub-project goes through changes which will be of interest to the
+reader. Don't just add I<Changes.pod> everywhere, until you really
+think it's needed.
+
+The format of this document should be as dense as possible, so the
+reader can read through it fast and pin-point if there is something
+interesting to it.
+
+There is no need to log the date every time the change is done ('cvs
+log' has all the info). Though it's nice to group the changes by
+certain milestones, so let's say every few month a time stamp is added
+in front of the group of the changes since the last timestamp and new
+changes will go to the new group. The change entries in the
+I<docs/1.0/guide/Changes.pod> is a good example of that. In addition
+it used to add a version number for each milestone, which is very
+optional now.
+
+=head1 The Scope of Changes.pod
+
+Usually we have a separate I<Changes.pod> file for each sub-set of the
+documents. If you feel that the changes for a few sub-sets nested in
+the same super-set of docs can be maintained in one file, have only
+one I<Changes.pod>. Later if this file becomes too overloaded and its
+added value is getting diminished, split it into a few I<Changes.pod>
+files placed in each sub-set. Or if you think that this will happen in
+the near future do this from the beginning to avoid the slicing work
+later.
+
+=head1 Adding Credits
+
+If you are the maintainer of the document, you don't have to credit
+each change done by you, with your name, simply leave the change entry
+un-credited, which automatically implies that you did that.
+
+If someone commits something to the document maintained by someone
+else simply mark it with your name e.g. [Thomas Klausner]. Those who
+commit all the time, should pick some short (nick?)name that will
+distinguish them from others and make their changes with it. e.g
+[thomas]. The idea is to have the changes file with as little noise as
+possible.
+
+There is a special case where we want to credit people who contributed
+very minor fixes, which don't deserve a separate changes entry. In
+this case just have a special entry like C<Minor fixes>, where you
+simply list the names of those who contributed because we want to give
+credits to everybody. Again the I<docs/1.0/guide/Changes.pod> file
+perfectly demonstrates that.
+
+=head1 Sample Changes.pod
+
+See <docs/1.0/guide/Changes.pod>.
+
+=cut
