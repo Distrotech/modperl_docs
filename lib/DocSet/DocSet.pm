@@ -21,7 +21,6 @@ sub new {
     return $self;
 }
 
-
 sub init {
     my($self, $config_file, $parent_o, $src_rel_dir) = @_;
 
@@ -177,7 +176,7 @@ sub docset_scan_n_cache {
     my $dst_root = $self->get_dir('dst_root');
     my $dst_index = "$dst_root/$src_rel_dir/index.html";
     my($should_update, $reason) = 
-        should_update($cfg_file, $dst_index);
+        $self->should_update($cfg_file, $dst_index);
     $docset->modified(1) if $should_update;
 
     note "\n"; # mark the end of scan
@@ -223,7 +222,7 @@ sub chapter_scan_n_cache {
     $self->trg_chapters($rel_dst_path) unless $hidden;
 
     ### to rebuild or not to rebuild
-    my($should_update, $reason) = should_update($src_path, $dst_path);
+    my($should_update, $reason) = $self->should_update($src_path, $dst_path);
     if (!$should_update) {
         note "--- $src_file: skipping ($reason)";
         return undef;
@@ -283,7 +282,7 @@ sub scan_copy_the_rest {
 
         # to rebuild or not to rebuild
         my($should_update, $reason) = 
-            should_update($src_path, $dst_path);
+            $self->should_update($src_path, $dst_path);
         if (!$should_update) {
             note "--- skipping cp $src_path $dst_path ($reason)";
             next;
@@ -341,6 +340,39 @@ sub copy_the_rest {
 # an abstract method
 sub complete {}
 
+# die with the error, and supply the context in which the error has happened
+sub error {
+    my $self = shift;
+
+    my @context;
+    push @context, "config file: $self->{config_file}";
+
+    die map({"!!! err: $_\n"} @_),
+        "in context:\n", map({"\t$_\n"} @context);
+
+}
+
+sub should_update {
+    my($self, $src_path, $dst_path) = @_;
+
+    unless (-e $src_path) {
+        $self->error("cannot find $src_path");
+    }
+
+    # to rebuild or not to rebuild
+    my $not_modified = 
+        (-e $dst_path and -M $dst_path < -M $src_path) ? 1 : 0;
+
+    my $reason = $not_modified ? 'not modified' : 'modified';
+    if (DocSet::RunTime::get_opts('rebuild_all')) {
+        return (1, "$reason / forced");
+    }
+    else {
+        return (!$not_modified, $reason);
+    }
+
+}
+
 1;
 __END__
 
@@ -361,6 +393,8 @@ C<DocSet::DocSet> - An abstract docset generation class
   $docset->set_dir(abs_root => ".");
   $docset->scan;
   $docset->render;
+
+  my $should_update = $self->should_update($src_path, $dst_path);
 
 =head1 DESCRIPTION
 
@@ -424,6 +458,16 @@ index page linking all the items.
 
 Copies the files which aren't processed (i.e. images, css files, etc.)
 and were modified as-is.
+
+=item * should_update
+
+  my $should_update = $self->should_update($src_path, $dst_path);
+
+Compare the timestamps/existance of src and dst paths and return
+(true, reason) if src is newer than dst otherwise return (false,
+reason)
+
+If rebuild_all runtime is on, this always returns (true, reason)
 
 =back
 

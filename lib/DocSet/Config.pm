@@ -59,6 +59,8 @@ sub read_config {
     my($self, $config_file) = @_;
     die "Configuration file is not specified" unless $config_file;
 
+    $self->{config_file} = $config_file;
+
     my $package = path2package($config_file);
     $self->{package} = $package;
 
@@ -737,22 +739,29 @@ pure code, archives, etc. There are two attributes to handle this:
 
 =item * copy_glob
 
-Accepts a reference to an array of files and directories to copy. Note
-that you must use shell wildcharacters if you want deep directory
-copies, which also works for things like: C<*.html>. If you simply
-specify a directory name it'll be copied without any contents (this is
-a feature!). For example:
+Accepts a reference to an array of files and directories to copy. The
+items of the array are run through glob(), therefore wild characters
+can be used to match only certain files. But be careful since if you
+say:
+
+   images/*
+
+and there are some hidden files (and dirs) that need to be copied,
+they won't be copied, since C<*> doesn't match them.
+
+For example:
 
      # non-pod/html files or dirs to be copied unmodified
      copy_glob => [
          qw(
             style.css
-            images/*
+            images
            )
      ],
 
-will copy I<style.css> and all the files under the I<images/>
-directory.
+will copy the file I<style.css> and all the files and directories
+under the I<images/> directory into the parallel tree at the
+destination directory.
 
 =item * copy_skip
 

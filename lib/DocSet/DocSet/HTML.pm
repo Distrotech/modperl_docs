@@ -99,7 +99,6 @@ sub write_index_file {
          pdf_doc  => $self->pdf_doc,
     );
 
-
     # plaster index top and bottom docs if defined (after converting them)
     if (my $body = $self->get('body')) {
         my $src_root = $self->get_dir('src_root');

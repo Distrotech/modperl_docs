@@ -22,8 +22,8 @@ use vars qw(@ISA @EXPORT);
 @EXPORT = qw(read_file read_file_paras copy_file gzip_file write_file
              create_dir filename filename_ext require_package dumper
              sub_trace note get_date get_timestamp proc_tmpl
-             build_matchmany_sub banner should_update confess cluck
-             carp format_bytes expand_dir which);
+             build_matchmany_sub banner confess cluck carp
+             format_bytes expand_dir which);
 
 # copy_file($src_path, $dst_path);
 # copy a file at $src_path to $dst_path, 
@@ -185,30 +185,6 @@ sub proc_tmpl {
 
 }
 
-# compare the timestamps/existance of src and dst paths 
-# and return (true,reason) if src is newer than dst 
-# otherwise return (false, reason)
-#
-# if rebuild_all runtime is on, this always returns (true, reason)
-#
-sub should_update {
-    my($src_path, $dst_path) = @_;
-
-    die "cannot find $src_path" unless -e $src_path;
-
-    # to rebuild or not to rebuild
-    my $not_modified = 
-        (-e $dst_path and -M $dst_path < -M $src_path) ? 1 : 0;
-
-    my $reason = $not_modified ? 'not modified' : 'modified';
-    if (DocSet::RunTime::get_opts('rebuild_all')) {
-        return (1, "$reason / forced");
-    } else {
-        return (!$not_modified, $reason);
-    }
-    
-
-}
 
 sub banner {
     my($string) = @_;
@@ -259,6 +235,7 @@ sub format_bytes {
       die "cannot handle formatting of $bytes"
   }
 }
+
 
 sub expand_dir {
     my @files = ();
@@ -344,7 +321,7 @@ C<DocSet::Util> - Commonly used functions
 
   require_package($package);
   my $output = proc_tmpl($tmpl_root, $tmpl_file, $mode, $vars);
-  my $should_update = should_update($src_path, $dst_path);
+
   banner($string);
 
   my $sub_ref = build_matchmany_sub($ra_regex);
@@ -383,8 +360,6 @@ META: to be completed (see SYNOPSIS meanwhile)
 =item * require_package
 
 =item * proc_tmpl
-
-=item * should_update
 
 =item * banner
 
