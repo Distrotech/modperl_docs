@@ -53,7 +53,7 @@ The most recent changes are listed first.
   o remove qw() or variables list in guide::perl (Tim Noll
     <tnoll@grapevine.net>)
 
-
+  o install: (Per Einar Ellefsen <per.einar@skynet.be>)
 
 =head1 Nov 15 2001 ver 1.31
 

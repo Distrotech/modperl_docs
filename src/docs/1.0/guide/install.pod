@@ -14,7 +14,7 @@ build and install a basic mod_perl enabled Apache server on almost any
 standard flavor of Unix OS.
 
   % cd /usr/src
-  % lwp-download http://www.apache.org/dist/apache_x.x.x.tar.gz
+  % lwp-download http://www.apache.org/dist/httpd/apache_x.x.x.tar.gz
   % lwp-download http://perl.apache.org/dist/mod_perl-x.xx.tar.gz
   % tar xzvf apache_x.x.x.tar.gz
   % tar xzvf mod_perl-x.xx.tar.gz
@@ -164,7 +164,7 @@ when DSO is enabled for module C<mod_foo> via:
 
 or by explicitly adding C<mod_so> via:
 
-  ./configure --enable-module=so>.
+  ./configure --enable-module=so
 
 =item APache eXtenSion (APXS) support tool
 
