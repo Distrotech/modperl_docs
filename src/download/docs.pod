@@ -100,7 +100,7 @@ Rebuilding the PDF version is just as easy, just run:
 
   % bin/build -d
 
-There are some times however whena  simple rebuild will be enough:
+There are some times however when a simple rebuild will not be enough:
 usually when there are changes made to the design or to I<config.cfg>
 files. In that case, you will need to force the whole rebuild:
 

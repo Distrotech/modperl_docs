@@ -39,10 +39,8 @@ L<docs-dev|maillist::list-docs-dev>
 If the correction is minor, please specify the full URL you are
 talking about.
 
-If the correction is medium to large, please retrieve the
-documentation source package or use the cvs repository and submit the
-patch against the latest version.
-
-META: links?
+If the correction is medium to large use the cvs repository and submit
+the patch against the latest version. L<This document|download::docs>
+explains how to use the cvs repository.
 
 =cut

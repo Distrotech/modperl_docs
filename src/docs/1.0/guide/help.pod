@@ -264,65 +264,7 @@ http://www.heise.de/ix/artikel/2000/01/156/
 
 =back
 
-=item * mod_perl mailing lists
-
-META: shouldn't we just link directly to the mailing list page? (once
-linking to a section works).
-
-=over
-
-=item *
-
-L<The mod_perl mailing list|maillist::list-modperl>
-
-The Apache/Perl mailing list I<is available for mod_perl users and
-developers to share ideas, solve problems and discuss things related
-to mod_perl and the Apache::* modules.>
-
-See the L<mailing list's info page|maillist::list-modperl> for more info.
-
-
-=item *
-
-L<The mod_perl development mailing list|maillist::list-dev>
-
-This list is for discussions about the development of the core
-mod_perl.
-
-
-=item *
-
-L<The mod_perl documentation mailing list|maillist::list-docs-dev>
-
-This mailing list is for discussing mod_perl documentation, and is the one
-you should contact with issues related to this Guide or other
-documentation on this website.
-
-=item *
-
-L<The Apache test framework development mailing
-list|maillist::list-test-dev>
-
-The test-dev list is the list where Apache HTTP Test project is
-discussed.
-
-=item *
-
-L<The advocacy mailing list|maillist::list-advocacy>
-
-The list for mod_perl advocacy issues, discussions about
-sites, etc.
-
-=item *
-
-L<The modperl-cvs mailing list|maillist::list-cvs>
-
-The modperl developers list is the list where you can watch mod_perl
-getting patched.  No real discussions happen on this list, but if you
-want to know about the latest changes in the mod_perl core before
-everyone else, this is a list to be on.
-
-=back
+=item * L<mod_perl mailing lists|maillist::index>.
 
 =back
 
