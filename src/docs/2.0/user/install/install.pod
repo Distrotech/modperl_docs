@@ -45,8 +45,9 @@ it, it B<must> be I<ithreads> and not I<5005threads>! If you have:
   use5005threads='define';
 
 you must rebuild Perl without threads enabled or with
-C<-Dusethreads>. Remember that threads support slows things down, so
-don't enable it unless you really need it.
+C<-Dusethreads>. Remember that threads-support slows things down and
+on some platforms it's unstable (e.g., FreeBSD), so don't enable it
+unless you really need it.
 
 =item threaded MPMs
 
