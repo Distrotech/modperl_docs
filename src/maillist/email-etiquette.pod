@@ -28,9 +28,7 @@ and `man perl'.
 
 =head1 How To Get Help With mod_perl Itself
 
-http://perl.apache.org/ is the mod_perl home, it has links for
-everything related to mod_perl.
-
+Please read the sections on L<getting help with mod_perl 1.x|docs::1.0::guide::help> or L<getting help with mod_perl 2.x|docs::2.0::user::help>, depending on what version you are using.
 
 =head2 Documentation which comes with the distribution
 
@@ -46,8 +44,8 @@ show that you have made the effort of reading the documentation.
 
 =head2 Other documentation
 
-There are dozens of references to many authoritative resources at
-the L<mod_perl Guide's help chapter|docs::1.0::guide::help>
+There are dozens of references to many authoritative resources in
+the L<Offsite Resources|docs::offsite> section.
 
 =head1 How to get on (and off!) the mod_perl mailing list
 
@@ -250,6 +248,10 @@ Some suggested tags are:
 		extended discussion of a specific topic, it is helpful if
 		someone summarizes the thread.  Don't be shy, everyone will
 		appreciate the effort.
+
+  mod_perl2     As currently both versions of mod_perl are beeing supported
+                on the same list, adding a tag to specifiy which version you
+                are talking about might be a good idea. 
 
 If you can't find a tag which fits your subject, don't worry.  If you
 have a very specific subject to discuss, feel free to choose your own
