@@ -52,6 +52,6 @@ Changes file.
 
 =head1 See Also
 
-L<Apache>, L<Apache::Constants>
+L<Apache>, L<Apache::Constants|docs::1.0::api::Apache::Constants>
 
 =cut
