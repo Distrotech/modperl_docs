@@ -49,8 +49,7 @@ stopping an Apache-2 service a memory error results if modperl is
 enabled. Please let me know of any problems you might have in getting
 this package installed; for questions/problems on Apache-2, see the
 docs at http://httpd.apache.org/docs-2.0/, and for modperl-2, see the
-information at http://perl.apache.org/ on subscribing to the "dev"
-mailing list.
+information on L<subscribing to the "dev" mailing list|maillist::dev>.
 
 =head2 Win32 Active Perl
 

@@ -115,10 +115,10 @@ this person.
 
 =head3 Read The Documentation
 
-Please read as much of the documentation as you can before posting.
-Please also try to see if your question has been asked recently, there
-are links to searchable archives of the list on the mod_perl home page
-http://perl.apache.org/.
+Please read as much of the L<documentation|docs::index> as you can
+before posting.  Please also try to see if your question has been
+asked recently, there are links to searchable archives on the
+L<mailing list pages|maillist::index>.
 
 
 =head3 Give Full Information
@@ -355,50 +355,16 @@ thing.  Don't get involved.
 
 =head1 The mod_perl Guide
 
-You absolutely B<must> read the mod_perl Guide.
+You absolutely B<must> read the L<mod_perl documentation|docs::index>.
 
-It is a large document, you probably will want to download it and read
-it off-line.  If you get the source (see below, L<Corrections and
-Contributions|/Corrections_and_Contributions>) it comes with a 
-build file to turn the .pod (Plain Old Documentation) source into
-HTML, .ps (PostScript) and .pdf (Portable Document Format).  You will
-need at least Perl version 5.005 to build it.  If you browse the Guide
-on-line you can use one of the search engines to find things in it.
-If you build and browse your own local HTML copy of the Guide, some of
-the links in it will not work unless you are connected to the
-Internet.  Some people prefer to work offline, using tools like `grep'
-or `mc' to search the .pod source directly.
+There are many documents, but they are worth reading, as they might
+solve your problems and teach you better coding. Each document also
+has a C<[PDF]> link so that you can print it. If you want to download
+the documentation locally, see the L<Documentation
+download|download::docs> section. You can then build the whole site
+locally.
 
-
-=head2 Finding the Guide
-
-Simply go to the L<mod_perl Guide|docs::1.0::guide::index>.
-
-=head2 Corrections and Contributions
-
-META: this needs to be corrected when the new site is released!
-
-Corrections and additions to the Guide are welcome.  The original is
-kept in .pod format, and it is converted to other formats by Perl
-code.  The Guide changes rather frequently (the CVS snapshot is
-updated every six hours!) so if you want to make a contribution make
-sure that you get the latest version of the Guide source from the cvs
-repository:
-
-  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" login
-
-password: "anoncvs".
-
-  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" co modperl-docs
-
-The guide's in the I<src/docs/1.0/guide> directory.
-
-Please make your changes to the .pod source only and then post the
-output of
-
-  % cvs diff -u filename(s)
-
-ot the whole modified files to the L<modperl-docs mailing
-list|maillist::docs-dev>.
+Contributions are very welcome, see the same page for details on how
+to submit patches.
 
 =cut

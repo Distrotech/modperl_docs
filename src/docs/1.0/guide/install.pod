@@ -2579,7 +2579,8 @@ protected, so no one will turn off the power or break it.
 =item *
 
 Look for another ISP with lots of resources or one that supports
-mod_perl. You can find a list of these ISPs at http://perl.apache.org .
+mod_perl. You can find a L<list of these ISPs|help::isps> on this
+site.
 
 =back
 

@@ -47,8 +47,7 @@ Many people ask "How much of a performance improvement does mod_perl
 give?" Well, it all depends on what you are doing with mod_perl and
 possibly who you ask. Developers report speed boosts from 200% to
 2000%. The best way to measure is to try it and see for yourself! (See
-http://perl.apache.org/tidbits.html and
-http://perl.apache.org/stories/ for the facts.)
+L<Technologie Extraordinaire|outstanding::index> for the facts.)
 
 =head2 mod_cgi
 
