@@ -11,11 +11,13 @@ use File::Find ();
 use Data::Dumper;
 use Carp;
 use Template;
+use File::Spec;
 use File::Spec::Functions;
 
 require DocSet::RunTime; # interdependency with DocSet::Util
 
 use constant IS_WIN32 => $^O eq 'MSWin32';
+use constant PERL_LT_580 => $] < 5.008;
 
 use vars qw(@ISA @EXPORT);
 @ISA    = qw(Exporter);
@@ -135,6 +137,18 @@ sub path2uri {
     return unless defined $_[0];
     return join '/', File::Spec->splitdir(shift);
 }
+
+# File::Spec->abs2rel doesn't strip the volume (e.g. /^c:/) before
+# Perl v5.8.0 on Win32. This function fixes this bug.
+#
+# Make sure to call this function as DocSet::Util::abs2rel, especially
+# in the code that already uses File::Spec functions.
+sub abs2rel {
+    my $res = File::Spec->abs2rel(@_);
+    $res =~ s/^[a-zA-Z]:// if IS_WIN32 && PERL_LT_580 && defined $res;
+    $res;
+}
+
 
 sub get_date {
     sprintf "%s %d, %d", (split /\s+/, scalar localtime)[1,2,4];
