@@ -158,6 +158,7 @@ list|maillist::modperl>, so we can update this information:
   Module Name                        Required Dist Package
   --------------------------------------------------------
   Apache::ASP                       Apache-ASP-2.55
+  Apache::AuthCookie                Apache-AuthCookie-3.05
   Apache::AuthExpire                Apache-AuthExpire-0.38
   Apache::AuthNetLDAP               Apache-AuthNetLDAP-0.25
   Apache::AuthPerLDAP               Apache-AuthPerLDAP-2.01
