@@ -439,6 +439,10 @@ data. The last bucket in the brigade received by the request input
 filter is of type I<EOS>, meaning that all the input data from the
 current request has been received.
 
+META: that's not true anymore, Apache now doesn't set CL header for
+dynamic content, so there is no setaside. Need to adjust the section
+for this change.
+
 Next we can see that C<MyApache::Dump::handler> has generated its
 response. However only the request output filter is filtering it at
 this point:
