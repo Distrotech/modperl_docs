@@ -1,13 +1,13 @@
 =head1 NAME
 
-Apache::URI - Perl API for manipulating URIs
+Apache2::URI - Perl API for manipulating URIs
 
 
 
 
 =head1 Synopsis
 
-  use Apache::URI ();
+  use Apache2::URI ();
   
   $hostport = $r->construct_server();
   $hostport = $r->construct_server($hostname);
@@ -23,7 +23,7 @@ Apache::URI - Perl API for manipulating URIs
   $parsed_uri = $r->parsed_uri();
   
   $url = join '%20', qw(one two three);
-  Apache::URI::unescape_url($url);
+  Apache2::URI::unescape_url($url);
 
 
 
@@ -36,7 +36,7 @@ Apache::URI - Perl API for manipulating URIs
 =head1 Description
 
 While C<APR::URI> provides a generic API to dissect, adjust and put
-together any given URI string, C<Apache::URI> provides an API specific
+together any given URI string, C<Apache2::URI> provides an API specific
 to Apache, by taking the information directly from the C<$r>
 object. Therefore when manipulating the URI of the current HTTP
 request usually methods from both classes are used.
@@ -48,7 +48,7 @@ request usually methods from both classes are used.
 
 =head1 API
 
-C<Apache::URI> provides the following functions and methods:
+C<Apache2::URI> provides the following functions and methods:
 
 
 
@@ -67,7 +67,7 @@ Construct a string made of hostname and port
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request object
 
@@ -76,7 +76,7 @@ The current request object
 The hostname of the server.
 
 If that argument is not passed,
-C<L<$r-E<gt>get_server_name|docs::2.0::api::Apache::RequestUtil/C_get_server_name_>>
+C<L<$r-E<gt>get_server_name|docs::2.0::api::Apache2::RequestUtil/C_get_server_name_>>
 is used.
 
 =item opt arg2: C<$port> ( string )
@@ -84,7 +84,7 @@ is used.
 The port the server is running on.
 
 If that argument is not passed,
-C<L<$r-E<gt>get_server_port|docs::2.0::api::Apache::RequestUtil/C_get_server_port_>>
+C<L<$r-E<gt>get_server_port|docs::2.0::api::Apache2::RequestUtil/C_get_server_port_>>
 is used.
 
 =item opt arg3: C<$pool>
@@ -93,7 +93,7 @@ is used.
 The pool to allocate the string from.
 
 If that argument is not passed,
-C<L<$r-E<gt>pool|docs::2.0::api::Apache::RequestRec/C_pool_>> is used.
+C<L<$r-E<gt>pool|docs::2.0::api::Apache2::RequestRec/C_pool_>> is used.
 
 =item ret: C<$hostport> ( string )
 
@@ -151,7 +151,7 @@ request rec:
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request object
 
@@ -161,7 +161,7 @@ The path to the requested file (it may include a concatenation of
 I<path>, I<query> and I<fragment> components).
 
 If that argument is not passed,
-C<L<$r-E<gt>uri|docs::2.0::api::Apache::RequestRec/C_uri_>> is used.
+C<L<$r-E<gt>uri|docs::2.0::api::Apache2::RequestRec/C_uri_>> is used.
 
 =item opt arg2: C<$pool>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
@@ -169,7 +169,7 @@ C<L<$r-E<gt>uri|docs::2.0::api::Apache::RequestRec/C_uri_>> is used.
 The pool to allocate the URL from
 
 If that argument is not passed,
-C<L<$r-E<gt>pool|docs::2.0::api::Apache::RequestRec/C_pool_>> is used.
+C<L<$r-E<gt>pool|docs::2.0::api::Apache2::RequestRec/C_pool_>> is used.
 
 =item ret: C<$url> ( string )
 
@@ -234,7 +234,7 @@ Break apart URI (affecting the current request's uri components)
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request object
 
@@ -258,20 +258,20 @@ This method call has the following side-effects:
 
 =item 1
 
-sets C<L<$r-E<gt>args|docs::2.0::api::Apache::RequestRec/C_args_>> to
+sets C<L<$r-E<gt>args|docs::2.0::api::Apache2::RequestRec/C_args_>> to
 the rest after C<'?'> if such exists in the passed C<$uri>, otherwise
 sets it to C<undef>.
 
 =item 2
 
-sets C<L<$r-E<gt>uri|docs::2.0::api::Apache::RequestRec/C_uri_>> to
+sets C<L<$r-E<gt>uri|docs::2.0::api::Apache2::RequestRec/C_uri_>> to
 the passed C<$uri> without the
-C<L<$r-E<gt>args|docs::2.0::api::Apache::RequestRec/C_args_>> part.
+C<L<$r-E<gt>args|docs::2.0::api::Apache2::RequestRec/C_args_>> part.
 
 =item 3
 
 sets
-C<L<$r-E<gt>hostname|docs::2.0::api::Apache::RequestRec/C_hostname_>>
+C<L<$r-E<gt>hostname|docs::2.0::api::Apache2::RequestRec/C_hostname_>>
 (if not set already) using the (C<scheme://host:port>) parts of the
 passed C<$uri>.
 
@@ -291,7 +291,7 @@ Get the current request's parsed uri object
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request object
 
@@ -317,7 +317,7 @@ This object is suitable for using with C<L<APR::URI::rpath|docs::2.0::api::APR::
 
 Unescape URLs
 
-  Apache::URI::unescape_url($url);
+  Apache2::URI::unescape_url($url);
 
 =over 4
 
@@ -336,7 +336,7 @@ The argument C<$url> is now unescaped
 Example:
 
   my $url = join '%20', qw(one two three);
-  Apache::URI::unescape_url($url);
+  Apache2::URI::unescape_url($url);
 
 C<$url> now contains the string:
 
