@@ -5,7 +5,7 @@
 -%]
 [% SET buttons = [
     [ 'http://take23.org/', 'mod_perl news @ Take23'],
-    ['http://asf.apache.org/', 'The ASF'],
+    ['http://www.apache.org/', 'The ASF'],
     ['http://www.apacheweek.com/', 'Apache Week'],
     ['http://www.perl.org/', 'Perl Mongers'],
     ['http://use.perl.org/', 'Use Perl'],
