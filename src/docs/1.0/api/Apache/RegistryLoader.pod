@@ -33,7 +33,7 @@ C<ServerRoot>.  Example:
   ServerRoot /opt/www/apache
   Alias /perl/ /opt/www/apache/perl
 
-  #in PerlScript
+  #in startup.pl
   use Apache::RegistryLoader ();
 
   #/opt/www/apache/perl/test.pl
