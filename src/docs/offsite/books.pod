@@ -54,6 +54,12 @@ E<lt>info {at} modperlbook.comE<gt>.
 I<mod_perl Pocket Reference> by Andrew Ford was published by O'Reilly
 and Associates http://www.oreilly.com/catalog/modperlpr/
 
+  Apache Pocket Reference
+  By Andrew Ford
+  June 2000
+  1-56592-706-0, Order Number: 7060
+  110 pages, $9.95 US $14.95 CA £6.95 UK
+
 You should probably get also the I<Apache Pocket Reference> by the
 same author and the same publisher:
 http://www.oreilly.com/catalog/apachepr/
