@@ -232,31 +232,27 @@ the PMC consists of:
 
 =item *
 
-    Stas Bekman
+Stas Bekman
 
 =item *
 
-    Eric Cholet
+Philippe Chiasson
 
 =item *
 
-    Philippe Chiasson
+Ask Bjørn Hansen
 
 =item *
 
-    Ask Bjørn Hansen
+Randy Kobes
 
 =item *
 
-    Randy Kobes
+Doug MacEachern
 
 =item *
 
-    Doug MacEachern
-
-=item *
-
-    Joe Schaefer
+Joe Schaefer
 
 =item *
 
