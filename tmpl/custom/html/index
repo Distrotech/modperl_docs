@@ -19,11 +19,12 @@
 <div class='cbox'>
     <div class='content'>
         [% INCLUDE index_body %]
-        <br>
-        [% INCLUDE tail -%]
     </div>
-    <br>&nbsp;
-</div>        
+    <br>
+    <div class='tail'>
+        [% INCLUDE tail %]
+    </div>
+</div>
 
 </body>
 </html>

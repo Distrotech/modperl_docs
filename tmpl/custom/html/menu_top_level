@@ -43,6 +43,7 @@
 <a href="http://perl.apache.org/"><img src="[% doc.dir.abs_doc_root %]/images/mod_perl2.jpg" border=0 alt="mod_perl icon" height=59 width=150></a><br>
 </div>
 <br>
+<div class='menu'>
 [% INCLUDE splash/domm_pulldown 
      select = selected
      width  = "5%"
@@ -50,6 +51,7 @@
      border = 0
      align   = 'left'
 %]
+</div>
 
 
 

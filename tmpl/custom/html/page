@@ -24,7 +24,9 @@
         [% INCLUDE page_body %]
     </div>
     <br>
-    [% INCLUDE tail %]
+    <div class='tail'>
+        [% INCLUDE tail %]
+    </div>
 </div>
 
 </body>
