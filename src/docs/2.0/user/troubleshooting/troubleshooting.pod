@@ -296,7 +296,7 @@ http://rt.perl.org:80/rt3/Ticket/Display.html?id=24660
 
 =head2 Segfault with __read_nocancel Backtrace
 
-If your application segfault and you get a similar to the following
+If your application segfaults and you get a similar to the following
 backtrace:
 
   (gdb) bt
