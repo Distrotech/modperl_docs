@@ -95,4 +95,6 @@ Later:
 
 - Think about porting the conferences stuff
 
+- add <link REL="shortcut icon" HREF="/favicon.ico" TYPE="image/x-icon">
++ favicon.ico (need to make one, something like [mp]?
 
