@@ -1050,40 +1050,57 @@ The method described above enables you to insert mod_perl into Apache
 without having to mangle the Apache source tree for mod_perl.  It also
 gives you the freedom to add third-party modules.
 
+
+
+
+
+
+
 =head2 When DSO can be Used
 
-If you want to build C<mod_perl> as DSO you must make sure that Perl
-was built with system's native malloc(). If Perl was built with its
-own malloc() and C<-Dbincompat5005>, it pollutes the main C<httpd>
-program with I<free> and I<malloc> symbols.  When C<httpd> restarts
-(happens at startup too), any references in the main program to
-I<free> and I<malloc> become invalid, and this causes memory leaks and
-segfaults.
+Perl versions prior to 5.6.0, built with C<-Dusemymalloc>, and
+versions 5.6.0 and higher, built with C<-Dusemymalloc> and
+C<-Dbincompat5005>, pollutes the main C<httpd> program with I<free>
+and I<malloc> symbols.  When C<httpd> restarts (happens at startup
+too), any references in the main program to I<free> and I<malloc>
+become invalid, and this causes memory leaks and segfaults.
+
+First check which malloc, your Perl was built with, by running:
+
+  % perl -V:usemymalloc
+
+If you get:
+
+  usemymalloc='n';
+
+which means that Perl is using the system malloc, mod_perl will work
+fine as DSO. Continue reading this section if it's not the case.
+
+If you get:
+
+  usemymalloc='y';
+
+that means that Perl is using its own malloc. If you are running Perl
+older than 5.6.0, you must rebuild Perl with C<-Uusemymalloc>. If you
+are running Perl 5.6.0 and higher, you must make sure that you have
+the binary compatibility with Perl 5.005 turned off. To check, run:
+
+  % perl -V:bincompat5005
+
+If you get:
+
+  bincompat5005='define';
+
+then you must rebuild Perl with C<-Ubincompat5005>. You can continue
+using Perl's malloc if that's a better choice for your OS.
 
 Notice that mod_perl's build system warns about this problem.
 
-With Perl 5.6.0+ this pollution can be prevented with
-C<-Ubincompat5005>.  or C<-Uusemymalloc> for any version of Perl, but
-there's a chance that might hurt performance depending on platform, so
-C<-Ubincompat5005> is likely a better choice.
+If you needed to rebuild Perl don't forget to rebuild mod_perl too.
 
-If you get the following reports with Perl version 5.6.0+:
 
-  % perl -V:usemymalloc
-  usemymalloc='y';
-  % perl -V:bincompat5005
-  bincompat5005='define';
 
-rebuild Perl with C<-Ubincompat5005>.
 
-For Perl versions pre-5.6.x, if you get:
-
-  % perl -V:usemymalloc
-  usemymalloc='y';
-
-rebuild Perl with C<-Uusemymalloc>.
-
-Now rebuild mod_perl.
 
 =head2 Build mod_perl as a DSO inside the Apache Source Tree via APACI
 
