@@ -4,6 +4,7 @@
 <input type="submit" name="submit" value="Search!" /><br>
 <input type="hidden" name="metaname" value="swishdefault">
 <input type="hidden" name="sort" value="swishrank">
+<input type="hidden" name="what" value="[% %]">
 </form>
 
 
