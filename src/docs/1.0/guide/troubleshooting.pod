@@ -484,7 +484,7 @@ same message to stderr.
 Perl 5.005+ plus is recommended for its improved malloc.c and other
 features that improve mod_perl and are turned on by default.
 
-See also L</Out_of_memory_>
+See also L<Out of memory|/Out_of_memory_>
 
 =head2 Out of memory!
 
