@@ -73,8 +73,11 @@ C<PerlFreshRestart> is a mod_perl 1.0 legacy and doesn't exist in
 mod_perl 2.0. A full teardown and startup of interpreters is done on
 restart.
 
+If you need to use the same I<httpd.conf> for 1.0 and 2.0, use:
 
-
+  <IfDefine !MODPERL2>
+      PerlFreshRestart
+  </IfDefine>
 
 
 
@@ -169,7 +172,16 @@ META: add the info how to perform the transition. XXX: may be write a
 script, which can tell you how to port the constants to 2.0? Currently
 C<Apache::compat> doesn't provide a complete back compatibility layer.
 
+=head2 C<SERVER_VERSION()>
 
+C<Apache::Constants::SERVER_VERSION()> has been replaced with:
+
+  Apache::get_server_version();
+
+=head2 C<export()>
+
+C<Apache::Constants::export()> has no replacement in 2.0 as it's not
+needed.
 
 
 
@@ -413,6 +425,14 @@ passed as the first argument to the callback function.
 
 See the L<APR::Pool> manpage.
 
+=head2 C<$r-E<gt>post_connection>
+
+C<$r-E<gt>post_connection> has been replaced with:
+
+  $r->connection->pool->cleanup_register();
+
+See the L<APR::Pool> manpage.
+
 
 =head2 C<$r-E<gt>request>
 
@@ -438,6 +458,7 @@ C<Apache::server_root_relative> is a function in 2.0.
   my $conf_dir = Apache::server_root_relative($r->pool, 'conf');
 
 See the L<Apache::ServerUtil> manpage.
+
 
 =head2 C<$r-E<gt>hard_timeout>
 
@@ -522,9 +543,57 @@ C<Apache::Util::size_string()> has been replaced with
 C<APR::String::format_size()>, which returns formatted strings of only
 4 characters long. See the C<L<APR::String>> manpage.
 
+=head2 C<Apache::Util::escape_uri()>
+
+C<Apache::Util::escape_uri()> has been replaced with
+C<Apache::Util::escape_path()> and requires a pool object as a second
+argument. For example:
+
+  $escaped_path = Apache::Util::escape_path($path, $r->pool);
+
 =head2 C<Apache::Util::unescape_uri()>
 
-C<Apache::Util::unescape_uri()> is now C<Apache::unescape_url()>.
+C<Apache::Util::unescape_uri()> has been replaced with
+C<Apache::unescape_url()>.
+
+=head2 C<Apache::Util::escape_html()>
+
+C<Apache::Util::escape_html> currently is available only via
+C<Apache::compat> until I<ap_escape_html> is reworked to not require a
+pool.
+
+=head2 C<Apache::Util::parsedate()>
+
+C<Apache::Util::parsedate()> has been replaced with
+C<APR::Date::parse_http()>.
+
+=head2 C<Apache::Util::ht_time()>
+
+C<Apache::Util::ht_time()> has been replaced (temporary?) with
+C<Apache::Util::format_time()>, which requires a pool object as a
+forth argument. All four arguments are now required.
+
+For example:
+
+   use Apache::Util ();
+   $fmt = '%a, %d %b %Y %H:%M:%S %Z';
+   $gmt = 1;
+   $fmt_time = Apache::Util::format_time(time(), $fmt, $gmt, $r->pool);
+
+See the L<Apache::Util> manpage.
+
+
+=head2 C<Apache::Util::validate_password()>
+
+C<Apache::Util::validate_password()> has been replaced with
+C<APR::password_validate()>. For example:
+
+   my $ok = Apache::Util::validate_password("stas", "ZeO.RAc3iYvpA");
+
+
+
+
+
 
 =head1 C<Apache::URI>
 
@@ -537,6 +606,16 @@ C<APR::URI-E<gt>parse()>, which is invoked as:
   APR::URI->parse($r->pool, $curl);
 
 See the L<APR::URI> manpage.
+
+
+
+
+
+
+
+
+
+
 
 =head1 Miscellaneous
 
@@ -553,8 +632,21 @@ C<($$)> prototype:
       ...;
   }
 
-Starting from Perl version 5.6 the subroutine attributes are used in
-place of subroutine prototypes:
+mod_perl 2.0 doesn't handle callbacks with C<($$)> prototypes
+differently than other callbacks (as it did in mod_perl 1.0), mainly
+because several callbacks in 2.0 have more arguments than just C<$r>,
+so the C<($$)> prototype doesn't make sense anymore. Therefore if you
+want your code to work with both mod_perl generations and you can
+allow the luxury of:
+
+  require 5.6.0;
+
+or if you need the code to run only on mod_perl 2.0, use the I<method>
+subroutine attribute. (The subroutine attributes are supported in Perl
+since version 5.6.0.)
+
+Here is the same example rewritten using the I<method> subroutine
+attribute:
 
   package Bird;
   @ISA = qw(Eagle);
@@ -566,17 +658,9 @@ place of subroutine prototypes:
 
 See the I<attributes> manpage.
 
-mod_perl 2.0 doesn't handles callbacks with C<($$)> prototypes
-differently than other callbacks (as it did in mod_perl 1.0), mainly
-because several callbacks in 2.0 have more arguments than just C<$r>,
-so the C<($$)> prototype doesn't make sense anymore. Therefore if you
-want your code to work with both mod_perl generations and you can
-allow the luxury of:
+If C<Class-E<gt>method> syntax is used for a C<Perl*Handler>, the
+C<:method> attribute is not required.
 
-  require 5.6.0;
-
-you should use the subroutine attributes. The subroutine attributes
-are supported in Perl only since version 5.6.0.
 
 
 
