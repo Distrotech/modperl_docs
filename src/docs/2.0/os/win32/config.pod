@@ -13,11 +13,17 @@ Add this line to F<C:/Apache2/conf/httpd.conf>:
  LoadModule perl_module modules/mod_perl.so
 
 Be sure that the path to your Perl binary (eg, F<C:/Perl/bin>) is in
-your C<PATH> environment variable. You could also add the directive
+your C<PATH> environment variable. This can be done either by
+editing F<C:\AutoExec.bat>, if present, or through the
+I<Environment Variables> option of the I<Advanced> tab of the
+I<System> area of the Control Panel. Especially when running
+Apache as a service, you may also want to add the directive
 
  LoadFile "/Path/to/your/Perl/bin/perl5x.dll"
 
-to F<httpd.conf> to load your Perl dll. You may also want to use a
+to F<httpd.conf>, before loading F<mod_perl.so>, to load your Perl dll. 
+
+You may also want to use a
 start-up script to load commonly used modules; this can be done with a
 directive as, eg,
 

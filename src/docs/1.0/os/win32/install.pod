@@ -30,7 +30,7 @@ The Apache sources and binaries are available at
 
    http://httpd.apache.org/
 
-When installing Perl or other related binaries, subtelties may arise
+When installing Perl or other related binaries, subtleties may arise
 in using path names that have spaces in them - you may, for example, 
 have to specify F<C:\Program Files\> by the DOS 8.3 path name 
 F<C:\Progra~1\> in certain Apache directives. If you want to avoid
