@@ -861,6 +861,7 @@ Handler assignment directives:
   PerlOpenLogsHandler          ITERATE    SRV
   PerlPostConfigHandler        ITERATE    SRV
   PerlChildInitHandler         ITERATE    SRV
+  PerlChildExitHandler         ITERATE    SRV
 
   PerlPreConnectionHandler     ITERATE    SRV
   PerlProcessConnectionHandler ITERATE    SRV

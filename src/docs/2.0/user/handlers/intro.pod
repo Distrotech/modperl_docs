@@ -236,7 +236,7 @@ following table specifies each handler's behavior in this situation:
   PerlOpenLogsHandler          RUN_ALL
   PerlPostConfigHandler        RUN_ALL
   PerlChildInitHandler         VOID
-  PerlChildExitHandler         XXX
+  PerlChildExitHandler         RUN_ALL
   
   PerlPreConnectionHandler     RUN_ALL
   PerlProcessConnectionHandler RUN_FIRST
@@ -252,10 +252,17 @@ following table specifies each handler's behavior in this situation:
   PerlFixupHandler             RUN_ALL
   PerlResponseHandler          RUN_FIRST
   PerlLogHandler               RUN_ALL
-  PerlCleanupHandler           XXX
+  PerlCleanupHandler           RUN_ALL
   
   PerlInputFilterHandler       VOID
   PerlOutputFilterHandler      VOID
+
+Note:
+C<L<PerlChildExitHandler|docs::2.0::user::handlers::http/PerlChildExitHandler>>
+and
+C<L<PerlCleanupHandler|docs::2.0::user::handlers::http/PerlCleanupHandler>>
+are not real Apache hooks, but to mod_perl users they behave as all
+other hooks.
 
 And here is the description of the possible types:
 

@@ -278,7 +278,16 @@ I<httpd.conf>:
 
 =head2 PerlChildExitHandler
 
-META: not implemented yet
+The child_exit stage is used to execute some code just before the
+child process (not threads!) is killed.
+
+This phase is of type
+C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
+
+The handler's configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
+
+META: examples are needed (for now mod_perl 1.0 docs apply)
 
 
 =head1 Maintainers

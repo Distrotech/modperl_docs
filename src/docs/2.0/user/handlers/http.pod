@@ -1182,13 +1182,16 @@ logging handlers will be called as well.
 
 =head2 PerlCleanupHandler
 
-META: not implemented yet
+The cleanup stage is used to execute some code when the request has
+been served.
 
-This phase is of type C<XXX>.
+This phase is of type
+C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 
-The handler's configuration scope is C<XXX>.
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
-
+META: examples are needed (for now mod_perl 1.0 docs apply)
 
 =head1 Extending HTTP Protocol
 
