@@ -466,14 +466,14 @@ integrity of a user's path through a web site.
 
 It's available from CPAN.
 
-=item * C<HTTP::TestEngine>
+=item * C<HTTP::RecordedSession>
 
-C<HTTP::TestEngine> acts as an HTTP session "recorder". An user
+C<HTTP::RecordedSession> acts as an HTTP session "recorder". An user
 service's usage session is recorded and then can be played back.
-C<HTTP::Monkeywrench> is currently supported, with plans for
-C<HTTP::WebTest> support in the future.
+C<HTTP::Monkeywrench> and C<HTTP::WebTest> are currently supported.
 
-It's available from http://sourceforge.net/projects/http-recorder/.
+It's available from CPAN.
+
 
 =back
 
