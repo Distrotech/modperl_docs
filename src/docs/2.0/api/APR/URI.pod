@@ -555,7 +555,8 @@ Prints:
 
 =head1 See Also
 
-L<mod_perl 2.0 documentation|docs::2.0::index>.
+C<L<Apache::URI|docs::2.0::api::Apache::URI>>, L<mod_perl 2.0
+documentation|docs::2.0::index>.
 
 
 

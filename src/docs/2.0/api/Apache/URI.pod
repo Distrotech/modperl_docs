@@ -350,7 +350,8 @@ C<$url> now contains the string:
 
 =head1 See Also
 
-L<mod_perl 2.0 documentation|docs::2.0::index>.
+C<L<APR::URI|docs::2.0::api::APR::URI>>, L<mod_perl 2.0
+documentation|docs::2.0::index>.
 
 
 
