@@ -1,124 +1,62 @@
-=head1 Writing tests with Apache::Test framework
+=head1 Developing and Running Tests with C<Apache::Test> Framework
 
-=head1 Running Tests
+=head1 Introduction
 
-Running test is usual just like for any perl module, first we have to
-create the I<Makefile> and build everything. So we run:
+This chapter is talking about the C<Apache::Test> framework, and in
+particular explains:
 
-  % perl Makefile.PL [options]
-  % make
+=over
 
-Now we can do the testing. You can run the tests in two ways. The
-first one is usual:
+=item * how to run existing tests
 
-  % make test
+=item * setup a testing environment
 
-but it adds the overhead of checking all the directories that
-everything is built (the usual make modification control). So it's
-faster to run the tests directly:
+=item * develop new tests
 
-  % t/TEST
+=back
 
-In case something goes wrong you should run the tests in the verbose
-mode:
+But first let's introduce the C<Apache::Test> framework.
 
-  % t/TEST -v
-
-When debugging problems it's helps to keep the I<error_log> file open
-in another console, and see the debug output in the real time via
-tail(1):
-
-  % tail -f t/logs/error_log
-
-Of course this file gets created only when the server starts, so you
-cannot run tail(1) on it before the server starts.
-
-If you have to run the same tests repeatedly, in most cases you don't
-want to wait for the server to start every time, so you can start it
-once:
-
-  % t/TEST -start
-
-and then run all the tests via:
-
-  % t/TEST
-
-or only specific tests:
-
-  % t/TEST protocol/echo
-
-note that you don't have to add the I<t/> prefix for the test
-filenames if you specify them explicitly.
-
-There is one bit you should be aware of. If you run the tests without
-restarting the server any changes to the response handlers that you
-apply won't take effect, untill the server is restarted. Therefore you
-may want to use C<Apache::Reload> module (META: not working with 2.0
-yet), or use the following trick:
-
-  PerlModule Apache::Foo
-  <Location /cgi-test>
-      PerlOptions +GlobalRequest
-      SetHandler modperl
-      PerlResponseHandler "sub { delete $INC{'Apache/Foo.pm'}; require Apache::Foo; Apache::Foo::handler(shift);}"
-  </Location>
-
-This will force the response handler C<Apache::Foo> to be reloaded on
-every request.
-
-Since the request test files don't reside in memory you can change
-them and the changes will take effect without restarting the server.
-
-  % t/TEST -start
-
-always stops the server first if any is running. In case you have a
-server runnning on the same port, (for example if you develop the a
-few tests at the same time in different trees), you should either kill
-that server, or run the server on a different port.
-
-  % t/TEST -start Port 8799
-
-or by setting an evironment variable C<APACHE_PORT> to the desired
-value before starting the server.
-
-=head1 Writing tests with C<Apache::Test> framework
-
-The C<Apache::Test> tests framework is designed for easy writing of
-tests that need to be run under Apache webserver. Originally designed
-for the mod_perl Apache module, it was extended to be used for any
-Apache module.
+The C<Apache::Test> framework is designed for easy writing of tests
+that has to be run under Apache webserver (not necessarily
+mod_perl). Originally designed for the mod_perl Apache module, it was
+extended to be used for any Apache module.
 
 You can write tests in Perl and C, and the framework will provide an
 extensive functionality which makes the tests writing a simple and
-therefore enjoy-able process.
+therefore enjoyable process.
 
 If you have ever written or looked at the tests most Perl modules come
-with, C<Apache::Test> uses the same concept. I<t/TEST> is running all the
-files ending with I<.t> it can found in the I<t/> directory, and looks
-at what they print. A typical test prints the following:
+with, C<Apache::Test> uses the same concept. The script C<t/TEST> is
+running all the files ending with I<.t> it finds in the I<t/>
+directory. When executed a typical test prints the following:
 
   1..3     # going to run 3 tests
   ok 1     # the first  test has passed
   ok 2     # the second test has passed
   not ok 3 # the third  test has failed
 
-C<t/TEST> uses a standard Perl's C<Test::Harness> module which
-intercepts the STDOUT parses it and at the end of the tests print the
-results of the tests running: how many tests were run, how many
-failed, how many suceeded and more.
+Every C<ok> or C<not ok> is followed by the number which tells which
+sub-test has succeeded or failed.
+
+C<t/TEST> uses a C<Test::Harness> module which intercepts the
+C<STDOUT> stream, parses it and at the end of the tests print the
+results of the tests running: how many tests and sub-tests were run,
+how many succeeded, skipped or failed.
 
 Some tests may be skipped by printing:
 
   1..0 # all tests in this file are going to be skipped.
 
-You usually want to do that when some feature is optional and the
-prerequisites are not installed on the system. Once you test that you
-cannot proceed with the tests and it's not a must pass test, you just
-skip it.
+Usually a test may be skipped when some feature is optional and/or
+prerequisites are not installed on the system, but this is not
+critical for the usefulness of the test. Once you test that you cannot
+proceed with the tests and it's not a must pass test, you just skip
+it.
 
-It's important to know, that there is a special debug mode, enabled
+It's important to know, that there is a special verbose mode, enabled
 with I<-v> option, in which everything printed by the test goes to
-STDOUT. So for example if your test does this:
+C<STDOUT>. So for example if your test does this:
 
   print "testing : feature foo\n";
   print "expected: $expected\n";
@@ -133,21 +71,20 @@ the test with I<t/TEST -v>, you will see something like this:
   received: 2
   ok 2
 
-So when you develop your tests and need to debug them, keep the debug
-statements there, don't even comment them out. In fact when you
-develop the test you should always put the debug statements
-there. This is because if some user reports a failure in some test,
-you can ask him to run the failing test in the verbose mode and send
-you back the report. Using this report it'll probably be much easier
-for you to discover the problem.
+When you develop the test you should always put the debug statements
+there, and once the test works for you do not comment out or delete
+these debug statements. This is because if some user reports a failure
+in some test, you can ask him to run the failing test in the verbose
+mode and send you back the report. It'll be much easier to understand
+what the problem is if you get these debug printings from the user.
 
-In the section L<"Apache::TestUtil"> we discuss a few helper functions
-which make the tests writing easier.
+In the section L<"Using Apache::TestUtil"> we discuss a few helper
+functions which make the tests writing easier.
 
 For more details about the C<Test::Harness> module please refer to its
-manpage.
+manpage. Also see the C<Test> manpage about Perl's test suite.
 
-=head2 Prerequisites
+=head1 Prerequisites
 
 In order to use C<Apache::Test> it has to be installed first.
 
@@ -160,7 +97,451 @@ Install C<Apache::Test> using the familiar procedure:
 If you install mod_perl 2.x, you get C<Apache::Test> installed as
 well.
 
-=head2 One Part Perl Tests: Response only
+=head1 How to Run Tests
+
+It's much easier to copy-cat things, than creating from scratch.  It's
+much easier to develop tests, when you have some existing system that
+you can test, see how it works and build your own testing environment
+in a similar fashion. Therefore let's first look at how the existing
+test enviroments work.
+
+You can look at the modperl-2.0's or httpd-test's (I<perl-framework>)
+testing environments which both use C<Apache::Test> for their test
+suites.
+
+Running tests is just like for any CPAN Perl module; first we create
+the I<Makefile> and build everything with I<make>:
+
+  % perl Makefile.PL [options]
+  % make
+
+Now we can do the testing. You can run the tests in two ways. The
+first one is usual:
+
+  % make test
+
+but it adds quite an overhead, since it has to check that everything
+is up to date (the usual C<make> source change control). Therefore
+faster to run the tests directly via:
+
+  % t/TEST
+
+In case something goes wrong you should run the tests in the verbose
+mode:
+
+  % t/TEST -v
+
+In this case the test may print useful information, like what values
+it expects and what values it receives, given that the test is written
+to report these. In the silent mode (without C<-v>) these printouts
+are suppressed by the test suite.
+
+When debugging problems it helps to keep the I<error_log> file open in
+another console, and see the debug output in the real time via
+tail(1):
+
+  % tail -f t/logs/error_log
+
+Of course this file gets created only when the server starts, so you
+cannot run tail(1) on it before the server starts.
+
+[F] Later on we will talk about I<-clean> option, for now just
+remember that if you use it I<t/logs/error_log> is deleted, therefore
+you have to run the tail(1) command again, when the server is
+started. [/F]
+
+If you have to run the same tests repeatedly, in most cases you don't
+want to wait for the server to start every time. You can start it
+once:
+
+  % t/TEST -start
+
+and then run all the tests via:
+
+  % t/TEST
+
+or only specific tests, by explicitly specifying them. For example to
+run the test file I<t/protocol/echo.t> we execute:
+
+  % t/TEST protocol/echo
+
+notice that you don't have to add the I<t/> prefix and I<.t> extension
+for the test filenames if you specify them explicitly.
+
+Also when you run specific tests, it's because something is not
+working, therefore usually you want to run them in the verbose mode,
+that we have mentioned before.
+
+  % t/TEST -v protocol/echo
+
+You can run all the tests in a single directory by just passing this
+directory as an argument. You can pass more than one test or directory
+name at the same time. Thefore assuming that the directory
+I<t/protocol> includes only two files: I<echo.t> and <eliza.t>--the
+following two commands are equivalent:
+
+  % t/TEST protocol/echo protocol/eliza
+  % t/TEST protocol
+
+There is one bit you should be aware of. If you run the tests without
+restarting the server any changes to the response handlers that you
+apply won't take effect, untill the server is restarted. Therefore you
+may want to use C<Apache::Reload> module, which will reload files
+automatically if they change between requests.
+
+META: do we include it in modperl-2.0? +document the new syntax.
+
+<ToGo when the issue with Reload is resolved>
+Or use this trick:
+
+  PerlModule Apache::Foo
+  <Location /cgi-test>
+      PerlOptions +GlobalRequest
+      SetHandler modperl
+      PerlResponseHandler "sub { delete $INC{'Apache/Foo.pm'}; require Apache::Foo; Apache::Foo::handler(shift);}"
+  </Location>
+
+</ToGo>
+
+This will force the response handler C<Apache::Foo> to be reloaded on
+every request.
+
+Since the request test files don't reside in memory you can change
+them and the changes will take effect without restarting the server.
+
+The command:
+
+  % t/TEST -start
+
+always stops the server first if any is running. In case you have a
+server runnning on the same port, (for example if you develop the a
+few tests at the same time in different trees), you should run the
+server on a different port. C<Apache::Test> will try to automatically
+pick a free port, but you can explicitly tell on which port to run,
+using the I<-port> configuration option:
+
+  % t/TEST -start -port 8799
+
+or by setting an evironment variable C<APACHE_PORT> to the desired
+value before starting the server.
+
+META: a lot more stuff to go here from the pods/modperl_dev.pod and
+Apache-Test/README
+
+=head1 How to Setup Testing Environment
+
+We will assume that you setup your testing environment even before you
+have started developing the module, which is a very smart thing to do.
+Of course it'll take you more time upfront, but it'll will save you a
+lot of time as you develop and debug your code. The L<extreme
+programming methodology|/item_extreme_programming_methodology> says
+that tests should be written before starting the code development.
+
+So the first thing is to create a package and all the helper files, so
+later on we can distribute it on CPAN. We are going to develop an
+C<Apache::Amazing> module as an example.
+
+  % h2xs -AXn Apache::Amazing
+  Writing Apache/Amazing/Amazing.pm
+  Writing Apache/Amazing/Makefile.PL
+  Writing Apache/Amazing/README
+  Writing Apache/Amazing/test.pl
+  Writing Apache/Amazing/Changes
+  Writing Apache/Amazing/MANIFEST
+
+C<h2xs> is a nifty utility that gets installed together with Perl and
+helps us to create some of the files we will need later.
+
+However we are going to use a little bit different files layout,
+therefore we are going to move things around a bit.
+
+We want our module to live in the I<Apache-Amazing> directory, so we
+do:
+
+  % mv Apache/Amazing Apache-Amazing
+  % rmdir Apache
+
+From now on the I<Apache-Amazing> directory is our working directory.
+
+  % cd Apache-Amazing
+
+We don't need the I<test.pl>. as we are going to create a whole
+testing environment:
+
+  % rm test.pl
+
+We want our package to reside under the I<lib> directory:
+
+  % mkdir lib
+  % mkdir lib/Apache
+  % mv Amazing.pm lib/Apache
+
+Now we adjust the I<lib/Apache/Amazing.pm> to look like this:
+
+  file:lib/Apache/Amazing.pm
+  --------------------------
+  package Apache::Amazing;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  
+  $Apache::Amazing::VERSION = '0.01';
+  
+  use Apache::Const -compile => 'OK';
+  
+  sub handler {
+      my $r = shift;
+      $r->content_type('text/plain');
+      $r->print("Amazing!");
+      return Apache::OK;
+  }
+  1;
+  __END__
+  ... pod documentation goes here...
+
+The only thing it does is setting the I<text/plain> header and
+responding with I<"Amazing!">.
+
+Next adjust or create the I<Makefile.PL> file:
+
+  file:Makefile.PL
+  ----------------
+  require 5.6.1;
+  
+  use ExtUtils::MakeMaker;
+  
+  use lib qw(../blib/lib lib );
+  
+  use Apache::TestMM qw(test clean); #enable 'make test'
+  
+  # prerequisites
+  my %require =
+    (
+     "Apache::Test" => "", # any version will do
+    );
+
+  # accept the configs from comman line
+  Apache::TestMM::filter_args();
+  Apache::TestMM::generate_script('t/TEST');
+
+  WriteMakefile(
+      NAME         => 'Apache::Amazing',
+      VERSION_FROM => 'lib/Apache/Amazing.pm',
+      PREREQ_PM    => \%require,
+      clean        => {
+                       FILES => "@{ clean_files() }",
+                      },
+      ($] >= 5.005 ?
+          (ABSTRACT_FROM => 'lib/Apache/Amazing.pm',
+           AUTHOR        => 'Stas Bekman <stas (at) stason.org>',
+          ) : ()
+      ),
+  );
+  
+  sub clean_files {
+      return [@scripts];
+  }
+
+C<Apache::TestMM> will do a lot of thing for us, such as building a
+complete Makefile with proper I<'test'> and I<'clean'> targets,
+automatically converting I<.PL> and I<conf/*.in> files and more.
+
+As you see we specify a prerequisites hash with I<Apache::Test> in it,
+so if the package gets distributed on CPAN, C<CPAN.pm> shell will know
+to fetch and install this required package.
+
+Next we create the test suite, which will reside in the I<t>
+directory:
+
+  % mkdir t
+
+First we create I<t/TEST.PL> which will be automatically converted
+into I<t/TEST> during I<perl Makefile.PL> stage:
+
+  file:t/TEST.PL
+  --------------
+  #!perl
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use lib qw(lib);
+  
+  use Apache::TestRunPerl ();
+  
+  Apache::TestRunPerl->new->run(@ARGV);
+
+Assuming that C<Apache::Test> is already installed on your system and
+Perl can find it. If not you should tell Perl where to find it. For
+example you could add:
+
+  use lib qw(../Apache-Test/lib);
+
+to I<t/TEST.PL>, if C<Apache::Test> is located in a parallel
+directory.
+
+As you can see we didn't write the real path to the Perl executable,
+but C<#!perl>. When I<t/TEST> is created the correct path will be
+placed there automatically.
+
+Next we need to prepare extra Apache configuration bits, which will
+reside in I<t/conf>:
+
+  % mkdir t/conf
+
+We create the I<t/conf/extra.conf.in> file which will be automatically
+converted into I<t/conf/extra.conf> before the server starts. If the
+file has any placeholders like C<@documentroot@>, these will be
+replaced with the real values specific for the used server. In our
+case we put the following configuration bits into this file:
+
+  file:t/conf/extra.conf.in
+  -------------------------
+  # this file will be Include-d by @ServerRoot@/httpd.conf
+  
+  # where Apache::Amazing can be found
+  PerlSwitches -Mlib=@ServerRoot@/../lib
+  # preload the module
+  PerlModule Apache::Amazing
+  <Location /test/amazing>
+      SetHandler modperl
+      PerlResponseHandler Apache::Amazing
+  </Location>
+
+As you can see we just add a simple E<lt>LocationE<gt> container and
+tell Apache that the namespace I</test/amazing> should be handled by
+C<Apache::Amazing> module running as a mod_perl handler.
+
+As mentioned before you can use C<Apache::Reload> to automatically
+reload the modules under development when they change. The setup for
+this module goes into I<t/conf/extra.conf.in> as well.
+
+  file:t/conf/extra.conf.in
+  -------------------------
+  PerlModule Apache::Reload
+  PerlPostReadRequestHandler Apache::Reload
+  PerlSetVar ReloadAll Off
+  PerlSetVar ReloadModules "Apache::Amazing"
+
+For more information about C<Apache::Reload> refer to its manpage.
+
+Now we can create a simple test:
+
+  file:t/basic.t
+  -----------
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use Apache::Amazing;
+  use Apache::Test;
+  use Apache::TestUtil;
+  
+  plan tests => 2;
+  
+  ok 1; # simple load test
+  
+  my $config = Apache::Test::config();
+  my $url = '/test/amazing';
+  my $data = $config->http_raw_get($url);
+  
+  ok t_cmp(
+           "Amazing!",
+           $data,
+           "basic test",
+          );
+
+Now create the README file.
+
+  % touch README
+
+Don't forget to put in the relevant information about your module, or
+arrange for C<ExtUtils::MakeMaker::WriteMakefile()> to do this for you
+with:
+
+  file:Makefile.PL
+  ----------------
+  WriteMakefile(
+               ...
+      dist         => {
+                       PREOP => 'pod2text lib/Apache/Amazing.pm > README',
+                      },
+               ...
+               );
+
+in this case C<README> will be created from the documenation POD
+sections in I<lib/Apache/Amazing.pm>, but the file has to exists for
+I<make dist> to succeed.
+
+and finally we adjust or create the C<MANIFEST> file, so we can
+prepare a complete distribution. Therefore we list all the files that
+should enter the distribution including the C<MANIFEST> file itself:
+
+  file:MANIFEST
+  -------------
+  lib/Apache/Amazing.pm
+  t/TEST.PL
+  t/basic.t
+  t/conf/extra.conf.in
+  Makefile.PL
+  Changes
+  README
+  MANIFEST
+
+That's it. Now we can build the package. But we need to know where
+C<apxs> utility from the installed on our system Apache is located. We
+pass its path as an option:
+
+  % perl Makefile.PL -apxs ~/httpd/prefork/bin/apxs
+  % make
+  % make test
+
+  basic...........ok
+  All tests successful.
+  Files=1, Tests=2,  1 wallclock secs ( 0.52 cusr +  0.02 csys =  0.54 CPU)
+
+To install the package run:
+
+  % make install
+
+Now we are ready to distribute the package on CPAN:
+
+  % make dist
+
+will create the package which can be immediately uploaded to CPAN. In
+this example the generated source package with all the required files
+will be called: I<Apache-Amazing-0.01.tar.gz>.
+
+The only thing that we haven't done and hope that you will do is to
+write the POD sections for the C<Apache::Amazing> module, explaining
+how amazingly it works and how amazingly it can be deployed by other
+users.
+
+=head1 How to Write Tests
+
+In the previous section we have written a basic test, which doesn't do
+much. In the following sections we will explain how to write more
+elaborate tests.
+
+The tests can be written in Perl and C.
+
+When you write the test for Apache, unless you want to test some
+static resource, like fetching a file, usually you have to write a
+response handler and the corresponding test that will generate a
+request which will exercise this response handler and verify that the
+response is as expected. From now we may call these two parts as
+client and server parts of the test, or request and response parts of
+the test.
+
+In some cases the response part of the test runs the test inside
+itself, so all it requires from the request part of the test, is to
+generate the request and print out a complete response without doing
+anything else. In such cases C<Apache::Test> can auto-generate the
+client part of the test for you.
+
+=head2 Developing Response-only Part of a Test
 
 If you write only a response part of the test, C<Apache::Test> will
 automatically generate the corresponding test part that will generated
@@ -235,7 +616,7 @@ You should remember to run:
 
 so when you run your new tests the new configuration will be added.
 
-=head2 Two Parts Perl Tests: Request and Response
+=head2 Developing Response and Request Parts of a Test
 
 But in most cases you want to write a two parts test where the client
 (request) parts generates various requests and tests the responses.
@@ -332,298 +713,29 @@ from I<COOL> or nothing at all, we can immediately see what's the
 problem.
 
 The name of the request part of the test is very important. If
-C<Apache::Test> cannot find the corresponding test for the response part
-it'll automatically generate one and in this case it's probably not
-what you want. Therefore when you choose the filename for the test,
-make sure to pick the same C<Apache::Test> will pick. So if the response
-part is named: I<t/response/TestApache/cool.pm> the request part
-should be named I<t/apache/cool.t>. See the regular expression that
-does that in the previous section.
+C<Apache::Test> cannot find the corresponding test for the response
+part it'll automatically generate one and in this case it's probably
+not what you want. Therefore when you choose the filename for the
+test, make sure to pick the same C<Apache::Test> will pick. So if the
+response part is named: I<t/response/TestApache/cool.pm> the request
+part should be named I<t/apache/cool.t>. See the regular expression
+that does that in the previous section.
 
-=head2 Tests Written in C
-
-META: to be written
-
-=head1 Writing Test Methodology
+=head2 Developing Tests in C
 
 META: to be written
 
-=head1 Using Apache::TestUtil
+=head1 Developing Tests: Gory Details
+
+
+
+=head2 Writing Test Methodology
 
 META: to be written
 
-=head1 Using C<Apache::Test> framework
+=head2 Using C<Apache::TestUtil>
 
 META: to be written
-
-=head2 C<Apache::Test> Inside mod_perl 2.0
-
-There is nothing to be done to add new tests for the mod_perl 2.0,
-other than writing the tests as explained before. The rest of the
-setup is already in place.
-
-=head2 C<Apache::Test> Standalone
-
-If you have developed an Apache module that you want to develop the
-tests for with C<Apache::Test>, you have to prepare a special setup
-for it.
-
-Let's say that your package is called C<Apache::Amazing> and we are
-going to prepare a setup for it. If the module is going to be
-distributed on CPAN or you simply want to take a benefit of all the
-package distribution and developing features Perl provides, you
-probably already have the right layout in place, but in case you
-aren't let's go fast through it:
-
-  % mkdir Apache-Amazing
-  % cd Apache-Amazing
-
-As you have noticed we have created the C<Apache-Amazing> directory
-and from now on will be working from it. Next let's prepare a
-directory for our module:
-
-  % mkdir lib
-  % mkdir lib/Apache
-
-Now put the module into I<lib/Apache/Amazing.pm>:
-
-  package Apache::Amazing;
-  
-  $Apache::Amazing::VERSION = '0.01';
-  
-  use Apache::Const -compile => qw(:common);
-  use Apache::compat ();
-  
-  sub handler {
-      $r = shift;
-      $r->send_http_header('text/plain');
-      $r->print("Amazing!");
-      return Apache::OK;
-  }
-  1;
-
-The only thing it does is setting the I<text/plain> header and
-responding with I<"Amazing!">.
-
-Next prepare the I<Makefile.PL> file:
-
-  require 5.6.1;
-  
-  use ExtUtils::MakeMaker;
-  
-  use lib qw(../blib/lib lib );
-  
-  use Apache::TestMM qw(test clean); #enable 'make test'
-  
-  # prerequisites
-  my %require =
-    (
-     "Apache::Test" => "0.1",
-    );
-
-  # accept the configs from comman line
-  Apache::TestMM::filter_args();
-  Apache::TestMM::generate_script('t/TEST');
-
-  WriteMakefile
-      (
-       NAME         => 'Apache::Registry',
-       VERSION_FROM => 'lib/Apache/Registry.pm',
-       PREREQ_PM    => \%require,
-       clean        => {
-                        FILES => "@{ clean_files() }",
-                       },
-      );
-  
-  sub clean_files {
-      return [@scripts];
-  }
-
-C<Apache::TestMM> will do a lot of thing for us, such as building a
-complete Makefile with proper I<'test'> and I<'clean'> targets,
-automatically converting I<.PL> and I<conf/*.in> files and more.
-
-As you see we specify a prerequisites hash with I<Apache::Test> in it,
-so if the package gets distributed on CPAN, C<CPAN.pm> shell will know
-to fetch and install this required package.
-
-Next we create the test suite. First we create I<t/TEST.PL> which will
-be automatically converted into I<t/TEST> during I<perl Makefile.PL>
-stage:
-
-  #!perl
-  
-  use strict;
-  use warnings FATAL => 'all';
-  
-  use lib qw(lib);
-  
-  use Apache::TestRunPerl ();
-  
-  Apache::TestRunPerl->new->run(@ARGV);
-
-Assuming that C<Apache::Test> is already installed on your system and
-Perl can find it. If not you should Perl where to find it. For example
-you could add:
-
-  use lib "../Apache-Test/lib";
-
-if C<Apache::Test> is located in a parallel directory.
-
-As you can see we didn't write the real path to the Perl executable,
-but C<#!perl>. When I<t/TEST> is created the correct path will be
-placed there automatically.
-
-Next we need to prepare extra Apache configuration bits, so we create
-the I<t/conf/extra.conf.in> file which will be automatically converted
-into I<t/conf/extra.conf> before the server starts. If the file has
-any placeholders like C<@documentroot@>, these will be replaced with
-the real values for a specific server that is run. In our case we put
-the following configuration bits into this file:
-
-  # this file will be Include-d by @ServerRoot@/httpd.conf
-  
-  # where Apache::Amazing can be found
-  PerlSwitches -Mlib=@ServerRoot@/../lib
-  # preload the module
-  PerlModule Apache::Amazing
-  <Location /test/amazing>
-      PerlOptions +GlobalRequest
-      SetHandler modperl
-      PerlResponseHandler Apache::Amazing
-  </Location>
-
-As you can see we just add a simple E<lt>LocationE<gt> container and
-tell Apache that the namespace I</test/amazing> should be handled by
-C<Apache::Amazing> module.
-
-In case you do a development you may want to force a reload of this
-module on each request:
-
-  PerlResponseHandler "sub { delete $INC{'Apache/Amazing.pm'}; require Apache::Amazing; Apache::Amazing::handler(shift);}"
-
-Alternatively you can put this code into:
-
-  lib/Apache/AmazingReload.pm:
-  ----------------------------
-  package Apache::AmazingReload;
-  
-  use lib qw(../lib);
-  
-  sub handler{
-      delete $INC{'Apache/Amazing.pm'};
-      undef *Apache::Amazing::handler; # avoid reload warnings.
-      eval { require Apache::Amazing; };
-      if ($@) {
-          warn "reason: $@";
-      }
-      else {
-          Apache::Amazing::handler(shift);
-      }
-  }
-  1;
-
-And now use this configuration instead:
-
-  PerlSwitches -Mlib=@ServerRoot@/../lib
-  # preload the module
-  PerlModule Apache::AmazingReload
-  <Location /test/amazing>
-      PerlOptions +GlobalRequest
-      SetHandler modperl
-      PerlResponseHandler Apache::AmazingReload
-  </Location>
-
-C<Apache::AmazingReload> will worry to forward all the requests to the
-real handler, but first it'll reload it, so any changes will
-immediately take an effect.
-
-[META: update this when Apache::Reload will work with 2.0!]
-
-Now we can create a simple test:
-
-  t/basic.t
-  -----------
-  use strict;
-  use warnings FATAL => 'all';
-  
-  use Apache::Amazing;
-  use Apache::Test;
-  use Apache::TestUtil;
-  
-  plan tests => 2;
-  
-  ok 1; # simple load test
-  
-  my $config = Apache::Test::config();
-  my $url = '/test/amazing';
-  my $data = $config->http_raw_get($url);
-  
-  ok t_cmp(
-           "Amazing!",
-           $data,
-           "basic test",
-          );
-
-Now create the README file.
-
-  % touch README
-
-Don't forget to put in the relevant information about your module, or
-arrange for C<ExtUtils::MakeMaker::WriteMakefile()> to do this for you
-with:
-
-  WriteMakefile(
-               ...
-               dist => {
-                        PREOP => 'pod2text lib/Apache/Amazing.pm > README',
-               },
-               ...
-               );
-
-in this case C<README> will be created from the pod in
-I<lib/Apache/Amazing.pm>.
-
-and finally we create the C<MANIFEST> file, so we can prepare a
-complete distribution. Therefore we list all the files that should
-enter the distribution including the C<MANIFEST> file itself:
-
-  MANIFEST:
-  ---------
-  lib/Apache/Amazing.pm
-  t/TEST.PL
-  t/basic.t
-  t/conf/extra.conf.in
-  Makefile.PL
-  README
-  MANIFEST
-
-That's it. Now we can build the package. But we need to know where
-C<apxs> utility from the installed on our system Apache is located. We
-pass its path as an option:
-
-  % perl Makefile.PL apxs /path/to/httpd-2.0/bin/apxs
-  % make
-  % make test
-
-  basic...........ok
-  All tests successful.
-  Files=1, Tests=2,  1 wallclock secs ( 0.52 cusr +  0.02 csys =  0.54 CPU)
-
-Now we are ready to distribute the package on CPAN:
-
-  % make dist
-
-will create the package which can be immediately uploaded to CPAN. In
-this example the generated source package with all the required files
-will be called: I<Apache-Amazing-0.01.tar.gz>. 
-
-The only thing that we haven't done and hope that you will do is to
-write the POD sections for the C<Apache::Amazing> module, explainingg
-how amazingly it works and how amazingly it can be deployed by other
-users.
-
-=head1 Gory Details on Writing Tests
 
 Here we cover in details some features useful in writing tests:
 
@@ -827,12 +939,14 @@ which is essentially does a lookup in $Config{useithreads}.
 
 =head1 When Tests Should Be Written
 
-=head2 New feature is Added
+=over
+
+=item * A New feature is Added
 
 Every time a new feature is added new tests should be added to cover
 the new feature.
 
-=head2 A Bug is Reported
+=item * A Bug is Reported
 
 Every time a bug gets reported, before you even attempt to fix the
 bug, write a test that exposes the bug. This will make much easier for
@@ -849,16 +963,36 @@ to write the test for you. But usually if the report includes a simple
 code that reproduces the bug, it should probably be easy to convert
 this code into a test.
 
+=back
+
+
+
+
+=head1 References
+
+=over
+
+=item * extreme programming methodology
+
+Extreme Programming: A Gentle Introduction:
+http://www.extremeprogramming.org/.
+
+Extreme Programming: http://www.xprogramming.com/.
+
+See also other sites linked from these URLs.
+
+=back
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
-Stas Bekman E<lt>stas@stason.orgE<gt>
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =head1 Authors
 
-Stas Bekman E<lt>stas@stason.orgE<gt>
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =cut
 
