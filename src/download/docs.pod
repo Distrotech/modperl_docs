@@ -42,13 +42,10 @@ number of prerequisites before starting.
 =head2 Prerequisites
 
 DocSet: while it is included with the CVS distribution, please
-download and install the latest version of DocSet from
-http://www.apache.org/~stas/. It will install the tool C<html2ps>,
-which is used to build the PDF version, and also a number of Perl
-modules.
-
-You will also need C<Pod::POM> for DocSet to work. You can get it from
-CPAN.
+download it from CPAN and install the latest version. It will install
+the tool C<html2ps>, which is needed to build the PDF version, and
+also a number of Perl modules (it will tell you the Perl modules
+prerequisites).
 
 For the PDF version, you will also need a command-line tool called
 C<ps2pdf>, which is included with the Ghostscript distribution: see

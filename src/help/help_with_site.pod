@@ -129,13 +129,11 @@ much information as possible to help us solve your problem.
 =head1 How this site was created
 
 The site is automatically generated from a collection of HTML and POD
-files, using Perl DocSet Framework, which in turn is based on Template
-Toolkit.
+files, using Perl DocSet Framework available from CPAN, which in turn
+is based on Template Toolkit.
 
 If you are interested in downloading the site sources, please see the
 L<relevant section|download::docs>.
-
-META: add the URL of the DocSet when it gets released.
 
 =for html
   <table border="0" cellpadding="0" cellspacing="0" width="80%">
