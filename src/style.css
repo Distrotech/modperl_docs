@@ -6,13 +6,15 @@ body {
 
 .headline {
         padding: 5px;
-/* width:100%; /* works in NS4, but not in Moz/Opera */
+        /* width:100%;  works in NS4, but not in Moz/Opera */
         margin-top:2px;
         background-color: #525D76;
         color: #ffffff;
         border-style:none;
         border:1px;
         font-size:1.4em;
+        margin-right:0px;  /* 100% width span for NS4 */
+        font-weight: bold; /* fixup for NS4, because of margin-right */
 }
   
 h1, h2, h3, h4 {
