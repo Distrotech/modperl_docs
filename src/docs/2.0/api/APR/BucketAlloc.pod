@@ -1,0 +1,55 @@
+=head1 NAME
+
+APR::BucketAlloc - Perl API for apr_bucket_alloc_t
+
+
+
+
+=head1 Synopsis
+
+
+
+
+=head1 Description
+
+At the moment C<APR::BucketAlloc> is a virtual class, which doesn't
+exists as a module/package - so you don't need to load it, nor does it
+contain any callable methods or functions.
+
+Objects blessed into C<APR::BucketAlloc> class, are returned by
+C<L<$c-E<gt>bucket_alloc|docs::2.0::api::Apache::Connection/C_bucket_alloc_>>
+and used by
+C<L<APR::Brigade-E<gt>new|docs::2.0::api::APR::Brigade/C_new_>>.
+
+At the moment it can be used only inside httpd. In order to be usable
+outside httpd we may need to create a real package and provide an
+alternative method to buckets allocation. It'll be added as soon as
+there will be a need for that functionality.
+
+
+
+
+
+
+=head1 See Also
+
+L<mod_perl 2.0 documentation|docs::2.0::index>.
+
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
+
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
+
+=cut
+
