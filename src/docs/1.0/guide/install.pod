@@ -1816,8 +1816,8 @@ mirror site or searching http://rpmfind.net/ for a different package -
 there are plenty out there to choose from.
 
 David Harris has started an effort to build better RPM/SRPM mod_perl
-packages.  You will find the link to David's site from
-http://perl.apache.org/download/distributions.html .
+packages.  You will find the link to David's site from L<Binary
+distributions|download::binaries>.
 
 Features of this RPM:
 

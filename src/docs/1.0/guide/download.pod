@@ -42,7 +42,8 @@ Get the latest mod_perl sources and documentation from
 http://perl.apache.org .  Try the direct download link
 http://perl.apache.org/dist/ .
 
-Source/Binary Distributions: http://perl.apache.org/distributions.html
+L<Source distributions|download::source> and L<Binary
+distributions|download::binaries>.
 
 Every Apache project rolls a new tar.gz snapshot of the latest CVS
 version every 6 hours. You can grab the latest mod_perl CVS snapshot

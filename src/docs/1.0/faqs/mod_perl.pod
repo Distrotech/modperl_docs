@@ -856,10 +856,7 @@ See the I<SUPPORT> file.
 
 See I<INSTALL.win32> for building from sources.
 
-Info about win32 binary distributions of mod_perl are available
-from: 
-
- http://perl.apache.org/distributions/
+L<win32 binary distributions info|download::binaries>
 
 =head1 Maintainers
 

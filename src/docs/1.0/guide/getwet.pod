@@ -27,9 +27,10 @@ mainstream Unix and Linux platforms.  Unless you're using a very
 non-standard system, you should have no problems when building the
 basic mod_perl server.
 
-For Windows users, the simplest solution is to use the binary package
-available from I<http://perl.apache.org/distributions.html>.  Windows
-users may skip to the sidebar C<Installing mod_perl for Windows>.
+For Windows users, the simplest solution is to use the L<binary
+package|download::binaries>. Windows users may skip to the
+L<Installing mod_perl for Windows|/Installing_mod_perl_for_Windows>.
+
 
 =head1 Installing mod_perl in Three Steps
 
@@ -401,9 +402,9 @@ we'll use the default locations and options.
 
 =head2 Download the Windows distribution
 
-Download C<perl-win32-bin-x.x.exe> from
-http://perl.apache.org/distributions.html. This is a self-extracting
-archive, yielding four directories:
+Download C<perl-win32-bin-x.x.exe> from the L<binary distributions
+page|download::binaries>. This is a self-extracting archive, yielding
+four directories:
 
   Apache
   Perl
