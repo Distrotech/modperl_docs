@@ -245,7 +245,7 @@ is specified.
 
 =item *
 
-C<STDOUT> and C<STDOUT> get tied to the request object C<$r>, which
+C<STDIN> and C<STDOUT> get tied to the request object C<$r>, which
 makes possible to read from C<STDIN> and print directly to C<STDOUT>
 via C<CORE::print()>, instead of implicit calls like
 C<$r-E<gt>puts()>.
@@ -823,18 +823,18 @@ mode use:
 
 =head2 MODPERL2 Define Option
 
-When running under mod_perl 2.0 a special configuration define
-C<MODPERL2> is enabled internally, as if the server had been started
-with C<-DMODPERL2>. For example this can be used to write a
+When running under mod_perl 2.0 a special configuration "define"
+symbol C<MODPERL2> is enabled internally, as if the server had been
+started with C<-DMODPERL2>. For example this can be used to write a
 configuration file which needs to do something different whether it's
 running under mod_perl 1.0 or 2.0:
 
- <IfDefine MODPERL2>
-     # 2.0 configuration
- </IfDefine>
- <IfDefine !MODPERL2>
-     # else
- </IfDefine>
+  <IfDefine MODPERL2>
+      # 2.0 configuration
+  </IfDefine>
+  <IfDefine !MODPERL2>
+      # else
+  </IfDefine>
 
 From within Perl code this can be tested with
 C<Apache::exists_config_define()>, for example:

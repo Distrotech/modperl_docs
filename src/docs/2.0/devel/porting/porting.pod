@@ -65,16 +65,16 @@ To require a module to run only under 2.0, simply add:
 
 to your module. You can also use the variable C<$mod_perl::VERSION>.
 
-In the configuration file you can use a special configuration define
-C<MODPERL2> which is enabled internally, as if the server had been
-started with C<-DMODPERL2>.
+In the configuration file you can use a special configuration "define"
+symbol C<MODPERL2> which is enabled internally, as if the server had
+been started with C<-DMODPERL2>.
 
- <IfDefine MODPERL2>
-     # 2.0 configuration
- </IfDefine>
- <IfDefine !MODPERL2>
-     # else
- </IfDefine>
+  <IfDefine MODPERL2>
+      # 2.0 configuration
+  </IfDefine>
+  <IfDefine !MODPERL2>
+      # else
+  </IfDefine>
 
 From within Perl code this can be tested with
 C<Apache::exists_config_define()>, for example:
