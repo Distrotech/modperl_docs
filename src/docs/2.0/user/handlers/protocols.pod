@@ -356,6 +356,7 @@ handlers.
       my $bb_in  = APR::Brigade->new($c->pool, $c->bucket_alloc);
       my $bb_out = APR::Brigade->new($c->pool, $c->bucket_alloc);
   
+      my $last = 0;
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb_in,
                                                   Apache::MODE_GETLINE);
@@ -379,7 +380,7 @@ handlers.
   
               my $data = $bucket->read;
               if (length $data) {
-                  last if $data =~ /^[\r\n]+$/;
+                  $last++ if $data =~ /^[\r\n]+$/;
                   # could do some transformation on data here
                   $bucket = APR::Bucket->new($data);
               }
@@ -388,8 +389,9 @@ handlers.
           }
   
           my $fb = APR::Bucket::flush_create($c->bucket_alloc);
-          $bb->insert_tail($fb);
+          $bb_out->insert_tail($fb);
           $c->output_filters->pass_brigade($bb_out);
+          last if $last;
       }
   
       $bb_in->destroy;
@@ -492,6 +494,8 @@ attempt to do any transformation, but simply passes the data though:
               last;
           }
   
+          last if $bb->is_empty;
+  
           $c->output_filters->fflush($bb);
       }
   
@@ -499,6 +503,67 @@ attempt to do any transformation, but simply passes the data though:
   
       Apache::OK;
   }
+
+Since the simplified handler no longer has the condition:
+
+  $last++ if $data =~ /^[\r\n]+$/;
+
+which was used to know when to break from the external C<while(1)>
+loop, it will not work in the interactive mode, because when telnet is
+used we always end the line with C</[\r\n]/>, which will always send
+data back to the protocol handler and the condition:
+
+  last if $bb->is_empty;
+
+will never be true. However, this latter version works fine when the
+client is a script and when it stops sending data, our shorter handler
+breaks out of the loop.
+
+So let's do one more tweak and make the last version work in the
+interactive telnet mode without manipulating each bucket separately.
+This time we will use
+C<L<flatten()|docs::2.0::api::APR::Brigade/C_flatten_>> to slurp all
+the data from all the buckets, which saves us the explicit loop over
+the buckets in the brigade. The handler now becomes:
+
+  sub handler {
+      my $c = shift;
+  
+      $c->client_socket->opt_set(APR::SO_NONBLOCK => 0);
+  
+      my $bb = APR::Brigade->new($c->pool, $c->bucket_alloc);
+  
+      while (1) {
+          my $rc = $c->input_filters->get_brigade($bb,
+                                                  Apache::MODE_GETLINE);
+          if ($rc != APR::SUCCESS && $rc != APR::EOF) {
+              my $error = APR::Error::strerror($rc);
+              warn __PACKAGE__ . ": get_brigade: $error\n";
+              last;
+          }
+  
+          my $data = $bb->flatten;
+          $bb->cleanup;
+          last if $data =~ /^[\r\n]+$/;
+  
+          # could transform data here
+          my $bucket = APR::Bucket->new($data);
+          $bb->insert_tail($bucket);
+  
+          $c->output_filters->fflush($bb);
+      }
+  
+      $bb->destroy;
+  
+      Apache::OK;
+  }
+
+Notice, that once we slurped the data in the buckets, we had to strip
+the brigade of its buckets, since we re-used the same brigade to send
+the data out. We used
+C<L<cleanup()|docs::2.0::api::APR::Brigade/C_cleanup_>> to get rid of
+the buckets.
+
 
 
 
