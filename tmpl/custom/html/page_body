@@ -9,7 +9,7 @@
         nav=doc.nav
         rel_doc_root=doc.dir.rel_doc_root;
 
-    INCLUDE toc toc=doc.toc;
+    INCLUDE page_toc toc=doc.toc;
 
     # prepare section sub-menus
     buttons = [

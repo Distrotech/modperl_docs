@@ -21,9 +21,7 @@
         [% INCLUDE index_body %]
     </div>
     <br>
-    <div class='tail'>
-        [% INCLUDE tail %]
-    </div>
+    [% INCLUDE tail %]
 </div>
 
 </body>

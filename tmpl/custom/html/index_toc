@@ -14,11 +14,11 @@
            SET counter = 0;
            FOREACH group = toc;
                 "<h3>Part ${numbers.$counter}: ${group.group_title}</h3>";
-                INCLUDE tocsection subs=group.subs;
+                INCLUDE index_toc_section subs=group.subs;
                 counter = counter + 1;
            END;
        ELSE;
-           INCLUDE tocsection subs=toc;
+           INCLUDE index_toc_section subs=toc;
        END;
     %]
 

@@ -1,10 +1,9 @@
 body {
         font-family: helvetica, verdana, sans-serif; 
-        font-size:small;
+        font-size: small;
         color: #000000; 
         background-color: #000066;
 }        
-
 
 .headline {
         padding: 2px;
@@ -43,6 +42,7 @@ div.navbarglobal a {text-decoration: none; color: #ffffff;}
 div.notactivenav a {text-decoration: none; color: #525D76;}
 div.toc          a {text-decoration: none; color: #0000ff;}
 
+/* boxes */
 div.leftcont {
         position: absolute;
         top: 5px;
@@ -56,22 +56,23 @@ div.cbox {
         left: 175px;
         padding: 0px;
         margin-right: 10px;
-        background-color: #ffffff;
 }
 
 div.content {
         padding: 5px;
-        border: 5px;
+        border: 2px;
         border-style: solid;
-        border-color: #525D76;
+        border-color: #000000;
         background-color: #ffffff;
 }
 
 div.tail {
-        padding: 5px;
-        border: 5px;
+        padding: 1px;
+        font-size: x-small;
+        font-family: helvetica, verdana, sans-serif;
+        border: 2px;
         border-style: solid;
-        border-color: #525D76;
+        border-color: #000000;
         background-color: #ffffff;
 }
 
@@ -100,7 +101,7 @@ div.logo {
         padding: 5px;
         border: 1px;
         border-style: solid;
-        border-color: #525D76;
+        border-color: #000000;
         text-align: center;
 }
 
@@ -109,7 +110,7 @@ div.navbar {
         padding: 2px;
         border: 0px;
         border-style: solid;
-        border-color: #525D76;
+        border-color: #000000;
 }
 
 div.activenav {
@@ -123,7 +124,7 @@ div.notactivenav {
         font-weight: bold;
         border: 1px;
         border-style: solid;
-        border-color: #525D76;
+        border-color: #000000;
         margin-top: -1px;
 
 }
@@ -143,18 +144,18 @@ div.navbarlocal {
 }
 
 div.menu {
-        border: 3px;
+        border: 1px;
         padding: 5px;
         border-style: solid;
-        border-color: #525D76;
+        border-color: #000000;
         background-color: #ffffff;
 }
 
 div.ad {
-        border: 3px;
+        border: 1px;
         padding: 5px;
         border-style: solid;
-        border-color: #525D76;
+        border-color: #000000;
         background-color: #ffffff;
         font-size: x-small;
 }

@@ -9,7 +9,7 @@
 <table border=0 width=100%>
 <tr><th colspan=2><h3>Table of Contents</h3></th></tr>
 <tr><td valign='top'><div class='toc'>
-[% INCLUDE tocsection subs=toc %]
+[% INCLUDE page_toc_section subs=toc %]
 </div></td>
 <td valign='top'>
 <div class='download'>Download:<br><br>
