@@ -928,14 +928,19 @@ which sets maximum logging and debugging levels;
 a combination of one or more option letters (or option numerical
 equivalents) from the following list:
 
-  d (  1) directive processing
-  f (  2) filters
-  g (  4) Perl runtime interaction
-  h (  8) handlers
-  i ( 16) interpreter pool management
-  m ( 32) memory allocations
-  s ( 64) perl sections
-  t (128) benchmark-ish timings
+  c (  1) configuration for directive handlers
+  d (  2) directive processing
+  f (  4) filters
+  g (  8) Perl runtime interaction
+  h ( 16) handlers
+  i ( 32) interpreter pool management
+  m ( 64) memory allocations
+  o (128) I/O
+  s (256) Perl sections
+  t (512) benchmark-ish timings
+
+META: should probably not rely on the numeric values as they may
+change in the future. perhaps we should remove them competely.
 
 When C<PerlTrace> is not specified, the tracing level will be set to
 the value of the C<$ENV{MOD_PERL_TRACE}> environment variable.
