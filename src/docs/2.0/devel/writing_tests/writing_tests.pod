@@ -226,14 +226,41 @@ using the I<-port> configuration option:
 or by setting an evironment variable C<APACHE_PORT> to the desired
 value before starting the server.
 
-=head2 Stress Testing
-
 Normally when I<t/TEST> is run without specifying the tests to run,
 the tests will be sorted alphabetically. If tests are explicitly
 passed as arguments to I<t/TEST> they will be run in a specified
 order.
 
-There are a few options useful for stress testing.
+=head2 Stress Testing
+
+=head3 The Problem
+
+When we try to test a stateless machine (i.e. all tests are
+independent), running all tests once ensures that all tested things
+properly work. However when a state machine is tested (i.e. where a
+run of one test may influence another test) it's not enough to run all
+the tests once to know that the tested features actually work. It's
+quite possible that if the same tests are run in a different order
+and/or repeated a few times, some tests may fail.  This usually
+happens when some tests don't restore the system under test to its
+pristine state at the end of the run, which may influence other tests
+which rely on the fact that they start on pristine state, when in fact
+it's not true anymore. In fact it's possible that a single test may
+fail when run twice or three times in a sequence.
+
+=head3 The Solution
+
+To reduce the possibility of such dependency errors, it's important to
+run random testing repeated many times with many different
+pseudo-random engine initialization seeds. Of course if no failures
+get spotted that doesn't mean that there are no tests
+inter-dependencies, unless all possible combinations were run
+(exhaustive approach). Therefore it's possible that some problems may
+still be seen in production, but this testing greatly minimizes such a
+possibility.
+
+The C<Apache::Test> framework provides a few options useful for stress
+testing.
 
 =over
 
@@ -272,8 +299,9 @@ repeat the tests: a, a, b, b, c, c
 
 run in the random order, e.g.: a, c, c, b, a, b
 
-In this mode the used srand() seed is printed to STDOUT, so it then
-can be used to rerun the tests in exactly the same order.
+In this mode the seed picked by srand() is printed to C<STDOUT>, so it
+then can be used to rerun the tests in exactly the same order
+(remember to log the output).
 
 =item * -order=SEED
 
@@ -288,12 +316,156 @@ running:
   % t/TEST -order=234559 -times=5
 
 Alternatively, the environment variable C<APACHE_TEST_SEED> can be set
-to the value of seed.
+to the value of a seed when I<-order=random> is used. e.g. under
+bash(1):
+
+  % APACHE_TEST_SEED=234559 t/TEST -order=random -times=5
+
+or with any shell program if you have the C<env(1)> utility:
+
+  $ env APACHE_TEST_SEED=234559 t/TEST -order=random -times=5
 
 =back
 
 =back
 
+=head2 Resolving Sequence Problems
+
+When this kind of testing is used and a failure is detected there are
+two problems:
+
+=over
+
+=item 1
+
+First is to be able to reproduce the problem so if we think we fixed
+it, we could verify the fix. This one is easy, just remember the
+sequence of tests run till the failed test and rerun the same sequence
+once again after the problem has been fixed.
+
+=item 2
+
+Second is to be able to understand the cause of the problem. If during
+the random test the failure has happened after running 400 tests, how
+can we possibly know which previously running tests has caused to the
+failure of the test 401. Chances are that most of the tests were clean
+and don't have inter-dependency problem. Therefore it'd be very
+helpful if we could reduce the long sequence to a minimum. Preferably
+1 or 2 tests. That's when we can try to understand the cause of the
+detected problem.
+
+=back
+
+=head2 Apache::TestSmoke Solution
+
+C<Apache::TestSmoke> attempts to solve both problems. When it's run,
+at the end of each iteration it reports the minimal sequence of tests
+causing a failure. This doesn't always succeed, but works in many
+cases.
+
+You should create a small script to drive C<Apache::TestSmoke>,
+usually I<t/SMOKE.PL>. If you don't have it already, create it:
+
+  t/SMOKE.PL
+  ----------
+  #!perl
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use FindBin;
+  use lib "$FindBin::Bin/../Apache-Test/lib";
+  use lib "$FindBin::Bin/../lib";
+  
+  use Apache::TestSmoke ();
+  
+  Apache::TestSmoke->new(@ARGV)->run;
+
+Usually I<Makefile.PL> converts it into I<t/SMOKE> while adjusting the
+perl path, but you can create I<t/SMOKE> in first place as well.
+
+I<t/SMOKE> performs the following operations:
+
+=over
+
+=item 1
+
+Runs the tests randomly until the first failure is detected. Or
+non-randomly if the option I<-order> is set to I<repeat> or I<rotate>.
+
+=item 2
+
+Then it tries to reduce that sequence of tests to a minimum, and this
+sequence still causes to the same failure.
+
+=item 3
+
+It reports all the successful reductions as it goes to STDOUT and
+report file of the format: smoke-report-<date>.txt.
+
+In addition the systems build parameters are logged into the report
+file, so the detected problems could be reproduced.
+
+=item 4
+
+Goto 1 and run again using a new random seed, which potentially should
+detect different failures.
+
+=back
+
+Currently for each reduction path, the following reduction algorithms
+are applied:
+
+=over
+
+=item 1
+
+Binary search: first try the upper half then the lower.
+
+=item 2
+
+Random window: randomize the left item, then the right item and return
+the items between these two points.
+
+=back
+
+You can get the usage information by executing:
+
+  % t/SMOKE -help
+
+By default you don't need to supply any arguments to run it, simply
+execute:
+
+  % t/SMOKE
+
+If you want to work on certain tests you can specify them in the same
+way you do with I<t/TEST>:
+
+  % t/SMOKE foo/bar foo/tar
+
+If you already have a sequence of tests that you want to reduce
+(perhaps because a previous run of the smoke testing didn't reduce the
+sequence enough to be able to diagnose the problem), you can request
+to do just that:
+
+  % t/SMOKE -order=rotate -times=1 foo/bar foo/tar
+
+I<-order=rotate> is used just to override the default
+I<-order=random>, since in this case we want to preserve the order. We
+also specify I<-times=1> for the same reason (override the default
+which is 50).
+
+You can override the number of srand() iterations to perform (read:
+how many times to randomize the sequence), the number of times to
+repeat the tests (the default is 10) and the path to the file to use
+for reports:
+
+  % t/SMOKE -times=5 -iterations=20 -report=../myreport.txt
+
+Finally, any other options passed will be forwarded to C<t/TEST> as
+is.
+
+=head2 Advanced Testing
 
 
 
@@ -1875,9 +2047,12 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =head1 Authors
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+=over
 
-Gary Benson E<lt>gbenson (at) redhat.comE<gt>
+=item * Gary Benson E<lt>gbenson (at) redhat.comE<gt>
+
+=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
 
 =cut
-
