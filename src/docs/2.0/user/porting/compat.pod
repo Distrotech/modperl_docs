@@ -589,7 +589,7 @@ C<Apache-E<gt>httpd_conf> is now C<$s-E<gt>add_config> or
 C<$r-E<gt>add_config>. e.g.:
 
   require Apache::ServerUtil;
-  Apache->server->httpd_conf(['require valid-user']);
+  Apache->server->add_config(['require valid-user']);
 
 See the C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>>
 manpage.
