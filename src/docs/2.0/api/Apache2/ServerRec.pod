@@ -1,13 +1,13 @@
 =head1 NAME
 
-Apache::ServerRec - Perl API for Apache server record accessors
+Apache2::ServerRec - Perl API for Apache server record accessors
 
 
 
 
 =head1 Synopsis
 
-  use Apache::ServerRec ();
+  use Apache2::ServerRec ();
   
   $error_fname = $s->error_fname();
   
@@ -33,7 +33,7 @@ Apache::ServerRec - Perl API for Apache server record accessors
   $timeout  = $s->timeout();
   $loglevel = $s->loglevel();
   
-  my $server = Apache->server;
+  my $server = Apache2->server;
   my $vhosts = 0;
   for (my $s = $server->next; $s; $s = $s->next) {
       $vhosts++;
@@ -49,10 +49,10 @@ Apache::ServerRec - Perl API for Apache server record accessors
 
 =head1 Description
 
-C<Apache::ServerRec> provides the Perl API for Apache server_rec
+C<Apache2::ServerRec> provides the Perl API for Apache server_rec
 object.
 
-C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>> provides
+C<L<Apache2::ServerUtil|docs::2.0::api::Apache2::ServerUtil>> provides
 an extra functionality.
 
 
@@ -61,7 +61,7 @@ an extra functionality.
 
 =head1 API
 
-C<Apache::ServerRec> provides the following functions and/or methods:
+C<Apache2::ServerRec> provides the following functions and/or methods:
 
 
 
@@ -78,7 +78,7 @@ Get/set the C<ErrorLog> file value (e.g. F<logs/error_log>)
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_error_fname> ( string )
 
@@ -112,7 +112,7 @@ Test whether C<$s> is a virtual host object
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item ret: C<$is_virtual> ( boolean )
 
@@ -146,7 +146,7 @@ same client.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_keep_alive> ( boolean )
 
@@ -184,7 +184,7 @@ connection.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_keep_alive_max> ( integer )
 
@@ -221,7 +221,7 @@ breaking a C<KeepAlive> connection.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_keep_alive_timeout> ( integer )
 
@@ -257,7 +257,7 @@ Get/set limit on number of request header fields
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_limit_req_fields> ( integer )
 
@@ -292,7 +292,7 @@ Get/set limit on size of any request header field
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_limit_req_fieldsize> ( integer )
 
@@ -326,7 +326,7 @@ Get/set limit on size of the HTTP request line
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_limit_req_line> ( integer )
 
@@ -362,18 +362,18 @@ Get/set the C<LogLevel> directive value
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
-=item opt arg1: C<$new_loglevel> ( C<L<Apache::Const :log
-constant|docs::2.0::api::Apache::Const/C__log_>> )
+=item opt arg1: C<$new_loglevel> ( C<L<Apache2::Const :log
+constant|docs::2.0::api::Apache2::Const/C__log_>> )
 
 If passed, sets a new C<LogLevel> value
 
 Note the L<limited functionality under threaded
 MPMs|/Limited_Functionality_under_Threaded_MPMs>.
 
-=item ret: C<$loglevel> ( C<L<Apache::Const :log
-constant|docs::2.0::api::Apache::Const/C__log_>> )
+=item ret: C<$loglevel> ( C<L<Apache2::Const :log
+constant|docs::2.0::api::Apache2::Const/C__log_>> )
 
 Returns the C<LogLevel> value as a constant.
 
@@ -385,8 +385,8 @@ If C<$new_loglevel> is passed, returns the setting before the change.
 
 For example, to set the C<LogLevel> value to C<info>:
 
-  use Apache::Const -compile => qw(LOG_INFO);
-  $s->loglevel(Apache::LOG_INFO);
+  use Apache2::Const -compile => qw(LOG_INFO);
+  $s->loglevel(Apache2::LOG_INFO);
 
 
 
@@ -402,10 +402,10 @@ The next server record in the list (if there are vhosts)
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item ret: C<$s_next>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item since: 1.99_15
 
@@ -415,9 +415,9 @@ For example the following code traverses all the servers, starting
 from the base server and continuing to vhost servers, counting all
 available vhosts:
 
-  use Apache::ServerRec ();
-  use Apache::ServerUtil ();
-  my $server = Apache->server;
+  use Apache2::ServerRec ();
+  use Apache2::ServerUtil ();
+  my $server = Apache2->server;
   my $vhosts = 0;
   for (my $s = $server->next; $s; $s = $s->next) {
       $vhosts++;
@@ -438,7 +438,7 @@ Get/set pathname for the C<ServerPath> setting
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_path> ( string )
 
@@ -472,7 +472,7 @@ Get/set the port value
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_port> ( integer )
 
@@ -508,10 +508,10 @@ The process this server is running in
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item ret: C<$proc>
-( C<L<Apache::Process object|docs::2.0::api::Apache::Process>> )
+( C<L<Apache2::Process object|docs::2.0::api::Apache2::Process>> )
 
 =item since: 1.99_15
 
@@ -532,7 +532,7 @@ Get/set the C<ServerAdmin> value
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_server_admin> ( string )
 
@@ -566,7 +566,7 @@ Get/set the C<ServerName> value
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_server_hostname> ( string )
 
@@ -603,7 +603,7 @@ wait for before it gives up doing something
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_timeout> ( integer )
 
@@ -665,7 +665,7 @@ documentation entries.
 
 =head1 Unsupported API
 
-C<Apache::ServerRec> also provides auto-generated Perl interface for a
+C<Apache2::ServerRec> also provides auto-generated Perl interface for a
 few other methods which aren't tested at the moment and therefore
 their API is a subject to change. These methods will be finalized
 later as a need arises. If you want to rely on any of the following
@@ -685,10 +685,10 @@ Get the addrs value
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item ret: C<$addrs>
-( C<L<Apache::ServerAddr|docs::2.0::api::Apache::ServerAddr>> )
+( C<L<Apache2::ServerAddr|docs::2.0::api::Apache2::ServerAddr>> )
 
 Returns the addrs setting.
 
@@ -696,7 +696,7 @@ Returns the addrs setting.
 
 =back
 
-META: this methods returns a vhost-specific Apache::ServerAddr object,
+META: this methods returns a vhost-specific Apache2::ServerAddr object,
 which is not implemented at the moment. See the struct server_addr_rec
 entry in httpd-2.0/include/httpd.h for more information. It seems that
 most (all?) of the information in that record is available through
@@ -716,10 +716,10 @@ checking per-directory info.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item ret: C<$lookup_defaults>
-( C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>> )
+( C<L<Apache2::ConfVector|docs::2.0::api::Apache2::ConfVector>> )
 
 Returns the lookup_defaults setting.
 
@@ -741,10 +741,10 @@ structures.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item ret: C<$module_config>
-( C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>> )
+( C<L<Apache2::ConfVector|docs::2.0::api::Apache2::ConfVector>> )
 
 Returns the module_config setting.
 
@@ -765,7 +765,7 @@ Get/set the value(s) for the C<ServerAlias> setting
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_names>
 ( C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>> )
@@ -803,7 +803,7 @@ Wildcarded names for ServerAlias servers
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg1: C<$new_wild_names>
 ( C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>> )
