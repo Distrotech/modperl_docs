@@ -24,6 +24,13 @@ Redirect permanent /tuning/index.html http://perl.apache.org/docs/index.html
 Redirect permanent /faq/mod_perl_api.html http://perl.apache.org/docs/index.html
 Redirect permanent /features/tmpl-cmp.html http://perl.apache.org/docs/tutorials/tmpl/comparison/comparison.html
 Redirect permanent /perl_myth.html http://perl.apache.org/docs/general/perl_myth.html
+Redirect permanent /perl_myth.pod http://perl.apache.org/docs/general/perl_myth.pod.orig
+Redirect permanent /faq/mjtg-news.txt http://perl.apache.org/docs/index.html
+Redirect permanent /faq/mod_perl_api.pod http://perl.apache.org/docs/index.html
+Redirect permanent /faq/mod_perl_cgi.pod http://perl.apache.org/docs/index.html
+Redirect permanent /faq/mod_perl_faq.html http://perl.apache.org/docs/index.html
+Redirect permanent /faq/mod_perl_faq.pod http://perl.apache.org/docs/index.html
+Redirect permanent /faq/mod_perl_faq.tar.gz http://perl.apache.org/docs/index.html
 
 Redirect permanent /distributions.html http://perl.apache.org/download/index.html
 Redirect permanent /tidbits.html http://perl.apache.org/docs/offsite/articles.html
@@ -77,3 +84,11 @@ Redirect permanent /embperl.html http://perl.apache.org/embperl/
 # ASP
 Redirect permanent /asp http://www.apache-asp.org/
 
+# Contributors
+Redirect permanent /CREDITS.html http://perl.apache.org/about/contributors/people.html
+
+# Misc
+Redirect permanent /bench.txt http://www.chamas.com/bench/
+Redirect permanent /email-etiquette.pod http://perl.apache.org/maillist/email-etiquette.pod.orig
+Redirect permanent /embperl.html http://perl.apache.org/embperl/
+Redirect permanent /faqs.html http://perl.apache.org/docs/offsite/index.html
