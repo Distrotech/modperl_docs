@@ -25,7 +25,8 @@ not documented here, please send a message to the mod_perl list.
 
 =item *
 
-Be sure to have read L<cgi_to_mod_perl>
+Be sure to have read L<First steps needed to use mod_perl as a CGI
+replacement|faqs::cgi_to_mod_perl>.
 
 =item *
 
@@ -124,11 +125,11 @@ commonly package C<main>.  However, B<Apache::Registry> scripts are
 compiled into a unique package name (base on the uri).  So, if
 multiple scripts in the same process try to require the same file,
 which does not declare a package, only one script will actually be
-able to see the subroutines.  The solution is to read L<perlmodlib>,
-L<perlmod> and related perl documentation and re-work your required
-file into a module which exports functions or defines a method
-interface.  
-Or something more simple, along these lines:
+able to see the subroutines.  The solution is to read the
+I<perlmodlib>, the I<perlmod> manpages and related perl documentation
+and re-work your required file into a module which exports functions
+or defines a method interface.  Or something more simple, along these
+lines:
 
  #required_file.pl
  package Test;

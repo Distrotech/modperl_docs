@@ -132,7 +132,7 @@ place of subroutine prototypes:
       ...;
   }
 
-see the L<attributes> manpage for additional information on subroutine
+see the I<attributes> manpage for additional information on subroutine
 attributes.
 
 mod_perl 2.0 doesn't support the C<($$)> prototypes, mainly because

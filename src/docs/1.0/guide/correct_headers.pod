@@ -37,16 +37,16 @@ document.
 
 If the number of hits is significant, you might want to consider what
 cache-friendliness means (you may also want to read
-L<[4]|correct_headers/_4_>) and how you can cooperate with caches to
+L<[4]|guide::correct_headers/_4_>) and how you can cooperate with caches to
 increase the performance of your site.  Especially if you use Squid in
 accelerator mode (helpful hints for Squid, see
-L<[1]|correct_headers/_1_>), you will have a strong motivation to
+L<[1]|guide::correct_headers/_1_>), you will have a strong motivation to
 cooperate with it.  This document may help you to do it correctly.
 
 =head1 2) Which Headers
 
-The HTTP standard (v 1.1 is specified in L<[3]|correct_headers/_3_>, v
-1.0 in L<[2]|correct_headers/_2_>) describes lots of headers.  In this
+The HTTP standard (v 1.1 is specified in L<[3]|guide::correct_headers/_3_>, v
+1.0 in L<[2]|guide::correct_headers/_2_>) describes lots of headers.  In this
 document, we only discuss those headers which are most relevant to
 caching.
 
@@ -118,7 +118,7 @@ this argument first.
   use Date::Parse;
   # Date::Parse parses RCS format, Apache::Util::parsedate doesn't
   $Mtime ||=
-    Date::Parse::str2time(substr q$Date: 2002/02/04 13:50:25 $, 6);
+    Date::Parse::str2time(substr q$Date: 2002/02/27 18:03:36 $, 6);
   $r->set_last_modified($Mtime);
 
 =head2 2.1.3) Expires and Cache-Control
@@ -199,7 +199,6 @@ C<$r-E<gt>no_cache>, because header_out() takes precedence.  The
 problem that remains is that there are broken browsers which ignore
 C<Expires> headers.
 
-
 =head2 2.2) Content Related Headers
 
 =head2 2.2.1) Content-Type
@@ -214,7 +213,6 @@ C<Content-Type> I<should> be included in all messages according to the
 specs, and Apache will generate one if you don't.  It will be whatever
 is specified in the relevant C<DefaultType> configuration directive or
 C<text/plain> if none is active.
-
 
 =head2 2.2.2) Content-Length
 
@@ -385,7 +383,6 @@ that come with a Vary header at all.  So unless you find a clever
 workaround, you won't enjoy your Squid accelerator for these documents
 :-(
 
-
 =head1 3) Requests
 
 Section 13.11 of the specifications states that the only two cacheable
@@ -506,7 +503,6 @@ you have to use:
 
   http://example.com/query;BGCOLOR=blue;FGCOLOR=red;FONT=/font/bla
 
-
 =head2 3.4) Conditional GET
 
 A rather challenging request mod_perl programmers can get is the
@@ -530,7 +526,7 @@ possibly C<ETag>) header before calling this method.  If the return
 value of this method is anything other than C<OK>, you should return
 that value from your handler and you're done.  Apache handles the rest
 for you.  The following example is taken from
-L<[5]|correct_headers/_5_>:
+L<[5]|guide::correct_headers/_5_>:
 
   if((my $rc = $r->meets_conditions) != OK) {
      return $rc;
@@ -569,7 +565,6 @@ C<$file>.  Setting the filename has the side effect of doing a
 C<stat()> on the file.  This is important because otherwise Apache
 would use the out of date C<finfo> when generating the response
 header.
-
 
 =head1 References
 
@@ -622,10 +617,7 @@ http://www.web-caching.com/
 
 =item *
 
-
 =back
-
-
 
 =cut
 

@@ -7,38 +7,21 @@ Warnings and Errors Troubleshooting Index
 Perl's warnings mode is immensely helpful in detecting possible
 problems.  Make sure you always turn on warnings while you are
 developing code.  See L<The Importance of
-Warnings|debug/The_Importance_of_Warnings>.
+Warnings|guide::debug/The_Importance_of_Warnings>.
 
 Enabling C<use diagnostics;> generally helps you to determine the
 source of the problem and how to solve it.  See L<diagnostics
-pragma|debug/diagnostics_pragma> for more information.
-
-
-
-
-
-
-
+pragma|guide::debug/diagnostics_pragma> for more information.
 
 =head1 Building and Installation
 
-See L<make Troubleshooting|install/make_Troubleshooting> and
-L<make test Troubleshooting|install/make_test_Troubleshooting>
-
-
-
-
-
-
-
-
-
+See L<make Troubleshooting|guide::install/make_Troubleshooting> and
+L<make test Troubleshooting|guide::install/make_test_Troubleshooting>
 
 =head1 Configuration and Startup
 
 This section talks about errors reported when you attempt to start the
 server.
-
 
 =head2 SegFaults During Startup
 
@@ -117,8 +100,6 @@ by C<ld>.
 For more information see the I<ld> manpage and an essay on
 C<LD_LIBRARY_PATH>: http://www.visi.com/~barr/ldpath.html
 
-
-
 =head2 Invalid command 'PerlHandler'...
 
   Syntax error on line 393 of /etc/httpd/conf/httpd.conf: Invalid
@@ -137,10 +118,6 @@ in your I<httpd.conf>.
 This can also happen when you try to run a non-mod_perl Apache server 
 using the configuration from a mod_perl server.
 
-
-
-
-
 =head2 RegistryLoader: Translation of uri [...] to filename failed
 
   RegistryLoader: Translation of uri [/home/httpd/perl/test.pl] to filename 
@@ -155,12 +132,6 @@ C<Apache::RegistryLoader> expects to get - the URI, but there are more
 complex cases. C<Apache::RegistryLoader>'s man page shows how to
 handle these cases as well (look for the trans() sub).
 
-
-
-
-
-
-
 =head2 "Apache.pm failed to load!"
 
 If your server startup fails with:
@@ -171,51 +142,17 @@ try adding this to I<httpd.conf>:
 
   PerlModule Apache
 
-
-
-
-
-
-
-
-
-
-
 =head1 Code Parsing and Compilation
-
-
-
-
-
-
-
 
 =head2 Value of $x will not stay shared at - line 5
 
 L<my() Scoped Variable in Nested 
-Subroutines|perl/my___Scoped_Variable_in_Nested_Subroutines>.
-
-
-
-
-
-
-
+Subroutines|guide::perl/my___Scoped_Variable_in_Nested_Subroutines>.
 
 =head2 Value of $x may be unavailable at - line 5.
 
 L<my() Scoped Variable in Nested 
-Subroutines|perl/my___Scoped_Variable_in_Nested_Subroutines>.
-
-
-
-
-
-
-
-
-
-
+Subroutines|guide::perl/my___Scoped_Variable_in_Nested_Subroutines>.
 
 =head2 Can't locate loadable object for module XXX
 
@@ -227,12 +164,6 @@ make sure to give mod_perl's C<Makefile.PL> C<PERL_UTIL_API=1>,
 C<EVERYTHING=1> or C<DYNAMIC=1> parameters to enable and build all the
 components of C<Apache::Util>.
 
-
-
-
-
-
-
 =head2 Can't locate object method "get_handlers"...
 
   Can't locate object method "get_handlers" via package "Apache"
@@ -240,22 +171,12 @@ components of C<Apache::Util>.
 You need to rebuild your mod_perl with stacked handlers, i.e.
 C<PERL_STACKED_HANDLERS=1> or more simply C<EVERYTHING=1>.
 
-
-
-
-
-
-
 =head2 Missing right bracket at line ...
 
 Most often you will find that you really do have a syntax error.
 However the other reason might be that a script running under
 C<Apache::Registry> is using C<__DATA__> or C<__END__> tokens. L<Learn
-why|porting/__END___and___DATA___tokens>.
-
-
-
-
+why|guide::porting/__END___and___DATA___tokens>.
 
 =head2  Can't load '.../auto/DBI/DBI.so' for module DBI
 
@@ -294,17 +215,6 @@ or
 
 This problem is only known to be caused by installing gnu ld under Solaris.
 
-
-
-
-
-
-
-
-
-
-
-
 =head1 Runtime
 
 =head2 "exit signal Segmentation fault (11)" with mysql
@@ -317,8 +227,6 @@ Segmentation fault followed by this error:
 Solution: re-compile PHP without the built-in MySQL support (you can
 still connect to MySQL).
 
-
-
 =head2 foo ... at /dev/null line 0
 
 Under mod_perl you may receive a warning or an error in the
@@ -328,13 +236,11 @@ This is absolutely normal if the code is executed from within a
 handler, because there is no actual file associated with the handler.
 Therefore C<$0> is set to I</dev/null> and that's what you see.
 
-
 =head2 Preventing mod_perl Processes From Going Wild
 
 See the sections "L<Non-Scheduled Emergency Log
-Rotation|control/Non_Scheduled_Emergency_Log_Rotation>" and "L<All RAM
-Consumed|control/All_RAM_Consumed>"
-
+Rotation|guide::control/Non_Scheduled_Emergency_Log_Rotation>" and "L<All RAM
+Consumed|guide::control/All_RAM_Consumed>"
 
 =head2 Segfaults when using XML::Parser
 
@@ -347,20 +253,15 @@ during the Apache configuration step.
 
 Starting from mod_perl version 1.23 this option is disabled by default.
 
-
 =head2 My CGI/Perl Code Gets Returned as Plain Text Instead of Being Executed by the Webserver
 
 See L<My CGI/Perl Code Gets Returned as Plain Text Instead of Being
-Executed by the Webserver|config/My_CGI_Perl_Code_Gets_Returned_as_Plain_Text_Instead_of_Being_Executed_by_the_Webserver>.
-
-
+Executed by the Webserver|guide::config/My_CGI_Perl_Code_Gets_Returned_as_Plain_Text_Instead_of_Being_Executed_by_the_Webserver>.
 
 =head2 Incorrect line number reporting in error/warn log messages
 
 See L<Use of uninitialized value at (eval 80) line
-12.|troubleshooting/Use_of_uninitialized_value_at__eval_80__line_12_>
-
-
+12.|guide::troubleshooting/Use_of_uninitialized_value_at__eval_80__line_12_>
 
 =head2 rwrite returned -1
 
@@ -370,7 +271,7 @@ only see the rwrite messages if C<LogLevel> is set to C<debug>.
 
 There was a bug that reported this debug message regardless of the 
 value of the C<LogLevel> directive.  It was fixed in mod_perl 1.19_01 
-(L<CVS version|download/mod_perl>).
+(L<CVS version|guide::download/mod_perl>).
 
 Generally C<LogLevel> is either C<debug> or C<info>.  C<debug> logs
 everything, C<info> is the next level, which doesn't include debug
@@ -378,17 +279,11 @@ messages.  You shouldn't use "debug" mode on your production server.
 At the moment there is no way to prevent users from aborting
 connections.
 
-
-
 =head2 Can't upgrade that kind of scalar ...
 
 Fixed in mod_perl 1.23.
 
-
-
-
 =head2 caught SIGPIPE in process
-
 
   [modperl] caught SIGPIPE in process 1234
   [modperl] process 1234 going to Apache::exit with status...
@@ -398,7 +293,7 @@ which is called if a connection times out or if the client presses the
 'Stop' button.  It gives you an opportunity to do cleanups if the
 script was aborted in the middle of its execution.  See L<Handling the
 'User pressed Stop button'
-case|debug/Handling_the__User_pressed_Stop_button__case> for more
+case|guide::debug/Handling_the__User_pressed_Stop_button__case> for more
 info.
 
 If your mod_perl version is earlier than 1.17 you might also get the 
@@ -410,9 +305,7 @@ message in the following section...
   Process 2493 going to Apache::exit with status=-2
 
 You may see this message in mod_perl versions less than 1.17.  See also
-L<caught SIGPIPE in process|troubleshooting/caught_SIGPIPE_in_process>.
-
-
+L<caught SIGPIPE in process|guide::troubleshooting/caught_SIGPIPE_in_process>.
 
 =head2 Global symbol "$foo" requires explicit package name
 
@@ -475,10 +368,6 @@ $SIG{__WARN__} = \&Carp::cluck;"> The confess method is I<very>
 verbose and will tell you more than you might wish to know including
 full source.
 
-
-
-
-
 =head2 Use of uninitialized value at (eval 80) line 12.
 
 Your code includes some undefined variable that you have used as if it
@@ -497,14 +386,12 @@ C<$q-E<gt>param('test')>'s return value or the default value (C<''>
 empty string in our example).
 
 Also read about L<Finding the Line Which Triggered the Error or
-Warning|debug/Finding_the_Line_Which_Triggered_the_Error_or_Warning>.
+Warning|guide::debug/Finding_the_Line_Which_Triggered_the_Error_or_Warning>.
 
 =head2 Undefined subroutine &Apache::ROOT::perl::test_2epl::some_function called at
 
 See L<Names collisions with Modules and
-libs|porting/Name_collisions_with_Modules_and_libs>.
-
-
+libs|guide::porting/Name_collisions_with_Modules_and_libs>.
 
 =head2 Callback called exit
 
@@ -565,12 +452,9 @@ C<Carp::confess>, like so:
 this way, when the real problem happens, C<Carp::confess> doesn't eat
 memory in the emergency pool (C<$^M>).
 
-
-
-
 =head2 server reached MaxClients setting, consider raising the MaxClients setting
 
-See L<Choosing MaxClients|performance/Choosing_MaxClients>.
+See L<Choosing MaxClients|guide::performance/Choosing_MaxClients>.
 
 =head2 syntax error at /dev/null line 1, near "line arguments:"
 
@@ -588,7 +472,6 @@ it:
   # rm /dev/null
   # mknod /dev/null c 1 3
   # chmod a+rw /dev/null
-
 
 =head2 Can't call method "register_cleanup" (CGI.pm)
 
@@ -617,13 +500,7 @@ But even better, switch to C<Apache::Cookie>:
     my %bar = $cookies->{foo}->value;
   }
 
-
-
-
-
 =head1 Shutdown and Restart
-
-
 
 =head2 Evil things might happen when using PerlFreshRestart
 
@@ -662,9 +539,6 @@ with perl 5.004_05 or 5.005+.and higher.  If you still experience a
 problem with code within a CGI script, moving all the code into a
 module (or a library) and require()ing it should solve the problem.
 
-
-
-
 =head2 Can't undef active subroutine
 
   Can't undef active subroutine at
@@ -680,9 +554,6 @@ default.  This should not happen unless you have code that is messing
 with B<$SIG{PIPE}>.  It's also triggered only when you've changed your
 script on disk and mod_perl is trying to reload it.
 
-
-
-
 =head2 [warn] child process 30388 did not exit, sending another SIGHUP
 
 From mod_perl.pod: With Apache versions 1.3.0 and higher, mod_perl
@@ -697,7 +568,6 @@ can be avoided by setting the C<PERL_DESTRUCT_LEVEL> environment
 variable to C<-1>. Be aware that `your code' includes any modules you
 use and I<they> may well have C<DESTROY> and C<END> blocks...
 
-
 =head2 Processes Get Stuck on Graceful Restart
 
 If you see a process stuck in "G" (Gracefully finishing) after a doing
@@ -706,17 +576,15 @@ process is hanging in perl_destruct() while trying to cleanup.  This
 cleanup normally isn't a requirement, you can disable it by setting
 the PERL_DESTRUCT_LEVEL environment variable to -1.  See the section
 "L<Speeding up the Apache Termination and
-Restart|control/Speeding_up_the_Apache_Termination_and_Restart>" for 
+Restart|guide::control/Speeding_up_the_Apache_Termination_and_Restart>" for 
 more information.
-
 
 =head2 httpd keeps on growing after each restart
 
 See the I<HUP Signal> explanation at the section:
-L<Server Stopping and Restarting|control/Server_Stopping_and_Restarting>
+L<Server Stopping and Restarting|guide::control/Server_Stopping_and_Restarting>
 
 =head1 Windows OS specific notes
-
 
 =head2 Apache::DBI
 
@@ -738,6 +606,5 @@ successfully restart when asked to.  This flag disables all
 C<PerlRequire> and C<PerlModule> statements on the first load, so they
 can succeed on the second load.  Without that flag, the second load
 fails.
-
 
 =cut

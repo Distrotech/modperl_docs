@@ -34,7 +34,6 @@ request has been served.
 It's almost as straightforward as is it sounds; there are just a few
 things to know about and we will cover them in this section.
 
-
 =head2 Introduction
 
 The DBI module can make use of the C<Apache::DBI> module.  When it
@@ -156,11 +155,10 @@ die()'s while tables are locked, they will stay neatly locked as your
 connection won't be closed either.
 
 See the section L<Handling the 'User pressed Stop button'
-case|debug/Handling_the__User_pressed_Stop_button__case>
+case|guide::debug/Handling_the__User_pressed_Stop_button__case>
 for more information on prevention.
 
 =head2 Troubleshooting
-
 
 =head3 The Morning Bug
 
@@ -204,7 +202,6 @@ However, you are free to modify the handle immediately after you get
 it from the cache. So always initiate connections using the same
 parameters and set C<LongReadLen> (or whatever) afterwards.
 
-
 =head3 Cannot find the DBI handler
 
 You must use C<DBI::connect()> as in normal DBI usage to get your $dbh
@@ -214,7 +211,6 @@ you should program as if you are not using C<Apache::DBI> at
 all. C<Apache::DBI> will override the DBI methods where necessary and
 return your cached connection. Any C<disconnect()> call will be just
 ignored.
-
 
 =head3 Apache:DBI does not work
 
@@ -236,7 +232,6 @@ distribution). Remove the comment from the line.
 and adapt the connect string.  Do not change anything in your scripts
 for use with C<Apache::DBI>.
 
-
 =head3 Skipping connection cache during server startup
 
 Does your error_log look like this?
@@ -257,8 +252,6 @@ returns immediately without a database handle.
 
 You must use the C<Apache::DBI-E<gt>connect_on_init()> method in the
 startup file.
-
-
 
 =head3 Debugging code which deploys DBI
 
@@ -310,7 +303,6 @@ information.
 
 =back
 
-
 =head1 mysql_use_result vs. mysql_store_result.
 
 Since many mod_perl developers use mysql as their preferred SQL
@@ -344,7 +336,6 @@ if you are doing a lot of processing for each row on the client side.
 This can tie up the server and prevent other threads from updating the
 tables.
 
-
 =head1 Optimize: Run Two SQL Engine Servers
 
 Sometimes you end up running many databases on the same machine. These
@@ -358,9 +349,8 @@ disk access. Different usage profiles require vastly different
 performance needs.
 
 This is basically a similar idea to having L<two Apache
-servers|strategy/One_Plain_Apache_and_One_mod_perl_enabled_Apache_Servers>,
+servers|guide::strategy/One_Plain_Apache_and_One_mod_perl_enabled_Apache_Servers>,
 each optimized for its specific requirements.
-
 
 =head1 Some useful code snippets to be used with relational Databases
 
@@ -388,7 +378,6 @@ persistent database handles with mod_cgi.
 =code My-DB.pm The My::DB module
 
 (Note that you will not find this on CPAN. at least not yet :)
-
 
 =head2 My::DB Module's Usage Examples
 
@@ -419,7 +408,6 @@ are and produce statistics. C<tracker> is the name of the table.
     $total++;
   }
 
-
 Now let's count how many users we have (in table C<users>):
 
   my $count = $db_obj->sql_count_matched("users");
@@ -448,7 +436,6 @@ went online):
     my $idle = int( (time() - $row[0]) / 60);
     return "Current status: Is Online and idle for $idle minutes.";
   }
-
 
 A complex query. I join two tables, and I want a reference to an array
 which will store a slice of the matched query (C<LIMIT $offset,$hits>)
@@ -552,9 +539,5 @@ these users is online. In the second query we use the C<OR> keyword.
   # Now %matched includes the usernames of the users who are being
   # watched by $username and currently are online.
 
-
 =cut
-
-
-
 

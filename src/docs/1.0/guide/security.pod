@@ -29,9 +29,9 @@ Let's first get acquainted with some security related terminology:
 When you want to make sure that a user is who he claims to be, you
 generally ask her for a username and a password. Once you have both,
 you can check them against your L<database of username/password
-pairs|databases/>.  If they match, the user has passed the
+pairs|guide::databases/>.  If they match, the user has passed the
 B<Authentication> stage. From now on if you keep the
-L<session|modules/Apache__Session___Maintain_session_state_across_HTTP_requests> open all you need to
+L<session|guide::modules/Apache__Session___Maintain_session_state_across_HTTP_requests> open all you need to
 do is to remember the username.
 
 =item Authorization
@@ -46,7 +46,6 @@ your local users to use some service. But be warned that IP numbers or
 session_ids can be spoofed (forged), and that is why you should not do
 B<Authorization> without B<Authentication>.
 
-
 =back
 
 Actually you've been familiar with both these concepts for a while.
@@ -57,7 +56,6 @@ process (B<Authentication>).
 When you try to read some file from your file systems, the kernel
 checks the permissions on this file (B<Authorization>). You may hear
 about B<Access control> which is another name for the same thing.
-
 
 =head1 Illustrated Security Scenarios
 
@@ -167,7 +165,6 @@ If neither IP address is matched, C<PerlAuthenHandler> will not be set
 to OK, and the Authentication stage will ask the user for a login and
 password.
 
-
 =head1 Authentication code snippets
 
 =head2 Forcing re-authentication
@@ -190,7 +187,6 @@ In the Perl API you would use the note_basic_auth_failure() method to
 force reauthentication.
 
 This may not work!  The browser's behaviour is in no way guaranteed.
-
 
 =head2 OK, AUTH_REQUIRED and FORBIDDEN in Authentication handlers
 
@@ -233,7 +229,6 @@ C<$r-E<gt>custom_response>. It looks something like this:
   $r->custom_response(SERVER_ERROR, "/errors/suspended_account.html");
    
   return FORBIDDEN if $suspended;
-
 
 =head1 Apache:Auth* modules
 

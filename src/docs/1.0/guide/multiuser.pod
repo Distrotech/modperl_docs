@@ -47,7 +47,7 @@ who is allowed to write and run a CGI script can at least read (if not
 write) any other files that belong to the same user and/or group the
 web server is running as.  Note that L<it's impossible to run
 C<suEXEC> and C<cgiwrap> extensions under
-mod_perl|install/Is_it_possible_to_run_mod_perl_enabled_Apache_as_suExec_>.
+mod_perl|guide::install/Is_it_possible_to_run_mod_perl_enabled_Apache_as_suExec_>.
 
 Another issue is the security of the database connections.  If you use
 C<Apache::DBI>, by hacking the C<Apache::DBI> code you can pick a
@@ -147,7 +147,7 @@ numbers greater than 1024.
 Another solution would be to use a setuid startup script, but think
 twice before you go with it, since if users can modify the scripts
 they will get a root access. For more information refer to the section
-"L<SUID Start-up Scripts|control/SUID_Start_up_Scripts>".
+"L<SUID Start-up Scripts|guide::control/SUID_Start_up_Scripts>".
 
 =item *
 
@@ -206,10 +206,8 @@ user has chosen, and finally it reads the user-specific settings that
 we don't want the user to override, such as the port number.  Even if
 the user changes the port number in his I<username.httpd.conf> file,
 Apache reads our settings last, so they take precedence.  Note that
-you can use L<Perl sections|config/Apache_Configuration_in_Perl> to
+you can use L<Perl sections|guide::config/Apache_Configuration_in_Perl> to
 make the configuration much easier.
-
-
 
 =item 3
 
@@ -297,25 +295,23 @@ http://archive.develooper.com/scalable@arctic.org/msg00235.html
 
 =back
 
-
-
 =head1 Virtual Hosts in the guide
 
 If you are about to use I<Virtual Hosts> you might want to read these
 sections:
 
-L<Apache Configuration in Perl|config/Apache_Configuration_in_Perl>
+L<Apache Configuration in Perl|guide::config/Apache_Configuration_in_Perl>
 
 L<Easing the Chores of Configuring Virtual Hosts with
-mod_macro|config/Configuring_Apache___mod_perl_with_mod_macro>
+mod_macro|guide::config/Configuring_Apache___mod_perl_with_mod_macro>
 
 L<Is There a Way to Provide a Different startup.pl File for Each
-Individual Virtual Host|config/Is_There_a_Way_to_Provide_a_Different_startup_pl_File_for_Each_Individual_Virtual_Host>
+Individual Virtual Host|guide::config/Is_There_a_Way_to_Provide_a_Different_startup_pl_File_for_Each_Individual_Virtual_Host>
 
 L<Is There a Way to Modify @INC on a Per-Virtual-Host or Per-Location
-Basis.|config/Is_There_a_Way_to_Modify__INC_on_a_Per_Virtual_Host_or_Per_Location_Basis_> 
+Basis.|guide::config/Is_There_a_Way_to_Modify__INC_on_a_Per_Virtual_Host_or_Per_Location_Basis_> 
 
 L<A Script From One Virtual Host Calls a Script with the Same Path
-From the Other Virtual Host|config/A_Script_From_One_Virtual_Host_Calls_a_Script_with_the_Same_Path_From_the_Other_Virtual_Host>
+From the Other Virtual Host|guide::config/A_Script_From_One_Virtual_Host_Calls_a_Script_with_the_Same_Path_From_the_Other_Virtual_Host>
 
 =cut

@@ -17,19 +17,14 @@ should avoid asking questions, but you should not abuse the available
 help and you should I<RTFM> before you call for I<HELP>.  (Remember the
 fable of the shepherd boy and the wolves).
 
-For more information See L<Get helped with mod_perl|help/Get_help_with_mod_perl>.
-
-
-
-
-
+For more information See L<Get helped with mod_perl|guide::help/Get_help_with_mod_perl>.
 
 =head1 Contacting me
 
 Hi, I wrote this document to help people with mod_perl.  It does not
 mean that if you have any question regarding mod_perl, perl or
 whatever you think I might know, you should send it directly to me.
-Please see the L<Get help with mod_perl|help/Get_help_with_mod_perl>
+Please see the L<Get help with mod_perl|guide::help/Get_help_with_mod_perl>
 section and follow the guidelines described there.
 
 However, you are welcome to submit corrections and suggestions
@@ -45,8 +40,6 @@ I<PLEASE DO NOT SEND QUESTIONS DIRECTLY TO ME, I didn't invite those
 by writing the guide.  They will all be immediately deleted.  Please
 ask questions on the mod_perl list and if we can answer your question,
 one (or more) of us will answer it on the list.  Thank you!>
-
-
 
 =head2 How to Report Problems
 
@@ -145,7 +138,6 @@ where C<$Config{archlibexp}> is:
 
   % perl -V:archlibexp
 
-
 =item Spinning Processes
 
 The gdb attaching to the live process approach is helpful when
@@ -177,11 +169,6 @@ stuck in.
 =back
 
 Finally send all these details to the modperl mailing list.
-
-
-
-
-
 
 =head1 Get help with mod_perl
 
@@ -216,7 +203,6 @@ favorite on-line bookseller.  O'Reilly lists this book as:
   1-56592-567-X, Order Number: 567X
   746 pages, $34.95
 
-
 =item * The mod_perl Developer's Cookbook
 
 Home site: http://www.modperlcookbook.org
@@ -229,7 +215,6 @@ SAMS lists this book as:
   Pub. Date: Jan 17,2002
   Price: $39.99
   Pages: 600
-
 
 =item * Managing and Programming mod_perl
 
@@ -251,8 +236,6 @@ http://www.oreilly.com/catalog/apachepr/
 
 See also Andrew's collection of reference card for Apache and other
 programs: http://www.refcards.com.
-
-
 
 =back
 
@@ -280,7 +263,6 @@ at http://perl.apache.org/dist/cgi_to_mod_perl.html .
 
 at http://perl.apache.org/dist/mod_perl_traps.html .
 
-
 =item * Articles
 
 =over
@@ -295,7 +277,6 @@ article in German
 http://www.heise.de/ix/artikel/2000/01/156/
 
 =back
-
 
 =item * mod_perl mailing lists
 
@@ -393,8 +374,6 @@ List's searchable archive:
 
 http://www.apachelabs.org/test-dev/
 
-
-
 =item * The advocacy mailing list
 
 The list for mod_perl advocacy issues, discussions about
@@ -405,7 +384,6 @@ Unsubscribe by sending a mail to advocacy-unsubscribe@perl.apache.org.
 Use advocacy@perl.apache.org to post to the list.
 
 The archive: http://www.mail-archive.com/advocacy@perl.apache.org/.
-
 
 =item * The modperl-cvs mailing list
 
@@ -421,22 +399,9 @@ modperl-cvs@apache.org to post to the list.
 
 No archives available.
 
-
-
 =back
 
-
 =back
-
-
-
-
-
-
-
-
-
-
 
 =head1 Get help with Perl
 
@@ -525,19 +490,7 @@ subscription options.
 List's archive is available at
 http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/.
 
-
 =back
-
-
-
-
-
-
-
-
-
-
-
 
 =head1 Get help with Perl/CGI
 
@@ -570,16 +523,7 @@ Send email to majordomo@jann.com with body:
 
   subscribe cgi-list
 
-
 =back
-
-
-
-
-
-
-
-
 
 =head1 Get help with Apache 
 
@@ -626,22 +570,11 @@ http://linuxplanet.com/linuxplanet/print/1445/
 Installing and Securing the Apache Webserver with SSL
 http://www.securityfocus.com/infocus/1356
 
-
 =item * mod_throttle_access
 
 mod_throttle_access is available at http://www.fremen.org/apache/
 
-
 =back
-
-
-
-
-
-
-
-
-
 
 =head1 Get help with DBI and SQL
 
@@ -677,13 +610,6 @@ http://www.xray.mpe.mpg.de/mailing-lists/dbi/
 
 =back
 
-
-
-
-
-
-
-
 =head1 Get help with Squid - Internet Object Cache
 
 =over 4
@@ -706,14 +632,9 @@ Mailing lists - http://squid.nlanr.net/Squid/mailing-lists.html
 
 =back
 
-
-
-
-
 =head1 Get help with CVS -- Concurrent Version Control
 
 =over
-
 
 =item *
 
@@ -751,9 +672,7 @@ http://www.sourcegear.com/CVS/Docs/docfaq
 Introduction to CVS
 http://www.sourcegear.com/CVS/Docs/blandy
 
-
 =back
-
 
 =head1 Get help with Performance and Scalability
 
@@ -783,8 +702,6 @@ http://www.linux-ha.org/
 
 =back
 
-
-
 =head1 Get help with Unix OS flavors -- Unix OS related resources
 
 =over
@@ -796,11 +713,6 @@ http://www.sun.com/solutions/third-party/global/SAS/pdf/vmsizing.pdf
 
 =item * 
 
-
 =back
-
-
-
-
 
 =cut

@@ -1,4 +1,8 @@
-=head1 The mod_perl Mailing List Guidelines
+=head1 NAME
+
+The mod_perl Mailing List Guidelines
+
+=head1 Introduction
 
 =for html <!--
 email-etiquette: This version dated 21 October 2001.
@@ -12,7 +16,6 @@ Before you post to the mod_perl List, please read the following.
 Hopefully it will save you (and everyone else) some time.
 
 Except where noted the language of all documents is English.
-
 
 =head1 What is mod_perl?
 
@@ -94,8 +97,8 @@ email to: modperl-help@apache.org
 I<Posting> to the list is just sending a message to the address which
 you will be given after you subscribe.
 
-Your message will not be accepted unless you have first
-L<subscribed|To Get On The List>.
+Your message will not be accepted unless you have first L<To Get On
+The List|maillist::list-users>.
 
 Do not post to modperl-subscribe@apache.org, except to subscribe to
 the list!  Please do not post to the list itself to attempt to
@@ -358,15 +361,15 @@ You absolutely *must* read the mod_perl Guide.
 
 It is a large document, you probably will want to download it and read
 it off-line.  If you get the source (see below, L<Corrections and
-Contributions>) it comes with a build file to turn the .pod (Plain Old
-Documentation) source into HTML, .ps (PostScript) and .pdf (Portable
-Document Format).  You will need at least Perl version 5.005 to build
-it.  If you browse the Guide on-line you can use one of the search
-engines to find things in it.  If you build and browse your own local
-HTML copy of the Guide, some of the links in it will not work unless
-you are connected to the Internet.  Some people prefer to work
-offline, using tools like `grep' or `mc' to search the .pod source
-directly.
+Contributions|/Corrections_and_Contributions>) it comes with a 
+build file to turn the .pod (Plain Old Documentation) source into
+HTML, .ps (PostScript) and .pdf (Portable Document Format).  You will
+need at least Perl version 5.005 to build it.  If you browse the Guide
+on-line you can use one of the search engines to find things in it.
+If you build and browse your own local HTML copy of the Guide, some of
+the links in it will not work unless you are connected to the
+Internet.  Some people prefer to work offline, using tools like `grep'
+or `mc' to search the .pod source directly.
 
 
 =head2 Finding the Guide
@@ -377,7 +380,7 @@ http://perl.apache.org/guide/
 
 The sources are available from CPAN and other mirrors:
 
-http://www.perl.com/CPAN-local/authors/id/S/ST/STAS/
+http://www.cpan.org/authors/id/S/ST/STAS/
 
 
 =head2 Corrections And Contributions

@@ -21,7 +21,7 @@ Rather than "porting" mod_perl-1.x to Apache 2.0, mod_perl-2.0 is
 being implemented as a complete re-write from scratch.
 
 For a more detailed introduction and functionality overview, see
-L<Overview|overview/overview/"test">.
+L<Overview|user::overview::overview/"test">.
 
 =head1 Interpreter Management
 

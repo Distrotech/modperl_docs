@@ -169,7 +169,7 @@ concerning the relative order of these and the C<LoadModule> directive.
 
 =head1 SEE ALSO
 
-L<mod_perl>, L<Apache>, http://perl.apache.org/, especially
-the guide, and http://take23.org/.
+The I<mod_perl> manpage, the L<Apache> manpage,
+http://perl.apache.org/, especially the guide, and http://take23.org/.
 
 =cut

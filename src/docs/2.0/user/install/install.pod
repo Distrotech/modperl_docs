@@ -196,7 +196,8 @@ those from C<MP_OPTIONS_FILE>.
 
   % make test
 
-L<../testing/testing.pod> document covers the C<make test> suite.
+L<Apache::Test Framework|devel::testing::testing> document covers the
+C<make test> suite.
 
 META: probably need to link directly to the 'Running Tests' section.
 
@@ -214,8 +215,9 @@ NOTE: source_scan.pl is a HEAVY process, do not be alarmed.
 
   % perl build/source_scan.pl apxs $apache_prefix/bin/apxs
 
-META: this is covered in L<core_explained> should probably move/point
-there.
+META: this is covered in L<Core
+Explained|devel::core_explained::core_explained> should probably
+move/point there.
 
 =head2 Re-using Build Options
 

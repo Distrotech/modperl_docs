@@ -6,8 +6,8 @@ Getting Help with mod_perl 2.0 Core Development
 
 This document covers the resources available to the mod_perl 2.0 core
 developer. Please notice that you probably want to read the L<user's
-help documentation|../../user/help/help.pod> if you have problems
-using mod_perl.
+help documentation|user::help::help> if you have problems using
+mod_perl.
 
 The following mailing lists and resources can be of a major interest
 to the mod_perl 2.0 developers.
@@ -219,8 +219,8 @@ archive: http://archive.develooper.com/perl5-changes@perl.org/
 
 =head1 More Help
 
-There is a L<parallel help document|../../user/help/help.pod> in the
-user documentation set which covers mod_perl user's issues.
+There is a L<parallel help document|user::help::help> in the user
+documentation set which covers mod_perl user's issues.
 
 =head1 Maintainers
 

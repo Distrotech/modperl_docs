@@ -88,20 +88,10 @@ An alternative to C<Apache::Session> is C<Apache::ASP>, which has
 session tracking abilities.  C<HTML::Embperl> hooks into
 C<Apache::Session> for you.
 
-
-
-
-
-
-
-
 =head1 Apache::DBI - Initiate a persistent database connection
 
 See L<mod_perl and relational
-Databases|databases/Apache_DBI_Initiate_a_persist>
-
-
-
+Databases|guide::databases/Apache_DBI_Initiate_a_persist>
 
 =head1 Apache::Watchdog::RunAway - Hanging Processes Monitor and Terminator
 
@@ -122,15 +112,10 @@ Note that it requires the C<Apache::Scoreboard> module to work.
 Refer to the C<Apache::Watchdog::RunAway> manpage for the
 configuration details.
 
-
-
-
-
-
 =head1 Apache::VMonitor -- Visual System and Apache Server Monitor
 
 C<Apache::VMonitor> is the next generation of
-L<mod_status|debug/mod_status>. It provides all the information
+L<mod_status|guide::debug/mod_status>. It provides all the information
 mod_status provides and much more.
 
 This module emulates the reporting functions of the top(), mount(),
@@ -181,18 +166,12 @@ machine.
   @Apache::VMonitor::NETDEVS    = qw(lo eth0);
   $Apache::VMonitor::PROC_REGEX = join "\|", qw(httpd mysql squid);
 
-
 More information is available in the module's extensive manpage.
 
 It requires C<Apache::Scoreboard> and C<GTop> to work.  C<GTop> in
 turn requires the C<libgtop> library but is not available for all
 platforms.  Visit http://www.home-of-linux.org/gnome/libgtop/ to check whether
 your platform/flavor is supported.
-
-
-
-
-
 
 =head1 Apache::GTopLimit - Limit Apache httpd processes
 
@@ -202,10 +181,9 @@ choose to set up the process size limiter to check the process
 size on every request:
 
 The module is thoroughly explained in the sections: "L<Keeping the
-Shared Memory Limit|performance/Keeping_the_Shared_Memory_Limit>" and
+Shared Memory Limit|guide::performance/Keeping_the_Shared_Memory_Limit>" and
 "L<Limiting the Size of the
-Processes|performance/Limiting_the_Size_of_the_Process>"
-
+Processes|guide::performance/Limiting_the_Size_of_the_Process>"
 
 =head1 Apache::Request (libapreq) - Generic Apache Request Library
 
@@ -230,17 +208,14 @@ details and eg/perl/ for examples.
 C<Apache::Request> and libapreq are tied tightly to the Apache API,
 to which there is no access in a process running under mod_cgi.
 
-(L<Apache::Request|download/Apache__Request>)
-
-
-
+(L<Apache::Request|guide::download/Apache__Request>)
 
 =head1 Apache::RequestNotes - Allow Easy, Consistent Access to Cookie and Form Data Across Each Request Phase
 
 C<Apache::RequestNotes> provides a simple interface allowing all
 phases of the request cycle access to cookie or form input parameters
 in a consistent manner.  Behind the scenes, it uses libapreq
-L<Apache::Request|modules/Apache__Request__libapreq____Generic_Apache_Request_Library>)
+L<Apache::Request|guide::modules/Apache__Request__libapreq____Generic_Apache_Request_Library>)
 functions to parse request data and puts references to the data in
 C<pnotes()>.
 
@@ -251,19 +226,10 @@ required by numerous handlers along the way.
 
 See the C<Apache::RequestNotes> manpage for more information.
 
-
-
-
 =head1 Apache::PerlRun - Run unaltered CGI scripts under mod_perl
 
 See L<Apache::PerlRun - a closer
-look|porting/Apache_PerlRun_a_closer_look>.
-
-
-
-
-
-
+look|guide::porting/Apache_PerlRun_a_closer_look>.
 
 =head1 Apache::RegistryNG -- Apache::Registry New Generation
 
@@ -291,9 +257,6 @@ functionality of the existing I<Registry.pm>.  For example,
 C<Apache::RegistryBB> (Bare-Bones) is another subclass that skips the
 stat() call performed by C<Apache::Registry> on each request.
 
-
-
-
 =head1 Apache::RegistryBB -- Apache::Registry Bare Bones 
 
 It works just like C<Apache::Registry>, but does not test the x bit
@@ -309,11 +272,6 @@ Configuration:
     SetHandler perl-script
     PerlHandler Apache::RegistryBB->handler
   </Location>
-
-
-
-
-
 
 =head1 Apache::OutputChain -- Chain Stacked Perl Handlers
 
@@ -356,16 +314,13 @@ It works with C<Apache::Registry> as well, for example:
 It's really a regular C<Apache::Registry> setup, except for the added
 modules in the PerlHandler line.
 
-(L<Apache::GzipChain|modules/Apache__GzipChain___compress_HTML__or_anything__in_the_OutputChain> allows to
+(L<Apache::GzipChain|guide::modules/Apache__GzipChain___compress_HTML__or_anything__in_the_OutputChain> allows to
 compress the output on the fly.)
-
 
 =head1 Apache::Filter - Alter the output of previous handlers
 
 META: to be written (actually summarized the info from Apache::Filter
 manpage)
-
-
 
 =head1 Apache::GzipChain - compress HTML (or anything) in the OutputChain
 
@@ -411,8 +366,6 @@ configuration.
 Notice that the rightmost PerlHandler must be a content producer.
 Here we are using C<Apache::PassFile> but you can use any module which
 creates output.
-
-
 
 =head1 Apache::Gzip - Auto-compress web files with Gzip
 
@@ -465,7 +418,6 @@ response in the I<access.log> or by telnet:
   User-Agent: Mozilla
 
 And you will get the data compressed if configured correctly.
-
 
 =head1 Apache::PerlVINC - Allows Module Versioning in Location blocks and Virtual Hosts
 
@@ -549,9 +501,6 @@ reloads some modules on a per-request basis.  Hence, this module
 should only be used in a development environment, not a production
 one.
 
-
-
-
 =head1 Apache::LogSTDERR
 
 When Apache's builtin syslog support is used, the stderr stream is
@@ -565,9 +514,6 @@ to a file of your choice, the default is shown in this example:
 
 [META: see
 http://mathforum.org/epigone/modperl/vixquimwhen ]
-
-
-
 
 =head1 Apache::RedirectLogFix
 
@@ -586,7 +532,6 @@ and do some manual header sending, like this:
 
   $r->status(304);
   $r->send_http_header();
-
 
 =head1 Apache::SubProcess
 
@@ -726,8 +671,5 @@ provides methods for accessing the values from the parsed file.
 
 See the module manpage for more information.
 
-
 =cut
-
-
 

@@ -121,7 +121,6 @@ paid support just like with any other commercial OS vendor.
 Also remember that the less money you spend on OS and Software, the
 more you will be able to spend on faster and stronger hardware.
 
-
 =head2 Discontinued Products
 
 The OSs in this hazard group tend to be developed by a single company
@@ -167,7 +166,6 @@ Of course with the Open Source OSs you can have the source!  So you
 can always have a go yourself, but do not under-estimate the amounts
 of work involved.  There are many, many man-years of work in an OS.
 
-
 =head2 OS Releases
 
 Actively developed OSs generally try to keep pace with the latest
@@ -184,13 +182,6 @@ compatibility with previous products of the same family, you might not
 reap all the benefits of the new product's features.  Perhaps you get
 almost the same functionality for much less money if you were to buy
 an older model of the same product.
-
-
-
-
-
-
-
 
 =head1 Choosing Hardware
 
@@ -212,7 +203,6 @@ And you may be able to take one of the machines down for maintenance
 (or an upgrade) and keep your service running - the main server will
 simply not dispatch the requests to the machine that was taken down.
 
-
 =item *
 
 Load balancing - users are given the name of one of your machines but
@@ -225,7 +215,7 @@ results and returns them to the users.  You can get the advantages of
 clustering too.
 
 There are many load balancing techniques. (See L<High-Availability
-Linux Project|download/High_Availability_Linux_Project> for more info.)
+Linux Project|guide::download/High_Availability_Linux_Project> for more info.)
 
 =item *
 
@@ -282,7 +272,6 @@ spent too much money, and meanwhile faster processors and other
 hardware components have been released, so you lose.
 
 Wisdom and prophecy, that's all it takes :)
-
 
 =head3 Single Strong Machine vs Many Weaker Machines
 
@@ -356,7 +345,6 @@ list:
   a busy internet site you always have some slow clients.  This is a
   difficult thing to simulate in benchmark testing, though.
 
-
 =head2 I/O Performance
 
 If your service is I/O bound (does a lot of read/write operations to
@@ -407,7 +395,7 @@ server expects to serve pages and how long it takes on average to
 serve one.  Now you can calculate how many server processes you need.
 If you know the maximum size your servers can grow to, you know how
 much memory you need.  If your OS supports L<memory
-sharing|hardware/Sharing_Memory>, you can make best use of this
+sharing|guide::hardware/Sharing_Memory>, you can make best use of this
 feature by preloading the modules and scripts at server startup, and
 so you will need less memory than you have calculated.
 
@@ -483,6 +471,4 @@ since your needs will probably change as time goes by and your
 hardware will likewise be forced to adapt as well.
 
 =cut
-
-
 

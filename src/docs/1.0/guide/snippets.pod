@@ -2,7 +2,6 @@
 
 Code Snippets
 
-
 =head1 Redirecting Errors to the Client Instead of error_log
 
 Many error conditions result in an I<exception> (or I<signal> -- same
@@ -22,7 +21,7 @@ error occurred) to I<error_log>.  If you want to redirect this
 information to the client instead of to I<error_log> you have to take
 the responsibility yourself, by writing your own exception handler to
 implement this behaviour.  See the section "L<Exception Handling for
-mod_perl|perl/Exception_Handling_for_mod_perl>" for more information.
+mod_perl|guide::perl/Exception_Handling_for_mod_perl>" for more information.
 
 The code examples below can be useful with your own exception handlers 
 as well as with the default handlers.
@@ -190,10 +189,6 @@ yourself.
 Please note that as of version 2.49, CGI.pm provides the cgi_error()
 method to print the errors and won't die() unless you want it to.
 
-
-
-
-
 =head1 Reusing Data from POST request
 
 What happens if you need to access the POSTed data more than once, say
@@ -256,10 +251,6 @@ be a singleton.  This means that whenever you call
 C<Apache::Request>-E<gt>instance() within a single request you always
 get the same C<Apache::Request> object back.
 
-
-
-
-
 =head1 Redirecting POST Requests
 
 Under mod_cgi it's not easy to redirect POST requests to some other
@@ -279,7 +270,6 @@ redirect:
 
 Of course that last line can be any other kind of redirect.
 
-
 =head1 Redirecting While Maintaining Environment Variables
 
 Let's say you have a module that sets some environment variables.
@@ -293,18 +283,6 @@ environment variables seen in the sub-process via
 subprocess_env(). The only nuance is that the C<%ENV> keys will be
 prefixed with C<REDIRECT_>.
 
-
-
-
-
-
-
-
-
-
-
-
-
 =head1 Terminating a Child Process on Request Completion
 
 If you want to terminate the child process serving the current
@@ -315,8 +293,6 @@ request, upon completion of processing anywhere in the code call:
 Apache won't actually terminate the child until everything it needs to 
 do is done and the connection is closed.
 
-
-
 =head1 Setting Content-type and Content-encoding headers in non-OK responses
 
 You cannot set I<Content-type> and I<Content-encoding> headers in
@@ -324,7 +300,6 @@ non-OK responses, since Apache overrides these in I<http_protocol.c>,
 I<ap_send_error_response()>:
 
   r->content_type = "text/html; charset=iso-8859-1";
-
 
 =head1 More on Relative Paths
 
@@ -362,16 +337,6 @@ C<BEGIN> block it won't work under mod_perl. It's loaded and executed
 only for the first script executed inside the process, all the others
 will use the cached value, which would be probably incorrect if they
 reside in different directories.
-
-
-
-
-
-
-
-
-
-
 
 =head1 Watching the error_log File Without Telneting to the Server
 
@@ -469,10 +434,6 @@ Here is the code:
         : $context;
   }
 
-
-
-
-
 =head1 Accessing Variables from the Caller's Package
 
 Sometimes you want to access variables from the caller's
@@ -483,10 +444,6 @@ package. One way is to do something like this:
     my $caller = caller;
     print qq[$caller --- ${"${caller}::var"}];
   }
-
-
-
-
 
 =head1 Handling Cookies
 
@@ -520,12 +477,6 @@ Or a slimmer version:
     }
         
 
-
-
-
-
-
-
 =head1 Sending Multiple Cookies with the Perl API
 
 Given that you have prepared your cookies in C<@cookies>, the
@@ -534,8 +485,6 @@ following code will submit all the cookies:
   for (@cookies){
    $r->headers_out->add( 'Set-Cookie' => $_ );
   }
-
-
 
 =head1 Sending Cookies in REDIRECT Response
 
@@ -550,9 +499,6 @@ to send cookies in the C<REDIRECT> response.
   $r->status(REDIRECT);
   $r->send_http_header;
   return OK;
-
-
-
 
 =head1 Passing and Preserving Custom Data Structures Between Handlers
 
@@ -577,12 +523,6 @@ prints:
   mod_perl
 
 The stored information will be destroyed at the end of the request.
-
-
-
-
-
-
 
 =head1 Passing Notes Between mod_perl and other (non-Perl) Apache Modules
 
@@ -639,7 +579,6 @@ table and access them via the method main():
 
   $r->main->notes('answer');
 
-
 =head1 Passing Environment Variables Between Handlers
 
 This is a simple example of passing environment variables between
@@ -668,7 +607,6 @@ and in I<startup.pl>:
 Adding C<%{TICKET}e> and C<%{TICKET}n> to the C<LogFormat> for
 access_log works fine too.
 
-
 =head1 Verifying Whether A Request Was Received Over An SSL Connection
 
 Just like C<$ENV{MODPERL}> is checked to see whether the code is run
@@ -692,7 +630,6 @@ Note that it's also possible to check the scheme:
 but it's not one hundred percent certain unless you control the server
 and you know that you run a secure server on the port 443.
 
-
 =head1 CGI::params in the mod_perl-ish Way
 
 You can retrieve the request parameters in a similar to C<CGI::params>
@@ -705,12 +642,6 @@ assuming that all your variables are single key-value pairs.
 
 Also take a look at C<Apache::Request> which has the same API as
 C<CGI.pm> for extracting and setting request parameters.
-
-
-
-
-
-
 
 =head1 Subclassing Apache::Request
 
@@ -747,15 +678,6 @@ To subclass a package you simply modify @ISA, for example:
   }
   1;
   __END__
-
-
-
-
-
-
-
-
-
 
 =head1 Sending Email from mod_perl
 
@@ -846,13 +768,6 @@ sends email.
   
   } #  end of sub send_mail
 
-
-
-
-
-
-
-
 =head1 A Simple Handler To Print The Environment Variables
 
 The code:
@@ -879,11 +794,6 @@ The configuration:
 The invocation:
 
   http://localhost/env
-
-
-
-
-
 
 =head1 mod_rewrite in Perl
 
@@ -926,8 +836,6 @@ So if a client submits a request of this kind:
 C<$uri> will hold I<http://www2.example.com/news/> and that's where
 the request will be redirected.
 
-
-
 =head1 URI Rewrite in PerlTransHandler 
 
 Suppose that before a content handler is invoked you want to make this
@@ -967,7 +875,6 @@ Apache-request object has been created, arguments are handled in a
 separate slot, so you cannot just push them into the original
 URI. Therefore the args() method should be used.
 
-
 =head1 Setting PerlHandler Based on MIME Type
 
 It's very easy to implement a dispatching module based on the MIME
@@ -1005,10 +912,6 @@ handler that should handle this request. Otherwise we do nothing.  At
 the end we return C<DECLINED> so some other fixup handler could take
 over.
 
-
-
-
-
 =head1 SSI and Embperl -- Doing Both
 
 This handler lets you use both SSI and Embperl in the same request:
@@ -1020,7 +923,6 @@ Use it in a C<E<lt>FilesMatchE<gt>> Section or similar:
      PerlSetVar Filter On
      PerlHandler Apache::EmbperlFilter Apache::SSI
   </FilesMatch>
-
 
   package Apache::EmbperlFilter;
   
@@ -1066,14 +968,6 @@ Use it in a C<E<lt>FilesMatchE<gt>> Section or similar:
   1;
   __END__
 
-
-
-
-
-
-
-
-
 =head1 Getting the Front-end Server's Name in the Back-end Server
 
 Assume that you have more than one front-end server, and you want to
@@ -1096,8 +990,6 @@ Proxy).  There is probably a way to remap it as an X-Header of some
 sort, but if query string is good enough for you, then this should
 work really nicely.
 
-
-
 =head1 Authentication Snippets
 
 Getting the authenticated username: C<$r-E<gt>connection-E<gt>user()>,
@@ -1112,7 +1004,6 @@ Example:
   
   my $user = $r->connection->user;
 
-
 =head1 Emulating the Authentication Mechanism
 
 You can provide your own mechanism to authenticate users, instead of
@@ -1124,10 +1015,6 @@ authenticated by the standard mechanism, set the username with:
 Now you can use this information for example during the logging, so 
 that you can have your "username" passed as if it was transmitted to 
 Apache through HTTP authentication.
-
-
-
-
 
 =head1 An example of using Apache::Session::DBI with cookies
 
@@ -1171,7 +1058,6 @@ mod_perl list)
       $r->header_out("Set-Cookie" => $session_cookie);
   }
   
-
 
 =head1 Using DESTROY to Finalize Output
 
@@ -1307,8 +1193,6 @@ reader, and hope that it won't be needed in the next mod_perl release.
 After all, it's a little awkward to need a C<LogHandler> to clean up
 after ourselves....
 
-
-
 =head1 Setting Environment Variables For Scripts Called From CGI.
 
 Perl uses C<sh()> for its C<system()> and C<open()> calls.  So if you
@@ -1337,8 +1221,6 @@ using mod_perl.  To avoid the fork, change script.cgi to a module
 containing a subroutine which you can then call directly from your
 mod_perl script.
 
-
-
 =head1 Mysql Backup and Restore Scripts
 
 This is somewhat off-topic, but since many of us use mysql or some
@@ -1365,7 +1247,6 @@ I</usr/local/sbin/mysql/mysql.backup.pl>
 
 =code mysql-3.22.30+_backup.pl This is the code modified to work with
 mysql-3.22.30+ 
-
 
 You might need to change the executable paths according to your
 system.  List the names of the databases you want to backup using
@@ -1397,9 +1278,5 @@ Update: there is now a "mysqlhotcopy" utility distributed with MySQL
 that can make an atomic snapshot of a database. (by Tim Bunce) So you
 may consider using it instead.
 
-
 =cut
-
-
-
 

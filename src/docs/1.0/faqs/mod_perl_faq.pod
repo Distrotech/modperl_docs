@@ -98,12 +98,13 @@ and its documentation can be read with the command: C<perldoc CGI>.
 
 =head2 How do I run CGI scripts under mod_perl?
 
-Refer to L<mod_perl_cgi> for tips on writing and converting CGI
-scripts for mod_perl.
+Refer to the L<running CGI scripts under mod_perl|faqs::mod_perl_cgi>
+document for tips on writing and converting CGI scripts for mod_perl.
 
 =head2 How do I access the Apache API from mod_perl?
 
-Interfacing with Apache is discussed in L<mod_perl_api>.
+Interfacing with Apache is discussed in L<accessing the Apache API via
+mod_perl|faqs::mod_perl_api>.
 
 =head2 How secure are mod_perl scripts?
 
@@ -290,7 +291,7 @@ Alternatively, you can arrange for all the modules that might be
 needed to be loaded when the server starts up.  Put a PerlRequire
 directive into one of the httpd config files that pulls in a small
 module containing the relevant C<use>-statements.  There is an example
-of this in L<mod_perl_tuning>.
+of this in L<mod_perl performance tuning|faqs::mod_perl_tuning>.
 
 =head2 How can I pass arguments to a SSI script?
 

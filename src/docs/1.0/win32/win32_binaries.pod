@@ -172,9 +172,9 @@ C<perldoc CPAN> for details.
 
 =head1 SEE ALSO
 
-L<mod_perl>, L<Apache>, http://perl.apache.org/, especially the guide,
-http://take23.org/, http://httpd.apache.org/, and
-http://www.activestate.com/.
+The I<mod_perl> manpage, the L<Apache> manpage,
+http://perl.apache.org/, especially the guide, http://take23.org/,
+http://httpd.apache.org/, and http://www.activestate.com/.
 
 =cut
 

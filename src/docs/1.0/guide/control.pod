@@ -28,7 +28,7 @@ This will produce a list of all the C<httpd_perl> (parent and
 children) processes.  You are looking for the parent process. If you
 run your server as root, you will easily locate it since it belongs to
 root. If you run the server as some other user (when you L<don't have
-root access|install/Installation_Without_Superuser_P>, the processes
+root access|guide::install/Installation_Without_Superuser_P>, the processes
 will belong to that user unless defined differently in I<httpd.conf>.
 It's still easy to find which is the parent--usually it's the process
 with the smallest PID.
@@ -51,7 +51,6 @@ I</usr/include/linux/signal.h>, the relevant entries are:
 Note that to send these signals from the command line the C<SIG> prefix must
 be omitted and under some operating systems they will need to be preceded by
 a minus sign, e.g. C<kill -15> or C<kill -TERM> followed by the PID.
-
 
 =head1 Server Stopping and Restarting
 
@@ -99,7 +98,6 @@ cause the processes memory incremental growth after each restart. This
 happens when Perl code loaded in memory is not completely torn down,
 leading to a memory leak.
 
-
 =item USR1 Signal: Gracefully Restart Now
 
 The C<USR1> signal causes the parent process to advise the children to
@@ -126,8 +124,7 @@ directive in I<httpd.conf>:
   PerlFreshRestart On
 
 Make sure you read L<Evil things might happen when using
-PerlFreshRestart|troubleshooting/Evil_things_might_happen_when_us>.
-
+PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_us>.
 
 =head1 Speeding up the Apache Termination and Restart
 
@@ -160,9 +157,6 @@ of the current process that would not be handled by the operating
 system itself.  So committing database transactions and removing the
 lock on some resource are significant operations, but closing an
 ordinary file isn't.
-
-
-
 
 =head1 Using apachectl to Control the Server
 
@@ -203,11 +197,6 @@ It's important to remember that C<apachectl> uses the PID file, which
 is specified by the C<PIDFILE> directive in I<httpd.conf>.  If you
 delete the PID file by hand while the server is running, C<apachectl>
 will be unable to stop or restart the server.
-
-
-
-
-
 
 =head1 Safe Code Updates on a Live Production Server
 
@@ -304,9 +293,6 @@ there's a problem, I just put everything back as it was before:
 Usually everything will be fine, and I have had only about 10 seconds
 of downtime, which is pretty good!
 
-
-
-
 =head1 An Intentional Disabling of Live Scripts
 
 What happens if you really must take down the server or disable the
@@ -318,7 +304,7 @@ If you do nothing, the user will see either the grey C<An Error has
 happened> message or perhaps a customized error message if you have
 added code to trap and customize the errors.  See L<Redirecting Errors
 to the Client instead of to the
-error_log|snippets/Redirecting_Errors_to_the_Client> for the latter
+error_log|guide::snippets/Redirecting_Errors_to_the_Client> for the latter
 case.
 
 A much friendlier approach is to confess to your users that you are
@@ -423,14 +409,6 @@ much better version of the service.
 If you need to disable a location handled by some module, the second
 approach would work just as well.
 
-
-
-
-
-
-
-
-
 =head1 SUID Start-up Scripts
 
 If you want to allow a few people in your team to start and stop the
@@ -519,7 +497,6 @@ non-root processes. This section has presented a way to allow non-root
 users to start the server as root user, the rest is exactly the same
 as if you were executing the script as root in first place.
 
-
 =head2 Sample Apache Startup SUID Script
 
 Now if you are still with us, here is an example of the setuid Apache
@@ -580,11 +557,6 @@ this purpose.
   }
   
   die "Script must be named start_httpd, stop_httpd, or restart_httpd.\n";
-
-
-
-
-
 
 =head1 Preparing for Machine Reboot
 
@@ -763,10 +735,6 @@ Note that in case of using symlinks the link name in
 I</etc/rc.d/init.d> is what matters and not the name of the script the
 link points to.
 
-
-
-
-
 =head1 Monitoring the Server.  A watchdog.
 
 With mod_perl many things can happen to your server.  It is possible
@@ -938,16 +906,12 @@ And the watchdog itself:
     close MAIL;
   } 
 
-
-
-
-
 =head1 Running a Server in Single Process Mode
 
 Often while developing new code, you will want to run the server in
 single process mode.  See L<Sometimes it works Sometimes it does
-Not|porting/Sometimes_it_Works_Sometimes_it> and L<Names collisions
-with Modules and libs|porting/Name_collisions_with_Modules_and>.
+Not|guide::porting/Sometimes_it_Works_Sometimes_it> and L<Names collisions
+with Modules and libs|guide::porting/Name_collisions_with_Modules_and>.
 Running in single process mode inhibits the server from "daemonizing",
 and this allows you to run it under the control of a debugger more
 easily.
@@ -977,12 +941,6 @@ I<error_log> (I<"server started">, I<"server stopped"> etc).  Since
 C<httpd -X> causes the server to handle all requests itself, without
 forking any children, there is no controlling parent to write the
 status messages.
-
-
-
-
-
-
 
 =head1 Starting a Personal Server for Each Developer
 
@@ -1130,11 +1088,7 @@ including non-80 port the requests originated from this HTML code will
 bypass the light server listening to the default port 80, and go
 directly to the I<server:port> of the full URI.
 
-
-
-
 =head1 Wrapper to Emulate the Server Perl Environment
-
 
 Often you will start off debugging your script by running it from your
 favorite shell program.  Sometimes you encounter a very weird
@@ -1235,8 +1189,6 @@ at times.
     # Note that we set Warning and Taint modes ON!!!
   system qq{/usr/bin/perl -I$PERL5LIB -Tw $cgi $params};
 
-
-
 =head1 Server Maintenance Chores
 
 It's not enough to have your server and service up and running.  You
@@ -1256,8 +1208,6 @@ to prevent if you follow our advices.
 Certainly, your particular system might have maintenance chores that
 aren't covered here, but at least you will be alerted that these
 chores are real and should be taken care of.
-
-
 
 =head2 Handling Log Files
 
@@ -1422,8 +1372,6 @@ And then individual C<MIDNIGHT> scripts can look like this:
 Can you spot the security holes? Take your time...  This code
 shouldn't be used in hostile situations.
 
-
-
 =head3 Non-Scheduled Emergency Log Rotation
 
 As we have mentioned before, there are times when the web server goes
@@ -1481,8 +1429,6 @@ originator of the problem. But since the I/O of the log writing
 process Apache process will be quite heavy, the rest of the servers
 will work very slowly if at all, and a normal watchdog should detect
 this abnormal situation and restart the Apache server.
-
-
 
 =head1 Swapping Prevention
 
@@ -1621,7 +1567,7 @@ Therefore you should configure the server, so that the maximum number
 of possible processes will be small enough using the C<MaxClients>
 directive (For the technique for choosing the right C<MaxClients>
 refer to the section 'L<Choosing
-MaxClients|performance/Choosing_MaxClients>'). This will ensure that 
+MaxClients|guide::performance/Choosing_MaxClients>'). This will ensure that 
 at peak hours the system won't swap. Remember that swap space is an
 emergency pool, not a resource to be used routinely.  If you are low
 on memory and you badly need it, buy it or reduce the number of
@@ -1637,9 +1583,7 @@ be handy.
 
 For swapping monitoring techniques see the section 'L<Apache::VMonitor
 -- Visual System and Apache Server
-Monitor|debug/Apache_VMonitor_Visual_Syste>'.
-
-
+Monitor|guide::debug/Apache_VMonitor_Visual_Syste>'.
 
 =head1 Preventing mod_perl Processes From Going Wild
 
@@ -1666,10 +1610,8 @@ C<E<lt>PerlE<gt>E<lt>/PerlE<gt>> section in your httpd.conf file.  I
 do the latter.  Putting it in all your mod_perl modules would be
 redundant (and might give you compile-time errors).
 
-
 This will produce a nice error in I<error_log>, giving the line number
 of the call and the name of the undefined subroutine.
-
 
 =cut
 

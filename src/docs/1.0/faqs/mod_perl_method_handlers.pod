@@ -7,8 +7,8 @@ mod_perl_method_handlers - How to use mod_perl's MethodHandlers
 Described here are a few examples and hints how to use MethodHandlers
 with modperl.
 
-This document assumes familiarity with at least L<perltoot> and
-"normal" usage of the Perl*Handlers.
+This document assumes familiarity with at least the I<perltoot>
+manpage and "normal" usage of the Perl*Handlers.
 
 It isn't strictly modperl related, more like "what I use objects for
 in my modperl environment".
@@ -59,7 +59,7 @@ To build in this feature, configure with:
 =head1 WHY?
 
 The short version: For pretty much the same reasons we're using OO
-perl everywhere else. :-) See L<perltoot>.
+perl everywhere else. :-) See the I<perltoot> manpage.
 
 The slightly longer version would include some about code reusage and
 more clean interface between modules.
@@ -178,5 +178,5 @@ Some codesnippets is from Doug MacEachern.
 
 =head1 SEE ALSO
 
-L<mod_perl>, L<Apache>, L<perltoot> (also available at
-C<http://www.perl.com/CPAN/doc/FMTEYEWTK/perltoot.html>)
+The L<faqs::mod_perl>, the I<Apache>, the I<perltoot> manpages (also
+available at C<http://www.perl.com/CPAN/doc/FMTEYEWTK/perltoot.html>)

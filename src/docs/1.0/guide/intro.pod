@@ -43,7 +43,6 @@ possibly who you ask. Developers report speed boosts from 200% to
 http://perl.apache.org/tidbits.html and
 http://perl.apache.org/stories/ for the facts.)
 
-
 =head2 mod_cgi
 
 When you run your CGI scripts by using a configuration like this:
@@ -168,13 +167,13 @@ Perl and the Apache web server and delves deeply into the issues of
 writing and porting existing Perl scripts to run under mod_perl. Note
 that it does not attempt to enter the big world of using the Perl API
 or C API.  You will find pointers to coverage of these topics in the
-L<Getting Help and Further Learning|help/> section of this
+L<Getting Help and Further Learning|guide::help/> section of this
 document. This guide tries to cover the most of the
 C<Apache::Registry> and C<Apache::PerlRun> modules. Along with
 mod_perl related topics, there are many more issues related to
 administering Apache servers, debugging scripts, using databases,
 mod_perl related Perl, code snippets and more. The L<Guide's
-Overview|start/> will help you to find your way through the guide.
+Overview|guide::start/> will help you to find your way through the guide.
 
 It is assumed that you know at least the basics of building and
 installing Perl and Apache. (If you do not, just read the INSTALL documents
@@ -184,7 +183,7 @@ configuration notes, which will help you successfully complete the
 mod_perl installation and get the server running in a short time.
 
 If after reading this guide and the other documents listed in
-L<Getting Help and Further Learning|help/> you feel that your
+L<Getting Help and Further Learning|guide::help/> you feel that your
 questions remain unanswered, you could try asking the apache/mod_perl
 mailing list to help you.  But first try to browse the mailing list
 archive (located at http://mathforum.org/epigone/modperl ). Often you
@@ -339,9 +338,7 @@ http://www.cmpnet.com
 
 Apache/1.3.9 (Unix) mod_perl/1.16
 
-
 =back
-
 
 =head1 References and Acknowledgments
 

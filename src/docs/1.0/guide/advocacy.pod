@@ -132,7 +132,5 @@ Many said that in many people's minds: 'CGI' eq 'Perl'
 
 =back
 
-
-
 =cut
 

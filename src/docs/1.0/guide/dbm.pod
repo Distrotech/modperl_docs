@@ -2,8 +2,6 @@
 
 mod_perl and dbm files
 
-
-
 =head1 Where and Why to use dbm files
 
 Some of the earliest databases implemented on Unix were dbm files, and
@@ -207,14 +205,13 @@ file):
 
 The result is a starving process, which will timeout the request, and
 it will fail to update the DB.  Ken Williams solved the above problem
-with his L<C<Tie::DB_Lock>|dbm/mod_perl_and_dbm> module, which is
+with his L<C<Tie::DB_Lock>|guide::dbm/mod_perl_and_dbm> module, which is
 discussed in one of the following sections.
 
 There are several locking wrappers for C<DB_File> in CPAN right now.
 Each one implements locking differently and has different goals in
 mind.  It is therefore worth knowing the difference, so that you can
 pick the right one for your application.
-
 
 =head1 Flawed Locking Methods Which Must Not Be Used
 
@@ -307,9 +304,6 @@ To conclude, the safest method of reading from dbm file is to lock the
 file before tie()-ing it, untie() it before releasing the lock, and
 in the case of write to call sync() before untie()-ing it.
 
-
-
-
 =head1 Locking Wrappers Overview
 
 Here are some of the correctly working dbm locking wrappers on (three
@@ -326,7 +320,7 @@ update the read-only copies of the dbm file are recreated. Use this
 wrapper in situations where reads may be very lengthy and therefore
 write starvation problem may occur. On the other hand if you have big
 dbm files, it may create a big load on the system if the updates are
-quite frequent.  L<More information|dbm/mod_perl_and_dbm>.
+quite frequent.  L<More information|guide::dbm/mod_perl_and_dbm>.
 
 =item *
 
@@ -350,7 +344,7 @@ more information.
 
 =item *
 
-L<C<DB_File::Lock2>|dbm/mod_perl_and_dbm> -- does the same thing as
+L<C<DB_File::Lock2>|guide::dbm/mod_perl_and_dbm> -- does the same thing as
 C<DB_File::Lock>, but has a slightly different implementation.  I
 wrote it before David Harris released his C<DB_File::Lock> and I
 didn't want to kill mine, so I'll keep it here for a while :).
@@ -367,7 +361,6 @@ C<O_EXLOCK> flag is available on your operating system before you try
 to use this method!
 
 =back
-
 
 =head1 Tie::DB_Lock
 
@@ -391,9 +384,6 @@ all the reading processes.  This can cut the number of files that are
 copied, and puts the responsibility of copying the read-only file on
 the writer, not the reader.  It would need some care to make sure it
 does not disturb readers when putting a new read-only copy into place.
-
-
-
 
 =head1 DB_File::Lock2
 

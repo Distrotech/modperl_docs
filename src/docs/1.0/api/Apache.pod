@@ -313,7 +313,7 @@ a X-Forwarded-For header.
 =item $c-E<gt>local_addr
 
 A packed SOCKADDR_IN in the same format as returned by
-L<Socket/pack_sockaddr_in>, containing the port and address on the
+C<Socket::pack_sockaddr_in>, containing the port and address on the
 local host that the remote client is connected to.  This is set by
 the server when the connection record is created so it is always
 defined.
@@ -321,7 +321,7 @@ defined.
 =item $c-E<gt>remote_addr
 
 A packed SOCKADDR_IN in the same format as returned by
-L<Socket/pack_sockaddr_in>, containing the port and address on the
+C<Socket::pack_sockaddr_in>, containing the port and address on the
 remote host that the server is connected to.  This is set by the
 server when the connection record is created so it is always defined.
 
@@ -432,7 +432,7 @@ I<Apache::Table> class when called in a scalar context with no
 
 Returns an array reference of hash references, containing information
 related to the B<require> directive.  This is normally used for access
-control, see L<Apache::AuthzAge> for an example.
+control, see C<Apache::AuthzAge> for an example.
 
 =item $r-E<gt>auth_type
 

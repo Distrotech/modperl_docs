@@ -30,7 +30,6 @@ module is distributed in. For example if you are looking for
 C<Apache::DumpHeaders>, you can type:
 http://search.cpan.org/search?dist=Apache-DumpHeaders .
 
-
 =head1 Apache
 
 Get the latest Apache webserver and documentation from
@@ -49,7 +48,6 @@ Every Apache project rolls a new tar.gz snapshot of the latest CVS
 version every 6 hours. You can grab the latest mod_perl CVS snapshot
 from http://perl.apache.org/snapshots/modperl/, all the mod_perl
 related projects are available from http://perl.apache.org/snapshots/.
-
 
 RPM: http://perl.apache.org/rpm/
 
@@ -82,7 +80,6 @@ http://develooper.com/code/mpaf/mod_proxy_add_forward.c or
 http://www.cpan.org/authors/id/ABH/mod_proxy_add_forward.c, complete
 with instructions on how to compile it and whatnot.
 
-
 =head1 httperf -- webserver Benchmarking tool
 
 http://www.hpl.hp.com/personal/David_Mosberger/httperf.html
@@ -99,7 +96,6 @@ ApacheBench comes with the Apache distribution.
 
 should be available from the mod_backhand CVS tree:
 http://www.backhand.org/mod_backhand/
-
 
 =head1 High-Availability and Load Balancing Projects
 
@@ -119,7 +115,6 @@ inside the Apache-Configfile.
 The product is neither OSS, nor free :(
 
 The homepage of mod_redundancy is http://www.ask-the-guru.com .
-
 
 =head2 High-Availability Linux Project
 
@@ -155,8 +150,6 @@ allows a round-robin distribution onto several machines via
 ipnat. That may be a simple solution for a few specific load problem.
 http://coombs.anu.edu.au/~avalon/ipf3.4beta3.tgz
 
-
-
 =head1 Apache::Request
 
 The package name is I<libapreq>.
@@ -180,7 +173,5 @@ module C<GTop> provides a Perl interface to this library.
 
 http://home-of-linux.org/gnome/libgtop/
 
-
 =cut
-
 

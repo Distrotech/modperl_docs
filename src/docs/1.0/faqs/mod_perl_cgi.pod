@@ -112,7 +112,7 @@ ends, so they don't occupy memory when they are not in use and they also
 do not need a run-time symbol table entry.
 
 Beware, though, of referring to a lexical variable indirectly from within a
-subroutine.  To quote L<perlsub/"Private Variables via my()">, the
+subroutine.  To quote I<perlsub/"Private Variables via my()">, the
 variable "... now becomes unreachable by the outside world, but retains
 its value between calls to ..."  the subroutine.  You will see classic
 "sticky query" symptoms if your code looks like this:

@@ -54,7 +54,7 @@ If C<$fname> is not specified, the value of C<ServerRoot> is returned
 with a trailing C</>. (it's the same as using C<''> as C<$fname>'s
 value).
 
-Also see the L<C<server_root>> constant.
+Also see the C<server_root> constant.
 
 =back
 

@@ -43,14 +43,15 @@ E<lt>fdc@cliwe.ping.deE<gt>: http://perl.apache.org/faq/
 
 See 'perldoc Apache' for info on how to use the Perl-Apache API.
 
-See the lib/ directory for example modules and L<apache-modlist.html>
-for a comprehensive list.
+See the I<lib/> directory for example modules and
+L<products::apache-modlist> for a comprehensive list.
 
 See the eg/ directory for example scripts.
 
 =head1 mod_perl
 
-For using mod_perl as a CGI replacement see the L<cgi_to_mod_perl> document.
+For using mod_perl as a CGI replacement see the L<First steps needed
+to use mod_perl as a CGI replacement|faqs::cgi_to_mod_perl> document.
 
 You may load modules at server startup via:
 
@@ -225,10 +226,11 @@ Perl executes C<BEGIN> blocks during the compile time of code as soon
 as possible.  The same is true under mod_perl.  However, since
 mod_perl normally only compiles scripts and modules once, in the
 parent server or once per-child, C<BEGIN> blocks in that code will
-only be run once.  As L<perlmod> explains, once a C<BEGIN> has run, it
-is immediately undefined.  In the mod_perl environment, this means
-C<BEGIN> blocks will not be run during each incoming request unless
-that request happens to be one that is compiling the code.  
+only be run once.  As the I<perlmod> manpage explains, once a C<BEGIN>
+has run, it is immediately undefined.  In the mod_perl environment,
+this means C<BEGIN> blocks will not be run during each incoming
+request unless that request happens to be one that is compiling the
+code.
 
 Modules and files pulled in via require/use which contain C<BEGIN>
 blocks will be executed:
@@ -248,10 +250,10 @@ executed:
 
 =head1 END blocks
 
-As L<perlmod> explains, an C<END> subroutine is executed as late as
-possible, that is, when the interpreter is being exited.  In the
-mod_perl environment, the interpreter does not exit until the server
-is shutdown.  However, mod_perl does make a special case for
+As the I<perlmod> manpage explains, an C<END> subroutine is executed
+as late as possible, that is, when the interpreter is being exited.
+In the mod_perl environment, the interpreter does not exit until the
+server is shutdown.  However, mod_perl does make a special case for
 B<Apache::Registry> scripts.
 
 Normally, C<END> blocks are executed by Perl during it's C<perl_run()>
@@ -305,8 +307,9 @@ whatever modules it's use'ing or require'ing.  Not to mention
 AUTOLOADing.  (Modules that you 'use' will be compiled when the server
 starts unless they are inside an eval block.)  httpd will grow just as
 big as our /usr/bin/perl would, or a CGI process for that matter, it
-all depends on your setup.  The L<mod_perl_tuning> document gives
-advice on how to best setup your mod_perl server environment.
+all depends on your setup.  The L<mod_perl
+tuning|faqs::mod_perl_tuning> document gives advice on how to best
+setup your mod_perl server environment.
 
 The mod_perl INSTALL document explains how to build the Apache::
 extensions as shared libraries (with 'perl Makefile.PL DYNAMIC=1').
@@ -316,7 +319,8 @@ systems such as aix and unixware.
 However, on most systems, this strategy will only make the httpd
 I<look> smaller.  When in fact, an httpd with Perl linked static with
 take up less real memory and preform faster than shared libraries at
-the same time.  See the L<mod_perl_tuning> document for details.
+the same time.  See the L<mod_perl tuning|faqs::mod_perl_tuning>
+document for details.
 
 =head2 MEMORY TIPS
 
@@ -388,20 +392,21 @@ vs.
 
 =item Further Reading
 
-In case I forgot to mention, read Vivek Khera's L<mod_perl_tuning>
-document for more tips on improving Apache/mod_perl performance.
+In case I forgot to mention, read Vivek Khera's L<mod_perl
+tuning|faqs::mod_perl_tuning> document for more tips on improving
+Apache/mod_perl performance.
 
 =back
 
 =head1 SWITCHES
 
 Normally when you run perl from the command line or have the shell
-invoke it with `#!', you may choose to pass perl switch arguments
-such as C<-w> or C<-T>.  Since the command line is only parsed once,
-when the server starts, these switches are unavailable to mod_perl
-scripts.  However, most command line arguments have a perl special
-variable equivilant.  For example, the C<$^W> variable coresponds
-to the C<-w> switch.  Consult L<perlvar> for more details.  With
+invoke it with `#!', you may choose to pass perl switch arguments such
+as C<-w> or C<-T>.  Since the command line is only parsed once, when
+the server starts, these switches are unavailable to mod_perl scripts.
+However, most command line arguments have a perl special variable
+equivilant.  For example, the C<$^W> variable coresponds to the C<-w>
+switch.  Consult the I<perlvar> manpage for more details.  With
 mod_perl it is also possible to turn on warnings globaly via the
 B<PerlWarn> directive:
 
@@ -416,7 +421,8 @@ on taint checks.  In httpd.conf, enable with:
 Now, any and all code compiled inside httpd will be checked.
 
 The environment variable B<PERL5OPT> can be used to set additional
-perl startup flags such as B<-d> and B<-D>.  See L<perlrun>.
+perl startup flags such as B<-d> and B<-D>.  See the I<perlrun>
+manpage.
 
 =head1 PERSISTENT DATABASE CONNECTIONS
 
@@ -607,7 +613,7 @@ otherwise.
 
 =head1 PERL METHOD HANDLERS
 
-See L<mod_perl_method_handlers>.
+See L<How to use mod_perl's MethodHandlers|faqs::mod_perl_method_handlers>.
 
 =head1 PERL SECTIONS
 
@@ -796,15 +802,15 @@ See also: B<Apache::Timeit>
 
 =head1 WARNINGS
 
-See L<mod_perl_traps>.
+See L<common/known mod_perl traps|faqs::mod_perl_traps>.
 
 =head1 SUPPORT
 
-See the L<SUPPORT> file.
+See the I<SUPPORT> file.
 
 =head1 Win32
 
-See L<INSTALL.win32> for building from sources.
+See I<INSTALL.win32> for building from sources.
 
 Info about win32 binary distributions of mod_perl are available
 from: 
@@ -813,7 +819,7 @@ from:
 
 =head1 REVISION
 
-$Id: mod_perl.pod,v 1.1 2002/01/05 19:20:01 stas Exp $
+$Id: mod_perl.pod,v 1.2 2002/02/27 18:03:35 stas Exp $
 
 =head1 AUTHOR
 

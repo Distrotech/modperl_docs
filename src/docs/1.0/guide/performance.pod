@@ -2,8 +2,6 @@
 
 Performance Tuning
 
-
-
 =head1 The Big Picture
 
 To make the user's Web browsing experience as painless as possible,
@@ -64,24 +62,16 @@ And let me stress it again--if you want to have a success in the web
 service business you should start worrying about the client's browsing
 experience and B<not only> how good your code benchmarks are.
 
-
-
-
-
-
 =head1 System Analysis
 
 Before we try to solve a problem we need to identify it. In our case
 we want to get the best performance we can with as little monetary and
 time investment as possible.
 
-
 =head2 Software Requirements
 
 Covered in the section "L<Choosing an Operating
-System|hardware/Choosing_an_Operating_System>".
-
-
+System|guide::hardware/Choosing_an_Operating_System>".
 
 =head2 Hardware Requirements
 
@@ -138,11 +128,7 @@ a very high hit rate, the resource requirements don't grow linearly
 but exponentially!
 
 More coverage is provided in the section "L<Choosing
-Hardware|hardware/Choosing_Hardware>".
-
-
-
-
+Hardware|guide::hardware/Choosing_Hardware>".
 
 =head1 Essential Tools
 
@@ -159,8 +145,6 @@ machine, since you won't have the exact hardware and software setup
 anyway. So this kind of comparison would be misleading. Compare the
 relative results from the tests running on your machine, don't compare
 your absolute results with those in this Guide.
-
-
 
 =head2 Benchmarking Applications
 
@@ -183,9 +167,8 @@ from the C<LWP> package to emulate the browser.  The C<benchmark>
 directory of the mod_perl distribution includes such an example.
 
 See also two tools for benchmarking:
-L<ApacheBench|performance/Configuration_Tuning_with_ApacheBench> and
-L<crashme test|performance/the_crashme_Script>
-
+L<ApacheBench|guide::performance/Configuration_Tuning_with_ApacheBench> and
+L<crashme test|guide::performance/the_crashme_Script>
 
 =head3 Benchmarking Perl Code
 
@@ -219,9 +202,7 @@ C<Benchmark>'s.
   my $elapsed = tv_interval($start_time,$end_time);
   print "The sub took $elapsed seconds."
 
-See also the L<crashme test|performance/the_crashme_Script>.
-
-
+See also the L<crashme test|guide::performance/the_crashme_Script>.
 
 =head3 Benchmarking a Graphic Hits Counter with Persistent DB Connections
 
@@ -252,18 +233,6 @@ but I guess the numbers speak for themselves.
 The source code of the script was available at
 http://www.realtime.net/~parkerm/perl/conf98/sld006.htm. It's now a
 dead link.  If you know its new location, please let me know.
-
-
-
-
-
-
-
-
-
-
-
-
 
 =head3 Benchmarking Response Times
 
@@ -316,8 +285,6 @@ For example if we believe that the script I<perl/test.pl> is not
 efficient we will try to improve it and run the benchmark again, to
 see whether we have any improve in performance.
 
-
-
 =head4 httperf
 
 httperf is a utility written by David Mosberger.  Just like
@@ -364,7 +331,7 @@ sustain.  Here is a result that one might get:
      Errors: total 299 client-timo 299 socket-timo 0 connrefused 0 connreset 0
      Errors: fd-unavail 0 addrunavail 0 ftab-full 0 other 0
 
-L<httperf download|download/httperf____webserver_Benchmarking_tool>
+L<httperf download|guide::download/httperf____webserver_Benchmarking_tool>
 
 =head4 http_load
 
@@ -407,8 +374,7 @@ complaining:
 
   ./http_load: unknown protocol - 
 
-L<http_load download|download/http_load____another_webserver_Benchmarking_tool>
-
+L<http_load download|guide::download/http_load____another_webserver_Benchmarking_tool>
 
 =head4 the crashme Script
 
@@ -445,7 +411,6 @@ And the code:
 
 =code lwp-bench.pl The LWP::Parallel::UserAgent benchmark
 
-
 =head3 Benchmarking PerlHandlers
 
 The C<Apache::Timeit> module does C<PerlHandler> Benchmarking.  With
@@ -470,9 +435,6 @@ An example of the lines which show up in the I<error_log> file:
 
 The C<Apache::Timeit> package is a part of the I<Apache-Perl-contrib>
 files collection available from CPAN.
-
-
-
 
 =head2 Code Profiling Techniques
 
@@ -648,7 +610,6 @@ If we comment out the C<diagnostics> module, we get:
   %Time ExclSec CumulS #Calls sec/call Csec/c  Name
    0.00   0.000 -0.000      1   0.0000      -  main::test_code
 
-
 It is possible to profile code running under mod_perl with the
 C<Devel::DProf> module, available on CPAN.  However, you must have
 apache version 1.3b3 or higher and the C<PerlChildExitHandler> enabled
@@ -687,7 +648,6 @@ C<$ServerRoot/logs/dprof/$$> and run:
 
 (Lookup the C<ServerRoot> directive's value in I<httpd.conf> to figure
 out what's your C<$ServerRoot>.)
-
 
 =head2 Measuring the Memory of the Process
 
@@ -817,13 +777,10 @@ C<BSD::Resource::getrusage> instead of C<GTop>. For example:
 
 For more information refer to the C<BSD::Resource> manpage.
 
-
-
 =head2 Measuring the Memory Usage of Subroutines 
 
 With help of C<Apache::Status> you can find out the size of each
 and every subroutine.
-
 
 =over
 
@@ -958,7 +915,6 @@ After executing each script in single server mode (-X) the results are:
   th        114 bytes |  0 OPs
   b         113 bytes |  0 OPs
 
-
 =back
 
 Note, that the above is correct if you didn't precompile all
@@ -983,7 +939,6 @@ is essentially the same. You will have all the symbols precompiled at
 startup imported even if you ask for only one symbol.  It
 seems to me like a bug, but probably that's how C<CGI.pm> works.
 
-
 BTW, you can check the number of opcodes in the code by a simple
 command line run. For example comparing S<'my %hash'> vs. S<'my %hash =
 ()'>.
@@ -1001,32 +956,7 @@ The first one has less opcodes.
 Note that you shouldn't use C<Apache::Status> module on production
 server as it adds quite a bit of overhead for each request.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 =head1 Know Your Operating System
-
 
 In order to get the best performance it helps to get intimately
 familiar with the Operating System (OS) the web server is running
@@ -1035,7 +965,6 @@ which will improve your web server's speed, reliability and security.
 
 The following sections will reveal some of the most important details
 you should know about your OS.
-
 
 =head2 Sharing Memory
 
@@ -1087,9 +1016,8 @@ The recommendation is that C<MaxRequestsPerChild> should not be too
 large, otherwise you lose some of the benefit of sharing memory.
 
 See L<Choosing
-MaxRequestsPerChild|performance/Choosing_MaxRequestsPerChild> for more
+MaxRequestsPerChild|guide::performance/Choosing_MaxRequestsPerChild> for more
 about tuning the C<MaxRequestsPerChild> parameter.
-
 
 =head3 How Shared Is My Memory?
 
@@ -1097,7 +1025,7 @@ You've probably noticed that the word shared is repeated many times in
 relation to mod_perl.  Indeed, shared memory might save you a lot of
 money, since with sharing in place you can run many more servers than
 without it.  See L<the Formula and the
-numbers|performance/Choosing_MaxClients>.
+numbers|guide::performance/Choosing_MaxClients>.
 
 How much shared memory do you have?  You can see it by either using
 the memory utility that comes with your system or you can deploy the
@@ -1113,9 +1041,6 @@ C<GTop> module:
 When you watch the output of the C<top> utility, don't confuse the
 C<RES> (or C<RSS>) columns with the C<SHARE> column.  C<RES> is
 RESident memory, which is the size of pages currently swapped in.
-
-
-
 
 =head3 Calculating Real Memory Usage
 
@@ -1169,7 +1094,7 @@ Please note that this might be incorrect for your system, so you use
 this number on your own risk.
 
 I've used this technique to display real memory usage in the module
-L<Apache::VMonitor|debug/Apache__VMonitor____Visual_System_and_Apache_Server_Monitor>, so instead of
+L<Apache::VMonitor|guide::debug/Apache__VMonitor____Visual_System_and_Apache_Server_Monitor>, so instead of
 trying to manually calculate this number you can use this module to do
 it automatically.  In fact in the calculations used in this module
 there is no separation between the parent and child processes, they
@@ -1200,7 +1125,6 @@ and at the end add the biggest shared process size:
   my $total_real += $max_shared;
 
 So now C<$total_real> contains approximately the really used memory.
-
 
 =head3 Are My Variables Shared?
 
@@ -1431,8 +1355,6 @@ However this code is just right:
   sub match { readonly =~ /\w/g; }
   1;
 
-
-
 =head3 Preloading Perl Modules at Server Startup
 
 You can use the C<PerlRequire> and C<PerlModule> directives to load
@@ -1580,9 +1502,6 @@ will use different modules and a different code, so you won't get this
 fantastic ratio, but this example is certainly helps to feel the
 difference.
 
-
-
-
 =head3 Preloading Registry Scripts at Server Startup
 
 What happens if you find yourself stuck with Perl CGI scripts and you
@@ -1665,8 +1584,7 @@ pass it during the creation of the C<Apache::RegistryLoader> object:
 I won't show any benchmarks here, since the effect is absolutely the
 same as with preloading modules.
 
-See also L<BEGIN blocks|porting/BEGIN_blocks>
-
+See also L<BEGIN blocks|guide::porting/BEGIN_blocks>
 
 =head3 Modules Initializing at Server Startup
 
@@ -1676,8 +1594,6 @@ some modules and you have to prerun their initialization code to get
 more memory pages shared. Basically you will find an information about
 specific modules in their respective manpages. We will present a few
 examples of widely used modules where the code can be initialized.
-
-
 
 =head4 Initializing DBI.pm
 
@@ -1891,8 +1807,6 @@ above formula:
 So you can tell the difference (17% more child processes in the first
 version).
 
-
-
 =head4 Initializing CGI.pm
 
 C<CGI.pm> is a big module that by default postpones the compilation of
@@ -2047,14 +1961,6 @@ don't preload and precompile the methods that we are going to use.
 META: I've heard that the 3.x generation will be less bloated, so
 probably I'll have to rerun this using the new version.
 
-
-
-
-
-
-
-
-
 =head2 Increasing Shared Memory With mergemem
 
 C<mergemem> is an experimental utility for linux, which looks I<very>
@@ -2078,7 +1984,6 @@ the same as the time consumed by merging.
 
 This software comes with a utility called C<memcmp> to tell you how
 much you might save.
-
 
 =head2 Forking and Executing Subprocesses from mod_perl
 
@@ -2606,7 +2511,6 @@ argument. I<slave.pl> restores the it with C<Storable::thaw>, by
 shifting the first value of the C<ARGV> array if available. The
 C<FreezeThaw> module does a very similar thing.
 
-
 =head3 Starting a Short Running External Program
 
 Sometimes you need to call an external program and you cannot continue
@@ -2637,10 +2541,6 @@ Of course you can use other solutions, like opening a pipe (C<|> to
 the program) if you need to submit many arguments and more evolved
 solutions provided by other Perl modules like C<IPC::Open2> which
 allows to open a process for both reading and writing.
-
-
-
-
 
 =head3 Executing system() or exec() in the Right Way
 
@@ -2674,9 +2574,6 @@ inode reference) and replace your virtual memory page table with one
 pointing to the existing program code plus your data space, thus will
 not create this overhead.
 
-
-
-
 =head2 OS Specific Parameters for Proxying
 
 Most of the mod_perl enabled servers use a proxy front-end
@@ -2688,9 +2585,7 @@ waiting.
 There are very important OS parameters that you might want to change
 in order to improve the server performance. This topic is 
 discussed in the section: L<Setting the Buffering Limits on Various
-OSes|scenario/Setting_the_Buffering_Limits_on_>
-
-
+OSes|guide::scenario/Setting_the_Buffering_Limits_on_>
 
 =head1 Performance Tuning by Tweaking Apache Configuration
 
@@ -2718,12 +2613,12 @@ emulate a multiuser environment and to emulate the behavior of
 multiple clients calling the mod_perl scripts on your server
 simultaneously.  While there are commercial solutions, you can get
 away with free ones which do the same job.  You can use the
-L<ApacheBench|performance/Configuration_Tuning_with_ApacheBench> B<C<ab>> utility
+L<ApacheBench|guide::performance/Configuration_Tuning_with_ApacheBench> B<C<ab>> utility
 which comes with the Apache distribution, the L<crashme
-script|performance/the_crashme_Script> which uses
+script|guide::performance/the_crashme_Script> which uses
 C<LWP::Parallel::UserAgent>,
-L<httperf|performance/httperf> or
-L<http_load|performance/http_load>.
+L<httperf|guide::performance/httperf> or
+L<http_load|guide::performance/http_load>.
 
 It is important to make sure that you run the load generator (the
 client which generates the test requests) on a system that is more
@@ -3015,7 +2910,6 @@ Now we will start drastically to reduce C<MaxRequestsPerChild>:
    1000	  50	   5    2.83
    1000	 100	  10	6.51
 
-
 B<Conclusions:> When we drastically reduce C<MaxRequestsPerChild>, the
 performance starts to become closer to plain mod_cgi. 
 
@@ -3039,8 +2933,6 @@ second, nearly 30 times faster!  In the first test each client waited
 about 100 seconds to be served.  In the second and third tests they
 waited 1000 seconds!
 
-
-
 =head2 Choosing MaxClients
 
 The C<MaxClients> directive sets the limit on the number of
@@ -3051,7 +2943,7 @@ and recompile.  In our case we want this variable to be as small as
 possible, because in this way we can limit the resources used by the
 server children.  Since we can restrict each child's process size (see
 L<Limiting the size of the
-processes|performance/Limiting_the_Size_of_the_Process>), the
+processes|guide::performance/Limiting_the_Size_of_the_Process>), the
 calculation of C<MaxClients> is pretty straightforward:
 
                Total RAM Dedicated to the Webserver
@@ -3061,7 +2953,7 @@ calculation of C<MaxClients> is pretty straightforward:
 So if I have 400Mb left for the webserver to run with, I can set
 C<MaxClients> to be of 40 if I know that each child is limited to 10Mb
 of memory (e.g. with
-L<C<Apache::SizeLimit>|performance/Limiting_the_Size_of_the_Processes>).
+L<C<Apache::SizeLimit>|guide::performance/Limiting_the_Size_of_the_Processes>).
 
 You will be wondering what will happen to your server if there are
 more concurrent users than C<MaxClients> at any time.  This situation
@@ -3087,7 +2979,7 @@ It's important to understand how much real memory a child occupies.
 Your children can share memory between them when the OS supports that.
 You must take action to allow the sharing to happen - See L<Preload
 Perl modules at server
-startup|performance/Preloading_Perl_Modules_at_Serve>.  If you do
+startup|guide::performance/Preloading_Perl_Modules_at_Serve>.  If you do
 this, the chances are that your C<MaxClients> can be even higher.  But
 it seems that it's not so simple to calculate the absolute number.  If
 you come up with a solution please let us know!  If the shared memory
@@ -3136,7 +3028,6 @@ If you improve sharing and keep the sharing level, let's say:
 392% more servers! Now you can feel the importance of having as much
 shared memory as possible.
 
-
 =head2 Choosing MaxRequestsPerChild
 
 The C<MaxRequestsPerChild> directive sets the limit on the number of
@@ -3164,8 +3055,8 @@ the speed bonus you get from mod_perl.  Consider using
 C<Apache::PerlRun> if this is the case.
 
 Another approach is to use the
-L<Apache::SizeLimit|performance/Limiting_the_Size_of_the_Processes> or
-the L<Apache::GTopLimit|performance/Keeping_the_Shared_Memory_Limit>
+L<Apache::SizeLimit|guide::performance/Limiting_the_Size_of_the_Processes> or
+the L<Apache::GTopLimit|guide::performance/Keeping_the_Shared_Memory_Limit>
 modules.  By using either of these modules you should be able to
 discontinue using the C<MaxRequestPerChild>, although for some
 developers, using both in combination does the job. In addition the
@@ -3173,9 +3064,8 @@ latter module allows you to kill any servers whose shared memory size
 drops below a specified limit.
 
 See also L<Preload Perl modules at server
-startup|performance/Preloading_Perl_Modules_at_Serve> and L<Sharing
-Memory|performance/Sharing_Memory>. 
-
+startup|guide::performance/Preloading_Perl_Modules_at_Serve> and L<Sharing
+Memory|guide::performance/Sharing_Memory>. 
 
 =head2 Choosing MinSpareServers, MaxSpareServers and StartServers
 
@@ -3223,7 +3113,6 @@ capable of handling a high load, I'd think of:
 These numbers are taken off the top of my head, and shouldn't be used
 as a rule, but rather as examples to show you some possible scenarios.
 Use this information with caution!
-
 
 =head2 Summary of Benchmarking to tune all 5 parameters
 
@@ -3300,20 +3189,6 @@ code.  Probably the parameters will need to be recalculated.
 
 =back
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 =head2 KeepAlive
 
 If your mod_perl server's I<httpd.conf> includes the following
@@ -3377,11 +3252,6 @@ do:
 
   $r->header_out('Content-Length', $length);
 
-
-
-
-
-
 =head2 PerlSetupEnv Off
 
 C<PerlSetupEnv Off> is another optimization you might consider. This
@@ -3434,8 +3304,6 @@ you should see something like this:
           };
 
 Notice that we have got the value of the environment variable I<TEST>.
-
-
 
 =head2 Reducing the Number of stat() Calls Made by Apache
 
@@ -3678,16 +3546,6 @@ Of course you can move the code in the module into an external file,
   PerlTransHandler My::Trans
 
 in the normal way (no C<E<lt>PerlE<gt>> section required).
-
-
-
-
-
-
-
-
-
-
 
 =head1 TMTOWTDI: Convenience and Habit vs. Performance
 
@@ -3947,7 +3805,6 @@ tests again, as they can lead to complete different decision as we
 have just seen when we have tried the same benchmark on a different
 machine.
 
-
 =head2 "Bloatware" modules
 
 Perl modules like IO:: are very convenient, but let's see what it
@@ -4064,7 +3921,6 @@ calls each are without any modules, with just -MCGI, and with -MIO
 Anybody who's thinking of choosing one of these might do well to
 digest these numbers first.
 
-
 =head2 Apache::args vs. Apache::Request::param vs. CGI::param
 
 Let's write three C<Apache::Registry> scripts that use
@@ -4176,9 +4032,6 @@ You can see that C<Apache::args> is much faster than the other two
 modules, whereas C<Apache::Request::param> is much faster than
 C<CGI::param>.
 
-
-
-
 =head2 Using $|=1 Under mod_perl and Better print() Techniques.
 
 As you know, C<local $|=1;> disables the buffering of the currently
@@ -4222,7 +4075,6 @@ C<E<lt>HTMLE<gt>> tag. The correct way is:
     <HEAD></HEAD>
     <BODY>
   }
-
 
 If you try the following:
 
@@ -4291,7 +4143,6 @@ hit from disabled buffering.
 
 B<Conclusion>: Do not blindly follow suggestions, but think what is best for
 you in each case.
-
 
 =head2 Global vs. Fully Qualified Variables
 
@@ -4367,9 +4218,6 @@ other function: 6 * 380k = 2.3Mb
 One could save 2.3Mb per single process with C<'use POSIX ();'> and
 using fully qualifying C<POSIX::> function calls.
 
-
-
-
 =head2 Object Methods Calls vs. Function Calls
 
 Which subroutine calling form is more efficient: Object methods or
@@ -4423,8 +4271,6 @@ little bit faster (some constant folding magic), but not
 C<Foo-E<gt>$method()>.  And the improvement does not address the
 C<@ISA> lookup that still happens in either case.
 
-
-
 =head3 The Overhead with Heavy Subroutines
 
 But that doesn't mean that you shouldn't use methods.  Generally your
@@ -4454,7 +4300,6 @@ the method call.  The next benchmark proves this point:
                  function => sub { Foo::bar('Foo');},
                 });
 
-
 We get a very close benchmarks!
 
   function: 33 wallclock secs (15.81 usr +  1.12 sys = 16.93 CPU)
@@ -4483,7 +4328,6 @@ it's much better to use the I<method> form, as it will make your code
 easier to develop, maintain and debug, saving programmer time which,
 over the life of a project may turn out to be the most significant
 cost factor.
-
 
 =head3 Are All Methods Slower than Functions?
 
@@ -4545,14 +4389,6 @@ methods, but the whole function is called if you are using the
 functional forms.  Therefore, the functional form should be slightly
 slower than the object form.
 
-
-
-
-
-
-
-
-
 =head2 Imported Symbols and Memory Usage
 
 There is a real memory hit when you import all of the functions into
@@ -4607,7 +4443,6 @@ So in my example above X=20k =E<gt> 20K*10*30 = 6Mb. You will need 6Mb
 more when importing all the C<CGI.pm>'s symbols than when you import
 none at all.
 
-
 Generally you use more than one script, run more than one process and
 probably import more symbols from the additional modules that you
 deploy. So the real numbers are much bigger.
@@ -4621,13 +4456,10 @@ good chunk of memory if the above call must not be called with a
 reference to an object, but even then it can be passed by value.
 
 I strongly endorse L<Apache::Request (libapreq) - Generic Apache
-Request Library|modules/Apache_Request_libapreq_Gen>.  Its core is
+Request Library|guide::modules/Apache_Request_libapreq_Gen>.  Its core is
 written in C, giving it a significant memory and performance benefit.
 It has all the functionality of C<CGI.pm> except the HTML generation
 functions.
-
-
-
 
 =head2 Interpolation, Concatenation or List
 
@@ -4724,14 +4556,8 @@ create a single string from the elements of list. This operation might
 be slower than direct append to the string whenever a new string
 springs into existence.
 
-
-
 [ReaderMETA]: Please send more mod_perl relevant Perl performance
 hints
-
-
-
-
 
 =head2 Using Perl stat() Call's Cached Results
 
@@ -4758,17 +4584,12 @@ or the more efficient:
 
 Two stat() calls were saved!
 
-
-
-
-
 =head1 Apache::Registry and Derivatives Specific Notes
 
 These are the sections that deal solely with C<Apache::Registry> and
 derived modules, like C<Apache::PerlRun> and C<Apache::RegistryBB>. No
 Perl handlers code is discussed here, so if you don't use these
 modules, feel free to skip this section.
-
 
 =head2 Be Careful with Symbolic Links
 
@@ -4792,7 +4613,7 @@ So let's assume that you have issued the requests to the both URIs:
   http://localhost/perl/news.pl
 
 To spot the duplication you should use the
-L<C<Apache::Status>|debug/Apache__Status____Embedded_Interpreter_Status_Information> module.
+L<C<Apache::Status>|guide::debug/Apache__Status____Embedded_Interpreter_Status_Information> module.
 Amongst other things, it shows all the compiled C<Apache::Registry>
 scripts (using their respective packages):
 
@@ -4821,9 +4642,7 @@ If you test it in the normal mode--it's possible that some child
 processes would show only one entry or none at all, since they might
 not serve the same requests as the others.  For more hints see the
 section "L<Run the server in single
-mode|control/Running_a_Server_in_Single_Proce>".
-
-
+mode|guide::control/Running_a_Server_in_Single_Proce>".
 
 =head1 Improving Performance by Prevention
 
@@ -4837,7 +4656,6 @@ won't take up all the CPU etc.
 In the following sections we are going to discuss about the tools and
 programming techniques that would help you to keep your service in
 order, even if you are not around.
-
 
 =head2 Memory leakage
 
@@ -4898,7 +4716,6 @@ use variables passed by reference. For example:
       # been modified
   }
 
-
 If you work with arrays or hashes it's:
 
   @{$var_lr}  dereferences an array
@@ -4935,7 +4752,6 @@ C<process($content);> modifies the passed variable.  Programmers (the
 users of your library in this case) are used to subroutines that
 either modify variables passed by reference or expressly return a
 result (e.g. C<$content=process($content);>).
-
 
 =head3 Work With Databases
 
@@ -5113,12 +4929,10 @@ callback closure for formatting the rows to print:
       }	 #  end of sub {}
   };  #  end of my $rsub = eval {
 
-
 You might also want to check the section L<Limiting the Size of the
-Processes|performance/Limiting_the_Size_of_the_Process>
+Processes|guide::performance/Limiting_the_Size_of_the_Process>
 and L<Limiting Other Resources Used by Apache Child
-Processes|performance/Limiting_Other_Resources_Used_by>.
-
+Processes|guide::performance/Limiting_Other_Resources_Used_by>.
 
 =head2 Keeping the Shared Memory Limit
 
@@ -5146,7 +4960,7 @@ the processes will never be killed if there limit is never passed.
 
 That's where the C<Apache::GTopLimit> module comes to help.  If you
 are lucky to have your OS among those that can build the
-L<libgtop|download/libgtop> library, you will be able to build the
+L<libgtop|guide::download/libgtop> library, you will be able to build the
 C<GTop> module that provides the Perl API for C<libgtop>, which in
 turn used by C<Apache::GTopLimit> (that's the I<GTop> part in the
 name).
@@ -5188,7 +5002,6 @@ If you want to run this module in the debug mode, add the following
 directive in your I<startup.pl>:
 
   $Apache::GTopLimit::DEBUG = 1;
-
 
 =head2 Limiting the Size of the Processes
 
@@ -5359,18 +5172,12 @@ space.
 Refer to the C<Apache::Resource> and C<setrlimit(2)> manpages for more
 information.
 
-
-
-
-
-
 =head2 Limiting the Number of Processes Serving the Same Resource
 
 If you want to limit number of Apache children that could
 simultaneously be serving the (nearly) same resource, you should take
-a look at the L<C<mod_throttle_access>|download/mod_throttle_access>
+a look at the L<C<mod_throttle_access>|guide::download/mod_throttle_access>
 module.
-
 
 It solves the problem of too many concurrent request accessing the
 same URI, if for example the handler that serves this URI uses some
@@ -5417,32 +5224,16 @@ C<Apache::SpeedLimit> comes to your aid, see:
 
 http://www.modperl.com/chapters/ch6.html#Blocking_Greedy_Clients
 
-
-
-
-
-
-
-
-
-
-
-
 =head1 Perl Modules for Performance Improvement
-
 
 These sections are about Perl modules that improve performance without
 requiring changes to your code. Mostly you just need to tweak the
 configuration file to plug these modules in.
 
-
-
 =head2 Sending Plain HTML as Compressed Output
 
 See L<Apache::GzipChain - compress HTML (or anything) in the
-OutputChain|modules/Apache_GzipChain_compress_HTM>
-
-
+OutputChain|guide::modules/Apache_GzipChain_compress_HTM>
 
 =head2 Caching Components with HTML::Mason
 
@@ -5467,19 +5258,13 @@ pure mod_perl, implying that the power & convenience made up for this.
 
 META: Should also mention Embperl (especially since its C + XS)
 
-
-
-
-
 =head1 Efficient Work with Databases under mod_perl
-
 
 Most of the mod_perl enabled servers work with database engines, so in
 this section we will learn about two things: how mod_perl makes working
 with databases faster and a few tips for a more efficient DBI coding in
 Perl. (DBI provides an identical Perl interface to many database
 implementations.)
-
 
 =head2 Persistent DB Connections
 
@@ -5583,12 +5368,6 @@ Be warned that some databases (e.g PostgreSQL and Sybase) don't
 support caches of prepared plans.  With Sybase you could open multiple
 connections to achieve the same result, although this is at the risk
 of getting deadlocks depending on what you are trying to do!
-
-
-
-
-
-
 
 =head2 mod_perl Database Performance Improving
 
@@ -5699,7 +5478,7 @@ disconnect commands.  When an application tries to connect to the same
 database, C<Apache::DBI> returns a cached connection, thus saving the
 significant time penalty of repeatedly connecting to the database. You
 will find a full treatment of C<Apache::DBI> at L<Persistent DB
-Connections|performance/Persistent_DB_Connections>
+Connections|guide::performance/Persistent_DB_Connections>
 
 When C<Apache::DBI> is in use, none of the code in the example needs
 to change. The code is upgraded from naive to respectable with the use
@@ -5898,7 +5677,6 @@ Now the example program needs to be modified to use this package.
   }
   # ...
 
-
 Notice that several improvements have been made. Since the statement
 handles have a longer life than the request, there is no need for each
 request to prepare the statement, and no need to call the statement
@@ -5926,18 +5704,6 @@ have not tried.  It is very likely that the time could be better spent
 improving your database indexing scheme or web server buffering and
 load balancing.
 
-
-
-
-
-
-
-
-
-
-
-
-
 =head1 Using 3rd Party Applications
 
 It's been said that no one can do everything well, but one can do
@@ -5953,16 +5719,11 @@ themselves.
 
 Let's take a look at a few of these.
 
-
 =head2 Proxying the mod_perl Server
 
 Proxy gives you a great performance increase in most cases. It's
 discussed in the section L<Adding a Proxy Server in http Accelerator
-Mode|strategy/Adding_a_Proxy_Server_in_http_Ac>.
-
-
-
-
+Mode|guide::strategy/Adding_a_Proxy_Server_in_http_Ac>.
 
 =head1 Upload and Download of Big Files
 
@@ -5978,12 +5739,11 @@ If some particular script's main functionality is the uploading or
 downloading of big files, you probably want it to be executed on a
 plain apache server under mod_cgi (i.e. performing this operation on
 the front-end server, if you use L<a dual-server
-setup|scenario/One_Plain_and_One_mod_perl_enabl>.
+setup|guide::scenario/One_Plain_and_One_mod_perl_enabl>.
 
 This of course assumes that the script requires none of the
 functionality of the mod_perl server, such as custom authentication
 handlers.
-
 
 =head1 Apache/mod_perl Build Options
 
@@ -5992,7 +5752,6 @@ the size of the httpd executable, some irrelevant modules might slow
 the performance.
 
 [ReaderMETA: Any other building time things that influence performance?]
-
 
 =head2 mod_perl Process Size as a Function of Compiled in C Modules and mod_perl Features
 
@@ -6050,7 +5809,6 @@ summarize the results:
   Everything          1044432         +151504
   Everything+Debug    1162100         +269172
 
-
 Indeed when you strip most of the default things, the server size is
 slimmer.  But the savings are insignificant since you don't multiply
 the added size by the number of child processes if your OS supports
@@ -6070,17 +5828,13 @@ disable it">. Following this rule to decide on the required Apache
 components and disabling the unneeded default components, makes you a
 good Apache administrator.
 
-
-
 =head1 Perl Build Options
-
 
 The Perl interpreter lays in the brain of the mod_perl server and if
 we can optimize perl into doing things faster under mod_perl we make
 the whole server faster. Generally, optimizing the Perl interpreter
 means enabling or disabling some command line options. Let's see a few
 important ones.
-
 
 =head2 -DTWO_POT_OPTIMIZE and -DPACK_MALLOC Perl Build Options
 
@@ -6112,9 +5866,6 @@ C<perl5004delta.pod>.
 Important: both options are On by default in perl versions 5.005 and
 higher.
 
-
-
-
 =head2 -Dusemymalloc Perl Build Option
 
 You have a choice to use the native or Perl's own malloc()
@@ -6135,7 +5886,6 @@ It seems that Linux still defaults to system malloc so you might want
 to configure Perl with -Dusemymalloc. Perl's malloc is not 
 much of a win under linux, but makes a B<huge> difference under
 Solaris.
-
 
 =head1 Architecture Specific Compile Options
 

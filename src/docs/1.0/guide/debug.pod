@@ -2,7 +2,6 @@
 
 Debugging mod_perl
 
-
 =head1 Warning and Errors Explained
 
 Let's talk first about things that bother most web (and non-web)
@@ -10,8 +9,6 @@ programmers. I<The bothering things> are warning and errors reported
 by Perl. We are going to learn how to take the best out of both, by
 turning this obvious to the newbie programmer enemies into our best
 friends.
-
-
 
 =head2 Curing The "Internal Server Error"
 
@@ -234,14 +231,6 @@ they were plain Perl scripts that you execute from a shell.
 
 Second problem solved!
 
-
-
-
-
-
-
-
-
 =head2 Helping error_log to Help Us
 
 It's a good idea to keep it open all the time in a dedicated terminal
@@ -281,10 +270,7 @@ script I wrote to fetch the latest lines from the file (with a bonus
 of colored output for easier reading).  You might need to ask your ISP
 to install this script for general use. See L<Watching the error_log
 file without telneting to the
-server|snippets/Watching_the_error_log_File_With> .
-
-
-
+server|guide::snippets/Watching_the_error_log_File_With> .
 
 =head2 The Importance of Warnings
 
@@ -383,18 +369,6 @@ one which changed C<$^W>!
 The C<diagnostics> pragma can shed more light on errors and warnings,
 as you will see in a moment.
 
-
-
-
-
-
-
-
-
-
-
-
-
 =head3 diagnostics pragma
 
 This module extends the terse diagnostics normally emitted by both the
@@ -422,14 +396,7 @@ the C<diagnostics> pragma you will use disk space much faster.
 C<diagnostics> mode adds a large performance overhead in comparison
 with just having warnings mode On.  You can see the benchmark results
 in the section 'L<Code Profiling
-Techniques|performance/Code_Profiling_Techniques>'.
-
-
-
-
-
-
-
+Techniques|guide::performance/Code_Profiling_Techniques>'.
 
 =head1 Handling the 'User pressed Stop button' case
 
@@ -490,8 +457,6 @@ just be a dash. e.g.:
   "GET /perl/stopping_detector.pl HTTP/1.0" 200 16 1
   127.0.0.1 - - [09/Jan/2001:10:28:18 +0100] 
   "GET /perl/test.pl HTTP/1.0"              200 10 -
-
-
 
 =head2 Detecting Aborted Connections
 
@@ -659,7 +624,6 @@ as a filehandlers. Because the processes don't exit after processing a
 request, files won't be closed unless you explicitly close() them or
 reopen with the open() call, which first closes a file.  Let's see
 what problems we might encounter, and possible solutions for them.
-
 
 =head3 Critical Section
 
@@ -853,7 +817,6 @@ There are two important differences.  First, we prepare the text lines
 to be added I<before> the file is locked.  Second, instead of
 creating a new array and copying lines from one array to another, we
 append the file directly to the C<@lines> array.
-
 
 =head3 Safe Resource Locking and Cleanup Code
 
@@ -1103,14 +1066,10 @@ file, like this:
 
 C<Apache::MyModule::cleanup()> performs the cleanup, obviously.
 
-
-
-
-
 =head1 Handling Server Timeout Cases and Working with $SIG{ALRM}
 
 A similar situation to L<Pressed Stop button
-disease|debug/Handling_the_User_pressed_Stop_> happens when the
+disease|guide::debug/Handling_the_User_pressed_Stop_> happens when the
 browser times out the connection (is it about 2 minutes?).  There are
 cases when your script is about to perform a very long operation and
 there is a chance that its duration will be longer than the client's
@@ -1131,18 +1090,11 @@ case, use C<$SIG{ALRM}> to prevent the timeouts:
 
 It was recently discovered that C<local $SIG{'ALRM'}> does not restore
 the original underlying C handler.  This was fixed in mod_perl 1.19_01
-(L<CVS version|download/mod_perl>).  As a matter of fact none of the
+(L<CVS version|guide::download/mod_perl>).  As a matter of fact none of the
 C<local $SIG{FOO}> signals restores the original C handler - read
 L<Debugging Signal Handlers
-($SIG{FOO})|debug/Debugging_Signal_Handlers_SIG_> for a debug
+($SIG{FOO})|guide::debug/Debugging_Signal_Handlers_SIG_> for a debug
 technique and a possible workaround.
-
-
-
-
-
-
-
 
 =head1 Looking inside the server
 
@@ -1188,7 +1140,7 @@ the first module in the start-up file, or in I<httpd.conf>:
 If you don't put C<Apache::Status> before C<Apache::DBI>, you won't
 get the C<Apache::DBI> menu entry in the status.  For more about
 C<Apache::DBI> see L<Persistent DB
-Connections|performance/Persistent_DB_Connections>.
+Connections|guide::performance/Persistent_DB_Connections>.
 
 =head3 Extended Configuration
 
@@ -1269,7 +1221,6 @@ may produce no image if C<B::Graph>'s output is incorrect.
 
 There is more information about C<Apache::Status> in its manpage.
 
-
 =head3 Usage
 
 Assuming that your mod_perl server listens on port 81, fetch
@@ -1310,7 +1261,6 @@ httpd child which is serving your request for I</perl-status>.  If the
 child has not yet compiled the script you are asking for,
 I</perl-status> will just show you the main menu.
 
-
 =head2 mod_status
 
 The Status module allows a server administrator to find out how well
@@ -1344,7 +1294,6 @@ You can now access server statistics by using a Web browser to access
 the page http://localhost/status (as long as your server recognizes
 localhost:).
 
-
 The details given by mod_status are:
 
 =over
@@ -1371,30 +1320,15 @@ Apache
 
 =back
 
-
-
 =head2 Apache::VMonitor -- Visual System and Apache Server Monitor
 
 This module is covered in the section "L<Apache::* 
-Modules|modules/Apache_VMonitor_Visual_Syste>"
-
-
-
-
-
-
-
+Modules|guide::modules/Apache_VMonitor_Visual_Syste>"
 
 =head1 Sometimes My Script Works, Sometimes It Does Not
 
 See L<Sometimes it Works Sometimes it does
-Not|porting/Sometimes_it_Works_Sometimes_it>
-
-
-
-
-
-
+Not|guide::porting/Sometimes_it_Works_Sometimes_it>
 
 =head1 Code Debug
 
@@ -1449,13 +1383,9 @@ wrong with them.  Occasionally you will come across a bug in mod_perl
 itself (mod_perl is written in C), that was in a deep slumber before
 your code awakened it.
 
-
 In the following sections we will go through in detail each of the
 problems presented, thoroughly discuss them and present a few
 techniques to solve them.
-
-
-
 
 =head2 Locating and correcting Syntax Errors
 
@@ -1560,12 +1490,6 @@ following output:
 
   You are OK www.foo.com
 
-
-
-
-
-
-
 =head2 Finding the Line Which Triggered the Error or Warning
 
 Perl has no problem with the line numbers and file names for modules
@@ -1628,7 +1552,6 @@ To have a complete trace of calls add:
 
   use Carp ();
   local $SIG{__WARN__} = \&Carp::cluck;
-
 
 =head2 Using print() for Debugging
 
@@ -1791,8 +1714,6 @@ after we call localtime():
     my ($day,$month,$year) = (localtime)[3..5];
     $month++;
 
-
-
 =head2 Using print() and Data::Dumper for Debugging
 
 Sometimes you need to peek into complex data structures, and trying to
@@ -1828,7 +1749,6 @@ What we get is a pretty-printed C<$data>:
                        ]
           };
 
-
 While writing this example I made a mistake and wrote C<qw(a b c d)>
 instead of C<[qw(a b c d)]>.  When I pretty-printed the contents of
 C<$data> I immediately saw my mistake:
@@ -1853,7 +1773,6 @@ or:
 
 instead of print to have all the debug messages in the error_log,
 which makes it even easier to debug your code.
-
 
 =head2 The Importance of a Good Concise Coding Style
 
@@ -1963,7 +1882,6 @@ Why is the last version important, when the first one works just fine?
 Not because of performance issues (although this last one is twice
 as fast as the first), but because there are more ways to put a bug in
 the first version than there are in the last one.
-
 
 =head2 Introduction to the Perl Debugger
 
@@ -2163,7 +2081,6 @@ C<Symbol> module, along with an invocation of its gensym() function:
   
   print "$sym\n";
 
-
   % perl -d test.pl 
   
   main::(test.pl:3):      my $sym = Symbol::gensym();
@@ -2281,7 +2198,6 @@ twice:
   
     return $retval;
   }
-
 
 We'll start by setting a few breakpoints and then we use the C<List>
 command (C<L>) to display them:
@@ -2475,7 +2391,6 @@ arguments held in C<@args> and print a slightly different message:
     return $retval;
   }
 
-
 There are only two arguments in the list, so stopping to look at each
 one isn't too time consuming, but consider the debugging pace if we
 had a large list of 100 or so entries.  It is possible to customize
@@ -2586,16 +2501,10 @@ META: insert snapshots of ptkdb screen
 ptkdb is not part of the standard perl distribution; it
 is available from CPAN: http://www.perl.com/CPAN/authors/id/A/AE/AEPAGE/ 
 
-
-
-
-
-
 =head2 Non-Interactive Perl Debugging under mod_perl
 
-
 To debug scripts running under mod_perl either use L<Apache::DB
-(interactive Perl debugging)|debug/Interactive_mod_perl_Debugging> or
+(interactive Perl debugging)|guide::debug/Interactive_mod_perl_Debugging> or
 an older non-interactive method as described below.
 
 The C<NonStop> debugger option enables you to get some decent debugging
@@ -2767,18 +2676,6 @@ debugging strategies that make effective use of the interactive
 debugger for various situations.  Once you have a good strategy, bug
 squashing can actually be quite a bit of fun!
 
-
-
-
-
-
-
-
-
-
-
-
-
 =head2 ptkdb and Interactive mod_perl Debugging
 
 As you saw earlier you can use the C<ptkdb> visual debugger to
@@ -2821,11 +2718,6 @@ the original C<Apache::DB> cleanup code, as:
     }
 
 Any Perl/Tk guru to assist???
-
-
-
-
-
 
 =head2 Debugging when Server Crashes on Startup before Writing to Log File.
 
@@ -2922,8 +2814,6 @@ C<dump()> calls C<__kill()>:
 
   #0  0x400da4e1 in __kill () from /lib/libc.so.6
 
-
-
 =head1 Hanging Processes: Detection and Diagnostics
 
 Sometimes a httpd process might hang in the middle of processing a
@@ -2933,9 +2823,6 @@ of a resource deadlock) or for some other reason. In order to fix the
 problem we need to learn what circumstances the process hangs in
 (detection), so we can reproduce the problem and after that to
 discover why there is problem (diagnostics).
-
-
-
 
 =head2 Hanging because of the OS Problem
 
@@ -2955,8 +2842,6 @@ In the case of I<disk wait> you can actually get the I<wait> channel
 from ps(1) and look it up in your kernel symbol table to find out what
 resource it was waiting on.  It might point the way to what component
 of the system was misbehaving if the problem occurred frequently.
-
-
 
 =head2 An Example of Code that Might Hang a Process
 
@@ -3051,7 +2936,6 @@ loop then starts from the beginning.
   }
   close LOCK;
 
-
 It's very easy to see I<WRITE> process starvation if you spawn a few
 of the above scripts simultaneously.  Start the first few as I<READ>
 processes and then start one I<WRITE> process like this:
@@ -3090,10 +2974,6 @@ that happens.  Since the process in question is just waiting, there is
 no way for Apache to know that the request was aborted.  It will hang
 until the lock is gained.  Only when a write to a client's broken
 connection is attempted will Apache terminate the script.
-
-
-
-
 
 =head2 Detecting hanging processes
 
@@ -3137,7 +3017,7 @@ status is 'W' (waiting).  This means that it has hung.
 
 But if you have fifty processes, it can be quite hard to spot such a
 process.  L<Apache::Watchdog::RunAway is a hanging processes monitor
-and terminator|modules/Apache_Watchdog_RunAway_Hang> that implements
+and terminator|guide::modules/Apache_Watchdog_RunAway_Hang> that implements
 this feature and should be used to solve this kind of problem.
 
 If you've got a real problem, and the processes hang one after the
@@ -3148,7 +3028,7 @@ server is down.  It is easy to detect this situation, attempt to
 resolve it and notify the administrator using a simple crontab
 watchdog that requests some very light script periodically.  (See
 L<Monitoring the Server. A
-watchdog.|control/Monitoring_the_Server_A_watchdo>)
+watchdog.|guide::control/Monitoring_the_Server_A_watchdo>)
 
 In the watchdog you set a timeout appropriate for your service, which
 may be anything from a few seconds to a few minutes.  If the server
@@ -3164,9 +3044,6 @@ so the requests are being queued and not processed for a while, which
 triggers the watchdog's alarm.  If this is a case you may need to add
 more servers or more memory, or perhaps split your single machine
 across a cluster of machines.
-
-
-
 
 =head2 Determination of the reason
 
@@ -3196,7 +3073,6 @@ truss you see the system call trace and not the Perl calls.
 
 =back
 
-
 =head3 Using the Perl Trace
 
 To see where an httpd is "spinning", try adding this to your script or
@@ -3212,7 +3088,7 @@ signal has been chosen because it's least likely to be used by the
 other parts of the server.
 
 We check the registered signal handlers with help of
-L<Apache::Status|debug/Apache__Status____Embedded_Interpreter_Status_Information>.  What we see at
+L<Apache::Status|guide::debug/Apache__Status____Embedded_Interpreter_Status_Information>.  What we see at
 http://localhost/perl-status?sig is :
 
   USR2 = \&MyStartUp::__ANON__
@@ -3264,9 +3140,6 @@ And watch this showing up at the I<error_log> file:
 We can clearly see that the process "hangs" in the code executed at
 line 5 of the I</home/httpd/perl/debug/perl_trace.pl> script, and it
 was called by the hanging_sub() routine defined at line 4.
-
-
-
 
 =head3 Using the System Calls Trace
 
@@ -3536,8 +3409,6 @@ covers this.
 META: add the note about using the 'curinfo' gdb macro to perform an
 easy detecting of the hanging location.
 
-
-
 =head1 Debugging Hanging processes (continued)
 
 META: incomplete
@@ -3590,25 +3461,14 @@ and when you reload the macros, run:
 
 to produce a Perl stacktrace.
 
-
-
-
 =head2 Debugging core Dumping Code
-
-
 
        $ perl -e dump
         Abort(coredump)
 
-
 META: should I move the C<Apache::StatINC> here? (I think not, since it
 relates to other topics like reloading config files, but you should
 mention it here with a pointer to it)
-
-
-
-
-
 
 =head1 PERL_DEBUG=1 Build Option
 
@@ -3638,14 +3498,6 @@ Link against C<libperld> if -e $Config{archlibexp}/CORE/libperld$Config{lib_ext}
 
 =back
 
-
-
-
-
-
-
-
-
 =head1 Apache::Debug
 
 (META: to be written)
@@ -3663,21 +3515,6 @@ Apache::Debug:
  use Carp ();
  $SIG{__DIE__} = \&Carp::confess;
  eval { Carp::confess("init") };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 =head1 Debug Tracing
 
@@ -3735,14 +3572,6 @@ Of course you can use the command line environment setting:
   % setenv MOD_PERL_TRACE all
   % httpd -X
 
-
-
-
-
-
-
-
-
 =head1 gdb says there are no debugging symbols
 
 During I<make install> Apache strips all the debugging symbols. To
@@ -3769,16 +3598,6 @@ Removing the -s does the trick (If you cannot find it in
 I<Makefile.tmpl> do it directly in I<Makefile>). Alternatively you
 rerun C<make> and copy the unstripped httpd binary away.
 
-
-
-
-
-
-
-
-
-
-
 =head1 Debugging Signal Handlers ($SIG{FOO})
 
 The current Perl implementation does not restore the original Apache C
@@ -3803,7 +3622,7 @@ If you work with signal handlers you should take a look at the
 C<Sys::Signal> module, which solves the problem:
 
 C<Sys::Signal> - Set signal handlers with restoration of the existing
-C sighandler.  Get it from L<CPAN|download/Perl>.
+C sighandler.  Get it from L<CPAN|guide::download/Perl>.
 
 The usage is simple.  If the original code was:
 
@@ -3816,7 +3635,6 @@ The usage is simple.  If the original code was:
     alarm 0;
   };
   die $@ if $@;
-
 
 Now you would write:
 
@@ -3839,12 +3657,6 @@ I<perl_config.c> after I<"ALRM">, before I<NULL>.
 
   static char *sigsave[] = { "ALRM", NULL };
 
-
-
-
-
-
-
 =head1 Code Profiling
 
 (Meta: duplication??? I've started to write about profiling somewhere
@@ -3866,14 +3678,6 @@ the profiler enabled:
  % dprofpp
 
 See also: C<Apache::DProf>
-
-
-
-
-
-
-
-
 
 =head1 Devel::Peek
 
@@ -3932,12 +3736,6 @@ done.
 
 Note: Previously allocating a scalar in this
 way saves reallocation in v5.005 but may not do so in other versions.
-
-
-
-
-
-
 
 =head1 How can I find out if a mod_perl code has a memory leak
 
@@ -4001,13 +3799,6 @@ C<join()>, `C<.>', etc.
 
 C<Apache::Status> includes a C<StatusLexInfo> option which can show
 you the internals of your code.
-
-
-
-
-
-
-
 
 =head1 Debugging your code in Single Server Mode
 
@@ -4088,9 +3879,6 @@ error_log.  ("server started", "server stopped", etc.).  Since C<httpd
 any children, there is no controlling parent to write the status
 messages.
 
-
-
-
 =head1 Apache::DumpHeaders - Watch HTTP Transaction Via Headers
 
 This module is used to watch an HTTP transaction, looking at client
@@ -4106,16 +3894,13 @@ dumped or not and a function to only dump I<n%> of the transactions.
 
 For more information read the module's manpage.
 
-Download the module from L<CPAN|download/CPAN_Downloads>.
-
-
-
+Download the module from L<CPAN|guide::download/CPAN_Downloads>.
 
 =head1 Apache::DebugInfo - Log Various Bits Of Per-Request Data
 
 C<Apache::DebugInfo> offers the ability to monitor various bits of
 per-request data.  Its functionality is similar to
-L<Apache::DumpHeaders|debug/Debugging_mod_perl_>
+L<Apache::DumpHeaders|guide::debug/Debugging_mod_perl_>
 while offering several additional features, including the ability to:
 
 =over
@@ -4137,13 +3922,5 @@ while offering several additional features, including the ability to:
 =back
 
 See the module's manpage for more details.
-
-
-
-
-
-
-
-
 
 =cut

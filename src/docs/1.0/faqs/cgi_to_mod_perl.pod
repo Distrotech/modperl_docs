@@ -107,13 +107,13 @@ CGI!
 
 =item TRAPS
 
-See L<mod_perl_traps>.
+See L<common/known mod_perl traps|faqs::mod_perl_traps>.
 
 =back
 
 =head1 REPORTING PROBLEMS
 
-Read the L<SUPPORT> file.
+Read the I<SUPPORT> file.
 
 =head1 SEE ALSO
 

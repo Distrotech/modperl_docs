@@ -61,7 +61,7 @@ APR Perl IO filehandles.
 
 =head1 SEE ALSO
 
-L<perliol(1)>, L<perlapio(1)>, L<perl(1)>.
+The I<perliol(1)>, I<perlapio(1)> and I<perl(1)> manpages.
 
 =cut
 

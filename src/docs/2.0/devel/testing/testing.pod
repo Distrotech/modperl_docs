@@ -676,7 +676,7 @@ Run all tests through mod_proxy:
 =back
 
 The debugging options I<-debug> and I<-breakpoint> are covered in the
-L<Debugging> section.
+L</Debugging> section.
 
 For a complete list of available switches see the output of C<t/TEST
 -help>.

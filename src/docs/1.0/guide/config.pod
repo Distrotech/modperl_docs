@@ -2,7 +2,6 @@
 
 mod_perl Configuration
 
-
 =head1 Server Configuration
 
 The next step after building and installing your new mod_perl enabled
@@ -27,8 +26,6 @@ in I<httpd.conf>.  You will also see later on that we use other files,
 for example I<perl.conf> and I<startup.pl>.  This is just for our
 convenience, you could still do everything in I<httpd.conf> if you
 wished.
-
-
 
 =head1 Apache Configuration
 
@@ -59,7 +56,6 @@ in the same directory as C<httpd>, the Apache server itself.  Execute:
 Now you can test the server, for example by accessing http://localhost
 from a browser running on the same host.
 
-
 =head2 Configuration Directives
 
 For a basic setup there are just a few things to configure.  If you
@@ -89,7 +85,6 @@ whole sections of the configuration (such as the C<E<lt>DirectoryE<gt>> and
 C<E<lt>LocationE<gt>> sections) which apply only to certain areas of your Web
 space.  As mentioned earlier you will find them all in I<httpd.conf>.
 
-
 =head2  .htaccess files
 
 If there is a file with the name I<.htaccess> in any directory, Apache
@@ -108,7 +103,6 @@ Note that if there is a
 
 directive in I<httpd.conf>, Apache will not try to look for
 I<.htaccess> at all.
-
 
 =head2 E<lt>DirectoryE<gt>, E<lt>LocationE<gt> and E<lt>FilesE<gt> Sections
 
@@ -154,7 +148,6 @@ section which tells Apache that authorization is required for access
 to the resource but you may have a C<E<lt>FilesE<gt>> section which says that
 it is not.  It is not always obvious which directive takes precedence
 in these cases.  This can be a trap for the unwary.
-
 
 =over
 
@@ -209,8 +202,6 @@ I</home/httpd/docs/> and its sub-directories).
 I</home/httpd/docs/.htaccess>.
 
 =back
-
-
 
 =item * C<E<lt>Files filenameE<gt>> ... C<E<lt>/FilesE<gt>>
 
@@ -286,11 +277,7 @@ you might use:
     allow from .example.com
   </Location>
 
-
 =back
-
-
-
 
 =head2 How Directory, Location and Files Sections are Merged
 
@@ -315,7 +302,6 @@ processed simultaneously
 
 =back
 
-
 Apart from C<E<lt>DirectoryE<gt>>, each group is processed in the
 order that it appears in the configuration files.
 C<E<lt>DirectoryE<gt>> (group 1 above) is processed in the order
@@ -331,9 +317,6 @@ virtual host definition.  This allows virtual host configurations to
 override the main server configuration.
 
 Later sections override earlier ones.
-
-
-
 
 =head2 Sub-Grouping of E<lt>LocationE<gt>, E<lt>DirectoryE<gt> and E<lt>FilesE<gt> Sections
 
@@ -357,9 +340,6 @@ could use a C<E<lt>FilesE<gt>> section inside an I<.htaccess> file.
 Note that you can't put C<E<lt>FilesE<gt>> or C<E<lt>FilesMatchE<gt>>
 sections inside a C<E<lt>LocationE<gt>> section, but you can put them
 inside a C<E<lt>DirectoryE<gt>> section.
-
-
-
 
 =head2 Options Directive
 
@@ -394,9 +374,6 @@ and C<-> symbols:
 then the options C<FollowSymLinks> and C<Includes> are set for the
 I</home/httpd/docs/shtml> directory.
 
-
-
-
 =head1 mod_perl Configuration
 
 When you have tested that the Apache server works on your machine,
@@ -424,7 +401,6 @@ you to execute Perl code from within any configuration file at server
 startup time, and as you will see later, a file containing any Perl
 program can be executed (also at server startup time) simply by
 mentioning its name in a C<PerlRequire> or C<PerlModule> directive.
-
 
 =head2 Alias Configurations
 
@@ -462,7 +438,7 @@ which tells Apache to invoke mod_perl to run the script.  The second
 directive (for example C<PerlHandler>) tells mod_perl which handler
 (Perl module) the script should be run under, and hence for which
 phase of the request.  Refer to the section
-L<Perl*Handlers|config/Perl_Handlers> for more information about
+L<Perl*Handlers|guide::config/Perl_Handlers> for more information about
 handlers for the various request phases.
 
 When you have decided which methods to use to run your scripts and
@@ -512,9 +488,7 @@ You should remember that it is undesirable to run scripts in plain
 mod_cgi mode from a mod_perl-enabled server--the resource consumption
 is too high. It is better to run these on a plain Apache server.  See
 L<Standalone mod_perl Enabled Apache
-Server|strategy/Standalone_mod_perl_Enabled_Apac>.
-
-
+Server|guide::strategy/Standalone_mod_perl_Enabled_Apac>.
 
 =head2 E<lt>LocationE<gt> Configuration
 
@@ -618,7 +592,7 @@ it has nothing to do with mod_perl.
 
 Here is another very similar example, this time using
 C<Apache::PerlRun> (For more information see
-L<Apache::PerlRun|porting/Apache__PerlRun__a_closer_look>):
+L<Apache::PerlRun|guide::porting/Apache__PerlRun__a_closer_look>):
 
   <Location /cgi-perl>
     SetHandler perl-script
@@ -628,11 +602,9 @@ L<Apache::PerlRun|porting/Apache__PerlRun__a_closer_look>):
     PerlSendHeader On
   </Location>
 
-
 The only difference from the C<Apache::Registry> configuration is the
 argument of the C<PerlHandler> directive, where C<Apache::Registry>
 has been replaced with C<Apache::PerlRun>.
-
 
 =head2 Overriding E<lt>LocationE<gt> Setting in "Sub-Location"
 
@@ -653,8 +625,6 @@ you have to do is to reset it, like this:
 
 Now, all the requests starting with I</foo/bar> would be served by
 Apache's default handler.
-
-
 
 =head2 PerlModule and PerlRequire Directives
 
@@ -680,11 +650,6 @@ C<ServerRoot> or a path in C<@INC>.
 As with any file with Perl code that gets C<use()>'d or
 C<require()>'d, it must return a I<true> value.  To ensure that this
 happens don't forget to add C<1;> at the end of I<startup.pl>.
-
-
-
-
-
 
 =head2 Perl*Handlers
 
@@ -716,7 +681,7 @@ most of the C<Perl*Handler>s are disabled.  When you configure the
 I<Makefile.PL> file for its compilation, you must specify whether or
 not you will want to handle parts of the request loop other than the
 usual content generation phase.  If so you need to specify which
-parts.  See the "L<Callback Hooks|install/Callback_Hooks>" section for
+parts.  See the "L<Callback Hooks|guide::install/Callback_Hooks>" section for
 how to do this.
 
 Apache specifies about eleven phases of the request loop, namely (and
@@ -766,7 +731,6 @@ they are processed by Apache and mod_perl:
     PerlDispatchHandler
     PerlRestartHandler
 
-
 C<PerlChildInitHandler> and C<PerlChildExitHandler> do not refer to
 parts of the request loop, they are to allow your modules to
 initialize data structures and to clean up at the child process
@@ -800,9 +764,8 @@ parts of the Apache API, but allow you to fine-tune the mod_perl API.
 
 The Apache documentation will tell you all about these stages and what
 your modules can do.  By default, most of these hooks are disabled at
-compile time, see the"L<Callback Hooks|install/Callback_Hooks>"
+compile time, see the"L<Callback Hooks|guide::install/Callback_Hooks>"
 section for information on enabling them.
-
 
 =head2 The handler subroutine
 
@@ -852,12 +815,6 @@ certain phases only.
   if($r->current_callback eq "PerlLogHandler") {
       $r->warn("Logging request");
   }
-
-
-
-
-
-
 
 =head2 Stacked Handlers
 
@@ -1016,16 +973,10 @@ To build in this feature, configure with:
 
   % perl Makefile.PL PERL_STACKED_HANDLERS=1 [ ... ]
 
-
 If you want to test whether your running mod_perl Apache can stack
 handlers, the method C<Apache-E<gt>can_stack_handlers> will return
 C<TRUE> if mod_perl was configured with C<PERL_STACKED_HANDLERS=1>,
 and C<FALSE> otherwise.
-
-
-
-
-
 
 =head2 Perl Method Handlers
 
@@ -1071,17 +1022,6 @@ To build in this feature, configure with:
 
  % perl Makefile.PL PERL_METHOD_HANDLERS=1 [ ... ]
 
-
-
-
-
-
-
-
-
-
-
-
 =head2 PerlFreshRestart
 
 To reload C<PerlRequire>, C<PerlModule> and other C<use()>'d modules,
@@ -1091,7 +1031,7 @@ I<httpd.conf>:
   PerlFreshRestart On
 
 Make sure you read L<Evil things might happen when using
-PerlFreshRestart|troubleshooting/Evil_things_might_happen_when_us>.
+PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_us>.
 
 Starting from mod_perl version 1.22 C<PerlFreshRestart> is ignored
 when mod_perl is compiled as a DSO.  But it almost doesn't matter,
@@ -1105,9 +1045,6 @@ But note that even if you have
 
 and mod_perl as a DSO you will still get a I<FreshRestart>.
 
-
-
-
 =head2 PerlSetVar, PerlSetEnv and PerlPassEnv
 
   PerlSetEnv key val
@@ -1120,7 +1057,7 @@ through C<%ENV> (e.g. C<$ENV{"key"}>).
 Regarding the setting of C<PerlPassEnv PERL5LIB> in I<httpd.conf>: if
 you turn on taint checks (C<PerlTaintCheck On>), C<$ENV{PERL5LIB}>
 will be ignored (unset).  See the 'L<Switches -w,
--T|porting/Command_Line_Switches_w_T_e>' section.
+-T|guide::porting/Command_Line_Switches_w_T_e>' section.
 
 C<PerlSetVar> is very similar to C<PerlSetEnv>, but you extract it
 with another method.
@@ -1180,23 +1117,14 @@ available before then, e.g. in C<PerlAuthenHandler> for
 C<$ENV{ORACLE_HOME}> (or another environment variable that you need in
 these early request processing stages).
 
-
-
 =head2 PerlSetupEnv
 
-See L<PerlSetupEnv Off|performance/PerlSetupEnv_Off>.
-
-
-
-
+See L<PerlSetupEnv Off|guide::performance/PerlSetupEnv_Off>.
 
 =head2 PerlWarn and PerlTaintCheck
 
 For B<PerlWarn> and B<PerlTaintCheck> directives see the 'L<Switches
--w, -T|porting/Command_Line_Switches_w_T_e>' section.
-
-
-
+-w, -T|guide::porting/Command_Line_Switches_w_T_e>' section.
 
 =head2 MinSpareServers MaxSpareServers StartServers MaxClients MaxRequestsPerChild
 
@@ -1216,12 +1144,8 @@ that number.
 These five directives are very important for achieving the best
 performance from your server. The section ' L<Performance Tuning by
 Tweaking Apache
-Configuration|performance/Performance_Tuning_by_Tweaking_A>' provides
+Configuration|guide::performance/Performance_Tuning_by_Tweaking_A>' provides
 all the details.
-
-
-
-
 
 =head1 The Startup File
 
@@ -1386,13 +1310,7 @@ to precompile the code in C<CGI.pm> is:
 But the old method is still available for backward compatibility.
 
 See also the 'L<Apache::Status -- Embedded interpreter status
-information|debug/Apache_Status_Embedded_Inter>' section.
-
-
-
-
-
-
+information|guide::debug/Apache_Status_Embedded_Inter>' section.
 
 =head2 What Modules You Should Add to the Startup File and Why
 
@@ -1402,13 +1320,9 @@ the code I develop into modules and preload them.
 
 You can even preload your CGI script with C<Apache::RegistryLoader>
 (See L<Preload Perl modules at server
-startup|performance/Preloading_Perl_Modules_at_Serve>) and you can get
+startup|guide::performance/Preloading_Perl_Modules_at_Serve>) and you can get
 the children to preopen their database connections with
 C<Apache::DBI>.
-
-
-
-
 
 =head2 The Confusion with use() in the Server Startup File
 
@@ -1416,7 +1330,7 @@ Some people wonder why you need to duplicate the C<use()> clause in
 the startup file and in the script itself. The confusion arises due to
 misunderstanding the C<use()> function. C<use()> normally performs two
 operations, namely C<require()> and C<import()>, called within a
-C<BEGIN> block. See the section "L<use()|perl/use__>" for a detailed
+C<BEGIN> block. See the section "L<use()|guide::perl/use__>" for a detailed
 explanation of the use(), require() and import() functions.
 
 In the startup file we don't want to import any symbols since they
@@ -1477,14 +1391,6 @@ loading the module itself.
 
 Read the C<Exporter> and C<perlmod> manpages for more information
 about C<import()>.
-
-
-
-
-
-
-
-
 
 =head1 Apache Configuration in Perl
 
@@ -1589,7 +1495,6 @@ except the ones whose names start with I<secure>:
   }
   </Perl>
 
-
 Behind the scenes, mod_perl defines a package called
 C<Apache::ReadConfig>.  Here it keeps all the variables that you
 define inside the C<E<lt>PerlE<gt>> sections. Therefore it's not
@@ -1619,14 +1524,10 @@ file. Using the last example:
   ----------
   PerlRequire /home/httpd/perl/lib/apache_config.pl
 
-
-
-
 =head2 Enabling
 
 To enable C<E<lt>PerlE<gt>> sections you should build mod_perl with
 S<perl Makefile.PL PERL_SECTIONS=1 [ ... ]>.
-
 
 =head2 Caveats
 
@@ -1659,8 +1560,6 @@ configuration directives, like this:
     $PerlTransHandler = "My::Trans";
   </Perl>
 
-
-
 =head2 Verifying
 
 This section shows how to check and dump the configuration you have
@@ -1681,7 +1580,7 @@ Now you may run:
 
 In a running httpd you can see how you have configured the
 C<E<lt>PerlE<gt>> sections through the URI
-L</perl-status|debug/Apache__Status____Embedded_Interpreter_Status_Information>, by choosing I<Perl
+L</perl-status|guide::debug/Apache__Status____Embedded_Interpreter_Status_Information>, by choosing I<Perl
 Section Configuration> from the menu. In order to make this item show
 up in the menu you should set C<$Apache::Server::SaveConfig> to a true
 value. When you do that the I<Apache::ReadConfig> namespace (in which
@@ -1718,7 +1617,6 @@ Alternatively you can store it in a file:
 You can then C<require()> that file in some other C<E<lt>PerlE<gt>>
 section.
 
-
 =head2 Strict C<E<lt>PerlE<gt>> Sections
 
 If the Perl code doesn't compile, the server won't start.  If the
@@ -1736,11 +1634,10 @@ then mod_perl will not tolerate invalid Apache configuration syntax
 and will C<croak> (die) if this is the case. At the time of writing the
 default value is C<0>.
 
-
 =head2 Debugging
 
 If you compile mod_perl with C<PERL_TRACE=1> and set the environment
-variable L<MOD_PERL_TRACE|debug/Debug_Tracing> then you should see
+variable L<MOD_PERL_TRACE|guide::debug/Debug_Tracing> then you should see
 some useful diagnostics when mod_perl is processing C<E<lt>PerlE<gt>>
 sections.
 
@@ -1750,8 +1647,6 @@ For more info see
 http://www.modperl.com Chapter 8
 
 META: a direct link?
-
-
 
 =head1 Validating the Configuration Syntax
 
@@ -1784,13 +1679,6 @@ executed, at the top of the code add:
 
   return if Apache->define('syntax_check');
 
-
-
-
-
-
-
-
 =head1 Enabling Remote Server Configuration Reports
 
 The nifty mod_info module displays the complete server configuration
@@ -1808,9 +1696,6 @@ just uncomment the ready-prepared section in the I<httpd.conf> file:
 Now restart the server and issue the request:
 
   http://www.example.com/server-info
-
-
-
 
 =head1 Publishing Port Numbers other than 80
 
@@ -1831,12 +1716,6 @@ port designator, and uses port 80 anyway.
 Another reason is that firewalls probably will have the high port
 closed, therefore users behind the firewalls will be unable to reach
 your service, running on the blocked port.
-
-
-
-
-
-
 
 =head1 Configuring Apache + mod_perl with mod_macro
 
@@ -1881,7 +1760,6 @@ your aliasing rules consistent, you can use this macro:
 
   # example
   Use registry stuff stuff.pl
-
 
 If you're using content handlers packaged as modules, you can use the
 following macro:
@@ -1967,15 +1845,7 @@ The actual macros for the last example are left as an exercise to
 reader. These can be easily constructed based on the examples
 presented in this section.
 
-
-
-
-
-
 =head1 General Pitfalls
-
-
-
 
 =head2 My CGI/Perl Code Gets Returned as Plain Text Instead of Being Executed by the Webserver
 
@@ -1990,29 +1860,15 @@ turned on in your configurations.
     PerlSendHeader On
   </Location>
 
-
-
-
-
-
 =head2 My Script Works under mod_cgi, but when Called via mod_perl I Get a 'Save-As' Prompt
 
 Did you put B<PerlSendHeader On> in the configuration part of the
 C<E<lt>Location fooE<gt>E<lt>/LocationE<gt>>.
 
-
-
-
-
-
 =head2 Is There a Way to Provide a Different startup.pl File for Each Individual Virtual Host
 
 No. Any virtual host will be able to see the routines from a I<startup.pl>
 loaded for any other virtual host.  
-
-
-
-
 
 =head2 Is There a Way to Modify @INC on a Per-Virtual-Host or Per-Location Basis.
 
@@ -2020,11 +1876,7 @@ You can use C<PerlSetEnv PERL5LIB ...> or a C<PerlFixupHandler> with
 the C<lib> pragma (C<use lib qw(...)>).
 
 A better way is to use
-L<Apache::PerlVINC|modules/Apache__PerlVINC___Allows_Module_Versioning_in_Location_blocks_and_Virtual_Hosts>
-
-
-
-
+L<Apache::PerlVINC|guide::modules/Apache__PerlVINC___Allows_Module_Versioning_in_Location_blocks_and_Virtual_Hosts>
 
 =head2 A Script From One Virtual Host Calls a Script with the Same Path From the Other Virtual Host
 
@@ -2043,12 +1895,6 @@ if you are sure that there will be no I<other> scripts with the same
 path/name). It also saves you some memory as well.
 
   $Apache::Registry::NameWithVirtualHost = 0;
-
-
-
-
-
-
 
 =head2 the Server no Longer Retrieves the DirectoryIndex Files for a Directory
 
@@ -2123,10 +1969,6 @@ the last rule C<^(.*)$>. This is a somewhat contrived example because
 that last regex could be rewritten as C<^(/.+)$> and all would be
 well.
 
-
-
-
-
 =head1 Configuration Security Concerns
 
 It is better not to advertise the port that mod_perl server uses to
@@ -2135,7 +1977,7 @@ revealing which module(s) and/or OS you are running your web server
 on.
 
 For more information see L<Publishing Port Numbers other than
-80|config/Publishing_Port_Numbers_other_th>.
+80|guide::config/Publishing_Port_Numbers_other_th>.
 
 The more modules you have in your web server, the more complex the
 code.
@@ -2178,12 +2020,6 @@ to it and issuing some request. For example:
 
 So as you see that a lot of information is revealed and a C<Full>
 C<ServerTokens> has been used.
-
-
-
-
-
-
 
 =head1 Apache Restarts Twice On Start
 
@@ -2238,15 +2074,6 @@ the mod_rewrite proxy rule in the SSL virtual host redirect to port
 8001. In the mod_perl server just check the C<PORT> variable to tell
 if the connection is secure.
 
-
-
-
-
-
-
-
-
-
 =head1 Adding Custom Configuration Directives 
 
 This is covered in the Eagle Book in a great detail. This is just a
@@ -2277,8 +2104,6 @@ simple example, showing how to add your own Configuration directives.
     'INC'       => Apache::src->new->inc,
   );
 
-
-
   TestDirective.pm
   ----------------
   package Apache::TestDirective;
@@ -2300,7 +2125,6 @@ simple example, showing how to add your own Configuration directives.
   
   1;
   __END__
-
 
 In the mod_perl source tree, add this to I<t/docs/startup.pl>:
 

@@ -86,7 +86,7 @@ the command:
 
 There are many additional optional parameters.  You can find some of
 them later in this section and in the L<Server
-Configuration|config/mod_perl_Configuration> section.
+Configuration|guide::config/mod_perl_Configuration> section.
 
 While running C<perl Makefile.PL ...> the process will check for
 prerequisites and tell you if something is missing.  If you are
@@ -121,7 +121,6 @@ information very soon.  On my machine the two important paths are:
   /usr/local/apache/conf/httpd.conf
 
 Now the build and installation processes are complete.
-
 
 =head2 Configuration
 
@@ -239,13 +238,12 @@ not work and they may exhibit strange behaviour.  Depending on the
 degree of sloppiness they may need anything from minor tweaking to a
 major rewrite to make them work properly.  (See L<Sometimes My Script
 Works, Sometimes It Does 
-Not|debug/Sometimes_My_Script_Works__Sometimes_It_Does_Not> )
+Not|guide::debug/Sometimes_My_Script_Works__Sometimes_It_Does_Not> )
 
 The above setup is very basic, but as with Perl, you can start to
 benefit from mod_perl from the very first moment you try it.  As you
 become more familiar with mod_perl you will want to start writing
 Apache handlers and make more use of its power.
-
 
 =head1 One Plain and One mod_perl enabled Apache Servers
 
@@ -384,7 +382,6 @@ continue using the regular names resulted from using the standard
 configuration and the manual executable name adjustment as described
 at the beginning of this section .
 
-
 =head3 Building the httpd_perl Server
 
 Now we proceed with the sources configuration and installation of the
@@ -429,7 +426,7 @@ which fails.
 [META:
 It's very important to use the same compiler you build the perl with.
 See the section 'L<What Compiler Should Be Used to Build
-mod_perl|install/What_Compiler_Should_Be_Used_to_Build_mod_perl_>' 
+mod_perl|guide::install/What_Compiler_Should_Be_Used_to_Build_mod_perl_>' 
 for more information.
 
 [META: --- Hmm, what's the option that overrides the compiler when
@@ -458,12 +455,12 @@ explicitly run make install in the Apache source directory.
 
 If C<make test> fails, look into
 I</usr/src/httpd_perl/mod_perl-x.xx/t/logs> and read the error_log
-file.  Also see L<make test fails|install/make_test_fails>.
+file.  Also see L<make test fails|guide::install/make_test_fails>.
 
 While doing C<perl Makefile.PL ...> mod_perl might complain by warning
 you about a missing library C<libgdbm>. This is a crucial warning. See
 L<Missing or Misconfigured
-libgdbm.so|install/Missing_or_Misconfigured_libgdbm_so> for more info.
+libgdbm.so|guide::install/Missing_or_Misconfigured_libgdbm_so> for more info.
 
 Now rename C<httpd> to C<httpd_perl>:
 
@@ -474,11 +471,6 @@ Update the I<apachectl> utility to drive the renamed httpd:
 
   % perl -p -i -e 's|bin/httpd|bin/httpd_perl|' \
     /usr/local/httpd_perl/bin/apachectl
-
-
-
-
-
 
 =head2 Configuration of the servers
 
@@ -498,7 +490,6 @@ decided to use.
 Start the server with:
 
   /usr/local/httpd_docs/bin/apachectl start
-
 
 =head3 Basic httpd_perl Server Configuration
 
@@ -525,12 +516,12 @@ users, by using either mod_proxy's C<ProxyPass> directive or a proxy
 server like Squid.
 
 For more details see L<Publishing Port Numbers other than
-80|config/Publishing_Port_Numbers_other_than_80>, L<Running One Webserver
+80|guide::config/Publishing_Port_Numbers_other_than_80>, L<Running One Webserver
 and Squid in httpd Accelerator
-Mode|scenario/Running_One_Webserver_and_Squid_in_httpd_Accelerator_Mode>,
+Mode|guide::scenario/Running_One_Webserver_and_Squid_in_httpd_Accelerator_Mode>,
 L<Running Two Webservers and Squid in httpd Accelerator
-Mode|scenario/Running_Two_webservers_and_Squid_in_httpd_Accelerator_Mode>
-and L<Using mod_proxy|scenario/mod_proxy>.
+Mode|guide::scenario/Running_Two_webservers_and_Squid_in_httpd_Accelerator_Mode>
+and L<Using mod_proxy|guide::scenario/mod_proxy>.
 
 Now we proceed to the mod_perl specific directives.  It will be a good
 idea to add them all at the end of C<httpd.conf>, since you are going
@@ -577,18 +568,17 @@ browser on every script invocation. You will want to turn this off for
 nph (non-parsed-headers) scripts.
 
 This is only a very basic configuration.  The L<Server
-Configuration|config/> section covers the rest of the details.
+Configuration|guide::config/> section covers the rest of the details.
 
 Now start the server with:
 
   /usr/local/httpd_perl/bin/apachectl start
 
-
 =head1 Running Two webservers and Squid in httpd Accelerator Mode
 
 While I have detailed the mod_perl server installation, you are on
 your own with installing the Squid server (See L<Getting
-Helped|help/> for more details).
+Helped|guide::help/> for more details).
 I run Linux, so I downloaded the RPM package, installed it, configured
 the I</etc/squid/squid.conf>, fired off the server and all was set.
 
@@ -709,7 +699,7 @@ in parallel.  Squid could serve the second request.
 
 But this is only possible if you set the headers correctly. Refer to
 the chapter L<Correct Headers - A quick guide for mod_perl
-users|correct_headers/> to learn more about generating the proper
+users|guide::correct_headers/> to learn more about generating the proper
 caching headers under mod_perl. In case where only the scripts under
 I</perl/caching-unfriendly> are not I<caching friendly> fix the above
 setting to be:
@@ -720,7 +710,7 @@ setting to be:
 But if you are lazy, or just have too many things to deal with, you
 can leave the above directives the way we described.  Just keep in
 mind that one day you will want to reread this section and L<the
-headers generation tutorial|correct_headers/> to squeeze even more
+headers generation tutorial|guide::correct_headers/> to squeeze even more
 power from your servers without investing money in more memory and
 better hardware.
 
@@ -1035,9 +1025,6 @@ explanations in the previous section):
   
   cachemgr_passwd disable shutdown
 
-
-
-
 =head1 mod_proxy
 
 mod_proxy implements a proxy/cache for Apache.  It implements proxying
@@ -1127,8 +1114,6 @@ generated internally (by C<ProxyPass> or C<RewriteRule...[P]>
 directives.) Do not use the C<ProxyRequests> directive on your
 reverse proxy servers.
 
-
-
 =head2 Buffering Feature
 
 In addition to correcting the URI on its way back from the back-end
@@ -1199,7 +1184,6 @@ during a large POST such as a file upload.  Falling back to mod_cgi
 seems to be the best solution for these specific scripts whose major
 function is receiving large amounts of upstream data.
 
-
 [META: check this: --]
 
 Of course just like mod_perl, mod_proxy writes the data it
@@ -1229,7 +1213,6 @@ releasing the receive buffer, so the mod_perl Apache is free to do
 other things, while the proxying Apache still wait until the client
 returns the success of data transmission. (The last, is the part I am
 not sure on)
-
 
 [/META]
 
@@ -1326,7 +1309,6 @@ increase the socket buffer size please let me know.
 When you tell the kernel to use bigger sockets you can set bigger
 values for I<ProxyReceiveBufferSize>. e.g. 1048576 (1MB).
 
-
 =head3 Hacking the Code
 
 Some folks have patched the Apache's 1.3.x source code to make the
@@ -1358,8 +1340,6 @@ Actually the C<ProxyReceiveBufferSize> should be called
 C<ProxySocketBufferSize>.  This would also remove some of the
 confusion about what it actually does.
 
-
-
 =head2 Caching Feature
 
 META: complete the conf details
@@ -1369,16 +1349,12 @@ produce proper headers, so your scripts' output can be cached.  See
 the Apache documentation for more details on the configuration of this
 capability.
 
-
-
 =head2 Build Process
 
 To build mod_proxy into Apache just add I<--enable-module=proxy>
 during the Apache B<./configure> stage. Since you probably will need
 the mod_rewrite capability enable it as well with
 I<--enable-module=rewrite>.
-
-
 
 =head1 Front-end Back-end Proxying with Virtual Hosts
 
@@ -1469,7 +1445,7 @@ We set S<"Port 80"> so that any redirects don't get sent directly to
 the back-end port.
 
 To get the I<real> remote IP addresses from proxy, the
-L<My::ProxyRemoteAddr|scenario/Getting_the_Remote_Server_IP_in_the_Back_end_server_in_the_Proxy_Setup>
+L<My::ProxyRemoteAddr|guide::scenario/Getting_the_Remote_Server_IP_in_the_Back_end_server_in_the_Proxy_Setup>
 handler is used based on the C<mod_proxy_add_forward> Apache module.
 Prior to mod_perl 1.22 this setting must have been set per-virtual
 host, since it wasn't inherited by the virtual hosts.
@@ -1488,13 +1464,12 @@ So we don't have to specify the rule for static objects to be served
 by the front-end as we did in the previous example to handle files
 with the extensions I<.gif>, I<.jpg>, I<.png> and I<.txt> internally.
 
-
 =head1 Getting the Remote Server IP in the Back-end server in the Proxy Setup
 
 Ask Bjoern Hansen has written the C<mod_proxy_add_forward> module for
 Apache.  It sets the C<X-Forwarded-For> field when doing a
 C<ProxyPass>, similar to what Squid can do.  Its location is specified
-in the L<download|download/mod_proxy_add_forward> section.
+in the L<download|guide::download/mod_proxy_add_forward> section.
 
 Basically, this module adds an extra HTTP header to proxying requests.
 You can access that header in the mod_perl-enabled server, and set the
@@ -1515,7 +1490,6 @@ the Apache source code, so the module can be found.
 
 I<--enable-module=proxy_add_forward> enables this module as you have
 guessed already.
-
 
 =head2 Usage
 
@@ -1547,7 +1521,6 @@ And in the mod_perl's I<httpd.conf>:
 and the right thing will happen transparently for your scripts.
 Otherwise if you write your own mod_perl content handler, you can
 retrieve it directly in your code using a similar code.
-
 
 =head2 Security
 
@@ -1652,11 +1625,6 @@ With this change, the C<X-Forwarded-For> header is now being sent to
 the back-end server, and the remote IP appears in the back-end
 server's I<access_log> file.
 
-
-
-
-
-
 =head1 HTTP Authentication With Two Servers Plus a Proxy
 
 Assuming that you have a setup of one "front-end" server, which
@@ -1677,19 +1645,6 @@ The same applies to mod_ssl and similar Apache SSL modules. If it gets
 plugged into a front-end server, it will properly encode/decode all
 the SSL requests. So if your machine is secured from inside, your
 back-end server can do secure transactions.
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 =head1 mod_rewrite Examples
 
@@ -1777,10 +1732,6 @@ above setup we get:
   RewriteRule ^/(images|style) - [L]
   RewriteRule ^/(.*) http://www.example.com:8080/$1 [P]
   ProxyPassReverse / http://www.example.com/
-
-
-
-
 
 =head1 Caching in mod_proxy
 

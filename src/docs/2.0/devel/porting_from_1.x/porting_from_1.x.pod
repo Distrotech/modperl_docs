@@ -83,8 +83,8 @@ co-exists with the two versions.
 
 C<Apache::Test> testing framework that comes together with mod_perl
 2.x works with 1.x and 2.x mod_perl versions. Therefore you should
-consider porting your test suite to use
-C<Apache::Test>. L<writing_tests> explains how to do that.
+consider porting your test suite to use L<the Apache::Test
+Framework|devel::testing::testing>.
 
 =head1 Maintainers
 

@@ -12,12 +12,6 @@ Before you decide to skip this chapter make sure you know all the
 information provided here.  The rest of the Guide assumes that you
 have read this chapter and understood it.
 
-
-
-
-
-
-
 =head1 perldoc's Rarely Known But Very Useful Options
 
 First of all, I want to stress that you cannot become a Perl hacker
@@ -33,7 +27,6 @@ http://theoryx5.uwinnipeg.ca/CPAN/perl/.
 The C<perldoc> utility provides you with access to the documentation
 installed on your system.  To find out what Perl manpages are
 available execute:
-
 
   % perldoc perl
 
@@ -62,11 +55,6 @@ still in POD format.
 To read the I<perldoc> manpage you would execute:
 
   % perldoc perldoc
-
-
-
-
-
 
 =head1 Tracing Warnings Reports
 
@@ -197,15 +185,10 @@ lines.  In addition, under mod_perl, certain uses of the C<eval>
 operator and "here documents" are known to throw off Perl's line
 numbering, so the messages reporting warnings and errors can have
 incorrect line numbers. (See L<Finding the Line Which Triggered the
-Error or Warning|debug/Finding_the_Line_Which_Triggered> for more
+Error or Warning|guide::debug/Finding_the_Line_Which_Triggered> for more
 information).
 
 Getting the trace helps a lot.
-
-
-
-
-
 
 =head1 Variables Globally, Lexically Scoped And Fully Qualified
 
@@ -214,7 +197,6 @@ META: this material is new and requires polishing so read with care.
 You will hear a lot about namespaces, symbol tables and lexical
 scoping in Perl discussions, but little of it will make any sense
 without a few key facts:
-
 
 =head2 Symbols, Symbol Tables and Packages; Typeglobs
 
@@ -380,35 +362,19 @@ at runtime turn into unique anonymous variables on each scope exit.
 
 =back
 
-
-
-
 =head2 Additional reading references
 
 For more information see: L<Using global variables and sharing them
-between modules/packages|perl/Using_Global_Variables_and_Shari> and an
+between modules/packages|guide::perl/Using_Global_Variables_and_Shari> and an
 article by Mark-Jason Dominus about how Perl handles variables and
 namespaces, and the difference between C<use vars()> and C<my()> -
 http://www.plover.com/~mjd/perl/FAQs/Namespaces.html .
-
-
-
-
-
-
-
-
-
 
 =head1 my() Scoped Variable in Nested Subroutines
 
 Before we proceed let's make the assumption that we want to develop
 the code under the C<strict> pragma. We will use lexically scoped
 variables (with help of the my() operator) whenever it's possible.
-
-
-
-
 
 =head2 The Poison
 
@@ -473,11 +439,6 @@ print_power_of_2() function works correctly. Which makes us think that
 our code has some kind of memory for the results of the first
 execution, or it ignores the arguments in subsequent executions.
 
-
-
-
-
-
 =head2 The Diagnosis
 
 Let's follow the guidelines and use the C<-w> flag. Now execute the
@@ -539,9 +500,6 @@ won't be updated, no matter what new values are given to C<$x> in the
 outer subroutine.  There are two copies of the C<$x> variable, no
 longer a single one shared by the two routines.
 
-
-
-
 =head2 The Remedy
 
 The C<diagnostics> pragma suggests that the problem can be solved by
@@ -593,8 +551,6 @@ Let's verify:
   6^2 = 36
 
 So we can see that the problem is solved. 
-
-
 
 =head1 Understanding Closures -- the Easy Way
 
@@ -684,9 +640,6 @@ This is the underpinnings of that famous I<"won't stay shared">
 message.  A I<my> variable in a named subroutine context is generating
 identical code references and therefore it ignores any future changes
 to the lexical variables outside of it.
-
-
-
 
 =head1 When You Cannot Get Rid of The Inner Subroutine
 
@@ -796,15 +749,13 @@ scoped variables defined and altered outside and used inside hello(),
 it won't work as you expect starting from the second call, as was
 explained in the previous section.
 
-
 =head2 Remedies for Inner Subroutines
 
 First of all there is nothing to worry about, as long as you don't
 forget to turn the warnings On.  If you do happen to have the 
 "L<my() Scoped Variable in Nested 
-Subroutines|perl/my_Scoped_Variable_in_Nested_S>"
+Subroutines|guide::perl/my_Scoped_Variable_in_Nested_S>"
 problem, Perl will always alert you.
-
 
 Given that you have a script that has this problem, what are the ways
 to solve it? There are many of them and we will discuss some of them
@@ -1035,7 +986,6 @@ updated, the corresponding argument is updated (or an error occurs if
 it is not updatable as would be the case of calling the function with
 a literal, e.g. I<increment_counter(5)>).
 
-
   multirun5.pl
   -----------
   #!/usr/bin/perl -w
@@ -1101,27 +1051,11 @@ Separate file:
   
   1 ;
 
-
 Now you have at least six workarounds to choose from.
-
 
 For more information please refer to perlref and perlsub manpages.
 
-
-
-
-
-
-
-
-
-
-
-
-
 =head1 use(), require(), do(), %INC and @INC Explained
-
-
 
 =head2 The @INC array
 
@@ -1137,7 +1071,6 @@ is not located in one of the listed directories, you have to tell Perl
 where to find the file.  You can either provide a path relative to one
 of the directories in C<@INC>, or you can provide the full path to the
 file.
-
 
 =head2 The %INC hash
 
@@ -1284,7 +1217,6 @@ This has a slight overhead because it will load from disk and
 recompile the C<FindBin> module on each request. So it may not be
 worth it.
 
-
 =head2 Modules, Libraries and Program Files
 
 Before we proceed, let's define what we mean by I<module>, 
@@ -1333,7 +1265,6 @@ Examples:
   }
   1;
 
-
 =item * Modules
 
 A file which contains perl subroutines and other code.
@@ -1378,10 +1309,6 @@ Its last statement may return anything or nothing.
 
 =back
 
-
-
-
-
 =head2 require()
 
 require() reads a file containing Perl code and compiles it. Before
@@ -1410,7 +1337,7 @@ sure that the last statement will always return I<TRUE>. That's why
 the suggestion is to put "C<1;>" at the end of file.
 
 Although you should use the real filename for most files, if the file
-is a L<module|perl/Modules__Libraries_and_Program_Files>, you may use the
+is a L<module|guide::perl/Modules__Libraries_and_Program_Files>, you may use the
 following convention instead:
 
   require My::Module;
@@ -1477,7 +1404,7 @@ For more information refer to the perlfunc manpage.
 
 use(), just like require(), loads and compiles files containing Perl
 code, but it works with
-L<modules|perl/Modules__Libraries_and_Program_Files> only.  The only way to
+L<modules|guide::perl/Modules__Libraries_and_Program_Files> only.  The only way to
 pass a module to load is by its module name and not its filename.  If
 the module is located in I<MyCode.pm>, the correct way to use() it is:
 
@@ -1539,7 +1466,6 @@ There's a corresponding "C<no>" command that un-imports symbols
 imported by C<use>, i.e., it calls C<Module-E<gt>unimport(LIST)>
 instead of C<import()>.
 
-
 =head2 do()
 
 While do() behaves almost identically to require(), it reloads the
@@ -1551,21 +1477,6 @@ report the error.  If do() can read the file but cannot compile it, it
 returns C<undef> and puts an error message in C<$@>. If the file is
 successfully compiled, do() returns the value of the last expression
 evaluated.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 =head1 Using Global Variables and Sharing Them Between Modules/Packages
 
@@ -1591,7 +1502,7 @@ qualified name, unless you have imported this variable with
 import(). This will work only if you do not use C<strict> pragma; but
 you I<have> to use this pragma if you want to run your scripts under
 mod_perl. Read L<The strict
-pragma|porting/The_strict_pragma> to find out why. 
+pragma|guide::porting/The_strict_pragma> to find out why. 
 
 =head2 Making Variables Global With strict Pragma On
 
@@ -1692,7 +1603,6 @@ share C<$q> any more. To make things clear here is the code:
   
   My::HTML::printmyheader();
 
-
   My/HTML.pm
   ----------------
   package My::HTML;
@@ -1740,7 +1650,6 @@ share C<$q> any more. To make things clear here is the code:
     print $q->h1($title);
   }
   1;
-
 
 =head2 Using the Perl Aliasing Feature to Share Global Variables
 
@@ -1889,7 +1798,6 @@ object C<$r>:
   my $config_module = $r->dir_config('FooConfigModule') || '';
   
 
-
 =head1 The Scope of the Special Perl Variables
 
 Special Perl variables like C<$|> (buffering), C<$^T> (script's start
@@ -1947,18 +1855,6 @@ program about its value being changed here.
 Note that if you call a subroutine after you've set a global variable
 but within the enclosing block, the global variable will be visible
 with its new value inside the subroutine.
-
-
-
-
-
-
-
-
-
-
-
-
 
 =head1 Compiled Regular Expressions 
 
@@ -2094,12 +1990,6 @@ more efficient:
 The qr() operator compiles the pattern for each request and then use
 the compiled version in the actual match.
 
-
-
-
-
-
-
 =head1 Exception Handling for mod_perl
 
 Here are some guidelines for S<clean(er)> exception handling in
@@ -2177,7 +2067,6 @@ not seem so at first sight:
   }
   # all is well or has been handled
 
-
 =head2 Alternative Exception Handling Techniques
 
 An often suggested method for handling global exceptions in mod_perl,
@@ -2248,8 +2137,6 @@ handling mechanisms in place.
 You should warn people about this danger of C<$SIG{__DIE__}> and
 inform them of better ways to code. The following material is an
 attempt to do just that.
-
-
 
 =head2 Better Exception Handling
 
@@ -2449,7 +2336,7 @@ So what if we don't want to touch C<$SIG{__DIE__}> at all? We can
 overcome this by overriding the core die function. This is slightly
 more complex than implementing a C<$SIG{__DIE__}> handler, but is far
 less magical, and is the right thing to do, according to the
-L<perl5-porters mailing list|help/Get_help_with_Perl>.
+L<perl5-porters mailing list|guide::help/Get_help_with_Perl>.
 
 Overriding core functions has to be done from an external
 package/module. So we're going to add that to our C<My::Exception>
@@ -2489,7 +2376,6 @@ Along with the above overloaded stringification, we now have a complete
 exception system (well, mostly complete. Exception die-hards would argue that
 there's no "finally" clause, and no exception stack, but that's another topic
 for another time).
-
 
 =head2 A Single UnCaught Exception Class
 
@@ -2548,7 +2434,6 @@ machine, you get the same problems still. So in short: Watch out, and
 check the source code of anything you install to make sure it follows
 your exception handling technique, or just uses die() with strings.
 
-
 =head2 Some Uses
 
 I'm going to come right out and say now: I abuse this system horribly!
@@ -2581,7 +2466,6 @@ should my web site? Well it's just a matter of scalability and
 programmer style really. There's a lot of literature out there about
 exception handling, so I suggest doing some research.
 
-
 =head2 Conclusions
 
 Here I've demonstrated a simple and scalable (and useful) exception
@@ -2593,7 +2477,7 @@ much more significant overhead, and this is used in some code
 delivering to thousands of users.
 
 For similar exception handling techniques, see the section "L<Other
-Implementations|perl/Other_Implementations>".
+Implementations|guide::perl/Other_Implementations>".
 
 =head2 The My::Exception class in its entirety
 
@@ -2661,7 +2545,7 @@ each module for details:
 =item * Error.pm
 
 Graham Barr's excellent OO styled "try, throw, catch" module (from
-L<CPAN|download/Perl>). This should be considered your best option
+L<CPAN|guide::download/Perl>). This should be considered your best option
 for structured exception handling because it is well known and well
 supported and used by a lot of other applications.
 
@@ -2677,7 +2561,6 @@ exceptions, which can be useful if you want to create exception
 classes that provide extra methods or data.  For example, an exception
 class for database errors could provide a method for returning the SQL
 and bound parameters in use at the time of the error.
-
 
 =item * Try.pm
 

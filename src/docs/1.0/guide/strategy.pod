@@ -38,11 +38,6 @@ In this chapter we will discuss
 
 =back
 
-
-
-
-
-
 =head1 mod_perl Deployment Overview
 
 There are several different ways to build, configure and deploy your
@@ -115,12 +110,10 @@ Your mileage may vary.
 The DSO module (C<mod_so>) adds size and complexity to your binaries.
 
 Refer to the section L<"Pros and Cons of Building mod_perl as
-DSO|install/Pros_and_Cons_of_Building_mod_pe"> for more information.
+DSO|guide::install/Pros_and_Cons_of_Building_mod_pe"> for more information.
 
 Build details: L<Build mod_perl as DSO inside Apache source tree via
-APACI|install/Build_mod_perl_as_a_DSO_inside_t>
-
-
+APACI|guide::install/Build_mod_perl_as_a_DSO_inside_t>
 
 =item 4
 
@@ -130,18 +123,11 @@ three options by caching and buffering page results.
 
 =back
 
-
-
-
-
-
-
-
 =head1 Alternative architectures for running one and two servers
 
 The next part of this chapter discusses the pros and the cons of each
 of these presented configurations.  L<Real World Scenarios
-Implementation|scenario/> describes the implementation techniques of
+Implementation|guide::scenario/> describes the implementation techniques of
 these schemes.
 
 We will look at the following installations:
@@ -157,7 +143,6 @@ We will look at the following installations:
 =item * Adding a Proxy Server in http Accelerator Mode
 
 =back
-
 
 =head2 Standalone mod_perl Enabled Apache Server
 
@@ -248,10 +233,8 @@ zero static objects, like images), this might be the perfect choice
 for you!
 
 For implementation notes, see the "L<One Plain and One mod_perl
-enabled Apache Servers|scenario/One_Plain_and_One_mod_perl_enabl>"
+enabled Apache Servers|guide::scenario/One_Plain_and_One_mod_perl_enabl>"
 section in the implementations chapter.
-
-
 
 =head2 One Plain Apache and One mod_perl-enabled Apache Servers
 
@@ -310,8 +293,7 @@ need the attention of the heavy servers.  This is not an issue if you
 hide the internal port implementations, so the client sees only one
 server running on port C<80>. (See L<Publishing Port Numbers other
 than
-80|config/Publishing_Port_Numbers_other_th>)
-
+80|guide::config/Publishing_Port_Numbers_other_th>)
 
 The disadvantages:
 
@@ -355,10 +337,10 @@ not want a buffering server in this case.
 
 Before you go on with this solution you really want to look at the
 L<Adding a Proxy Server in http Accelerator
-Mode|strategy/Adding_a_Proxy_Server_in_http_Ac> section.
+Mode|guide::strategy/Adding_a_Proxy_Server_in_http_Ac> section.
 
 For implementation notes see the "L<One Plain and One mod_perl enabled
-Apache Servers|scenario/One_Plain_and_One_mod_perl_enabl>" section in
+Apache Servers|guide::scenario/One_Plain_and_One_mod_perl_enabl>" section in
 implementations chapter.
 
 =head2 One light non-Apache and One mod_perl enabled Apache Servers
@@ -369,7 +351,6 @@ an even smaller memory footprint. C<thttpd> has been reported to be
 about 5 times faster then Apache (especially under a heavy load),
 since it is very simple and uses almost no memory (260K) and does not
 spawn child processes.
-
 
 The Advantages:
 
@@ -400,7 +381,6 @@ objects.
 
 =back
 
-
 The Disadvantages:
 
 =over 4
@@ -412,7 +392,6 @@ redirection, customizable log file formats, and so on.
 
 =back
 
-
 Another interesting choice is a kHTTPd webserver for Linux. kHTTPd is
 different from other webservers in that it runs from within the
 Linux-kernel as a module (device-driver).  kHTTPd handles only static
@@ -421,8 +400,6 @@ information to a regular userspace-webserver such as Apache. For more
 information see http://www.fenrus.demon.nl/.
 
 Also check out the Boa webserver: http://www.boa.org/
-
-
 
 =head1 Adding a Proxy Server in http Accelerator Mode
 
@@ -532,7 +509,7 @@ and it's a pretty big issue which will take a book on its own to cover
 and therefore will not be discussed here. There is a plenty of
 information available at the Internet though. For more information see
 L<'High-Availability Linux
-Project'|download/High_Availability_Linux_Project>)
+Project'|guide::download/High_Availability_Linux_Project>)
 
 =item *
 
@@ -601,7 +578,6 @@ will get always the same IP of the front-end server. Later in this
 Chapter on page XXX (mod_proxy_add_forward) we present a solution for
 this problem.
 
-
 =back
 
 Have I succeeded in convincing you that you want a proxy server?
@@ -611,7 +587,6 @@ means that all your users are connected from this LAN and not from the
 outside), then the big benefit of the proxy buffering the output and
 feeding a slow client is gone.  You are probably better off sticking
 with a straight mod_perl server in this case.
-
 
 =head1 Implementations of Proxy Servers
 
@@ -698,11 +673,10 @@ only.
 
 For implementation details, see the sections L<Running One Webserver
 and Squid in httpd Accelerator
-Mode|scenario/Running_One_Webserver_and_Squid_> and L<Running Two
+Mode|guide::scenario/Running_One_Webserver_and_Squid_> and L<Running Two
 Webservers and Squid in httpd Accelerator
-Mode|scenario/Running_Two_webservers_and_Squid> in the implementations
+Mode|guide::scenario/Running_Two_webservers_and_Squid> in the implementations
 chapter.
-
 
 =head2 Apache's mod_proxy
 
@@ -724,7 +698,6 @@ IP address and you want the redirect to port 80 and the server is on a
 different port and you want to keep the specific name the browser has
 already sent, so that it does not change in the client's B<Location>
 window.
-
 
 The Advantages:
 
@@ -752,7 +725,7 @@ rewrites the URL back to the original one, e.g:
 =item *
 
 It does mod_perl output buffering like squid does. See the L<Using
-mod_proxy|scenario/mod_proxy> notes for more details.
+mod_proxy|guide::scenario/mod_proxy> notes for more details.
 
 =item *
 
@@ -780,9 +753,8 @@ reported to be very stable.
 =back
 
 For implementation see the "L<Using
-mod_proxy|scenario/mod_proxy>" section in the 
+mod_proxy|guide::scenario/mod_proxy>" section in the 
 implementation chapter.
-
 
 =head2 Closing Lingering Connections with Lingerd
 
@@ -823,9 +795,6 @@ alternative to the proxy setups we have seen so far.
 
 For more information about C<lingerd> see:
 http://www.iagora.com/about/software/lingerd/
-
-
-
 
 =head1 When One Machine is not Enough for RDBMS Database and mod_perl
 
@@ -894,7 +863,6 @@ will do. Of course I'm not talking about the case where you return
 some heavy Java applets, but that movie is screened in another
 theater.
 
-
 =head2 Servers' Requirements
 
 Let's first understand what kind of software the web and database
@@ -926,7 +894,6 @@ An I<"ideal"> database server machine:
   * RAM: large amounts   (big joins, sorting of many records)
          small amounts (otherwise)
   * CPU: medium to high (according to needs)
-
 
 =head2 The Problem
 
@@ -965,7 +932,6 @@ bound, the blocked process is getting 0% CPU time, the runnable
 process is getting 99.9% CPU time, and the kernel scheduler is using
 the remainder.
 
-
 =head2 The Solution
 
 Adding another machine, which allows a set-up where both the database
@@ -1001,8 +967,6 @@ Internet access, something you couldn't do when you had both servers
 on the same machine.
 
 =back
-
-
 
 =head3 Cons
 
@@ -1046,9 +1010,7 @@ server and eat even more RAM as new child processes pop up to handle
 new requests. So the overall machine performance can be worse than it
 was originally when you had just a single machine for both servers.
 
-
 =back
-
 
 =head2 Three Machines Model
 
@@ -1064,10 +1026,6 @@ little traffic and mainly proxy-passes to the mod_perl processes. Of
 course you can use this machine to serve the static content and then
 the hardware requirement will depend on the number of objects you will
 have to serve and the rate at which they are requested.
-
-
-
-
 
 =head1 Running More than One mod_perl Server on the Same Machine.
 
@@ -1094,12 +1052,11 @@ Let's assume that we have 251 megabytes of RAM dedicated to the
 webserver.
 
 According to the equation developed in the section: "L<Choosing
-MaxClients|performance/Choosing_MaxClients>":
+MaxClients|guide::performance/Choosing_MaxClients>":
 
                     Total_RAM - Shared_RAM_per_Child
   MaxClients = ---------------------------------------
                Max_Process_Size - Shared_RAM_per_Child
-
 
   MaxClients = (251 - 11)/(17-11) = 40
 
@@ -1202,15 +1159,13 @@ some modules that both code bases rely on. But there is a chance that
 the second code set won't work with a new version of a module it was
 relying on.
 
-
-
 =head1 SSL functionality and a mod_perl Server
 
 If you need SSL functionality, you can get it by adding the mod_ssl or
 equivalent Apache_ssl to the light front-end server (httpd_docs) or
 the heavy back-end mod_perl server (httpd_perl). ( The configuration
 and installation instructions are located
-L<here|install/mod_perl_and_mod_ssl___openssl_>.)
+L<here|guide::install/mod_perl_and_mod_ssl___openssl_>.)
 
 The question is: Is it a good idea to add mod_ssl into the back-end
 mod_perl enabled server?  Given that your internal network is secured,
@@ -1267,18 +1222,5 @@ up with whatever hardware you're using and because software is easier
 to adapt you'll have more freedom to change what software you're using
 and more control of things. So the choice is in your hand.
 
-
-
-
-
-
-
-
-
-
 =cut
-
-
-
-
 

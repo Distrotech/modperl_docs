@@ -34,23 +34,13 @@ functionality with Apache specific functions and overridden Perl core
 functions that were reimplemented to work better in mod_perl
 environment.
 
-
-
-
-
-
-
-
-
-
-
 =head1 Before you start to code
 
 It can be a good idea to tighten up some of your Perl programming
 practices, since mod_perl doesn't tolerate sloppy programming.
 
 This chapter relies on a certain level of Perl knowledge. Please
-read through the L<Perl Reference|perl/Perl_Reference_> chapter and make sure you
+read through the L<Perl Reference|guide::perl/Perl_Reference_> chapter and make sure you
 know the material covered there. This will allow me to concentrate on
 pure mod_perl issues and make them more prominent to the experienced
 Perl programmer, which would otherwise be lost in the sea of Perl
@@ -82,16 +72,6 @@ See the details at http://www.modperl.com .
 
 =back
 
-
-
-
-
-
-
-
-
-
-
 =head1 Exposing Apache::Registry secrets
 
 Let's start with some simple code and see what can go wrong with it,
@@ -119,7 +99,6 @@ and prints its value to the browser while incrementing it.
     print "Counter is equal to $counter !\r\n";
   }
 
-
 You would expect to see the output:
 
   Counter is equal to 1 !
@@ -144,9 +123,6 @@ We saw two anomalies in this very simple script: Unexpected increment of our
 counter over 5 and inconsistent growth over reloads. Let's investigate
 this script.
 
-
-
-
 =head2 The First Mystery
 
 First let's peek into the C<error_log> file. Since we have enabled the
@@ -160,7 +136,7 @@ when the script contains a named nested subroutine (a named - as
 opposed to anonymous - subroutine defined inside another subroutine)
 that refers to a lexically scoped variable defined outside this nested
 subroutine.  This effect is explained in L<my() Scoped Variable in
-Nested Subroutines|perl/my_Scoped_Variable_in_Nested_S>.
+Nested Subroutines|guide::perl/my_Scoped_Variable_in_Nested_S>.
 
 Do you see a nested named subroutine in my script? I don't!  What's
 going on? Maybe it's a bug? But wait, maybe the perl interpreter sees
@@ -298,7 +274,7 @@ C<run()>.  I don't worry about nested subroutine effects anymore
 (unless I create them myself :).
 
 The section 'L<Remedies for Inner
-Subroutines|perl/Remedies_for_Inner_Subroutines>' discusses 
+Subroutines|guide::perl/Remedies_for_Inner_Subroutines>' discusses 
 many other possible workarounds for this problem.
 
 You shouldn't be intimidated by this issue at all, since Perl is your
@@ -341,9 +317,6 @@ course.
 Why didn't we notice this when we were trying the software on our
 development server? Keep reading and you will understand why.
 
-
-
-
 =head2 The Second Mystery
 
 Let's return to our original example and proceed with the second
@@ -385,20 +358,9 @@ server you'll soon run out of disk space if your site is popular.
 
 Of course none of the warnings will be reported if the warning
 mechanism is not turned B<On>. Refer to the section "L<Tracing
-Warnings Reports|perl/Tracing_Warnings_Reports>" to learn about
-warnings in general and to the "L<Warnings|porting/Warnings>" section
+Warnings Reports|guide::perl/Tracing_Warnings_Reports>" to learn about
+warnings in general and to the "L<Warnings|guide::porting/Warnings>" section
 to learn how to turn them on and off under mod_perl.
-
-
-
-
-
-
-
-
-
-
-
 
 =head1 Sometimes it Works, Sometimes it Doesn't
 
@@ -480,10 +442,7 @@ rely on the return value from the function.
     return (SOME_USER_PASSWD_CHECK_IS_OK) ? 1 : 0;
   }
 
-
 Of course this example is trivial--but believe me it happens!
-
-
 
 =head2 Thinking mod_cgi
 
@@ -524,25 +483,10 @@ An example of such a case would be:
   }
 
 To make sure you don't miss these bugs always test your CGI in
-L<single process mode|control/Running_a_Server_in_Single_Process_Mode>.
+L<single process mode|guide::control/Running_a_Server_in_Single_Process_Mode>.
 
 To solve this particular B</o> modifier problem refer to L<Compiled
-Regular Expressions|perl/Compiled_Regular_Expressions>.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Regular Expressions|guide::perl/Compiled_Regular_Expressions>.
 
 =head1 Script's name space
 
@@ -551,22 +495,10 @@ in a unique name space based on the requested URI. For example, if
 your URI is C</perl/test.pl> the package will be called
 C<Apache::ROOT::perl::test_2epl>.
 
-
-
-
-
-
-
-
-
-
-
-
-
 =head1 @INC and mod_perl
 
 The basic Perl C<@INC> behaviour is explained in section L<use(), require(),
-do(), %INC and @INC Explained|perl/use_require_do_INC_and>.
+do(), %INC and @INC Explained|guide::perl/use_require_do_INC_and>.
 
 When running under mod_perl, once the server is up C<@INC> is frozen
 and cannot be updated.  The only opportunity to B<temporarily> modify
@@ -604,22 +536,12 @@ and load the startup file from the configuration file by:
 
   PerlRequire /path/to/startup.pl
 
-
 =back
-
-
-
-
-
-
-
-
-
 
 =head1 Reloading Modules and Required Files
 
 You might want to read the "L<use(), require(), do(), %INC and @INC
-Explained|perl/use_require_do_INC_and>" before you proceed with this
+Explained|guide::perl/use_require_do_INC_and>" before you proceed with this
 section.
 
 When you develop plain CGI scripts, you can just change the code, and
@@ -649,7 +571,7 @@ library modules?  Well, there are a couple of techniques:
 
 The simplest approach is to restart the server each time you apply
 some change to your code.  See L<Server Restarting
-techniques|control/Restarting_Techniques>.
+techniques|guide::control/Restarting_Techniques>.
 
 After restarting the server about 100 times, you will tire of it and
 you will look for other solutions.
@@ -697,10 +619,9 @@ compiled.  When that's done, C<@INC> is reset to its original
 value.
 
 To make sure that you have set C<@INC> correctly, configure
-L</perl-status location|debug/Apache__Status____Embedded_Interpreter_Status_Information>, fetch
+L</perl-status location|guide::debug/Apache__Status____Embedded_Interpreter_Status_Information>, fetch
 http://www.example.com/perl-status?inc and look at the bottom of the
 page, where the contents of C<@INC> will be shown.
-
 
 Notice the following trap:
 
@@ -714,7 +635,6 @@ So you can end up with a broken entry in C<%INC> like this:
 
 If you want Apache::StatINC to reload your script--modify C<@INC> at
 server startup, or use a full path in the require() call.
-
 
 =head2 Using Apache::Reload 
 
@@ -787,7 +707,6 @@ the reloaded modules.
 This module might have a problem with reloading single modules that
 contain multiple packages that all use pseudo-hashes.
 
-
 Also if you have modules loaded from directories which are not in
 C<@INC>, C<Apache::Reload> will fail to find the files, due the fact
 that C<@INC> is reset to its original value even if it gets temporary
@@ -810,12 +729,9 @@ I<startup.pl> (or I<httpd.conf>):
 
 and restart the server. Now the problem is solved.
 
-
 =head3 Availability
 
-This module is available from L<CPAN|download/CPAN_Downloads>. 
-
-
+This module is available from L<CPAN|guide::download/CPAN_Downloads>. 
 
 =head2 Configuration Files: Writing, Dynamically Updating and Reloading
 
@@ -1156,11 +1072,9 @@ lexically scoped with my(). The following code is correct.
 	    },
     );
 
-
 You have just learned how to make configuration files easily
 maintainable, and how to save memory by avoiding the export of
 variables into a script's namespace.
-
 
 =head3 Reloading Configuration Files
 
@@ -1289,7 +1203,7 @@ server configuration. The script should not be used to initialize the
 variables on its first invocation.  To do that, you would need to
 replace each occurrence of return() and warn() with die(). If you do
 that, take a look at the section "L<Redirecting Errors to the Client
-instead of error_log|snippets/Redirecting_Errors_to_the_Client>".
+instead of error_log|guide::snippets/Redirecting_Errors_to_the_Client>".
 
 I used the above approach when I had a huge configuration file that
 was loaded only at server startup, and another little configuration
@@ -1634,7 +1548,6 @@ META: extend on the comments:
   
   } # end sub conf_modification_form
 
-
 Once updated the script generates a file like:
 
   $c{release}  =  '5.6';
@@ -1645,8 +1558,6 @@ Once updated the script generates a file like:
   
   1;
 
-
-
 =head2 Reloading handlers
 
 If you want to reload a perlhandler on each invocation, the following
@@ -1656,27 +1567,10 @@ trick will do it:
 
 do() reloads C<MyTest.pm> on every request.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 =head1 Name collisions with Modules and libs
 
 This section requires an in-depth understanding of L<use(), require(),
-do(), %INC and @INC |perl/use_require_do_INC_and>.
+do(), %INC and @INC |guide::perl/use_require_do_INC_and>.
 
 To make things clear before we go into details: each child process has
 its own C<%INC> hash which is used to store information about its
@@ -1742,7 +1636,6 @@ prints:
 
 =back
 
-
 Let's look at three scripts with faults related to name space.  For the 
 following discussion we will consider just one individual child process.
 
@@ -1757,10 +1650,8 @@ module will be skipped, since the server will think that it's already
 compiled.  This is a direct result of using C<%INC>, which has keys
 equal to the names of the modules.  Two identical names will refer to
 the same key in the hash.  (Refer to the section 'L<Looking inside the
-server|debug/Looking_inside_the_server>' to find out how you can know
+server|guide::debug/Looking_inside_the_server>' to find out how you can know
 what is loaded and where.)
-
-
 
 So if you have two different C<Foo> modules in two different
 directories and two scripts C<script1.pl> and C<script2.pl>, placed
@@ -1770,7 +1661,6 @@ like this:
   ./tool1/tool1.pl
   ./tool2/Foo.pm
   ./tool2/tool2.pl
-
 
 Where some sample code could be:
 
@@ -1806,7 +1696,7 @@ Both scripts call C<use Foo;>. Only the first one called will know
 about C<Foo>. When you call the second script it will not know about
 C<Foo> at all--it's like you've forgotten to write C<use Foo;>. Run
 the server in L<single server
-mode|control/Running_a_Server_in_Single_Proce> to detect this kind of
+mode|guide::control/Running_a_Server_in_Single_Proce> to detect this kind of
 bug immediately.
 
 You will see the following in the error_log file:
@@ -1860,7 +1750,6 @@ where C<tool1.pl> and C<tool2.pl> both require() the B<same>
 C<config.pl>.
 
 =back
-
 
 There are three solutions for this:
 
@@ -1977,19 +1866,6 @@ development and production versions of the tools using the same apache
 server!  You have to run a separate server for each. They can be on the
 same machine, but the servers will use different ports.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 =head1 More package name related issues
 
 If you have the following:
@@ -2000,17 +1876,6 @@ If you have the following:
 And you make a request that pulls in C<Apache/Work/Foo/Bar.pm> first,
 then the C<Apache::Work::Foo> package gets defined, so mod_perl does
 not try to pull in C<Apache/Work/Foo.pm>
-
-
-
-
-
-
-
-
-
-
-
 
 =head1  __END__ and __DATA__ tokens
 
@@ -2062,20 +1927,6 @@ the C<__DATA__> tag.
 Also, remember that whatever applies to C<Apache::Registry> scripts,
 in most cases applies to C<Apache::PerlRun> scripts.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 =head1 Output from system calls
 
 The output of C<system()>, C<exec()>, and C<open(PIPE,"|program")> calls
@@ -2089,20 +1940,11 @@ You can use backticks as a possible workaround:
 But you're throwing performance out the window either way. It's best
 not to fork at all if you can avoid it. See the "L<Forking or
 Executing subprocesses from
-mod_perl|performance/Forking_and_Executing_Subprocess>" section
+mod_perl|guide::performance/Forking_and_Executing_Subprocess>" section
 to learn about implications of forking.
 
-Also read about L<Apache::SubProcess|porting/CGI_to_mod_perl_Porting__mod_perl_Coding_guidelines__> for
+Also read about L<Apache::SubProcess|guide::porting/CGI_to_mod_perl_Porting__mod_perl_Coding_guidelines__> for
 overridden system() and exec() implementations that work with mod_perl.
-
-
-
-
-
-
-
-
-
 
 =head1 Using format() and write()
 
@@ -2119,9 +1961,6 @@ with: S<%.25s> for a max 25 char string. Or prefix the string with
 S<(" " x 80)> for right-justifying.
 
 Another alternative is to use the C<Text::Reform> module.
-
-
-
 
 =head1 Terminating requests and processes, the exit() and child_terminate() functions
 
@@ -2202,15 +2041,10 @@ wanted to execute your own code a moment before the process quits.
 The above is the code that is used by the C<Apache::SizeLimit> module
 which terminates processes that grow bigger than a value you choose.
 
-L<Apache::GTopLimit|modules/Apache__GTopLimit___Limit_Apache_httpd_processes> (based on
+L<Apache::GTopLimit|guide::modules/Apache__GTopLimit___Limit_Apache_httpd_processes> (based on
 I<libgtop> and C<GTop.pm>) is a similar module. It does the same
 thing, plus you can configure it to terminate processes when their
 shared memory shrinks below some specified size.
-
-
-
-
-
 
 =head1 die() and mod_perl
 
@@ -2246,7 +2080,6 @@ code:
 
   $SIG{__DIE__} = sub { print STDERR @_; Apache::exit(); }
 
-
 =head1 Return Codes
 
 C<Apache::Registry> normally assumes a return code of C<OK> (C<200>).
@@ -2259,16 +2092,11 @@ Of course if you do that, you don't have to call
 C<$r-E<gt>send_http_header()> (assuming that you have C<PerlSendHeader
 Off>).
 
-
 =head1 Testing the Code from the Shell
 
 Your CGI scripts will B<not> yet run from the command line unless you
 use C<CGI::Switch> or C<CGI.pm> and have Perl 5.004 or later.  They
 must not make any direct calls to Apache's Perl API methods.
-
-
-
-
 
 =head1 I/O is different
 
@@ -2278,10 +2106,6 @@ mod_perl untouched.
 If you're using 5.003, Perl's built-in C<read()> and C<print()>
 functions do not work as they do under CGI. If you're using C<CGI.pm>,
 use C<$query-E<gt>print> instead of plain ol' C<print()>.
-
-
-
-
 
 =head1 STDIN, STDOUT and STDERR streams
 
@@ -2301,11 +2125,9 @@ work with mod_perl and without it, the following example will do:
 Note that C<OUT> was picked just as an example -- there is nothing
 special about it. If you are looking to redirect the STDOUT stream
 into a scalar, see the L<Redirecting STDOUT into a
-String|porting/Redirecting_STDOUT_into_a_Scalar> section.
+String|guide::porting/Redirecting_STDOUT_into_a_Scalar> section.
 
 C<STDERR> is tied to the file defined by the C<ErrorLog> directive.
-
-
 
 =head1 Redirecting STDOUT into a Scalar
 
@@ -2327,8 +2149,6 @@ original stream:
   
   # reset default fh to previous value
   select($old_fh) if defined $old_fh;
-
-
 
 =head1 Apache::print() and CORE::print()
 
@@ -2359,8 +2179,6 @@ or by forcing it into a scalar context:
 
   print(scalar($foo));
 
-
-
 =head1 Global Variables Persistence
 
 Since the child process generally doesn't exit before it has serviced
@@ -2368,7 +2186,7 @@ several requests, global variables persist inside the same process
 from request to request. This means that you must never rely on the
 value of the global variable if it wasn't initialized at the beginning
 of the request processing. See "L<Variables globally, lexically scoped
-and fully qualified|perl/Variables_Globally_Lexically_Sc>" for more
+and fully qualified|guide::perl/Variables_Globally_Lexically_Sc>" for more
 info.
 
 You should avoid using global variables unless it's impossible without
@@ -2377,14 +2195,8 @@ have to make certain that all the variables are initialized before
 they are used. Use my() scoped variables wherever you can.
 
 You should be especially careful with L<Perl Special
-Variables|perl/The_Scope_of_the_Special_Perl_Va> which cannot be
+Variables|guide::perl/The_Scope_of_the_Special_Perl_Va> which cannot be
 lexically scoped.  You have to use local() instead.
-
-
-
-
-
-
 
 =head1 Generating correct HTTP Headers
 
@@ -2538,7 +2350,6 @@ like this:
      $r->send_http_header;
  }
 
-
 Note that you can always use the code in the else part of the above
 example, no matter whether the C<PerlSendHeader> directive is On or
 Off.
@@ -2689,7 +2500,7 @@ won't be reinitialized, since the subroutine won't be recompiled.
 
 Why can't we use a lexical without hitting the nested subroutine
 effect? Because when we've discussed L<Apache::Registry
-secrets|porting/Exposing_Apache_Registry_secret> we have seen that the
+secrets|guide::porting/Exposing_Apache_Registry_secret> we have seen that the
 code is wrapped in a C<handler> routine, effectively turning any
 subroutines within the file a script resides in into nested
 subroutines. Hence we are forced to use a global in this situation.
@@ -2704,19 +2515,7 @@ You can continue to improve this subroutine even further to handle
 additional headers, such as cookies.
 
 See also L<Correct Headers--A quick guide for mod_perl
-users|correct_headers/>
-
-
-
-
-
-
-
-
-
-
-
-
+users|guide::correct_headers/>
 
 =head1 NPH (Non Parsed Headers) scripts
 
@@ -2731,13 +2530,6 @@ server's configuration file:
   <Files */nph-*>
     PerlSendHeader Off
   </Files>
-
-
-
-
-
-
-
 
 =head1 BEGIN blocks 
 
@@ -2780,7 +2572,6 @@ Unpredictable if you fiddle with C<%INC> yourself.
 
 =back 
 
-
 C<BEGIN> blocks in C<Apache::Registry> scripts will be executed, as
 above plus:
 
@@ -2810,18 +2601,7 @@ C<PerlFreshRestart> is C<On>.
 =back
 
 Make sure you read L<Evil things might happen when using
-PerlFreshRestart|troubleshooting/Evil_things_might_happen_when_us>.
-
-
-
-
-
-
-
-
-
-
-
+PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_us>.
 
 =head1 END blocks
 
@@ -2854,7 +2634,7 @@ called at the CleanUp processing phase of each request and thus can be
 used to emulate plain perl's C<END{}> block behavior.
 
 The last paragraph is very important for handling the case of L<'User
-Pressed the Stop Button'|debug/Handling_the_User_pressed_Stop_>.
+Pressed the Stop Button'|guide::debug/Handling_the_User_pressed_Stop_>.
 
 If you only want something to run once in the parent on shutdown or
 restart you can use  C<$r-E<gt>register_cleanup()> in the I<startup.pl>.
@@ -2880,11 +2660,6 @@ calls once at startup time.  Therefore B<CHECK> blocks don't work for
 the same reason this doesn't:
 
   % perl -e 'eval qq(CHECK { print "ok\n" })'
-
-
-
-
-
 
 =head1 Command Line Switches (-w, -T, etc)
 
@@ -3000,8 +2775,6 @@ If you use the C<-T> switch, Perl will warn you that you should use
 the C<PerlTaintCheck> configuration directive and will otherwise
 ignore it.
 
-
-
 =head2 Other switches
 
 Finally, if you still need to set additional perl startup flags
@@ -3017,17 +2790,7 @@ C<PERL5OPT> will be ignored.
 [META: verify]
 
 See also
-L<Apache::PerlRun|modules/Apache__PerlRun___Run_unaltered_CGI_scripts_under_mod_perl>.
-
-
-
-
-
-
-
-
-
-
+L<Apache::PerlRun|guide::modules/Apache__PerlRun___Run_unaltered_CGI_scripts_under_mod_perl>.
 
 =head1 The strict pragma
 
@@ -3049,18 +2812,6 @@ than anywhere else.  While it's not required by the language, its use
 cannot be too strongly recommended. It will save you a great deal of
 time.  And, of course, clean scripts will still run under mod_cgi
 (plain CGI)!
-
-
-
-
-
-
-
-
-
-
-
-
 
 =head1 Passing ENV variables to CGI
 
@@ -3100,14 +2851,8 @@ passes all environment variables that begin with the letter H:
     }
   </Perl>
 
-See also L<PerlSetupEnv|performance/PerlSetupEnv_Off> which can
+See also L<PerlSetupEnv|guide::performance/PerlSetupEnv_Off> which can
 enable/disable environment variables settings.
-
-
-
-
-
-
 
 =head1 -M and other time() file tests under mod_perl
 
@@ -3141,30 +2886,14 @@ This technique is better performance-wise as it skips the time()
 system call, and uses the already available time of the request has
 been started at via C<$r-E<gt>request_time> method.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 =head1 Apache and syslog
 
 When native syslog support is enabled, the stderr stream will be
 redirected to C</dev/null>!
 
 It has nothing to do with mod_perl (plain Apache does the same). Doug
-wrote the L<Apache::LogSTDERR|porting/CGI_to_mod_perl_Porting__mod_perl_Coding_guidelines__> module to work
+wrote the L<Apache::LogSTDERR|guide::porting/CGI_to_mod_perl_Porting__mod_perl_Coding_guidelines__> module to work
 around this.
-
-
-
 
 =head1 File tests operators
 
@@ -3183,11 +2912,6 @@ behaviour of file tests.
 
 META: Above is near duplicate of "-M and other time() file tests under mod_perl"
 make a link instead
-
-
-
-
-
 
 =head1 Filehandlers and locks leakages
 
@@ -3211,7 +2935,7 @@ and (if you C<flock()ed> on this file descriptor) also unlock problems.
 Even if you do call close(), if for some reason the interpreter
 was stopped before the C<close()> call, the leakage will still happen.
 See for example L<Handling the 'User pressed Stop button'
-case|debug/Handling_the_User_pressed_Stop_>.  After a long run without
+case|guide::debug/Handling_the_User_pressed_Stop_>.  After a long run without
 restarting Apache your machine might run out of file descriptors, and
 worse, files might be left locked and unusable.
 
@@ -3252,24 +2976,12 @@ Under perl 5.6.0 we can do this instead:
 
   open my $fh, $filename or die $! ;
 
-
-
-
-
-
-
-
-
-
 =head1 Code has been changed, but it seems the script is running the old code
 
 Files pulled in via B<use> or B<require> statements are not
 automatically reloaded when they change on disk. See L<Reloading Modules
-and Required Files|porting/Reloading_Modules_and_Required_F> for more
+and Required Files|guide::porting/Reloading_Modules_and_Required_F> for more
 info.
-
-
-
 
 =head1 The Script Is Too Dirty, But It Does The Job And I Cannot Afford To Rewrite It.
 
@@ -3291,7 +3003,7 @@ in the same directory on the disk.
     PerlSendHeader On
   </Location>
 
-See L<Apache::PerlRun--a closer look|porting/Apache__PerlRun__a_closer_look>
+See L<Apache::PerlRun--a closer look|guide::porting/Apache__PerlRun__a_closer_look>
 
 Another "bad", but workable method is to set C<MaxRequestsPerChild> to
 1, which will force each child to exit after serving only one request.
@@ -3302,17 +3014,6 @@ child each time one is killed.  You can fiddle with C<MaxStartServers>
 and C<MinSpareServers>, so that the parent pre-spawns more servers
 than actually required and the killed one will immediately be replaced
 with a fresh one.  Probably that's not what you want.
-
-
-
-
-
-
-
-
-
-
-
 
 =head1 Apache::PerlRun--a closer look
 
@@ -3370,19 +3071,6 @@ your module properly takes care of things. Note that the warn() call
 logs its messages to the I<error_log> file, so you should expect the
 output there and not together with STDOUT.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 =head1 Sharing variables between processes
 
 META: to be completed
@@ -3416,9 +3104,6 @@ libmm
 other methods?
 
 =back
-
-
-
 
 =head1 Transitioning from Apache::Registry to Apache handlers
 
@@ -3529,7 +3214,6 @@ This is the original script's code we are going to work with:
     return scalar localtime;
   } # end of sub generate_sessionID
 
-
 The code is very simple. It creates a session if you've pressed the
 I<'Start'> button or deletes it if you've pressed the I<'Stop'>
 button. The session is stored and retrieved using the cookies
@@ -3554,8 +3238,6 @@ that returns a date string (i.e. S<Wed Apr 12 15:02:23 2000>) as a
 session ID. You want to replace this one with code which generates a
 unique session every time it was called. And it should be secure,
 i.e. users will not be able to forge one and do nasty things.
-
-
 
 =head2 Converting into Perl Content Handler
 
@@ -3720,7 +3402,6 @@ following eight lines:
   }
   1;
 
-
 and now we have a fully fledged Perl Content Handler.
 
 =head2 Converting to use Apache Perl Modules
@@ -3730,9 +3411,8 @@ Perl modules. This breaks the backward compatibility, but gives us
 better performance, mainly because the internals of many of these Perl
 modules are implemented in C, therefore we should get a significant
 improvement in speed. The section "L<TMTOWTDI: Convenience and
-Performance|performance/TMTOWTDI_Convenience_and_Habit_>"
+Performance|guide::performance/TMTOWTDI_Convenience_and_Habit_>"
 compares the three approaches.
-
 
 What we are going to do is to replace C<CGI.pm> and C<CGI::Cookie>
 with C<Apache::Request> and C<Apache::Cookie> respectively.  The two
@@ -3903,15 +3583,11 @@ be the one starting with I</test/cookie2> .  We save the code in
 the file I</home/httpd/perl/Test/Cookie2.pm> since we have called this
 package C<Test::Cookie2>.
 
-
 =head2 Conclusion
 
 If your took care to write the original plain CGI script's code in a
 clean and modular way, you can see that the transition is a very
 simple one and doesn't take a lot of effort. Almost no code was
 modified.
-
-
-
 
 =cut
