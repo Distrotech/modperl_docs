@@ -572,16 +572,20 @@ http://linuxplanet.com/linuxplanet/print/1527/
 Using Apache with Suexec on Linux
 http://linuxplanet.com/linuxplanet/print/1445/
 
+How to 'chroot' an Apache tree with Linux and Solaris
+http://penguin.epfl.ch/chroot.html
+
 Installing and Securing the Apache Webserver with SSL
-http://www.securityfocus.com/infocus/1356
+http://online.securityfocus.com/infocus/1356
 
-The jail(1) facility:
-http://docs.freebsd.org/44doc/papers/jail/jail.html,
-http://www.freebsd.org/doc/en_US.ISO8859-1/books/developers-handbook/jail.html.
+How to break out of a chroot() jail:
+http://www.bpfh.net/simes/computing/chroot-break.html
 
-The chroot(1) facility:
-http://www.bpfh.net/simes/computing/chroot-break.html and
-http://penguin.epfl.ch/chroot.html.
+Jails: Confining the omnipotent root:
+http://docs.freebsd.org/44doc/papers/jail/jail.html
+
+FreeBSD Developers' Handbook: The Jail Subsystem
+http://www.freebsd.org/doc/en_US.ISO8859-1/books/developers-handbook/jail.html
 
 =item * mod_throttle_access
 
