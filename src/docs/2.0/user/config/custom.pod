@@ -743,7 +743,7 @@ To retrieve that value later, you can use:
 
   use Apache::Module ();
   ...
-  my $srv_cfg = Apache::Module->get_config('MyApache::MyParameters', $s);
+  my $srv_cfg = Apache::Module::get_config('MyApache::MyParameters', $s);
   print $srv_cfg->{name};
 
 If a request is made to a resource inside a virtual host, C<$srv_cfg>
@@ -755,7 +755,7 @@ main server's configuration object use:
   use Apache::ServerUtil ();
   ...
   if ($s->is_virtual) {
-      my $base_srv_cfg = Apache::Module->get_config('MyApache::MyParameters',
+      my $base_srv_cfg = Apache::Module::get_config('MyApache::MyParameters',
                                                     Apache->server);
       print $base_srv_cfg->{name};
   }
@@ -823,7 +823,7 @@ To retrieve that value later, you can use:
 
   use Apache::Module ();
   ...
-  my $dir_cfg = Apache::Module->get_config('MyApache::MyParameters',
+  my $dir_cfg = Apache::Module::get_config('MyApache::MyParameters',
                                            $s, $r->per_dir_config);
   print $dir_cfg->{foo};
 
@@ -890,7 +890,7 @@ custom directives into Apache.
       my($key, $self, $parms, $arg) = @_;
       $self->{$key} = $arg;
       unless ($parms->path) {
-          my $srv_cfg = Apache::Module->get_config($self,
+          my $srv_cfg = Apache::Module::get_config($self,
                                                    $parms->server);
           $srv_cfg->{$key} = $arg;
       }
@@ -900,7 +900,7 @@ custom directives into Apache.
       my($key, $self, $parms, $arg) = @_;
       push @{ $self->{$key} }, $arg;
       unless ($parms->path) {
-          my $srv_cfg = Apache::Module->get_config($self,
+          my $srv_cfg = Apache::Module::get_config($self,
                                                    $parms->server);
           push @{ $srv_cfg->{$key} }, $arg;
       }
@@ -1064,7 +1064,7 @@ things identically, while others differently. So here it the handler:
   use Apache::Const -compile => qw(OK);
   
   sub get_config {
-      Apache::Module->get_config('MyApache::CustomDirectives', @_);
+      Apache::Module::get_config('MyApache::CustomDirectives', @_);
   }
   
   sub handler {

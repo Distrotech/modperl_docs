@@ -10,7 +10,7 @@ Apache::Module - Perl API for creating and working with Apache modules
   use Apache::Module ();
   
   # iterate over the whole module list
-  for (my $modp = Apache::Module->top_module; $modp; $modp = $modp->next) {
+  for (my $modp = Apache::Module::top_module(); $modp; $modp = $modp->next) {
       my $name          = $modp->name;
       my $index         = $modp->module_index;
       my $version       = $modp->version;
@@ -27,7 +27,7 @@ Apache::Module - Perl API for creating and working with Apache modules
   # access module configuration from a directive
   sub MyDirective {
       my ($self, $parms, $args) = @_;
-      my  $srv_cfg = Apache::Module->get_config($self, $parms->server);
+      my  $srv_cfg = Apache::Module::get_config($self, $parms->server);
       [...]
   }
   
@@ -97,8 +97,8 @@ describing all of the directives this module defines.
 
 Retrieve a module's configuration. Used by configuration directives.
 
-  $cfg = Apache::Module->get_config($class, $server, $dir_config);
-  $cfg = Apache::Module->get_config($class, $server);
+  $cfg = Apache::Module::get_config($class, $server, $dir_config);
+  $cfg = Apache::Module::get_config($class, $server);
   $cfg =          $self->get_config($server, $dir_config);
   $cfg =          $self->get_config($server);
 
@@ -351,13 +351,13 @@ Remove a module from the list of loaded modules permanently.
 Returns the first module in the module list. Usefull to start a
 module iteration.
 
-  $ret = Apache::Module->top_module();
+  $module = Apache::Module::top_module();
 
 =over 4
 
 =item obj: C<Apache::Module> ( class name )
 
-=item ret: C<$ret>
+=item ret: C<$module>
 ( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
 
 =item since: 1.99_12
