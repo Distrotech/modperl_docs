@@ -54,9 +54,10 @@ continue
 # then continue.
 
 # Assuming that 'LoadModule perl_module' is the first LoadModule
-# directive in httpd.conf, you need just one 'finish'. If it's not the
-# first you need as many 'finish' commands as the number of
-# 'LoadModule foo' before perl_module, plus one.
+# directive in httpd.conf, you need just one 'continue' after
+# 'ap_add_module'. If it's not the first one, you need to add as many
+# 'continue' commands as the number of 'LoadModule foo' before
+# perl_module, but before setting the 'ap_add_module' bp.
 #
 # If mod_perl is compiled statically, everything is already preloaded,
 # so you can set modperl_* the breakpoints right away
