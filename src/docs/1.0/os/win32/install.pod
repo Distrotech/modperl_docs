@@ -26,6 +26,19 @@ binary from
 
     http://www.activestate.com/
 
+Note that, currently, mod_perl 1.0 does not work with an
+ActivePerl Perl in the 8xx series (based on perl-5.8), due
+to some issues with I<LARGE_FILES> support. You should either
+then use an ActivePerl Perl in the 6xx series (based on perl-5.6.1),
+or else, if you need perl-5.8, build or obtain a binary
+Perl compiled without the I<USE_LARGE_FILES> compile-time option.
+Another possibility, if you desire perl-5.8,
+is to consider trying mod_perl 2.0, which does work
+with an ActivePerl Perl in the 8xx series (and is in fact
+the recommended Perl version) - see
+L<modperl-2 in Win32|docs::2.0::os::win32::install>
+for details.
+
 The Apache sources and binaries are available at
 
    http://httpd.apache.org/
@@ -227,11 +240,13 @@ bugs are most likely present.
 
 =head2 PPM Packages
 
-For users of ActivePerl, available from
+For users of ActivePerl builds 6xx I<only>, obtainable from
 
    http://www.activestate.com/
 
-there are also C<PPM> mod_perl packages available. For this, if you
+there are also C<PPM> mod_perl packages available (as discussed
+in the introduction, no C<ppm> mod_perl-1 ppm packages for
+ActivePerl builds 8xx are presently available). For this, if you
 don't already have it, get and install the latest Win32 Apache binary
 from
 
