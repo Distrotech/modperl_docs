@@ -638,9 +638,7 @@ Mailing lists - http://squid.nlanr.net/Squid/mailing-lists.html
 
 =item *
 
-mod_perl repository specific doc: mod_perl_cvs.pod, located in the
-root of the mod_perl source distribution and online at
-http://perl.apache.org/mod_perl_cvs.html
+The mod_perl cvs repository specific L<document|faqs::mod_perl_cvs>.
 
 =item *
 
@@ -650,27 +648,12 @@ http://cvsbook.red-bean.com/
 =item *
 
 Online Documents
-http://www.sourcegear.com/CVS/Docs/online
+http://www.cvshome.org/docs/
 
 =item *
 
-CVS Quick Reference
-http://www.sourcegear.com/CVS/Docs/ref
-
-=item *
-
-CVS Books
-http://www.sourcegear.com/CVS/Docs/books
-
-=item *
-
-User-Written FAQ
-http://www.sourcegear.com/CVS/Docs/docfaq
-
-=item *
-
-Introduction to CVS
-http://www.sourcegear.com/CVS/Docs/blandy
+CVS Quick Reference Card
+http://www.refcards.com/about/cvs.html
 
 =back
 
