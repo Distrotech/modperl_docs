@@ -57,6 +57,12 @@ http://phydeaux.org/perl/mptalk/ .
 
 =item *
 
+Michael Parker's 1998 talk on Performance Tuning:
+http://www.perl.org/oscon/1998/Perl_and_Apache/Performance%20Tuning/
+
+
+=item *
+
 I<Apache, mod_perl and Embperl> by Malcolmn Beattie.
 http://web.archive.org/web/20010605114950/http://users.ox.ac.uk/~mbeattie/oxlug-oct99/. Held
 at OxLUG, 3 October 1999.
