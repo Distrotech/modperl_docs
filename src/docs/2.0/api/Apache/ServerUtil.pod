@@ -14,6 +14,11 @@ Apache::ServerUtil -- Methods for work with Apache::Server object
   
   # get 'log/' dir path using default server startup pool
   my $log_dir = Apache::server_root_relative('log');
+  
+  # server level PerlOptions flags lookup
+  $s->push_handlers(ChildExit => \&child_exit)
+      if $s->is_perl_option_enabled('ChildExit');
+
 
 =head1 DESCRIPTION
 
@@ -117,5 +122,25 @@ deleted.
 =head2 add_handlers()
 
 =head2 get_handlers()
+
+
+=head2 is_perl_option_enabled()
+
+  my $result = $s->is_perl_option_enabled($flag);
+
+check whether a server level PerlOptions flag is enabled or not. For
+example to check whether the C<ChildExit> hook is enabled (which can
+be disabled with C<PerlOptions -ChildExit>) and configure some
+handlers to run if enabled:
+
+  $s->push_handlers(ChildExit => \&child_exit)
+      if $s->is_perl_option_enabled('ChildExit');
+
+See also:
+L<PerlOptions|docs::2.0::user::config::config/C_PerlOptions_> and
+L<the equivalent function for directory level PerlOptions
+flags|docs::2.0::api::Apache::RequestUtil/is_perl_option_enabled__>.
+
+
 
 =cut

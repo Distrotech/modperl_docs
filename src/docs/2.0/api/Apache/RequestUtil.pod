@@ -6,6 +6,10 @@ Apache::RequestUtil -- Methods for work with Apache::Request object
 
   use Apache::RequestUtil;
 
+  # directory level PerlOptions flags lookup
+  $r->subprocess_env unless $r->is_perl_option_enabled('SetupEnv');
+
+
 =head1 DESCRIPTION
 
 C<Apache::RequestUtil> provides the Perl API for Apache request object.
@@ -79,5 +83,21 @@ option is available, it is used internally by the
 C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>> handler and
 friends, because the CGI scripts that it reads are considered safe
 (you could just as well C<require()> them).
+
+
+=head2 is_perl_option_enabled()
+
+  my $result = $r->is_perl_option_enabled($flag);
+
+check whether a directory level PerlOptions flag is enabled or
+not. For example to check whether the C<SetupEnv> option is enabled
+for the current request (which can be disabled with C<PerlOptions
+-SetupEnv>) and populate the environment variables table if disabled:
+
+  $r->subprocess_env unless $r->is_perl_option_enabled('SetupEnv');
+
+See also: L<PerlOptions|docs::2.0::user::config::config/C_PerlOptions_> and
+L<the equivalent function for server level PerlOptions flags|docs::2.0::api::Apache::ServerUtil/is_perl_option_enabled__>.
+
 
 =cut
