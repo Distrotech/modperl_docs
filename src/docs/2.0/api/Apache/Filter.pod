@@ -209,22 +209,25 @@ something to the very end of data, or do something at the end of the
 last filter invocation. After the EOS bucket is read, the filter
 should expect not to be invoked again.
 
-Only for testing and debugging purposes, one may explicitly turn this
-flag on/off manually:
+If an input streaming filter doesn't consume all data in the bucket
+brigade (or even in several bucket brigades), it has to generate the
+EOS event by itself. So when the filter is done it has to set the EOS
+flag:
 
   $f->seen_eos(1);
 
-Never explicitly set or unset this flag manually in the normal
-code. If you need to do that, either your filter or one of the
-upstream filters is badly written (e.g. doesn't propogate the EOS
-bucket, or sends more buckets after the EOS bucket).
+when the filter handler returns, internally mod_perl will take care of
+creating and sending the EOS bucket to the upstream input filter.
 
-When this flag is prematurely set (before the real EOS bucket has
-arrived) in the current filter invocation, instead of invoking the
-filter again, mod_perl will create and send the EOS bucket to the next
-filter, ignoring any other bucket brigades that may have left to
-consume. As mentioned earlier this special behavior is useful in
-writing special tests that test abnormal situations.
+A similar logic may apply for output filters.
+
+In most other cases you shouldn't set this flag.  When this flag is
+prematurely set (before the real EOS bucket has arrived) in the
+current filter invocation, instead of invoking the filter again,
+mod_perl will create and send the EOS bucket to the next filter,
+ignoring any other bucket brigades that may have left to consume. As
+mentioned earlier this special behavior is useful in writing special
+tests that test abnormal situations.
 
 
 
