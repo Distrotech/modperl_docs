@@ -141,7 +141,9 @@ http://www.apache.org
 =item * Apache Mailing Lists
 
 You will find a comprehensive list of all Apache projects' mailing
-lists at: http://www.apache.org/foundation/mailinglists.html
+lists at: http://www.apache.org/foundation/mailinglists.html.
+
+httpd specific lists: http://httpd.apache.org/lists.html.
 
 =item * Apache Quick Reference Card
 
