@@ -1,6 +1,6 @@
 =head1 NAME
 
-ModPerl::Util - Helper mod_perl 2.0 Functions
+ModPerl::Util - Helper mod_perl Functions
 
 
 
@@ -9,18 +9,23 @@ ModPerl::Util - Helper mod_perl 2.0 Functions
 
   use ModPerl::Util;
   
+  # e.g. PerlResponseHandler
   $callback = Apache::current_callback;
   
+  # exit w/o killing the interpreter
   ModPerl::Util::exit();
   
-  ModPerl::Util::untaint($) # secret API?
+  # untaint a string (do not use it! see the doc)
+  ModPerl::Util::untaint($string);
+
+
 
 
 
 
 =head1 Description
 
-C<ModPerl::Util> provides mod_perl 2.0 util functions.
+C<ModPerl::Util> provides mod_perl utilities API.
 
 
 
@@ -33,35 +38,25 @@ C<ModPerl::Util> provides the following functions and/or methods:
 
 
 
-=head2 C<untaint>
 
-Untaint the variable, by turning its tainted bit off (used internally).
-
-  untaint($var);
-
-=over 4
-
-=item arg1: C<$var> (scalar)
-
-=item ret: no return value
-
-=back
-
-Do not use this function unless you know what you are doing. To learn
-how to properly untaint variables refer to the I<perlsec> manpage.
 
 
 =head2 C<current_callback>
 
-Returns the currently running callback, like 'PerlResponseHandler'.
+Returns the currently running callback name,
+e.g. C<'PerlResponseHandler'>.
 
   $callback = Apache::current_callback();
 
 =over 4
 
-=item ret: C<$callback> (string)
+=item ret: C<$callback> ( string )
+
+=item since: 1.99_12
 
 =back
+
+
 
 
 
@@ -76,9 +71,10 @@ Perl interpreter with threaded mpms).
 
 =over 4
 
-=item opt arg1: C<$status> (integer)
+=item opt arg1: C<$status> ( integer )
 
-The exit status, which as of this writing is ignored.
+The exit status, which as of this writing is ignored. (it's accepted
+to be compatible with the core C<exit> function.)
 
 =item ret: no return value
 
@@ -132,9 +128,42 @@ current process (or a Perl Interpreter) will be killed; something that
 you really want to avoid under mod_perl.
 
 
+
+
+
+
+=head2 C<untaint>
+
+Untaint the variable, by turning its tainted SV flag off (used
+internally).
+
+  ModPerl::Util::untaint($tainted_var);
+
+=over 4
+
+=item arg1: C<$tainted_var> (scalar)
+
+=item ret: no return value
+
+C<$tainted_var> is untainted.
+
+=item since: 1.99_12
+
+=back
+
+Do not use this function unless you know what you are doing. To learn
+how to properly untaint variables refer to the I<perlsec> manpage.
+
+
+
+
+
+
 =head1 See Also
 
 L<mod_perl 2.0 documentation|docs::2.0::index>.
+
+
 
 
 

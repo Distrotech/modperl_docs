@@ -40,14 +40,6 @@ information.
 
 
 
-=head2 C<:common>
-
-  use ModPerl::Const -compile => qw(:common);
-
-The C<:common> group is for ModPerl constants.
-
-
-
 =head2 Other Constants
 
 

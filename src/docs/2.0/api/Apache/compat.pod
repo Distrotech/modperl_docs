@@ -2,6 +2,10 @@
 
 Apache::compat -- 1.0 backward compatibility functions deprecated in 2.0
 
+
+
+
+
 =head1 Synopsis
 
   # either add at the very beginning of startup.pl
@@ -15,6 +19,11 @@ Apache::compat -- 1.0 backward compatibility functions deprecated in 2.0
   Apache::compat::override_mp2_api('Apache::Connection::local_addr');
   my ($local_port, $local_addr) = sockaddr_in($c->local_addr);
   Apache::compat::restore_mp2_api('Apache::Connection::local_addr');
+
+
+
+
+
 
 =head1 Description
 
@@ -92,6 +101,11 @@ Notice that you need to restore the API as soon as possible.
 Both C<override_mp2_api()> and C<restore_mp2_api()> accept a list of
 functions to operate on.
 
+
+
+
+
+
 =head2 Available Overridable Functions
 
 At the moment the following colliding functions are available for
@@ -151,6 +165,11 @@ can prevent this from happening by adding
 at the very beginning of their I<startup.pl>. But this will most
 certainly break the module that needed this module.
 
+
+
+
+
+
 =head1 API
 
 You should be reading the mod_perl 1.0 L<API
@@ -163,6 +182,8 @@ Another important document to read is: L<Migrating from mod_perl 1.0
 to mod_perl 2.0|docs::2.0::user::porting::compat> which covers all
 mod_perl 1.0 constants, functions and methods that have changed in
 mod_perl 2.0.
+
+
 
 
 
