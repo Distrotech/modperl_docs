@@ -71,28 +71,36 @@ my $SEARCH_OPTIONS = 'search_options';
 # indent, path, title, optional short title (for drop down list)
 #
 
+# important the length including the sub-level prefix must be no
+# longer than (for NS4 and other old browses)
+# don't make names longer than the following markers, and even when you
+# do they may still break things if the letters happen to be wide. ask
+# someone with NS4 to check when changing things here
+
+#  indent   path          full name                   optional shorter name
+#                         ################            ################
 my $items = <<ITEMS;
-    0, start,              What's mod_perl?
+    0, start,              What's mod_perl?,           What's mp?
     0, outstanding,        Technologie Extraordinaire, Stories
     0, download,           Download,                   Download
     0, docs,               Documentation,              All Docs
-    1,   docs/1.0,         mod_perl 1.0 Docs,          1.0 Docs
-    2,     docs/1.0/guide, Guide (1.0)
-    2,     docs/1.0/os,    OS Specific (1.0)
-    2,     docs/1.0/api,   API (1.0)
-    1,   docs/2.0,         mod_perl 2.0 Docs,          2.0 Docs
-    2,     docs/2.0/user,  User (2.0)
-    2,     docs/2.0/os,    OS Specific (2.0)
-    2,     docs/2.0/devel, Developer (2.0)
-    2,     docs/2.0/api,   API (2.0)
-    1,   docs/general,     General Docs
-    1,   docs/tutorials,   Tutorials
-    1,   docs/offsite,     OffSite Docs
+    1,   docs/1.0,           mod_perl 1.0 Docs,          1.0 Docs
+    2,     docs/1.0/guide,     Guide (User) 1.0 Docs,       Guide 1.0
+    2,     docs/1.0/os,        OS Specific 1.0 Docs,       OS 1.0
+    2,     docs/1.0/api,       API 1.0 Docs,               API 1.0
+    1,   docs/2.0,           mod_perl 2.0 Docs,          2.0 Docs
+    2,     docs/2.0/user,      User 2.0 Docs,              User 2.0
+    2,     docs/2.0/os,        OS Specific 2.0,            OS 2.0
+    2,     docs/2.0/devel,     Developer 2.0 Docs,         Devel 2.0
+    2,     docs/2.0/api,       API 2.0 Docs,               API 2.0
+    1,   docs/general,       General Docs
+    1,   docs/tutorials,     Tutorials
+    1,   docs/offsite,       OffSite Docs
     0, help,               Getting Help
     0, maillist,           Mailing Lists
     0, products,           Products
     0, contribute,         Contribute
-    0, about,              About mod_perl
+    0, about,              About mod_perl,             About
 ITEMS
 
 
