@@ -81,7 +81,9 @@
             <td class="menu-border" width="1"><br></td>
             <td class="ad-bg">
                 <div class="adtext">
-                    <em><a href="[% doc.dir.abs_doc_root %]/docs/offsite/books.html">More mod_perl books...</a></em>
+                    <div class="nonselectedmenuitem">
+                        <em><a href="[% doc.dir.abs_doc_root %]/docs/offsite/books.html">More mod_perl books...</a></em>
+                    </div>
                 </div>
             </td>
             <td class="menu-border" width="1"><br></td>
