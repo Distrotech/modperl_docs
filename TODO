@@ -111,6 +111,12 @@ elaborate one?
 
 Site Migration process:
 
+- Cool URIs don't change: http://www.w3.org/Provider/Style/URI.html
+  RewriteRules should be added to the httpd.conf so all the old urls can
+  do the most sensible thing possibly. For example all the
+  http://perl.apache.org/stories/ pages should just redirect to
+  http://perl.apache.org/release/outstanding/success_stories/index.html
+
 - 404.html:
   s|http://perl.apache.org/release/|http://perl.apache.org/|
   check that 404.html actually works.
