@@ -334,6 +334,27 @@ is a good place to look for a practical example.
 
 
 
+=head1 Verifying C<E<lt>PerlE<gt>> Sections
+
+If the C<E<lt>PerlE<gt>> sections include no code requiring a running
+mod_perl, it is possible to check those from the command line. But the
+following trick should be used:
+
+  # file: httpd.conf
+  <Perl>
+  #!perl
+  
+  # ... code here ...
+  
+  __END__
+  </Perl>
+
+Now you can run:
+
+  % perl -c httpd.conf
+
+
+
 
 
 =head1 Bugs
