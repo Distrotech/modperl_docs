@@ -1102,7 +1102,8 @@ The C<:input_mode> group is for XXX constants.
 
   use Apache::Const -compile => qw(:log);
 
-The C<:log> group is for XXX constants.
+The C<:log> group is for constants used by
+C<L<Apache::Log|docs::2.0::api::Apache::Log>>.
 
 
 
@@ -1114,6 +1115,8 @@ The C<:log> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_ALERT_>>.
 
 
 
@@ -1127,6 +1130,8 @@ The C<:log> group is for XXX constants.
 
 =back
 
+See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_CRIT_>>.
+
 
 
 
@@ -1138,6 +1143,8 @@ The C<:log> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_DEBUG_>>.
 
 
 
@@ -1151,6 +1158,10 @@ The C<:log> group is for XXX constants.
 
 =back
 
+See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_EMERG_>>.
+
+
+
 
 
 
@@ -1162,6 +1173,9 @@ The C<:log> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_ERR_>>.
+
 
 
 
@@ -1175,6 +1189,9 @@ The C<:log> group is for XXX constants.
 
 =back
 
+See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_INFO_>>.
+
+
 
 
 
@@ -1186,6 +1203,8 @@ The C<:log> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_LEVELMASK_>>.
 
 
 
@@ -1199,6 +1218,8 @@ The C<:log> group is for XXX constants.
 
 =back
 
+See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_NOTICE_>>.
+
 
 
 
@@ -1210,6 +1231,8 @@ The C<:log> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_STARTUP_>>.
 
 
 
@@ -1223,6 +1246,8 @@ The C<:log> group is for XXX constants.
 
 =back
 
+See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_TOCLIENT_>>.
+
 
 
 
@@ -1234,6 +1259,8 @@ The C<:log> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_WARNING_>>.
 
 
 
