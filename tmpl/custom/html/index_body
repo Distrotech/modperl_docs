@@ -10,12 +10,12 @@
     <!-- content begin -->
 
 [%-
-    IF doc.body.top;
-        "${doc.body.top}\n";
-    END;
-
     IF doc.meta.abstract;
         "<p>${doc.meta.abstract}</p>\n";
+    END;
+
+    IF doc.body.top;
+        "${doc.body.top}\n";
     END;
 
     PROCESS index_toc toc=doc.toc;
