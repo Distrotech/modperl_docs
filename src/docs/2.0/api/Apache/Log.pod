@@ -19,7 +19,7 @@ Apache::Log - Perl API for Apache Logging Methods
   $s->log_error("server: log_error");
   $s->log_serror(__FILE__, __LINE__, Apache::LOG_ERR,
                  APR::SUCCESS, "log_serror logging at err level");
-  $s->log_serror(Apache::LOG_MARK, Apache::LOG_DEBUG,
+  $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
   Apache::Server->log_error("routine warning");
   
@@ -52,13 +52,13 @@ Apache::Log - Perl API for Apache Logging Methods
       my $s = $r->server;
       $s->log_error("server: log_error");
   
-      $r->log_rerror(Apache::LOG_MARK, Apache::LOG_DEBUG,
+      $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_DEBUG,
                      APR::ENOTIME, "in debug");
   
-      $s->log_serror(Apache::LOG_MARK, Apache::LOG_INFO,
+      $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_INFO,
                      APR::SUCESS, "server info");
   
-      $s->log_serror(Apache::LOG_MARK, Apache::LOG_ERR,
+      $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
                      APR::ENOTIME, "fatal error");
 
       $s->warn('routine server warning');
@@ -79,12 +79,12 @@ current C<LogLevel> is set to I<warning>, only messages with log level
 of the level I<warning> or higher (I<err>, I<crit>, I<elert> and
 I<emerg>) will be logged. Therefore this:
 
-  $r->log_rerror(Apache::LOG_MARK, Apache::LOG_WARNING,
+  $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_WARNING,
                  APR::ENOTIME, "warning!");
 
 will log the message, but this one won't:
 
-  $r->log_rerror(Apache::LOG_MARK, Apache::LOG_INFO,
+  $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_INFO,
                  APR::ENOTIME, "just an info");
 
 It will be logged only if the server log level is set to I<info> or
@@ -161,7 +161,7 @@ table. Once the I<"error-notes"> entry is set, it is up to the error
 handler to determine whether this text should be sent back to the
 client.  For example:
 
-  $r->log_rerror(Apache::LOG_MARK, Apache::LOG_ERR|Apache::LOG_TOCLIENT,
+  $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_ERR|Apache::LOG_TOCLIENT,
                  APR::ENOTIME, "request log_rerror");
 
 now the log message can be retrieved via:
@@ -176,7 +176,7 @@ MUST be escaped to prevent CSS attacks.
 is useful for startup message where no timestamps, logging level is
 wanted. For example:
 
-  $s->log_serror(Apache::LOG_MARK, Apache::LOG_INFO,
+  $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_INFO,
                  APR::SUCCESS, "This log message comes with a header");
 
 will print:
@@ -185,7 +185,7 @@ will print:
 
 whereas, when C<Apache::LOG_STARTUP> is binary ORed as in:
 
-  $s->log_serror(Apache::LOG_MARK, Apache::LOG_INFO|Apache::LOG_STARTUP,
+  $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_INFO|Apache::LOG_STARTUP,
                  APR::SUCCESS, "This log message comes with no header");
 
 then the logging will be:
@@ -263,10 +263,10 @@ The log message
 
 For example:
 
-  $s->log_serror(Apache::LOG_MARK, Apache::LOG_ERR,
+  $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
                  APR::SUCCESS, "log_serror logging at err level");
   
-  $s->log_serror(Apache::LOG_MARK, Apache::LOG_DEBUG,
+  $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
 
 
@@ -337,10 +337,10 @@ C<L<$s-E<gt>log_serror|/C__s_E_gt_log_serror_>>.
 
 For example:
 
-  $r->log_rerror(Apache::LOG_MARK, Apache::LOG_ERR,
+  $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
                  APR::SUCCESS, "log_rerror logging at err level");
   
-  $r->log_rerror(Apache::LOG_MARK, Apache::LOG_DEBUG,
+  $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
 
 
@@ -455,9 +455,9 @@ See L<LogLevel Methods|/LogLevel_Methods>.
 
 =head1 General Functions
 
-=head2 C<Apache::LOG_MARK>
+=head2 C<Apache::Log::LOG_MARK>
 
-  ($file, $line) = Apache::LOG_MARK();
+  ($file, $line) = Apache::Log::LOG_MARK();
 
 Though looking like a constant, this is a function, which returns a
 list of two items: C<(__FILE__, __LINE__)>, i.e. the file and the line
@@ -499,7 +499,7 @@ The name of the file to log to
 
 is the same as:
 
-  $s->log_error(Apache::LOG_MARK, Apache::LOG_WARNING,
+  $s->log_error(Apache::Log::LOG_MARK, Apache::LOG_WARNING,
                 APR::SUCCESS, @warnings)
 
 For example:
