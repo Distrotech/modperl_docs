@@ -24,11 +24,21 @@ find it
 
 =head1 Indexing
 
-=over 
+Normally build the site:
 
-=item 1
+  % bin/build -f (-d to build pdfs)
 
-Set an environment variable to the path of the site:
+which among other things creates the dir: I<dst_html/search>
+
+Now run:
+
+  % bin/makeindex
+
+This script is already adapted for the production machine of
+perl.apache.org. 
+
+If you are doing it elsewhere you need to set an
+environment variable to the path of the site:
 
     export MODPERL_SITE='http://perl.apache.org'
 
@@ -44,17 +54,8 @@ This is used as the base for spidering, plus is used to determine the
 sections of the site (for limiting the site to those sections, see
 below)
     
-=item 2 
-
-Normally build the site:
-
-  % bin/build -f (-d to build pdfs)
-
-which among other things creates the dir: dst_html/search
-
-=item 3
-
-Index the site
+Now you can manually spider the site if you didn't use the script
+already.  Index the site
 
   % cd dst_html/search
   % swish-e -S prog -c swish.conf
@@ -86,8 +87,6 @@ You should see something like:
   351 files indexed.  8107112 total bytes.  307356 total words.
   Elapsed time: 00:00:20 CPU time: 00:00:02
   Indexing done!
-
-=back
 
 Now you can search...
 
@@ -124,22 +123,21 @@ Since we want to index only the real content, we use:
 =item *
 
 Since we want to be able to search any sub-section of the site, the
-search form includes the hidden variable C<sbm> (mnemonics: 'search by
-meta'). For example:
+search form includes the hidden variable C<section>. For example:
 
-  <input type="checkbox" name="sbm" value="docs/1.0/guide" />
+  <input type="checkbox" name="section" value="docs/1.0/guide" />
 
 will search all the documents under I<docs/1.0/guide> directory.
 
-the correct value for the C<sbm> variable are set in the template when
+the correct value for the C<section> variable are set in the template when
 the site is created. 
 
 The main search page I</search/swish.cgi>, has multiply checkboxes for
-the for the C<sbm> variable so you can limit searches to only selected
+the for the C<section> variable so you can limit searches to only selected
 sections.
 
 The C<$ENV{MODPERL_SITE}> mentioned earlier is matched against the
-C<sbm> variable to extract only the wanted subsets of the hits:
+C<section> variable to extract only the wanted subsets of the hits:
 
   $uri =~ m!$ENV{MODPERL_SITE}{/([^/]+)/.+$!
 
