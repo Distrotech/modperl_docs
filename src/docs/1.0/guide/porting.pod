@@ -533,6 +533,7 @@ In the startup file directly alter the C<@INC>. For example
   startup.pl
   ----------
   use lib qw(/home/httpd/perl /home/httpd/mymodules);
+  1;
 
 and load the startup file from the configuration file by:
 

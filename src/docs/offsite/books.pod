@@ -93,7 +93,7 @@ under mod_perl.
   0-596-00225-4, Order Number: 2254
   318 pages, $34.95 US $54.95 CA £24.95 UK
 
-You can see the books home page at http://www.masonbook.com/, where
+You can see the book's home page at http://www.masonbook.com/, where
 the content will apparently be made available for free (but do buy the
 book as well!), as well as example code and errata. You might also
 want to check out O'Reilly's catalog page for the book:
