@@ -69,8 +69,8 @@ Returns the currently running callback, like 'PerlResponseHandler'.
 
 =head2 C<exit>
 
-Terminate the request, but not the current process (with threaded
-Perls not the current Perl interpreter).
+Terminate the request, but not the current process (or not the current
+Perl interpreter with threaded mpms).
 
   ModPerl::Util::exit($status);
 
@@ -82,7 +82,7 @@ The exit status, which as of this writing is ignored.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 1.99_14
 
 =back
 
@@ -109,13 +109,15 @@ will not print anything. But:
   }
   print "Still running";
 
-will print I<Still running>. So you either need to check for the
-exception:
+will print I<Still running>. So you either need to check whether L<the
+exception|docs::2.0::api::APR::Error> is specific to C<exit> and call
+C<exit()> again:
 
+  use ModPerl::Const -compile => 'EXIT';
   eval {
      exit;
   }
-  exit if $@;
+  exit if $@ && ref $@ eq 'APR::Error' && $@ == ModPerl::EXIT;
   print "Still running";
 
 or use C<CORE::exit()>:
