@@ -30,24 +30,6 @@ callbacks.  You'll also see how and when to use the Apache API
 methods.
 
 
-=head1 Playing Your Part
-
-Apache and Perl are world-wide collaborative efforts; naturally, the
-Apache/Perl integration project is the same.  You've started on the
-right foot simply by reading this document, thanks! Please make sure
-you've read the main Perl module list at
-http://www.cpan.org/modules/00modlist.long.html, all that is said
-there is relevant here!
-
-If you wish to share your module(s) in the Perl way, by putting them
-on CPAN, send a request to modules@perl.org to get set up with a PAUSE
-user id and directory. See http://www.cpan.org/modules/04pause.html
-for more details.
-
-B<HINT>:  For a nice set of template files try this:
-
-  % h2xs -AX -n Apache::YourPackageName
-
 =head1 The Module List
 
 Like other CPAN modules, the Apache/Perl modules are listed on the
@@ -69,3 +51,88 @@ as the author were present in the I<Writing Apache Modules with Perl
 and C> book by Lincoln Stein and Doug MacEachern. If you can't find
 these modules on CPAN, look for them at
 http://modperl.com:9000/book/source/.
+
+=head1 Playing Your Part
+
+Apache and Perl are world-wide collaborative efforts; naturally, the
+Apache/Perl integration project is the same.  You've started on the
+right foot simply by reading this document, thanks! Please make sure
+you've read the main Perl module list at
+http://www.cpan.org/modules/00modlist.long.html, all that is said
+there is relevant here!
+
+If you wish to share your module(s) in the Perl way, by putting them
+on CPAN, send a request to modules@perl.org to get set up with a PAUSE
+user id and directory. See http://www.cpan.org/modules/04pause.html
+for more details.
+
+B<HINT>:  For a nice set of template files try this:
+
+  % h2xs -AX -n Apache::YourPackageName
+
+=head2 Module Naming Conventions
+
+Like for normal Perl modules on CPAN, the C<Apache::> namespace
+conventionally used for mod_perl modules needs to keep a certain
+organization. This is why you should choose a multi-level name for
+your module, categorizing it into a namespace that you feel fits your
+module. There should be a very good reason for a module to not have a
+nested name (ie. living directly under C<Apache::>), that should only
+be the case for the core API modules and older modules which may keep
+their names.
+
+Here are some examples of namespaces that you may want to use:
+
+  Apache::App      Applications: any module serving content with a
+                   point-and-click interface *
+  
+  Apache::Auth     Modules related to general user authentication/authorization
+ 
+  Apache::Authen   Modules solely related to authentication
+  
+  Apache::Authz    Solely related to authorization
+  
+  Apache::Access   Only access control
+  
+  Apache::Config   Configuration-related things
+  
+  Apache::Devel    Development-related modules (debug/devel help)
+  
+  Apache::Filter   Filtering modules
+    ::Output       Output filters (1.0 style Filter/OutputChain or 2.0 style)
+    ::Input        Input filters
+  
+  Apache::Framework  Modules providing application frameworks (templating
+                     and/or publication frameworks) *
+  
+  Apache::Log      Logging modules
+  
+  Apache::Method   Method handlers (PATCH/PUT and the like)
+  
+  Apache::MIME     MIME-type modules
+  
+  Apache::Monitor  Monitoring modules
+  
+  Apache::Persistent  Modules providing for persistency in connections
+  
+  Apache::Proxy    Proxies
+  
+  Apache::RPC      RPC/SOAP modules
+  
+  Apache::Trans    URI Translation handlers
+  
+  Apache::Util     General-utility modules, usually not handlers but
+                   providing an API to use in your code
+
+C<*>: If you are writing a small application or templating module,
+contained in one module, you can use these namespaces. However, if you
+are planning a substantial framework with many inter-related modules,
+you should probably go with a top-level namespace outside of
+C<Apache::>.
+
+B<Note:> I<Of course> none of these categories are cast in stone: you
+should feel free to choose the module name that suits your module best
+instead of trying to follow these general indications. If in doubt,
+just ask around at the mod_perl list; you are sure to get some
+assistance in naming your module! Furthermore, you should look at the
+way it's done on CPAN, and apply it under the C<Apache::> namespace.
