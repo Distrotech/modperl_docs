@@ -672,6 +672,34 @@ XXX
 
 
 
+=head2 C<:status>
+
+  use APR::Const -compile => qw(:status);
+
+The C<:status> group is for the API that return status code, or set
+the error variable XXXXXX.
+
+The following section discusses in detail each of the available
+C<:status> constants.
+
+=head3 C<APR::TIMEUP>
+
+The operation did not finish before the timeout.
+
+=over
+
+=item since: 1.99_14
+
+=back
+
+
+
+
+
+
+
+
+
 
 
 
