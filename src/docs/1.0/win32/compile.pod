@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache mod_perl-1.xx cpilation instructions for Win32
+Apache mod_perl-1.xx compilation instructions for Win32
 
 =head1 Description
 
@@ -9,7 +9,7 @@ install mod_perl under Win32.
 
 If you are only interested in running mod_perl, it might be a better idea
 to L<get and install one of the binary
-packages|docs::1.0::win32::binaries>.
+packages|win32::binaries>.
 
 =head1 Prerequisites
 

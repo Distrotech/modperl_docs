@@ -8,7 +8,7 @@ There are many mod_perl articles published on the web and printed
 media. This document tries to partially cover these resources.
 
 If you know of any other resources not listed on this page please let
-us know at the L<users|maillist::list-users> mailing list.
+us know at the L<users|maillist::list-modperl> mailing list.
 
 =head1 Printed Media
 

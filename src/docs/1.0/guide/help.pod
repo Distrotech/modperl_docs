@@ -45,7 +45,7 @@ of such changes.  Thank you!
 
 I<PLEASE DO NOT SEND QUESTIONS DIRECTLY TO ME, I didn't invite those
 by writing the guide.  They will all be immediately deleted.  Please
-ask questions on the L<mod_perl list|maillist::list-users> and if we can
+ask questions on the L<mod_perl list|maillist::list-modperl> and if we can
 answer your question, one (or more) of us will answer it on the list.
 Thank you!>
 
@@ -295,13 +295,13 @@ linking to a section works).
 
 =item *
 
-L<The mod_perl mailing list|maillist::list-users>
+L<The mod_perl mailing list|maillist::list-modperl>
 
 The Apache/Perl mailing list I<is available for mod_perl users and
 developers to share ideas, solve problems and discuss things related
 to mod_perl and the Apache::* modules.>
 
-See the L<mailing list's info page|maillist::list-users> for more info.
+See the L<mailing list's info page|maillist::list-modperl> for more info.
 
 
 =item *

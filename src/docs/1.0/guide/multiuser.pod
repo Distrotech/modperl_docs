@@ -12,7 +12,7 @@ such services.
 Today, it is a reality: there are a number of ISPs hosting mod_perl,
 although the number of these is not as big as we would have liked it
 to be. To see a list of ISPs that can provide mod_perl hosting, see
-L<ISPs supporting mod_perl|support::isps>.
+L<ISPs supporting mod_perl|help::isps>.
 
 
 =head1 ISPs providing mod_perl services - a fantasy or a reality
