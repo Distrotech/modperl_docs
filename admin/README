@@ -1,0 +1,6 @@
+This directory includes various documents for the documentation writers
+and maintainers. The following is the explanation of the purpose of
+each file in this directory.
+
+style.pod       - please follow the guidelines in this doc when you
+                  add new documentation.
