@@ -894,6 +894,9 @@ here:
   --------------------------
   package MyApache::TimeReset;
   
+  use strict;
+  use warnings;
+  
   use Apache::RequestRec ();
   
   use Apache::Const -compile => 'OK';
@@ -1050,6 +1053,9 @@ and here is the C<MyApache::SendEmail> handler:
   file:MyApache/SendEmail.pm
   --------------------------
   package MyApache::SendEmail;
+  
+  use strict;
+  use warnings;
   
   use Apache::RequestRec ();
   use Apache::RequestIO ();
@@ -1277,6 +1283,9 @@ blacklist.
   file:MyApache/BlockByIP.pm
   --------------------------
   package MyApache::BlockByIP;
+  
+  use strict;
+  use warnings;
   
   use Apache::RequestRec ();
   use Apache::Connection ();
@@ -1586,6 +1595,9 @@ the file extension of the request's URI.
   --------------------------------
   package MyApache::FileExtDispatch;
   
+  use strict;
+  use warnings;
+  
   use Apache::Const -compile => 'OK';
   
   use constant HANDLER  => 0;
@@ -1714,6 +1726,9 @@ I<Hello world". Let's write a handler that prints itself:
   ------------------------
   package MyApache::Deparse;
   
+  use strict;
+  use warnings;
+  
   use Apache::RequestRec ();
   use Apache::RequestIO ();
   use B::Deparse ();
@@ -1771,7 +1786,75 @@ This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
-Example:
+Imagine a situation where you have to log requests into individual
+files, one per user. Assuming that all requests start with
+I</users/username/>, so it's easy to categorize requests by the second
+URI path component. Here is the log handler that does that:
+
+  file:MyApache/LogPerUser.pm
+  ---------------------------
+  package MyApache::LogPerUser;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::RequestRec ();
+  use Apache::Connection ();
+  use Fcntl qw(:flock);
+  
+  use Apache::Const -compile => qw(OK DECLINED);
+  
+  sub handler {
+      my $r = shift;
+  
+      my($username) = $r->uri =~ m|^/users/([^/]+)|;
+      return Apache::DECLINED unless defined $username;
+  
+      my $entry = sprintf qq(%s [%s] "%s" %d %d\n),
+          $r->connection->remote_ip, scalar(localtime),
+          $r->uri, $r->status, $r->bytes_sent;
+  
+      my $log_path = Apache::server_root_relative($r->pool, 
+          "logs/$username.log");
+      open my $fh, ">>$log_path" or die "can't open $log_path: $!";
+      flock $fh, LOCK_EX;
+      print $fh $entry;
+      close $fh;
+  
+      return Apache::OK;
+  }
+  1;
+
+First the handler tries to figure out what username the request is
+issued for, if it fails to match the URI, it simply returns
+C<Apache::DECLINED>, letting other log handlers to do the
+logging. Though it could return C<Apache::OK> since all other log
+handlers will be run anyway.
+
+Next it builds the log entry, similar to the default I<access_log>
+entry. It's comprised of remote IP, the current time, the uri, the
+return status and how many bytes were sent to the client as a response
+body.
+
+Finally the handler appends this entry to the log file for the user
+the request was issued for. Usually it's safe to append short strings
+to the file without being afraid of messing up the file, when two
+files attempt to write at the same time, but just to be on the safe
+side the handler exclusively locks the file before performing the
+writing.
+
+To configure the handler simply enable the module with the
+C<PerlLogHandler> directive, inside the wanted section, which was
+I</users/> in our example:
+
+  <Location /users/>
+      SetHandler perl-script
+      PerlResponseHandler ModPerl::Registry
+      PerlLogHandler MyApache::LogPerUser
+      Options +ExecCGI
+  </Location>
+
+
 
 =head2 PerlCleanupHandler
 
