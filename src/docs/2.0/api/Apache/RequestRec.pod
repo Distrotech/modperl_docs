@@ -25,7 +25,8 @@ META: to be completed
 
 =head1 Description
 
-META: to be completed
+
+C<Apache::RequestRec> provides the Perl API for Apache request object.
 
 
 
