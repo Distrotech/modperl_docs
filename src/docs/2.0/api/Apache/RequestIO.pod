@@ -96,7 +96,9 @@ Data to send
 
 =item ret: C<$cnt> ( number )
 
-How many bytes were sent (or buffered)
+How many bytes were sent (or buffered).  If zero bytes were
+sent, C<print> will return C<0E0>, or "zero but true," which
+will still evaluate to C<0> in a numerical context.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
