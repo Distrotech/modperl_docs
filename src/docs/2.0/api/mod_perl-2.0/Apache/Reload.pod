@@ -1,47 +1,67 @@
 
 =head1 NAME
 
-Apache::Reload - Reload changed modules
+Apache::Reload - Reload Perl Modules when Changed on Disk
 
 =head1 Synopsis
 
-In I<httpd.conf>:
+  # Monitor and reload all modules in %INC:
+  # httpd.conf:
+  PerlModule Apache::Reload
+  PerlInitHandler Apache::Reload
 
+  # Reload groups of modules:
+  # httpd.conf:
+  PerlModule Apache::Reload
   PerlInitHandler Apache::Reload
   PerlSetVar ReloadAll Off
+  PerlSetVar ReloadModules "ModPerl::* Apache::*"
   #PerlSetVar ReloadDebug On
 
-Then your module:
-
+  # Reload a single module from within itself:
   package My::Apache::Module;
-
   use Apache::Reload;
-  
   sub handler { ... }
-  
   1;
 
 =head1 Description
 
-This module is two things. First it is an adaptation of Randal
-Schwartz's C<Stonehenge::Reload> module that attempts to be a little
-more intuitive and makes the usage easier. C<Stonehenge::Reload> was
-written by Randal to make specific modules reload themselves when they
-changed. Unlike C<Apache::StatINC>, C<Stonehenge::Reload> only checked
-the change time of modules that registered themselves with
-C<Stonehenge::Reload>, thus reducing stat() calls. C<Apache::Reload>
-also offers the exact same functionality as C<Apache::StatINC>, and is
-thus designed to be a drop-in replacement. C<Apache::Reload> only
-checks modules that register themselves with C<Apache::Reload> if you
-explicitly turn off the StatINC emulation method (see below). Like
-C<Apache::StatINC>, C<Apache::Reload> must be installed as an Init
-Handler.
+C<Apache::Reload> reloads modules that change on the disk.
 
-=head2 StatINC Replacement
+When Perl pulls a file via C<require>, it stores the filename in the
+global hash C<%INC>.  The next time Perl tries to C<require> the same
+file, it sees the file in C<%INC> and does not reload from disk.  This
+module's handler can be configured to iterate over the modules in
+C<%INC> and reload those that have changed on disk or only specific
+modules that have registered themselves with C<Apache::Reload>. It can
+also do the check for modified modules, when a special touch-file has
+been modified.
 
-To use as a StatINC replacement, simply add the following
+Note that C<Apache::Reload> operates on the current context of
+C<@INC>.  Which means, when called as a C<Perl*Handler> it will not
+see C<@INC> paths added or removed by C<Apache::Registry> scripts, as
+the value of C<@INC> is saved on server startup and restored to that
+value after each request.  In other words, if you want
+C<Apache::Reload> to work with modules that live in custom C<@INC>
+paths, you should modify C<@INC> when the server is started.  Besides,
+C<'use lib'> in the startup script, you can also set the C<PERL5LIB>
+variable in the httpd's environment to include any non-standard 'lib'
+directories that you choose.  For example, to accomplish that you can
+include a line:
+
+  PERL5LIB=/home/httpd/perl/extra; export PERL5LIB
+
+in the script that starts Apache. Alternatively, you can set this
+environment variable in I<httpd.conf>:
+
+  PerlSetEnv PERL5LIB /home/httpd/perl/extra
+
+=head2 Monitor All Modules in C<%INC>
+
+To monitor and reload all modules in C<%INC>, simply add the following
 configuration to your I<httpd.conf>:
 
+  PerlModule Apache::Reload
   PerlInitHandler Apache::Reload
 
 =head2 Register Modules Implicitly
@@ -49,6 +69,7 @@ configuration to your I<httpd.conf>:
 To only reload modules that have registered with C<Apache::Reload>,
 add the following to the I<httpd.conf>:
 
+  PerlModule Apache::Reload
   PerlInitHandler Apache::Reload
   PerlSetVar ReloadAll Off
   # ReloadAll defaults to On
@@ -64,6 +85,7 @@ Will be reloaded when they change.
 You can also register modules explicitly in your I<httpd.conf> file
 that you want to be reloaded on change:
 
+  PerlModule Apache::Reload
   PerlInitHandler Apache::Reload
   PerlSetVar ReloadAll Off
   PerlSetVar ReloadModules "My::Foo My::Bar Foo::Bar::Test"
@@ -71,27 +93,63 @@ that you want to be reloaded on change:
 Note that these are split on whitespace, but the module list B<must>
 be in quotes, otherwise Apache tries to parse the parameter list.
 
+The C<*> wild character can be used to register groups of files under
+the same namespace. For example the setting:
+
+  PerlSetVar ReloadModules "ModPerl::* Apache::*"
+
+will monitor all modules under the namespaces C<ModPerl::> and
+C<Apache::>.
+
 =head2 Special "Touch" File
 
-You can also set a file that you can C<touch(1)> that causes the
-reloads to be performed. If you set this, and don't C<touch(1)> the
-file, the reloads don't happen. This can be a great boon in a live
-environment:
+You can also declare a file, which when gets C<touch(1)>ed, causes the
+reloads to be performed. For example if you set:
 
   PerlSetVar ReloadTouchFile /tmp/reload_modules
 
-Now when you're happy with your changes, simply go to the command line and
-type:
+and don't C<touch(1)> the file I</tmp/reload_modules>, the reloads
+won't happen until you go to the command line and type:
 
   % touch /tmp/reload_modules
 
-And your modules will be magically reloaded on the next request. This
-option works in both C<Apache::StatINC> emulation mode and the
-registered modules mode.
+When you do that, the modules that have been changed, will be
+magically reloaded on the next request. This option works with any
+mode described before.
+
+=head2 Performance Issues
+
+This modules is perfectly suited for a development environment. Though
+it's possible that you would like to use it in a production
+environment, since with C<Apache::Reload> you don't have to restart
+the server in order to reload changed modules during software
+updates. Though this convenience comes at a price:
+
+=over
+
+=item *
+
+If the "touch" file feature is used, C<Apache::Reload> has to stat(2)
+the touch file on each request, which adds a slight but most likely
+insignificant overhead to response times. Otherwise C<Apache::Reload>
+will stat(2) each registered module or even worse--all modules in
+C<%INC>, which will significantly slow everything down.
+
+=item *
+
+Once the child process reloads the modules, the memory used by these
+modules is not shared with the parent process anymore. Therefore the
+memory consumption may grow significantly.
+
+=back
+
+Therefore doing a full server stop and restart is probably a better
+solution.
 
 =head2 Debug
 
-You can enable the debugging mode with the setting:
+If you aren't sure whether the modules that are supposed to be
+reloaded, are actually getting reloaded, turn the debug mode on:
 
   PerlSetVar ReloadDebug On
 
@@ -108,27 +166,33 @@ is shared between interpreters (big win), but each subroutine has its
 own padlist (where lexical my variables are stored).  Once
 C<Apache::Reload> reloads a module, this sharing goes away and each
 Perl interpreter will have its own copy of the syntax tree for the
-given subroutines.
+reloaded subroutines.
 
 
-=head1 PSUEDOHASHES
+=head2 Pseudo-hashes
 
-The short summary of this is: Don't use psuedohashes. Use an array
+The short summary of this is: Don't use pseudo-hashes. Use an array
 with constant indexes. Its faster in the general case, its more
 guaranteed, and generally, it works.
 
 The long summary is that I've done some work to get this working with
-modules that use psuedo hashes, but its still broken in the case of a
+modules that use pseudo-hashes, but its still broken in the case of a
 single module that contains multiple packages that all use
-psuedohashes.
+pseudo-hashes.
 
 So don't do that.
 
-=head1 AUTHOR
+=head1 Authors
 
 Matt Sergeant, matt@sergeant.org
 
-=head1 SEE ALSO
+Stas Bekman (porting to mod_perl 2.0)
+
+A few concepts borrowed from C<Stonehenge::Reload> by Randal Schwartz
+and C<Apache::StatINC> (mod_perl 1.x) by Doug MacEachern and Ask
+Bjoern Hansen.
+
+=head1 See Also
 
 C<Stonehenge::Reload>
 
