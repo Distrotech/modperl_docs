@@ -1,7 +1,0 @@
-Name: Bill Moseley
-Email: moseley@hank.org
-Summary: Site search, documentation.
-
-Bill has helped out a lot with this site. He is the creator of the
-search engine, and has written various sections of the documentation
-here as well as contributed his wisdom to the design.

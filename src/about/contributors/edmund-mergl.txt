@@ -1,6 +1,0 @@
-Name: Edmund Mergl
-URL: http://home.bawue.de/~mergl/
-Summary: Modules
-
-Edmund wrote <tt>Apache::DBI</tt>; probably one of the most popular
-mod_perl modules.
