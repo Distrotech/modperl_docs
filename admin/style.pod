@@ -156,12 +156,10 @@ or
 
   L<installation instructions|docs::1.0::guide::install>
 
-[the second example doesn't work yet, need to be fixed]
+You may also link to the index of a section by using
 
-There are some other linking limitations; e.g. you can't link directly
-to the I<index.html> of a section, and you can't link using relative
-URIs. The latter limitation comes from the perlpodspec and hopefully
-will be improved in the future.
+  L<The Guide|guide::index>
+
 
 =item *
 
@@ -319,25 +317,11 @@ followed by any text - this helps a lot!
 
 =item *
 
-Changes: In many directories, you will find a file named
-I<Changes.pod>. This file contains the latest changes to a certain
-documentation section, sorted by date (newest first). If you have made
-any changes and sending a patch, it would be nice of you to include
-the updated I<Changes.pod> file together with the patch.
+Documenting Important Changes
 
-A typical entry would look like this:
-
-  =head1 Fri 19 Apr 18:37:00 CET 2002
-  
-  * Fixed some things and then other things, and then some other
-    things bla bla bla. [John Doe E<lt>john.doe (at) aol.comE<gt>]
-  
-  * Other changes to I<file.pod>, and to I<otherfile.pod>. [stas]
-
-Please try to keep things correctly aligned here (ie. the first
-characters on each line should be vertically aligned with eachother),
-as this file will most often be viewed as text.
-
+If you are posting a patch or a committing a patch, please document
+the important changes that would be of interest to the end user. For
+more info please read I<changes_file.pod> doc.
 
 =back
 

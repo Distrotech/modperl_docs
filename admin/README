@@ -8,6 +8,12 @@ style.pod       - please follow the guidelines in this doc when you
 doc_template.pod
                 - A template for you to use for new documents.
 
+changes_file.pod
+                - explanations regarding the Changes.pod file
+
+Changes_template.pod
+                - A template for the Changes.pod file.
+
 maintenance.pod
                 - Instructions on how to keep the site clean (check HTML
                   validity and links).
