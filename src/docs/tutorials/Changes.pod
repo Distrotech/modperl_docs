@@ -14,6 +14,10 @@ The most recent changes are listed first.
 * Re-arranged content completely to better classify and be able to
   adjust to more tutorials. [Per Einar]
 
+* Merged Lincoln's "Advanced CGI" tutorial into mod_perl_tricks.pod
+  from http://modperl.com:9000/perl_conference/advanced/handout.html
+  with slight changes to turn it more towards mod_perl [Per Einar]
+
 * browserbugs::browserbugs: Added discussion of length of error
   responses and how it's handled by IE, in relation to this
   discussion:
