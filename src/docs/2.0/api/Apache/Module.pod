@@ -104,7 +104,7 @@ See also L<Apache Server Configuration Customization in Perl|docs::2.0::user::co
 
 Find a module based on the name of the module
 
-  $modp = Apache::Module->find_linked_module($name);
+  $modp = Apache::Module::find_linked_module($name);
 
 =over 4
 
