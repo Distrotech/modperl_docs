@@ -23,9 +23,7 @@ from or update the request object.
 The perl version of the request object will be blessed into the B<Apache> 
 package, it is really a C<request_rec*> in disguise.
 
-=over 4
-
-=item Apache-E<gt>request([$r])
+=head2 Apache-E<gt>request([$r])
 
 The C<Apache-E<gt>request> method will return a reference to the request
 object.
@@ -38,44 +36,44 @@ by passing an object reference to C<Apache-E<gt>request($r)>.
 If handlers use modules such as B<CGI::Apache> that need to access
 C<Apache-E<gt>request>, they too should do this (e.g. B<Apache::Status>).
 
-=item $r-E<gt>as_string
+=head2 $r-E<gt>as_string
 
 Returns a string representation of the request object.  Mainly useful
 for debugging.
 
-=item $r-E<gt>main
+=head2 $r-E<gt>main
 
 If the current request is a sub-request, this method returns a blessed
 reference to the main request structure.  If the current request is
 the main request, then this method returns C<undef>.
 
-=item $r-E<gt>prev
+=head2 $r-E<gt>prev
 
 This method returns a blessed reference to the previous (internal) request
 structure or C<undef> if there is no previous request.
 
-=item $r-E<gt>next
+=head2 $r-E<gt>next
 
 This method returns a blessed reference to the next (internal) request
 structure or C<undef> if there is no next request.
 
-=item $r-E<gt>last
+=head2 $r-E<gt>last
 
 This method returns a blessed reference to the last (internal) request
 structure.  Handy for logging modules.
 
-=item $r-E<gt>is_main
+=head2 $r-E<gt>is_main
 
 Returns true if the current request object is for the main request.
 (Should give the same result as C<!$r-E<gt>main>, but will be more
 efficient.) 
 
-=item $r-E<gt>is_initial_req
+=head2 $r-E<gt>is_initial_req
 
 Returns true if the current request is the first internal request,
 returns false if the request is a sub-request or internal redirect.
 
-=item $r-E<gt>allowed($bitmask)
+=head2 $r-E<gt>allowed($bitmask)
 
 Get or set the allowed methods bitmask. This allowed bitmask should be
 set whenever a 405 (method not allowed) or 501 (method not implemented)
@@ -87,7 +85,6 @@ et.
      return HTTP_METHOD_NOT_ALLOWED;
    }
 
-=back
 
 =head1 Sub Requests
 
@@ -101,9 +98,8 @@ C<Apache::SubRequest-E<gt>DESTROY> when the object goes out of scope.  The
 B<Apache::SubRequest> class inherits all the methods from the
 B<Apache> class.
 
-=over 4
 
-=item $r-E<gt>lookup_uri($uri)
+=head2 $r-E<gt>lookup_uri($uri)
 
    my $subr = $r->lookup_uri($uri);
    my $filename = $subr->filename;
@@ -112,17 +108,16 @@ B<Apache> class.
        warn "can't stat $filename!\n";
    } 
 
-=item $r-E<gt>lookup_file($filename)
+=head2 $r-E<gt>lookup_file($filename)
 
    my $subr = $r->lookup_file($filename);
 
-=item $subr-E<gt>run
+=head2 $subr-E<gt>run
 
    if($subr->run != OK) {
        $subr->log_error("something went wrong!");
    }
 
-=back
 
 =head1 Client Request Parameters
 
@@ -132,16 +127,15 @@ In the following examples, C<$r> is a request object blessed into the
 B<Apache> class, obtained by the first parameter passed to a handler
 subroutine or I<Apache-E<gt>request>
 
-=over 4
 
-=item $r-E<gt>method( [$meth] )
+=head2 $r-E<gt>method( [$meth] )
 
 The C<$r-E<gt>method> method will return the request method.  It will be a
 string such as C<"GET">, C<"HEAD"> or C<"POST">.
 Passing an argument will set the method, mainly used for internal
 redirects.
 
-=item $r-E<gt>method_number( [$num] )
+=head2 $r-E<gt>method_number( [$num] )
 
 The C<$r-E<gt>method_number> method will return the request method number.
 The method numbers are defined by the C<M_GET>, C<M_POST>,... constants
@@ -149,64 +143,64 @@ available from the B<Apache::Constants> module.  Passing an argument
 will set the C<method_number>, mainly used for internal redirects and
 testing authorization restriction masks.
 
-=item $r-E<gt>bytes_sent
+=head2 $r-E<gt>bytes_sent
 
 The number of bytes sent to the client, handy for logging, etc.
 
-=item $r-E<gt>the_request
+=head2 $r-E<gt>the_request
 
 The request line sent by the client, handy for logging, etc.
 
-=item $r-E<gt>proxyreq
+=head2 $r-E<gt>proxyreq
 
 Returns true if the request is proxy http.
 Mainly used during the filename translation stage of the request, 
 which may be handled by a C<PerlTransHandler>.
 
-=item $r-E<gt>header_only
+=head2 $r-E<gt>header_only
 
 Returns true if the client is asking for headers only, 
 e.g. if the request method was B<HEAD>.
 
-=item $r-E<gt>protocol
+=head2 $r-E<gt>protocol
 
 The C<$r-E<gt>protocol> method will return a string identifying the
 protocol that the client speaks.  Typical values will be C<"HTTP/1.0"> or
 C<"HTTP/1.1">.
 
-=item $r-E<gt>hostname
+=head2 $r-E<gt>hostname
 
 Returns the server host name, as set by full URI or C<Host:> header.
 
-=item $r-E<gt>request_time
+=head2 $r-E<gt>request_time
 
 Returns the time that the request was made.  The time is the local unix
 time in seconds since the epoch.
 
-=item $r-E<gt>uri( [$uri] )
+=head2 $r-E<gt>uri( [$uri] )
 
 The C<$r-E<gt>uri> method will return the requested URI minus optional
 query string, optionally changing it with the first argument.
 
-=item $r-E<gt>filename( [$filename] )
+=head2 $r-E<gt>filename( [$filename] )
 
 The C<$r-E<gt>filename> method will return the result of the I<URI --E<gt>
 filename> translation, optionally changing it with the first argument
 if you happen to be doing the translation.
 
-=item $r-E<gt>location
+=head2 $r-E<gt>location
 
 The C<$r-E<gt>location> method will return the path of the
 E<lt>LocationE<gt> section from which the current C<Perl*Handler> is
 being called.
 
-=item $r-E<gt>path_info( [$path_info] )
+=head2 $r-E<gt>path_info( [$path_info] )
 
 The C<$r-E<gt>path_info> method will return what is left in the path
 after the I<URI --E<gt> filename> translation, optionally changing it with
 the first argument if you happen to be doing the translation.
 
-=item $r-E<gt>args( [$query_string] )
+=head2 $r-E<gt>args( [$query_string] )
 
 The C<$r-E<gt>args> method will return the contents of the URI I<query
 string>.  When called in a scalar context, the entire string is
@@ -219,7 +213,7 @@ I<value> pairs are returned, i.e. it can be used like this:
 C<$r-E<gt>args> can also be used to set the I<query string>. This can be
 useful when redirecting a POST request.
 
-=item $r-E<gt>headers_in
+=head2 $r-E<gt>headers_in
 
 The C<$r-E<gt>headers_in> method will return a C<%hash> of client request
 headers.  This can be used to initialize a perl hash, or one could use
@@ -230,14 +224,14 @@ Will return a I<HASH> reference blessed into the I<Apache::Table>
 class when called in a scalar context with no "key" argument. This
 requires I<Apache::Table>.
 
-=item $r-E<gt>header_in( $header_name, [$value] )
+=head2 $r-E<gt>header_in( $header_name, [$value] )
 
 Return the value of a client header.  Can be used like this:
 
    $ct = $r->header_in("Content-type");
    $r->header_in($key, $val); #set the value of header '$key'
 
-=item $r-E<gt>content
+=head2 $r-E<gt>content
 
 The C<$r-E<gt>content> method will return the entity body read from the
 client, but only if the request content type is
@@ -247,7 +241,7 @@ returned.  When called in a list context, a list of parsed I<key> =E<gt>
 I<value> pairs are returned.  B<NOTE>: you can only ask for this once,
 as the entire body is read from the client.
 
-=item $r-E<gt>read($buf, $bytes_to_read, [$offset])
+=head2 $r-E<gt>read($buf, $bytes_to_read, [$offset])
 
 This method is used to read data from the client, 
 looping until it gets all of C<$bytes_to_read> or a timeout happens.
@@ -258,36 +252,32 @@ than the beginning of the string.
 In addition, this method sets a timeout before reading with
 C<$r-E<gt>soft_timeout>.
 
-=item $r-E<gt>get_remote_host
+=head2 $r-E<gt>get_remote_host
 
 Lookup the client's DNS hostname. If the configuration directive
 B<HostNameLookups> is set to off, this returns the dotted decimal
 representation of the client's IP address instead. Might return
 I<undef> if the hostname is not known.
 
-=item $r-E<gt>get_remote_logname
+=head2 $r-E<gt>get_remote_logname
 
 Lookup the remote user's system name.  Might return I<undef> if the
 remote system is not running an RFC 1413 server or if the configuration
 directive B<IdentityCheck> is not turned on.
 
-=back
+=head2 Apache::Connection
 
 More information about the client can be obtained from the
 B<Apache::Connection> object, as described below.
 
-=over 4
-
-=item $c = $r-E<gt>connection
+=head2 $c = $r-E<gt>connection
 
 The C<$r-E<gt>connection> method will return a reference to the request
 connection object (blessed into the B<Apache::Connection> package).
 This is really a C<conn_rec*> in disguise.  The following methods can
 be used on the connection object:
 
-=over 4
-
-=item $c-E<gt>remote_host
+=head3 $c-E<gt>remote_host
 
 If the configuration directive B<HostNameLookups> is set to on:  then
 the first time C<$r-E<gt>get_remote_host> is called the server does a DNS
@@ -303,7 +293,7 @@ string is not cached, and C<$c-E<gt>remote_host> is undefined. So, it's
 best to to call C<$r-E<gt>get_remote_host> instead of directly accessing
 this variable.
 
-=item $c-E<gt>remote_ip
+=head3 $c-E<gt>remote_ip
 
 The dotted decimal representation of the remote client's IP address.
 This is set by the server when the connection record is created so
@@ -313,7 +303,7 @@ You can also set this value by providing an argument to it. This is
 helpful if your server is behind a squid accelerator proxy which adds
 a I<X-Forwarded-For> header.
 
-=item $c-E<gt>local_addr
+=head3 $c-E<gt>local_addr
 
 A packed C<SOCKADDR_IN> in the same format as returned by
 C<Socket::pack_sockaddr_in>, containing the port and address on the
@@ -321,7 +311,7 @@ local host that the remote client is connected to.  This is set by
 the server when the connection record is created so it is always
 defined.
 
-=item $c-E<gt>remote_addr
+=head3 $c-E<gt>remote_addr
 
 A packed C<SOCKADDR_IN> in the same format as returned by
 C<Socket::pack_sockaddr_in>, containing the port and address on the
@@ -344,7 +334,7 @@ Note that the lookupFromInAddr interface does not currently exist in
 the B<Net::Ident> module, but the author is planning on adding it
 soon.
 
-=item $c-E<gt>remote_logname
+=head3 $c-E<gt>remote_logname
 
 If the configuration directive B<IdentityCheck> is set to on:  then the
 first time C<$r-E<gt>get_remote_logname> is called the server does an RFC
@@ -357,22 +347,22 @@ If the configuration directive B<IdentityCheck> is set to off: then
 C<$r-E<gt>get_remote_logname> does nothing and C<$c-E<gt>remote_logname>
 is always undefined.
 
-=item $c-E<gt>user( [$user] )
+=head3 $c-E<gt>user( [$user] )
 
 If an authentication check was successful, the authentication handler
 caches the user name here. Sets the user name to the optional first
 argument.
 
-=item $c-E<gt>auth_type
+=head3 $c-E<gt>auth_type
 
 Returns the authentication scheme that successfully authenticate
 C<$c-E<gt>user>, if any.
 
-=item $c-E<gt>aborted
+=head3 $c-E<gt>aborted
 
 Returns true if the client stopped talking to us.
 
-=item $c-E<gt>fileno( [$direction] )
+=head3 $c-E<gt>fileno( [$direction] )
 
 Returns the client file descriptor. If $direction is 0, the input fd
 is returned. If $direction is not null or ommitted, the output fd is
@@ -381,18 +371,12 @@ returned.
 This can be used to detect client disconnect without doing any I/O,
 e.g. using C<IO::Select>.
 
-=back
-
-=back
-
 =head1 Server Configuration Information
 
 The following methods are used to obtain information from server
 configuration and access control files.
 
-=over 4
-
-=item $r-E<gt>dir_config( $key )
+=head2 $r-E<gt>dir_config( $key )
 
 Returns the value of a per-directory variable specified by the 
 C<PerlSetVar> directive.
@@ -410,7 +394,7 @@ I<Apache::Table> class when called in a scalar context with no
 "key" argument. See I<Apache::Table>.
 
 
-=item $r-E<gt>dir_config-E<gt>get( $key )
+=head2 $r-E<gt>dir_config-E<gt>get( $key )
 
 Returns the value of a per-directory array variable specified by the
 C<PerlAddVar> directive.
@@ -432,13 +416,13 @@ Will return a I<HASH> reference blessed into the
 I<Apache::Table> class when called in a scalar context with no
 "key" argument. See I<Apache::Table>.
 
-=item $r-E<gt>requires
+=head2 $r-E<gt>requires
 
 Returns an array reference of hash references, containing information
 related to the B<require> directive.  This is normally used for access
 control, see C<Apache::AuthzAge> for an example.
 
-=item $r-E<gt>auth_type
+=head2 $r-E<gt>auth_type
 
 Returns a reference to the current value of the per directory
 configuration directive B<AuthType>. Normally this would be set to
@@ -446,7 +430,7 @@ C<Basic> to use the basic authentication scheme defined in RFC 1945,
 I<Hypertext Transfer Protocol -- HTTP/1.0>. However, you could set to
 something else and implement your own authentication scheme.
 
-=item $r-E<gt>auth_name
+=head2 $r-E<gt>auth_name
 
 Returns a reference to the current value of the per directory
 configuration directive B<AuthName>.  The AuthName directive creates
@@ -461,7 +445,7 @@ Then during the authentication stage the server uses the current
 authentication realm, from C<$r-E<gt>auth_name>, to determine which set of
 credentials to authenticate.
 
-=item $r-E<gt>document_root ( [$docroot] )
+=head2 $r-E<gt>document_root ( [$docroot] )
 
 When called with no argument, returns a reference to the current value
 of the per server configuration directive B<DocumentRoot>. To quote the
@@ -484,7 +468,7 @@ example dynamically sets the document root based on the request's
     
    PerlTransHandler trans_handler
 
-=item $r-E<gt>server_root_relative( [$relative_path] )
+=head2 $r-E<gt>server_root_relative( [$relative_path] )
 
 If called without any arguments, this method returns the value of the
 currently-configured C<ServerRoot> directory.
@@ -497,7 +481,7 @@ I<error_log> file under the server root:
 
 See also the next item.
 
-=item Apache-E<gt>server_root_relative( [$relative_path] )
+=head2 Apache-E<gt>server_root_relative( [$relative_path] )
 
 Same as the previous item, but this time it's used without a request
 object. This method is usually needed in a startup file. For example
@@ -512,7 +496,7 @@ module from that directory.
   use MyProject::Config ();
 
 
-=item $r-E<gt>allow_options
+=head2 $r-E<gt>allow_options
 
 The C<$r-E<gt>allow_options> method can be used for
 checking if it is OK to run a perl script.  The B<Apache::Options>
@@ -523,64 +507,64 @@ module provides the constants to check against.
 		      $filename);
    }
 
-=item $r-E<gt>get_server_port
+=head2 $r-E<gt>get_server_port
 
 Returns the port number on which the server is listening.
 
-=item $s = $r-E<gt>server
+=head2 $s = $r-E<gt>server
 
 Return a reference to the server info object (blessed into the
 B<Apache::Server> package).  This is really a C<server_rec*> in
 disguise.  The following methods can be used on the server object:
 
-=item $s = Apache-E<gt>server
+=head2 $s = Apache-E<gt>server
 
 Same as above, but only available during server startup for use in
 C<E<lt>PerlE<gt>> sections, B<PerlRequire> or B<PerlModule>.
 
-=item $s-E<gt>server_admin
+=head2 $s-E<gt>server_admin
 
 Returns the mail address of the person responsible for this server.
 
-=item $s-E<gt>server_hostname
+=head2 $s-E<gt>server_hostname
 
 Returns the hostname used by this server.
 
-=item $s-E<gt>port
+=head2 $s-E<gt>port
 
 Returns the port that this servers listens too.
 
-=item $s-E<gt>is_virtual
+=head2 $s-E<gt>is_virtual
 
 Returns true if this is a virtual server.
 
-=item $s-E<gt>names
+=head2 $s-E<gt>names
 
 Returns the wild-carded names for ServerAlias servers. 
 
-=item $s-E<gt>dir_config( $key )
+=head2 $s-E<gt>dir_config( $key )
 
 Alias for C<Apache::dir_config>.
 
-=item $s-E<gt>warn
+=head2 $s-E<gt>warn
 
 Alias for C<Apache::warn>.
 
-=item $s-E<gt>log_error
+=head2 $s-E<gt>log_error
 
 Alias for C<Apache::log_error>.
 
-=item $s-E<gt>uid
+=head2 $s-E<gt>uid
 
 Returns the numeric user id under which the server answers requests.
 This is the value of the User directive.
 
-=item $s-E<gt>gid
+=head2 $s-E<gt>gid
 
 Returns the numeric group id under which the server answers requests.
 This is the value of the Group directive.
 
-=item $s-E<gt>loglevel
+=head2 $s-E<gt>loglevel
 
 Get or set the value of the current LogLevel. This method is added by
 the C<Apache::Log> module, which needs to be pulled in.
@@ -601,7 +585,7 @@ exported):
     Apache::Log::INFO
     Apache::Log::DEBUG
 
-=item $r-E<gt>get_handlers( $hook )
+=head2 $r-E<gt>get_handlers( $hook )
 
 Returns a reference to a list of handlers enabled for $hook. $hook is
 a string representing the phase to handle. The returned list is a list
@@ -609,7 +593,7 @@ of references to the handler subroutines.
 
 	$list = $r->get_handlers( 'PerlHandler' );
 
-=item $r-E<gt>set_handlers( $hook, [\E<amp>handler, ... ] )
+=head2 $r-E<gt>set_handlers( $hook, [\E<amp>handler, ... ] )
 
 Sets the list if handlers to be called for $hook. $hook is a string
 representing the phase to handle. The list of handlers is an anonymous
@@ -620,7 +604,7 @@ particular phase.
 	$r->set_handlers( PerlLogHandler => [ \&myhandler1, \&myhandler2 ] );
 	$r->set_handlers( PerlAuthenHandler => [ \&OK ] );
 
-=item $r-E<gt>push_handlers( $hook, \E<amp>handler  )
+=head2 $r-E<gt>push_handlers( $hook, \E<amp>handler  )
 
 Pushes a new handler to be called for C<$hook>. C<$hook> is a string
 representing the phase to handle. The handler is a reference to a
@@ -629,7 +613,7 @@ called before any configured handlers.
 
 	$r->push_handlers( PerlHandler => \&footer);
 
-=item $r-E<gt>current_callback
+=head2 $r-E<gt>current_callback
 
 Returns the name of the handler currently being run. This method is most
 useful to PerlDispatchHandlers who wish to only take action for certain
@@ -639,7 +623,6 @@ phases.
 		$r->warn("Logging request");
 	}
 
-=back
 
 =head1 Setting Up the Response
 
@@ -651,9 +634,7 @@ C<$r-E<gt>send_http_header()> which will actually send the headers to the
 client.  After this a typical application will call the
 C<$r-E<gt>print()> method to send the response content to the client.
 
-=over 4
-
-=item $r-E<gt>send_http_header( [$content_type] )
+=head2 $r-E<gt>send_http_header( [$content_type] )
 
 Send the response line and all headers to the client.
 Takes an optional parameter indicating the content-type of the
@@ -664,7 +645,7 @@ C<$r-E<gt>no_cache()> attributes (described below) and then append the
 headers defined by $r-E<gt>header_out (or C<$r-E<gt>err_header_out> if
 status indicates an error).
 
-=item $r-E<gt>get_basic_auth_pw
+=head2 $r-E<gt>get_basic_auth_pw
 
 If the current request is protected by Basic authentication, this method
 will return OK.  Otherwise, it will return a value that ought to be
@@ -673,20 +654,20 @@ return value will be the decoded password sent by the client.
 
    ($ret, $sent_pw) = $r->get_basic_auth_pw;
 
-=item $r-E<gt>note_basic_auth_failure
+=head2 $r-E<gt>note_basic_auth_failure
 
 Prior to requiring Basic authentication from the client, this method 
 will set the outgoing HTTP headers asking the client to authenticate 
 for the realm defined by the configuration directive C<AuthName>.
 
-=item $r-E<gt>handler( [$meth] )
+=head2 $r-E<gt>handler( [$meth] )
 
 Set the handler for a request.
 Normally set by the configuration directive C<AddHandler>.
 
    $r->handler( "perl-script" );
 
-=item $r-E<gt>notes( $key, [$value] )
+=head2 $r-E<gt>notes( $key, [$value] )
 
 Return the value of a named entry in the Apache C<notes> table, or
 optionally set the value of a named entry.  This table is used by Apache
@@ -700,7 +681,7 @@ Will return a I<HASH> reference blessed into the I<Apache::Table>
 class when called in a scalar context with no "key" argument. This
 requires I<Apache::Table>.
 
-=item $r-E<gt>pnotes( $key, [$value] )
+=head2 $r-E<gt>pnotes( $key, [$value] )
 
 Like C<$r-E<gt>notes>, but takes any scalar as an value.
 
@@ -711,7 +692,7 @@ Like C<$r-E<gt>notes>, but takes any scalar as an value.
 Advantage over just using a Perl variable is that C<$r-E<gt>pnotes> gets
 cleaned up after every request.
 
-=item $r-E<gt>subprocess_env( $key, [$value] )
+=head2 $r-E<gt>subprocess_env( $key, [$value] )
 
 Return the value of a named entry in the Apache C<subprocess_env>
 table, or optionally set the value of a named entry. This table is
@@ -735,7 +716,7 @@ Will return a I<HASH> reference blessed into the I<Apache::Table>
 class when called in a scalar context with no "key" argument. This
 requires I<Apache::Table>.
 
-=item $r-E<gt>content_type( [$newval] )
+=head2 $r-E<gt>content_type( [$newval] )
 
 Get or set the content type being sent to the client.  Content types
 are strings like C<"text/plain">, C<"text/html"> or C<"image/gif">.  This
@@ -745,31 +726,31 @@ of usage is:
    $previous_type = $r->content_type;
    $r->content_type("text/plain");
 
-=item $r-E<gt>content_encoding( [$newval] )
+=head2 $r-E<gt>content_encoding( [$newval] )
 
 Get or set the content encoding.  Content encodings are string like
 "gzip" or "compress".  This correspond to the "Content-Encoding"
 header in the HTTP protocol.
 
-=item $r-E<gt>content_languages( [$array_ref] )
+=head2 $r-E<gt>content_languages( [$array_ref] )
 
 Get or set the content languages.  The content language corresponds to the
 "Content-Language" HTTP header and is an array reference containing
 strings such as "en" or "no".
 
-=item $r-E<gt>status( $integer )
+=head2 $r-E<gt>status( $integer )
 
 Get or set the reply status for the client request.  The
 B<Apache::Constants> module provide mnemonic names for the status codes.
 
-=item $r-E<gt>status_line( $string )
+=head2 $r-E<gt>status_line( $string )
 
 Get or set the response status line.  The status line is a string like
 "200 Document follows" and it will take precedence over the value
 specified using the C<$r-E<gt>status()> described above.
 
 
-=item $r-E<gt>headers_out
+=head2 $r-E<gt>headers_out
 
 The C<$r-E<gt>headers_out> method will return a C<%hash> of server
 response headers.  This can be used to initialize a perl hash, or one
@@ -780,7 +761,7 @@ Will return a I<HASH> reference blessed into the I<Apache::Table>
 class when called in a scalar context with no "key" argument. This
 requires I<Apache::Table>.
 
-=item $r-E<gt>header_out( $header, $value )
+=head2 $r-E<gt>header_out( $header, $value )
 
 Change the value of a response header, or create a new one.  You
 should not define any "Content-XXX" headers by calling this method,
@@ -789,7 +770,7 @@ because these headers use their own specific methods.  Example of use:
    $r->header_out("WWW-Authenticate" => "Basic");
    $val = $r->header_out($key);
 
-=item $r-E<gt>err_headers_out
+=head2 $r-E<gt>err_headers_out
 
 The C<$r-E<gt>err_headers_out> method will return a %hash of server
 response headers.  This can be used to initialize a perl hash, or one
@@ -804,7 +785,7 @@ Will return a I<HASH> reference blessed into the I<Apache::Table>
 class when called in a scalar context with no "key" argument. This
 requires I<Apache::Table>.
 
-=item $r-E<gt>err_header_out( $header, [$value] )
+=head2 $r-E<gt>err_header_out( $header, [$value] )
 
 Change the value of an error response header, or create a new one.
 These headers are used if the status indicates an error.
@@ -812,7 +793,7 @@ These headers are used if the status indicates an error.
    $r->err_header_out("Warning" => "Bad luck");
    $val = $r->err_header_out($key);
 
-=item $r-E<gt>no_cache( $boolean )
+=head2 $r-E<gt>no_cache( $boolean )
 
 This is a flag that indicates that the data being returned is volatile
 and the client should be told not to cache it. C<$r-E<gt>no_cache(1)>
@@ -820,7 +801,7 @@ adds the headers C<"Pragma: no-cache"> and C<"Cache-control: no-cache"> to
 the reponse, therefore it must be called before
 C<$r-E<gt>send_http_header>. 
 
-=item $r-E<gt>print( @list )
+=head2 $r-E<gt>print( @list )
 
 This method sends data to the client with C<$r-E<gt>write_client>, but
 first sets a timeout before sending with C<$r-E<gt>soft_timeout>. This
@@ -840,7 +821,7 @@ The result is "bar", not the "SCALAR(0xDEADBEEF)" you might have
 expected. If you really want the reference to be printed out, force it
 into a scalar context by using C<print(scalar($foo))>.
 
-=item $r-E<gt>send_fd( $filehandle )
+=head2 $r-E<gt>send_fd( $filehandle )
 
 Send the contents of a file to the client.  Can for instance be used
 like this:
@@ -849,18 +830,18 @@ like this:
   $r->send_fd(FILE);
   close(FILE);
 
-=item $r-E<gt>internal_redirect( $newplace )
+=head2 $r-E<gt>internal_redirect( $newplace )
 
 Redirect to a location in the server namespace without 
 telling the client. For instance:
 
    $r->internal_redirect("/home/sweet/home.html");
 
-=item $r-E<gt>internal_redirect_handler( $newplace )
+=head2 $r-E<gt>internal_redirect_handler( $newplace )
 
 Same as I<internal_redirect>, but the I<handler> from C<$r> is preserved.
 
-=item $r-E<gt>custom_response($code, $uri)
+=head2 $r-E<gt>custom_response($code, $uri)
 
 This method provides a hook into the B<ErrorDocument> mechanism,
 allowing you to configure a custom response for a given response
@@ -893,19 +874,16 @@ Example:
         return AUTH_REQUIRED;
     }
 
-=back
 
 =head1 Server Core Functions
 
-=over 4
+=head2 $r-E<gt>soft_timeout($message)
 
-=item $r-E<gt>soft_timeout($message)
+=head2 $r-E<gt>hard_timeout($message)
 
-=item $r-E<gt>hard_timeout($message)
+=head2 $r-E<gt>kill_timeout
 
-=item $r-E<gt>kill_timeout
-
-=item $r-E<gt>reset_timeout
+=head2 $r-E<gt>reset_timeout
 
 (Documentation borrowed from http_main.h)
 
@@ -940,9 +918,9 @@ C<kill_timeout()> will disarm either variety of timeout.
 
 C<reset_timeout()> resets the timeout in progress.
 
-=item $r-E<gt>post_connection($code_ref)
+=head2 $r-E<gt>post_connection($code_ref)
 
-=item $r-E<gt>register_cleanup($code_ref)
+=head2 $r-E<gt>register_cleanup($code_ref)
 
 Register a cleanup function which is called just before $r-E<gt>pool is
 destroyed.
@@ -963,16 +941,12 @@ The I<post_connection> method is simply an alias for I<register_cleanup>,
 as this method may be used to run code after the client connection is
 closed, which may not be a I<cleanup>.
 
-=back
-
 =head1 CGI Support
 
 We also provide some methods that make it easier to support the CGI
 type of interface.
 
-=over 4
-
-=item $r-E<gt>send_cgi_header()
+=head2 $r-E<gt>send_cgi_header()
 
 Take action on certain headers including I<Status:>, I<Location:> and
 I<Content-type:> just as mod_cgi does, then calls
@@ -984,49 +958,45 @@ $r-E<gt>send_http_header().  Example of use:
 
    EOT
 
-=back
 
 =head1 Error Logging
 
 The following methods can be used to log errors. 
 
-=over 4
 
-=item $r-E<gt>log_reason($message, $file)
+=head2 $r-E<gt>log_reason($message, $file)
 
 The request failed, why??  Write a message to the server errorlog.
 
    $r->log_reason("Because I felt like it", $r->filename);
 
-=item $r-E<gt>log_error($message)
+=head2 $r-E<gt>log_error($message)
 
 Uh, oh.  Write a message to the server errorlog.
 
    $r->log_error("Some text that goes in the error_log");
 
-=item $r-E<gt>warn($message)
+=head2 $r-E<gt>warn($message)
 
 For pre-1.3 versions of apache, this is just an alias for
 C<log_error>.  With 1.3+ versions of apache, this message will only be
 send to the error_log if B<LogLevel> is set to B<warn> or higher. 
 
-=back
 
 =head1 Utility Functions
 
-=over 4
 
-=item Apache::unescape_url($string)
+=head2 Apache::unescape_url($string)
 
 Handy function for unescapes.  Use this one for filenames/paths.
 Use C<unescape_url_info> for the result of submitted form data.
 
-=item Apache::unescape_url_info($string)
+=head2 Apache::unescape_url_info($string)
 
 Handy function for unescapes submitted form data.
 In opposite to C<unescape_url> it translates the plus sign to space.
 
-=item Apache::perl_hook($hook)
+=head2 Apache::perl_hook($hook)
 
 Returns true if the specified callback hook is enabled:
 
@@ -1036,21 +1006,18 @@ Returns true if the specified callback hook is enabled:
        print "$_ hook enabled\n" if Apache::perl_hook($_);
    }  
 
-=back
 
 =head1 Global Variables
 
-=over 4
 
-=item $Apache::Server::Starting
-
-Set to true when the server is starting.
-
-=item $Apache::Server::ReStarting
+=head2 $Apache::Server::Starting
 
 Set to true when the server is starting.
 
-=back
+=head2 $Apache::Server::ReStarting
+
+Set to true when the server is starting.
+
 
 =head1 See Also
 
