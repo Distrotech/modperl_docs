@@ -1,0 +1,64 @@
+=head1 NAME
+
+Source mod_perl distributions
+
+=head1 Description
+
+This document explains how to get the mod_perl stable and development
+source distributions.
+
+See also L<the binary distributions|download::binaries> and the
+L<bundles|download::bundles>.
+
+=head1 How to build the source distribution
+
+Be sure to read the I<README> and I<INSTALL> documents first and the
+longer L<the installation guide|guide::install>.
+
+=head1 How to get the stable source distribution
+
+=over
+
+=item *
+
+Master Source distribution: Release http://perl.apache.org/dist
+
+=item *
+
+CPAN: http://www.cpan.org/modules/by-module/Apache/
+
+=item *
+
+SRPMs:
+
+by David Harris: http://www.davideous.com/modperlrpm/distrib/
+
+by Vladimir Ivaschenko: http://www.hazard.maks.net/apache/
+
+
+=back
+
+=head1 How to get the development source distribution
+
+=over
+
+=item *
+
+The latest CVS snapshot: http://cvs.apache.org/snapshots/
+
+=item *
+
+Anonymous CVS:
+
+To checkout a fresh copy from anoncvs use:
+
+  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" login
+
+with the password I<anoncvs>.
+
+  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" co modperl
+
+=back
+
+
+=cut

@@ -1,21 +1,20 @@
 =head1 NAME
 
-Source and Binary mod_perl distributions
+Binary mod_perl distributions
 
 =head1 Description
 
-This page includes links to various source and binary mod_perl
-distributions. If you know about a distribution that isn't listed
-here, please tell us (by announcing it at the mod_perl list).
+This document includes links to various binary mod_perl distributions.
 
-=head1 Locations
+If you know about a distribution that isn't listed here, please tell
+us (by announcing it at the mod_perl list).
+
+See also L<the source distributions|download::source> and the
+L<bundles|download::bundles>.
+
+=head1 How to get pre-compiled mod_perl
 
 =over
-
-=item *
-
-Master Source distribution - Release http://perl.apache.org/dist, the
-latest CVS snapshot http://cvs.apache.org/snapshots/
 
 =item *
 
@@ -76,6 +75,12 @@ http://perl.apache.org/rpm/.
 i386 RPMs + SRPM (RedHat) of Apache with mod_perl and php3 built
 staticaly. (made by Vladimir Ivaschenko)
 http://www.hazard.maks.net/apache/
+
+=item *
+
+OS vendors may supply their own pre-compiled version of mod_perl.
+Refer to your OS vendor to figure out if they provide a binary version
+of mod_perl.
 
 =back
 
