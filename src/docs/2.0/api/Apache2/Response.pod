@@ -1,15 +1,15 @@
 =head1 NAME
 
-Apache::Response - Perl API for Apache HTTP request response methods
+Apache2::Response - Perl API for Apache HTTP request response methods
 
 
 
 
 =head1 Synopsis
 
-  use Apache::Response ();
+  use Apache2::Response ();
   
-  $r->custom_response(Apache::FORBIDDEN, "No Entry today");
+  $r->custom_response(Apache2::FORBIDDEN, "No Entry today");
   
   $etag = $r->make_etag($force_weak);
   $r->set_etag();
@@ -33,8 +33,8 @@ Apache::Response - Perl API for Apache HTTP request response methods
 
 =head1 Description
 
-C<Apache::Response> provides the L<Apache request
-object|docs::2.0::api::Apache::RequestRec> utilities API for dealing
+C<Apache2::Response> provides the L<Apache request
+object|docs::2.0::api::Apache2::RequestRec> utilities API for dealing
 with HTTP response generation process.
 
 
@@ -43,7 +43,7 @@ with HTTP response generation process.
 
 =head1 API
 
-C<Apache::Response> provides the following functions and/or methods:
+C<Apache2::Response> provides the following functions and/or methods:
 
 
 
@@ -57,15 +57,15 @@ Install a custom response handler for a given status
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
-=item arg1: C<$status> ( C<L<Apache::Const
-constant|docs::2.0::api::Apache::Const>> )
+=item arg1: C<$status> ( C<L<Apache2::Const
+constant|docs::2.0::api::Apache2::Const>> )
 
 The status for which the custom response should be used
-(e.g. C<Apache::AUTH_REQUIRED>)
+(e.g. C<Apache2::AUTH_REQUIRED>)
 
 =item arg2: C<$string> (string)
 
@@ -82,29 +82,29 @@ C<custom_response()> doesn't alter the response code, but is used to
 replace the standard response body. For example, here is how to change
 the response body for the access handler failure:
 
-  package MyApache::MyShop;
-  use Apache::Response ();
-  use Apache::Const -compile => qw(FORBIDDEN OK);
+  package MyApache2::MyShop;
+  use Apache2::Response ();
+  use Apache2::Const -compile => qw(FORBIDDEN OK);
   sub access {
       my $r = shift;
    
-      if (MyApache::MyShop::tired_squirrels()) {
-          $r->custom_response(Apache::FORBIDDEN,
+      if (MyApache2::MyShop::tired_squirrels()) {
+          $r->custom_response(Apache2::FORBIDDEN,
               "It's siesta time, please try later");
-          return Apache::FORBIDDEN;
+          return Apache2::FORBIDDEN;
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   ...
 
   # httpd.conf
-  PerlModule MyApache::MyShop
+  PerlModule MyApache2::MyShop
   <Location /TestAPI__custom_response>
       AuthName dummy
       AuthType none
-      PerlAccessHandler   MyApache::MyShop::access
-      PerlResponseHandler MyApache::MyShop::response
+      PerlAccessHandler   MyApache2::MyShop::access
+      PerlResponseHandler MyApache2::MyShop::response
   </Location>
 
 When squirrels can't run any more, the handler will return 403, with
@@ -129,7 +129,7 @@ file, build in some of the file characteristics.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -163,14 +163,14 @@ fulfills the specified requirements.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
-=item ret: C<$status> ( C<L<Apache::Const
-status constant|docs::2.0::api::Apache::Const>> )
+=item ret: C<$status> ( C<L<Apache2::Const
+status constant|docs::2.0::api::Apache2::Const>> )
 
-C<Apache::OK> if the response fulfills the condition GET
+C<Apache2::OK> if the response fulfills the condition GET
 rules. Otherwise some other status code (which should be returned to
 Apache).
 
@@ -197,7 +197,7 @@ Return the latest rational time from a request/mtime pair.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -230,7 +230,7 @@ Parse the header
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<$buffer> (string)
 
@@ -248,7 +248,7 @@ overhead.
 
 If there is a response body following the headers it'll be handled too
 (as if it was sent via
-C<L<print()|docs::2.0::api::Apache::RequestIO::C_print_/>>).
+C<L<print()|docs::2.0::api::Apache2::RequestIO::C_print_/>>).
 
 Notice that if only HTTP headers are included they won't be sent until
 some body is sent (again the "send" part is retained from the mod_perl
@@ -269,7 +269,7 @@ Set the content length for this request.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -298,7 +298,7 @@ Set the E-tag outgoing header
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: no return value
 
@@ -321,7 +321,7 @@ Set the keepalive status for this request
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -352,7 +352,7 @@ being in the future.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$mtime> ( time in microseconds )
 
@@ -373,7 +373,7 @@ argument.
 =head2 C<update_mtime>
 
 Set the
-C<L<$r-E<gt>mtime|docs::2.0::api::Apache::RequestRec/C_mtime_>> field
+C<L<$r-E<gt>mtime|docs::2.0::api::Apache2::RequestRec/C_mtime_>> field
 to the specified value if it's later than what's already there.
 
   $r->update_mtime($mtime);
@@ -381,7 +381,7 @@ to the specified value if it's later than what's already there.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -401,7 +401,7 @@ See also: L<$r-E<gt>set_last_modified|/C_set_last_modified_>.
 
 =head1 Unsupported API
 
-C<Apache::Response> also provides auto-generated Perl interface for a
+C<Apache2::Response> also provides auto-generated Perl interface for a
 few other methods which aren't tested at the moment and therefore
 their API is a subject to change. These methods will be finalized
 later as a need arises. If you want to rely on any of the following
@@ -425,7 +425,7 @@ handler via the ErrorDocument feature.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -459,7 +459,7 @@ Send an MMAP'ed file to the client
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
