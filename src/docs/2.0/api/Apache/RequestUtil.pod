@@ -334,7 +334,7 @@ For example:
 
 A list of handlers configured to run at the response phase:
 
-  my @handlers = @{ $r->get_handlers('PerlResponseHandler') || '' };
+  my @handlers = @{ $r->get_handlers('PerlResponseHandler') || [] };
 
 
 
