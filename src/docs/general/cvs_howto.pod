@@ -103,7 +103,7 @@ I<update -P> automatically deletes empty directories.
 
 =item *
 
-I<diff -U> to use the unified output format so that your changes can
+I<diff -u> to use the unified output format so that your changes can
 be easily merged back into the repository.
 
 =back
@@ -144,6 +144,21 @@ Here's a config file for the client (cvsup) to sync modperl sources.
   #modperl-docs
   #make your picks above by uncommenting the entries
 
+
+=head1 Getting CVS snapshots
+
+In case you can't get anonymous CVS access to work (or don't want to),
+there is another possibility: at http://cvs.apache.org/snapshots/ ,
+there are snapshots of the interesting CVS repositories you might
+want to download. These snapshots are extracted from CVS every 6
+hours, so might not contain the I<latest> changes, but you'll get
+pretty close. The file names contain the date and time, which you can
+also see in the directory listing. So just grab the latest one by
+date, which will get you the latest version.
+
+See the list of interesting repositories
+L<below|/"mod_perl_and_Related_Projects_on_cvs_apache_org"> to find
+out which snapshots you might want to download.
 
 =head1 Inspecting the CVS server with ViewCVS
 
