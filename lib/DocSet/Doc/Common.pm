@@ -50,7 +50,8 @@ sub fetch_pdf_doc_ver {
 #print "TRYING $dst_path $pdf_path \n";
 
     my %pdf = ();
-    if (-e $pdf_path) {
+    # if in the pdf tree (rel_pdf) there is nothing to copy
+    if (-e $pdf_path && $pdf_path ne $dst_path) {
         copy_file($pdf_path, $dst_path);
         %pdf = (
             size => format_bytes(-s $dst_path),

@@ -1,5 +1,7 @@
 package DocSet::5005compat;
 
+$DocSet::5005compat::VERSION = '0.01';
+
 use strict;
 use Symbol ();
 use File::Basename;
@@ -18,11 +20,6 @@ sub import {
 
     eval { require File::Spec::Functions; } or
       die "this is only Perl $], you need to install File-Spec from CPAN";
-
-    # ExtUtils::MakeMaker v < 6.00 stupidly tries to parse any VERSION
-    # it sees, so it fails latter on in the import() function. so we
-    # have to workaround it. even the following comment will do
-    # $DocSet::5005compat::VERSION = 0.01;
 
     my $min_version = 0.82;
     unless ($File::Spec::VERSION >= $min_version) {
