@@ -216,11 +216,12 @@ META: a dedicated chapter with examples?
 
 The C<PerlLoadModule> directive is similar to
 C<L<PerlModule|/C_PerlModule_>>, in a sense that it loads a
-module. The difference is that it's used to implement L<new Apache
-directives|docs::2.0::user::config::custom>. Since those
-directives are needed during the configuration phase, this directive
-triggers L<an early Perl startup|/Startup_Process>, as a side effect.
-
+module. The difference is that it's used to triggers
+L<an early Perl startup|/Startup_Process>. This can be usefull
+for modules that need to be loaded early, as is the case for
+modules that implement
+L<new Apache directives|docs::2.0::user::config::custom>,
+which are needed during the configuration phase.
 
 
 
