@@ -26,7 +26,7 @@ use the simplified streaming interface where the filter object acts
 similar to a filehandle, which can be read from and printed to.
 
 Even though you don't use bucket brigades directly when you use the
-streaming filter interface (which works on bucket bridades behind the
+streaming filter interface (which works on bucket brigades behind the
 scenes), it's still important to understand bucket brigades. For
 example you need to know that an output filter will be invoked as many
 times as the number of bucket brigades sent from the upstream filter
@@ -84,26 +84,29 @@ forces a flush, following by more data:
   $r->rflush;
   $r->print("bar");
 
-Apache will generate one bucket brigade with two buckets:
+Apache will generate one bucket brigade with two buckets (there are
+several types of buckets which contain data, one of them is
+I<transient>):
 
-  bucket type   data
-  ------------------
-  1st    data   foo
+  bucket type       data
+  ----------------------
+  1st    transient   foo
   2nd    flush
 
 and send it to the filter chain. Then assuming that no more data was
-printed, after C<print("bar")>, it will create another bucket brigade:
+sent after C<print("bar")>, it will create a last bucket brigade
+containing data:
 
-  bucket type   data
-  ------------------
-  1st    data   bar
+  bucket type       data
+  ----------------------
+  1st    transient   bar
 
 and send it to the filter chain. Finally it'll send yet another bucket
-brigade with EOS bucket indicating that there will be no more data
-send:
+brigade with the EOS bucket indicating that there will be no more data
+sent:
 
-  bucket type   data
-  ------------------
+  bucket type       data
+  ----------------------
   1st    eos
 
 In our example the filter will be invoked three times.  Notice that
@@ -111,13 +114,14 @@ sometimes the EOS bucket comes attached to the last bucket brigade
 with data and sometimes in its own bucket brigade. This should be
 transparent to the filter logic, as we will see shortly.
 
-A user may install another filter upstream, and that filter may decide
-to insert extra bucket brigades or collect all the data in all bucket
+A user may install an upstream filter, and that filter may decide to
+insert extra bucket brigades or collect all the data in all bucket
 brigades passing through it and send it all down in one brigade.
-What's important to remember is when coding a filter one should never
+What's important to remember is when coding a filter, one should never
 assume that the filter is always going to be invoked once, or a fixed
-number of times. Therefore a typical filter handler may need to split
-its logic in three parts.
+number of times. Neither one can make assumptions on the way the data
+is going to come in. Therefore a typical filter handler may need to
+split its logic in three parts.
 
 Jumping ahead we will show some pseudo-code that represents all three
 parts. This is how a typical filter looks like:
@@ -226,14 +230,14 @@ Here the filter operates only on a single bucket brigade. Since it
 manipulates every character separately the logic is really simple.
 
 In more complicated filters the filters may need to buffer data first
-before the tranformation can be applied. For example if the filter
+before the transformation can be applied. For example if the filter
 operates on html tokens (e.g., 'E<lt>img src="me.jpg"E<gt>'), it's
 possible that one brigade will include the beginning of the token
 ('E<lt>img ') and the remainder of the token ('src="me.jpg"E<gt>')
 will come in the next bucket brigade (on the next filter
 invocation). In certain cases it may involve more than two bucket
 brigades to get the whole token. In such a case the filter will have
-to store the remainer of unprocessed data in the filter context and
+to store the remainder of unprocessed data in the filter context and
 then reuse it on the next invocation. Another good example is a filter
 that performs data compression (compression is usually effective only
 when applied to relatively big chunks of data), so if a single bucket
@@ -259,7 +263,7 @@ it's invoked, using the C<$filter-E<gt>seen_eos> method:
 This check should be done at the end of the filter handler, because
 sometimes the EOS "token" comes attached to the tail of data (the last
 invocation gets both the data and EOS) and sometimes it comes all
-alone (the last invocation gets only EOS). So if this test is peformed
+alone (the last invocation gets only EOS). So if this test is performed
 at the beginning of the handler and the EOS bucket was sent in
 together with the data, the EOS event may be missed and filter won't
 function properly.
@@ -278,35 +282,92 @@ handler that lowers the case of the characters going through it).
 
 =head2 Blocking Calls
 
-The input and output filters chains are invoked in different fashions.
+All filters (excluding the core filter that reads from the network and
+the core filter that writes to it) block at least once when
+invoked. Depending on whether this is an input or an output filter,
+the blocking happens when the bucket brigade is requested from the
+upstream filter or when the bucket brigade is passed to the next
+filter.
 
-When an input filter is invoked it first performs ask the up-stream
-filter for the next bucket brigade. That up-stream filter is in turn
-going to ask for the bucket brigade from the next up-stream filter in
-chain, etc. till the network filter is reached. That filter will
-consume a portion of the incoming data from the network, process it
-and send it to its down-stream filter, which will process the data and
-send it to its down-stream filter, etc. till it reaches the first
-filter. The following diagram depicts that scenario:
+First of all, the input and output filters differ in the ways they
+acquire the bucket brigades (which includes the data that they
+filter). Even though when a streaming API is used the difference can't
+be seen, it's important to understand how things work underneath.
 
+When an input filter is invoked, it first asks the upstream filter for
+the next bucket brigade (using the C<get_brigade()> call). That
+upstream filter is in turn going to ask for the bucket brigade from
+the next upstream filter in chain, etc., till the last filter (called
+C<core_in>), that reads from the network is reached. The C<core_in>
+filter reads, using a socket, a portion of the incoming data from the
+network, processes it and sends it to its downstream filter, which
+will process the data and send it to its downstream filter, etc., till
+it reaches the very first filter who has asked for the data. (In
+reality some other handler triggers the request for the bucket
+brigade, e.g., the HTTP response handler, or a protocol module, but
+for our discussion it's good enough to assume that it's the first
+filter that issues the C<get_brigade()> call.)
+
+The following diagram depicts a typical input filters chain data flow
+in addition to the program control flow:
 
 =for html
 <img src="in_filter_stream.gif" width="659" height="275" 
  align="center" valign="middle" alt="input filter data flow"><br><br>
 
-Output filters: 
+The black- and white-headed arrows show when the control is switched
+from one filter to another. In addition the black-headed arrows show
+the actual data flow. The diagram includes some pseudo-code, both for
+in Perl for the mod_perl filters and in C for the internal Apache
+filters. You don't have to understand C to understand this
+diagram. What's important to understand is that when input filters are
+invoked they first call each other via the C<get_brigade()> call and
+then block (notice the brick wall on the diagram), waiting for the
+call to return. When this call returns all upstream filters have
+already completed finishing their filtering task.
 
-META: complete
+As mentioned earlier, the streaming interface hides these details,
+however the first call C<$filter-E<gt>read()> will block as underneath
+it performs the C<get_brigade()> call.
+
+The diagram shows a part of the actual input filter chain for an HTTP
+request, the C<...> shows that there are more filters in between the
+mod_perl filter and C<http_in>.
+
+Now let's look at what happens in the output filters chain. Here the
+first filter acquires the bucket brigades containing the response
+data, from the content handler (or another protocol handler if we
+aren't talking HTTP), it then applies any modification and passes the
+data to the next filter (using the C<pass_brigade()> call), which in
+turn applies its modifications and sends the bucket brigade to the
+next filter, etc., all the way down to the last filter (called
+C<core>) which writes the data to the network, via the socket the
+client is listening to. Even though the output filters don't have to
+wait to acquire the bucket brigade (since the upstream filter passes
+it to them as an argument), they still block in a similar fashion to
+input filters, since they have to wait for the C<pass_brigade()> call
+to return.
+
+The following diagram depicts a typical output filters chain data flow
+in addition to the program control flow:
 
 =for html
 <img src="out_filter_stream.gif" width="575" height="261" 
  align="center" valign="middle" alt="output filter data flow"><br><br>
 
+Similar to the input filters chain diagram, the arrows show the
+program control flow and in addition the black-headed arrows show the
+data flow. Again, it uses a Perl pseudo-code for the mod_perl filter
+and C pseudo-code for the Apache filters, similarly the brick walls
+represent the waiting. And again, the diagram shows a part of the real
+HTTP response filters chain, where C<...> stands for the omitted
+filters.
 
 
 
+=head1 mod_perl Filters Declaration and Configuration
 
-=head1 mod_perl Filters Interface
+Now let's see how mod_perl filters are declared and configured.
 
 =head2 PerlInputFilterHandler
 
@@ -338,13 +399,13 @@ C<PerlOutputFilterHandler> handler.
 
 =head2 Connection vs. HTTP Request Filters
 
-Currently the mod_perl filters allow connection and request level
-filtering. mod_perl filter handlers specify the type of the filter
-using the method attributes.
+mod_perl 2.0 supports connection and HTTP request filtering. mod_perl
+filter handlers specify the type of the filter using the method
+attributes.
 
-Request filter handlers are declared using the C<FilterRequestHandler>
-attribute. Consider the following request input and output filters
-skeleton:
+HTTP request filter handlers are declared using the
+C<FilterRequestHandler> attribute. Consider the following request
+input and output filters skeleton:
 
   package MyApache::FilterRequestFoo;
   use base qw(Apache::Filter);
@@ -433,8 +494,8 @@ retrieved with:
 
   my $c = $filter->c;
 
-Inside a request filter the current request object can be retrieved
-with:
+Inside an HTTP request filter the current request object can be
+retrieved with:
 
   my $r = $filter->r;
 
@@ -442,9 +503,8 @@ with:
 
 mod_perl provides two interfaces to filtering: a direct bucket
 brigades manipulation interface and a simpler, stream-oriented
-interface (XXX: as of this writing the latter is available only for
-the output filtering). The examples in the following sections will
-help you to understand the difference between the two interfaces.
+interface.  The examples in the following sections will help you to
+understand the difference between the two interfaces.
 
 
 
@@ -747,7 +807,7 @@ bucket of type I<TRANSIENT> which is allocated from the stack memory.
 The moment the first bucket brigade of the response body has entered
 the connection output filters, Apache injects a bucket brigade with
 the HTTP headers. Therefore we can see that the connection output
-filter is filtering the bridage with HTTP headers (notice that the
+filter is filtering the brigade with HTTP headers (notice that the
 request output filters don't see it):
 
   >>> connection output filter
@@ -809,9 +869,9 @@ This module helps to understand that each filter handler can be called
 many time during each request and connection. It's called for each
 bucket brigade.
 
-Also it's important to notice that request input filters are called
-only if there is some POSTed data to read.
-
+Also it's important to mention that HTTP request input filters are
+invoked only if there is some POSTed data to read and it's consumed by
+a content handler.
 
 =head1 Input Filters
 
@@ -823,8 +883,18 @@ Request|/HTTP_Request_Input_Filters> input filters:
 Let's say that we want to test how our handlers behave when they are
 requested as C<HEAD> requests, rather than C<GET>. We can alter the
 request headers at the incoming connection level transparently to all
-handlers. So here is the input filter handler that does that by
-directly manipulating the bucket brigades:
+handlers.
+
+This example's filter handler looks for data like:
+
+  GET /perl/test.pl HTTP/1.1
+
+and turns it into:
+
+  HEAD /perl/test.pl HTTP/1.1
+
+The following input filter handler does that by directly manipulating
+the bucket brigades:
 
   file:MyApache/InputFilterGET2HEAD.pm
   -----------------------------------
@@ -835,79 +905,132 @@ directly manipulating the bucket brigades:
   
   use base qw(Apache::Filter);
   
-  use Apache::Connection ();
-  use Apache::ServerUtil ();
   use APR::Brigade ();
   use APR::Bucket ();
   
   use Apache::Const -compile => 'OK';
-  use APR::Const -compile => ':common';
+  use APR::Const    -compile => ':common';
   
   sub handler : FilterConnectionHandler {
       my($filter, $bb, $mode, $block, $readbytes) = @_;
   
-      my $c = $filter->c;
-      my $ctx_bb = APR::Brigade->new($c->pool, $c->bucket_alloc);
-      my $rv = $filter->next->get_brigade($ctx_bb, $mode, $block, $readbytes);
+      return Apache::DECLINED if $filter->ctx;
+  
+      my $rv = $filter->next->get_brigade($bb, $mode, $block, $readbytes);
       return $rv unless $rv == APR::SUCCESS;
   
-      while (!$ctx_bb->empty) {
-          my $bucket = $ctx_bb->first;
-  
-          $bucket->remove;
-  
-          if ($bucket->is_eos) {
-              $bb->insert_tail($bucket);
-              last;
-          }
-  
+      for (my $b = $bb->first; $b; $b = $bb->next($b)) {
           my $data;
-          my $status = $bucket->read($data);
+          my $status = $b->read($data);
           return $status unless $status == APR::SUCCESS;
+          warn("data: $data\n");
   
           if ($data and $data =~ s|^GET|HEAD|) {
-              $bucket = APR::Bucket->new($data);
+              my $bn = APR::Bucket->new($data);
+              $b->insert_after($bn);
+              $b->remove; # no longer needed
+              $filter->ctx(1); # flag that that we have done the job
+              last;
           }
-  
-          $bb->insert_tail($bucket);
       }
   
       Apache::OK;
   }
-  
   1;
 
 The filter handler is called for each bucket brigade, which in turn
-includes buckets with data. The gist of any filter handler is to
-retrieve the bucket brigade sent from the previous filter, prepare a
-new empty brigade, and move buckets from the former brigade to the
-latter optionally modifying the buckets on the way, which may include
-removing or adding new buckets. Of course if the filter doesn't want
-to modify any of the buckets it may decide to pass through the
-original brigade without doing any work.
+includes buckets with data. The gist of any input filter handler is to
+request the bucket brigade from the upstream filter, and return it
+downstream filter using the second argument C<$bb>. It's important to
+remember that you can call methods on this argument, but you shouldn't
+assign to this argument, or the chain will be broken. You have two
+techniques to choose from to retrieve-modify-return bucket brigades:
 
-In our example the handler first removes the bucket at the top of the
-brigade and looks at its type. If it sees an end of stream, that
-removed bucket is linked to the tail of the bucket brigade that will
-go to the next filter and it doesn't attempt to read any more
-buckets. If this event doesn't happen the handler reads the data from
-that bucket and if it finds that the data is of interest to us, it
-modifies the data, creates a new bucket using the modified data and
-links it to the tail of the outgoing brigade, while discarding the
-original bucket. In our case the interesting data is a such that
-matches the regular expression C</^GET/>. If the data is not interesting to the
-handler, it simply links the unmodified bucket to the outgoing
-brigade.
+=over
 
-The handler looks for data like:
+=item 1
 
-  GET /perl/test.pl HTTP/1.1
+Create a new empty bucket brigade <$ctx_bb>, pass it to the upstream
+filter via C<get_brigade()> and wait for this call to return. When it
+returns, C<$ctx_bb> is populated with buckets. Now the filter should
+move the bucket from C<$ctx_bb> to C<$bb>, on the way modifying the
+buckets if needed. Once the buckets are moved, and the filter returns,
+the downstream filter will receive the populated bucket brigade.
 
-and turns it into:
+=item 2
 
-  HEAD /perl/test.pl HTTP/1.1
+Pass C<$bb> to C<get_brigade()> to the upstream filter, so it will be
+populated with buckets. Once C<get_brigade()> returns, the filter can
+go through the buckets and modify them in place, or it can do nothing
+and just return (in which case, the downstream filter will receive the
+bucket brigade unmodified).
 
-For example, consider the following response handler:
+=back
+
+Both techniques allow addition and removal of buckets. Though the
+second technique is more efficient since it doesn't have the overhead
+of create the new brigade and moving the bucket from one brigade to
+another. In this example we have chosen to use the second technique,
+in the next example we will see the first technique.
+
+Our filter has to perform the substitution of only one HTTP header
+(which normally resides in one bucket), so we have to make sure that
+no other data gets mangled (e.g. there could be POSTED data and it may
+match C</^GET/> in one of the buckets). We use C<$filter-E<gt>ctx> as
+a flag here. When it's undefined the filter knows that it hasn't done
+the required substitution, though once it completes the job it sets
+the context to 1.
+
+To optimize the speed, the filter immediately returns
+C<Apache::DECLINED> when it's invoked after the substitution job has
+been done:
+
+    return Apache::DECLINED if $filter->ctx;
+
+In that case mod_perl will call C<get_brigade()> internally which will
+pass the bucket brigade to the downstream filter. Alternatively the
+filter could do:
+
+    my $rv = $filter->next->get_brigade($bb, $mode, $block, $readbytes);
+    return $rv unless $rv == APR::SUCCESS;
+    return Apache::OK if $filter->ctx;
+
+but this is a bit less efficient.
+
+[META: finally, once the API for filters removal will be in place, the
+most efficient thing to do will be to remove the filter itself once
+the job is done, so it won't be even invoked after the job has been
+done.
+
+  if ($filter->ctx) {
+      $filter->remove;
+      return Apache::DECLINED;
+  }
+
+I'm not sure if that would be the syntax, but you get the idea.
+]
+
+If the job wasn't done yet, the filter calls C<get_brigade>, which
+populates the C<$bb> bucket brigade. Next, the filter steps through
+the buckets looking for the bucket that matches the regex:
+C</^GET/>. If that happens, a new bucket is created with the modified
+data (C<s/^GET/HEAD/>. Now it has to be inserted in place of the old
+bucket. In our example we insert the new bucket after the bucket that
+we have just modified and immediately remove that bucket that we don't
+need anymore:
+
+            $b->insert_after($bn); # or $bb->insert_head($bn);
+            $b->remove; # no longer needed
+
+Finally we set the context to 1, so we know not to apply the
+substitution on the following data and break from the I<for> loop.
+
+The handler returns C<Apache::OK> indicating that everything was
+fine. The downstream filter will receive the bucket brigade with one
+bucket modified.
+
+Now let's check that the handler works properly. For example, consider
+the following response handler:
 
   file:MyApache/RequestType.pm
   ---------------------------
@@ -994,9 +1117,12 @@ real GET request.
 
 Request filters are really non-different from connection filters,
 other than that they are working on request and response bodies and
-have an access to a request object. The filter implementation is
-pretty much identical. Let's look at the request input filter that
-lowercases the request's body C<MyApache::InputRequestFilterLC>:
+have an access to a request object.
+
+=head2 Bucket Brigade-based Input Filters
+
+Let's look at the request input filter that lowers the case of the
+request's body: C<MyApache::InputRequestFilterLC>:
 
   file:MyApache/InputRequestFilterLC.pm
   -------------------------------------
@@ -1007,11 +1133,12 @@ lowercases the request's body C<MyApache::InputRequestFilterLC>:
   
   use base qw(Apache::Filter);
   
+  use Apache::Connection ();
   use APR::Brigade ();
   use APR::Bucket ();
   
   use Apache::Const -compile => 'OK';
-  use APR::Const -compile => ':common';
+  use APR::Const    -compile => ':common';
   
   sub handler : FilterRequestHandler {
       my($filter, $bb, $mode, $block, $readbytes) = @_;
@@ -1045,6 +1172,27 @@ lowercases the request's body C<MyApache::InputRequestFilterLC>:
   
   1;
 
+As promised, in this filter handler we have used the first technique
+of bucket brigade modification. The handler creates a temporary bucket
+brigade (C<ctx_bb>), populates it with data using C<get_brigade()>,
+and then moves buckets from it to the bucket brigade C<$bb>, which is
+then retrieved by the downstream filter when our handler returns.
+
+This filter doesn't need to know whether it was invoked for the first
+time or whether it has already done something. It's state-less
+handler, since it has to lower case everything that passes through
+it. Notice that this filter can't be used as the connection filter for
+HTTP requests, since it will invalidate the incoming request headers;
+for example the first header line:
+
+  GET /perl/TEST.pl HTTP/1.1
+
+will become:
+
+  get /perl/test.pl http/1.1
+
+which messes up the request method, the URL and the protocol.
+
 Now if we use the C<MyApache::Dump> response handler, we have
 developed before in this chapter, which dumps the query string and the
 content body as a response, and configure the server as follows:
@@ -1071,6 +1219,96 @@ before the content handler received it. You can see that the query
 string wasn't changed.
 
 
+=head2 Stream-oriented Input Filters
+
+Let's now look at the same filter implemented using the
+stream-oriented API.
+
+  file:MyApache/InputRequestFilterLC2.pm
+  -------------------------------------
+  package MyApache::InputRequestFilterLC2;
+  
+  use strict;
+  use warnings;
+  
+  use base qw(Apache::Filter);
+  
+  use Apache::Const -compile => 'OK';
+  
+  use constant BUFF_LEN => 1024;
+  
+  sub handler : FilterRequestHandler {
+      my $filter = shift;
+  
+      while ($filter->read(my $buffer, BUFF_LEN)) {
+          $filter->print(lc $buffer);
+      }
+  
+      Apache::OK;
+  }
+  1;
+
+Now you probably ask yourself why did we have to go through the bucket
+brigades filters when this all can be done so much simpler. The reason
+is that we wanted you to understand how the filters work underneath,
+which will assist a lot when you will need to debug filters or
+optimize their speed. In certain cases a bucket brigade filter may be
+more efficient than the stream-oriented. For example if the filter
+applies transformation to selected buckets, certain buckets may
+contain open filehandles or pipes, rather than real data. And when you
+call read() the buckets will be forced to read that data in. But if
+you didn't want to modify these buckets you could pass them as they
+are and let Apache do faster techniques for sending data from the file
+handles or pipes.
+
+The logic is very simple here, the filter reads in loop, and prints
+the modified data, which at some point will be sent to the next
+filter. This point happens every time the internal mod_perl buffer is
+full or when the filter returns.
+
+C<read()> populates C<$buffer> to a maximum of C<BUFF_LEN> characters
+(1024 in our example). Assuming that the current bucket brigade
+contains 2050 chars, C<read()> will get the first 1024 characters,
+then 1024 characters more and finally the remaining 2
+characters. Notice that even though the response handler may have sent
+more than 2050 characters, every filter invocation operates on a
+single bucket brigade so you have to wait for the next invocation to
+get more input. In one of the earlier examples we have shown that you
+can force the generation of several bucket brigades in the content
+handler by using C<rflush()>. For example:
+
+  $r->print("string");
+  $r->rflush();
+  $r->print("another string");
+
+It's only possible to get more than one bucket brigade from the same
+filter handler invocation if the filter is not using the streaming
+interface and by simply calling C<get_brigade()> as many times as
+needed or till EOS is received.
+
+The configuration section is pretty much identical:
+
+ <Location /lc_input2>
+      SetHandler modperl
+      PerlResponseHandler    +MyApache::Dump
+      PerlInputFilterHandler +MyApache::InputRequestFilterLC2
+  </Location>
+
+When issuing a POST request:
+
+ % echo "mOd_pErl RuLeS" | POST 'http://localhost:8002/lc_input2?FoO=1&BAR=2'
+
+we get a response:
+
+  args:
+  FoO=1&BAR=2
+  content:
+  mod_perl rules
+
+indeed we can see that our filter has lowercased the POSTed body,
+before the content handler received it. You can see that the query
+string wasn't changed.
+
 =head1 Output Filters
 
 mod_perl supports L<Connection|/Connection_Output_Filters> and L<HTTP
@@ -1085,8 +1323,8 @@ response, whereas request output filters see only the response body.
 
 META: for now see the request output filter explanations and examples,
 connection output filter examples will be added soon. Interesting
-ideas for such filters are welcome (mainly for mungling output headers
-I suppose).
+ideas for such filters are welcome (possible ideas: mangling output
+headers for HTTP requests, pretty much anything for protocol modules).
 
 
 =head2 HTTP Request Output Filters
@@ -1128,7 +1366,7 @@ we will use the HTTP request output filter.
 
 
 
-=head3 Stream-oriented Output Filter
+=head3 Stream-oriented Output Filters
 
 The first filter implementation is using the stream-oriented filtering
 API:
@@ -1191,39 +1429,50 @@ the I<readline()> mode in chunks up to the buffer length (1024 in our
 example), and then prints each line reversed while preserving the new
 line control characters at the end of each line.  Behind the scenes
 C<$filter-E<gt>read()> retrieves the incoming brigade and gets the
-data from it, whereas C<$filter-E<gt>print()> appends to the new
-brigade which is then sent to the next filter in the stack. C<read()>
-breaks the while loop, when the brigade is emptied or the end of
-stream is received.
+data from it, and C<$filter-E<gt>print()> appends to the new brigade
+which is then sent to the next filter in the stack. C<read()> breaks
+the I<while> loop, when the brigade is emptied or the end of stream is
+received.
 
 In order not to distract the reader from the purpose of the example
 the used code is oversimplified and won't handle correctly input lines
 which are longer than 1024 characters and possibly using a different
-line termination pattern. So here is an example of a more complete
-handler, which does takes care of these issues:
+line termination token (could be "\n", "\r" or "\r\n" depending on a
+platform). Moreover a single line may be split between across two or
+even more bucket brigades, so we have to store the unprocessed string
+in the filter context, so it can be used on the following invocations.
+So here is an example of a more complete handler, which does takes
+care of these issues:
 
   sub handler {
-      my $filter = shift;
+      my $f = shift;
   
-      my $left_over = '';
-      while ($filter->read(my $buffer, BUFF_LEN)) {
-          $buffer = $left_over . $buffer;
-          $left_over = '';
+      my $leftover = $f->ctx;
+      while ($f->read(my $buffer, BUFF_LEN)) {
+          $buffer = $leftover . $buffer if defined $leftover;
+          $leftover = undef;
           while ($buffer =~ /([^\r\n]*)([\r\n]*)/g) {
-              $left_over = $1, last unless $2;
-              $filter->print(scalar(reverse $1), $2);
+              $leftover = $1, last unless $2;
+              $f->print(scalar(reverse $1), $2);
           }
       }
-      $filter->print(scalar reverse $left_over) if length $left_over;
   
-      Apache::OK;
+      if ($f->seen_eos) {
+          $f->print(scalar reverse $leftover) if defined $leftover;
+      }
+      else {
+          $f->ctx($leftover) if defined $leftover;
+      }
+  
+      return Apache::OK;
   }
 
-In this handler the lines longer than the buffer's length are buffered
-up in C<$left_over> and processed only when the whole line is read in,
-or if there is no more input the buffered up text is flushed before
-the end of the handler.
-
+The handlers uses C<$leftover> to store unprocessed data as long as it
+fails to assemble a complete line or there is an incomplete line
+following the new line token. On the next invocation this data is then
+prepended to the next chunk that is read. When the filter is invoked
+on the last time, it unconditionally reverses and flushes any
+remaining data.
 
 
 =head3 Bucket Brigade-based Output Filters
@@ -1312,7 +1561,12 @@ which designates the end of stream, we insert that bucket to the tail
 of the new bucket brigade and break the loop. Finally we pass the
 created brigade with modified data to the next filter and return.
 
-
+Similarly to the original version of
+C<MyApache::FilterReverse1::handler>, this filter is not smart enough
+to handle incomplete lines. However the exercise of making the filter
+foolproof should be trivial by porting a better matching rule and
+using the C<$leftover> buffer from the previous section is trivial and
+left as an exercise to the reader.
 
 =head1 Filter Tips and Tricks
 
@@ -1340,8 +1594,8 @@ META: to be written.
 
 [
 
-talk about issues like not losing metabuckets. e.g. if the filter runs
-a switch statement and propogates buckets types that were known at the
+talk about issues like not losing meta-buckets. e.g. if the filter runs
+a switch statement and propagates buckets types that were known at the
 time of writing, it may drop buckets of new types which may be added
 later, so it's important to ensure that there is a default cause where
 the bucket is passed as is.
