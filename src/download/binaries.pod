@@ -14,7 +14,7 @@ L<bundles|download::bundles>.
 
 =head1 How to get pre-compiled mod_perl
 
-=head2 Win32 mod_perl 1.x
+=head2 Win32 mod_perl 1.0
 
 Win32 mod_perl Binaries (made by Randy Kobes) -
 ftp://theoryx5.uwinnipeg.ca/pub/other/. Grab a perl-win32-bin-x.x.exe
@@ -25,7 +25,7 @@ and some common modules, so are largish.
 For more information please read the L<Win32
 Documentation|docs::1.0::os::win32::index>.
 
-=head2 Win32 mod_perl 2.x (BETA)
+=head2 Win32 mod_perl 2.0 (BETA)
 
 An experimental mod_perl-2.0 win32 binary package is available at
 ftp://theoryx5.uwinnipeg.ca/pub/other/Apache2.tar.gz for those Win32

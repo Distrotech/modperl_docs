@@ -52,7 +52,7 @@ compatibility bandaids and building a smarter, stronger and faster
 implementation based on lessons learned over the 4.5 years since
 mod_perl was introduced.
 
-This document assumes basic knowlege of mod_perl-1.x features and will
+This document assumes basic knowlege of mod_perl-1.0 features and will
 focus only the differences mod_perl-2.0 will bring.
 
 Note 1: The Apache and mod_perl APIs mentioned in this document are
@@ -193,7 +193,7 @@ parser and parses the configuration files each time you access it.
 With 2.0 there is already a parse tree in memory, which mod_info can
 then walk to output its information.
 
-If a mod_perl 1.xx module wants access to configuration information,
+If a mod_perl 1.0 module wants access to configuration information,
 there are two approaches.  A module can "subclass" directive handlers,
 saving a copy of the data for itself, then returning B<DECLINE_CMD> so
 the other modules are also handed the info.  Or, the
@@ -247,11 +247,11 @@ process to concurrently callback into Perl.  This of course requires
 each thread to have its own C<PerlInterpreter> object, or at least
 that each instance is only accessed by one thread at any given time.
 
-mod_perl-1.xx has only a single C<PerlInterpreter>, which is
+mod_perl-1.0 has only a single C<PerlInterpreter>, which is
 contructed by the parent process, then inherited across the forks to
 child processes.  mod_perl-2.0 has a configurable number of
 C<PerlInterpreters> and two classes of interpreters, I<parent> and
-I<clone>.  A I<parent> is like that in 1.xx, the main interpreter
+I<clone>.  A I<parent> is like that in 1.0, the main interpreter
 created at startup time which compiles any pre-loaded Perl code.  A
 I<clone> is created from the parent using the Perl API I<perl_clone()>
 function.  At request time, I<parent> interpreters are only used for
@@ -276,7 +276,7 @@ Subsequent use of variables may allocate more memory, e.g. if a scalar
 variable needs to hold a longer string than it did before, or an array
 more elements than in the past.  As an optimization, Perl hangs onto
 these allocations, even though their values "go out of scope".  With
-the 1.xx model, random children would be hit with these allocations.
+the 1.0 model, random children would be hit with these allocations.
 With 2.0, mod_perl has much better control over which PerlInterpreters
 are used for incoming requests.  The intepreters are stored in two
 linked lists, one for available interpreters, one for busy.  When
@@ -391,7 +391,7 @@ abstracted into an API known as "tipool", I<Thread Item Pool>.  This
 pool can be used to manage any data structure, in which you wish to
 have a smaller number than the number of configured threads.  A good
 example of such a data structure is a database connection handle.
-The C<Apache::DBI> module implements persisent connections for 1.xx,
+The C<Apache::DBI> module implements persisent connections for 1.0,
 but may result in each child maintaining its own connection, when it
 is most often the case that number of connections is never needed
 concurrently.  The TIPool API provides a mechanism to solve this
@@ -641,7 +641,7 @@ already registered a cleanup function to make sure it is I<putback>.
 
 A new configuration directive to mod_perl-2.0, C<PerlOptions>,
 provides fine-grained configuration for what were compile-time only
-options in mod_perl-1.xx.  In addition, this directive provides
+options in mod_perl-1.0.  In addition, this directive provides
 control over what class of C<PerlInterpreter> is used for a
 C<E<lt>VirtualHostE<gt>> or location configured with
 C<E<lt>LocationE<gt>>, C<E<lt>DirectoryE<gt>>, etc.
@@ -668,7 +668,7 @@ Or maybe everything but the response handler:
       PerlOptions None +Response
   </VirtualHost>
 
-A common problem with mod_perl-1.xx was the shared namespace between
+A common problem with mod_perl-1.0 was the shared namespace between
 all code within the process.  Consider two developers using the same
 server and each which to run a different version of a module with the
 same name.  This example will create two I<parent> Perls, one for each 
@@ -713,9 +713,9 @@ own sets of large-ish modules, used only in each host.  By tuning each
 host to have its own pool, that host will continue to reuse the Perl
 allocations in their specific modules.
 
-In 1.x versions of mod_perl, configured Perl*Handlers which are not a
+In 1.0 versions of mod_perl, configured Perl*Handlers which are not a
 fully qualified subroutine name are resolved at request time,
-loading the handler module from disk if needed.  In 2.x, configured
+loading the handler module from disk if needed.  In 2.0, configured
 Perl*Handlers are resolved at startup time.  By default, modules are
 not auto-loaded during startup-time resolution.  It is possible to
 configure this feature with:
@@ -786,7 +786,7 @@ builtins to reverse the upstream buffer:
 
 =head1 Perl interface to the APR and Apache API
 
-In 1.x, the Perl interface back into the Apache API and data
+In 1.0, the Perl interface back into the Apache API and data
 structures was done piecemeal.  As functions and structure members
 were found to be useful or new features were added to the Apache API,
 the xs code was written for them here and there.
@@ -797,7 +797,7 @@ this goal, nearly the entire APR and Apache API, along with their
 public data structures are covered from the get-go.  Certain functions
 and structures which are considered "private" to Apache or otherwise
 un-useful to Perl aren't glued.  The API behaves just as it did in
-1.x, so users of the API will not notice the difference, other than the
+1.0, so users of the API will not notice the difference, other than the
 addition of many new methods.  And in the case of C<APR>, it is
 possible to use C<APR> modules outside of Apache, for example:
 

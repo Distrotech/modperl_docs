@@ -60,7 +60,7 @@ who is allowed to write and run a CGI script can at least read (if not
 write) any other files that belong to the same user and/or group the
 web server is running as.  Note that L<it's impossible to run
 C<suEXEC> and C<cgiwrap> extensions under
-mod_perl 1.x|guide::install/Is_it_possible_to_run_mod_perl_enabled_Apache_as_suExec_>.
+mod_perl 1.0|guide::install/Is_it_possible_to_run_mod_perl_enabled_Apache_as_suExec_>.
 
 Another issue is the security of the database connections.  If you use
 C<Apache::DBI>, by hacking the C<Apache::DBI> code you can pick a

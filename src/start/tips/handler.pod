@@ -2,7 +2,7 @@
 
 Content Handler Example
 
-=head1 Creating a content handler with mod_perl 1.x
+=head1 Creating a content handler with mod_perl 1.0
 
 Handlers are simply perl subroutines called by the server at various
 stages of the HTTP request cycle.  A content handler is a subroutine

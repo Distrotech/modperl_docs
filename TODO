@@ -58,8 +58,6 @@ Content:
 
 - Need to resolve prompt issue. (user/root prompt)
 
-- Replace occurences of 1.x and 2.x with 1.0 and 2.0
-
 Search:
 -------
  - consider adding auto-focus feature:

@@ -318,6 +318,11 @@ If you are posting a patch or a committing a patch, please document
 the important changes that would be of interest to the end user. For
 more info please read the L<Changes file|contribute::docs::changes_file> doc.
 
+=item * Naming mod_perl major versions
+
+We have adopted the convention that mod_perl major versions should be
+named as I<1.0> and I<2.0>, and not I<1.x> and I<2.x>.
+
 =back
 
 =head1 Review process

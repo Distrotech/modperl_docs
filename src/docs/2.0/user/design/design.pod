@@ -1,6 +1,6 @@
 =head1 NAME
 
-mod_perl_design - notes on the design and goals of mod_perl-2.0
+Notes on the design and goals of mod_perl-2.0
 
 =head1 Description
 
@@ -8,12 +8,12 @@ Notes on the design and goals of mod_perl-2.0
 
 =head1 Introduction
 
-In version 2.0 of mod_perl, the basic concept of 1.x still applies:
+In version 2.0 of mod_perl, the basic concept of 1.0 still applies:
 
   Provide complete access to the Apache C API
   via the Perl programming language.
 
-Rather than "porting" mod_perl-1.x to Apache 2.0, mod_perl-2.0 is
+Rather than "porting" mod_perl-1.0 to Apache 2.0, mod_perl-2.0 is
 being implemented as a complete re-write from scratch.
 
 For a more detailed introduction and functionality overview, see
@@ -38,12 +38,12 @@ each child has its own interpreter and no control over which child
 Apache dispatches the request to.
 
 The interpreter pool is only enabled if Perl is built with -Dusethreads
-otherwise, mod_perl will behave just as 1.xx, using a single
+otherwise, mod_perl will behave just as 1.0, using a single
 interpreter, which is only useful when Apache is configured with the
 prefork mpm.
 
 When the server is started, a Perl interpreter is constructed, compiling 
-any code specified in the configuration, just as 1.xx does.  This
+any code specified in the configuration, just as 1.0 does.  This
 interpreter is referred to as the "parent" interpreter.  Then, for 
 the number of I<PerlInterpStart> configured, a (thread-safe) clone of the
 parent interpreter is made (via perl_clone()) and added to the pool of
@@ -197,9 +197,9 @@ registration methods (the ap_hook_* functions).
 When a mod_perl hook is called for a given phase, the glue code has an 
 index into the array of handlers, so it knows to return DECLINED right 
 away if no handlers are configured, without entering the Perl runtime
-as 1.xx did.  The handlers are also now stored in an
+as 1.0 did.  The handlers are also now stored in an
 apr_array_header_t, which is much lighter and faster than using a
-Perl  AV, as 1.xx did.  And more importantly, keeps us out of the Perl
+Perl  AV, as 1.0 did.  And more importantly, keeps us out of the Perl
 runtime until we're sure we need to be there.
 
 C<Perl*Handler>s are now "compiled", that is, the various forms of:
@@ -210,7 +210,7 @@ C<Perl*Handler>s are now "compiled", that is, the various forms of:
   PerlResponseHandler $MyObject->handler
   PerlResponseHandler 'sub { print "foo\n"; return OK }'
 
-are only parsed once, unlike 1.xx which parsed every time the handler
+are only parsed once, unlike 1.0 which parsed every time the handler
 was used.  There will also be an option to parse the handlers at
 startup time.  Note: this feature is currently not enabled with
 threads, as each clone needs its own copy of Perl structures.
@@ -220,13 +220,13 @@ e.g.
 
  sub handler : method {};
 
-instead of 1.xx's
+instead of 1.0's
 
  sub handler ($$) {}
 
 =head1 Perl interface to the Apache API and Data Structures
 
-In 1.x, the Perl interface back into the Apache API and data
+In 1.0, the Perl interface back into the Apache API and data
 structures was done piecemeal.  As functions and structure members
 were found to be useful or new features were added to the Apache API,
 the xs code was written for them here and there.
@@ -423,17 +423,17 @@ Example of the stream oriented interface:
 
 =head1 Directive Handlers
 
-mod_perl 1.x provides a mechanism for Perl modules to implement
+mod_perl 1.0 provides a mechanism for Perl modules to implement
 first-class directive handlers, but requires an xs file to be
 generated and compiled.  The 2.0 version will provide the same
 functionality, but will not require the generated xs module.
 
 =head1 E<lt>PerlE<gt> Configuration Sections
 
-The ability to write configuration in Perl will carry over from 1.x,
+The ability to write configuration in Perl will carry over from 1.0,
 but will likely be implemented much different internally.  The mapping
 of a Perl symbol table should fit cleanly into the new
-I<ap_directive_t> API, unlike the hoop jumping required in 1.x.
+I<ap_directive_t> API, unlike the hoop jumping required in 1.0.
 
 =head1 Protocol Module Support
 
@@ -452,7 +452,7 @@ blanket.
 
 =head1 Build System
 
-The biggest mess in 1.xx is mod_perl's Makefile.PL, the majority of
+The biggest mess in 1.0 is mod_perl's Makefile.PL, the majority of
 logic has been broken down and moved to the C<Apache::Build> module.
 The I<Makefile.PL> will construct an C<Apache::Build> object which
 will have all the info it needs to generate scripts and I<Makefile>s
@@ -477,10 +477,10 @@ to how unix-flavor I<Makefile>s are.
 
 =head1 Test Framework
 
-Similar to 1.x, mod_perl-2.0 will provide a 'make test' target to
+Similar to 1.0, mod_perl-2.0 will provide a 'make test' target to
 exercise as many areas of the API and module features as possible.
 
-The test framework in 1.x, like several other areas of mod_perl, was
+The test framework in 1.0, like several other areas of mod_perl, was
 cobbled together over the years.  The goal of 2.0 is to provide a test
 framework that will be usable not only for mod_perl, but for
 third-party C<Apache::*> modules and Apache itself.
@@ -495,17 +495,17 @@ For example, the C<%ENV> environment variable table, C<END> blocks,
 C<@INC> include paths, etc.
 
 CGI emulation will be supported in 2.0, but done so in a way that it
-is encapsulated in its own handler.  Rather that 1.x which uses the
+is encapsulated in its own handler.  Rather that 1.0 which uses the
 same response handler, regardless if the module requires CGI emulation
 or not.  With an I<ithreads> enabled Perl, it will also be possible to
 provide more robust namespace protection.
 
 =head1 Apache::* Library
 
-The majority of the standard Apache::* modules in 1.x will be
+The majority of the standard Apache::* modules in 1.0 will be
 supported in 2.0.  Apache::Registry will likely be replaced with
 something akin to the Apache::PerlRun/Apache::RegistryNG replacement
-prototype that exists in 1.x.  The main goal being that the non-core
+prototype that exists in 1.0.  The main goal being that the non-core
 CGI emulation components of these modules are broken into small,
 re-usable pieces to subclass Apache::Registry like behavior.
 

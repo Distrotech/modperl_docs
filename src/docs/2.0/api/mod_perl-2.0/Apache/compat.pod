@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache::compat -- 1.x backward compatibility functions deprecated in 2.x
+Apache::compat -- 1.0 backward compatibility functions deprecated in 2.0
 
 =head1 SYNOPSIS
 
@@ -8,12 +8,12 @@ Apache::compat -- 1.x backward compatibility functions deprecated in 2.x
 
 =head1 DESCRIPTION
 
-C<Apache::compat> provides mod_perl 1.x compatibility layer.
+C<Apache::compat> provides mod_perl 1.0 compatibility layer.
 
 It includes most of the functions that are deprecated in mod_perl
-2.x. If your code uses any of these functions you should just load
+2.0. If your code uses any of these functions you should just load
 this module at the server startup, and chances are that everything
-should work as it did in 1.x.
+should work as it did in 1.0.
 
 However, certain functionality is not optimized and therefore it's the
 best to try to port your code not to use deprecated functions and stop

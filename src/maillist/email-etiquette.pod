@@ -29,8 +29,8 @@ and `man perl'.
 =head1 How To Get Help With mod_perl Itself
 
 Please read the sections on L<getting help with mod_perl
-1.x|docs::1.0::guide::help> or L<getting help with mod_perl
-2.x|docs::2.0::user::help::help>, depending on what version 
+1.0|docs::1.0::guide::help> or L<getting help with mod_perl
+2.0|docs::2.0::user::help::help>, depending on what version 
 you are using.
 
 =head2 Documentation which comes with the distribution

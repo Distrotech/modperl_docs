@@ -16,16 +16,16 @@ non-core problems as well.
 Whenever you want to report a bug or a problem remember that in order
 to help you need to provide us the information about the software
 blocks that you are using. This is especially important now that we
-support mod_perl versions 1.x and 2.x on the same list.
+support mod_perl versions 1.0 and 2.0 on the same list.
 
 =head2 Wrong Apache/mod_perl combination
 
 First of all:
 
-  Apache 2.x doesn't work with mod_perl 1.x.
-  Apache 1.x doesn't work with mod_perl 2.x.
+  Apache 2.x doesn't work with mod_perl 1.0.
+  Apache 1.x doesn't work with mod_perl 2.0.
 
-So if you aren't using Apache 2.x with mod_perl 2.x please do not
+So if you aren't using Apache 2.x with mod_perl 2.0 please do not
 send any bug reports.
 
 =head2 Minimum Information
