@@ -68,6 +68,9 @@ To require a module to run only under 2.0, simply add:
 
 to your module. You can also use the variable C<$mod_perl::VERSION>.
 
+(META: Well before 2.0 is released you really have to say: 
+C<use mod_perl 1.99;>)
+
 In the configuration file you can use a special configuration "define"
 symbol C<MODPERL2> which is enabled internally, as if the server had
 been started with C<-DMODPERL2>.
