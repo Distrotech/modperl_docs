@@ -533,7 +533,7 @@ set by you.  For example when you use the following configuration:
   <Location /perl>
     PerlSetEnv TEST hi
     SetHandler perl-script
-    PerlHandler ModPerl::Registry
+    PerlResponseHandler ModPerl::Registry
     Options +ExecCGI
   </Location>
 

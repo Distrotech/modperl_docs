@@ -310,7 +310,7 @@ and here is the C<MyApache::SendEmail> handler:
   
       Apache::method_register($r->pool, METHOD);
       $r->handler("perl-script");
-      $r->push_handlers(PerlHandler => \&send_email_handler);
+      $r->push_handlers(PerlResponseHandler => \&send_email_handler);
   
       return Apache::OK;
   }
@@ -485,7 +485,7 @@ C<E<lt>LocationE<gt>> container:
       PerlSetVar ReloadAll Off
       PerlSetVar ReloadModules "MyApache::*"
       SetHandler perl-script
-      PerlHandler ModPerl::Registry
+      PerlResponseHandler ModPerl::Registry
       Options +ExecCGI
   </Location>
 
@@ -904,7 +904,7 @@ the file extension of the request's URI.
       $r->handler($exts{$ext}->[HANDLER]);
   
       if (defined $exts{$ext}->[CALLBACK]) {
-          $r->set_handlers(PerlHandler => $exts{$ext}->[CALLBACK]);
+          $r->set_handlers(PerlResponseHandler => $exts{$ext}->[CALLBACK]);
       }
   
       return Apache::OK;
@@ -951,7 +951,7 @@ After doing the mapping, the handler assigns the handler:
 and the callback if needed:
 
       if (defined $exts{$ext}->[CALLBACK]) {
-          $r->set_handlers(PerlHandler => $exts{$ext}->[CALLBACK]);
+          $r->set_handlers(PerlResponseHandler => $exts{$ext}->[CALLBACK]);
       }
 
 In this simple example the callback functions don't do much but
