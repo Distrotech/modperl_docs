@@ -51,7 +51,7 @@ few words. Also please mention that this a problem with mod_perl 1.0
 (since now we have mod_perl 2.0 too). Here is an example of a good
 subject:
 
-  Subject: [mp1.0] response handler randomly segfaults
+  Subject: [mp1] response handler randomly segfaults
 
 B<The most important thing> to understand is that you should try hard
 to provide B<all> the information that may assist to understand and
@@ -184,6 +184,13 @@ source tree and run these commands:
 where C<$Config{archlibexp}> is:
 
   % perl -V:archlibexp
+
+If the trace includes Apache calls and you see no arguments, you need
+to rebuild Apache with I<--without-execstrip>. If building a static
+mod_perl, you need to rebuild it with:
+
+  % perl Makefile.PL ... APACI_ARGS='--without-execstrip'
+
 
 =item Spinning Processes
 
