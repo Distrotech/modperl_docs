@@ -78,8 +78,11 @@ with CPAN.pm shell:
 =head2 Create the build environment
 
    % cd modperl-2.0
-   % perl Makefile.PL MP_AP_PREFIX=/home/stas/src/httpd-2.0.xx
+   % perl Makefile.PL MP_AP_PREFIX=/home/stas/src/httpd-2.0.xx \
+     MP_INST_APACHE2=1
    % make
+
+XXX: MP_INST_APACHE2=1 should become the default
 
 I<options> an optional list of (key,value) pairs.
 
