@@ -1,23 +1,18 @@
-This is mod_perl 2.0 docs documentation project repository
+This is mod_perl 2.0 docs documentation+site project repository
 
-The repository is called modperl-docs, but it'll be automatically
-placed into modperl-2.0/docs when you check out mod_perl-2.0. So you
-can get the repository in one of these ways:
+The repository is called modperl-docs. The src/docs/2.0 is also checked
+out into modperl-2.0 tree.
+
+You can get the repository in one of these ways:
 
  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
 
 password: anoncvs
 
- % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
-
-and then look in modperl-2.0/docs or:
-
  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-docs
 
 The documentation CVS snapshots (rolled every 6 hours) can be
-downloaded from http://cvs.apache.org/snapshots/modperl-docs/, the
-same repository now is a part of the modperl-2.0 checkout in the
-modperl-2.0/docs directory.
+downloaded from http://cvs.apache.org/snapshots/modperl-docs/
 
 You probably want to subscribe to these two mailing lists:
 
@@ -30,6 +25,24 @@ Then you can post to the modperl-docs discussion list. To post take
 the docs-dev-subscribe@perl.apache.org address and remove the
 -subscribe part from it. Please don't advertise the list's direct
 address so we won't get spammed. Thanks.
+
+You can generate diffs with:
+
+% cvs diff -u filename(s)
+
+Or you create: ~/.cvsrc with:
+cvs -z9
+update -dP
+diff -u
+
+(which includes other useful opts) and then you just need
+
+% cvs diff filename(s)
+
+Send the commits aligned in the body of the message so we can comment on
+them. Unless your browser mangles formatted text.
+
+Thanks!
 
 Currently there are no searchable/browsable mailing list archives, but
 the raw mbox-format archives can be downloaded from:
