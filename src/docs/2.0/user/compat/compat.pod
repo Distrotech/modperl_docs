@@ -7,7 +7,8 @@ mod_perl 1.x versus mod_perl 2.x compatibility issues
 mod_perl 2.x is trying hard to be back compatible with mod_perl
 1.x. However some things (mostly APIs) have been changed. In order to
 gain a complete compatibilty with 1.x while running under 2.x, you
-should simply load the compatibility module:
+should build mod_perl with C<MP_COMPAT_1X=1> and simply load the
+compatibility module:
 
   use Apache::compat;
 
