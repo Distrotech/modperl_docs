@@ -680,12 +680,6 @@ for C<Apache::gensym()> function, since now it can be done with:
 Though the C function C<modperl_perl_gensym()> is available for XS/C
 extensions writers.
 
-=head2 C<Apache::module()>
-
-C<Apache::module()> has been replaced with the function
-C<Apache::Module::loaded()>, which now accepts a single argument: the
-module name.
-
 =head2 C<Apache::log_error()>
 
 C<Apache::log_error()> is not available in mod_perl 2.0 API. You can
@@ -696,6 +690,12 @@ use:
 instead. See the
 C<L<Apache::Log|docs::2.0::api::Apache::Log>> manpage.
 
+
+=head2 C<Apache::module()>
+
+C<Apache::module()> has been replaced with the function
+C<Apache::Module::loaded()>, which now accepts a single argument: the
+module name.
 
 
 
