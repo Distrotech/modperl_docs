@@ -265,8 +265,13 @@ If the same codebase is used for both mod_perl generations, the
 following technique can be used for using constants:
 
   package MyApache::Foo;
+  
+  use strict;
+  use warnings;
+  
   use mod_perl;
   use constant MP2 => $mod_perl::VERSION >= 1.99;
+  
   BEGIN {
       if (MP2) {
           require Apache::Const;
@@ -284,7 +289,27 @@ following technique can be used for using constants:
   }
   1;
 
+Notice that if you don't use the idiom:
 
+      return MP2 ? Apache::OK : Apache::Constants::OK;
+
+but something like the following:
+
+  sub handler1 {
+      ...
+      return Apache::Constants::OK();
+  }
+  sub handler2 {
+      ...
+      return Apache::OK();
+  }
+
+You need to add C<()>. If you don't do that, let's say that you run
+under mod_perl 2.0, perl will complain about mod_perl 1.0 constant:
+
+  Bareword "Apache::Constants::OK" not allowed while "strict subs" ...
+
+Adding C<()> prevents this warning.
 
 =head2 Deprecated Constants
 
