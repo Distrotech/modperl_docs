@@ -51,7 +51,7 @@ Content:
 
 =for html <hr>
 <p><b>
-$Id: TODO,v 1.71 2002/06/29 19:21:32 stas Exp $
+$Id: TODO,v 1.72 2002/06/30 18:17:05 stas Exp $
 </b></p>
 
 =cut
@@ -68,8 +68,7 @@ Search:
   document.forms[0]
   STATUS: on hold
 
-- switch for 10 results per page, and add option to select number
-  of results per page.
+- add option to select number of results per page.
 
 ====================================================================
 *** Updating process tuning ***
