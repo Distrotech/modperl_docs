@@ -24,10 +24,6 @@ Basic Layout:
 DocSet:
 -------
 
-- The path must be either ./foo or ../../foo and never leading ./
-  followed by ../, since the later doesn't work in IE on Mac.
-
-
 Menu: 
 -----
 
