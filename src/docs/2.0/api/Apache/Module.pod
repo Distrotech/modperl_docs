@@ -73,14 +73,14 @@ C<Apache::Module> provides the following functions and/or methods:
 The C<L<Apache::Command|docs::2.0::api::Apache::Command>> object
 that describes all of the directives this module defines.
 
-  $commands = $module->cmds();
+  $command = $module->cmds();
 
 =over 4
 
 =item obj: C<$module>
 ( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
 
-=item ret: C<$commands>
+=item ret: C<$command>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
 =item since: 1.99_12
@@ -114,14 +114,17 @@ The Perl package this configuration is for
 =item arg2: C<$server>
 ( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
-The current server, typically C<$r-E<gt>server> or C<$parms-E<gt>server>
+The current server, typically
+C<L<$r-E<gt>server|docs::2.0::api::Apache::ServerUtil>> or
+C<L<$parms-E<gt>server|docs::2.0::api::Apache::CmdParms>>.
 
 =item opt arg3: C<$dir_config>
 ( C<L<Apache::ConfVector object|docs::2.0::api::Apache::ConfVector>> )
 
-By default, the configuration returned is the server level one. To retrieve
-the per directory configuration, use C<$r-E<gt>per_dir_config> as a last
-argument.
+By default, the configuration returned is the server level one. To
+retrieve the per directory configuration, use
+C<L<$r-E<gt>per_dir_config|docs::2.0::api::Apache::RequestRec>> as a
+last argument.
 
 =item ret: C<$cfg> (HASH reference)
 
@@ -131,7 +134,8 @@ A reference to the hash holding the module configuration data.
 
 =back
 
-See also L<Apache Server Configuration Customization in Perl|docs::2.0::user::config::custom>
+See also L<Apache Server Configuration Customization in
+Perl|docs::2.0::user::config::custom>
 
 
 
