@@ -2375,7 +2375,7 @@ C<Apache::TestUtil> provides several helper functions for writing
 tests, such as: C<t_cmp()>, C<t_debug()>, C<t_append_file()>,
 C<t_write_file()>, C<t_open_file()>, C<t_mkdir()>, C<t_rmtree()>, and
 C<t_is_equal()>. See the
-C<L<Apache::TestUtil|/docs::2.0::api::Apache::TestUtil>> manpage for
+C<L<Apache::TestUtil|docs::2.0::api::Apache::TestUtil>> manpage for
 more information.
 
 =head2 Auto Configuration
