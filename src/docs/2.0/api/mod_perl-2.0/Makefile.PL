@@ -6,7 +6,7 @@ use File::Spec;
 
 use ExtUtils::MakeMaker;
 
-my $rel_path = File::Spec->catfile(('..') x 4);
+my $rel_path = File::Spec->catfile(('..') x 3);
 
 WriteMakefile(
     NAME         => 'API',
@@ -22,8 +22,8 @@ sub get_pods {
 
 package MY;
 
-# when called from top mod_perl dir, it gets ../blib for all pathes,
-# so we want to point it back to the top blib.
+# when called from top mod_perl dir, it gets ../blib for all paths, so
+# we want to point it back to the top blib dir.
 sub MY::constants {
     my $self = shift;
     for (grep /^INST_/, keys %{ $self } ) {
