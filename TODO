@@ -7,8 +7,13 @@ Basic Layout:
   dst_html/docs/2.0/devel/debug_c/debug_c.html#Analyzing_the_core_File
   STATUS: currently we try to learn to live with that by not using NS4
 
+- NS4, the navigation widgets are moved to the right, and need to
+  scroll horizontally to get to them. e.g. download/source.html
+
 - TOC's stylesheet needs fixing, so the visited links will show as
   such (they aren't now)
+
+- check that the stylesheet doesn't have fixed sizes, especially fonts!
 
 DocSet:
 -------
@@ -48,6 +53,13 @@ General:
 Content:
 --------
 
+- rewrite 404.html to be a plain hmtl to be copied as is to dst_html,
+  with a link to perl.apache.org only.
+
+- move docs/2.0/world to docs/offsite and rename 'offsite' to 'other'
+  or something like that
+  STATUS: this is going to happen as a part of a bigger revamp by Thomas.
+
 - need to make the content review and adjust config.cfg files to
   provide good abstracts. The same goes for src html files -- should
   use the <meta name="description" value=""> to add abstracts here.
@@ -67,6 +79,8 @@ Content:
 
 - ask perl.com to link to perl.apache.org from 'perl sites' section.
   + also they need to add theperlreview.com
+
+- link 'books' title in the menu to the books section.
 
 Search:
 -------
