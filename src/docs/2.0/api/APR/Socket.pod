@@ -227,7 +227,7 @@ The socket to write to
 
 The data to send
 
-=item opt arg3: C<$opt_len> ( int )
+=item opt arg2: C<$opt_len> ( int )
 
 There is no need to pass this argument, unless you want to send less
 data than contained in C<$buf>.
