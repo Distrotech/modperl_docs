@@ -43,7 +43,38 @@ troubleshooting.
 =head1 Runtime
 
 
+=head2 C Libraries Don't See C<%ENV> Entries Set by Perl Code
 
+For example some people have reported problems with C<DBD::Oracle>
+(whose guts are implemented in C), which doesn't see environment
+variables (like C<ORACLE_HOME>, C<ORACLE_SID>, etc.) set in the perl
+script and therefore fails to connect.
+
+The issue is that the C array C<environ[]> is not thread-safe.
+Therefore mod_perl 2.0 unties C<%ENV> from the underlying C<environ[]>
+array under the
+I<L<perl-script|docs::2.0::user::config::config/perl_script>> handler.
+
+The C<DBD::Oracle> driver or client library uses C<getenv()> (which
+fetches from the C<environ[]> array).  When C<%ENV> is untied from
+C<environ[]>, Perl code will see C<%ENV> changes, but C code will not.
+
+The I<L<modperl|docs::2.0::user::config::config/modperl>> handler does
+not untie C<%ENV> from C<environ[]>. Still one should avoid setting
+C<%ENV> values whenever possible.  And if it is required, should be
+done at startup time.
+
+In the particular case of the C<DBD::> drivers, you can set the
+variables that don't change (C<$ENV{ORACLE_HOME}> and
+C<$ENV{NLS_LANG}> in the startup file, and those that change pass via
+the C<connect()> method, e.g.:
+
+  my $sid      = 'ynt0';
+  my $dsn      = 'dbi:Oracle:';
+  my $user     = 'username/password';
+  my $password = '';
+  $dbh = DBI->connect("$dsn$sid", $user, $password)
+      or die "Cannot connect: " . $DBI::errstr;
 
 
 
