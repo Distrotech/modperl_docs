@@ -9,7 +9,7 @@ This chapter discusses mod_perl's input and output filter handlers.
 
 =head1 I/O Filtering Concepts
 
-Before introducing the APIs mod_perl provides for Apache Filtering,
+Before introducing the APIs, mod_perl provides for Apache Filtering,
 there are several important concepts to understand.
 
 =head2 Two Methods for Manipulating Data
@@ -29,8 +29,8 @@ Even though you don't use bucket brigades directly when you use the
 streaming filter interface (which works on bucket brigades behind the
 scenes), it's still important to understand bucket brigades. For
 example you need to know that an output filter will be invoked as many
-times as the number of bucket brigades sent from the upstream filter
-or content handler. Or you need to know that the end of stream
+times as the number of bucket brigades sent from an upstream filter or
+a content handler. Or you need to know that the end of stream
 indicator (EOS) is sometimes sent in a separate bucket brigade, so it
 shouldn't be a surprise that the filter was invoked even though no
 real data went through. As we delve into the filter details you will
@@ -79,7 +79,7 @@ content provider.
 For example if a content generation handler sends a string, and then
 forces a flush, following by more data:
 
-  # assuming buffered print ($|==0)
+  # assuming buffered STDOUT ($|==0)
   $r->print("foo");
   $r->rflush;
   $r->print("bar");
@@ -1019,7 +1019,7 @@ bucket. In our example we insert the new bucket after the bucket that
 we have just modified and immediately remove that bucket that we don't
 need anymore:
 
-            $b->insert_after($bn); # or $bb->insert_head($bn);
+            $b->insert_after($bn);
             $b->remove; # no longer needed
 
 Finally we set the context to 1, so we know not to apply the
@@ -1332,7 +1332,7 @@ headers for HTTP requests, pretty much anything for protocol modules).
 As mentioned earlier output filters can be written using the bucket
 brigades manipulation or the simplified stream-oriented interface.
 
-First let's develop a response handler that send two lines of output:
+First let's develop a response handler that sends two lines of output:
 numerals 1234567890 and the English alphabet in a single string:
 
   file:MyApache/SendAlphaNum.pm
@@ -1359,10 +1359,11 @@ numerals 1234567890 and the English alphabet in a single string:
   }
   1;
 
-The purpose of our request output filter is to reverse every line of
-the response, preserving the new line characters in their
-places. Since we want to reverse characters only in the response body
-we will use the HTTP request output filter.
+The purpose of our filter handler is to reverse every line of the
+response body, preserving the new line characters in their
+places. Since we want to reverse characters only in the response body,
+without breaking the HTTP headers, we will use the HTTP request output
+filter.
 
 
 
@@ -1467,19 +1468,21 @@ care of these issues:
       return Apache::OK;
   }
 
-The handlers uses C<$leftover> to store unprocessed data as long as it
-fails to assemble a complete line or there is an incomplete line
-following the new line token. On the next invocation this data is then
-prepended to the next chunk that is read. When the filter is invoked
-on the last time, it unconditionally reverses and flushes any
-remaining data.
+The handler uses the C<$leftover> variable to store unprocessed data
+as long as it fails to assemble a complete line or there is an
+incomplete line following the new line token. On the next handler
+invocation this data is then prepended to the next chunk that is
+read. When the filter is invoked on the last time, it unconditionally
+reverses and flushes any remaining data.
 
 
 =head3 Bucket Brigade-based Output Filters
 
-The second filter implementation is using the bucket brigades API to
-accomplish exactly the same task as the first filter.
+The following filter implementation is using the bucket brigades API
+to accomplish exactly the same task as the first filter.
 
+  file:MyApache/FilterReverse2.pm
+  --------------------------------
   package MyApache::FilterReverse2;
   
   use strict;
