@@ -1,15 +1,15 @@
 =head1 NAME
 
-Apache::Command - Perl API for accessing Apache module command information
+Apache2::Command - Perl API for accessing Apache module command information
 
 
 
 
 =head1 Synopsis
 
-  use Apache::Module ();
-  use Apache::Command ();
-  my $module = Apache::Module::find_linked_module('mod_perl.c');
+  use Apache2::Module ();
+  use Apache2::Command ();
+  my $module = Apache2::Module::find_linked_module('mod_perl.c');
   
   for (my $cmd = $module->cmds; $cmd; $cmd = $cmd->next) {
       $cmd->args_how();
@@ -25,7 +25,7 @@ Apache::Command - Perl API for accessing Apache module command information
 
 =head1 Description
 
-C<Apache::Command> provides the Perl API for accessing Apache module
+C<Apache2::Command> provides the Perl API for accessing Apache module
 command information
 
 
@@ -35,7 +35,7 @@ command information
 
 =head1 API
 
-C<Apache::Command> provides the following functions and/or methods:
+C<Apache2::Command> provides the following functions and/or methods:
 
 
 
@@ -51,13 +51,13 @@ What the command expects as arguments:
 =over 4
 
 =item obj: C<$cmd>
-( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
+( C<L<Apache2::Command object|docs::2.0::api::Apache2::Command>> )
 
-=item ret: C<$how> ( C<L<Apache::Const :cmd_how
-constant|docs::2.0::api::Apache::Const/C__cmd_how_>> )
+=item ret: C<$how> ( C<L<Apache2::Const :cmd_how
+constant|docs::2.0::api::Apache2::Const/C__cmd_how_>> )
 
 The flag value representing the type of this command
-(i.e. C<Apache::ITERATE>, C<Apache::TAKE2>).
+(i.e. C<Apache2::ITERATE>, C<Apache2::TAKE2>).
 
 =item since: 1.99_12
 
@@ -78,7 +78,7 @@ Get I<usage> message for that command, in case of syntax errors:
 =over 4
 
 =item obj: C<$cmd>
-( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
+( C<L<Apache2::Command object|docs::2.0::api::Apache2::Command>> )
 
 =item ret: C<$error> ( string )
 
@@ -103,7 +103,7 @@ Get the name of this command:
 =over 4
 
 =item obj: C<$cmd>
-( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
+( C<L<Apache2::Command object|docs::2.0::api::Apache2::Command>> )
 
 =item ret: C<$name> ( string )
 
@@ -127,10 +127,10 @@ Get the next command in the chain of commands for this module:
 =over 4
 
 =item obj: C<$cmd>
-( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
+( C<L<Apache2::Command object|docs::2.0::api::Apache2::Command>> )
 
 =item ret: C<$next>
-( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
+( C<L<Apache2::Command object|docs::2.0::api::Apache2::Command>> )
 
 Returns the next command in the chain for this module, C<undef> for
 the last command.
@@ -155,13 +155,13 @@ What overrides need to be allowed to enable this command:
 =over 4
 
 =item obj: C<$cmd>
-( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
+( C<L<Apache2::Command object|docs::2.0::api::Apache2::Command>> )
 
-=item ret: C<$override> ( C<L<Apache::Const :override
-constant|docs::2.0::api::Apache::Const/C__override_>> )
+=item ret: C<$override> ( C<L<Apache2::Const :override
+constant|docs::2.0::api::Apache2::Const/C__override_>> )
 
 The bit mask representing the overrides this command is allowed in
-(i.e C<Apache::OR_ALL>/C<Apache::ACCESS_CONF>).
+(i.e C<Apache2::OR_ALL>/C<Apache2::ACCESS_CONF>).
 
 =item since: 1.99_12
 
@@ -169,9 +169,9 @@ The bit mask representing the overrides this command is allowed in
 
 For example:
 
-  use Apache::Const -compile => qw(:override);
-  $cmd->req_override() & Apache::OR_AUTHCFG;
-  $cmd->req_override() & Apache::OR_LIMIT;
+  use Apache2::Const -compile => qw(:override);
+  $cmd->req_override() & Apache2::OR_AUTHCFG;
+  $cmd->req_override() & Apache2::OR_LIMIT;
 
 
 
