@@ -55,7 +55,7 @@ Destroy the mutex and free the memory associated with the lock.
 =over 4
 
 =item obj: C<$mutex>
-( C<L<APR::ThreadMutex|docs::2.0::api::APR::ThreadMutex>> )
+( C<L<APR::ThreadMutex object|docs::2.0::api::APR::ThreadMutex>> )
 
 the mutex to destroy.
 
@@ -81,7 +81,7 @@ the current thread will be put to sleep until the lock becomes available.
 =over 4
 
 =item obj: C<$mutex>
-( C<L<APR::ThreadMutex|docs::2.0::api::APR::ThreadMutex>> )
+( C<L<APR::ThreadMutex object|docs::2.0::api::APR::ThreadMutex>> )
 
 the mutex on which to acquire the lock.
 
@@ -105,10 +105,10 @@ Create a new mutex
 =item obj: C<APR::ThreadMutex> ( class name )
 
 =item arg1: C<$p>
-( C<L<APR::Pool|docs::2.0::api::APR::Pool>> )
+( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
 =item ret: C<$mutex>
-( C<L<APR::ThreadMutex|docs::2.0::api::APR::ThreadMutex>> )
+( C<L<APR::ThreadMutex object|docs::2.0::api::APR::ThreadMutex>> )
 
 =item since: subject to change
 
@@ -129,12 +129,12 @@ Get the pool used by this thread_mutex.
 =over 4
 
 =item obj: C<$obj>
-( C<L<APR::ThreadMutex|docs::2.0::api::APR::ThreadMutex>> )
+( C<L<APR::ThreadMutex object|docs::2.0::api::APR::ThreadMutex>> )
 
 
 
 =item ret: C<$ret>
-( C<L<APR::Pool|docs::2.0::api::APR::Pool>> )
+( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
 apr_pool_t the pool
 
@@ -160,7 +160,7 @@ if the return value was APR_EBUSY, for portability reasons.
 =over 4
 
 =item obj: C<$mutex>
-( C<L<APR::ThreadMutex|docs::2.0::api::APR::ThreadMutex>> )
+( C<L<APR::ThreadMutex object|docs::2.0::api::APR::ThreadMutex>> )
 
 the mutex on which to attempt the lock acquiring.
 
@@ -187,7 +187,7 @@ Release the lock for the given mutex.
 =over 4
 
 =item obj: C<$mutex>
-( C<L<APR::ThreadMutex|docs::2.0::api::APR::ThreadMutex>> )
+( C<L<APR::ThreadMutex object|docs::2.0::api::APR::ThreadMutex>> )
 
 the mutex from which to release the lock.
 
