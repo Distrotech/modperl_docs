@@ -1,0 +1,16 @@
+This document explains how images were created so new images of the
+same look-n-feel can be added.
+
+* favicon.ico:
+
+  created as:
+
+  pmtowinicon -output favicon.ico favicon.pnm
+
+  pnm is 16x16px image (included here)
+
+* navigation images:
+
+  are all created using:
+  font:
+  size:
