@@ -70,9 +70,8 @@ C<Apache::Module> provides the following functions and/or methods:
 
 =head2 C<apache_api_version>
 
-Get the httpd API version this module was build against, B<not>
-the module's version; Used to check that module is compatible
-with this version of the server before loading it.
+Get the httpd API version this module was build against, B<not> the
+module's version.
 
   $version = $module->apache_api_version();
 
@@ -83,10 +82,12 @@ with this version of the server before loading it.
 
 =item ret: C<$version> ( integer )
 
-=item since: 1.99_12
+=item since: 1.99_17
 
 =back
 
+This methid is used to check that module is compatible with this
+version of the server before loading it.
 
 
 
