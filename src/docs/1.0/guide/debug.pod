@@ -1510,6 +1510,12 @@ confuses the Perl current linenumber counter, newer Perls fix this.
 For older Perls compiling with the experimental B<PERL_MARK_WHERE=1>
 should solve this.
 
+Also if you happen to use line continuation C<\> your script, the line
+numbering will be off as well, since eval eats those C<\>'s and
+combines the lines together. The solution: do not use C<\>'s to mark
+lines as continued in Perl. Unlike shell languages, Perl doesn't
+require you to do that.
+
 There are compiler directives to reset its counter to some value that
 you decide.  You can always pepper your code with these to help you
 locate the problem.  At the beginning of the line you could write
