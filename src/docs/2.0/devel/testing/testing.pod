@@ -905,7 +905,12 @@ case we put the following configuration bits into this file:
 
 As you can see we just add a simple E<lt>LocationE<gt> container and
 tell Apache that the namespace I</test/amazing> should be handled by
-C<Apache::Amazing> module running as a mod_perl handler.
+C<Apache::Amazing> module running as a mod_perl handler. Notice that:
+
+      SetHandler modperl
+
+is mod_perl 2.0 configuration, if you are running under mod_perl 1.x
+use the appropriate setting.
 
 As mentioned before you can use C<Apache::Reload> to automatically
 reload the modules under development when they change. The setup for
