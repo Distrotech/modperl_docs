@@ -743,7 +743,7 @@ For example, set the C<Content-type> header to I<text/plain>.
   $r->content_type('text/plain');
 
 If you set this header via the
-C<L<headers_in|docs::2.0::api::Apache::RequestRec/C_headers_in_>>
+C<L<headers_out|docs::2.0::api::Apache::RequestRec/C_headers_out_>>
 table directly, it will be ignored by Apache. So do not do that.
 
 
