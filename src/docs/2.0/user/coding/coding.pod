@@ -29,9 +29,8 @@ not running under mod_perl.
 =item *
 
 C<GATEWAY_INTERFACE> - is set to C<CGI-Perl/1.1> for compatibility
-with mod_perl 1.x. The C<MOD_PERL> environment variable has existed
-since 1.17 and is recommended over checking the contents of
-C<GATEWAY_INTERFACE>.
+with mod_perl 1.0. This variable is deprecated in mod_perl 2.0. Use
+C<MOD_PERL> instead.
 
 =back
 
