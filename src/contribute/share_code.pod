@@ -23,23 +23,21 @@ it gets reviewed and improved by its users. In some cases new features
 are submitted as patches, so you benefit from others sharing their
 works with you.
 
-Before submitting a new module to CPAN, please discuss it first on the
-mod_perl list. It's important to choose a good intuitive name for your
-module. Also it's possible that a module with a similar functionality
-already exists and most likely that someone will point it out. In
-which case you may want to help developing this existing module
-instead and integrating your features into it.
+Before submitting a new C<Apache::> module to CPAN, please discuss it
+first on the L<mod_perl list|maillist::list-modperl>. It's important
+to choose a good intuitive name for your module. Also it's possible
+that a module with a similar functionality already exists and most
+likely that someone will point it out. In which case you may want to
+help developing this existing module instead and integrating your
+features into it.
 
 =head1 Code Snippets
 
 If you have some neat code snippets, please send them to the mailing
 list. If you are kind enough to annotate these, they could probably
 fit into mod_perl documentation. At least they will be archived in the
-mailing list archive, and in the future users will be able to find
+mailing list archive and in the future users will be able to find
 your code and reuse it.
-
-
-
 
 
 =cut
