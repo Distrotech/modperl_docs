@@ -80,8 +80,6 @@ in F<startup.pl>:
   $base_server_pool->cleanup_register(\&cleanup);
   sub cleanup { warn "server cleanup in $$\n" }
 
-C<L<base_server_pool()|docs::2.0::api::Apache::ServerUtil/C_base_server_pool_>>.
-
 This is usually useful when some server-wide cleanup should be
 performed when the server is stopped or restarted.
 
