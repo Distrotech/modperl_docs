@@ -51,14 +51,6 @@ h4 { font-size: 1.0em; }
 
 /*** links ***/
 
-a:link    { color: #0000ff;}
-a:visited { color: #993333;}
-a:active  { color: #666666;}
-a:hover   { 
-    color: #666666;
-    text-decoration: underline; /* needed for opera */
-}
-
 /* hidden links */
 h1 a:link,    h2 a:link,    h3 a:link,    h4 a:link, 
 h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited,
