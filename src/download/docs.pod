@@ -1,0 +1,140 @@
+=head1 NAME
+
+Documentation
+
+=head1 Description
+
+You may want to download and install the mod_perl documentation
+locally for easier reading.
+
+To install the documentation you will have to install the whole site
+at the same time though, but this should just be a benefit because you
+can mirror the whole site locally and have access to all the
+information available here.
+
+=head1 Download
+
+The mod_perl documentation lives in the C<cvs.apache.org> CVS
+server. To get it, you will need to checkout a copy. Assuming you have
+CVS installed, run the following commands from the directory you want
+to place the I<modperl-docs> directory in:
+
+  % cvs -d:pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+    (use the password "anoncvs")
+  % cvs -d:pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-docs
+
+You will now find a directory called I<modperl-docs> in the current
+working directory which contains all the sources needed to build the
+site.
+
+=head1 Build
+
+=head2 Normal build process
+
+The programs used to build the site are included in the directory you
+checked out from CVS. To build the whole site, run this while being
+placed in the I<modperl-docs> directory.
+
+  % bin/build
+
+This will place the site in the sub-directory I<dst_html>. You may
+open I<index.html> in there to start browsing the site.
+
+=head2 PDF version
+
+=head3 Prerequisites
+
+To build the PDF documents, you will need to have some extra tools
+installed: I<ps2pdf> (which should come with the Ghostscript
+distribution, see http://www.ghostscript.com/), and maybe the
+I<netpbm> tools too. For Windows platforms, see the file
+I<INSTALL.win32> for information.
+
+Please also note that to build the PDF version, you will have to have
+I<html2ps> installed. This tool is distributed with DocSet, the
+framework used to build the site. DocSet is available in the I<lib/>
+directory of the site repository, but you will have to download the
+DocSet distribution to get I<html2ps>: download the latest from
+http://www.apache.org/~stas/ , and then install it with the usual:
+
+  % tar -zxvf DocSet-0.xx.tar.gz
+  % cd DocSet-0.xx
+  % perl Makefile.PL
+  % make
+  % make test
+  % make install
+
+(replace C<make> with C<nmake> on Windows systems, this implies that
+you have C<nmake> installed, see the ActivePerl docs for this:
+http://aspn.activestate.com//ASPN/Reference/Products/ActivePerl/faq/Windows/ActivePerl-Winfaq9.html#Where_do_I_get_a_Win32_make
+)
+
+=head3 Building
+
+Now, you can go back to your I<modperl-docs> directory. Building the
+PDF version is as easy as with the HTML version, just do a simple:
+
+  % bin/build -d
+
+And the PDF version will be built. This is often very time-consuming
+and heave on resources though. The results will be placed in
+I<dst_html> too, with links on the HTML pages to the PDF versions. A
+I<dst_ps> directory is also created, which contains intermediate HTML,
+PostScript and PDF files.
+
+=head1 Keeping your local copy up to date
+
+Now that you have a working copy of the mod_perl site, you will want
+to keep your documentation up to date. It is updated quite frequently,
+so you might want to follow the L<docs-cvs mailing
+list|maillist::list-docs-cvs> to see when changes are made.
+
+Once you see a change is made, you need to update your CVS working
+copy, and re-build the site (although it will only rebuilt modified
+files).
+
+  % cvs up
+  % bin/build
+
+Rebuilding the PDF version is just as easy, just run:
+
+  % bin/build -d
+
+There are some times however whena  simple rebuild will be enough:
+usually when there are changes made to the design or to I<config.cfg>
+files. In that case, you will need to force the whole rebuild:
+
+  % bin/build -f
+  % bin/build -df    # if you want PDF to be rebuild.
+
+
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+the L<documentation mailing list|maillist::list-docs-dev>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Per Einar Ellefsen E<lt>per.einar (at) skynet.beE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+=cut
+
