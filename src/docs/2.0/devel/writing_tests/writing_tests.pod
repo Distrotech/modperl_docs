@@ -933,7 +933,53 @@ will skip the test if not run under httpd 2.x.
 =back
 
 
+=head2 Skipping Numerous Tests
 
+Just like you can tell C<Apache::Test> to run only specific tests, you
+can tell it to run all but a few tests.
+
+If all files in a directory I<t/foo> should be skipped, create:
+
+  t/foo/all.t:
+  ------------
+  print "1..0\n";
+
+Alternatively you can specify which tests should be skipped from a
+single file I<t/SKIP>. This file includes a list of tests to be
+skipped. You can include comments starting with C<#> and you can use
+the C<*> wildcharacter for multiply files matching.
+
+For example if in mod_perl 2.0 test suite we create the following file:
+
+  t/SKIP:
+  -------
+  # skip all files in protocol
+  protocol
+  
+  # skip basic cgi test
+  modules/cgi.t
+  
+  # skip all filter/input_* files
+  filter/input*.t
+
+In our example the first pattern specifies the directory name
+I<protocol>, since we want to skip all tests in it. But since the
+skipping is done based on matching the skip patterns from t/SKIP
+against a list of potential tests to be run, some other tests may be
+skipped as well if they match the pattern. Therefore it's safer to use
+a pattern like this:
+
+  protocol/*.t
+
+The second pattern skips a single test I<modules/cgi.t>. Note that you
+shouldn't specify the leading I<t/>. The I<.t> extension is optional,
+so you can tell:
+
+  # skip basic cgi test
+  modules/cgi
+
+The last pattern tells C<Apache::Test> to skip all the tests starting
+with I<filter/input>.
 
 =head2 Reporting a Success or a Failure of Sub-tests
 
