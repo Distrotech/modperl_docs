@@ -14,24 +14,22 @@ information available here.
 
 =head1 Download
 
-The mod_perl documentation lives in the C<cvs.apache.org> CVS
+The mod_perl documentation lives in the C<svn.apache.org> Subversion
 server. To get it, you will need to checkout a copy. Assuming you have
-CVS installed, run the following commands from the directory you want
-to place the I<modperl-docs> directory in:
+Subversion installed, run the following command from the directory you
+want to place the I<modperl-docs> directory in:
 
-  % cvs -d:pserver:anoncvs@cvs.apache.org:/home/cvspublic login
-    (use the password "anoncvs")
-  % cvs -d:pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-docs
+  % svn co http://svn.apache.org/repos/asf/perl/modperl/docs/trunk modpe
 
 You will now find a directory called I<modperl-docs> in the current
 working directory which contains all the sources needed to build the
-site. See the L<CVS Howto|contribute::cvs_howto> for more information.
+site. See the L<Subversion Howto|contribute::svn_howto> for more information.
 
-Another way to download the sources, if you don't want to use CVS, is
-to get the snapshots available from
+Another way to download the sources, if you don't want to use Subversion,
+is to get the snapshots available from
 http://cvs.apache.org/snapshots/modperl-docs/ . However, it will be a
 major drag for you to keep these up to date, so you are better advised
-to use the CVS access.
+to use the Subversion access.
 
 =head1 Build
 
@@ -41,7 +39,7 @@ number of prerequisites before starting.
 
 =head2 Prerequisites
 
-DocSet: while it is included with the CVS distribution, please
+DocSet: while it is included with the Subversion distribution, please
 download it from CPAN and install the latest version. It will install
 the tool C<html2ps>, which is needed to build the PDF version, and
 also a number of Perl modules (it will tell you the Perl modules
@@ -88,11 +86,11 @@ to keep your documentation up to date. It is updated quite frequently,
 so you might want to follow the L<docs-cvs mailing
 list|maillist::docs-cvs> to see when changes are made.
 
-Once you see a change is made, you need to update your CVS working
-copy, and re-build the site (although it will only rebuilt modified
-files).
+Once you see a change is made, you need to update your Subversion
+working copy, and re-build the site (although it will only rebuild
+modified files).
 
-  % cvs up
+  % svn up
   % bin/build
 
 Rebuilding the PDF version is just as easy, just run:
@@ -109,8 +107,8 @@ files. In that case, you will need to force the whole rebuild:
 =head1 Submitting documentation patches
 
 We warmly welcome any updates to the documentation. To send us a
-documentation patch, please update your CVS tree, and then, depending
-on the patch:
+documentation patch, please update your Subversion tree, and then,
+depending on the patch:
 
 =over
 
@@ -122,10 +120,10 @@ the L<documentation mailing list|maillist::docs-dev>.
 =item *
 
 If you only add a paragraph/modify a line, please make sure you have
-the I<latest> CVS version, and then issue:
+the I<latest> Subversion version, and then issue:
 
   % cd modperl-docs
-  % cvs diff -u > patch
+  % svn diff -u > patch
 
 And send the I<patch> file to the maintainer or the L<documentation
 mailing list|maillist::docs-dev>, preferably inlined in your e-mail
@@ -136,7 +134,7 @@ I<src/docs/2.0/api/Apache/RequestUtil.pod> doc, to generate the patch
 do:
 
   % cd modperl-docs
-  % cvs diff -u src/docs/2.0/api/Apache/RequestUtil.pod > patch
+  % svn diff -u src/docs/2.0/api/Apache/RequestUtil.pod > patch
 
 This approach will get the diff of only that file.
 
@@ -220,7 +218,7 @@ I</usr/local/modperl-docs/bin/site_build>):
   $flags .= 'd' if $name =~ /pdf/;
   $flags = $flags ? "-$flags" : "";
   
-  system("cvs up -dP >/dev/null 2>&1");
+  system("svn up >/dev/null 2>&1");
   
   system("bin/build $flags");
   
