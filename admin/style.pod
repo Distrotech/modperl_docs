@@ -24,7 +24,14 @@ Please try to use the following conventions when writing the docs:
 
 =item *
 
-Keep the text width < 74 cols.
+When using domain names in examples use only I<example.com> and its
+derivatives (e.g. I<foo.example.com>) or I<localhost> (or
+I<localhost.localdomain>). I<example.com> is an official example
+domain.
+
+=item *
+
+Keep the text width <= 74 cols.
 
 =item *
 
@@ -271,10 +278,14 @@ document can contact you for an additional questions.
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
-Stas Bekman E<lt>stas@stason.orgE<gt>
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =head1 Authors
 
-Stas Bekman E<lt>stas@stason.orgE<gt>
+=over 
+
+=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
 
 =cut
