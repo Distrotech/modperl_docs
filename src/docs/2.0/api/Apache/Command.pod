@@ -10,14 +10,14 @@ Apache::Command - Perl API for accessing Apache module command information
   use Apache::Module ();
   use Apache::Command ();
   my $module = Apache::Module::find_linked_module('mod_perl.c');
-  my $cmd = $module->cmds();
   
+  my $cmd = $module->cmds();
   while ($cmd) {
-    $cmd->args_how();
-    $cmd->errmsg();
-    $cmd->name();
-    $cmd->req_override();
-    $cmd = $cmd->next();
+      $cmd->args_how();
+      $cmd->errmsg();
+      $cmd->name();
+      $cmd->req_override();
+      $cmd = $cmd->next();
   }
 
 
@@ -46,7 +46,7 @@ C<Apache::Command> provides the following functions and/or methods:
 
 =head2 C<args_how>
 
-What the command expects as arguments
+What the command expects as arguments:
 
   $how = $obj->args_how();
 
@@ -58,7 +58,8 @@ What the command expects as arguments
 =item ret: C<$how> ( C<L<Apache::Const :cmd_how
 constant|docs::2.0::api::Apache::Const/C__cmd_how_>> )
 
-The flag value representing the type of this command (i.e. ITERATE/TAKE2)
+The flag value representing the type of this command
+(i.e. C<Apache::ITERATE>, C<Apache::TAKE2>).
 
 =item since: 1.99_12
 
@@ -68,9 +69,11 @@ The flag value representing the type of this command (i.e. ITERATE/TAKE2)
 
 
 
+
+
 =head2 C<errmsg>
 
-'usage' message for that command, in case of syntax errors
+Get I<usage> message for that command, in case of syntax errors:
 
   $error = $obj->errmsg();
 
@@ -95,7 +98,7 @@ The error message
 
 =head2 C<name>
 
-Name of this command
+Get the name of this command:
 
   $name = $obj->name();
 
@@ -116,9 +119,10 @@ The command name
 
 
 
+
 =head2 C<next>
 
-The next command in the chain of commands for this module
+Get the next command in the chain of commands for this module:
 
   $next = $cmd->next();
 
@@ -146,7 +150,7 @@ the last command.
 
 =head2 C<req_override>
 
-What overrides need to be allowed to enable this command.
+What overrides need to be allowed to enable this command:
 
   $override = $obj->req_override
 
@@ -158,7 +162,8 @@ What overrides need to be allowed to enable this command.
 =item ret: C<$override> ( C<L<Apache::Const :override
 constant|docs::2.0::api::Apache::Const/C__override_>> )
 
-The bit mask representing the overrides this command is allowed in (i.e OR_ALL/ACCESS_CONF)
+The bit mask representing the overrides this command is allowed in
+(i.e C<Apache::OR_ALL>/C<Apache::ACCESS_CONF>).
 
 =item since: 1.99_12
 
