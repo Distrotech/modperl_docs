@@ -18,7 +18,7 @@ use lib qw( modules );  ### This may need to be adjusted!
 #
 #    To display documentation for this program type "perldoc swish.cgi"
 #
-#    swish.cgi $Revision: 1.6 $ Copyright (C) 2001 Bill Moseley swishscript@hank.org
+#    swish.cgi $Revision: 1.7 $ Copyright (C) 2001 Bill Moseley swishscript@hank.org
 #    Example CGI program for searching with SWISH-E
 #
 #    This example program will only run under an OS that supports fork().
@@ -37,7 +37,7 @@ use lib qw( modules );  ### This may need to be adjusted!
 #
 #    The above lines must remain at the top of this program
 #
-#    $Id: swish.cgi,v 1.6 2002/03/24 17:06:38 stas Exp $
+#    $Id: swish.cgi,v 1.7 2002/04/06 14:42:26 moseley Exp $
 #
 ####################################################################################
 
@@ -297,8 +297,8 @@ sub default_config {
             occurrences     => 6,     # Limit number of occurrences of highlighted words
             #highlight_on   => '<b>', # HTML highlighting codes
             #highlight_off  => '</b>',
-            highlight_on    => '<font style="background:#FFFF99">',
-            highlight_off   => '</font>',
+            highlight_on    => '<span class="searchhighlight">',
+            highlight_off   => '</span>',
             meta_to_prop_map => {   # this maps search metatags to display properties
                 swishdefault    => [ qw/swishtitle swishdescription/ ],
                 swishtitle      => [ qw/swishtitle/ ],
@@ -2516,7 +2516,7 @@ Please do not contact the author or any of the swish-e developers directly.
 
 =head1 LICENSE
 
-swish.cgi $Revision: 1.6 $ Copyright (C) 2001 Bill Moseley search@hank.org
+swish.cgi $Revision: 1.7 $ Copyright (C) 2001 Bill Moseley search@hank.org
 Example CGI program for searching with SWISH-E
 
 

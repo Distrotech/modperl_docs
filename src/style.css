@@ -157,16 +157,19 @@ div.tail {
 }
 
 div.headline {
-    background-color: #525a73;
+    background-color: #525a76;
     font-family: verdana, arial, helvetica, sans-serif;
     font-weight: bold;
     color: #ffffff;
     font-size: 1.2em;
     padding: 3px;
+    margin-right: 0px;
 }
 
 /* Search Results */
-div.searchform { font-size: 0.8em; }
+div.searchform {
+    font-size: 1.0em;
+}
 
 td.searchheader {
     background-color: #525a73;
@@ -177,10 +180,10 @@ td.searchheader {
 }
 
 td.searchtimes {
-    background-color: #525a73;
+    background-color: #525a76;
     font-family: verdana, arial, helvetica, sans-serif;
     color: #ffffff;
-    font-size: 0.8em;
+    font-size: 0.7em;
 /*    font-size: 0.6em; */
 }
 
@@ -191,18 +194,39 @@ td.searchnav {
     font-size: 0.8em;
 }
 
+td.limits {
+    font-family: helvetica, arial, verdana, sans-serif;
+    color: #000000;
+    font-size: 1.0em;
+}
+
+span.base-result {
+    font-family: helvetica, arial, verdana, sans-serif;
+    color: #000000;
+    font-size: 1.0em;
+}
+
+span.searchrank {
+    font-family: helvetica, arial, verdana, sans-serif;
+    color: #000000;
+    font-size: 0.9em;
+}
+
 div.searchsummary {
-    font-size: 0.85em;
-/*    font-size: 0.8em; */
+/*    font-size: 0.85em; */
+    font-size: 0.8em;
 }
 
 div.searchprops {
+    margin-top: 0.4em;
     font-size: 0.80em;
     color: green;
 /*    font-size: 0.6em; */
 }
 
-span.searchhighlight { background-color: #ffff99; }
+span.searchhighlight {
+    background-color: #ffff99;
+}
 
 code { font-family: courier new, courier, monospace; }
 
