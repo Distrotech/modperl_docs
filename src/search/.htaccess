@@ -1,0 +1,6 @@
+deny from all
+<files swish.cgi>
+   allow from all
+   Options +ExecCGI
+</files>
+
