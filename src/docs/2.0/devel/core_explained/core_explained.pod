@@ -435,7 +435,35 @@ inlining.
 
 In all other cases use normal functions.
 
+=head1 Importing Constants and Enums into Perl API
 
+To I<import> httpd and APR constants and enums into Perl API, edit
+I<lib/Apache/ParseSource.pm>. To add a new type of C<DEFINE> constants
+adjust the C<%defines_wanted> variable, for C<enums> modify
+C<%enums_wanted>.
+
+For example to import all C<DEFINE>s starting with C<APR_FLOCK_> add:
+
+  my %defines_wanted = (
+      ...
+      APR => {
+          ...
+          flock     => [qw{APR_FLOCK_}],
+          ...
+      },
+  );
+
+When deciding which constants are to be exported, the regular
+expression will be used, so in our example all matches
+C</^APR_FLOCK_/> will be imported into the Perl API.
+
+For example to import an I<filter_type_e> C<enum> for Apache, add:
+
+  my %enums_wanted = (
+      Apache => { map { $_, 1 } qw(filter_type) },
+  );
+
+Notice that I<_e> part at the end of the enum name has gone.
 
 =head1 Maintainers
 
