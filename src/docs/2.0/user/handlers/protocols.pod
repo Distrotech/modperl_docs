@@ -13,7 +13,7 @@ in mod_perl.
 As we saw earlier, each child server (be it a thread or a process) is
 engaged in processing connections. Each connection may be served by
 different connection protocols, e.g., HTTP, POP3, SMTP, etc. Each
-connection may include more then one request, e.g., several HTTP
+connection may include more than one request, e.g., several HTTP
 requests can be served over a single connection, when several images
 are requested for the same webpage.
 
@@ -181,12 +181,14 @@ Here is the code:
   
       my $buff;
       while (1) {
-          my($rlen, $wlen);
-          $rlen = BUFF_LEN;
+          my $rlen = BUFF_LEN;
           $socket->recv($buff, $rlen);
+  
           last if $rlen <= 0 or $buff =~ /^[\r\n]+$/;
-          $wlen = $rlen;
+  
+          my $wlen = $rlen;
           $socket->send($buff, $wlen);
+  
           last if $wlen != $rlen;
       }
   
@@ -206,9 +208,9 @@ C<APR::Socket> class.
 Inside the read/send loop, the handler attempts to read C<BUFF_LEN>
 bytes from the client socket into the C<$buff> buffer.  The C<$rlen>
 parameter will be set to the number of bytes actually read.  The
-C<APR::Socket::recv()> method returns an APR status value, be we need
-only check the read length to break out of the loop if it is less than
-or equal to C<0> bytes. The handler also breaks the loop after
+C<APR::Socket::recv()> method returns an APR status value, but we need
+only to check the read length to break out of the loop if it is less
+than or equal to C<0> bytes. The handler also breaks the loop after
 processing an input including nothing but new lines characters, which
 is how we abort the connection in the interactive mode.
 
@@ -257,9 +259,11 @@ And try the new connection handler in action:
 
   Connection closed by foreign host.
 
-As you can see the response which is now was all in lower case,
-because of the output filter. And here is the implementation of the
-connection and the filter handlers.
+As you can see the response now was all in lower case, because of the
+output filter.
+
+And here is the implementation of the connection and the filter
+handlers.
 
   file:MyApache/EchoBB.pm
   -----------------------

@@ -208,7 +208,7 @@ I<news.pl>, so you can still use the former URI mapping:
   
   use strict;
   use warnings;
-
+  
   use Apache::RequestRec ();
   
   use Apache::Const -compile => qw(DECLINED);
@@ -277,8 +277,8 @@ own HTTP method as long as there is a client that supports it. If you
 think of emails, they are very similar to HTTP messages: they have a
 set of headers and a body, sometimes a multi-part body. Therefore we
 can develop a handler that extends HTTP by adding a support for the
-C<EMAIL> method.  We can enable this protocol extension during and
-push the real content handler during the
+C<EMAIL> method.  We can enable this protocol extension and push the
+real content handler during the
 C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> phase:
 
   <Location /email>
@@ -456,7 +456,7 @@ address set in the I<To> field.
 When configured inside any container directive, except
 C<E<lt>VirtualHostE<gt>>, this handler is an alias for
 C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> described
-later.  Otherwise it acts as an alias for
+earlier.  Otherwise it acts as an alias for
 C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>> described
 earlier.
 
@@ -475,9 +475,10 @@ configured as:
   PerlSetVar ReloadAll Off
   PerlSetVar ReloadModules "MyApache::*"
 
-which will monitor and reload all C<MyApache::*> modules that have
-been modified since the last request. However if we move the global
-configuration into a C<E<lt>LocationE<gt>> container:
+which during the current HTTP request will monitor and reload all
+C<MyApache::*> modules that have been modified since the last HTTP
+request. However if we move the global configuration into a
+C<E<lt>LocationE<gt>> container:
 
   <Location /devel>
       PerlInitHandler Apache::Reload
@@ -516,7 +517,7 @@ The concept behind access checker handler is very simple, return
 C<Apache::FORBIDDEN> if the access is not allowed, otherwise return
 C<Apache::OK>.
 
-The following example handler blocks requests made from IPs on the
+The following example handler denies requests made from IPs on the
 blacklist.
 
   file:MyApache/BlockByIP.pm
@@ -571,11 +572,11 @@ C<AuthType> and at least one C<require> directive.
 
 This phase is usually used to verify a user's identification
 credentials. If the credentials are verified to be correct, the
-handler should return C<OK>.  Otherwise the handler returns
-C<AUTH_REQUIRED> to indicate that the user has not authenticated
-successfully.  When Apache sends the HTTP header with this code, the
-browser will normally pop up a dialog box that prompts the user for
-login information.
+handler should return C<Apache::OK>.  Otherwise the handler returns
+C<Apache::AUTH_REQUIRED> to indicate that the user has not
+authenticated successfully.  When Apache sends the HTTP header with
+this code, the browser will normally pop up a dialog box that prompts
+the user for login information.
 
 This phase is of type
 C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
@@ -691,7 +692,7 @@ C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
-Here is the C<MyApache::SecretResourceAuthz> handler which allows an
+Here is the C<MyApache::SecretResourceAuthz> handler which grants
 access to certain resources only to certain users who have already
 properly authenticated:
 
@@ -858,7 +859,7 @@ the file extension of the request's URI.
   sub handler {
       my $r = shift;
   
-      my ($ext) = $r->uri =~ /\.(\w+)$/;
+      my($ext) = $r->uri =~ /\.(\w+)$/;
       $ext = 'txt' unless defined $ext and exists $exts{$ext};
   
       $r->handler($exts{$ext}->[HANDLER]);
@@ -936,7 +937,7 @@ handler. It applies the rest of the settings dynamically at run-time.
 =head2 PerlResponseHandler
 
 The I<handler> (I<response>) phase is used for generating the
-response. This is probably the most important phase and most of the
+response. This is arguably the most important phase and most of the
 existing Apache modules do most of their work at this phase.
 
 This is the only phase that requires two directives under
@@ -944,12 +945,12 @@ mod_perl. For example:
 
   <Location /perl>
      SetHandler perl-script
-     PerlResponseHandler Apache::Registry
+     PerlResponseHandler ModPerl::Registry
   </Location>
 
 C<SetHandler> set to
-L<C<perl-script>|docs::2.0::user::config::config/perl_script> or
-L<C<modperl>|docs::2.0::user::config::config/modperl> tells Apache
+C<L<perl-script|docs::2.0::user::config::config/perl_script>> or
+C<L<modperl|docs::2.0::user::config::config/modperl>> tells Apache
 that mod_perl is going to handle the response
 generation. C<PerlResponseHandler> tells mod_perl which callback is
 going to do the job.
@@ -1009,8 +1010,8 @@ I<http://localhost/deparse> we get the following response:
       return 0;
   }
 
-if you compare it to the source code, it's pretty much the
-same. C<B::Deparse> is fun to play with!
+If you compare it to the source code, it's pretty much the same
+code. C<B::Deparse> is fun to play with!
 
 
 

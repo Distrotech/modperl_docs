@@ -196,8 +196,8 @@ modified and some added. Of course the handler that gets the brigade
 cannot tell the history of the brigade, it can only see the existing
 buckets in the brigade.
 
-Bucket brigades are discussed in detail in the L<connection
-protocols|docs::2.0::user::handlers::protocols> and L<I/O
+Bucket brigades are discussed in detail in the L<protocol
+handlers|docs::2.0::user::handlers::protocols> and L<I/O
 filtering|docs::2.0::user::handlers::filters> chapters.
 
 

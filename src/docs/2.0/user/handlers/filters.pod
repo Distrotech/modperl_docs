@@ -360,10 +360,10 @@ If we issue the following request:
 
   % echo "mod_perl rules" | POST 'http://localhost:8008/dump?foo=1&bar=2'
 
-We get the same response, because our snooping filter didn't change
-anything. Though there was a lot of output printed to I<error_log>. We
-present it all here, since it helps a lot to understand how filters
-work.
+We get the same response, when using C<MyApache::FilterSnoop>, because
+our snooping filter didn't change anything. Though there was a lot of
+output printed to I<error_log>. We present it all here, since it helps
+a lot to understand how filters work.
 
 First we can see the connection input filter at work, as it processes
 the HTTP headers. We can see that for this request each header is put
@@ -412,9 +412,9 @@ enclosed by C<[]> so you can see the new line characters as well.
 
 Here the HTTP header has been terminated by a double new line. So far
 all the buckets were of the I<HEAP> type, meaning that they were
-allocated from the heap memory. Notice that the request input filters
-will never see the bucket brigade with HTTP header, it has been
-consumed by the last connection Apache core handler.
+allocated from the heap memory. Notice that the HTTP request input
+filters will never see the bucket brigade with HTTP headers, as it has
+been consumed by the last core connection filter.
 
 The following two entries are generated when
 C<MyApache::Dump::handler> reads the POSTed content:
@@ -431,8 +431,8 @@ C<MyApache::Dump::handler> reads the POSTed content:
 
 as we saw earlier on the diagram, the connection input filter is run
 before the request input filter. Since our connection input filter was
-passing the data through unmodified and no other connection input
-filter was configured, the request input filter sees the same
+passing the data through unmodified and no other custom connection
+input filter was configured, the request input filter sees the same
 data. The last bucket in the brigade received by the request input
 filter is of type I<EOS>, meaning that all the input data from the
 current request has been received.
@@ -776,7 +776,7 @@ As mentioned earlier output filters can be written using the bucket
 brigades manipulation or the simplified stream-oriented interface.
 
 First let's develop a response handler that send two lines of output:
-numerals 0-9 and the English alphabet in a single string:
+numerals 1234567890 and the English alphabet in a single string:
 
   file:MyApache/SendAlphaNum.pm
   -------------------------------
@@ -795,7 +795,7 @@ numerals 0-9 and the English alphabet in a single string:
   
       $r->content_type('text/plain');
   
-      $r->print(0..9, "0\n");
+      $r->print(1..9, "0\n");
       $r->print('a'..'z', "\n");
   
       Apache::OK;
@@ -805,7 +805,7 @@ numerals 0-9 and the English alphabet in a single string:
 The purpose of our request output filter is to reverse every line of
 the response, preserving the new line characters in their
 places. Since we want to reverse characters only in the response body
-we will use the request output filters.
+we will use the HTTP request output filter.
 
 
 
