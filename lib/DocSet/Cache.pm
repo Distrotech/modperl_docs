@@ -31,7 +31,7 @@ sub new {
         $self->read();
     }
 
-    if ($purge || update) {
+    if ($purge || $update) {
         # we will reconstruct the ids order to make sure to reflect the
         # changes in added and removed items (and those who have changed
         # their order)
@@ -64,6 +64,7 @@ sub can_read {
 }
 
 sub purge {
+    my $self = shift;
     if (-e $self->{path}) {
         note "!!! Removing cache file $self->{path}";
         unlink $self->{path};

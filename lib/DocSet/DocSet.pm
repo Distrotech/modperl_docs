@@ -381,7 +381,11 @@ sub render {
     # each output mode need its own cache, because of the destination
     # links which are different
     my $mode = $self->get('tmpl_mode');
-    my $cache = DocSet::Cache->new("$src_root/cache.$mode.dat");
+    my $path = "$src_root/cache.$mode.dat";
+    my $cache = DocSet::Cache->new($path);
+
+    die "Failed to read cache from $path: " . $cache->read_error
+        if $cache->read_error;
 
     # render the objects no matter what kind are they
     for my $obj ($self->stored_objects) {

@@ -192,9 +192,15 @@ sub id {
 
 
 sub get_cache {
-    my($cache_path) = @_;
-    $CACHE{$cache_path} ||= DocSet::Cache->new($cache_path);
-    return $CACHE{$cache_path};
+    my($path) = @_;
+
+    unless ($CACHE{$path}) {
+        $CACHE{$path} = DocSet::Cache->new($path);
+        die "Failed to read cache from $path: " . $CACHE{$path}->read_error
+            if $CACHE{$path}->read_error;
+    }
+
+    return $CACHE{$path};
 }
 
 
