@@ -107,6 +107,32 @@ By Ben Laurie, Peter Laurie.  http://www.oreilly.com/catalog/apache2/
 By Stephen Spainhour, Robert Eckstein.
 http://www.oreilly.com/catalog/webmaster2/
 
+=item * MySQL and Perl for the Web
+
+Interested in using MySQL, Perl, and Apache to create dynamic
+database-backed web applications? This book shows you how.
+
+  Paul DuBois 
+  New Riders
+  ISBN: 0735710546 
+  552 pages
+
+http://www.kitebird.com/mysql-perl/
+
+=item * Writing CGI Applications with Perl
+
+Writing CGI Applications with Perl (http://perlcgi-book.com/) shows
+you how to use Perl to accomplish the most vital tasks needed for
+today's online applications. Using numerous examples, line-by-line
+code explanations, and skill-stretching exercises, this book not only
+provides useful cut-and-paste code for your own programs, but it also
+teaches you practical skills and techniques that will enable you to
+develop any kind of CGI-based Web application with Perl.
+
+Chapter 9 covers the use of mod_perl.
+
+By Kevin Meltzer and Brent Michalski.
+
 =back
 
 
