@@ -81,6 +81,12 @@ Search:
 
 - in search.tt, move <font> to use CSS definitions.
 
+ - consider adding auto-focus feature:
+
+  <body background="[% doc.dir.abs_doc_root %]/images/bgline.gif"
+  bgcolor="#ffffff" onLoad="document.forms[0].elements[0].focus()">
+
+  make sure that this won't create js errors, on pages without document.forms[0] 
 
 
 ====================================================================
