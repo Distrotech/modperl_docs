@@ -668,9 +668,11 @@ more information.
 See the I<HUP Signal> explanation at the section:
 L<Server Stopping and Restarting|general::control::control/Server_Stopping_and_Restarting>
 
-=head1 Windows OS specific notes
+=head1 OS Specific Notes
 
-=head2 Apache::DBI
+=head2 Win FU
+
+=head3 Apache::DBI
 
 C<Apache::DBI> causes the server to exit when it starts up, with:
 
@@ -691,24 +693,29 @@ C<PerlRequire> and C<PerlModule> statements on the first load, so they
 can succeed on the second load.  Without that flag, the second load
 fails.
 
-=head1 HP-UX specific notes
+=head2 HP-UX
 
-=head2 /perl/perl-status?sig dumps core under HP-UX 10.20
+=head3 /perl/perl-status?sig Dumps Core Under HP-UX 10.20
 
-This issue is known to happen when Perl's ./Configure doesn't detect
-that SIGRTMAX is defined but not implemented on that platform.
+This issue is known to happen when perl's I<./Configure> doesn't
+detect that C<SIGRTMAX> is defined but not implemented on that
+platform.
 
-One solution is to upgrade to a recent version of Perl that proprely
+One solution is to upgrade to a recent version of Perl that properly
 detects the implementation of that signal.
 
-Another solution is to modify Apache/Status.pm to skip that broken
-signal by replacing the line :
+Another solution is to modify I<Apache/Status.pm> to skip that broken
+signal by replacing the line:
 
   sort keys %SIG),
 
 with:
 
   sort grep { $_ ne 'RTMAX' } keys %SIG),
+
+
+
+
 
 =head1 Problematic Perl Modules
 
