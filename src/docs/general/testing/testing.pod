@@ -1903,6 +1903,16 @@ Apache and Perl.
 
   plan tests => 2, have_threads;
 
+=item * under_construction()
+
+this is just a shortcut to skip the test while printing:
+
+  "skipped: this test is under construction";
+
+For example:
+
+  plan tests => 2, under_construction;
+
 =item * have_lwp()
 
 Tests whether the Perl module LWP is installed.
