@@ -14,7 +14,6 @@ use File::Copy;
 use Config;
 use Safe;
 use Digest::MD5;
-use IO::File;
 require Win32;
 require File::Spec;
 
@@ -118,7 +117,7 @@ my $cs = 'CHECKSUMS';
 
 # set appropriate ppd and tar.gz files
 if ($] < 5.008) {
-    $checksums = $theoryx5 . '/ppmpackages/x86/' . $cs;
+    $checksums = $ppmpackagesx86 . $cs;
     if ($apache2) {
         die 'No mod_perl 2 package available for this perl version';
     }
@@ -140,7 +139,7 @@ if ($] < 5.008) {
     }
 }
 else {
-    $checksums = $theoryx5 . '/ppms/x86/' . $cs;
+    $checksums = $ppmsx86 . $cs;
     if ($apache2) {
         $ppdfile = 'mod_perl.ppd';
         $tgzfile = 'mod_perl.tar.gz';
@@ -186,34 +185,30 @@ die "Failed to fetch $so_fetch" unless -e $so_fake;
 print "Fetching $checksums ...";
 getstore($checksums, $cs);
 print " done!\n";
+die "Failed to fetch $checksums" unless -e $cs;
 
-# check CHECKSUMS for the tar.gz file
-if (-e $cs) {
-    unless (verifyMD5($tgzfile)) {
-        die qq{CHECKSUM check for "$tgzfile" failed.\n};
-    }
-    unless (verifyMD5($so_fake)) {
-        die qq{CHECKSUM check for "$so_fake" failed.\n};
-    }
-    rename($so_fake, $so) or die "Rename of $so_fake to $so failed: $!";
-}
-else {
-    die "Failed to fetch $checksums - cannot verify CHECKSUMS.";
-}
+# check CHECKSUMS for the tar.gz and so files
+my $cksum = load_cs($cs);
+die "Could not load $cs: $!" unless $cksum;
+die qq{CHECKSUM check for "$tgzfile" failed.\n} 
+    unless (verifyMD5($cksum, $tgzfile));
+die qq{CHECKSUM check for "$so_fake" failed.\n}
+    unless (verifyMD5($cksum, $so_fake));
+rename($so_fake, $so) or die "Rename of $so_fake to $so failed: $!";
 
 # edit the ppd file to reflect a local installation
 my $old = $ppdfile . '.old';
-rename $ppdfile, $old 
+rename ($ppdfile, $old) 
     or die "renaming $ppdfile to $old failed: $!";
-open(OLD, $old) or die "Cannot open $old: $!";
-open(NEW, ">$ppdfile") or die "Cannot open $ppdfile: $!";
-while (<OLD>) {
+open(my $oldfh, $old) or die "Cannot open $old: $!";
+open(my $newfh, ">$ppdfile") or die "Cannot open $ppdfile: $!";
+while (<$oldfh>) {
     next if /<INSTALL/;
     s/$tgz/$tgzfile/;
-    print NEW $_;
+    print $newfh $_;
 }
-close OLD;
-close NEW;
+close $oldfh;
+close $newfh;
 
 # install mod_perl via ppm
 my $ppm = $Config{bin} . '\ppm';
@@ -281,10 +276,10 @@ END
 
 # routine to verify the CHECKSUMS for a file
 # adapted from the MD5 check of CPAN.pm
-sub verifyMD5 {
-    my $file = shift;
-    my $fh = IO::File->new;
-    my $cksum;
+
+sub load_cs {
+    my $cs = shift;
+    my ($cksum, $fh);
     unless (open $fh, $cs) {
         warn "Could not open $cs: $!";
         return;
@@ -299,18 +294,23 @@ sub verifyMD5 {
         warn $@;
         return;
     }
-    my ($is, $should);
-    unless (open(FILE, $file)) {
+    return $cksum;
+}
+
+sub verifyMD5 {
+    my ($cksum, $file) = @_;
+    my ($fh, $is, $should);
+    unless (open($fh, $file)) {
         warn "Cannot open $file: $!";
         return;
     }
-    binmode(FILE);
-    unless ($is = Digest::MD5->new->addfile(*FILE)->hexdigest) {
+    binmode($fh);
+    unless ($is = Digest::MD5->new->addfile($fh)->hexdigest) {
         warn "Could not compute checksum for $file: $!";
-        close(FILE);
+        close($fh);
         return;
     }
-    close(FILE);
+    close($fh);
     if ($should = $cksum->{$file}->{md5}) {
         my $test = $is eq $should ? 1 : 0;
         printf qq{Checksum for "$file" is %s\n}, 
