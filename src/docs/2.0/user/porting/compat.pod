@@ -583,6 +583,22 @@ or:
 C<Apache-E<gt>set_handlers> is avalable via
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
+To reset the list of handlers, instead of doing:
+
+  $r->set_handlers( PerlAuthenHandler => [ \&OK ] );
+
+do:
+
+  $r->set_handlers(PerlCleanupHandler => []);
+
+or
+
+  $r->set_handlers(PerlCleanupHandler => undef);
+
+See
+C<L<Apache::RequestUtil|docs::2.0::api::Apache::RequestUtil/C_set_handlers_>>.
+
+
 =head2 C<Apache-E<gt>httpd_conf>
 
 C<Apache-E<gt>httpd_conf> is now C<$s-E<gt>add_config> or
