@@ -363,6 +363,68 @@ not. It was also reported that on win32 the above s/// doesn't work.
 
 
 
+
+=head2 Problems with Catching Signals under Perl 5.8.x+
+
+Starting from 5.8.0 Perl delays signal delivery, making signals
+safe. This change may break previously working code.  For more
+information please see:
+http://search.cpan.org/dist/perl/pod/perl58delta.pod#Safe_Signals and
+http://search.cpan.org/dist/perl/pod/perlipc.pod#Deferred_Signals_%28Safe_Signals%29
+
+For example if you had the alarm code:
+
+  eval {
+      local $SIG{ALRM} = sub { die "alarm" };
+      alarm 3;
+      sleep 10; # in reality some real code should be here
+      alarm 0;
+  };
+  die "the operation was aborted" if $@ and $@ =~ /alarm/;
+
+It may not work anymore. Starting from 5.8.1 it's possible to
+circumvent the safeness of signals, by setting:
+
+  $ENV{PERL_SIGNALS} = "unsafe";
+
+as soon as you start your program (e.g. in the case of mod_perl in
+startup.pl).
+
+For more information please refer to:
+http://search.cpan.org/dist/perl/pod/perl581delta.pod#Unsafe_signals_again_available
+and http://search.cpan.org/dist/perl/pod/perlrun.pod#PERL_SIGNALS
+
+But most likely this is not what you want (since that circumvention
+makes your code unsafe). The proper solution that works correctly
+across all 5.8.x+ versions is to use the POSIX signal handling, which
+bypasses perl signal mechanism. Our example should be rewritten as
+follows:
+
+  use POSIX qw(SIGALRM);
+  eval {
+      POSIX::sigaction(SIGALRM,
+                       POSIX::SigAction->new(sub { die "alarm" }))
+            or die "Error setting SIGALRM handler: $!\n";
+      alarm 3;
+      sleep 10; # in reality some real code should be here
+      alarm 0;
+  };
+  die "the operation was aborted" if $@ and $@ =~ /alarm/;
+
+For more details see:
+http://search.cpan.org/dist/perl/ext/POSIX/POSIX.pod#POSIX::SigAction
+
+
+
+
+
+
+
+
+
+
+
+
 =head2 APR::Socket::recv: (11) Resource temporarily unavailable at ...
 
 You need to make sure that the socket is set to L<blocking IO
