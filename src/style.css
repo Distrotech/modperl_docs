@@ -28,20 +28,6 @@ a:visited { color: #0000ff;}
 a:active  { color: #0000ff;}
 a:hover   { color: #0000ff;}
 
-pre {  
-        white-space: pre;
-        font-family: profont, monaco, ocr-a, monospace, fixed;
-        font-size: 1em;;
-        line-height: normal;
-        color: black;
-        background-color: #ddffff;
-        padding: 6px; 
-        margin: .25em;
-        border: 1px;              /* this is a must for  */
-        border-color: #ffffff;    /* the <pre></pre> tag */
-        border-style: solid;      /* working in NS       */
-}
-
 
 code { 
         font-family: courier new, courier, monospace;
