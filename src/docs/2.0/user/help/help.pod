@@ -151,9 +151,9 @@ L<section|devel::debug::c/Analyzing_Dumped_Core_Files> explains how to
 extract this backtrace.
 
 Of course to generate a useful backtrace you need to have mod_perl
-with debugging symbols in it (and probably perl and/or httpd too).
-
-To get debug symbols for :
+with debugging symbols in it (and probably perl and/or httpd too) and
+also to be able to see the arguments in the calls trace. To accomplish
+that do:
 
 =over
 
@@ -166,14 +166,16 @@ rebuild mod_perl with C<MP_DEBUG=1>.
 
 =item * httpd
 
-use C<--enable-maintainer-mode>:
+If the segfault happens in the httpd's domain, rebuild it with
+C<--enable-maintainer-mode>:
 
   % ./configure --enable-maintainer-mode ...
   % make && make install
 
 =item * perl
 
-use C<-Doptimize='-g'>:
+If the segfault happesn in the perl's domain, rebuild it with
+C<-Doptimize='-g'>:
 
   % ./Configure -Doptimize='-g' ...
   % make && make test && make install
