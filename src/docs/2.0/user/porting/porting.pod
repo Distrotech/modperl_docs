@@ -13,6 +13,9 @@ Developers who need to port modules using XS code, should also read
 about L<porting Apache:: XS
 modules|docs::2.0::devel::porting::porting>.
 
+There is also: L<Porting CPAN modules to mod_perl 2.0
+Status|products::apache-modules/Porting_CPAN_modules_to_mod_perl_2_0_Status>.
+
 =head1 Introduction
 
 In the vast majority of cases, a perl Apache module that runs under
