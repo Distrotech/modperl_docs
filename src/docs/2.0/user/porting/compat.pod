@@ -824,17 +824,38 @@ manpage.
 
 =head2 C<$r-E<gt>finfo>
 
-Probably won't be implemented, because Apache 2.0's finfo
-datastructure can't be mapped into the Perl finfo datastructure.
+As Apache 2.0 doesn't provide an access to the stat structure, but
+hides it in the opaque object you need to use the
+C<L<APR::Finfo|docs::2.0::api::APR::Finfo>> accessor methods.
 
-C<L<Apache::compat|docs::2.0::api::Apache::compat>> handles that for
-now with:
+It's also possible to to adjust the mod_perl 1.0 code using
+Apache::compat's
+L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_with_mod_perl_2_0_API>.
+For example:
 
-  sub finfo {
-      my $r = shift;
-      stat $r->filename;
-      \*_;
-  }
+  use Apache::compat;
+  Apache::compat::override_mp2_api('Apache::RequestRec::finfo');
+  my $is_writable = -w $r->finfo;
+  Apache::compat::restore_mp2_api('Apache::RequestRec::finfo');
+
+which internally does just the following:
+
+ stat $r->filename and return \*_;
+
+So may be it's easier to just change the code to use this directly, so
+the above example can be adjusted to be:
+
+  my $is_writable = -w $r->filename;
+
+with the performance penalty of an extra C<stat()> system call. If you
+don't want this extra call, you'd have to write:
+
+  use APR::Finfo;
+  use APR::Const -compile => qw(WWRITE);
+  my $is_writable = $r->finfo->protection & APR::WWRITE,
+
+See the C<L<APR::Finfo|docs::2.0::api::APR::Finfo>> manpage for more
+information.
 
 =head2 C<$r-E<gt>notes>
 
@@ -844,15 +865,18 @@ C<L<APR::Table|docs::2.0::api::APR::Table>> object, which can be used
 as a tied hash or calling its I<get()>/I<set()>/I<add()>/I<unset()>
 methods.
 
-If C<L<Apache::compat|docs::2.0::api::Apache::compat>> is loaded the
-old API:
+It's also possible to to adjust the mod_perl 1.0 code using
+Apache::compat's
+L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_with_mod_perl_2_0_API>:
 
+   use Apache::compat;
+   Apache::compat::override_mp2_api('Apache::RequestRec::notes');
    $r->notes($key => $val);
    $val = $r->notes($key);
+   Apache::compat::restore_mp2_api('Apache::RequestRec::notes');
 
-is supported as well.
-
-See the L<Apache::RequestRec> manpage.
+See the C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>
+manpage.
 
 =head2 C<$r-E<gt>header_in>
 
@@ -1051,13 +1075,30 @@ information, so if you had a code like:
 now it'll be written as:
 
   require APR::SockAddr;
-  my $serverport = $c->local_addr->port_get;
+  my $serverport = $c->local_addr->port;
   my $serverip   = $c->local_addr->ip_get;
-  my $remoteport = $c->remote_addr->port_get;
+  my $remoteport = $c->remote_addr->port;
   my $remoteip   = $c->remote_addr->ip_get;
 
-META: it's not simple to fix this in the compat layer, since it'll
-break the API for normal Apache 2.0 modules. Stay tuned for solutions.
+It's also possible to to adjust the code using Apache::compat's
+L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_with_mod_perl_2_0_API>:
+
+  use Socket 'sockaddr_in';
+  use Apache::compat;
+  
+  Apache::compat::override_mp2_api('Apache::Connection::local_addr');
+  my ($serverport, $serverip) = sockaddr_in($r->connection->local_addr);
+  Apache::compat::restore_mp2_api('Apache::Connection::local_addr');
+  
+  Apache::compat::override_mp2_api('Apache::Connection::remote_addr');
+  my ($remoteport, $remoteip) = sockaddr_in($r->connection->remote_addr);
+  Apache::compat::restore_mp2_api('Apache::Connection::remote_addr');
+
+
+
+
+
+
 
 =head1 C<Apache::File>
 

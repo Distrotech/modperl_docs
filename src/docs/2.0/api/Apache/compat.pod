@@ -1,8 +1,8 @@
-=head1 NAME
+=head1 Name
 
 Apache::compat -- 1.0 backward compatibility functions deprecated in 2.0
 
-=head1 SYNOPSIS
+=head1 Synopsis
 
   # either add at the very beginning of startup.pl
   use Apache2
@@ -11,7 +11,12 @@ Apache::compat -- 1.0 backward compatibility functions deprecated in 2.0
   PerlModule Apache2
   PerlModule Apache::compat
 
-=head1 DESCRIPTION
+  # override and restore compat functions colliding with mp2 API
+  Apache::compat::override_mp2_api('Apache::Connection::local_addr');
+  my ($local_port, $local_addr) = sockaddr_in($c->local_addr);
+  Apache::compat::restore_mp2_api('Apache::Connection::local_addr');
+
+=head1 Description
 
 C<Apache::compat> provides mod_perl 1.0 compatibility layer and can be
 used to smooth the transition process to mod_perl 2.0.
@@ -29,6 +34,89 @@ therefore its functionality is not optimized and it's the best to try
 to L<port your
 code|docs::2.0::user::porting::porting> not to use deprecated
 functions and stop using the compatibility layer.
+
+
+
+
+
+
+=head1 Compatibility Functions Colliding with mod_perl 2.0 API
+
+Most of the functions provided by Apache::compat don't interfere with
+mod_perl 2.0 API. However there are several functions which have the
+same name in the mod_perl 1.0 and mod_perl 2.0 API, accept the same
+number of arguments, but either the arguments themselves aren't the
+same or the return values are different. For example the mod_perl 1.0
+code:
+
+  require Socket;
+  my $sockaddr_in = $c->local_addr;
+  my ($local_port, $local_addr) = Socket::sockaddr_in($sockaddr_in);
+
+should be adjusted to be:
+
+  require Apache::Connection;
+  require APR::SocketAddr;
+  my $sockaddr = $c->local_addr;
+  my ($local_port, $local_addr) = ($sockaddr->port, $sockaddr->ip_get);
+
+to work under mod_perl 2.0.
+
+As you can see in mod_perl 1.0 API local_addr() was returning a
+SOCKADDR_IN object (see the Socket perl manpage), in mod_perl 2.0 API
+it returns an C<L<APR::SocketAddr|docs::2.0::api::APR::SocketAddr>>
+object, which is a totally different beast. If Apache::compat
+overrides the function C<local_addr()> to be back-compatible with
+mod_perl 1.0 API. Any code that relies on this function to work as it
+should under mod_perl 2.0 will be broken. Therefore the solution is
+not to override C<local_addr()> by default. Instead a special API is
+provided which overrides colliding functions only when needed and
+which can be restored when no longer needed. So for example if you
+have code from mod_perl 1.0:
+
+  my ($local_port, $local_addr) = Socket::sockaddr_in($c->local_addr);
+
+and you aren't ready to port it to to use the mp2 API:
+
+  my ($local_port, $local_addr) = ($c->local_addr->port,
+                                   $c->local_addr->ip_get);
+
+you could do the following:
+
+  Apache::compat::override_mp2_api('Apache::Connection::local_addr');
+  my ($local_port, $local_addr) = Socket::sockaddr_in($c->local_addr);
+  Apache::compat::restore_mp2_api('Apache::Connection::local_addr');
+
+Notice that you need to restore the API as soon as possible.
+
+Both C<override_mp2_api()> and C<restore_mp2_api()> accept a list of
+functions to operate on.
+
+=head2 Available Overridable Functions
+
+At the moment the following colliding functions are available for
+overriding:
+
+=over
+
+=item * C<Apache::RequestRec::notes>
+
+=item * C<Apache::RequestRec::finfo>
+
+=item * C<Apache::Connection::local_addr>
+
+=item * C<Apache::Connection::remote_addr>
+
+=back
+
+
+
+
+
+
+
+
+
 
 =head1 Use in CPAN Modules
 
