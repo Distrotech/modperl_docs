@@ -7,6 +7,10 @@ mod_perl 1.x versus mod_perl 2.x compatibility issues
 This chapter explains how to port code from mod_perl 1.x to mod_perl
 2.x.
 
+
+
+
+
 =head1 Code Porting from 1.x to 2.x
 
 mod_perl 2.x is trying hard to be back compatible with mod_perl
@@ -19,6 +23,14 @@ should load the compatibility module as early as possible:
 at the server startup. And unless there are forgotten things or bugs,
 your code should work without any changes under 2.x series.
 
+If you have mod_perl 1.x and 2.x installed on the same system and the
+two use the same perl libraries directories (e.g. I</usr/lib/perl5>),
+make sure to load first the C<Apache2> module which will perform the
+necessary adjustments to C<@INC>.
+
+  use Apache2; # if you have 1.x and 2.x installed
+  use Apache::compat;
+
 However, unless you want to keep the 1.x compatibility, you should try
 to remove the compatibility layer and adjust your code to work under
 2.x without it. You want to do it mainly for the performance
@@ -26,6 +38,13 @@ improvement.
 
 This document explains what APIs have changed and what new APIs should
 be used instead.
+
+
+
+
+
+
+
 
 =head1 Configuration Directives
 
@@ -73,16 +92,111 @@ Now can be turned on with:
 
 
 
-=head1 Apache API
 
-To continue using Apache API from 1.x, load the compatibility module
-as early as possible:
 
-  use Apache::compat;
 
-at the server startup.
+=head1 Apache::Constants
 
-=head2 Apache::gensym
+C<Apache::Constants> has been replaced by three classes:
+
+=over
+
+=item C<Apache::Const>
+
+Apache constants
+
+=item C<APR::Const>
+
+Apache Portable Runtime constants
+
+=item C<ModPerl::Const>
+
+mod_perl specific constants
+
+=back
+
+See the manpages of the respective modules to figure out which
+constants they provide. (XXX: the manpages don't exist)
+
+META: add the info how to perform the transition. XXX: may be write a
+script, which can tell you how to port the constants to 2.0? Currently
+C<Apache::compat> doesn't provide a complete back compatibility layer.
+
+
+
+
+
+
+
+=head1 C<Apache::> functions
+
+=head2 args()
+
+$r->args() in 2.0 returns the query string without parsing and
+splitting it into an array. You can also set the query string by
+passing a string to this method.
+
+See the L<Apache::RequestRec> manpage for more information.
+
+XXX: When Apache::Request will be ported to 2.0, you can use its
+params() and similar methods to do the parsing for you.
+
+=head2  chdir_file()
+
+XXX: Not implemented yet. And won't be implemented for the threaded
+mpms, since chdir is not thread-safe.
+
+=head2 $r-E<gt>connection-E<gt>user
+
+This method is deprecated in 1.x and $r-E<gt>user should be used
+instead for both versions of mod_perl. C<Apache::user()> method is
+available since mod_perl version 1.24_01.
+
+=head2 content()
+
+$r->content() is not available in 2.0. 
+
+XXX: the reason?
+
+Instead you should perform something like the following:
+
+  sub content {
+      my $r = shift;
+  
+      $r->setup_client_block;
+  
+      return undef unless $r->should_client_block;
+  
+      my $len = $r->headers_in->get('content-length');
+  
+      my $buf;
+      $r->get_client_block($buf, $len);
+  
+      return $buf unless wantarray;
+      return $r->parse_args($buf)
+  }
+
+=head2 exit()
+
+C<Apache::exit()> has been replaced with C<ModPerl::Util::exit()>,
+which is a function (not a method) and accepts a single optional
+argument: status, whose default is 0 (== do nothing).
+
+See the L<ModPerl::Util> manpage for more information.
+
+
+=head2  finfo()
+
+XXX: not implemented yet. To be implemented. C<Apache::compat> handles
+that for now with:
+
+  sub finfo {
+      my $r = shift;
+      stat $r->filename;
+      \*_;
+  }
+
+=head2 gensym()
 
 Since Perl 5.6.1 filehandlers are autovivified and there is no need
 for C<Apache::gensym()> function, since now it can be done with:
@@ -90,18 +204,103 @@ for C<Apache::gensym()> function, since now it can be done with:
   open my $fh, "foo" or die $!;
 
 Though the C function modperl_perl_gensym() is available for XS/C
-extension writers.
+extensions writers.
 
-=head2 $r-E<gt>err_header_out
+=head2 header_in(), header_out() and err_header_out()
 
-err_header_out() is not available in 2.x. Use err_headers_out()
-instead.
+C<header_in()>, C<header_out()> and C<err_header_out()> are not
+available in 2.0. Use C<headers_in()>, C<headers_out()> and
+C<err_headers_out()> instead (which should be used in 1.x as
+well). For example you need to replace:
+
+  $r->err_header_out("Pragma" => "no-cache");
+
+with:
+
+  $r->err_headers_out->{'Pragma'} = "no-cache";
+
+See the L<Apache::RequestRec> manpage for more information.
+
+
+
+
+=head2 log_reason()
+
+C<log_reason()> has been replaced with a set of dedicated functions:
+C<Apache::RequestRec::log_error()>, C<Apache::ServerRec::log_error()>,
+C<Apache::Log::info()> and others.
+
+See the L<Apache::RequestRec>, L<Apache::Server> and L<Apache::Log>
+manpages for more information.
+
+
+=head2 module()
+
+C<Apache::module> has been replaced with the function
+C<Apache::Module::loaded()>, which now accepts a single argument: the
+module name.
+
+=head2 register_cleanup()
+
+register_cleanup() has been replaced with
+C<APR::Pool::cleanup_register()> which accepts the pool object as the
+first argument instead of the request object. e.g.:
+
+  $r->pool->cleanup_register(\&cleanup, $data);
+
+where the last argument C<$data> is optional.
+
+See the L<APR::Pool> manpage for more information.
+
+
+=head2 $r-E<gt>request
+
+Use C<Apache::request()>.
+
+=head2 send_fd() and send_fd_length()
+
+currently available only in the 1.x compatibility layer. The problem
+is that Apache has changed the API and the its functionality. See the
+implementation in C<Apache::compat>.
+
+XXX: needs a better resolution
+
+=head2 $r-E<gt>server_root_relative
+
+C<Apache::server_root_relative> is a function in 2.0.
+
+  my $conf_dir = Apache::server_root_relative($r->pool, 'conf');
+
+See the L<Apache::ServerUtil> manpage for more information.
+
+
+
 
 
 =head1 Apache::File
 
+The methods from module C<Apache::File> have been either moved to
+other packages or removed.
 
+=head2 discard_request_body(), meets_conditions(), set_content_length(), set_etag(), set_last_modified() and update_mtime()
 
+These functions now belong to the module L<Apache::Response>.
+
+=head2 mtime()
+
+mtime() now belongs to the module L<Apache::RequestRec>.
+
+=head2 open() and close()
+
+See the implementation in the module C<Apache::compat>.
+
+=head2 tmpfile()
+
+See C<File::Temp>, or the implementation in the module
+C<Apache::compat>.
+
+It was removed since Apache 2.0 doesn't have the API for this method
+anymore.
 
 =head1 Apache::Util
 
@@ -111,16 +310,23 @@ A few C<Apache::Util> functions have changed their interface.
 
 C<Apache::Util::size_string> has been replaced with
 C<APR::String::format_size>, which returns formatted strings of only 4
-characters long. See the C<APR::String> manpage for more information.
+characters long. See the L<C<APR::String>> manpage for more
+information.
 
+=head2 Apache::Util::unescape_uri()
 
-=head1 $r-E<gt>connection-E<gt>...
+C<Apache::Util::unescape_uri()> is now C<Apache::unescape_url()>.
 
-=head2 $r-E<gt>connection-E<gt>user
+=head1 Apache::URI
 
-This method is deprecated in 1.x and $r-E<gt>user should be used
-instead for both versions of mod_perl. C<Apache::user> method is
-available since mod_perl version 1.24_01.
+=head2 Apache::URI::parse
+
+C<Apache::URI::parse()> has been replaced with C<APR::URI->parse()>,
+which is invoked as:
+
+  APR::URI->parse($r->pool, $uri);
+
+See the L<APR::URI> manpage for more information.
 
 =head1 Miscellaneous
 
@@ -160,22 +366,25 @@ subroutine attributes.
 
 =head1 Apache::Registry and Apache::PerlRun and Other mod_cgi Emulators
 
-C<Apache::Registry> and C<Apache::PerlRun> now live in the
-C<ModPerl::> namespace to avoid collisions with the versions from 1.x.
+C<Apache::Registry>, C<Apache::PerlRun> and other modules from the
+registry family now live in the C<ModPerl::> namespace to avoid
+collisions with the versions from 1.x.
 
-To run the 1.x C<Apache::Registry> you have to load C<Apache::compat>:
+To run the C<Apache::Registry> module from mod_perl 1.x you have to
+load C<Apache::compat> at the startup:
 
   file:startup.pl:
   ----------------
+  use Apache2; # if you have 1.x and 2.x installed
   use Apache::compat ();
-  use lib ...; #or something to find 1.xx Apache::Registry
+  use lib ...; # to find 1.xx Apache::Registry
 
 then in I<httpd.conf>:
 
   Alias /perl /path/to/perl/scripts
   <Location /perl>
      Options +ExecCGI
-     SetHandler modperl
+     SetHandler perl-script
      PerlResponseHandler Apache::Registry
   </Location>
 
