@@ -160,7 +160,7 @@ sub write_index_file {
                 tmpl_mode    => $self->get('tmpl_mode'),
                 tmpl_root    => $self->get_dir('tmpl'),
                 src_uri      => $src_file,
-                src_path     => "$src_root/$src_file",
+                src_path     => catfile($src_root, $src_file),
             );
             $chapter->scan();
             $args{body}{$sec} = $chapter->converted_body();

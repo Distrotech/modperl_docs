@@ -33,8 +33,11 @@ sub new {
     $self->[CUR_PATH]    = $cache_path;
     $self->[REL_PATH]    = $rel_path if $rel_path;
 
-    # get the first (#0) node if id wasn't provided
-    $self->[ID] = defined $id ? $id : $cache->seq2id(0);
+    # get the first (#0) node if id wasn't provided (if there are any
+    # nodes at all)
+    $self->[ID] = defined $id 
+        ? $id 
+        : $cache->total_ids ? $cache->seq2id(0) : undef;
     return undef unless defined $self->[ID]; # an empty docset
 
     return $self;

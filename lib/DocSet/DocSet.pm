@@ -9,6 +9,8 @@ use DocSet::Cache ();
 use DocSet::Doc ();
 use DocSet::NavigateCache ();
 
+use File::Spec::Functions;
+
 use vars qw(@ISA);
 use DocSet::Config ();
 @ISA = qw(DocSet::Config);
@@ -169,6 +171,20 @@ sub scan {
     my($should_update, $reason) = 
         $self->should_update($config_file, $dst_index);
     $self->modified(1) if $should_update;
+
+    # if @body{qw(top bot)} component files exist, check whether they
+    # are newer than the target index.html file
+    if (my $body = $self->get('body')) {
+        my $src_root = $self->get_dir('src_root');
+        for my $sec (qw(top bot)) {
+            my $src_file = $body->{$sec};
+            next unless $src_file;
+            $src_file = catfile $src_root, $src_file;
+            my($should_update, $reason) = 
+                $self->should_update($src_file, $dst_index);
+            $self->modified(1) if $should_update;
+        }
+    }
 
     # sync the cache
     $cache->write;
