@@ -40,8 +40,9 @@ tcsh:
 
    setenv MODPERL_SITE http://perl.apache.org
 
-This is used as the base for spidering, plus is used to determine
-the sections of the site (for limiting the site to those sections.
+This is used as the base for spidering, plus is used to determine the
+sections of the site (for limiting the site to those sections, see
+below)
     
 =item 2 
 
@@ -134,7 +135,18 @@ the correct value for the C<sbm> variable are set in the template when
 the site is created. 
 
 The main search page I</search/swish.cgi>, has multiply checkboxes for
-the for the C<sbm> variable searching only certain parts of the site.
+the for the C<sbm> variable so you can limit searches to only selected
+sections.
+
+The C<$ENV{MODPERL_SITE}> mentioned earlier is matched against the
+C<sbm> variable to extract only the wanted subsets of the hits:
+
+  $uri =~ m!$ENV{MODPERL_SITE}{/([^/]+)/.+$!
+
+where C<$1> is used as the section name.  So it's just using the
+initial directory name for the section.
+
+
 
 =back
 
@@ -166,3 +178,4 @@ One trick.  For debugging you can run the spider without indexing.
 Another trick, you can send SIGHUP to I<spider.pl> while indexing and
 it will stop spidering, but let swish index what's been read so far.
 
+=cut

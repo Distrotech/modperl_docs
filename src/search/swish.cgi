@@ -2,6 +2,9 @@
 package SwishSearch;
 use strict;
 
+# optional file
+eval {require "./apache.org-setup.pl"};
+
 use lib qw( modules );  ### This may need to be adjusted!
                         ### It should point to the location of the
                         ### associated script modules directory
@@ -15,7 +18,7 @@ use lib qw( modules );  ### This may need to be adjusted!
 #
 #    To display documentation for this program type "perldoc swish.cgi"
 #
-#    swish.cgi $Revision: 1.3 $ Copyright (C) 2001 Bill Moseley swishscript@hank.org
+#    swish.cgi $Revision: 1.4 $ Copyright (C) 2001 Bill Moseley swishscript@hank.org
 #    Example CGI program for searching with SWISH-E
 #
 #    This example program will only run under an OS that supports fork().
@@ -34,7 +37,7 @@ use lib qw( modules );  ### This may need to be adjusted!
 #
 #    The above lines must remain at the top of this program
 #
-#    $Id: swish.cgi,v 1.3 2002/03/03 11:27:22 stas Exp $
+#    $Id: swish.cgi,v 1.4 2002/03/22 10:42:04 stas Exp $
 #
 ####################################################################################
 
@@ -103,7 +106,6 @@ use lib qw( modules );  ### This may need to be adjusted!
 
 sub default_config {
 
-
     
     ##### Configuration Parameters #########
 
@@ -130,10 +132,12 @@ sub default_config {
     #
     #   Again, this is a Perl hash structure.  Commas are important.
     #======================================================================
-    
+
+    my $swish_binary = $ENV{SWISH_BINARY_PATH} || './swish-e';
+    die "Cannot find swish-e at $swish_binary: $!" unless -x $swish_binary;
     return {
-        title           => 'Search our site',  # Title of your choice.  Displays on the search page
-        swish_binary    => './swish-e',        # Location of swish-e binary
+        title           => 'Search perl.apache.org site',  # Title of your choice.  Displays on the search page
+        swish_binary    => $swish_binary,        # Location of swish-e binary
 
 
         # By default, this script tries to read a config file.  You should probably
@@ -2512,7 +2516,7 @@ Please do not contact the author or any of the swish-e developers directly.
 
 =head1 LICENSE
 
-swish.cgi $Revision: 1.3 $ Copyright (C) 2001 Bill Moseley search@hank.org
+swish.cgi $Revision: 1.4 $ Copyright (C) 2001 Bill Moseley search@hank.org
 Example CGI program for searching with SWISH-E
 
 
