@@ -7,6 +7,7 @@ AddType text/plain .txt
 ### URI remapping ###
 
 # Documentation included in the old site.
+Redirect permanent /guide http://perl.apache.org/docs/1.0/guide/
 Redirect permanent /guide/ http://perl.apache.org/docs/1.0/guide/
 
 # Distributed with mod_perl
