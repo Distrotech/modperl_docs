@@ -25,16 +25,7 @@ C<L<Apache-E<gt>server|docs::2.0::api::Apache::Server/C_server_>>:
   use Apache::Server;
   my $server = Apache->server;
 
-There are several modules that install constants into the C<Apache::>
-namespace. For example
-C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>> defines a
-constant
-C<L<Apache::server_root|docs::2.0::api::Apache::ServerUtil/C_Apache__server_root_>>:
-
-  use Apache::ServerUtil;
-  my $server_root = Apache::server_root;
-
-To use this functions and methods you need to load the module that
+To use these functions and methods you need to load the module that
 defines them. If you aren't sure which module contains the symbol you
 are after, use the helper module
 C<L<ModPerl::MethodLookup|docs::2.0::api::ModPerl::MethodLookup>>.

@@ -444,6 +444,7 @@ and here is the C<MyApache::SendEmail> handler:
   use Apache::RequestRec ();
   use Apache::RequestIO ();
   use Apache::RequestUtil ();
+  use Apache::ServerUtil ();
   use Apache::ServerRec ();
   use Apache::Process ();
   use APR::Table ();
@@ -458,8 +459,7 @@ and here is the C<MyApache::SendEmail> handler:
   
       return Apache::DECLINED unless $r->method eq METHOD;
   
-      Apache::RequestUtil::method_register($r->server->process->pconf,
-                                           METHOD);
+      $r->server->method_register(METHOD);
       $r->handler("perl-script");
       $r->push_handlers(PerlResponseHandler => \&send_email_handler);
   

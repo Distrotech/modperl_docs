@@ -55,9 +55,6 @@ Apache::RequestUtil - Perl API for Apache request record utils
   # merge a <Location> container in a request object
   $r->location_merge($location);
   
-  # extend HTTP to support a new method
-  Apache::RequestUtil::method_register($pool, $methname);
-  
   # create a new Apache::RequestRec object
   $r = Apache::RequestRec->new($c);
   
@@ -583,53 +580,6 @@ C<Apache::RequestRec> object, created via the
 C<Apache::RequestRec-E<gt>new()> method. See for example the L<Command
 Server protocol
 example|docs::2.0::user::handlers::protocols/Command_Server>.
-
-
-
-
-
-
-
-
-
-=head2 C<method_register>
-
-Register a new request method, and return the offset that will be
-associated with that method.
-
-  $offset = Apache::RequestUtil::method_register($pool, $methname);
-
-=over 4
-
-=item arg1: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>> )
-
-The pool to create registered method numbers from. Use a long lived
-pool like:
-
-  $r->server->process->pconf;
-
-=item arg1: C<$methname> ( string )
-
-The name of the new method to register (in addition to the already
-supported C<GET>, C<HEAD>, etc.)
-
-=item ret: C<$offset> ( integer )
-
-An int value representing an offset into a bitmask. You can probably
-ignore it.
-
-=item since: 1.99_15
-
-=back
-
-This method allows you to extend the HTTP protocol to support new
-methods, which fit the HTTP paradigm.  Of course you will need to
-write a client that understands that protocol extension.  For a good
-example, refer to the C<MyApache::SendEmail> example presented in
-C<L<the PerlHeaderParserHandler
-section|docs::2.0::user::handlers::http/PerlHeaderParserHandler>>,
-which demonstrates how a new method C<EMAIL> is registered and used.
-
 
 
 

@@ -417,7 +417,9 @@ This will work in both mod_perl generations.
 
 C<Apache::Constants::SERVER_VERSION()> has been replaced with:
 
-  Apache::get_server_version();
+  Apache::ServerUtil::get_server_version();
+
+
 
 =head2 C<export()>
 
@@ -577,12 +579,10 @@ C<Apache-E<gt>request> available in the calls made from it:
 =head2 C<Apache-E<gt>define>
 
 C<Apache-E<gt>define> has been replaced with
-C<Apache::exists_config_define()> residing inside
-C<Apache::ServerUtil>.
+C<L<Apache::ServerUtil::exists_config_define()|docs::2.0::Apache::ServerUtil/C_exists_config_define_>>.
 
-See the
-C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>>
-manpage.
+
+
 
 =head2 C<Apache-E<gt>can_stack_handlers>
 

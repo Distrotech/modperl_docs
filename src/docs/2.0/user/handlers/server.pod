@@ -347,6 +347,10 @@ Everything that applies to
 C<L<PerlOpenLogsHandler|/PerlOpenLogsHandler>> identically applies to
 this handler.
 
+The
+C<L<add_version_component()|docs::2.0::api::Apache::ServerUtil/C_add_version_component_>>
+includes another useful example.
+
 
 
 
