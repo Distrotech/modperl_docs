@@ -1772,6 +1772,20 @@ generation, when the other needs to be released.
 
 
 
+=head2 The CPAN Shell
+
+In case you have mp1 and mp2 under the same perl and mp2 is installed
+under the F<Apache2/> subdirectory, in order for CPAN shell to find
+you mp2 modules you need to invoke it as:
+
+ % perl -MApache2 -MCPAN -eshell
+
+If you have only mp2 and you didn't ask to install it under the
+F<Apache2/> subdirectory, no special invocation technique is required.
+
+
+
+
 =head2 Distributors
 
 Distributors should mark the different generations of mod_perl core as
@@ -1789,20 +1803,6 @@ non-conflicting, by building all mp2 core and 3rd party modules into
 F<Apache2/> subdir, in which case the two will always co-exist. But
 this is not the most logical approach since 99% of users will want
 only one generation of mod_perl core and 3rd party modules.
-
-
-
-
-=head2 The CPAN Shell
-
-In case you have mp1 and mp2 under the same perl and mp2 is installed
-under the F<Apache2/> subdirectory, in order for CPAN shell to find
-you mp2 modules you need to invoke it as:
-
- % perl -MApache2 -MCPAN -eshell
-
-If you have only mp2 and you didn't ask to install it under the
-F<Apache2/> subdirectory, no special invocation technique is required.
 
 
 
