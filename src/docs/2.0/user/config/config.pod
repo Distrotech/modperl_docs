@@ -8,9 +8,9 @@ This chapter provides an indepth mod_perl 2.0 configuration details.
 
 =head1 mod_perl configuration directives
 
-Similar to mod_perl 1.x, in order to use mod_perl 2.0 a few
+Similar to mod_perl 1.0, in order to use mod_perl 2.0 a few
 configuration settings should be added to I<httpd.conf>. They are
-quite similar to 1.x settings but some directives were renamed and new
+quite similar to 1.0 settings but some directives were renamed and new
 directives were added.
 
 =head1 Enabling mod_perl
@@ -95,7 +95,7 @@ C<PerlSwitches> use:
 Create a new parent Perl interpreter for the given C<VirtualHost> and
 give it its own interpreter pool (implies the C<Clone> option).
 
-A common problem with mod_perl 1.x was the shared namespace between
+A common problem with mod_perl 1.0 was the shared namespace between
 all code within the process.  Consider two developers using the same
 server and each wants to run a different version of a module with the
 same name.  This example will create two I<parent> Perl interpreters,
@@ -151,7 +151,7 @@ Or maybe everything but the response handler:
 Resolve C<Perl*Handlers> at startup time, which includes loading the
 modules from disk if not already loaded.
 
-In mod_perl 1.x, configured C<Perl*Handlers> which are not a fully
+In mod_perl 1.0, configured C<Perl*Handlers> which are not a fully
 qualified subroutine names are resolved at request time, loading the
 handler module from disk if needed.  In mod_perl 2.0, configured
 C<Perl*Handlers> are resolved at startup time.  By default, modules
@@ -183,7 +183,7 @@ incoming request.
 
 =head2 C<ParseHeaders>
 
-Scan output for HTTP headers, same functionality as mod_perl 1.x's
+Scan output for HTTP headers, same functionality as mod_perl 1.0's
 C<PerlSendHeaders>, but more robust. This option is usually needs to
 be enabled for registry scripts which send the HTTP header with:
 
@@ -199,7 +199,7 @@ Turn on merging of C<Perl*Handler> arrays. For example with a setting:
       PerlFixupHandler Apache::FixupB
   </Location>
 
-a request for I</inside> only runs C<Apache::FixupB> (1.x
+a request for I</inside> only runs C<Apache::FixupB> (mod_perl 1.0
 behavior). But with this configuration:
 
   PerlFixupHandler Apache::FixupA
@@ -213,6 +213,89 @@ a request for I</inside> will run both C<Apache::FixupA> and
 C<Apache::FixupB> handlers.
 
 
+=head2 C<SetupEnv>
+
+Set up enviroment variables for each request ala mod_cgi. 
+
+When this option is enabled, I<mod_perl> fiddles with the environment
+to make it appear as if the code is called under the mod_cgi handler.
+For example, the C<$ENV{QUERY_STRING}> environment variable is
+initialized with the contents of I<Apache::args()>, and the value
+returned by I<Apache::server_hostname()> is put into
+C<$ENV{SERVER_NAME}>.
+
+But C<%ENV> population is expensive.  Those who have moved to the Perl
+Apache API no longer need this extra C<%ENV> population, and can gain
+by disabling it. A code using the C<CGI.pm> module require
+C<PerlSetupEnv On> because that module relies on a properly populated
+CGI environment table.
+
+This option is enabled by default for sections configured as:
+
+  <Location ...>
+      ...
+      SetHandler perl-script
+  </Location>
+
+Since this option adds an overhead to each request, if you don't need
+this functionality you can turn it off for a certain section:
+
+  <Location ...>
+      ...
+      SetHandler perl-script
+      Options -SetupEnv
+  </Location>
+
+or globally:
+
+  Options -SetupEnv
+  <Location ...>
+      ...
+  </Location>
+
+and then it'll affect the whole server. It can still be enabled for
+sections that need this functionality.
+
+When this option is disabled you can still read environment variables
+set by you.  For example when you use the following configuration:
+
+  Options -SetupEnv
+  PerlModule Modperl::Registry
+  <Location /perl>
+    PerlSetEnv TEST hi
+    SetHandler perl-script
+    PerlHandler ModPerl::Registry
+    Options +ExecCGI
+  </Location>
+
+and you issue a request for this script:
+
+  setupenvoff.pl
+  --------------
+  use Data::Dumper;
+  my $r = Apache->request();
+  $r->send_http_header('text/plain');
+  print Dumper(\%ENV);
+
+you should see something like this:
+
+  $VAR1 = {
+            'GATEWAY_INTERFACE' => 'CGI-Perl/1.1',
+            'MOD_PERL' => 'mod_perl/2.0.1',
+            'PATH' => 'bin:/usr/bin',
+            'TEST' => 'hi'
+          };
+
+Notice that we have got the value of the environment variable I<TEST>.
+
+For sections configured as:
+
+  <Location ...>
+      ...
+      SetHandler modperl
+  </Location>
+
+it's always turned off and cannot be turned on.
 
 
 
