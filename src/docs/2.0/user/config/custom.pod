@@ -910,7 +910,7 @@ custom directives into Apache.
       my($base, $add) = @_;
   
       my %mrg = ();
-      for my $key (keys %$base, %$add) {
+      for my $key (keys %$base, keys %$add) {
           next if exists $mrg{$key};
           if ($key eq 'MyPlus') {
               $mrg{$key} = ($base->{$key}||0) + ($add->{$key}||0);
