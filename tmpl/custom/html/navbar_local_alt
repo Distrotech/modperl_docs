@@ -31,7 +31,7 @@
 <div class='navbarlocal'>
 <table border=0>
 <tr><td align='right' valign='top'>Source and Binary mod_perl distributions <img src='[% doc.dir.abs_doc_root %]/images/left.gif' ALT='prev'></td>
-<td align='center' valign='top'><img src='[% doc.dir.abs_doc_root %]/images/up.png' ALT='up'></td>
+<td align='middle' valign='top'><img src='[% doc.dir.abs_doc_root %]/images/up.png' ALT='up'></td>
 <td align='left' valign='top'><img src='[% doc.dir.abs_doc_root %]/images/right.gif' ALT='next'> Stable Release Download</td>
 </tr></table>
 [% INCLUDE splash/domm_menu %]

@@ -6,7 +6,7 @@
 
 [% IF toc.size %]
 <a name="toc"></a>
-<table border=0 width=100%>
+<table border=0 width="100%">
 <tr><th colspan=2><h3>Table of Contents</h3></th></tr>
 <tr><td valign='top'><div class='toc'>
 [% INCLUDE page_toc_section subs=toc %]

@@ -19,7 +19,7 @@
     INCLUDE download;
 
     # render the content
-    menu="<a href='#top'><img src='${doc.dir.abs_doc_root}/images/top.gif' width=54 heigth=21 border='0' alt='TOP'></a>";
+    menu="<a href='#top'><img src='${doc.dir.abs_doc_root}/images/top.gif' width=54 height=21 border='0' alt='TOP'></a>";
     FOREACH sec = doc.body;
         sec;
         menu;
