@@ -1534,7 +1534,7 @@ For example, if you have C<use()>'d C<Apache::Constants> in the
 startup file, it does not mean you can have the following handler:
 
   package MyModule;
-  sub {
+  sub handler {
     my $r = shift;
     ## Cool stuff goes here
     return OK;
