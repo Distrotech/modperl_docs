@@ -123,6 +123,15 @@ that should aid to understand and reproduce the problem.
 Finally don't forget to copy-n-paste (not type!) the B<relevant> part
 of the I<error_log> file (not the whole file!).
 
+To further increase the chances that bugs your code exposes will be
+investigated, try using C<Apache-Test> to create a self-contained
+test that core developers can easily run.  To get you started,
+an C<Apache-Test> bug skeleton has been created:
+
+http://perl.apache.org/~geoff/bug-reporting-skeleton-mp2.tar.gz
+
+Detailed instructions are contained within the C<README>.
+
 =head2 'C<make test>' Failures
 
 If when running 'make test' some of the tests fail, please re-run them

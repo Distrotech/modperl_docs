@@ -127,6 +127,16 @@ code snippet, that reproduces the problem.
 Remember, that if we cannot reproduce the problem, we might not be
 able to solve it.
 
+To further increase the chances that bugs your code exposes will be
+investigated, try using C<Apache-Test> to create a self-contained
+environment that core developers can use to easily reproduce your
+bug.  To get you started, an C<Apache-Test> bug skeleton has been
+created:
+
+http://perl.apache.org/~geoff/bug-reporting-skeleton-mp1.tar.gz
+
+Detailed instructions are contained within the C<README>.
+
 =over
 
 =item Getting the Backtrace From Core Dumps
