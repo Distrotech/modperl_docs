@@ -1,7 +1,220 @@
 
 =head1 NAME
 
-Server Configuration
+mod_perl Server Configuration
+
+=head1 mod_perl configuration directives
+
+=head2 Installing handlers
+
+=over 4
+
+=item PerlChildInitHandler
+
+=item PerlOpenLogsHandler
+
+=item PerlPostConfigHandler
+
+=item PerlPreConnectionHandler
+
+=item PerlProcessConnectionHandler
+
+=item PerlHeaderParserHandler
+
+=item PerlAccessHandler
+
+=item PerlAuthenHandler
+
+=item PerlAuthzHandler
+
+=item PerlTypeHandler
+
+=item PerlFixupHandler
+
+=item PerlOutputFilterHandler
+
+=item PerlResponseHandler
+
+=item PerlLogHandler
+
+=item PerlPostReadRequestHandler
+
+=item PerlInitHandler
+
+=item PerlTransHandler
+
+=back
+
+=head2 General directives
+
+=over 4
+
+=item PerlSwitches switches
+
+pass switches to the Perl command line. For example, to enable
+warnings:
+
+  PerlSwitches -w
+
+=item PerlTrace [level]
+
+set the trace level. This directive is enabled when mod_perl is compiled with
+the MP_TRACE option. C<level> is either:
+
+  all
+
+which sets maximum logging and debugging levels;
+
+a combination of one or more option letters (or option numerical
+equivalents) from the following list:
+
+  d (  1) directive processing
+  f (  2) filters
+  g (  4) Perl runtime interaction
+  h (  8) handlers
+  i ( 16) interpreter pool management
+  m ( 32) memory allocations
+  s ( 64) perl sections
+  t (128) benchmark-ish timings
+
+When C<level> is not specified, the tracing level will be set to the
+value of the MOD_PERL_TRACE environment variable.
+
+=back
+
+=head2 Threaded mode directives
+
+These directives are enabled only in a threaded mod_perl+Apache combo.
+
+=over 4
+
+=item PerlInterpStart
+
+Number of Perl interpreters to start
+
+=item PerlInterpMax
+
+Max number of running Perl interpreters
+
+=item PerlInterpMaxSpare
+
+Max number of spare Perl interpreters
+
+=item PerlInterpMinSpare
+
+Min number of spare Perl interpreters
+
+=item PerlInterpMaxRequests
+
+Max number of requests per Perl interpreters
+
+=item PerlInterpScope
+
+Scope for which selected interpreter should be held, one of:
+I<request>, I<connection>, I<handler>, I<subrequest>.
+
+The default is I<request>.
+
+=back
+
+=head2 PerlOptions Directive
+
+Enable/Disable Options.  Options include:
+
+=over 4
+
+=item Parent
+
+Create a new parent Perl interpreter for the given VirtualHost and
+give it its own interpreter pool (implies Clone).
+
+=item Clone
+
+Share the parent Perl interpreter, but give the VirtualHost its own
+interpreter pool.
+
+Use:
+
+  PerlSwitches +inherit
+
+to inherit base Perl interpreter's C<PerlSwitches>.
+
+=item Enable
+
+On by default, used to disable mod_perl for a given VirtualHost.
+
+=item Perl*Handler
+
+Disable Perl*Handlers, all compiled in handlers are enabled by default.
+
+=item AutoLoad
+
+Resolve Perl*Handlers at startup time, includes loading the module
+from disk if not already loaded.
+
+=item GlobalRequest
+
+Setup the global request_rec for use with Apache->request
+
+=item ParseHeaders
+
+Scan output for HTTP headers, same functionality as 1.x's
+PerlSendHeaders, but more robust.
+
+=item MergeHandlers
+
+Turn on merging of Perl*Handler arrays, example:
+
+ PerlFixupHandler One::fixup
+
+ <Location /foo>
+     PerlFixupHandler Another::fixup
+ </Location>
+
+By default, a request for /foo only runs B<Another::fixup> (1.x behavior)
+I<PerlOptions +MergeHandlers> (inside Location /foo) will run both
+B<One::fixup> and B<Another::fixup>.
+
+=back
+
+Examples:
+
+ # disable mod_perl for this host
+ <VirtualHost ...>
+     PerlOptions -Enable
+ </VirtualHost>
+
+ # create 2 Parent Perls,
+ # each pointing to a different developer library tree
+ <VirtualHost ...>
+     ServerName dev1
+     PerlOptions +Parent
+     PerlSwitches -Mblib=/home/dev1/lib/perl
+ </VirtualHost>
+
+ <VirtualHost ...>
+     ServerName dev2
+     PerlOptions +Parent
+     PerlSwitches -Mblib=/home/dev2/lib/perl
+ </VirtualHost>
+
+ # give VirtualHost its own interpreter pool
+ <VirtualHost ...>
+     PerlOptions +Clone
+     PerlInterpStart 2
+     PerlInterpMax 2
+ </VirtualHost>
+
+ # disable handlers
+ <VirtualHost ...>
+     PerlOptions -Authen -Authz -Access
+ </VirtualHost>
+
+
+
+
+
+
 
 =head1 Retrieving Server Startup Options
 
