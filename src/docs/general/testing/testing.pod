@@ -361,7 +361,7 @@ production, where the real world testing hits the problem. Therefore
 in order to try to detect as many problems as possible during the
 testing process, it's may be useful to run tests in different orders.
 
-This if of course mosly useful in conjunction with I<-times=N> option.
+This is of course mostly useful in conjunction with I<-times=N> option.
 
 Assuming that we have tests a, b and c:
 
@@ -2383,7 +2383,7 @@ enabled with C<-verbose>:
   # received: a bad value
   not ok 1
 
-we can see exactly what's the problem, by visual expecting of the
+we can see exactly what's the problem, by visual examinination of the
 expected and received values.
 
 It's true that adding a few print statements for each sub tests is
