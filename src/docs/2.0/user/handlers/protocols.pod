@@ -86,14 +86,16 @@ The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because it's not
 known yet which resource the request will be mapped to.
 
-A I<pre_connection> handler accepts connection record and socket
-objects as its arguments:
+A I<pre_connection> handler accepts a connection record at its argument:
 
   sub handler {
-      my ($c, $socket) = @_;
+      my $c = shift;
       # ...
       return Apache::OK;
   }
+
+[META: There is another argument passed (the actual client socket), but
+it currently an undef]
 
 Here is a useful I<pre_connection> phase example: provide a facility
 to block remote clients by their IP, before too many resources were
