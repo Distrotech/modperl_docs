@@ -59,7 +59,7 @@ files opened by a single process seems to be 64, so when you try to
 run the mod_perl test suite, which opens a few hundreds of files, you
 will have a problem. e.g. the test suite may fail as:
 
-  [Wed Aug 25 09:49:40 2004] [info] 26 Apache:: modules loaded
+  [Wed Aug 25 09:49:40 2004] [info] 26 Apache2:: modules loaded
   [Wed Aug 25 09:49:40 2004] [info] 7 APR:: modules loaded
   [Wed Aug 25 09:49:40 2004] [info] base server + 20 vhosts ready 
   to run tests
@@ -219,7 +219,7 @@ Update DBI to at least version 1.31.
 
 =head2 E<lt>PerlE<gt> directive missing closing 'E<gt>'
 
-See the L<Apache::PerlSections|docs::2.0::api::Apache::PerlSections/E_lt_PerlE_gt__directive_missing_closing__E_gt__> manpage.
+See the L<Apache2::PerlSections|docs::2.0::api::Apache2::PerlSections/E_lt_PerlE_gt__directive_missing_closing__E_gt__> manpage.
 
 
 =head2 'Invalid per-unknown PerlOption: ParseHeaders' on HP-UX 11 for PA-RISC
@@ -689,7 +689,7 @@ Whenever using an C<APR::> package outside of mod_perl, you need to:
 
 in order to load the XS subroutines. For example:
 
-  % perl -MApache2 -MAPR -MAPR::UUID -le 'print APR::UUID->new->format'
+  % perl -MAPR -MAPR::UUID -le 'print APR::UUID->new->format'
 
 
 
