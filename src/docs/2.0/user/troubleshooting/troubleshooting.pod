@@ -51,18 +51,19 @@ them. For example to remove the semid 2719745 execute:
 
   % ipcrm -s 2719745
 
-Instead of manually removing each, and if you know that none of listed
-the semaphores is really used (all leaked), you can do:
+Instead of manually removing each (and sometimes there can be many of
+them), and if you know that none of listed the semaphores is really
+used (all leaked), you can try to remove them all:
 
   % ipcs -s | perl -ane '`ipcrm -s $F[1]`'
 
-httpd-2.0 seems to use key C<0x00000000> for its semaphores, so to
-remove only those you can use:
+httpd-2.0 seems to use the key C<0x00000000> for its semaphores on
+Linux, so to remove only those that match that key you can use:
 
   % ipcs -s | perl -ane '/^0x00000000/ && `ipcrm -s $F[1]`'
 
 Notice that on other platforms the output of C<ipcs -s> might be
-different, so you may need to apply a different one liner.
+different, so you may need to apply a different Perl one-liner.
 
 
 =head2 Segmentation Fault when Using DBI
