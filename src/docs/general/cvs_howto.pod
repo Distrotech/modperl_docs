@@ -156,6 +156,118 @@ between versions. This is information you can get from your CVS client
 (through C<cvs log>, C<cvs diff> and friends), but the web interface
 makes it much easier to get a good overview of the different files.
 
+=head1 CVS+SSH access for mod_perl committers
+
+If you are lucky enough to have commit access to the mod_perl CVS
+repositories, you'll have to use SSH together with CVS for added
+security. We suppose that you have the user name I<user> and password
+I<pass>, whcih you will have received from the sysadmin.
+
+Firt, you'll need an SSH client running from the shell. For Unix, look
+to http://www.openssh.org/. For Windows, you might want to look at
+Putty, http://www.chiark.greenend.org.uk/~sgtatham/putty/, especially
+the I<plink> client which runs from the command line.
+
+=head2 Checking out
+
+The checkout procedure is approximately the same as for anonymous
+CVS. However, some additional measures need to be taken beforehand.
+
+First of all, set your C<CVS_RSH> environment variable to C<ssh> (if
+your SSH program has a different name, such as I<plink>, use that
+instead):
+
+  % export CVS_RSH=ssh
+
+This all depends on which shell you are running under. You should add
+this your I<.bashrc> or similar file, so that it's set on startup. For
+Windows, add the line
+
+  set CVS_RSH=ssh
+
+to I<autoexec.bat>, or set the environment variable through the System
+section of the Control Panel on NT systems.
+
+Second, your CVS Root now changes. Check out with the line:
+
+  % cvs -d :ext:user@cvs.apache.org:/home/cvs co modperl
+
+Next, SSH will probably ask you if you want to allow the host
+I<cvs.apache.org>. Answer yes. Then you are asked for your password;
+type it in. Now you will get a freshly checked out copy of the
+I<modperl> repository.
+
+=head2 Working with CVS
+
+Normally, most changes should go through peer review first. It might
+be a good idea to discuss the intricacies of a change on the
+appropriate mailing list before commiting anything. Then, to commit:
+
+  % cvs update
+  % cvs commit
+
+Running C<cvs update> avoids any problems with out of date versions of
+files. If you get any conflicts because of it, these must be changed
+before doing C<cvs commit>, which will incorporate any changes into
+the repository. To commit only a single file, do:
+
+  % cvs commit path/to/file
+
+To add a file:
+
+  % cvs add path/to/file
+
+If it is a binary file, you must make sure to do:
+
+  % cvs add -kb path/to/binary/file
+
+Then, to add it permanently, you will have to commit it.
+
+One B<very> important note before (ab)using your powers: the mod_perl
+documentation project makes use of an automatic build system. This
+means that any changes commited will be periodically rebuilt to create
+the new site. This is great, but a side-effect of this is that if
+someone commits anything that doesn't work, the build will fail, and
+might leave the site unavailable. 
+
+To avoid these problems, please make sure to run C<bin/build> on your
+working copy to test I<before> commiting. Also, make sure to run C<cvs
+update> to check that you have added all files to the repository, it
+can happen quickly to forget adding the files you had changed!
+
+=head2 Avoiding typing in the password
+
+From the ssh man page:
+
+  As a third authentication method, ssh supports RSA based
+  authentication. The scheme is based on public-key cryptography:
+  there are cryptosystems where encryption and decryption are done
+  using separate keys, and it is not possible to derive the decryption
+  key from the encryption key. RSA is one such system. The idea is
+  that each user creates a public/private key pair for authentication
+  purposes. The server knows the public key, and only the user knows
+  the private key. The file $HOME/.ssh/authorized_keys lists the
+  public keys that are permitted for logging in. When the user logs
+  in, the ssh program tells the server which key pair it would like to
+  use for authentication. The server checks if this key is permitted,
+  and if so, sends the user (actually the ssh program running on
+  behalf of the user) a challenge, a random number, encrypted by the
+  user's public key. The challenge can only be decrypted using the
+  proper private key. The user's client then decrypts the chal- lenge
+  using the private key, proving that he/she knows the private key but
+  without disclosing it to the server.
+  
+  ssh implements the RSA authentication protocol automatically. The
+  user creates his/her RSA key pair by running ssh-keygen(1). This
+  stores the private key in $HOME/.ssh/identity and the public key in
+  $HOME/.ssh/identity.pub in the user's home directory. The user
+  should then copy the identity.pub to $HOME/.ssh/authorized_keys in
+  his/her home directory on the remote machine (the authorized_keys
+  file corresponds to the conventional $HOME/.rhosts file, and has one
+  key per line, though the lines can be very long). After this, the
+  user can log in without giving the password. RSA authentication is
+  much more secure than rhosts authentication.
+
 =head1 mod_perl and Related Projects on cvs.apache.org
 
 =over
@@ -252,6 +364,10 @@ Thomas Klausner E<lt>domm (at) zsi.atE<gt>
 =item *
 
 Doug MacEachern
+
+=item *
+
+Per Einar Ellefsen E<lt>per.einar (at) skynet.beE<gt>
 
 =back
 
