@@ -583,6 +583,12 @@ I<glibc> version.
 
 =head2 Evil things might happen when using PerlFreshRestart
 
+C<PerlFreshRestart> affects the graceful restart process for non-DSO
+mod_perl builds. If you have mod_perl enabled Apache built as DSO and
+you restart it, the whole Perl interpreter is completely torn down
+(perl_destruct())and restarted.  The value of C<PerlFreshRestart> is
+irrelevant at this point.
+
 Unfortunately, not all perl modules are robust enough to survive
 reload.  For them this is an unusual situation.  C<PerlFreshRestart>
 does not much more than:
@@ -592,18 +598,17 @@ does not much more than:
     require $k;
   }
 
-Besides that, it flushes the C<Apache::Registry> cache, and empties any
-dynamic stacked handlers (e.g. C<PerlChildInitHandler>).
+Besides that, it flushes the C<Apache::Registry> cache, and empties
+any dynamic stacked handlers (e.g. C<PerlChildInitHandler>).
 
-Lots of Segfaults and other problems were reported by users who had
-turned C<PerlFreshRestart> B<On>.  Most of them have gone away when it
-was turned off.  It doesn't mean that you shouldn't use it, if it works
-for you.  Just beware of the dragons...
+Some users, who had turned C<PerlFreshRestart> B<On>, reported having
+segfaults, others have seen no problems starting the server, no errors
+written to the logs, but no server running after a restart. Most of
+the problems have gone away when it was turned C<Off>.
 
-Note that if you have mod_perl enabled Apache built as DSO and you
-restart it, the whole Perl interpreter is completely torn down
-(perl_destruct())and restarted.  The value of C<PerlFreshRestart> is
-irrelevant at this point.
+It doesn't mean that you shouldn't use it, if it works for you.  Just
+beware of the dragons...
+
 
 =head2 Constant subroutine XXX redefined
 
