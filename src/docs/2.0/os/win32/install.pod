@@ -220,7 +220,11 @@ a description. If you have trouble
 fetching the whole file at once, the directory
 L<ftp://theoryx5.uwinnipeg.ca/pub/other/Perl-5.8-win32-bin/>
 contains this distribution split across multiple files -
-see F<README.join> for instructions on how to join them.
+see F<README.join> for instructions on how to join them. Alternatively,
+if you have Perl already, you can get the script
+F<get-Perl-5.8-win32-bin> which, when invoked as
+C<perl get-Perl-5.8-win32-bin>, will fetch and join
+the files for you.
 
 =head1 See Also
 

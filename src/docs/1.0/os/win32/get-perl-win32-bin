@@ -1,0 +1,151 @@
+#####################################################################
+# A Perl script to retrieve and join split files 
+# making up a Win32 Perl/Apache binary distribution
+#
+# Files created by hjsplit (http://www.freebyte.com/hjsplit/)
+# with the joining accomplished by hj-join
+#
+# This script is Copyright 2003, by Randy Kobes,
+# and may be distributed under the same terms as Perl itself.
+# Please report problems to Randy Kobes <randy@theoryx5.uwinnipeg.ca>
+#####################################################################
+
+use strict;
+use warnings;
+use LWP::Simple;
+use Safe;
+use Digest::MD5;
+use IO::File;
+use ExtUtils::MakeMaker;
+
+my $dist = 'perl-win32-bin';
+my $exe = $dist . '.exe';
+my $theoryx5 = 'ftp://theoryx5.uwinnipeg.ca/pub/other' . '/' . $dist;
+my $max = 9;
+
+print <<"END";
+
+This script will fetch and then join the files needed for 
+creating the Perl/Apache Win32 binary distribution
+$exe from $theoryx5/. 
+
+If the file transfer is interrupted before all the neccessary
+files are joined, run the script again in the same directory;
+files successfully fetched earlier will not be downloaded again.
+
+END
+
+my $ans = prompt("Fetch $exe?", 'yes');
+die "Installation aborted" unless ($ans =~ /^y/i);
+
+my $cs = 'CHECKSUMS';
+my $checksums = $theoryx5 . '/' . $cs;
+
+my $join = 'join32.exe';
+my $rjoin = $theoryx5 . '/' . $join;
+
+# fetch the CHECKSUMS file
+print "Fetching $cs ...";
+getstore($checksums, $cs);
+print " done!\n";
+die "Failed to fetch $cs" unless (-e $cs);
+
+# fetch the join program
+unless (-e $join) {
+  print "Fetching $join ...";
+  getstore($rjoin, $join);
+  print " done!\n";
+  die "Failed to fetch $join" unless (-e $join);
+  unless (verifyMD5($join)) {
+    print qq{CHECKSUM check for "$join" failed.\n};
+    unlink $join or warn "Cannot unlink $join: $!";
+    die;
+  }
+}
+
+# fetch the split files
+my @files;
+for (1 .. $max) {
+  my $num = $_ < 10 ? "00$_" : "0$_";
+  my $file = $dist . '.exe.' . $num;
+  push @files, $file;
+  if (-e $file) {
+    print "Skipping $file ...\n";
+    next;
+  }
+  my $rfile = $theoryx5 . '/' . $file;
+  print "Fetching $file ...";
+  getstore($rfile, $file);
+  print " done!\n";
+  die "Failed to fetch $file" unless (-e $file);
+  unless (verifyMD5($file)) {
+    print qq{CHECKSUM check for "$file" failed.\n};
+    unlink $file or warn "Cannot unlink $file: $!";
+    die;
+  }
+}
+
+#now join them
+my @args = ('join32');
+system(@args);
+die "Joining files to create $exe failed" unless (-e $exe);
+
+# remove the temporary files, if desired
+$ans = prompt('Remove temporary files?', 'yes');
+if ($ans =~ /^y/i) {
+  unlink @files or warn "Cannot unlink @files: $!";
+}
+
+# run the exe, if desired
+$ans = prompt("Run $exe now?", 'yes');
+if ($ans =~ /^y/i) {
+   @args = ($exe);
+   system(@args);
+}
+else {
+   print "Double click on $exe to install\n";
+}
+
+# routine to verify the CHECKSUMS for a file
+# adapted from the MD5 check of CPAN.pm
+sub verifyMD5 {
+  my $file = shift;
+  my $fh = IO::File->new;
+  my $cksum;
+  unless (open $fh, $cs) {
+    warn "Could not open $cs: $!";
+    return;
+  }
+  local($/);
+  my $eval = <$fh>;
+  $eval =~ s/\015?\012/\n/g;
+  close $fh;
+  my $comp = Safe->new();
+  $cksum = $comp->reval($eval);
+  if ($@) {
+    warn $@;
+    return;
+  }
+  my ($is, $should);
+  unless (open(FILE, $file)) {
+    warn "Cannot open $file: $!";
+    return;
+  }
+  binmode(FILE);
+  unless ($is = Digest::MD5->new->addfile(*FILE)->hexdigest) {
+    warn "Could not compute checksum for $file: $!";
+    close(FILE);
+    return;
+  }
+  close(FILE);
+  if ($should = $cksum->{$file}->{md5}) {
+    my $test = $is eq $should ? 1 : 0;
+    printf qq{Checksum for "$file" is %s\n}, 
+      ($test == 1) ? 'OK.' : 'NOT OK.';
+    return $test;
+  }
+  else {
+    warn "Checksum data for $file not present in CHECKSUMS.\n";
+    return;
+  }
+}
