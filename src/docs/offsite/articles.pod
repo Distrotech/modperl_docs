@@ -192,7 +192,7 @@ http://www.host.ru/documentation/pro/0003.html
 =item * 
 
 Several of Stas' mod_perl articles translated to Russian by Inga
-Zaharova: http://www.providerz.ru/articles/perl/why_mod_perl.html
+Zakharova: http://www.providerz.ru/articles/perl/why_mod_perl.html
 http://www.providerz.ru/articles/perl/mod_perl_in_30_minutes_1.html
 
 =item *
