@@ -1,6 +1,6 @@
 =head1 NAME
 
-mod_perl internals: Apache 2.0 integration
+mod_perl internals: Apache 2.0 Integration
 
 =head1 Description
 
