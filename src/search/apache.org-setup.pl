@@ -8,7 +8,8 @@ BEGIN {
     require Sys::Hostname;
     my $hostname = Sys::Hostname::hostname();
 
-    if ($hostname && $hostname eq 'daedalus.apache.org') {
+    if ($hostname && ($hostname eq 'minotaur.apache.org' ||
+                      $hostname eq 'daedalus.apache.org')) {
         $ENV{SWISH_BINARY_PATH} = "/home/perlwww/bin/swish-e";
 
         unshift @INC,

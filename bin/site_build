@@ -18,6 +18,11 @@ my $src = "/home/perlwww/apache.org/modperl-docs";
 my $rel = "$src/dst_html";
 my $dst = "/www/perl.apache.org";
 
+my %fs = (
+    'minotaur.apache.org' => '/x1',
+    'daedalus.apache.org' => '/x2',
+);
+
 umask 0002;
 
 my $HOME = $ENV{HOME};
@@ -54,8 +59,6 @@ sub update {
     system("bin/build $flags");
 
     system("bin/makeindex") if $reindex;
-
-
 }
 
 sub online_sync {
@@ -67,17 +70,24 @@ sub online_sync {
 }
 
 sub fs_is_full {
+
+    require Sys::Hostname;
+    my $hostname = Sys::Hostname::hostname();
+
+    # don't check on local systems
+    return 0 unless $hostname && $fs{$hostname};
+
     # get available disk space
-    my $disk = qx{ df | grep /x2 };
+    my $disk = qx{ df | grep $fs{$hostname} };
     my ($disk_avail) = ($disk =~ /(\d+)\s+\d+\%/); # avail is before capacity
 
     # get size of site
     my $site = qx{ du -c $rel | grep total };
     my ($site_size) = ($site =~ /^(\d+)/);
 
-    # print "site_size = $site_size , disk_avail = $disk_avail";
-
     # give us a margin of 50MB
-    return $site_size + 50*1024 > $disk_avail ? 1 : 0;
+    return 0 unless $site_size + 50*1024 > $disk_avail;
 
+    warn "site_size = $site_size , disk_avail = $disk_avail\n";
+    return 1;
 }
