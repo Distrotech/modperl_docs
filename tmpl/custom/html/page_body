@@ -28,7 +28,7 @@
             INCLUDE top_link;
         END;
         "<br><br>";
-        "</div>";
+        "</div>\n\n";
     END;
     "<!-- SwishCommand noindex -->";
 %]
