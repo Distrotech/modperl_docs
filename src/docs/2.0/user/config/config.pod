@@ -709,6 +709,10 @@ See C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreCon
 
 See C<L<PerlProcessConnectionHandler|docs::2.0::user::handlers::protocols/PerlProcessConnectionHandler>>.
 
+=head2 C<PerlDefaultPortHandler>
+
+See C<L<PerlDefaultPortHandler|docs::2.0::user::handlers::protocols/PerlDefaultPortHandler>>.
+
 
 
 
@@ -980,6 +984,7 @@ Handler assignment directives:
 
   PerlPreConnectionHandler     ITERATE    SRV
   PerlProcessConnectionHandler ITERATE    SRV
+  PerlDefaultPortHandler       ITERATE    SRV
   
   PerlPostReadRequestHandler   ITERATE    SRV
   PerlTransHandler             ITERATE    SRV

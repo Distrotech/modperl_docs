@@ -99,6 +99,8 @@ several categories:
 
 =item * C<L<PerlProcessConnectionHandler|docs::2.0::user::handlers::protocols/PerlProcessConnectionHandler>>
 
+=item * C<L<PerlDefaultPortHandler|docs::2.0::user::handlers::protocols/PerlDefaultPortHandler>>
+
 =back
 
 
@@ -242,6 +244,7 @@ following table specifies each handler's behavior in this situation:
   
   PerlPreConnectionHandler     RUN_ALL
   PerlProcessConnectionHandler RUN_FIRST
+  PerlDefaultPortHandler       RUN_FIRST
   
   PerlPostReadRequestHandler   RUN_ALL
   PerlTransHandler             RUN_FIRST

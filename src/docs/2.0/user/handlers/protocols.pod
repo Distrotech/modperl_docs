@@ -168,6 +168,29 @@ connection record object.
       return Apache::OK;
   }
 
+=head2 PerlDefaultPortHandler
+
+Related to both the I<PerlProcessConnectionHandler> and the
+I<PerlPreConnectionHandler> is the I<PerlDefaultPortHandler>,
+whose sole purpose is to return an integer corresponding to the
+default port for the protocol in question.  The default port
+will be used internally by Apache when generating self-referential
+URLs and the port cannot be determined by other means (such as the
+I<ServerName> or I<Host> header, or when I<UseCanonicalName> is
+set to I<Off>).
+
+The I<PerlDefaultPortHandler> callback is not part of the request
+cycle, and instead is called on demand whenever port related
+API calls (such as I<get_server_port()>) fall through to the 
+default.
+
+This hook is of type
+C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
+
+Similar to the other protocol handlers, the I<PerlDefaultPortHandler>'s
+configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
+
 
 
 Now let's look at the following two examples of connection
