@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache::Directive - Perl API for manipulating Apache configuration tree
+Apache::Directive - Perl API for manipulating the Apache configuration tree
 
 
 
@@ -24,6 +24,11 @@ Apache::Directive - Perl API for manipulating Apache configuration tree
       print $node->as_string;
 
       #do something with $node
+
+      my $directive = $node->directive;
+      my $args = $node->args;
+      my $filename = $node->filename;
+      my $line_num = $node->line_num;
   
       if (my $kid = $node->first_child) {
           $node = $kid;
@@ -47,14 +52,8 @@ Apache::Directive - Perl API for manipulating Apache configuration tree
 
 =head1 Description
 
-C<Apache::Directive> allows its users to search and navigate the
-internal Apache configuration.
-
-Internally, this information is stored in a tree structure. Each node
-in the tree has a reference to its parent (if it's not the root), its
-first child (if any), and to its next sibling.
-
-B<All these methods are read-only>
+C<Apache::Directive> provides the Perl API for manipulating the Apache
+configuration tree
 
 
 
@@ -256,7 +255,11 @@ The config tree to stringify
 
 =item arg1: C<$directive> ( string )
 
+The name of the directive to search for
+
 =item opt arg2: C<args> ( string )
+
+Optional args to the directive to filter for
 
 =item ret: C<$string> ( string / ARRAY of HASHES )
 
