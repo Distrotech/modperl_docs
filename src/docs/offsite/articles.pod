@@ -16,9 +16,58 @@ us know at the L<users|maillist::list-modperl> mailing list.
 
 =item *
 
-C<The Perl Journal> (Volume 3, Issue 1). I<Stately Scripting with
-mod_perl>, by I<Lincoln Stein> and I<Doug MacEachern>. Available
-online: http://www.samag.com/documents/s=1285/sam03010001/
+C<The Perl Journal> has featured a number of mod_perl articles over
+the years:
+
+=over
+
+=item *
+
+Volume 3, Issue 1: I<Stately Scripting with mod_perl>, by Lincoln
+Stein and Doug
+MacEachern. http://www.samag.com/documents/s=1285/sam03010001/
+
+=item *
+
+Volume 3, Issue 3: I<A Web Proxy module for mod_perl> by Lincoln
+D. Stein. http://www.samag.com/documents/s=1287/sam03030005/
+
+=item *
+
+Volume 3, Issue 3: I<Creating Applications with mod_perl and Apache>,
+by Mike Fletcher. http://www.samag.com/documents/s=1287/sam03030011/
+
+=item *
+
+Volume 3, Issue 4: I<A Dynamic Navigation Bar with mod_perl> by
+Lincoln D. Stein. http://www.samag.com/documents/s=1288/sam03040003/
+
+=item *
+
+Volume 3, Issue 4: I<Authentication with mod_perl>, by Michael
+Parker. http://www.samag.com/documents/s=1288/sam03040004/
+
+=item *
+
+Volume 4, Issue 4: I<Managing Streaming Audio>, by Lincoln
+D. Stein. http://www.samag.com/documents/s=1275/sam04040005/
+
+=item *
+
+Volume 5, Issue 4: I<Developing Wireless Applications>, by Dan
+Brian. http://www.samag.com/documents/s=1131/sam05040004/
+
+=item *
+
+Volume 5, Issue 5: I<Using a Cleanup Handler in mod_perl>, by Jim
+Woodgate. http://www.samag.com/documents/s=1337/sam05050003/
+
+=back
+
+=item *
+
+C<Sys Admin Magazine>. I<Getting Your Message Across with Apache>, by
+Carlos Ramirez. http://www.samag.com/documents/s=1153/sam0103a/
 
 =item *
 
@@ -105,9 +154,31 @@ I<Scaling mod_perl>: http://www.lifespree.com/modperl/
 =item *
 
 I<Web Developer's Virtual Library> have introductions to mod_perl. See
-http://www.wdvl.com/Authoring/Languages/Perl/PerlfortheWeb/index12.html
+http://www.wdvl.com/Authoring/Languages/Perl/PerlfortheWeb/index12.html ,
+http://www.wdvl.com/Authoring/Languages/Perl/PerlfortheWeb/index13.html
 and
-http://www.wdvl.com/Authoring/Languages/Perl/PerlfortheWeb/index13.html .
+http://www.wdvl.com/Authoring/Languages/Perl/PerlfortheWeb/index14.html .
+
+=item *
+
+I<Stopping Spambots: A Spambot Trap>, by Neil
+Gunton. http://www.neilgunton.com/spambot_trap/
+
+=item *
+
+C<O'Reilly Network>: I<Installing mod_perl from RPM>, by Stephen
+Figgins. http://www.onlamp.com/pub/a/apache/2000/03/17/modperl.html
+
+=item *
+
+C<LinuxWorld.com>: I<Netscape Navigator's roaming profiles>, by Nicholas
+Petreley.
+http://www.linuxworld.com/linuxworld/lw-1999-06/lw-06-penguin_3.html
+
+=item *
+
+C<Ariadne>, Issue 21: I<What is mod_perl?>, by Ian
+Peacock. http://www.ariadne.ac.uk/issue21/unix/
 
 =back
 
@@ -142,6 +213,23 @@ Stas Bekman has put all his talks online: http://www.stason.org/talks/
 I<Real World Performance Tuning for mod_perl> by Ask Bjørn Hansen.
 http://develooper.com/modperl/  (held at The Perl Conference 5, San
 Diego, July 2001).
+
+=item *
+
+Eric Cholet has a collection of talks he has given at
+http://www.logilune.com/eric/
+
+=item *
+
+Mike Fletcher has two introductory talks on mod_perl:
+http://www.phydeaux.org/perl/yapc/ and
+http://www.phydeaux.org/perl/mptalk/ .
+
+=item *
+
+I<Apache, mod_perl and Embperl> by Malcolmn
+Beattie. http://users.ox.ac.uk/~mbeattie/oxlug-oct99/ . Held at
+OxLUG, 3 October 1999.
 
 =back
 

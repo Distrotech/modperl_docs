@@ -9,11 +9,18 @@ documents, since you've read these last time.
 
 The most recent changes are listed first.
 
+=head1 Sat 20 Apr 09:52:00 CET 2002
+
+* Search Google for I<mod_perl article> and added everything I could
+  find: many TPJ articles (all I think) and a number of other
+  web-based articles. [Per Einar Ellefsen]
+
+
 =head1 Fri 19 Apr 01:18:30 CET 2002
 
 * Added references to a number of talks in a new section (which should
-preferably be moved to a conference part later on as mentioned in TODO)
-and some other articles. [Per Einar Ellefsen E<lt>per.einar (at)
-skynet.beE<gt>]
+  preferably be moved to a conference part later on as mentioned in
+  TODO) and some other articles. [Per Einar Ellefsen E<lt>per.einar
+  (at) skynet.beE<gt>]
 
 =cut
