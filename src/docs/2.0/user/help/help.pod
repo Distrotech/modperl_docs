@@ -4,7 +4,8 @@ User Help
 
 =head1 Description
 
-FIXME: DESCRIPTION
+This chapter is for those needing help using mod_perl and related
+software.
 
 =head1 Maintainers
 

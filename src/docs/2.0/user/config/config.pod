@@ -1,10 +1,10 @@
 =head1 NAME
 
-mod_perl Server Configuration
+mod_perl 2.0 Server Configuration
 
 =head1 Description
 
-FIXME: DESCRIPTION
+This chapter provides an indepth mod_perl 2.0 configuration details.
 
 =head1 mod_perl configuration directives
 

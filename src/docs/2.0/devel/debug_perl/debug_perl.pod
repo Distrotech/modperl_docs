@@ -4,7 +4,7 @@ Debugging mod_perl Perl Internals
 
 =head1 Description
 
-FIXME: DESCRIPTION
+This document explains how to debug Perl code under mod_perl.
 
 =head1 Maintainers
 

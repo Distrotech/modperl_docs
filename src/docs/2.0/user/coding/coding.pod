@@ -4,8 +4,7 @@ Coding with and for mod_perl
 
 =head1 Description
 
-FIXME: DESCRIPTION
-
+This chapter covers the mod_perl coding specifics, different from normal Perl coding.
 
 =head1 Prerequisites
 

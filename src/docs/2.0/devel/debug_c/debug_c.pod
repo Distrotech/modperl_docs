@@ -4,7 +4,8 @@ Debugging mod_perl C Internals
 
 =head1 Description
 
-FIXME: DESCRIPTION
+This document explains how to debug C code under mod_perl, including
+mod_perl core itself.
 
 =head1 Debug notes
 

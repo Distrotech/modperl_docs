@@ -4,7 +4,9 @@ Overview of mod_perl 2.0
 
 =head1 Description
 
-FIXME: DESCRIPTION
+This chapter gives you a general idea about what mod_perl 2.0 is and
+how it differs from mod_perl 1.0. Also the new MPM models from Apache
+2.0 are discussed
 
 =head1 Introduction
 
