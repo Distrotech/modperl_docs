@@ -1012,7 +1012,7 @@ mod_perl. For example:
 
   <Location /perl>
      SetHandler perl-script
-     PerlResponseHandler ModPerl::Registry
+     PerlResponseHandler MyApache::WorldDomination
   </Location>
 
 C<SetHandler> set to
@@ -1202,8 +1202,15 @@ logging handlers will be called as well.
 
 =head2 PerlCleanupHandler
 
-The cleanup stage is used to execute some code when the request has
-been served.
+The cleanup stage is used to execute some code immediately after the
+request has been served (the client went away).
+
+There are several usages for this use phase. The obvious one is to run
+a cleanup code, for example removing temporarily created files. The
+less obvious is to use this phase instead of
+C<L<PerlLogHandler|/PerlLogHandler>> if the logging operation is time
+consuming. This approach allows to free the client as soon as the
+response is sent.
 
 This phase is of type
 C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
@@ -1211,7 +1218,192 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
-META: examples are needed (for now mod_perl 1.0 docs apply)
+There are two different ways a cleanup handler can be registered:
+
+=over
+
+=item 1 Using the C<PerlCleanupHandler> phase
+
+  PerlCleanupHandler MyApache::Cleanup
+
+or:
+
+  $r->push_handlers(PerlCleanupHandler => \&cleanup);
+
+This method is identical to all other handlers.
+
+In this technique the C<cleanup()> callback accepts C<$r> as its only
+argument.
+
+=item 2 Using cleanup_register() method acting on the request object pool
+
+Since a request object pool is destroyed at the end of each request,
+we can register a cleanup callback which will be executed just before
+the pool is destroyed. For example:
+
+    $r->pool->cleanup_register(\&cleanup, $arg);
+
+The important difference from using the C<PerlCleanupHandler> handler,
+is that here you can pass any argument to the callback function, and
+no C<$r> argument is passed by default. Therefore if you need to pass
+any data other than C<$r> you may want to use this technique.
+
+=back
+
+Here is an example where the cleanup handler is used to delete a
+temporary file. The response handler is running C<ls -l> and stores
+the output in temporary file, which is then used by
+C<$r-E<gt>sendfile> to send the file's contents. We use
+C<push_handlers()> to push C<PerlCleanupHandler> to do unlink the file
+at the end of the request.
+
+  package MyApache::Cleanup1;
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use File::Spec::Functions qw(catfile);
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  use Apache::RequestUtil ();
+  
+  use Apache::Const -compile => qw(OK DECLINED);
+  use APR::Const    -compile => 'SUCCESS';
+  
+  my $file = catfile "/tmp", "data";
+  
+  sub handler {
+      my $r = shift;
+  
+      $r->content_type('text/plain');
+  
+      local @ENV{qw(PATH BASH_ENV)};
+      qx(/bin/ls -l > $file);
+  
+      my $status = $r->sendfile($file);
+      die "sendfile has failed" unless $status == APR::SUCCESS;
+  
+      $r->push_handlers(PerlCleanupHandler => \&cleanup);
+  
+      return Apache::OK;
+  }
+  
+  sub cleanup {
+      my $r = shift;
+  
+      die "Can't find file: $file" unless -e $file;
+      unlink $file or die "failed to unlink $file";
+  
+      return Apache::OK;
+  }
+
+Next we add the following configuration:
+
+  <Location /cleanup1>
+      SetHandler modperl
+      PerlResponseHandler MyApache::Cleanup1
+  </Location>
+
+Now when a request to I</cleanup1> is made, the contents of the
+current directory will be printed and once the request is over the
+temporary file is deleted.
+
+This response handler has a problem of running in a multiprocess
+environment, since it uses the same file, and several processes may
+try to read/write/delete that file at the same time, wrecking
+havoc. We could have appended the process id C<$$> to the file's name,
+but remember that mod_perl 2.0 code may run in the threaded
+environment, meaning that there will be many threads running in the
+same process and the C<$$> trick won't work any longer. Therefore one
+really has to use this code to create unique, but predictable, file
+names across threads and processes:
+
+  sub unique_id {
+      require APR::OS;
+      return Apache::MPM_IS_THREADED 
+          ? "$$." . ${ APR::OS::thread_current() }
+          : $$;
+  }
+
+In the threaded environment it will return a string containing the
+process ID, followed by a thread ID. In the non-threaded environment
+only the process ID will be returned. However since it gives us a
+predictable string, they may still be a non-satisfactory
+solution. Therefore we need to use a random string. We can either
+either Perl's C<rand>, some CPAN module or the APR's C<APR::UUID>:
+
+  sub unique_id {
+      require APR::UUID;
+      return APR::UUID->new->format;
+  }
+
+Now the problem is how do we tell the cleanup handler what file should
+be cleaned up? We could have stored it in the C<$r-E<gt>notes> table
+in the response handler and then retrieve it in the cleanup
+handler. However there is a better way - as mentioned earlier, we can
+register a callback for request pool cleanup, and when using this
+method we can pass an arbitrary argument to it. Therefore in our case
+we choose to pass the file name, based on random string. Here is a
+better version of the response and cleanup handlers, that uses this
+technique:
+
+  package MyApache::Cleanup2;
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use File::Spec::Functions qw(catfile);
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  use Apache::RequestUtil ();
+  use APR::UUID ();
+  use APR::Pool ();
+  
+  use Apache::Const -compile => qw(OK DECLINED);
+  use APR::Const    -compile => 'SUCCESS';
+  
+  my $file_base = catfile "/tmp", "data-";
+  
+  sub handler {
+      my $r = shift;
+  
+      $r->content_type('text/plain');
+      my $file = $file_base . APR::UUID->new->format;
+  
+      local @ENV{qw(PATH BASH_ENV)};
+      qx(/bin/ls -l > $file);
+  
+      my $status = $r->sendfile($file);
+      die "sendfile has failed" unless $status == APR::SUCCESS;
+  
+      $r->pool->cleanup_register(\&cleanup, $file);
+  
+      return Apache::OK;
+  }
+  
+  sub cleanup {
+      my $file = shift;
+  
+      die "Can't find file: $file" unless -e $file;
+      unlink $file or die "failed to unlink $file";
+  
+      return Apache::OK;
+  }
+
+Similarly to the first handler, we add the configuration:
+
+  <Location /cleanup2>
+      SetHandler modperl
+      PerlResponseHandler MyApache::Cleanup2
+  </Location>
+
+And now when requesting </cleanup2> we still get the same output --
+the listing of the current directory -- but this time this code will
+work correctly in the multi-processes/multi-threaded environment and
+temporary files get cleaned up as well.
+
 
 =head1 Handling HEAD Requests
 
