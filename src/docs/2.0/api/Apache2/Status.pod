@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache::Status - Embedded interpreter status information
+Apache2::Status - Embedded interpreter status information
 
 
 
@@ -9,7 +9,7 @@ Apache::Status - Embedded interpreter status information
 
   <Location /perl-status>
       SetHandler modperl
-      PerlResponseHandler Apache::Status
+      PerlResponseHandler Apache2::Status
   </Location>
 
 
@@ -18,14 +18,14 @@ Apache::Status - Embedded interpreter status information
 
 =head1 Description
 
-The C<Apache::Status> module provides some information
+The C<Apache2::Status> module provides some information
 about the status of the Perl interpreter embedded in the server.
 
 Configure like so:
 
   <Location /perl-status>
       SetHandler modperl
-      PerlResponseHandler Apache::Status
+      PerlResponseHandler Apache2::Status
   </Location>
 
 Notice that under the
@@ -34,17 +34,17 @@ handler the I<Environment> menu option will show only the environment
 under that handler. To see the environment seen by handlers running
 under the
 C<L<"perl-script"|docs::2.0::user::config::config/C_perl_script_>>
-core handler, configure C<Apache::Status> as:
+core handler, configure C<Apache2::Status> as:
 
   <Location /perl-status>
       SetHandler perl-script
-      PerlResponseHandler Apache::Status
+      PerlResponseHandler Apache2::Status
   </Location>
 
 Other modules can "plugin" a menu item like so:
 
-  require Apache::Module;
-  Apache::Status->menu_item(
+  require Apache2::Module;
+  Apache2::Status->menu_item(
       'DBI' => "DBI connections", #item for Apache::DBI module
       sub {
           my($r, $q) = @_; #request and CGI objects
@@ -52,9 +52,9 @@ Other modules can "plugin" a menu item like so:
           push @strings,  "blobs of html";
           return \@strings;     #return an array ref
       }
-  ) if Apache::Module::loaded('Apache::Status');
+  ) if Apache2::Module::loaded('Apache2::Status');
 
-B<WARNING>: C<Apache::Status> must be loaded before these modules via
+B<WARNING>: C<Apache2::Status> must be loaded before these modules via
 the C<PerlModule> or C<PerlRequire> directives (or from
 F<startup.pl>).
 
@@ -122,7 +122,7 @@ displayed.  See the C<B::TerseSize> docs for more info.
 =head2 C<StatusTerseSizeMainSummary>
 
 With this option C<On> and the C<B::TerseSize> module installed, a
-I<"Memory Usage"> will be added to the C<Apache::Status> main menu.
+I<"Memory Usage"> will be added to the C<Apache2::Status> main menu.
 This option is disabled by default, as it can be rather cpu intensive
 to summarize memory usage for the entire server.  It is strongly
 suggested that this option only be used with a development server
