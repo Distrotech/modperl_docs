@@ -249,7 +249,8 @@ http://www.squid-cache.org/mailing-lists.html
 
 =head1 CVS -- Concurrent Version Control
 
-The mod_perl cvs repository specific L<document|docs::general::cvs_howto>.
+mod_perl CVS repository specific information
+L<document|contribute::cvs_howto>.
 
 =over
 

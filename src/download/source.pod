@@ -49,7 +49,7 @@ Using anoncvs (password is "anoncvs"):
   % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" co modperl
 
 For more information on using CVS see L<the CVS
-HowTo|docs::general::cvs_howto>
+Howto|contribute::cvs_howto>
 
 =back
 
@@ -81,7 +81,7 @@ Using anoncvs (password is "anoncvs"):
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apr-util
 
 For more information on using CVS see L<the CVS
-HowTo|docs::general::cvs_howto>
+Howto|contribute::cvs_howto>
 
 =back
 
