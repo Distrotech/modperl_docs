@@ -354,6 +354,71 @@ DESC
 
 
      ### 
+     'apreq-dev' => 
+     {
+      title => 'Apache::Request development/support ',
+      desc  => <<"DESC",
+The B<apreq-dev> list is a support and development list for libapreq.
+DESC
+      addr  => {
+                subscribe        => 'apreq-dev-subscribe@httpd.apache.org ',
+                subscribe_digest => 'apreq-dev-subscribe-digest@httpd.apache.org',
+                unsubscribe      => 'apreq-dev-unsubscribe@httpd.apache.org',
+                help             => 'apreq-dev-help@httpd.apache.org',
+               },
+      archives => [
+                   {
+                    title   => 'marc.theaimsgroup.com',
+                    link    => 'http://marc.theaimsgroup.com/?l=apreq-dev&r=1&w=2',
+                    comment => '',
+                   },
+                   {
+                    title   => 'NNTP gateway',
+                    link    => 'nntp://news.gmane.org/gmane.comp.apache.apreq',
+                    comment => '',
+                   },
+                   {
+                    title   => 'Mbox file',
+                    link    => 'http://httpd.apache.org/mail/apreq-dev/',
+                    comment => '',
+                   },
+                  ],
+     },
+
+
+
+     ### 
+     'apreq-cvs' => 
+     {
+      title => 'Apache::Request cvs',
+      desc  => <<"DESC",
+The B<apreq-cvs> list is the list where cvs commits for the I<Apache
+Request>project are sent.
+DESC
+      addr  => {
+                subscribe        => 'apreq-cvs-subscribe@httpd.apache.org ',
+                subscribe_digest => 'apreq-cvs-subscribe-digest@httpd.apache.org',
+                unsubscribe      => 'apreq-cvs-unsubscribe@httpd.apache.org',
+                help             => 'apreq-cvs-help@httpd.apache.org',
+               },
+      archives => [
+                   {
+                    title   => 'marc.theaimsgroup.com',
+                    link    => 'http://marc.theaimsgroup.com/?l=apreq-cvs&r=1&w=2',
+                    comment => '',
+                   },
+                   {
+                    title   => 'Mbox file',
+                    link    => 'http://httpd.apache.org/mail/apreq-cvs/',
+                    comment => '',
+                   },
+                  ],
+     },
+
+
+
+
+     ### 
      embperl => 
      {
       title => 'Embperl',
