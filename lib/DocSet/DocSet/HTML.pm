@@ -121,11 +121,14 @@ sub write_index_file {
     };
 
     my $meta = {
+         id       => $self->get('id'),
+         stitle   => $self->get('stitle'),
          title    => $self->get('title'),
          abstract => $self->get('abstract'),
     };
 
-    my $navigator = DocSet::NavigateCache->new($self->cache->path, $self->get('id'));
+    my $navigator = DocSet::NavigateCache->new($self->cache->path,
+                                               $self->get('id'));
     my %args = (
          nav      => $navigator,
          toc      => \@toc,

@@ -143,13 +143,6 @@ sub pod_pom_html_anchor {
     $anchor =~ s/\W/_/g;
     my $link = $title->present($self);
 
-    # assuming that the object lives only while a single doc is
-    # rendered we can use this seen techniques, by storing the seen
-    # anchors within the object itself. unfortunately currently there
-    # is no way to dump the context (where the problem is) and
-    # workaround is to run with -v, so the error will happen right
-    # after reporting the file that was rendered
-
     # die on duplicated anchors
     my $render_obj = get_render_obj();
     $render_obj->{__seen_anchors}{$anchor}++;
