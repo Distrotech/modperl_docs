@@ -33,9 +33,9 @@ restarts after starting to serve the clients.
 
 When the restart is completed, Apache 2.0 spawns the workers that will
 do the actual work. Depending on the used MPM, these can be threads,
-processes and a mixture of both. For example the I<worker> MPM spawns
-a number of processes, each running a number of threads. When each
-child process is started C<PerlChildInit> handlers are
+processes or a mixture of both. For example the I<worker> MPM spawns a
+number of processes, each running a number of threads. When each child
+process is started C<PerlChildInitHandler> handlers are
 executed. Notice that they are run for each starting process, not a
 thread.
 
@@ -57,6 +57,7 @@ phases:
   use Apache::Log ();
   use Apache::ServerUtil ();
   
+  use Fcntl qw(:flock);
   use File::Spec::Functions;
   
   use Apache::Const -compile => 'OK';
@@ -97,8 +98,10 @@ phases:
   sub say {
       my($caller) = (caller(1))[3] =~ /([^:]+)$/;
       if (defined $log_fh) {
+          flock $log_fh, LOCK_EX;
           printf $log_fh "[%s] - %-11s: %s\n", 
               scalar(localtime), $caller, $_[0];
+          flock $log_fh, LOCK_UN;
       }
       else {
           # when the log file is not open
@@ -132,7 +135,8 @@ And the I<httpd.conf> configuration section:
 When we perform a server startup followed by a shutdown, the
 I<logs/startup_log> is created if it didn't exist already (it shares
 the same directory with I<error_log> and other standard log files),
-and each stage appends to it its log information. So when we perform:
+and each stage appends to that file its log information. So when we
+perform:
 
   % bin/apachectl start && bin/apachectl stop
 
