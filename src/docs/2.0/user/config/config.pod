@@ -293,6 +293,95 @@ array (C<PL_endav>).
 
 =back
 
+=head3 Examples
+
+Let's demonstrate the differences between the C<modperl> and the
+C<perl-script> core handlers in the following example, which
+represents a simple mod_perl response handler which prints out the
+environment variables as seen by it:
+
+  file:MyApache/PrintEnv1.pm
+  -----------------------
+  package MyApache::PrintEnv1;
+  use strict;
+  
+  use Apache::RequestRec (); # for $r->content_type
+  use Apache::RequestIO ();  # for print
+  use Apache::Const -compile => ':common';
+  
+  sub handler {
+      my $r = shift;
+  
+      $r->content_type('text/plain');
+      for (sort keys %ENV){
+          print "$_ => $ENV{$_}\n";
+      }
+  
+      return Apache::OK;
+  }
+  
+  1;
+
+This is the required configuration:
+
+  PerlModule MyApache::PrintEnv1
+  <Location /print_env1>
+      SetHandler perl-script
+      PerlResponseHandler MyApache::PrintEnv1
+  </Location>
+
+Now issue a request to I<http://localhost/print_env1> and you should
+see all the environment variables printed out.
+
+Here is the same response handler, adjusted to work with the
+C<modperl> core handler:
+
+  file:MyApache/PrintEnv2.pm
+  ------------------------
+  package MyApache::PrintEnv2;
+  use strict;
+  
+  use Apache::RequestRec (); # for $r->content_type
+  use Apache::RequestIO ();  # for $r->print
+  
+  use Apache::Const -compile => ':common';
+  
+  sub handler {
+      my $r = shift;
+  
+      $r->content_type('text/plain');
+      $r->subprocess_env;
+      for (sort keys %ENV){
+          $r->print("$_ => $ENV{$_}\n");
+      }
+  
+      return Apache::OK;
+  }
+  
+  1;
+
+The configuration now will look as:
+
+  PerlModule MyApache::PrintEnv2
+  <Location /print_env2>
+      SetHandler modperl
+      PerlResponseHandler MyApache::PrintEnv2
+  </Location>
+
+C<MyApache::PrintEnv2> cannot use C<print()> and therefore uses
+C<$r-E<gt>print()> to generate a response. Under the C<modperl> core
+handler C<%ENV> is not populated by default, therefore
+C<subprocess_env()> is called in a void context. Alternatively we
+could configure this section to do:
+
+    PerlOptions +SetupEnv
+
+If you issue a request to I<http://localhost/print_env2>, you should
+see all the environment variables printed out as with
+I<http://localhost/print_env1>.
+
+
+
 =head2 C<PerlOptions>
 
 The directive C<PerlOptions> provides fine-grained configuration for
