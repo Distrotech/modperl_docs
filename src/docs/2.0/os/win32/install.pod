@@ -16,6 +16,13 @@ addressed in the multi-thread/multi-process approach of mod_perl
 
 =head1 Installing
 
+As of this writing, mod_perl-2 is known to compile and work
+with an ActivePerl-compatable Perl (builds 6xx), based on
+perl-5.6.1. It also works with perl-5.8 compiled with the
+default compile-time flags in the Win32 F<Makefile>. Because of
+improved threading support, it is expected sometime in the future
+that perl-5.8 will be the recommended Perl for Win32 mod_perl-2.
+
 Apache 2.0 and mod_perl 2.0 can be obtained in two ways - either as
 binaries, or through building from the sources.  As with most packages
 of a more complex nature, it is best, when possible, to build things
@@ -64,10 +71,17 @@ under an F<Apache2> subdirectory in your Perl tree.  You will then
 have to employ either a C<use Apache2;> line in your scripts/packages
 or else a C<PerlModule Apache2> directive in Apache's F<httpd.conf>.
 
-If this build fails, you may want to try the latest cvs sources - see
-http://perl.apache.org/mod_perl_cvs.html for details. If you do try
-this, it is generally a good idea to also use the cvs Apache 2.0 sources
-- see http://httpd.apache.org/dev/ for information. Be aware, though,
+If this build fails, or you want features not present in the
+official releases, you may want to try the sources obtained
+from cvs (it is a good idea to also use the cvs httpd-2.0 sources).
+To do this, first obtain a Win32 cvs client from, for example,
+http://www.cvshome.org/. The cvs sources may be obtained as
+
+  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co httpd-2.0
+  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
+
+The build then proceeds as above. Be aware, though,
 that as well as providing bug fixes, there may be new features being
 added and tested in the cvs versions, so at any given time there are
 no guarantees that these packages will build and test successfully.
