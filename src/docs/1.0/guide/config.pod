@@ -2074,9 +2074,10 @@ Make sure to run the server under:
 
   PerlTaintCheck On
 
-setting in the I<httpd.conf> file. This doesn't ensure that your code
-is completely safe from external hacks, but it does prevent many
-security problems. Refer to the perlsec manpage for more information.
+setting in the I<httpd.conf> file. L<Taint
+checking|/PerlWarn_and_PerlTaintCheck> doesn't ensure that
+your code is completely safe from external hacks, but it does forces
+you to improve your code to prevent many potential security problems.
 
 =head2 Exposing Information About the Server's Component
 
