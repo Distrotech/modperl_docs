@@ -2,17 +2,36 @@
 
 ModPerl::RegistryBB - Run unaltered CGI scripts persistently under mod_perl
 
-=head1 SYNOPSIS
+=head1 Synopsis
 
-=head1 DESCRIPTION
+  # httpd.conf
+  PerlModule ModPerl::RegistryBB
+  Alias /perl/ /home/httpd/perl/
+  <Location /perl>
+      SetHandler perl-script
+      PerlResponseHandler ModPerl::RegistryBB
+      #PerlOptions +ParseHeaders
+      #PerlOptions +GlobalRequest
+      Options +ExecCGI
+  </Location>
 
-=head1 AUTHORS
+=head1 Description
+
+C<ModPerl::RegistryBB> is similar to C<L<ModPerl::Registry>>, but does
+the bare minimum (mnemonic: BB = Bare Bones) to compile a script file
+once and run it many times, in order to get the maximum
+performance. Whereas C<L<ModPerl::Registry>> does various checks,
+which add a slight overhead to response times.
+
+=head1 Authors
 
 Doug MacEachern
 
 Stas Bekman
 
-=head1 SEE ALSO
+=head1 See Also
 
-ModPerl::RegistryCooker(3), Apache(3), mod_perl(3)
+C<L<ModPerl::RegistryCooker>>, C<L<ModPerl::Registry>>, Apache(3),
+mod_perl(3)
 
+=cut

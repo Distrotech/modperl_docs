@@ -2,16 +2,116 @@
 
 ModPerl::Registry - Run unaltered CGI scripts persistently under mod_perl
 
-=head1 SYNOPSIS
+=head1 Synopsis
 
-=head1 DESCRIPTION
+  # httpd.conf
+  PerlModule ModPerl::Registry
+  Alias /perl/ /home/httpd/perl/
+  <Location /perl>
+      SetHandler perl-script
+      PerlResponseHandler ModPerl::Registry
+      #PerlOptions +ParseHeaders
+      #PerlOptions +GlobalRequest
+      Options +ExecCGI
+  </Location>
 
-=head1 AUTHORS
+=head1 Description
 
-Doug MacEachern
+URIs in the form of C<http://example.com/perl/test.pl> will be
+compiled as the body of a Perl subroutine and executed.  Each child
+process will compile the subroutine once and store it in memory. It
+will recompile it whenever the file (e.g. I<test.pl> in our example)
+is updated on disk.  Think of it as an object oriented server with
+each script implementing a class loaded at runtime.
 
-Stas Bekman
+The file looks much like a "normal" script, but it is compiled into a
+subroutine.
 
-=head1 SEE ALSO
+For example:
 
-ModPerl::RegistryCooker(3), Apache(3), mod_perl(3)
+  my $r = Apache->request;
+  $r->content_type("text/html");
+  $r->send_http_header;
+  $r->print("mod_perl rules!");
+
+XXX: STOPPED here
+
+This module emulates the CGI environment, allowing programmers to
+write scripts that run under CGI or mod_perl without change.  Existing
+CGI scripts may require some changes, simply because a CGI script has
+a very short lifetime of one HTTP request, allowing you to get away
+with "quick and dirty" scripting.  Using mod_perl and Apache::Registry
+requires you to be more careful, but it also gives new meaning to the
+word "quick"!
+
+Be sure to read all mod_perl related documentation for more details,
+including instructions for setting up an environment that looks
+exactly like CGI:
+
+ print "Content-type: text/html\n\n";
+ print "Hi There!";
+
+Note that each httpd process or "child" must compile each script once,
+so the first request to one server may seem slow, but each request
+there after will be faster.  If your scripts are large and/or make use
+of many Perl modules, this difference should be noticeable to the
+human eye.
+
+=head1 SECURITY
+
+Apache::Registry::handler will preform the same checks as mod_cgi
+before running the script.
+
+=head1 ENVIRONMENT
+
+The Apache function `exit' overrides the Perl core built-in function.
+
+The environment variable B<GATEWAY_INTERFACE> is set to C<CGI-Perl/1.1>.
+
+=head1 COMMANDLINE SWITCHES IN FIRST LINE
+
+Normally when a Perl script is run from the command line or under CGI,
+arguments on the `#!' line are passed to the perl interpreter for processing.
+
+Apache::Registry currently only honors the B<-w> switch and will turn
+on warnings using the C<$^W> global variable.  Another common switch
+used with CGI scripts is B<-T> to turn on taint checking.  This can
+only be enabled when the server starts with the configuration
+directive:
+
+ PerlTaintCheck On
+
+However, if taint checking is not enabled, but the B<-T> switch is seen,
+Apache::Registry will write a warning to the error_log.
+
+=head1 DEBUGGING
+
+You may set the debug level with the $Apache::Registry::Debug bitmask
+
+ 1 => log recompile in errorlog
+ 2 => Apache::Debug::dump in case of $@
+ 4 => trace pedantically
+
+=head1 CAVEATS
+
+Apache::Registry makes things look just the CGI environment, however, you
+must understand that this *is not CGI*.  Each httpd child will compile
+your script into memory and keep it there, whereas CGI will run it once,
+cleaning out the entire process space.  Many times you have heard
+"always use C<-w>, always use C<-w> and 'use strict'".
+This is more important here than anywhere else!
+
+Your scripts cannot contain the __END__ or __DATA__ token to terminate
+compilation.
+
+
+=head1 Authors
+
+Andreas J. Koenig, Doug MacEachern and Stas Bekman.
+
+=head1 See Also
+
+C<L<ModPerl::RegistryCooker>>, C<L<ModPerl::RegistryBB>>,
+C<L<ModPerl::PerlRun>>, Apache(3), mod_perl(3)
+
+=cut

@@ -2,19 +2,22 @@
 
 ModPerl::RegistryNG - Run unaltered CGI scripts persistently under mod_perl
 
-=head1 SYNOPSIS
+=head1 Synopsis
 
-=head1 DESCRIPTION
+=head1 Description
 
 This modules is just a back compatibility alias. Use
-C<ModPerl::Registry> instead.
+C<L<ModPerl::Registry>> instead.
 
-=head1 AUTHORS
+=head1 Authors
 
 Doug MacEachern
 
 Stas Bekman
 
-=head1 SEE ALSO
+=head1 See Also
 
-ModPerl::RegistryCooker(3), Apache(3), mod_perl(3)
+C<L<ModPerl::RegistryCooker>>, C<L<ModPerl::Registry>>, Apache(3),
+mod_perl(3)
+
+=cut

@@ -1,17 +1,20 @@
 =head1 NAME
 
-ModPerl::RegistryCooker - Cook mod_perl Registry Modules
+ModPerl::RegistryCooker - Cook mod_perl 2.0 Registry Modules
 
-=head1 SYNOPSIS
+=head1 Synopsis
 
-=head1 DESCRIPTION
+=head1 Description
 
-=head1 AUTHORS
+=head1 Authors
 
 Doug MacEachern
 
 Stas Bekman
 
-=head1 SEE ALSO
+=head1 See Also
 
-ModPerl::Registry(3), Apache(3), mod_perl(3)
+C<L<ModPerl::Registry>>, C<L<ModPerl::RegistryBB>>,
+C<L<ModPerl::PerlRun>>, Apache(3), mod_perl(3)
+
+=cut

@@ -15,3 +15,5 @@ Stas Bekman
 =head1 SEE ALSO
 
 ModPerl::RegistryCooker(3), Apache(3), mod_perl(3)
+
+=cut
