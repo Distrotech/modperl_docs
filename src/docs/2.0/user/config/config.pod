@@ -36,12 +36,14 @@ and Taint checking add:
   PerlSwitches -wT
 
 As an alternative to using C<use lib> in I<startup.pl> to adjust
-C<@INC>, now you can use the command line switch to do the same:
+C<@INC>, now you can use the command line switch C<-I> to do that:
 
   PerlSwitches -I/home/stas/modperl
 
-
-
+You could also use C<-Mlib=/home/stas/modperl> which is the exact
+equivalent as C<use lib>, but it's broken on certain platforms/version
+(e.g. Darwin/5.6.0). C<use lib> is removing duplicated entries,
+whereas C<-I> does not.
 
 
 =head1 PerlOptions Directive
@@ -304,16 +306,6 @@ you should see something like this:
           };
 
 Notice that we have got the value of the environment variable I<TEST>.
-
-For sections configured as:
-
-  <Location ...>
-      SetHandler modperl
-      ...
-  </Location>
-
-it's always turned off and cannot be turned on.
-
 
 
 =head1 Handlers Directives
