@@ -22,10 +22,25 @@ improvement.
 This document explains what APIs have changed and what new APIs should
 be used instead.
 
+=head1 Apache methods
+
+=head2 gensym
+
+Since Perl 5.6.1 filehandlers are autovivified and there is no need
+for gensym() function, since now it can be done with:
+
+  open my $fh, "foo" or die $!;
+
+The C function modperl_perl_gensym() is available for XS/C extension
+writers, though.
+
 =head1 Apache::Registry and Apache::PerlRun
 
 =head1 Apache::File
 
+=head1 Apache::StatINC
+
+C<Apache::StatINC> has been replaced by C<Apache::Reload>.
 
 =head1 Maintainers
 
