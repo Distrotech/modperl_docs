@@ -1,13 +1,13 @@
 =head1 NAME
 
-Apache::RequestRec - Perl API for Apache request record accessors
+Apache2::RequestRec - Perl API for Apache request record accessors
 
 
 
 
 =head1 Synopsis
 
-  use Apache::RequestRec ();
+  use Apache2::RequestRec ();
   
   # set supported by the handler HTTP methods
   $allowed = $r->allowed();
@@ -147,17 +147,17 @@ Apache::RequestRec - Perl API for Apache request record accessors
 
 =head1 Description
 
-C<Apache::RequestRec> provides the Perl API for Apache request_rec
+C<Apache2::RequestRec> provides the Perl API for Apache request_rec
 object.
 
-The following packages extend the C<Apache::RequestRec> functionality:
-C<L<Apache::Access|docs::2.0::api::Apache::Access>>,
-C<L<Apache::Log|docs::2.0::api::Apache::Log>>,
-C<L<Apache::RequestIO|docs::2.0::api::Apache::RequestIO>>,
-C<L<Apache::RequestUtil|docs::2.0::api::Apache::RequestUtil>>,
-C<L<Apache::Response|docs::2.0::api::Apache::Response>>,
-C<L<Apache::SubRequest|docs::2.0::api::Apache::SubRequest>> and
-C<L<Apache::URI|docs::2.0::api::Apache::URI>>.
+The following packages extend the C<Apache2::RequestRec> functionality:
+C<L<Apache2::Access|docs::2.0::api::Apache2::Access>>,
+C<L<Apache2::Log|docs::2.0::api::Apache2::Log>>,
+C<L<Apache2::RequestIO|docs::2.0::api::Apache2::RequestIO>>,
+C<L<Apache2::RequestUtil|docs::2.0::api::Apache2::RequestUtil>>,
+C<L<Apache2::Response|docs::2.0::api::Apache2::Response>>,
+C<L<Apache2::SubRequest|docs::2.0::api::Apache2::SubRequest>> and
+C<L<Apache2::URI|docs::2.0::api::Apache2::URI>>.
 
 
 
@@ -165,7 +165,7 @@ C<L<Apache::URI|docs::2.0::api::Apache::URI>>.
 
 =head1 API
 
-C<Apache::RequestRec> provides the following functions and/or methods:
+C<Apache2::RequestRec> provides the following functions and/or methods:
 
 
 
@@ -179,7 +179,7 @@ Get/set the allowed methods bitmask.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_allowed> ( bitmask )
 
@@ -197,39 +197,39 @@ is returned.
 =back
 
 A handler must ensure that the request method is one that it is
-capable of handling.  Generally modules should C<Apache::DECLINE> any
+capable of handling.  Generally modules should C<Apache2::DECLINE> any
 request methods they do not handle.  Prior to aborting the handler
 like this the handler should set C<$r-E<gt>allowed> to the list of
 methods that it is willing to handle.  This bitvector is used to
 construct the C<"Allow:"> header required for C<OPTIONS> requests, and
-C<Apache::HTTP_METHOD_NOT_ALLOWED> (405) and
-C<Apache::HTTP_NOT_IMPLEMENTED> (501) status codes.
+C<Apache2::HTTP_METHOD_NOT_ALLOWED> (405) and
+C<Apache2::HTTP_NOT_IMPLEMENTED> (501) status codes.
 
 Since the default Apache handler deals with the C<OPTIONS> method, all
 response handlers can usually decline to deal with C<OPTIONS>. For
 example if the response handler handles only C<GET> and C<POST>
 methods, and not C<OPTIONS>, it may want to say:
 
-   use Apache::Const -compile => qw(OK DECLINED M_GET M_POST M_OPTIONS);
-   if ($r->method_number == Apache::M_OPTIONS) {
-       $r->allowed($r->allowed | (1<<Apache::M_GET) | (1<<Apache::M_POST));
-       return Apache::DECLINED;
+   use Apache2::Const -compile => qw(OK DECLINED M_GET M_POST M_OPTIONS);
+   if ($r->method_number == Apache2::M_OPTIONS) {
+       $r->allowed($r->allowed | (1<<Apache2::M_GET) | (1<<Apache2::M_POST));
+       return Apache2::DECLINED;
    }
 
 C<TRACE> is always allowed, modules don't need to set it explicitly.
 
 Since the default_handler will always handle a C<GET>, a module which
 does *not* implement C<GET> should probably return
-C<Apache::HTTP_METHOD_NOT_ALLOWED>.  Unfortunately this means that a
+C<Apache2::HTTP_METHOD_NOT_ALLOWED>.  Unfortunately this means that a
 script C<GET> handler can't be installed by mod_actions.
 
 For example, if the module can handle only POST method it could start
 with:
 
-   use Apache::Const -compile => qw(M_POST HTTP_METHOD_NOT_ALLOWED);
-   unless ($r->method_number == Apache::M_POST) {
-       $r->allowed($r->allowed | (1<<Apache::M_POST));
-       return Apache::HTTP_METHOD_NOT_ALLOWED;
+   use Apache2::Const -compile => qw(M_POST HTTP_METHOD_NOT_ALLOWED);
+   unless ($r->method_number == Apache2::M_POST) {
+       $r->allowed($r->allowed | (1<<Apache2::M_POST));
+       return Apache2::HTTP_METHOD_NOT_ALLOWED;
    }
 
 
@@ -246,7 +246,7 @@ slot in the request record
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$newval> (string)
 
@@ -289,7 +289,7 @@ Get/set the request QUERY string
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_args> ( string )
 
@@ -324,7 +324,7 @@ allowing you to send any headers.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$newval> (integer)
 
@@ -347,12 +347,12 @@ when C<assbackwards> is enabled).
   $r->connection->keepalives($r->connection->keepalives + 1);
 
 otherwise code relying on the value of
-C<L<$r-E<gt>connection-E<gt>keepalives|docs::2.0::api::Apache::Connection/C_keepalives_>>
+C<L<$r-E<gt>connection-E<gt>keepalives|docs::2.0::api::Apache2::Connection/C_keepalives_>>
 may malfunction. For example, this counter is used to tell when a new
 request is coming in over the same connection to a filter that wants
 to parse only HTTP headers (like
-C<Apache::Filter::HTTPHeadersFixup>). Of course you will need to set
-C<L<$r-E<gt>connection-E<gt>keepalive(1)|docs::2.0::api::Apache::Connection/C_keepalive_>>
+C<Apache2::Filter::HTTPHeadersFixup>). Of course you will need to set
+C<L<$r-E<gt>connection-E<gt>keepalive(1)|docs::2.0::api::Apache2::Connection/C_keepalive_>>
 ) as well.
 
 
@@ -370,7 +370,7 @@ The number of bytes sent to the client, handy for logging, etc.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$bytes_sent> (integer)
 
@@ -402,10 +402,10 @@ Get the client connection record
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item since: 1.99_12
 
@@ -428,7 +428,7 @@ Content encodings are string like I<"gzip"> or I<"compress">.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_ce> ( string )
 
@@ -470,7 +470,7 @@ Content languages are string like I<"en"> or I<"fr">.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_lang> ( ARRAY ref )
 
@@ -504,7 +504,7 @@ Get/set the HTTP response I<Content-type> header value.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_content_type> (MIME type string)
 
@@ -527,7 +527,7 @@ For example, set the C<Content-type> header to I<text/plain>.
   $r->content_type('text/plain');
 
 If you set this header via the
-C<L<headers_out|docs::2.0::api::Apache::RequestRec/C_headers_out_>>
+C<L<headers_out|docs::2.0::api::Apache2::RequestRec/C_headers_out_>>
 table directly, it will be ignored by Apache. So do not do that.
 
 
@@ -547,7 +547,7 @@ across internal redirects.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$err_headers_out>
 ( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
@@ -565,12 +565,12 @@ For example, if a handler wants to return a 404 response, but
 nevertheless to set a cookie, it has to be:
 
   $r->err_headers_out->add('Set-Cookie' => $cookie);
-  return Apache::NOT_FOUND;
+  return Apache2::NOT_FOUND;
 
 If the handler does:
 
   $r->headers_out->add('Set-Cookie' => $cookie);
-  return Apache::NOT_FOUND;
+  return Apache2::NOT_FOUND;
 
 the C<Set-Cookie> header won't be sent.
 
@@ -590,7 +590,7 @@ result of the I<URI --E<gt> filename> translation).
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_filename> ( string )
 
@@ -610,7 +610,7 @@ C<L<PerlMapToStorageHandler|docs::2.0::user::handlers::http/PerlMapToStorageHand
 phase was run and expect Apache to serve it, you need to update its
 C<stat> record, like so:
 
-  use Apache::RequestRec ();
+  use Apache2::RequestRec ();
   use APR::Finfo ();
   use APR::Const -compile => qw(FINFO_NORM);
   $r->filename($newfile);
@@ -635,7 +635,7 @@ Get and set the I<finfo> request record member:
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$finfo>
 ( C<L<APR::Finfo object|docs::2.0::api::APR::Finfo>> )
@@ -668,7 +668,7 @@ What Apache thinks is the current request filename (post the
 C<L<PerlMapToStorageHandler|docs::2.0::user::handlers::http/PerlMapToStorageHandler>>
 phase):
 
-  use Apache::RequestRec ();
+  use Apache2::RequestRec ();
   use APR::Finfo ();
   print $r->finfo->fname;
 
@@ -701,7 +701,7 @@ Get/set the equivalent of the C<SetHandler> directive.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_handler> ( string )
 
@@ -733,7 +733,7 @@ was B<HEAD>.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$status> ( boolean )
 
@@ -757,7 +757,7 @@ Get/set the request MIME headers:
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$headers_in>
 ( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
@@ -790,7 +790,7 @@ Get/set MIME response headers, printed only on 2xx responses.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$headers_out>
 ( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
@@ -820,7 +820,7 @@ Host, as set by full URI or Host:
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_hostname> ( string )
 
@@ -854,14 +854,14 @@ filters:
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_input_filters>
 
 Set a new value
 
 =item ret: C<$input_filters>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The first filter in the request level input filters chain.
 
@@ -872,18 +872,18 @@ If C<$new_input_filters> was passed, returns the previous value.
 =back
 
 For example instead of using
-C<L<$r-E<gt>read()|docs::2.0::api::Apache::RequestIO/C_read_>> to read
+C<L<$r-E<gt>read()|docs::2.0::api::Apache2::RequestIO/C_read_>> to read
 the POST data, one could use an explicit walk through incoming bucket
 brigades to get that data. The following function C<read_post()> does
 just that (in fact that's what
-C<L<$r-E<gt>read()|docs::2.0::api::Apache::RequestIO/C_read_>> does
+C<L<$r-E<gt>read()|docs::2.0::api::Apache2::RequestIO/C_read_>> does
 behind the scenes):
 
   use APR::Brigade ();
   use APR::Bucket ();
-  use Apache::Filter ();
+  use Apache2::Filter ();
   
-  use Apache::Const -compile => qw(MODE_READBYTES);
+  use Apache2::Const -compile => qw(MODE_READBYTES);
   use APR::Const    -compile => qw(SUCCESS BLOCK_READ);
   
   use constant IOBUFSIZE => 8192;
@@ -897,7 +897,7 @@ behind the scenes):
       my $data = '';
       my $seen_eos = 0;
       do {
-          $r->input_filters->get_brigade($bb, Apache::MODE_READBYTES,
+          $r->input_filters->get_brigade($bb, Apache2::MODE_READBYTES,
                                          APR::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
@@ -938,10 +938,10 @@ Get the main request record
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$main_r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 If the current request is a sub-request, this method returns a blessed
 reference to the main request structure. If the current request is the
@@ -949,7 +949,7 @@ main request, then this method returns C<undef>.
 
 To figure out whether you are inside a main request or a
 sub-request/internal redirect, use
-C<L<$r-E<gt>is_initial_req|docs::2.0::api::Apache::RequestUtil/C_is_initial_req_>>.
+C<L<$r-E<gt>is_initial_req|docs::2.0::api::Apache2::RequestUtil/C_is_initial_req_>>.
 
 =item since: 1.99_12
 
@@ -970,7 +970,7 @@ Get/set the current request method (e.g. C<GET>, C<HEAD>, C<POST>, etc.):
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_method> ( string )
 
@@ -993,8 +993,8 @@ if C<$new_method> was passed the previous value is returned.
 
 =head2 C<method_number>
 
-Get/set the HTTP method, issued by the client (C<Apache::M_GET>,
-C<Apache::M_POST>, etc.)
+Get/set the HTTP method, issued by the client (C<Apache2::M_GET>,
+C<Apache2::M_POST>, etc.)
 
   $methnum      = $r->method_number();
   $prev_methnum = $r->method_number($new_methnum);
@@ -1002,15 +1002,15 @@ C<Apache::M_POST>, etc.)
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
-=item opt arg1: C<$new_methnum> ( C<L<Apache::Const :methods
-constant|docs::2.0::api::Apache::Const/C__methods_>> )
+=item opt arg1: C<$new_methnum> ( C<L<Apache2::Const :methods
+constant|docs::2.0::api::Apache2::Const/C__methods_>> )
 
 a new value
 
-=item ret: C<$methnum> ( C<L<Apache::Const :methods
-constant|docs::2.0::api::Apache::Const/C__methods_>> )
+=item ret: C<$methnum> ( C<L<Apache2::Const :methods
+constant|docs::2.0::api::Apache2::Const/C__methods_>> )
 
 The current method as a number
 
@@ -1040,7 +1040,7 @@ Last modified time of the requested resource
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_mtime> ( number )
 
@@ -1072,10 +1072,10 @@ Pointer to the redirected request if this is an external redirect
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$next_r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 returns a blessed reference to the next (internal) request structure
 or C<undef> if there is no next request.
@@ -1096,7 +1096,7 @@ There is no local copy of this response
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$status> (integer)
 
@@ -1105,11 +1105,11 @@ There is no local copy of this response
 =back
 
 Used internally in certain sub-requests to prevent sending
-C<Apache::HTTP_NOT_MODIFIED> for a fragment or error documents. For
+C<Apache2::HTTP_NOT_MODIFIED> for a fragment or error documents. For
 example see the implementation in F<modules/filters/mod_include.c>.
 
 Also used internally in
-C<L<$r-E<gt>meets_conditions|docs::2.0::api::Apache::Response/C_meets_conditions_>>
+C<L<$r-E<gt>meets_conditions|docs::2.0::api::Apache2::Response/C_meets_conditions_>>
 -- if set to a true value, the conditions are always met.
 
 
@@ -1132,7 +1132,7 @@ in any other language):
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_notes>
 ( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
@@ -1149,10 +1149,10 @@ if the C<$new_notes> argument was passed, returns the previous value.
 =back
 
 If you want to pass Perl structures, you can use
-C<L<$r-E<gt>pnotes|docs::2.0::api::Apache::RequestUtil/C_pnotes_>>.
+C<L<$r-E<gt>pnotes|docs::2.0::api::Apache2::RequestUtil/C_pnotes_>>.
 
 Also see
-C<L<$c-E<gt>notes|docs::2.0::api::Apache::Connection/C_notes_>>
+C<L<$c-E<gt>notes|docs::2.0::api::Apache2::Connection/C_notes_>>
 
 
 
@@ -1170,14 +1170,14 @@ Get the first filter in a linked list of request level output filters:
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_output_filters>
 
 Set a new value
 
 =item ret: C<$output_filters>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The first filter in the request level output filters chain.
 
@@ -1188,14 +1188,14 @@ If C<$new_output_filters> was passed, returns the previous value.
 =back
 
 For example instead of using
-C<L<$r-E<gt>print()|docs::2.0::api::Apache::RequestIO/C_print_>> to
+C<L<$r-E<gt>print()|docs::2.0::api::Apache2::RequestIO/C_print_>> to
 send the response body, one could send the data directly to the first
 output filter. The following function C<send_response_body()> does
 just that:
 
   use APR::Brigade ();
   use APR::Bucket ();
-  use Apache::Filter ();
+  use Apache2::Filter ();
   
   sub send_response_body {
       my($r, $data) = @_;
@@ -1210,7 +1210,7 @@ just that:
   }
 
 In fact that's what
-C<L<$r-E<gt>read()|docs::2.0::api::Apache::RequestIO/C_read_>> does
+C<L<$r-E<gt>read()|docs::2.0::api::Apache2::RequestIO/C_read_>> does
 behind the scenes. But it also knows to parse HTTP headers passed
 together with the data and it also implements buffering, which the
 above function does not.
@@ -1234,7 +1234,7 @@ Get/set the C<PATH_INFO>, what is left in the path after the I<URI
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$path_info> ( string )
 
@@ -1265,10 +1265,10 @@ Get the dir config vector:
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$per_dir_config>
-( C<L<Apache::ConfVector object|docs::2.0::api::Apache::ConfVector>> )
+( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
 
 =item since: 1.99_12
 
@@ -1293,7 +1293,7 @@ The pool associated with the request
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$p> ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
@@ -1317,9 +1317,9 @@ Pointer to the previous request if this is an internal redirect
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
-=item ret: C<$prev_r> ( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+=item ret: C<$prev_r> ( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 a blessed reference to the previous (internal) request structure or
 C<undef> if there is no previous request.
@@ -1344,14 +1344,14 @@ Get the first filter in a linked list of protocol level input filters:
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_proto_input_filters>
 
 Set a new value
 
 =item ret: C<$proto_input_filters>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The first filter in the protocol level input filters chain.
 
@@ -1362,7 +1362,7 @@ If C<$new_proto_input_filters> was passed, returns the previous value.
 =back
 
 C<$r-E<gt>proto_input_filters> points to the same filter as
-C<L<$r-E<gt>connection-E<gt>input_filters|docs::2.0::api::Apache::Connection/C_input_filters_>>.
+C<L<$r-E<gt>connection-E<gt>input_filters|docs::2.0::api::Apache2::Connection/C_input_filters_>>.
 
 
 
@@ -1379,7 +1379,7 @@ Get current request's HTTP protocol version number
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$proto_num> (integer)
 
@@ -1407,14 +1407,14 @@ filters:
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_proto_output_filters>
 
 Set a new value
 
 =item ret: C<$proto_output_filters>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The first filter in the protocol level output filters chain.
 
@@ -1425,7 +1425,7 @@ If C<$new_proto_output_filters> was passed, returns the previous value.
 =back
 
 C<$r-E<gt>proto_output_filters> points to the same filter as
-C<L<$r-E<gt>connection-E<gt>output_filters|docs::2.0::api::Apache::Connection/C_output_filters_>>.
+C<L<$r-E<gt>connection-E<gt>output_filters|docs::2.0::api::Apache2::Connection/C_output_filters_>>.
 
 
 
@@ -1442,7 +1442,7 @@ Get a string identifying the protocol that the client speaks.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$protocl> ( string )
 
@@ -1470,7 +1470,7 @@ other related fields.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$val> ( integer )
 
@@ -1528,7 +1528,7 @@ Time when the request started
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$request_time> ( number )
 
@@ -1546,7 +1546,7 @@ Time when the request started
 
 =head2 C<server>
 
-Get the C<L<Apache::Server|docs::2.0::api::Apache::ServerRec>> object for
+Get the C<L<Apache2::Server|docs::2.0::api::Apache2::ServerRec>> object for
 the server the request C<$r> is running under.
 
   $s = $r->server();
@@ -1554,10 +1554,10 @@ the server the request C<$r> is running under.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item since: 1.99_12
 
@@ -1579,14 +1579,14 @@ Get/set the reply status for the client request.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_status> ( integer )
 
 If C<$new_status> is passed the new status is assigned.
 
-Normally you would use some C<L<Apache::Const
-constant|docs::2.0::api::Apache::Const>>, e.g. C<Apache::REDIRECT>.
+Normally you would use some C<L<Apache2::Const
+constant|docs::2.0::api::Apache2::Const>>, e.g. C<Apache2::REDIRECT>.
 
 =item ret: C<$newval> ( integer )
 
@@ -1601,14 +1601,14 @@ If C<$new_status> is passed the old value is returned.
 Usually you will set this value indirectly by returning the status
 code as the handler's function result.  However, there are rare
 instances when you want to trick Apache into thinking that the module
-returned an C<Apache::OK> status code, but actually send the browser a
+returned an C<Apache2::OK> status code, but actually send the browser a
 non-OK status. This may come handy when implementing an HTTP proxy
 handler.  The proxy handler needs to send to the client, whatever
 status code the proxied server has returned, while returning
-C<Apache::OK> to Apache. e.g.:
+C<Apache2::OK> to Apache. e.g.:
 
   $r->status($some_code);
-  return Apache::OK
+  return Apache2::OK
 
 See also C<L<$r-E<gt>status_line|/C_status_line_>>, which. if set,
 overrides C<$r-E<gt>status>.
@@ -1631,7 +1631,7 @@ specified using the C<$r-E<gt>status()> described above.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_status_line> ( string )
 
@@ -1649,7 +1649,7 @@ whatever response the proxied server has sent, it'll usually use
 C<status_line()>, like so:
 
   $r->status_line($response->code() . ' ' . $response->message());
-  return Apache::OK;
+  return Apache2::OK;
 
 In this example C<$response> could be for example an C<HTTP::Response>
 object, if C<LWP::UserAgent> was used to implement the proxy.
@@ -1659,7 +1659,7 @@ new response codes. For example you could invent a new error code and
 tell Apache to use that in the response like so:
 
   $r->status_line("499 We have been FooBared");
-  return Apache::OK;
+  return Apache2::OK;
 
 Here C<499> is the new response code, and I<We have been FooBared> is
 the custom response message.
@@ -1685,7 +1685,7 @@ value of a named entry.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$key> ( string )
 
@@ -1718,7 +1718,7 @@ value is set. The following two lines are equivalent:
   $r->subprocess_env->set($key => $val);
 
 The C<subprocess_env> C<L<table|docs::2.0::api::APR::Table>> is used
-by C<L<Apache::SubProcess|docs::2.0::api::Apache::SubProcess>>, to
+by C<L<Apache2::SubProcess|docs::2.0::api::Apache2::SubProcess>>, to
 pass environment variables to externally spawned processes. It's also
 used by various Apache modules, and you should use this table to pass
 the environment variables. For example if in
@@ -1754,7 +1754,7 @@ First HTTP request header
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$request> ( string )
 
@@ -1783,7 +1783,7 @@ The URI without any parsing performed
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$unparsed_uri> ( string )
 
@@ -1819,7 +1819,7 @@ The path portion of the URI
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_uri> ( string )
 
@@ -1850,7 +1850,7 @@ set it.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$new_user> ( string )
 
@@ -1869,7 +1869,7 @@ If C<$new_user> was passed, the previous value is returned.
 For example, let's print the username passed by the client:
 
   my($res, $sent_pw) = $r->get_basic_auth_pw;
-  return $res if $res != Apache::OK;
+  return $res if $res != Apache2::OK;
   print "User: ", $r->user;
 
 
@@ -1881,7 +1881,7 @@ For example, let's print the username passed by the client:
 
 =head1 Unsupported API
 
-C<Apache::RequestRec> also provides auto-generated Perl interface for
+C<Apache2::RequestRec> also provides auto-generated Perl interface for
 a few other methods which aren't tested at the moment and therefore
 their API is a subject to change. These methods will be finalized
 later as a need arises. If you want to rely on any of the following
@@ -1902,16 +1902,16 @@ List of allowed methods
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$list>
-( C<L<Apache::MethodList object|docs::2.0::api::Apache::MethodList>> )
+( C<L<Apache2::MethodList object|docs::2.0::api::Apache2::MethodList>> )
 
 =item since: 1.99_12
 
 =back
 
-META: Apache::MethodList is not available at the moment
+META: Apache2::MethodList is not available at the moment
 
 
 
@@ -1930,7 +1930,7 @@ Array of extension methods
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$array>
 ( C<L<APR::ArrayHeader object|docs::2.0::api::APR::ArrayHeader>> )
@@ -1957,10 +1957,10 @@ structures
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$newval>
-( C<L<Apache::ConfVector object|docs::2.0::api::Apache::ConfVector>> )
+( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
 
 =item since: 1.99_12
 
@@ -1986,7 +1986,7 @@ user's preference upon HOOK_VERY_FIRST of the fixups.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<$newval> (integer)
 
