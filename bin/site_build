@@ -54,7 +54,7 @@ sub update {
     $flags .= 'v' if $name =~ /verbose/;
     $flags = $flags ? "-$flags" : "";
 
-    system("cvs up -dP >/dev/null 2>&1");
+    system("svn update >/dev/null 2>&1");
 
     system("bin/build $flags");
 
