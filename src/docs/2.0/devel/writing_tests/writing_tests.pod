@@ -1516,8 +1516,8 @@ I<my-extra.conf> will be created, it'll look like:
   PerlSwitches -Mlib=~/modperl-2.0/t/../lib
 
 The valid tokens are defined in C<%Apache::TestConfig::Usage> and also
-can be in the output of C<t/TEST -help>'s I<configuration options>
-section. The tokens are case insensitive.
+can be seen in the output of C<t/TEST -help>'s I<configuration
+options> section. The tokens are case insensitive.
 
 =head2 Threaded versus Non-threaded Perl Test's Compatibility
 
