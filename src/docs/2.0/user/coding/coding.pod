@@ -247,7 +247,7 @@ The "only" thing you have to worry about your code is that it's
 thread-safe and that you don't use functions that affect all threads
 in the same process.
 
-Perl 5.8.0 itself is a thread-safe. That means that operations like
+Perl 5.8.0 itself is thread-safe. That means that operations like
 C<push()>, C<map()>, C<chomp()>, C<=>, C</>, C<+=>, etc. are
 thread-safe. Operations that involve system calls, may or may not be
 thread-safe. It all depends on whether the underlying C libraries used
