@@ -400,6 +400,20 @@ C<DBD::Oracle> is loaded (which might happen indirectly via the C<DBI>
 module. Therefore you need to make sure that wherever that load
 happens C<%ENV> is properly set by that time.
 
+Another solution that works B<only with prefork mpm>, is to use
+C<Env::C> ( http://search.cpan.org/dist/Env-C/ ). This module sets the
+process level environ, bypassing Perl's C<%ENV>. This module is not
+thread-safe, due to the nature of environ process struct, so don't
+even try using it in a threaded environment.
+
+
+
+
+
+
+
+
+
 =head2 Error about not finding I<Apache.pm> with I<CGI.pm>
 
 You need to install at least version 2.87 of CGI.pm to work
