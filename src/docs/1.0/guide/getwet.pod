@@ -1,0 +1,884 @@
+=head1 NAME
+
+Getting your feet wet
+
+=head1 Description
+
+This chapter gives you step-by-step instructions to get a basic
+statically-compiled mod_perl-enabled Apache server up and
+running. Having a running server allows you to experiment with
+mod_perl as you learn more about it.
+
+(Of course, you'll be experimenting on a private machine, not on a
+production server, right?)  The remainder of the guide, along with the
+documentation supplied with mod_perl, gives the detailed information
+required for fine-tuning your mod_perl-enabled server to deliver the
+best possible performance.
+
+Although there are binary distributions of mod_perl-enabled Apache
+servers available for various platforms, we recommend that you always
+build mod_perl from source.  It's simple to do (provided you have all
+the proper tools on your machine), and building from source
+circumvents possible problems with the binary distributions (such as
+the reported bugs with the RPM packages built for RedHat Linux).
+
+The mod_perl installation that follows has been tested on many
+mainstream Unix and Linux platforms.  Unless you're using a very
+non-standard system, you should have no problems when building the
+basic mod_perl server.
+
+For Windows users, the simplest solution is to use the binary package
+available from I<http://perl.apache.org/distributions.html>.  Windows
+users may skip to the sidebar C<Installing mod_perl for Windows>.
+
+=head1 Installing mod_perl in Three Steps
+
+You can install mod_perl in three easy steps: Obtaining the source
+files required to build mod_perl, building mod_perl, and installing
+it.
+
+Building mod_perl from source requires a machine with basic
+development tools.  In particular, you will need an ANSI-compliant C
+compiler (such as I<gcc>) and the I<make> utility. All standard
+Unix-like distributions include these tools. If a required tool is not
+already installed, then use the package manager that is provided with
+the system (I<rpm>, I<apt>, I<yast>, etc.)  to install them.
+
+A recent version of Perl is also required, at least version 5.004.
+Perl is available as an installable package, although most Unix-like
+distributions will have installed Perl by default. To check that the
+tools are available and learn about their version numbers, try:
+
+  panic% make -v
+  panic% gcc -v
+  panic% perl -v
+
+If any of these responds with C<Command not found>, it will need to be
+installed.
+
+Once all the tools are in place the installation process can begin.
+Experienced Unix users will need no explanation of the commands that
+follow and can simply copy and paste them into a terminal window to
+get the server installed.
+
+Acquire the source code distrubutions of Apache and mod_perl from the
+Internet, using your favorite web browser or one of the command line
+clients like I<wget>, I<lwp-download>, etc. These two distributions
+are available from I<http://www.apache.org/dist/httpd/> and
+I<http://perl.apache.org/dist/>.
+
+The two packages are named I<apache_x.x.x.tar.gz> and
+I<mod_perl-x.xx.tar.gz>, where I<x.x.x> should be replaced with the
+real version numbers of mod_perl and Apache.
+
+Move the downloaded packages into a directory of your choice, I<e.g.>,
+I</home/stas/src/>, proceed with the described steps and you will have
+mod_perl installed:
+
+  panic% cd /home/stas/src
+  panic% tar -zvxf apache_x.x.x.tar.gz
+  panic% tar -zvxf mod_perl-x.xx.tar.gz
+  panic% cd mod_perl-x.xx
+  panic% perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
+      APACHE_PREFIX=/home/httpd DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
+  panic% make && make test
+  panic% su
+  panic# make install
+
+That's all!
+
+All that remains is to add a few configuration lines to the Apache
+configuration file, (I</usr/local/apache/conf/httpd.conf>), start the
+server, and enjoy mod_perl.
+
+The following detailed explanation of each step should help you solve
+any problems that may have arisen when executing the commands above.
+
+
+
+
+=head1 Installing mod_perl for Unix Platforms
+
+Here is a more detailed explanation of the installation process, with
+each step explained in detail and with some troubleshooting advice. If
+the build worked and you are in a hurry to boot your new I<httpd>, you
+may skip to the next section, talking about configuration of the
+server.
+
+Before installing Apache and mod_perl, you usually have to become
+I<root> so that the files can be installed in a protected area. A user
+who does not have I<root> access, however, can still install all files
+under their home directory.  The proper approach is to build Apache in
+an unprivileged location and then only use I<root> access to install
+it. We will talk about the nuances of this approach in the L<dedicated
+installation process chapter|guide::install>.
+
+=head2 Obtaining and Unpacking the Source Code
+
+The first step is to obtain the source code distributions of Apache,
+available from http://www.apache.org/dist/httpd/ and mod_perl,
+available from http://perl.apache.org/dist/. Of course you can use
+your favorite mirror sites to get these distributions.
+
+Even if you have the Apache server running on your machine, usually
+you need to download its source distribution, because you need to
+re-build it from scratch with mod_perl.
+
+The source distributions of Apache and mod_perl should be downloaded
+into directory of your choice. For the sake of consistency, we assume
+throughout the guide that all builds are being done in the
+I</home/stas/src> directory. However, using a different location is
+perfectly possible and merely requires changing this part of the path
+in the examples to the actual path being used.
+
+The next step is to move to the directory with the source files:
+
+  panic% cd /home/stas/src
+
+Uncompress and untar both sources.  GNU I<tar> allows this using a
+single command per file:
+
+  panic% tar -zvxf apache_x.x.x.tar.gz
+  panic% tar -zvxf mod_perl-x.xx.tar.gz
+
+For non-GNU I<tar>'s, you may need to do this with two steps (which
+you can combine via a pipe):
+
+  panic% gzip -dc apache_x.x.x.tar.gz | tar -xvf -
+  panic% gzip -dc mod_perl-x.xx.tar.gz | tar -xvf -
+
+Linux distributions supply C<tar> and C<gzip> and install them by
+default; for other systems these utilities should be obtained from
+I<http://www.gnu.org/> or other sources, and installed--the GNU
+versions are available for every platform that Apache supports.
+
+
+=head2 Building mod_perl
+
+Move into the I</home/stas/src/mod_perl-x.xx/> source distribution
+directory:
+
+  panic% cd mod_perl-x.xx
+
+The next step is to create the I<Makefile>. This step is no different
+in principle from the creation of the I<Makefile> for any other Perl
+module.
+
+  panic% perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
+    DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
+
+(Replace I<x.x.x> with the Apache distribution version number.)
+
+mod_perl accepts a variety of parameters. The options specified above
+will enable almost everything that mod_perl offers. There are many
+other options for fine-tuning mod_perl to suit particular
+circumstances; these are explained in detail in the L<dedicated
+installation process chapter|guide::install>.
+
+Running I<Makefile.PL> will cause Perl to check for prerequisites and
+identify any required software packages which are missing. If it
+reports missing Perl packages, these will have to be installed before
+proceeding. They are all available from CPAN (I<http://cpan.org/>) and
+can be easily downloaded and installed.
+
+An advantage to installing mod_perl with the help of the C<CPAN.pm>
+module is that all the missing modules will be installed with the
+C<Bundle::Apache> bundle:
+
+  panic% perl -MCPAN -e 'install("Bundle::Apache")'
+
+We will talk about using C<CPAN.pm> in-depth in the L<installation
+process chapter|guide::install>.
+
+Running I<Makefile.PL> also transparently executes the I<./configure>
+script from Apache's source distribution directory, which prepares the
+Apache build configuration files. If parameters must be passed to
+Apache's C<./configure> script, they can be passed as options to
+I<Makefile.PL>.
+
+The I<httpd> executable can now be built by using the C<make>
+utility. (Note that the current working directory is still
+I</home/stas/src/mod_perl-x.xx/>):
+
+  panic% make
+
+This command prepares the mod_perl extension files, installs them in
+the Apache source tree and builds the I<httpd> executable (the web
+server itself) by compiling all the required files. Upon completion of
+the I<make> process, the working directory is restored to
+I</home/stas/src/mod_perl-x.xx/>.
+
+Running C<make test> will execute various mod_perl tests on the
+freshly built I<httpd> executable.
+
+  panic% make test
+
+This command starts the server on a non-standard port (8529) and tests
+whether all parts of the built server function correctly. The process
+will report anything that does not work properly.
+
+=head2 Installing mod_perl
+
+Running C<make install> completes the installation process of mod_perl
+by installing all the Perl files required for mod_perl to run--and, of
+course, the server documentation (man pages). Typically, you need to
+be I<root> to have permission to do this, but another user account can
+be used if the appropriate options were set on the C<perl Makefile.PL>
+command line.  To become I<root>, use the I<su> command.
+
+  panic% su
+  panic# make install
+
+If you have the proper permission, you might also chain all three
+I<make> commands into a single command line:
+
+  panic# make && make test && make install
+
+C<&&> in shell program is similar to Perl's C<&&>. Each section of
+the statement will be executed left to right, untill all sections will
+be executed and return true (success) or one of them will return false
+(failure).
+
+The single-line version simplifies the installation, since there is no
+need to wait for each command to complete before starting the next
+one. Of course, if you need to become I<root> in order to run I<make
+install>, you'll either need to run it as a separate command or become
+I<root> before running the single-line version.
+
+If the all-in-one approach is chosen and any of the C<make> commands
+fail, execution will stop at that point. For example if C<make> alone
+fails then C<make test> and C<make install> will not be attempted;
+similarly if C<make test> fails then C<make install> will not be
+attempted.
+
+Finally, change to the Apache source distribution directory and run
+S<make install> to create the Apache directory tree and install
+Apache's header files (I<*.h>), default configuration files
+(I<*.conf>), the I<httpd> executable, and a few other programs.
+
+  panic# cd ../apache_x.x.x
+  panic# make install
+
+Note that, as with a plain Apache installation, any configuration
+files left from a previous installation will not be overwritten by
+this process.  So there is no need to backup the previously working
+configuration files before the installation, although backing up is
+never unwise.
+
+At the end of the I<make install> process, it will list the path to
+the C<apachectl> utility that you can use to start and stop the
+server, and the path to the installed configuration files. It is
+important to write down these paths since they will frequently be
+needed when maintaining and configuring Apache. On our machines these
+two important paths are:
+
+  /usr/local/apache/bin/apachectl
+  /usr/local/apache/conf/httpd.conf
+
+The mod_perl Apache server is now built and installed.  All that needs
+to be done before it can be run is to edit the configuration file
+I<httpd.conf> and write a little test script.
+
+
+
+
+=head2 Configuring and Starting the mod_perl Server
+
+The first thing to do is ensure that Apache was built correctly and
+that it can serve plain HTML files. This helps to minimize the number
+of possible problem areas: once you have confirmed that Apache can
+serve plain HTML files, you know that any problems with mod_perl are
+with mod_perl itself.
+
+Apache should be configured just the same as when it did not have
+mod_perl.  Set the C<Port>, C<User>, C<Group>, C<ErrorLog> and other
+directives in the I<httpd.conf> file.  Use the defaults as suggested,
+customizing only when necessary. Values that will probably need to be
+customized are C<ServerName>, C<Port>, C<User>, C<Group>,
+C<ServerAdmin>, C<DocumentRoot> and a few others.  There are helpful
+hints preceding each directive in the configuration files themselves,
+with further information in Apache's documentation. Follow the advice
+in the files and documentation if in doubt.
+
+When the configuration file has been edited, it is time to start the
+server.  One of the ways to start and stop the server is to use the
+C<apachectl> utility. This can be used to start the server with:
+
+  panic# /usr/local/apache/bin/apachectl start
+
+And stop it with:
+
+  panic# /usr/local/apache/bin/apachectl stop
+
+Note that if the server is going to listen on port C<80> or another
+privileged port (Any port with a number less than 1024 can be accessed
+only by the programs running as I<root>.), the user executing
+C<apachectl> must be I<root>.
+
+After the server has started, check in the I<error_log> file
+(I</usr/local/apache/logs/error_log> by default) to see if the server
+has indeed started. Do not rely on the status C<apachectl>
+reports. The I<error_log> should contain something like the following:
+
+  [Thu Jun 22 17:14:07 2000] [notice] Apache/1.3.12 (Unix) 
+  mod_perl/1.24 configured -- resuming normal operations
+
+Now point the browser to I<http://localhost/> or
+I<http://your.server.name/> as configured with the C<ServerName>
+directive. If the C<Port> directive has been set with a value
+different from C<80>, add this port number at the end of the server
+name. For example, if the port is 8080, test the server with
+I<http://localhost:8080/> or I<http://your.server.name:8080/>. The
+infamous I<"It worked"> page should appear in the browser, which is an
+C<index.html> file that C<make install> in the Apache source tree
+installs automatically. If this page does not appear, something went
+wrong and the contents of the I<error_log> file should be checked.
+The path of the error log file is specified in the C<ErrorLog>
+directive section in I<httpd.conf>.
+
+If everything works as expected, shut the server down, open
+I<httpd.conf> with a plain text editor, and scroll to the end of the
+file.  The mod_perl configuration directives are added to the end of
+I<httpd.conf> by convention.  It is possible to place mod_perl's
+configuration directives anywhere in I<httpd.conf>, but adding them at
+the end seems to work best in practice.
+
+Assuming that all the scripts that should be executed by the mod_perl
+enabled server are located in the I</home/stas/modperl> directory, add
+the following configuration directives:
+
+  Alias /perl/ /home/stas/modperl/
+  
+  PerlModule Apache::Registry
+  <Location /perl/>
+      SetHandler perl-script
+      PerlHandler Apache::Registry
+      Options +ExecCGI
+      PerlSendHeader On
+      allow from all
+  </Location>
+
+Save the modified file.
+
+This configuration causes every URI starting with I</perl> to be
+handled by the Apache mod_perl module with the handler from the Perl
+module C<Apache::Registry>.
+
+
+=head1 Installing mod_perl for Windows
+
+Apache runs on many flavors of Unix and Unix-like operating systems.
+Version 1.3 introduced a port to the Windows familiy of operating
+systems, often named C<Win32> after the name of the common API.
+Because of many deep differences between Unix and Windows, the Win32
+port of Apache is still branded as beta quality, because it hasn't yet
+reached the stability and performance of the native Unix counterpart.
+
+Another hindrance to using mod_perl on Windows is that current
+versions of Perl are not thread-safe on Win32. As a consequence,
+mod_perl calls to the embedded Perl interpreter must be serialized,
+i.e. executed one at a time. For these reasons, we recommend that
+mod_perl on Windows be used only for testing purposes, not in
+production.
+
+Building mod_perl from source on Windows is a bit of a challenge.
+Development tools such as a C compiler are not bundled with the
+operating system, and most users expect a point-and-click installation
+as with most Windows software.  Additionally, all software packages
+need to be built with the same compiler and compile options. This
+means building Perl, Apache, and mod_perl from source, quite a
+daunting task.
+
+Fortunately, Randy Kobes maintains a Windows distribution of mod_perl
+which includes all the necessary tools, including Perl, Apache, and a
+host of useful CPAN modules. Using this distribution provides an
+out-of-the-box Apache+mod_perl combo in minutes.
+
+The distribution comes with extensive documentation. Take the time to
+read it, particularly if you wish to install the software in a
+location different from the default. In the following installation
+we'll use the default locations and options.
+
+=head2 Download the Windows distribution
+
+Download C<perl-win32-bin-x.x.exe> from
+http://perl.apache.org/distributions.html. This is a self-extracting
+archive, yielding four directories:
+
+  Apache
+  Perl
+  openssl
+  readmes
+
+
+=head2 Install the software
+
+Move the C<Apache> and C<Perl> directories to C<C:\>.  Edit
+C<C:\AUTOEXEC.BAT> to install the Perl executable directories in your
+system's search path:
+
+  SET PATH=C:\Perl\5.6.1\bin;C:\Perl\5.6.1\bin\MSWin32-x86;"%PATH%"
+
+Then restart Windows for this change to take effect.
+
+
+=head2 Test the Perl installation
+
+Open a DOS prompt window and verify that Perl is installed correctly
+and learn the version number:
+
+  C:\> perl -v
+  
+  This is perl, v5.6.1 built for MSWin32-x86
+  
+  Copyright 1987-2000, Larry Wall
+
+
+=head2 Start Apache
+
+The distribution comes with a ready-made configuration file for
+mod_perl which we'll use to start Apache. From the C<C:\Apache>
+directory, start Apache:
+
+  C:\Apache> apache.exe -f conf\httpd.conf-perl
+
+Now issuing a request for I<http://localhost/> displays the usual
+Apache C<It Worked> page.
+
+=head2 Test mod_perl
+
+The distribution comes with a pre-configured mod_perl handler and
+C<Apache::Registry> directory. We can test our mod_perl enabled server
+by issuing the following requests:
+
+  http://localhost/hello
+  http://localhost/mod_perl/printenv
+
+We now have a fully-functional mod_perl server. The example scripts
+described in the rest of this chapter can be used with minor
+modifications to file paths and URIs. In particular, change all
+instances of I</home/stas> with C<C:\Apache\>, and change all
+instances of I<http://localhost/perl> with
+I<http://localhost/mod_perl>.
+
+
+=head1 Preparing the Scripts Directory
+
+Now you have to select a directory where all the mod_perl scripts and
+modules will be placed to. We usually use create a directory
+I<modperl> under our home directory, e.g., I</home/stas/modperl>, for
+this purpose. Your mileage may vary.
+
+First create this directory if it doesn't yet exist.
+
+  panic% mkdir /home/stas/modperl
+
+What about file permissions?  Remember that when scripts are executed
+from a shell, they are being executed with permissions of the user's
+account. Usually you want to have a read, write and execute access for
+yourself, but only read and execute permissions for the server. When
+the scripts are run by Apache, however, the server needs to be able to
+read and execute them. Apache runs under an account specified by the
+C<User> directive, typically I<nobody>.  If you modify the C<User>
+directive to run the server under your username, e.g.,
+
+  User stas
+
+the permissions on all files and directories should usually be
+C<rwx------>, so we can set the directory permissions to:
+
+  panic% chmod 0700 /home/stas/modperl
+
+Now, no-one, but you and the server can access the files in this
+directory. You should set the same permissions for all the files you
+place under this directory. (You don't need to set the I<x> bit for
+files that aren't going to be executed, for those mode C<0600> would
+be sufficient.)
+
+If the server is running under account I<nobody>, you have to set the
+permissions to C<rwxr-xr-x> or C<0755> for your files and directories,
+which is insecure since other users on the same machine can read your
+files.
+
+  panic# chmod 0755  /home/stas/modperl
+
+If you aren't running the server with your username, you have to set
+these permissions for all the files created under this directory, so
+Apache can read and execute these.
+
+If you need to have an Apache write files you have to set the file
+permissions to C<rwxrwxrwx> or C<0777> which is very undesirable,
+since any user on the same machine can read and write your files. If
+this is the case, you should run the server under your username, and
+then only you and the server have a write access to your files.
+(Assuming of course that other users have no access to your server,
+since if they do, they can access your files through this server.)
+
+In the following examples we assume that you run the server under your
+username, and hence we set the scripts permissions to C<0700>.
+
+=head1 A Sample Apache::Registry Script
+
+One of mod_perl's benefits is that it can run existing CGI scripts
+written in Perl which were previously used under mod_cgi (the standard
+Apache CGI handler). Indeed mod_perl can be used for running CGI
+scripts without taking advantage of any of mod_perl's special
+features, while getting the benefit of the potentially huge
+performance boost.  Here is an example of a very simple CGI-style
+mod_perl script:
+
+  mod_perl_rules1.pl
+  ------------------
+  print "Content-type: text/plain\n\n";
+  print "mod_perl rules!\n";
+
+Save this script in the I</home/stas/modperl/mod_perl_rules1.pl> file.
+Notice that the C<#!> line (colloquially known as the I<shebang> line)
+is not needed with mod_perl, although having one causes no problems,
+as can be seen here:
+
+  mod_perl_rules1.pl
+  ------------------
+  #!/usr/bin/perl
+  print "Content-type: text/plain\n\n";
+  print "mod_perl rules!\n";
+
+Now make the script executable and readable by the server, as
+explained in the previous section.
+
+  panic# chmod 0700   /home/stas/modperl/mod_perl_rules1.pl
+
+The I<mod_perl_rules1.pl> script can be tested from the command line,
+since it is essentially a regular Perl script.
+
+  panic% perl /home/stas/modperl/mod_perl_rules1.pl
+
+This should produce the following output:
+
+  Content-type: text/plain
+  
+  mod_perl rules!
+
+Make sure the server is running and issue these requests using a
+browser:
+
+  http://localhost/perl/mod_perl_rules1.pl
+
+If you see it--B<congratulations>! You have a working mod_perl server.
+
+If something went wrong, go through the installation process again,
+making sure that none of the steps are missed and that each is
+completed successfully. If this does not solve the problem, the
+L<installation chapter|guide::install> will attempt to salvage the
+situation.
+
+If the port being used is not 80, for example 8080, then the port
+number should be included in the URL:
+
+  http://localhost:8080/perl/mod_perl_rules1.pl
+
+The C<localhost> approach will work only if the browser is running on
+the same machine as the server. If not, use the real server name for
+this test. For example:
+
+  http://your.server.name/perl/mod_perl_rules1.pl
+
+If there is any problem please refer to the I<error_log> file for the
+error messages.
+
+Jumping a little bit ahead, we would like to show the same CGI script
+written using mod_perl API:
+
+  mod_perl_rules2.pl
+  ------------------
+  my $r = shift;
+  $r->send_http_header('text/plain');
+  $r->print("mod_perl rules!\n");
+
+mod_perl API needs a request object C<$r> to communicate with
+Apache. The script gets this object first thing, after that it uses
+the object to send the HTTP header and print the irrefutable fact
+about mod_perl's coolness.
+
+This script generates the same output as the previous one.
+
+As you can see it's not much harder to write your code in mod_perl
+API, all you need to know is the API, but the concepts are the
+same. As we will show in the later chapters, usually you will want to
+use mod_perl API for a better performance or when you need a
+functionality that plain Perl API doesn't provide.
+
+=head2 Porting Existing CGI Scripts to run under mod_perl
+
+Now it is time to move any existing CGI scripts from the
+I</somewhere/cgi-bin> directory to I</home/stas/modperl>. Once moved
+they should run much faster when requested from the newly configured
+base URL (I</perl/>). For example, a CGI script called I<test.pl> that
+was previously accessed as I</cgi-bin/test.pl> can now be accessed
+under mod_perl as I</perl/test.pl>.
+
+Some of the scripts might not work immediately and may require some
+minor tweaking or even a partial rewrite to work properly with
+mod_perl. We will talk in-depth about these things in the L<Coding
+chapter|guide::porting>. Most scripts that have been written with care
+and especially developed with enabled warnings and the C<strict>
+pragma will probably work without any modifications at all.
+
+A quick solution that avoids most rewriting or editing of existing
+scripts that do not run properly under C<Apache::Registry> is to run
+them under C<Apache::PerlRun>. This can be achieved by simply
+replacing C<Apache::Registry> with C<Apache::PerlRun> in
+I<httpd.conf>.  Put the following configuration directives instead in
+I<httpd.conf> and restart the server:
+
+  Alias /perl/ /home/stas/modperl/
+  PerlModule Apache::PerlRun
+  <Location /perl/>
+      SetHandler perl-script
+      PerlHandler Apache::PerlRun
+      Options ExecCGI
+      PerlSendHeader On
+      allow from all
+  </Location>
+
+Almost every script should now run without problems; the few
+exceptions will almost certainly be due to the few minor limitations
+that mod_perl or its handlers have, but these are all solvable and
+covered in L<Coding chapter|guide::porting>.
+
+C<Apache::PerlRun> is usually useful in the transition period, while
+the scripts are being cleaned up to run properly under
+C<Apache::Registry>. Though it gives you a significant speedup over
+mod_cgi, it's still not as fast as C<Apache::Registry> and mod_perl
+handlers.
+
+=head1 A Simple Apache Perl Content Handler
+
+As we mentioned in the beginning of this chapter, mod_perl lets you
+run both scripts and handlers. The previous example showed a script,
+since that is probably the most familiar approach to web programming,
+but the more advanced use of mod_perl involves writing handlers. Have
+no fear: writing handlers is almost as easy as writing scripts and
+offers a level of access to Apache's internals that is simply not
+possible with conventional CGI scripts.
+
+To create a mod_perl handler module, all that is necessary is to wrap
+the code that would have been the body of a script into a C<handler>
+subroutine, add a statement to return the status to the server when
+the subroutine has successfully completed, and add a package
+declaration at the top of the code.
+
+Just as with scripts, the familiar CGI API may be used:
+
+  ModPerl/Rules1.pm
+  -----------------
+  package ModPerl::Rules1;
+  use Apache::Constants qw(:common);
+  
+  sub handler {
+      print "Content-type: text/plain\n\n";
+      print "mod_perl rules!\n";
+      return OK; # We must return a status to mod_perl
+  }
+  1; # This is a perl module so we must return true to perl
+
+Alternatively, the mod_perl API can be used. This API provides almost
+complete access to the Apache core.  In the simple example shown,
+using either approach is fine, but when lower level access to Apache
+is required the mod_perl API must be used.
+
+  ModPerl/Rules2.pm
+  ----------------
+  package ModPerl::Rules2;
+  use Apache::Constants qw(:common);
+  
+  sub handler {
+      my $r = shift;
+      $r->send_http_header('text/plain');
+      $r->print("mod_perl rules!\n");
+      return OK; # We must return a status to mod_perl
+  }
+  1; # This is a perl module so we must return true to perl
+
+Create a directory called I<ModPerl> under one of the directories in
+C<@INC> (e.g. under I</usr/lib/perl5/site_perl/5.005/>), and put
+I<Rules1.pm> and I<Rules2.pm> into it (Note that you will need a
+I<root> access in order to do that.). The files should include the
+code from the above examples.  To find out what the C<@INC>
+directories are, execute:
+
+  panic% perl -le 'print join "\n", @INC'
+
+On our machine it reports:
+
+  /usr/lib/perl5/5.00503/i386-linux
+  /usr/lib/perl5/5.00503
+  /usr/lib/perl5/site_perl/5.005/i386-linux
+  /usr/lib/perl5/site_perl/5.005
+  .
+
+So on our machine, we might place the files in the directory
+I</usr/lib/perl5/site_perl/5.005/ModPerl>. By default when you work as
+I<root>  the files are created with permissions allowing everybody to
+read them, so here we don't have to adjust the file permissions, since
+the server only needs to be able to read those.
+
+Now add the following snippet to I</usr/local/apache/conf/httpd.conf>
+to configure mod_perl to execute the C<ModPerl::Rules::handler>
+subroutine whenever a request to I<mod_perl_rules1> is made:
+
+  PerlModule ModPerl::Rules1
+  <Location /mod_perl_rules1>
+     SetHandler perl-script
+     PerlHandler ModPerl::Rules1
+     PerlSendHeader On
+  </Location>
+
+Now issue a request to:
+
+  http://localhost/mod_perl_rules1
+
+and just as with the I<mod_perl_rules.pl> scripts,
+
+  mod_perl rules!
+
+should be rendered as the response. (Don't forget to include the port
+number if not using port 80; from now on we will assume this is done,
+e.g.  http://localhost:8080/mod_perl_rules1.)
+
+To test the second module C<ModPerl::Rules2> add a similar
+configuration, while replacing all 1's with 2's:
+
+  PerlModule ModPerl::Rules2
+  <Location /mod_perl_rules2>
+     SetHandler perl-script
+     PerlHandler ModPerl::Rules2
+     PerlSendHeader On
+  </Location>
+
+As we will see later in L<Configuration chapter|guide::config> you can
+remove the C<PerlSendHeader> directive for this particular module.
+
+And to test use the URI:
+
+  http://localhost/mod_perl_rules2
+
+You should see the same response from the server as we have seen when
+issuing a request for the former mod_perl handler.
+
+
+=head1 Is This All we Need to Know About mod_perl?
+
+Obviously the next question is: I<"Is this all I need to know about
+mod_perl?">.
+
+The answer is: "Yes and No".
+
+The I<Yes> part:
+
+=over
+
+=item *
+
+Just like with Perl, really cool stuff can be written even with very
+little mod_perl knowledge. With the basic unoptimized setup presented
+in this chapter, visitor counters and guest books and any other CGI
+scripts will run much faster and amaze friends and colleagues, usually
+without changing a single line of code.
+
+=back
+
+The I<No> part:
+
+=over
+
+=item *
+
+A 50 times improvement in guest book response times is great--but when
+deploying a very heavy service with thousands of concurrent users, a
+delay of even a few milliseconds might lose a customer, and probably
+many of them.
+
+=back
+
+Of course when testing a single script with the developer as the only
+user, squeezing yet another millisecond from the response time seems
+unimportant.  But it becomes a real issue when these milliseconds add
+up at the production site, with hundreds or thousands of users
+concurrently generating requests to various scripts on the site. Users
+are not merciful nowadays. If there is another site that provides the
+same kind but a significantly faster service, chances are that users
+will switch to the competing site.
+
+Testing scripts on an unloaded machine can be very misleading,
+Everything might seem so perfect. But when they are moved into a
+production machine, things do not behave as well as they did on the
+development box. For example, the production machine may run out of
+memory on very busy services. In the L<performance tuning
+chapter|guide::performance> it will be explained how to optimize code
+to use less memory and how to make as much memory as possible shared.
+
+Debugging is something that some developers prefer not to think about,
+since the process can be very tedious at times. Learning how to make
+the debugging process simpler and efficient is essential for web
+programmers. This task can be difficult enough when debugging CGI
+scripts, but it can be even more complicated with mod_perl. The
+L<Debugging Chapter|guide::debug> explains how to approach debugging
+in the mod_perl environment.
+
+mod_perl has many features unavailable under mod_cgi when working with
+databases. Amongst others the most important are persistent database
+connections.  Persistent database connections require a slightly
+different approach and this is explained in the L<Databases
+chapter|guide::databases>.
+
+Most web services, especially those which are aimed at an
+international audience, must run non-stop 24x7. But at the same time
+new scripts may need to be added, old ones removed, and the server
+software will need upgrades and security fixes. And if the server goes
+down, fast recovery is essential. These issues are considered in
+the L<Controlling your server chapter|guide::control>.
+
+Finally, the most important aspect of mod_perl is the Apache Perl API,
+which allows intervention at any or every stage of request
+processing. This provides incredible flexibility, allowing the
+creation of scripts and processes which would simply be impossible
+with mod_cgi.
+
+There are many more things to learn about mod_perl and web programming
+in general. The rest of this guide will attempt to provide as much
+information as possible about these and other related matters.
+
+
+
+
+=head1 References
+
+=over
+
+=item *
+
+CPAN is the Comprehensive Perl Archive Network. Comprehensive: its aim
+is to contain all the Perl material you will need. Archive: close to a
+gigabyte in size at the time of this writing. Network: CPAN is
+mirrored at more than one hundred sites around the world.
+
+The CPAN home page: http://cpan.org/
+
+=item *
+
+The libwww-perl distribution is a collection of Perl modules and
+programs which provide a simple and consistent programming interface
+(API) to the World Wide Web. The main focus of the library is to
+provide classes and functions that facilitate writing WWW clients,
+thus libwww-perl is said to be a WWW client library. The library also
+contains modules that are of more general use, as well as some useful
+programs.
+
+The libwww-perl home page:  http://www.linpro.no/lwp/
+
+=back
+
+
+
+=cut
