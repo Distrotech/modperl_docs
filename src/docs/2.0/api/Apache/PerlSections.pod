@@ -146,8 +146,80 @@ will cause the server to abort startup and report the first error.
 
 
 
+=head1 PerlSections dumping
 
+=head2 Apache::PerlSections->dump
 
+This method will dump out all the configuration variables mod_perl
+will be feeding to the apache config gears. The output is suitable to
+read back in via C<eval>
+
+Example:
+
+  <Perl>
+
+  $Port = 8529;
+
+  $Location{"/perl"} = {
+     SetHandler => "perl-script",
+     PerlHandler => "Apache::Registry",
+     Options => "ExecCGI",
+  };
+
+  @DirectoryIndex = qw(index.htm index.html);
+
+  $VirtualHost{"www.foo.com"} = {
+     DocumentRoot => "/tmp/docs",
+     ErrorLog => "/dev/null",
+     Location => {
+       "/" => {
+         Allowoverride => 'All',
+         Order => 'deny,allow',
+         Deny  => 'from all',
+         Allow => 'from foo.com',
+       },
+     },
+  };  
+
+  print Apache::PerlSections->dump;
+
+  </Perl>
+
+This will print something like this:
+
+  $Port = 8529;
+
+  @DirectoryIndex = (
+    'index.htm',
+    'index.html'
+  );
+
+  $Location{'/perl'} = (
+      PerlHandler => 'Apache::Registry',
+      SetHandler => 'perl-script',
+      Options => 'ExecCGI'
+  );
+
+  $VirtualHost{'www.foo.com'} = (
+      Location => {
+        '/' => {
+          Deny => 'from all',
+          Order => 'deny,allow',
+          Allow => 'from foo.com',
+          Allowoverride => 'All'
+        }
+      },
+      DocumentRoot => '/tmp/docs',
+      ErrorLog => '/dev/null'
+  );
+
+  1;
+  __END__
+
+=head2 Apache::PerlSections->store
+
+This method will call the C<dump> method, writing the output
+to a file, suitable to be pulled in via C<require> or C<do>.
 
 =head1 Advanced API
 
