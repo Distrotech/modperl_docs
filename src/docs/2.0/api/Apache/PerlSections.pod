@@ -110,6 +110,19 @@ except the ones whose names start with I<secure>:
 
 
 
+ 
+=head1 @PerlConfig and $PerlConfig
+
+This array and scalar can be used to introduce litteral configuration
+into the apache configuration. For example:
+
+  push @PerlConfig, 'Alias /foo /bar';
+
+Or:
+  $PerlConfig .= "Alias /foo /bar\n";
+  
+See also C<L<$r-E<gt>add_config|docs::2.0::api::Apache::RequestUtil/C_add_config_>>
+
 
 
 
