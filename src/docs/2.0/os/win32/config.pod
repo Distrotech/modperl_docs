@@ -112,23 +112,12 @@ mod_perl 1.0/Apache 1.3:
   Server Software:        Apache/1.3.23
   Concurrency Level:      5
   Time taken for tests:   50.51972 seconds
-  Complete requests:      5
-  Failed requests:        0
-  Requests per second:    0.10 [#/sec] (mean)
-  Time per request:       50.052 [ms] (mean)
-  Time per request:       10.010 [ms] (mean, across all concurrent requests)
-  Transfer rate:          0.14 [Kbytes/sec] received
 
 while for mod_perl 2.0/Apache 2.0:
 
-  Server Software:        Apache/2.0.36
+  Server Software:        Apache/2.0.45
   Concurrency Level:      5
-  Time taken for tests:   1.81555 seconds
-  Complete requests:      5
-  Requests per second:    4.62 [#/sec] (mean)
-  Time per request:       1.082 [ms] (mean)
-  Time per request:       0.216 [ms] (mean, across all concurrent requests)
-  Transfer rate:          7.40 [Kbytes/sec] received
+  Time taken for tests:   13.729743 seconds
 
 The dramatic difference is due to the fact that in Apache 1.3/mod_perl
 1.0 a given request has to finish (taking essentially 10 seconds, due
