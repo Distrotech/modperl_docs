@@ -1,0 +1,20 @@
+=head1 NAME
+
+International mod_perl mailing list
+
+=head1 Description
+
+Information about mod_perl mailing lists in different languages
+
+=head1 Japanese
+
+=over
+
+=item * http://bulknews.net/lib/ml/ (maintained by Tatsuhiko Miyagawa
+E<lt>miyagawa@edge.co.jpE<gt>)
+
+=back
+
+
+=cut
+

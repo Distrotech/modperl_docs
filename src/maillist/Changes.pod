@@ -9,6 +9,12 @@ documents, since you've read these last time.
 
 The most recent changes are listed first.
 
+=head1 ???
+
+* Started the international mod_perl mailing lists page, added the
+  japanese list http://bulknews.net/lib/ml/ (maintained by Tatsuhiko
+  Miyagawa E<lt>miyagawa@edge.co.jpE<gt>)
+
 =head1 17 Apr 2002  
 
 * Changed Introduction to Description, and ** to B tags in POD.  [Per
