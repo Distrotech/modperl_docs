@@ -216,7 +216,11 @@ At L<ftp://theoryx5.uwinnipeg.ca/pub/other/> there is a self-extracting
 archive F<Perl-5.8-win32-bin.exe> containing a binary version
 of perl-5.8 (compatible with ActivePerl 8xx), together with Apache 2.0
 and mod_perl 2.0. See the file F<Perl-5.8-win32-bin.readme> for
-a description.
+a description. If you have trouble
+fetching the whole file at once, the directory
+L<ftp://theoryx5.uwinnipeg.ca/pub/other/Perl-5.8-win32-bin/>
+contains this distribution split across multiple files -
+see F<README.join> for instructions on how to join them.
 
 =head1 See Also
 
