@@ -2,7 +2,7 @@
 
 Content Handler Example
 
-=head1 Creating a content handler with mod_perl
+=head1 Creating a content handler with mod_perl 1.x
 
 Handlers are simply perl subroutines called by the server at various stages of the HTTP request cycle.
 A content handler is a subroutine that is called by the response phase.  Handlers, are 
@@ -24,7 +24,7 @@ For example, here's an example that returns a greeting and the current local tim
                 Thanks for visiting $server_name.
                 The local time is $now
         EOT
-            return $Apache::Constants::OK;
+            return Apache::Constants::OK;
         }
         1; # modules must return true
 
