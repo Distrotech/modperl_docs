@@ -2,7 +2,7 @@
 
 Apache::SubProcess -- Executing SubProcesses from mod_perl
 
-=head1 SYNOPSIS
+=head1 Synopsis
 
   use Apache::SubProcess ();
   
@@ -39,14 +39,20 @@ Apache::SubProcess -- Executing SubProcesses from mod_perl
       return defined $data ? $data : '';
   }
 
-=head1 DESCRIPTION
+
+
+
+=head1 Description
 
 C<Apache::SubProcess> provides the Perl API for running and
 communicating with processes spawned from mod_perl handlers.
 
+
+
 =head1 API
 
-=head2 spawn_proc_prog()
+
+=head2 C<spawn_proc_prog>
 
   $out_fh = 
       Apache::SubProcess::spawn_proc_prog($r, $command, [\@argv]);
@@ -84,5 +90,29 @@ Therefore to write a portable code, you want to use select for
 perlio-disabled Perl and do nothing for perlio-enabled Perl, hence you
 can use something similar to the read_data() wrapper shown in the
 L<SYNOPSIS|/SYNOPSIS> section.
+
+
+
+
+
+=head1 See Also
+
+L<mod_perl 2.0 documentation|docs::2.0::index>.
+
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
+
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
 
 =cut

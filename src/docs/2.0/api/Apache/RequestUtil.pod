@@ -558,17 +558,22 @@ specified by the C<PerlSetVar> and C<PerlAddVar> directives, and also
 can be manipulated via the C<L<APR::Table|docs::2.0::api::APR::Table>>
 methods.
 
-  $ret = $r->dir_config($key, $val);
+  $table  = $r->dir_config();
+  $value  = $r->dir_config($key);
+  @values = $r->dir_config($key);
+  $r->dir_config($key, $val);
 
 =over 4
 
 =item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
-=item arg2: C<$key> (string)
+=item opt arg2: C<$key> (string)
 
-=item arg3: C<$val> (string)
+=item opt arg3: C<$val> (string)
 
 =item ret: C<$ret> (scalar)
+
+Depends on the passed arguments, see further discussion
 
 =back
 
