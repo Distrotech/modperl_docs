@@ -319,7 +319,7 @@ and here is the C<MyApache::SendEmail> handler:
       my $r = shift;
   
       my %headers = map {$_ => $r->headers_in->get($_)} qw(To From Subject);
-      my $content = $r->content;
+      my $content = content($r);
   
       my $status = send_email(\%headers, \$content);
   
@@ -377,7 +377,7 @@ handlers:
 
 The function terminates the header_parser phase by:
 
-    return Apache::OK;
+      return Apache::OK;
 
 All other phases run as usual, so you can reuse any HTTP protocol
 hooks, such as authentication and fixup phases. 
@@ -596,6 +596,9 @@ secret length, specified by the constant C<SECRET_LENGTH>.
   use strict;
   use warnings;
   
+  use Apache::Access ();
+  use Apache::RequestUtil ();
+  
   use Apache::Const -compile => qw(OK DECLINED AUTH_REQUIRED);
 
   use Apache::Access();
@@ -703,6 +706,9 @@ properly authenticated:
   use strict;
   use warnings;
   
+  use Apache::Access ();
+  use Apache::RequestUtil ();
+  
   use Apache::Const -compile => qw(OK AUTH_REQUIRED);
 
   use Apache::Access ();
@@ -718,7 +724,8 @@ properly authenticated:
       my $user = $r->user;
       if ($user) {
           my($section) = $r->uri =~ m|^/company/(\w+)/|;
-          if (my $users = $protected{$section}) {
+          if (defined $section && exists $protected{$section}) {
+              my $users = $protected{$section};
               return Apache::OK if grep { $_ eq $user } @$users;
           }
           else {
@@ -757,7 +764,7 @@ C<PerlAuthzHandler> setting. The rest doesn't change.
   <Location /company/>
       SetHandler perl-script
       PerlResponseHandler ModPerl::Registry
-      PerlAuthenHandler MyApache::SecretPhraseAuth
+      PerlAuthenHandler MyApache::SecretLengthAuth
       PerlAuthzHandler  MyApache::SecretResourceAuthz
       Options +ExecCGI
   
@@ -844,6 +851,9 @@ the file extension of the request's URI.
   use strict;
   use warnings;
   
+  use Apache::RequestIO ();
+  use Apache::RequestRec ();
+  
   use Apache::Const -compile => 'OK';
   
   use constant HANDLER  => 0;
@@ -923,7 +933,7 @@ callbacks to real content handlers that do real things.
 
 Here is how this handler is configured:
 
-  Alias /dispatch/ /home/httpd/dispatch/
+  Alias /dispatch/ /home/httpd/httpd-2.0/htdocs/
   <Location /dispatch/>
       PerlFixupHandler MyApache::FileExtDispatch
   </Location>

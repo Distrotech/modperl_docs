@@ -176,6 +176,7 @@ the request's I<args> and I<content> as strings:
   
   use Apache::RequestRec ();
   use Apache::RequestIO ();
+  use APR::Table ();
   
   use Apache::Const -compile => qw(OK M_POST);
   
@@ -526,8 +527,8 @@ directly manipulating the bucket brigades:
   
   use base qw(Apache::Filter);
   
-  use Apache::RequestRec ();
-  use Apache::RequestIO ();
+  use Apache::Connection ();
+  use Apache::ServerUtil ();
   use APR::Brigade ();
   use APR::Bucket ();
   
@@ -607,14 +608,23 @@ For example, consider the following response handler:
   use strict;
   use warnings;
   
+  use Apache::RequestIO ();
+  use Apache::RequestRec ();
+  use Apache::Response ();
+  
   use Apache::Const -compile => 'OK';
   
   sub handler {
       my $r = shift;
+  
       $r->content_type('text/plain');
-      $r->print("the request type was " . $r->method);
+      my $response = "the request type was " . $r->method;
+      $r->set_content_length(length $response);
+      $r->print($response);
+  
       Apache::OK;
   }
+  
   1;
 
 which returns to the client the request type it has issued. In the
@@ -739,7 +749,7 @@ content body as a response, and configure the server as follows:
 
 When issuing a POST request:
 
- % echo "mOd_pErl RuLeS" | POST 'http://localhost:8002/dump_input?FoO=1&BAR=2'
+ % echo "mOd_pErl RuLeS" | POST 'http://localhost:8002/lc_input?FoO=1&BAR=2'
 
 we get a response:
 

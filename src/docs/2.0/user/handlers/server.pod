@@ -55,6 +55,7 @@ phases:
   use warnings;
   
   use Apache::Log ();
+  use Apache::ServerUtil ();
   
   use File::Spec::Functions;
   
