@@ -53,10 +53,15 @@ Make sure to include a good subject like explaining the problem in a
 few words. Also please mention that this a problem with mod_perl 2.0
 and not mod_perl 1.0. Here is an example of a good subject:
 
-  Subject: [mp2.0] protocol module doesn't work with filters
+  Subject: [mp2] protocol module doesn't work with filters
 
 This is especially important now that we support mod_perl versions 1.0
 and 2.0 on the same list.
+
+=head2 Send the Report Inlined
+
+When sending the bug report, please inline it and don't attach it to
+the email. It's hard following up on the attachements.
 
 =head2 Important Information
 
