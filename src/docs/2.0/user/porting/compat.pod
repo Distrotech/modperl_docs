@@ -656,6 +656,19 @@ C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 
 
+=head2 C<Apache-E<gt>unescape_url_info>
+
+Apache-E<gt>unescape_url_info is not available in mod_perl 2.0
+API. Use C<CGI::Util::unescape> instead
+(http://search.cpan.org/dist/CGI.pm/CGI/Util.pm).
+
+It is also available via
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>
+for backwards compatibility.
+
+
+
+
 =head2 C<Apache::exit()>
 
 C<Apache::exit()> has been replaced with
