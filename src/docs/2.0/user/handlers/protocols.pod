@@ -345,15 +345,13 @@ handlers.
   
       while (1) {
           my $rv = $c->input_filters->get_brigade($bb_in, Apache::MODE_GETLINE);
-  
-          if ($rv != APR::SUCCESS or $bb_in->empty) {
+          if ($rv != APR::SUCCESS && $rv != APR::EOF) {
               my $error = APR::strerror($rv);
-              unless ($rv == APR::EOF) {
-                  warn "get_brigade: $error\n";
-              }
-              $bb_in->destroy;
+              warn __PACKAGE__ . ": get_brigade: $error\n";
               last;
           }
+  
+          last if $bb_in->empty;
   
           while (!$bb_in->empty) {
               my $bucket = $bb_in->first;
@@ -383,6 +381,8 @@ handlers.
           $c->output_filters->pass_brigade($bb_out);
           last if $last;
       }
+  
+      $bb_in->destroy;
   
       Apache::OK;
   }
