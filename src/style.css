@@ -96,6 +96,11 @@ div.ad {
        /* background-color: #ffffff;*/
 }
 
+div.ad a:link    {text-decoration: none; color: #525D76;}
+div.ad a:visited {text-decoration: none; color: #525D76;}
+div.ad a:active  {text-decoration: none; color: #525D76;}
+div.ad a:hover   {text-decoration: none; color: #525D76;}
+
 div.adtext {
         font-size: x-small;
         text-align:center;
