@@ -4,114 +4,93 @@ Using Perl*Handlers
 
 =head1 Description
 
-This chapter discusses C<Perl*Handler>s and presents examples of their
-use.
+This chapter discusses mod_perl's C<Perl*Handler>s and presents
+examples of their use.
 
+=head1 mod_perl Handlers
 
-META: need to add/correct a diagram similar to the one in the eagle
-book, presenting the order of the phases.
+Apache distinguish between numerous phases for which it provides hooks
+(because the C functions are called I<ap_hook_E<lt>phase_nameE<gt>>)
+where modules can plug various callbacks to extend and alter the
+default behaviour of the webserver.  mod_perl provides a Perl
+interface for most of the available hooks, so mod_perl modules writers
+can change the Apache behavior in Perl. These callbacks are usually
+referred to as I<handlers> and therefore the configuration directives
+for the mod_perl handlers look like: C<PerlFooHandler>, where C<Foo>
+is one of the handler names. For example C<PerlResponseHandler>
+configures the response callback.
 
-                           |
-                           v
-         -------------->[wait]---->post-read-request 
-         |                              |
-         |                              v
-         |                        URI translation
-         |                              |
-         |                              v
-         |                         header parsing
-         |                              |
-         |                              v
-         |                         access control
-         |     <REQUEST LOOP>           |
-      cleanup                           v
-         |                         authentication
-         |                              |
-         |                              v
-         |                          authorization
-         |                              |
-         |                              v
-         |                        MIME type checking
-         |                              |
-         |                              v
-      logging <----- RESPONSE <------ fixups
+A typical handler is simply a perl package with a I<handler>
+subroutine. For example:
 
+  package MyApache::CurrentTime;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  
+  use Apache::Const -compile => qw(OK);
+  
+  sub handler {
+      my $r = shift;
+  
+      $r->content_type('text/plain');
+      $r->print("Now is: " . scalar(localtime) . "\n");
+  
+      return Apache::OK;
+  }
+  1;
 
+This handler simply returns the current date and time as a
+response.
 
+Since this is a response handler, we configure it as a such in
+I<httpd.conf>:
 
-=head1 Handlers (Hooks) Types
+  PerlResponseHandler MyApache::CurrentTime
 
-For each phase there can be more than one handler assigned (also known
-as I<hooks>, because the C functions are called
-I<ap_hook_E<lt>phase_nameE<gt>>). The following types specify a
-phase's behavior when there is more then one handler to run for this
-phase. (For C API declarations see I<include/ap_config.h>, which
-includes other types which aren't exposed by mod_perl.)
+Since the response handler should be configured for a specific
+location, let's write a complete configuration section:
 
-=over
+  PerlModule MyApache::CurrentTime
+  <Location /time>
+      SetHandler modperl
+      PerlResponseHandler MyApache::CurrentTime
+  </Location>
 
-=item * VOID
+Now when a request is issued to I</time> this response handler will be
+executed.
 
-Handlers of the type C<VOID> will be I<all> executed in the order they
-have been registered disregarding their return values. Though in
-mod_perl they are expected to return C<Apache::OK>.
+=head1 Server Life Cycle
 
-=item * RUN_FIRST
+The following diagram depicts the Apache 2.0 server life cycle and
+highlights which handlers are available to mod_perl 2.0:
 
-Handlers of the type C<RUN_FIRST> will be executed in the order they
-have been registered until the first handler that returns something
-other than C<Apache::DECLINED>. If the return value is
-C<Apache::DECLINED>, the next handler in the chain will be run. If the
-return value is C<Apache::OK> the next phase will start. In all other
-cases the execution will be aborted.
+=for html
+<img src="server_life_cycle.gif" width="561" height="537" 
+ align="center" valign="middle" alt="server life cycle"><br><br>
 
-=item * RUN_ALL
+Apache 2.0 starts by parsing the configuration file.  After the
+configuration file is parsed, the C<PerlOpenLogsHandler> handlers are
+executed if any. After that it's a turn of C<PerlPostConfigHandler>
+handlers to be run. When the I<post_config> phase is finished the
+server immediately restarts, to make sure that it can survive graceful
+restarts after starting to serve the clients.
 
-Handlers of the type C<RUN_ALL> will be executed in the order they
-have been registered until the first handler that returns something
-other than C<Apache::OK> or C<Apache::DECLINED>.
+When the restart is completed, Apache 2.0 spawns the workers that will
+do the actual work. Depending on the used MPM, these can be threads,
+processes and a mixture of both. For example the I<worker> MPM spawns
+a number of processes, each running a number of threads. When each
+child process is started C<PerlChildInit> handlers are
+executed. Notice that they are run for each starting process, not a
+thread.
 
-=back
+From that moment on each working thread processes connections until
+it's killed by the server or the server is shutdown.
 
-Also see L<mod_perl Directives Argument Types and Allowed
-Location|user::config::config/mod_perl_Directives_Argument_Types_and_Allowed_Location>
-
-=head1 Hook Ordering (Position)
-
-The following constants specify how the new hooks (handlers) are
-inserted into the list of hooks when there is at least one hook
-already registered for the same phase.
-
-META: need to verify the following:
-
-=over
-
-=item *  C<APR::HOOK_REALLY_FIRST>
-
-run this hook first, before ANYTHING.
-
-=item *  C<APR::HOOK_FIRST>
-
-run this hook first.
-
-=item *  C<APR::HOOK_MIDDLE>
-
-run this hook somewhere.
-
-=item *  C<APR::HOOK_LAST>
-
-run this hook after every other hook which is defined.
-
-=item *  C<APR::HOOK_REALLY_LAST>
-
-run this hook last, after EVERYTHING.
-
-=back
-
-META: more information in mod_example.c talking about
-position/predecessors, etc.
-
-=head1 Server Configuration (Startup) Phases
+Now let's discuss each of the mentioned startup handlers in detail.
 
 =head2 PerlOpenLogsHandler
 
@@ -128,14 +107,15 @@ This phase is of type C<RUN_ALL>.
 
 The handler's configuration scope is C<SRV>.
 
-For example here is the C<Apache::OpenLogs> handler that opens a
+For example here is the C<MyApache::OpenLogs> handler that opens a
 custom log file:
 
-  file:Apache/OpenLogs.pm
+  file:MyApache/OpenLogs.pm
   -----------------------
-  package Apache::OpenLogs;
+  package MyApache::OpenLogs;
   
   use strict;
+  use warnings;
   
   use File::Spec::Functions;
   
@@ -143,9 +123,11 @@ custom log file:
   
   sub handler {
       my ($conf_pool, $log_pool, $temp_pool, $s) = @_;
+  
       my $log_path = Apache::server_root_relative($conf_pool, $log_file);
       $s->warn("opening the log file: $log_path");
       open my $log, ">>$log_path" or die "can't open $log_path: $!";
+  
       return Apache::OK;
   }
   1;
@@ -160,7 +142,7 @@ this log file.
 
 To configure this handler add to I<httpd.conf>:
 
-  PerlOpenLogsHandler Apache::OpenLogs
+  PerlOpenLogsHandler MyApache::OpenLogs
 
 
 
@@ -204,19 +186,82 @@ The handler's configuration scope is C<SRV>.
 Example:
 
 
+=head1 Bucket Brigades
+
+Apache 2.0 allows multiple modules to filter both the request and the
+response. Now one module can pipe its output as an input to another
+module as if another module was receiving the data directly from the
+TCP stream. The same mechanism works with the generated response.
+
+With I/O filtering in place, simple filters, like data compression and
+decompression, can be easily implemented and complex filters, like
+SSL, are now possible without needing to modify the the server code
+which was the case with Apache 1.3.
+
+In order to make the filtering mechanism efficient and avoid
+unnecessary copying, the I<Bucket Brigades> technology was introduced.
+
+A bucket represents a chunk of data.  Buckets linked together comprise
+a brigade. Each bucket in a brigade can be modified, removed and
+replaced with another bucket. The goal is to minimize the data copying
+where possible.  Buckets come in different types, such as files, data
+blocks, end of stream indicators, pools, etc. To manipulate a bucket
+one doesn't need to know its internal representation.
+
+The stream of data is represented by bucket bridades.  When a filter
+is called it gets passed the brigade that was the output of the
+previous filter. This brigade is then manipulated by the filter (e.g.,
+by modifying some buckets) and passed to the next filter in the stack.
+
+The following diagram depicts an imaginary bucket brigade:
+
+=for html
+<img src="bucket_brigades.gif" width="590" height="400" 
+ align="center" valign="middle" alt="bucket brigades"><br><br>
+
+The diagram tries to show that after the presented bucket brigade has
+passed through several filters some buckets where removed, some
+modified and some added. Of course the handler that gets the brigade
+cannot tell the history of the brigade, it can only see the existing
+buckets in the brigade.
+
+We will discuss this topic in more details when we will talk about
+connection protocol and filter implementations.
 
 
 
 
 
 
-=head1 Command (Protocol) Phases
 
-Since Apache 2.0 makes it possible to implement other than HTTP
-protocols, the connection phases were added. The standard HTTP
-handlers normally don't need need these phases, since HTTP is already
-handled by the request phases. Therefore these phases are used mostly
-for the implementation of non-HTTP protocol implementations.
+
+=head1 Connection Cycle Phases
+
+As we saw earlier, each child server (be it a thread or a process) is
+engaged in processing connections. Each connection may be served by
+different connection protocols, e.g., HTTP, POP3, SMTP, etc. Each
+connection may include more then one request, e.g., several HTTP
+requests can be served over a single connection, when a response
+includes several images.
+
+The following diagram depicts the connection life cycle and highlights
+which handlers are available to mod_perl 2.0:
+
+=for html
+<img src="connection_cycle.gif" width="598" height="498" 
+ align="center" valign="middle" alt="connection cycle"><br><br>
+
+When a connection is issued by a client, it's first run through
+C<PerlPreConnectionHandler> and then passed to the
+C<PerlProcessConnectionHandler>, which generates the response. When
+C<PerlProcessConnectionHandler> is reading data from the client, it
+can be filtered by connection input filters. The generated response
+can be also filtered though connection output filters. Filter are
+usually used for modifying the data flowing though them, but can be
+used for other purposes as well (e.g., logging interesting
+information).
+
+Now let's discuss each of the mentioned handlers in detail.
 
 =head2 PerlPreConnectionHandler
 
@@ -225,6 +270,8 @@ connection, but before it is handed off to a protocol module to be
 served.  It gives modules an opportunity to modify the connection as
 soon as possible. The core server uses this phase to setup the
 connection record based on the type of connection that is being used.
+mod_perl itself uses this phase to register the connection input and
+output filters.
 
 In mod_perl 1.0 during code development C<Apache::Reload> was used to
 automatically reload modified since the last request Perl modules. It
@@ -246,8 +293,8 @@ This phase is of type C<RUN_ALL>.
 The handler's configuration scope is C<SRV>, because it's not known
 yet which resource the request will be mapped to.
 
-
-
+XXX: As of this moment C<PerlPreConnectionHandler> is not being
+executed by mod_perl. Stay tuned.
 
 Example:
 
@@ -259,6 +306,7 @@ objects as its arguments:
       # ...
       return Apache::OK;
   }
+
 
 =head2 PerlProcessConnectionHandler
 
@@ -379,11 +427,34 @@ protocol code plus an output lc filter.
   
   1;
 
+XXX: mention that we will talk about filters later, just show that it
+works here.
 
-=head1 HTTP Request Phases
 
-Each HTTP request is processes by 11 phases at most, executed in the
-following order:
+
+
+
+
+
+
+
+
+=head1 HTTP Request Cycle Phases
+
+Those familiar with mod_perl 1.0 will find the HTTP request cycle in
+mod_perl 2.0 to be almost identical to the mod_perl 1.0's model. The
+only difference is in the I<response> phase which now includes
+filtering.
+
+The following diagram depicts the HTTP request life cycle and
+highlights which handlers are available to mod_perl 2.0:
+
+=for html
+<img src="http_cycle.gif" width="600" height="560" 
+ align="center" valign="middle" alt="HTTP cycle"><br><br>
+
+From the diagram it can be seen that an HTTP request is processes by
+11 phases, executed in the following order:
 
 =over
 
@@ -410,6 +481,18 @@ following order:
 =item 11 PerlCleanupHandler
 
 =back
+
+It's possible that the cycle will not be completed if any of the
+phases terminates it, usually when an error happens.
+
+Notice that when the response handler is reading the input data it can
+be filtered through request input filters, which are preceeded by
+connection input filters if any. Similarly the generated response is
+first run through request output filters and eventually through
+connection output filters before it's sent to the client. We will talk
+about filters in detail later in this chapter.
+
+Now let's discuss each of the mentioned handlers in detail.
 
 =head2 PerlPostReadRequestHandler
 
@@ -630,7 +713,7 @@ This phase is of type C<XXX>.
 The handler's configuration scope is C<XXX>.
 
 
-=head1 Filtering Phases
+=head1 I/O Filtering
 
 Apache 2.0 considers all incoming and outgoing data as chunks of
 information, disregarding their kind and source or storage
@@ -638,59 +721,95 @@ methods. These data chunks are stored in I<buckets>, which form
 I<bucket brigades>. Both input and output filters work on these bucket
 brigades and modify them if necessary.
 
-As of this writing mod_perl provides two interfaces to filtering: a
-direct mapping to buckets and bucket brigades and a simpler,
-stream-oriented interface (currently available only for the output
-filtering). The following examples will help to understand the
-difference between the two.  The filters can do connection and request
-filtering. Apache distinguish between more types, and mod_perl will
-support those in the future if there will be a demand. mod_perl
-handlers specify the type of the filter using the method
-attributes. For example a request filter handler is declared using the
-C<FilterRequestHandler> attribute:
+META: move the next para down?  
 
-  package Apache::InputRequestFilterFoo;
-  sub handler : FilterRequestHandler {
+mod_perl provides two interfaces to filtering: a direct bucket
+brigades manipulation interface and a simpler, stream-oriented
+interface (XXX: as of this writing the latter is available only for
+the output filtering). The examples in the following sections will
+help you to understand the difference between the two interfaces.
+
+Currently the mod_perl filters allow connection and request level
+filtering. Apache supports several other types, which mod_perl 2.0
+will probably support in the future. mod_perl filter handlers specify
+the type of the filter using the method attributes.
+
+Request filter handlers are declared using the C<FilterRequestHandler>
+attribute. Consider the following request input and output filters
+skeleton:
+
+  package MyApache::FilterRequestFoo;
+  use base qw(Apache::Filter);
+  
+  sub input  : FilterRequestHandler {
       my($filter, $bb, $mode, $block, $readbytes) = @_;
       #...
   }
+  
+  sub output : FilterRequestHandler {
+      my($filter, $bb) = @_;
+      #...
+  }
+  
   1;
 
-and is usually configured in the C<E<lt>LocationE<gt>> or equivalent
-sections:
+If the attribute is not specified, the default C<FilterRequestHandler>
+attribute is assumed.  Filters specifying subroutine attributes must
+subclass C<Apache::Filter>.
 
-  <Location /input_filter>
+The request filters are usually configured in the
+C<E<lt>LocationE<gt>> or equivalent sections:
+
+  PerlModule MyApache::FilterRequestFoo
+  PerlModule MyApache::NiceResponse
+  <Location /filter_foo>
       SetHandler modperl
-      PerlResponseHandler    Apache::NiceResponse
-      PerlInputFilterHandler Apache::InputRequestFilterFoo
+      PerlResponseHandler     MyApache::NiceResponse
+      PerlInputFilterHandler  MyApache::FilterRequestFoo::input
+      PerlOutputFilterHandler MyApache::FilterRequestFoo::output
   </Location>
 
-And as you can guess a connection handler uses the
-C<FilterConnectionHandler> attribute (this time we use the output
-filter as an example):
+Now we have the request input and output filters configured.
 
-  package Apache::OutputConnectionFilterBar;
-  sub handler : FilterConnectionHandler {
+The connection filter handler uses the C<FilterConnectionHandler>
+attribute. Here is a similar example for the connection input and
+output filters.
+
+  package MyApache::FilterConnectionBar;
+  use base qw(Apache::Filter);
+  
+  sub input  : FilterConnectionHandler {
       my($filter, $bb, $mode, $block, $readbytes) = @_;
       #...
   }
+  
+  sub output : FilterConnectionHandler {
+      my($filter, $bb) = @_;
+      #...
+  }
+  
   1;
 
-and configured outside the C<E<lt>LocationE<gt>> or equivalent
-sections, usually within the C<E<lt>VirtualHostE<gt>> or equivalent
-sections:
+This time the configuration must be done outside the
+C<E<lt>LocationE<gt>> or equivalent sections, usually within the
+C<E<lt>VirtualHostE<gt>> or the global server configuration:
 
   Listen 8005
   <VirtualHost _default_:8005>
-      ServerName localhost.localdomain:8005
+      PerlModule MyApache::FilterConnectionBar
+      PerlModule MyApache::NiceResponse
    
-      PerlOutputFilterHandler Apache::OutputConnectionFilterBar
+      PerlInputFilterHandler  MyApache::FilterConnectionBar::input
+      PerlOutputFilterHandler MyApache::FilterConnectionBar::output
       <Location />
           SetHandler modperl
-          PerlResponseHandler Apache::NiceResponse
+          PerlResponseHandler MyApache::NiceResponse
       </Location>
    
   </VirtualHost>
+
+This accomplishes the configuration of the connection input and output
+filters.
 
 [META: 
 
@@ -704,7 +823,9 @@ with:
 
   my $r = $filter->r;
 
-This belongs to the Apache::Filter manpage and should be moved there.
+This belongs to the Apache::Filter manpage and should be moved there
+when this page is created.
+
 ]
 
 Now let's look at the input and output filters in details.
@@ -819,6 +940,126 @@ In this handler the lines longer than the buffer's length are buffered
 up in C<$left_over> and processed only when the whole line is read in,
 or if there is no more input the buffered up text is flushed before
 the end of the handler.
+
+
+
+
+
+
+
+
+=head1 Handler (Hook) Types
+
+For each phase there can be more than one handler assigned (also known
+as I<hooks>, because the C functions are called
+I<ap_hook_E<lt>phase_nameE<gt>>). Phases' behavior varies when there
+is more then one handler registered to run for the same phase. The
+following table specifies that behavior for each handler:
+
+    Directive                   Type
+  --------------------------------------
+  PerlOpenLogsHandler          RUN_ALL
+  PerlPostConfigHandler        RUN_ALL
+  PerlChildInitHandler         VOID
+
+  PerlPreConnectionHandler     RUN_ALL
+  PerlProcessConnectionHandler RUN_FIRST
+
+  PerlPostReadRequestHandler   RUN_ALL
+  PerlTransHandler             RUN_FIRST
+  PerlInitHandler              RUN_ALL
+  PerlHeaderParserHandler      RUN_ALL
+  PerlAccessHandler            RUN_ALL
+  PerlAuthenHandler            RUN_FIRST
+  PerlAuthzHandler             RUN_FIRST
+  PerlTypeHandler              RUN_FIRST
+  PerlFixupHandler             RUN_ALL
+  PerlResponseHandler          RUN_FIRST
+  PerlLogHandler               RUN_ALL
+  PerlCleanupHandler           XXX
+
+  PerlInputFilterHandler       VOID
+  PerlOutputFilterHandler      VOID
+
+And here is the description of the possible types (For C API
+declarations see I<include/ap_config.h>, which includes other types
+which aren't exposed by mod_perl.)
+
+=over
+
+=item * VOID
+
+Handlers of the type C<VOID> will be I<all> executed in the order they
+have been registered disregarding their return values. Though in
+mod_perl they are expected to return C<Apache::OK>.
+
+=item * RUN_FIRST
+
+Handlers of the type C<RUN_FIRST> will be executed in the order they
+have been registered until the first handler that returns something
+other than C<Apache::DECLINED>. If the return value is
+C<Apache::DECLINED>, the next handler in the chain will be run. If the
+return value is C<Apache::OK> the next phase will start. In all other
+cases the execution will be aborted.
+
+=item * RUN_ALL
+
+Handlers of the type C<RUN_ALL> will be executed in the order they
+have been registered until the first handler that returns something
+other than C<Apache::OK> or C<Apache::DECLINED>.
+
+=back
+
+Also see L<mod_perl Directives Argument Types and Allowed
+Location|user::config::config/mod_perl_Directives_Argument_Types_and_Allowed_Location>
+
+
+
+
+
+
+
+
+
+
+
+
+
+=head1 Hook Ordering (Position)
+
+The following constants specify how the new hooks (handlers) are
+inserted into the list of hooks when there is at least one hook
+already registered for the same phase.
+
+META: need to verify the following:
+
+=over
+
+=item *  C<APR::HOOK_REALLY_FIRST>
+
+run this hook first, before ANYTHING.
+
+=item *  C<APR::HOOK_FIRST>
+
+run this hook first.
+
+=item *  C<APR::HOOK_MIDDLE>
+
+run this hook somewhere.
+
+=item *  C<APR::HOOK_LAST>
+
+run this hook after every other hook which is defined.
+
+=item *  C<APR::HOOK_REALLY_LAST>
+
+run this hook last, after EVERYTHING.
+
+=back
+
+META: more information in mod_example.c talking about
+position/predecessors, etc.
+
 
 
 
