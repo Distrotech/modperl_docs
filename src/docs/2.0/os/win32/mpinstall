@@ -163,11 +163,11 @@ print " done!\n";
 # check CHECKSUMS for the tar.gz file
 if (-e $cs) {
   unless (verifyMD5($tgzfile)) {
-    print qq{CHECKSUM check for "$tgzfile" failed.\n};
+    die qq{CHECKSUM check for "$tgzfile" failed.\n};
   }
 }
 else {
-  warn "Failed to fetch $checksums - will not verify CHECKSUMS.";
+  die "Failed to fetch $checksums - cannot verify CHECKSUMS.";
 }
 
 # edit the ppd file to reflect a local installation
@@ -258,8 +258,8 @@ sub verifyMD5 {
   my $file = shift;
   my $fh = IO::File->new;
   my $cksum;
-  unless (open $fh, 'CHECKSUMS') {
-    warn "Could not open CHECKSUMS: $!";
+  unless (open $fh, $cs) {
+    warn "Could not open $cs: $!";
     return;
   }
   local($/);
