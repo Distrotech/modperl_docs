@@ -848,7 +848,7 @@ API:
   use strict;
   use warnings;
   
-  use Apache::Filter ();
+  use base qw(Apache::Filter);
   
   use Apache::Const -compile => qw(OK);
   
@@ -944,7 +944,7 @@ accomplish exactly the same task as the first filter.
   use strict;
   use warnings;
   
-  use Apache::Filter;
+  use base qw(Apache::Filter);
   
   use APR::Brigade ();
   use APR::Bucket ();
