@@ -200,6 +200,7 @@ and testing.
   Apache::Request            http://httpd.apache.org/apreq/
   Apache::Language           Philippe M. Chiasson <gozer AT cpan.org>
   Apache::AutoIndex          Philippe M. Chiasson <gozer AT cpan.org>
+  Apache::Icon               Philippe M. Chiasson <gozer AT cpan.org>
   Apache::Template           Geoffrey Young <geoff AT modperlcookbook.org>
 
 =head1 mod_perl 2.0 Specific Modules
