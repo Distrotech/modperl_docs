@@ -603,7 +603,7 @@ Here is an example of a transparent output filter:
   }
   1;
 
-The c<out> filter passes C<$bb> to the downstream filter unmodified
+The I<out()> filter passes C<$bb> to the downstream filter unmodified
 and if you add debug prints before and after the C<pass_brigade()>
 call and configure the same filter twice, the debug print will show
 the blocking call.
