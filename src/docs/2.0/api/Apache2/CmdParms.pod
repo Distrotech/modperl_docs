@@ -1,15 +1,15 @@
 =head1 NAME
 
-Apache::CmdParms - Perl API for Apache command parameters object
+Apache2::CmdParms - Perl API for Apache command parameters object
 
 
 
 
 =head1 Synopsis
 
-  use Apache::CmdParms ();
-  use Apache::Module ();
-  use Apache::Const -compile => qw(NOT_IN_LOCATION);
+  use Apache2::CmdParms ();
+  use Apache2::Module ();
+  use Apache2::Const -compile => qw(NOT_IN_LOCATION);
   
   my @directives = (
     {
@@ -18,7 +18,7 @@ Apache::CmdParms - Perl API for Apache command parameters object
     },
   );
   
-  Apache::Module::add(__PACKAGE__, \@directives);
+  Apache2::Module::add(__PACKAGE__, \@directives);
   
   sub MyDirective {
       my($self, $parms, $args) = @_;
@@ -30,7 +30,7 @@ Apache::CmdParms - Perl API for Apache command parameters object
       $cmd = $parms->cmd;
   
       # check the current command's context
-      $error = $parms->check_cmd_context(Apache::NOT_IN_LOCATION);
+      $error = $parms->check_cmd_context(Apache2::NOT_IN_LOCATION);
   
       # this command's context
       $context = $parms->context;
@@ -39,7 +39,7 @@ Apache::CmdParms - Perl API for Apache command parameters object
       $directive = $parms->directive;
   
       # the extra information passed thru cmd_data to
-      # Apache::Module::add()
+      # Apache2::Module::add()
       $info = $parms->info;
   
       # which methods are <Limit>ed ?
@@ -64,7 +64,7 @@ Apache::CmdParms - Perl API for Apache command parameters object
 
 =head1 Description
 
-C<Apache::CmdParms> provides the Perl API for Apache command
+C<Apache2::CmdParms> provides the Perl API for Apache command
 parameters object.
 
 
@@ -72,7 +72,7 @@ parameters object.
 
 =head1 API
 
-C<Apache::CmdParms> provides the following functions and/or methods:
+C<Apache2::CmdParms> provides the following functions and/or methods:
 
 
 
@@ -87,7 +87,7 @@ Dynamically add Apache configuration at request processing runtime:
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item arg1: C<$lines> (ARRAY ref)
 
@@ -101,8 +101,8 @@ the new line terminators.
 =back
 
 See also:
-C<L<$s-E<gt>add_config|docs::2.0::api::Apache::ServerUtil/C_add_config_>>,
-C<L<$r-E<gt>add_config|docs::2.0::api::Apache::RequestUtil/C_add_config_>>
+C<L<$s-E<gt>add_config|docs::2.0::api::Apache2::ServerUtil/C_add_config_>>,
+C<L<$r-E<gt>add_config|docs::2.0::api::Apache2::RequestUtil/C_add_config_>>
 
 
 
@@ -117,10 +117,10 @@ Check the current command against a context bitmask of forbidden contexts.
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
-=item arg1: C<$check> ( C<L<Apache::Const :context
-constant|docs::2.0::api::Apache::Const/C__context_>> )
+=item arg1: C<$check> ( C<L<Apache2::Const :context
+constant|docs::2.0::api::Apache2::Const/C__context_>> )
 
 the context to check against.
 
@@ -137,8 +137,8 @@ C<undef>.
 For example here is how to check whether a command is allowed in the
 C<E<lt>LocationE<gt>> container:
 
-  use Apache::Const -compile qw(NOT_IN_LOCATION);
-  if (my $error = $parms->check_cmd_context(Apache::NOT_IN_LOCATION)) {
+  use Apache2::Const -compile qw(NOT_IN_LOCATION);
+  if (my $error = $parms->check_cmd_context(Apache2::NOT_IN_LOCATION)) {
       die "directive ... not allowed in <Location> context"
   }
 
@@ -154,10 +154,10 @@ This module's command information
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item ret: C<$cmd>
-( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
+( C<L<Apache2::Command object|docs::2.0::api::Apache2::Command>> )
 
 =item since: 1.99_17
 
@@ -177,10 +177,10 @@ This command's directive object in the configuration tree
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item ret: C<$directive>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 The current directive node in the configuration tree
 
@@ -196,14 +196,14 @@ The current directive node in the configuration tree
 =head2 C<info>
 
 The extra information passed through C<cmd_data> in
-C<L<Apache::Module::add()|docs::2.0::api::Apache::Module/C_add_>>.
+C<L<Apache2::Module::add()|docs::2.0::api::Apache2::Module/C_add_>>.
 
   $info = $parms->info;
 
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item ret: C<$info> ( string )
 
@@ -228,7 +228,7 @@ subroutine:
       cmd_data => 'Two',
     },
   );
-  Apache::Module::add(__PACKAGE__, \@directives);
+  Apache2::Module::add(__PACKAGE__, \@directives);
   
   sub MyDirective {
     my($self, $parms, $args) = @_;
@@ -251,7 +251,7 @@ Discover if a method is E<lt>LimitE<gt>ed in the current scope
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item arg1: C<$method> (string)
 
@@ -285,13 +285,13 @@ Which allow-override bits are set (C<AllowOverride> directive)
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item ret: C<$override> ( bitmask )
 
 the allow-override bits bitmask, which can be tested against
-C<L<Apache::Const :override
-constants|docs::2.0::api::Apache::Const/C__override_>>.
+C<L<Apache2::Const :override
+constants|docs::2.0::api::Apache2::Const/C__override_>>.
 
 =item since: 1.99_12
 
@@ -300,8 +300,8 @@ constants|docs::2.0::api::Apache::Const/C__override_>>.
 For example to check that the C<AllowOverride>'s C<AuthConfig> and
 C<FileInfo> options are enabled for this command, do:
 
-  use Apache::Const -compile qw(:override);
-  $wanted = Apache::OR_AUTHCFG | Apache::OR_FILEINFO;
+  use Apache2::Const -compile qw(:override);
+  $wanted = Apache2::OR_AUTHCFG | Apache2::OR_FILEINFO;
   $masked = $parms->override & $wanted;
   unless ($wanted == $masked) {
       die "...";
@@ -322,7 +322,7 @@ The current pathname/location/match of the block this command is in
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item ret: C<$path> ( string / C<undef> )
 
@@ -357,7 +357,7 @@ Pool associated with this command
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item ret: C<$p>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
@@ -380,10 +380,10 @@ The (vhost) server this command was defined in F<httpd.conf>
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item ret: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::Server object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item since: 1.99_12
 
@@ -404,7 +404,7 @@ before the first request is served.
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item ret: C<$temp_pool>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
@@ -424,7 +424,7 @@ you are doing. Use C<L<$parms-E<gt>pool|/C_pool_>> instead.
 
 =head1 Unsupported API
 
-C<Apache::CmdParms> also provides auto-generated Perl interface for
+C<Apache2::CmdParms> also provides auto-generated Perl interface for
 a few other methods which aren't tested at the moment and therefore
 their API is a subject to change. These methods will be finalized
 later as a need arises. If you want to rely on any of the following
@@ -447,10 +447,10 @@ config structures.
 =over 4
 
 =item obj: C<$parms>
-( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item ret: C<$newval>
-( C<L<Apache::ConfVector object|docs::2.0::api::Apache::ConfVector>> )
+( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
 
 Returns the commands' per-dir config structures
 
