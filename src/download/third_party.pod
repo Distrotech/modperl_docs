@@ -4,8 +4,8 @@ Additional Software
 
 =head1 Description
 
-Where to get software written by other parties that might be usefull
-(or neccessary) when running mod_perl.
+Where to get software written by other parties that might be useful
+(or necessary) when running mod_perl.
 
 =head1 Perl
 
