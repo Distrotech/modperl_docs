@@ -2,7 +2,7 @@
 
 mod_perl Articles in Printed and Online media
 
-=head1 DESCRIPTION
+=head1 Description
 
 There are many mod_perl articles published on the web and printed
 media. This document tries to partially cover these resources.
@@ -12,7 +12,41 @@ us know at the L<users|maillist::list-modperl> mailing list.
 
 =head1 Printed Media
 
-  META: to be completed
+=over
+
+=item *
+
+C<The Perl Journal> (Volume 3, Issue 1). I<Stately Scripting with
+mod_perl>, by I<Lincoln Stein> and I<Doug MacEachern>. Available
+online: http://www.samag.com/documents/s=1285/sam03010001/
+
+=item *
+
+C<DBMS>, November 1997. I<Connecting Sybase to the Web>, by I<Brian
+Jepson>: http://www.dbmsmag.com/9711i14.html
+
+=item *
+
+C<BYTE>, March 1998. I<Perl and Apache>, by I<Jon Udell>.
+http://www.byte.com/art/9803/sec7/art1.htm .
+
+=item *
+
+C<The Linux Journal>, I<At the Forge: Combining Apache and Perl>, by
+I<Reuven M. Lerner>.
+
+=item *
+
+C<The Linux Journal>, I<At the Forge: Speeding Up Database Access With
+mod_perl>, by I<Reuven M. Lerner>.
+
+=item *
+
+Linux Magazin (german), I<Bis in den roten Bereich> - Examples on
+performance test scripts to see the modperl benefits:
+http://www.linux-magazin.de/ausgabe/1998/08/Pounder/pounder.html .
+
+=back
 
 =head1 Online Zines
 
@@ -43,28 +77,62 @@ under mod_perl category)
 Basic knowledge about Apache stages and mod_perl handlers article in
 German. http://www.heise.de/ix/artikel/2000/01/156/
 
+=item *
+
+Webmonkey (http://www.webmonkey.com ) features some web tutorials
+where they use mod_perl: They have an "intro to mod_perl":
+http://hotwired.lycos.com/webmonkey/98/38/index2a.html?tw=perl and
+"Choosing the right database system" uses mod_perl and ePerl:
+http://hotwired.lycos.com/webmonkey/backend/databases/tutorials/tutorial1.html
+.
 
 =item *
 
-
+Linux Journal ( http://www.linuxjournal.com/ ) features an article
+called "Web watch: Catching Spiders with Bottrap" in which the authour
+introduces Bottrap, a mod_perl module used to vut off crawlers and
+bots.  http://www.linuxjournal.com/article.php?sid=5861
 
 =item *
 
-
-
-=item *
-
-
-
-
+Randal L. Schwartz regularly puts his columns online, all of them
+dealing with Perl, many with CGI, and some with mod_perl. See
+http://www.stonehenge.com/merlyn/WebTechniques/ ,
+http://www.stonehenge.com/merlyn/UnixReview/ ,
+http://www.stonehenge.com/merlyn/LinuxMag/ .
 
 =back
 
-
-  META: to be completed
+ META: more articles are welcome 
 
 =head1 Are You Interested in Publishing Your Own mod_perl Article?
 
-  META: to be completed
+We always welcome new mod_perl articles. Here are some steps to help you
+out.
+
+First, you should find out if your information might be better suited
+as documentation for mod_perl. We try to maintain a big knowledge base
+here, and additions are always welcome. Please contact L<the docs-dev
+mailing
+list|maillist::list-docs-dev> with patches or additions.
+
+If it doesn't fit into the documentation, Take23 (
+http://www.take23.org ), the mod_perl news site, always welcomes new
+articles. We suggest that you submit your article there, as it is the
+main place for mod_perl-specific activity.
+
+For the content, we advocate reuse. If you're writing installation
+instructions, you are free to get as much inspiration as you want from
+the documentation on this site, especially the user guides. You should
+always try and re-write it a little to add your own touch or more
+user-friendliness, but you may keep the same steps and
+information. After all, there's only one way to install it, and it's
+pretty weel-documented already! This is true for all other aspects
+covered here too. Of course, if you feel like you have created
+something useful for everyone, feel free to send it back to us so that
+we can re-enter it into our documentation base.
+
+Last, but not least, when you do publish your article, please notify us,
+so that we can make a notice of it here!
 
 =cut
