@@ -169,6 +169,7 @@ list|maillist::modperl>, so we can update this information:
   Apache::AuthzPasswd        Apache-AuthzPasswd-0.11
   Apache::Clean              Apache-Clean-2.00_4 (not released)
   Apache::Peek               Apache-Peek-1.01
+  Apache::SessionManager     Apache-SessionManager 1.00
   CGI                        CGI.pm-2.93
   CGI::Cookie                CGI.pm-2.93 (comes in the CGI dist)
 
