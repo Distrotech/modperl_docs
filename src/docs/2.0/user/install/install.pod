@@ -186,6 +186,13 @@ I<makepl_args.mod_perl2> will be ignored.
 Command line options override those from I<makepl_args.mod_perl2> and
 those from C<MP_OPTIONS_FILE>.
 
+If your terminal supports colored text you may want to set the
+environment variable C<APACHE_TEST_COLOR> to 1 to enable the colored
+tracing which makes it easier to tell the reported errors and
+warnings, from the rest of the notifications. Make sure that the
+environment variable C<APACHE_TEST_COLOR> is set to 0 (or not set at
+all) if you redirect the output from the testing to a file.
+
 =head2 Compile mod_perl
 
   % make
