@@ -2,9 +2,79 @@
 
 Apache::Const - Perl Interface for Apache Constants
 
+
+
+
+
 =head1 Synopsis
 
+  # make the constants available but don't import them
   use Apache::Const -compile => qw(constant names ...);
+  
+  # w/o the => syntax sugar
+  use Apache::Const ("-compile", qw(constant names ...));
+  
+  # compile and import the constants
+  use Apache::Const qw(constant names ...);
+
+
+
+
+
+=head1 Description
+
+This package contains constants specific to C<Apache> features.
+
+mod_perl 2.0 comes with several hundreds of constants, which you don't
+want to make available to your Perl code by default, due to CPU and
+memory overhead. Therefore when you want to use a certain constant you
+need to explicitly ask to make it available.
+
+For example, the code:
+
+  use Apache::Const -compile => qw(FORBIDDEN OK);
+
+makes the constants C<Apache::FORBIDDEN> and C<Apache::OK> available
+to your code, but they aren't imported. In which case you need to use
+a fully qualified constants, as in:
+
+  return Apache::OK;
+
+If you drop the argument C<-compile> and write:
+
+  use Apache::Const qw(FORBIDDEN OK);
+
+Then both constants are imported into your code's namespace and can be
+used standalone like so:
+
+  return OK;
+
+Both, due to the extra memory requirement, when importing symbols, and
+since there are constants in other namespaces (e.g.,
+C<L<APR::|docs::2.0::api::APR::Const>> and
+C<L<ModPerl::|docs::2.0::api::ModPerl::Const>>, and non-mod_perl
+modules) which may contain the same names, it's not recommended to
+import constants. I.e. you want to use the C<-compile> construct.
+
+Finaly, in Perl C<=E<gt>> is almost the same as the comma operator. It
+can be used as syntax sugar making it more clear when there is a
+key-value relation between two arguments, and also it automatically
+parses its lefthand argument (the key) as a string, so you don't need
+to quote it.
+
+If you don't want to use that syntax, instead of writing:
+
+ use Apache::Const -compile => qw(FORBIDDEN OK);
+
+you could write:
+
+ use Apache::Const "-compile", qw(FORBIDDEN OK);
+
+and for parentheses-lovers:
+
+ use Apache::Const ("-compile", qw(FORBIDDEN OK));
+
+
 
 
 =head1 Constants

@@ -2,9 +2,40 @@
 
 APR::Const - Perl Interface for APR Constants
 
+
+
+
+
+
 =head1 Synopsis
 
+  # make the constants available but don't import them
   use APR::Const -compile => qw(constant names ...);
+  
+  # w/o the => syntax sugar
+  use APR::Const ("-compile", qw(constant names ...));
+  
+  # compile and import the constants
+  use APR::Const qw(constant names ...);
+
+
+
+
+
+
+
+=head1 Description
+
+This package contains constants specific to C<APR> features.
+
+Refer to C<L<the Apache::Const description
+section|docs::2.0::api::Apache::Const/Description>> for more
+information.
+
+
+
+
+
 
 
 =head1 Constants
