@@ -758,7 +758,7 @@ provides methods for accessing the values from the parsed file.
 
 See the module manpage for more information.
 
-=head& Apache::Admin::Config - Object oriented access to Apache style config files
+=head1 Apache::Admin::Config - Object oriented access to Apache style config files
 
 C<Apache::Admin::Config> provides an object oriented interface for reading
 and writing Apache-like configuration files without affecting comments,
