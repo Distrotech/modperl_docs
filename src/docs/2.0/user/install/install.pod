@@ -147,7 +147,8 @@ Enable maintainer compile mode, which sets C<MP_DEBUG=1> and adds the
 following C<gcc> flags:
 
   -DAP_DEBUG -Wall -Wmissing-prototypes -Wstrict-prototypes \
-  -Wmissing-declarations
+  -Wmissing-declarations \
+  -DAP_DEBUG -DAP_HAVE_DESIGNATED_INITIALIZER
 
 To use this mode Apache must be build with
 C<--enable-maintainer-mode>.
