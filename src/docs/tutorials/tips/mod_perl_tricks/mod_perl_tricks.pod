@@ -9,7 +9,7 @@ coding. However, adding mod_perl to the mix creates a heaven for an
 administrator/programmer wanting to do cool things in no time!
 
 This tutorial begins a collection of CGI scripts that illustrate the
-four basic types of CGI scripting: dynamic documents, document
+three basic types of CGI scripting: dynamic documents, document
 filtering, and URL redirection.  It also shows a few tricks that you
 might not have run into -- or even thought were possible with CGI.
 
