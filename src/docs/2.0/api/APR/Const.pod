@@ -2153,6 +2153,9 @@ See C<L<APR::Table|docs::2.0::api::APR::Table>> for details.
 
 =back
 
+See C<L<APR::Table::compress|docs::2.0::api::APR::Table/C_compress_>>
+and C<L<APR::Table::overlap|docs::2.0::api::APR::Table/C_overlap_>>.
+
 
 
 
@@ -2164,6 +2167,9 @@ See C<L<APR::Table|docs::2.0::api::APR::Table>> for details.
 =item since: 1.99_12
 
 =back
+
+See C<L<APR::Table::compress|docs::2.0::api::APR::Table/C_compress_>>
+and C<L<APR::Table::overlap|docs::2.0::api::APR::Table/C_overlap_>>.
 
 
 

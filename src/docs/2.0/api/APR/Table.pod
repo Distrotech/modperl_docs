@@ -1,6 +1,6 @@
 =head1 NAME
 
-APR::Table - Perl API for for manipulating opaque string-content table
+APR::Table - Perl API for manipulating APR opaque string-content tables
 
 
 
@@ -8,7 +8,7 @@ APR::Table - Perl API for for manipulating opaque string-content table
 
   use APR::Table ();
   
-  $table = make($pool, $nelts);
+  $table = APR::Table::make($pool, $nelts);
   $table_copy = $table->copy($pool);
   
   $table->clear();
@@ -21,16 +21,19 @@ APR::Table - Perl API for for manipulating opaque string-content table
   @val = $table->get($key);
   
   $table->merge($key => $val);
-  overlap($table_a, $table_b, $flags);
-  $new_table = overlay($table_base, $table_overlay, $pool);
+  
+  use APR::Const -compile qw(:table);
+  $table_overlay = $table_base->overlay($table_overlay, $pool);
+  $table_overlay->compress(APR::OVERLAP_TABLES_MERGE);
+  
+  $table_a->overlap($table_b, APR::OVERLAP_TABLES_SET);
   
   $table->do(sub {print "key $_[0], value $_[1]\n"}, @valid_keys);
   
   #Tied Interface
   $value = $table->{$key};
   $table->{$key} = $value;
-  $table->{$key} = $value;
-  exists $table->{$key};
+  print "got it" if exists $table->{$key};
   
   foreach my $key (keys %{$table}) {
       print "$key = $table->{$key}\n";
@@ -78,23 +81,25 @@ C<APR::Table> provides the following functions and/or methods:
 Add data to a table, regardless of whether there is another element
 with the same key.
 
-  $t->add($key, $val);
+  $table->add($key, $val);
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table> ( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The table to add to.
 
-=item arg1: C<$key> (string)
+=item arg1: C<$key> ( string )
 
 The key to use.
 
-=item arg2: C<$val> (string)
+=item arg2: C<$val> ( string )
 
 The value to add.
 
 =item ret: no return value
+
+=item since: 1.99_10
 
 =back
 
@@ -103,21 +108,27 @@ value.
 
 
 
+
+
 =head2 C<clear>
 
 Delete all of the elements from a table.
 
-  $t->clear();
+  $table->clear();
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The table to clear.
 
 =item ret: no return value
 
+=item since: 1.99_10
+
 =back
+
 
 
 
@@ -128,24 +139,28 @@ The table to clear.
 Eliminate redundant entries in a table by either overwriting or
 merging duplicates:
 
-  $t->compress($flags);
+  $table->compress($flags);
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The table to compress.
 
-=item arg1: C<$flags> (integer)
+=item arg1: C<$flags>
+(C<L<APR::Const constant|docs::2.0::api::APR::Const>>)
 
   APR::OVERLAP_TABLES_MERGE -- to merge
   APR::OVERLAP_TABLES_SET   -- to overwrite
 
 =item ret: no return value
 
+=item since: 1.99_10
+
 =back
 
-Converts multi-valued keys in C<$table> to single-valued keys.  This
+Converts multi-valued keys in C<$table> into single-valued keys.  This
 function takes duplicate table entries and flattens them into a single
 entry.  The flattening behavior is controlled by the (mandatory)
 C<$flags> argument.
@@ -153,12 +168,86 @@ C<$flags> argument.
 When C<$flags> == C<APR::OVERLAP_TABLES_SET>, each key will be set to
 the last value seen for that key.  For example, given key/value pairs
 'foo =E<gt> bar' and 'foo =E<gt> baz', 'foo' would have a final value
-of 'baz' after compression - the 'bar' value would be lost.
+of 'baz' after compression -- the 'bar' value would be lost.
 
 When C<$flags> == C<APR::OVERLAP_TABLES_MERGE>, multiple values for
 the same key are flattened into a comma-separated list.  Given
 key/value pairs 'foo =E<gt> bar' and 'foo =E<gt> baz', 'foo' would
 have a final value of 'bar, baz' after compression.
+
+Access the constants via:
+
+  use APR::Const -compile qw(:table);
+
+or an explicit:
+
+  use APR::Const -compile qw(OVERLAP_TABLES_SET OVERLAP_TABLES_MERGE);
+
+C<compress()> combined with C<L<overlay()|/C_overlay_>> does the same
+thing as C<L<overlap()|/C_overlap_>>.
+
+Examples:
+
+=over
+
+=item * C<APR::OVERLAP_TABLES_SET>
+
+Start with table C<$table>:
+
+  foo => "one"
+  foo => "two"
+  foo => "three"
+  bar => "beer"
+
+which is done by:
+
+  use APR::Const    -compile => ':table';
+  my $table = APR::Table::make($r->pool, TABLE_SIZE);
+  
+  $table->set(bar => 'beer');
+  $table->set(foo => 'one');
+  $table->add(foo => 'two');
+  $table->add(foo => 'three');
+
+Now compress it using C<APR::OVERLAP_TABLES_SET>:
+
+  $table->compress(APR::OVERLAP_TABLES_SET);
+
+Now table C<$table> contains:
+
+  foo => "three"
+  bar => "beer"
+
+The value I<three> for the key I<foo>, that was added last, took over
+the other values.
+
+
+
+
+=item * C<APR::OVERLAP_TABLES_MERGE>
+
+Start with table C<$table>:
+
+  foo => "one"
+  foo => "two"
+  foo => "three"
+  bar => "beer"
+
+as in the previous example, now compress it using
+C<APR::OVERLAP_TABLES_MERGE>:
+
+  $table->compress(APR::OVERLAP_TABLES_MERGE);
+
+Now table C<$table> contains:
+
+  foo => "one, two, three"
+  bar => "beer"
+
+All the values for the same key were merged into one value.
+
+=back
+
+
 
 
 
@@ -166,23 +255,30 @@ have a final value of 'bar, baz' after compression.
 
 Create a new table and copy another table into it.
 
-  $ret = $t->copy($p);
+  $table_copy = $table->copy($p);
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The table to copy.
 
-=item arg1: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg1: C<$p>
+( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
 The pool to allocate the new table out of.
 
-=item ret: C<$ret> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item ret: C<$table_copy>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 A copy of the table passed in.
 
+=item since: 1.99_10
+
 =back
+
+
 
 
 
@@ -198,25 +294,75 @@ a key-value pair.
 
 =over 4
 
-=item obj: C<$p> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The table to operate on.
 
-=item arg1: C<$sub> (CODE ref/string)
+=item arg1: C<$sub> ( CODE ref/string )
 
 A subroutine reference or name to be called on each item in the table.
 The subroutine can abort the iteration by returning 0 and should
 always return 1 otherwise.
 
-=item opt arg3: C<@filter> (ARRAY)
+=item opt arg3: C<@filter> ( ARRAY )
 
-If passed, only keys matching one of the entries in the C<@filter>
-will be processed.
+If passed, only keys matching one of the entries in fC<@filter> will be
+processed.
 
 =item ret: no return value
 
+=item since: 1.99_10
+
 =back
 
+
+Examples:
+
+=over
+
+=item *
+
+This filter simply prints out the key/value pairs and counts how many
+pairs did it see.
+
+  use constant TABLE_SIZE => 20;
+  our $filter_count;
+  my $table = APR::Table::make($r->pool, TABLE_SIZE);
+  
+  # populate the table with ascii data
+  for (1..TABLE_SIZE) {
+      $table->set(chr($_+97), $_);
+  }
+  
+  $filter_count = 0;
+  $table->do("my_filter");
+  print "Counted $filter_count elements";
+  
+  sub my_filter {
+      my($key, $value) = @_;
+      warn "$key => $value\n";
+      $filter_count++;
+      return 1;
+  }
+
+Notice that C<my_filter> always returns 1, ensuring that C<do()> will
+pass all the key/value pairs.
+
+
+=item *
+
+This filter is similar to the one from the previous example, but this
+time it decides to abort the filtering after seeing half of the table,
+by returning 0 when this happens.
+
+  sub my_filter {
+      my($key, $value) = @_;
+      $filter_count++;
+      return $filter_count == int(TABLE_SIZE)/2 ? 0 : 1;
+  }
+
+=back
 
 
 
@@ -233,21 +379,25 @@ data is still in the table.
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The table to search for the key.
 
-=item arg1: C<$key> (string)
+=item arg1: C<$key> ( string )
 
 The key to search for.
 
 =item ret: C<$val> or C<@val>
 
-In the scalar context the first matching value returned. (The oldest
-in the table, if there is more than one value.)
+In the scalar context the first matching value returned (the oldest in
+the table, if there is more than one value). If nothing matches
+C<undef> is returned.
 
 In the list context the whole table is traversed and all matching
-values are returned. If nothing matches C<undef> is returned.
+values are returned. An empty list is returned if nothing matches.
+
+=item since: 1.99_10
 
 =back
 
@@ -262,25 +412,30 @@ values are returned. If nothing matches C<undef> is returned.
 
 Make a new table.
 
-  $ret = make($p, $nelts);
+  $table = APR::Table::make($p, $nelts);
 
 =over 4
 
-=item obj: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item obj: C<$p>
+( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
 The pool to allocate the pool out of.
 
-=item arg1: C<$nelts> (integer)
+=item arg1: C<$nelts> ( integer )
 
-The number of elements in the initial table.
+The number of elements in the initial table. At least 1 or more. If 0
+is passed APR will still allocate 1.
 
-=item ret: C<$ret> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item ret: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The new table.
 
+=item since: 1.99_10
+
 =back
 
-Note: This table can only store text data.
+This table can only store text data.
 
 
 
@@ -289,69 +444,148 @@ Note: This table can only store text data.
 =head2 C<merge>
 
 Add data to a table by merging the value with data that has already
-been stored:
+been stored using ", " as a separator:
 
-  $t->merge($key, $val);
+  $table->merge($key, $val);
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The table to search for the data.
 
-=item arg1: C<$key> (string)
+=item arg1: C<$key> ( string )
 
 The key to merge data for.
 
-=item arg2: C<$val> (string)
+=item arg2: C<$val> ( string )
 
 The data to add.
 
 =item ret: no return value
 
+=item since: 1.99_10
+
 =back
 
-Note: if the key is not found, then this function acts like
+If the key is not found, then this function acts like
 C<L<add()|/C_add_>>.
+
+If there is more than one value for the same key, only the first (the
+oldest) value gets merged.
+
+Examples:
+
+=over
+
+=item *
+
+Start with a pair:
+
+  merge => "1"
+
+and merge "a" to the value:
+
+  $table->set(  merge => '1');
+  $table->merge(merge => 'a');
+  $val = $table->get('merge');
+
+Result:
+
+  $val == "1, a";
+
+
+
+
+=item *
+
+Start with a multivalued pair:
+
+  merge => "1"
+  merge => "2"
+
+and merge "a" to the first value;
+
+  $table->set(  merge => '1');
+  $table->add(  merge => '2');
+  $table->merge(merge => 'a');
+  @val = $table->get('merge');
+
+Result:
+
+  $val[0] == "1, a";
+  $val[1] == "2";
+
+Only the first value for the same key is affected.
+
+
+
+=item *
+
+Have no entry and merge "a";
+
+  $table->merge(miss => 'a');
+  $val = $table->get('miss');
+
+Result:
+
+  $val == "a";
+
+=back
+
+
 
 
 
 =head2 C<overlap>
 
-For each key/value pair in C<$t_b>, add the data to C<$t_a>. The
-definition of C<$flags> explains how C<$flags> define the overlapping
-method.
+For each key/value pair in C<$table_b>, add the data to
+C<$table_a>. The definition of C<$flags> explains how C<$flags> define
+the overlapping method.
 
-  $t_a->overlap($t_b, $flags);
+  $table_a->overlap($table_b, $flags);
 
 =over 4
 
-=item obj: C<$t_a> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table_a>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The table to add the data to.
 
-=item arg1: C<$t_b> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item arg1: C<$table_b>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
-The table to iterate over, adding its data to table C<$t_a>
+The table to iterate over, adding its data to table C<$table_a>
 
-=item arg2: C<$flags> (integer)
+=item arg2: C<$flags> ( integer )
 
-How to add the table to table C<$t_a>.
+How to add the table to table C<$table_a>.
 
 When C<$flags> == C<APR::OVERLAP_TABLES_SET>, if another element
 already exists with the same key, this will over-write the old data.
 
 When C<$flags> == C<APR::OVERLAP_TABLES_MERGE>, the key/value pair
-from C<$t_b> is added, regardless of whether there is another element
-with the same key in C<$t_a>.
+from C<$table_b> is added, regardless of whether there is another
+element with the same key in C<$table_a>.
 
 =item ret: no return value
 
+=item since: 1.99_10
+
 =back
 
+Access the constants via:
+
+  use APR::Const -compile qw(:table);
+
+or an explicit:
+
+  use APR::Const -compile qw(OVERLAP_TABLES_SET OVERLAP_TABLES_MERGE);
+
 This function is highly optimized, and uses less memory and CPU cycles
-than a function that just loops through table C<$t_b> calling other
-functions.
+than a function that just loops through table C<$table_b> calling
+other functions.
 
 Conceptually, C<overlap()> does this:
 
@@ -359,7 +593,7 @@ Conceptually, C<overlap()> does this:
   apr_table_entry_t *belt = (apr_table_entry_t *)barr-E<gt>elts;
   int i;
   
-  for (i = 0; i E<lt> barr-E<gt>nelts; ++i) {
+  for (i = 0; i < barr->nelts; ++i) {
       if (flags & APR_OVERLAP_TABLES_MERGE) {
           apr_table_mergen(a, belt[i].key, belt[i].val);
       }
@@ -369,11 +603,96 @@ Conceptually, C<overlap()> does this:
   }
 
 Except that it is more efficient (less space and cpu-time) especially
-when C<$t_b> has many elements.
+when C<$table_b> has many elements.
 
-Notice the assumptions on the keys and values in C<$t_b> -- they must
-be in an ancestor of C<$t_a>'s pool.  In practice C<$t_b> and C<$t_a> are
-usually from the same pool.
+Notice the assumptions on the keys and values in C<$table_b> -- they
+must be in an ancestor of C<$table_a>'s pool.  In practice C<$table_b>
+and C<$table_a> are usually from the same pool.
+
+Examples:
+
+=over
+
+=item * C<APR::OVERLAP_TABLES_SET>
+
+Start with table C<$base>:
+
+  foo => "one"
+  foo => "two"
+  bar => "beer"
+
+and table C<$add>:
+
+  foo => "three"
+
+which is done by:
+
+  use APR::Const    -compile => ':table';
+  my $base = APR::Table::make($r->pool, TABLE_SIZE);
+  my $add  = APR::Table::make($r->pool, TABLE_SIZE);
+  
+  $base->set(bar => 'beer');
+  $base->set(foo => 'one');
+  $base->add(foo => 'two');
+  
+  $add->set(foo => 'three');
+
+Now overlap using C<APR::OVERLAP_TABLES_SET>:
+
+  $base->overlap($add, APR::OVERLAP_TABLES_SET);
+
+Now table C<$add> is unmodified and table C<$base> contains:
+
+  foo => "three"
+  bar => "beer"
+
+The value from table C<add> has overwritten all previous values for
+the same key both had (I<foo>).  This is the same as doing
+C<L<overlay()|/C_overlay_>> followed by C<L<compress()|/C_compress_>>
+with C<APR::OVERLAP_TABLES_SET>.
+
+
+=item * C<APR::OVERLAP_TABLES_MERGE>
+
+Start with table C<$base>:
+
+  foo => "one"
+  foo => "two"
+
+and table C<$add>:
+
+  foo => "three"
+  bar => "beer"
+
+which is done by:
+
+  use APR::Const    -compile => ':table';
+  my $base = APR::Table::make($r->pool, TABLE_SIZE);
+  my $add  = APR::Table::make($r->pool, TABLE_SIZE);
+  
+  $base->set(foo => 'one');
+  $base->add(foo => 'two');
+  
+  $add->set(foo => 'three');
+  $add->set(bar => 'beer');
+
+Now overlap using C<APR::OVERLAP_TABLES_MERGE>:
+
+  $base->overlap($add, APR::OVERLAP_TABLES_MERGE);
+
+Now table C<$add> is unmodified and table C<$base> contains:
+
+  foo => "one, two, three"
+  bar => "beer"
+
+Values from both tables for the same key were merged into one
+value. This is the same as doing C<L<overlay()|/C_overlay_>> followed
+by C<L<compress()|/C_compress_>> with C<APR::OVERLAP_TABLES_MERGE>.
+
+=back
+
+
+
 
 
 =head2 C<overlay>
@@ -381,27 +700,78 @@ usually from the same pool.
 Merge two tables into one new table. The resulting table may have more
 than one value for the same key.
 
-  $t = $t_base->overlay($t_overlay, $p);
+  $table = $table_base->overlay($table_overlay, $p);
 
 =over 4
 
-=item obj: C<$t_base> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table_base>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The table to add at the end of the new table.
 
-=item arg1: C<$t_overlay> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item arg1: C<$table_overlay>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The first table to put in the new table.
 
-=item arg2: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg2: C<$p>
+( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
 The pool to use for the new table.
 
-=item ret: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item ret: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 A new table containing all of the data from the two passed in.
 
+=item since: 1.99_10
+
 =back
+
+
+Examples:
+
+=over
+
+=item *
+
+Start with table C<$base>:
+
+  foo => "one"
+  foo => "two"
+  bar => "beer"
+
+and table C<$add>:
+
+  foo => "three"
+
+which is done by:
+
+  use APR::Const    -compile => ':table';
+  my $base = APR::Table::make($r->pool, TABLE_SIZE);
+  my $add  = APR::Table::make($r->pool, TABLE_SIZE);
+  
+  $base->set(bar => 'beer');
+  $base->set(foo => 'one');
+  $base->add(foo => 'two');
+  
+  $add->set(foo => 'three');
+
+Now overlay using C<APR::OVERLAP_TABLES_SET>:
+
+  my $overlay = $base->overlay($add, APR::OVERLAP_TABLES_SET);
+
+That resulted in a new table C<$overlay> (tables C<add> and C<$base>
+are unmodified) which contains:
+
+  foo => "one"
+  foo => "two"
+  foo => "three"
+  bar => "beer"
+
+=back
+
+
 
 
 
@@ -412,23 +782,26 @@ A new table containing all of the data from the two passed in.
 Add a key/value pair to a table, if another element already exists
 with the same key, this will over-write the old data.
 
-  $t->set($key, $val);
+  $table->set($key, $val);
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The table to add the data to.
 
-=item arg1: C<$key> (string)
+=item arg1: C<$key> ( string )
 
 The key to use.
 
-=item arg2: C<$val> (string)
+=item arg2: C<$val> ( string )
 
 The value to add.
 
 =item ret: no return value
+
+=item since: 1.99_10
 
 =back
 
@@ -441,19 +814,22 @@ value.
 
 Remove data from the table.
 
-  $t->unset($key);
+  $table->unset($key);
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 The table to remove data from.
 
-=item arg1: C<$key> (string)
+=item arg1: C<$key> ( string )
 
 The key of the data being removed.
 
 =item ret: no return value
+
+=item since: 1.99_10
 
 =back
 
@@ -465,29 +841,33 @@ The key of the data being removed.
 C<APR::Table> also implements a tied interface, so you can work with the
 C<$table> object as a hash reference.
 
-The following tied-hash function are supported: FETCH, STORE, DELETE,
-CLEAR, EXISTS, FIRSTKEY, NEXTKEY and DESTROY.
+The following tied-hash function are supported: C<FETCH>, C<STORE>,
+C<DELETE>, C<CLEAR>, C<EXISTS>, C<FIRSTKEY>, C<NEXTKEY> and
+C<DESTROY>.
 
 remark: C<APR::Table> can hold more than one key-value pair sharing
 the same key, so when using a table through the tied interface, the
 first entry found with the right key will be used, completely
 disregarding possible other entries with the same key.  The only
-exception to this is if you iterate over the list with I<each>, then
+exception to this is if you iterate over the list with C<each()>, then
 you can access all key-value pairs that share the same key.
 
 =head2 C<EXISTS>
 
-  $ret = $t->EXISTS($key);
+  $ret = $table->EXISTS($key);
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
-=item arg1: C<$key> (string)
+=item arg1: C<$key> ( string )
 
-=item ret: C<$ret> (integer)
+=item ret: C<$ret> ( integer )
 
+true or false
 
+=item since: 1.99_10
 
 =back
 
@@ -497,13 +877,16 @@ you can access all key-value pairs that share the same key.
 
 =head2 C<CLEAR>
 
-  $t->CLEAR();
+  $table->CLEAR();
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
 =item ret: no return value
+
+=item since: 1.99_10
 
 =back
 
@@ -513,17 +896,20 @@ you can access all key-value pairs that share the same key.
 
 =head2 C<STORE>
 
-  $t->STORE($key, $value);
+  $table->STORE($key, $val);
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
-=item arg1: C<$key> (string)
+=item arg1: C<$key> ( string )
 
-=item arg2: C<$value> (string)
+=item arg2: C<$val> ( string )
 
 =item ret: no return value
+
+=item since: 1.99_10
 
 =back
 
@@ -533,15 +919,18 @@ you can access all key-value pairs that share the same key.
 
 =head2 C<DELETE>
 
-  $t->DELETE($key);
+  $table->DELETE($key);
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
-=item arg1: C<$key> (string)
+=item arg1: C<$key> ( string )
 
 =item ret: no return value
+
+=item since: 1.99_10
 
 =back
 
@@ -551,15 +940,18 @@ you can access all key-value pairs that share the same key.
 
 =head2 C<FETCH>
 
-  $ret = $t->FETCH($key);
+  $ret = $table->FETCH($key);
 
 =over 4
 
-=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$table>
+( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
-=item arg1: C<$key> (string)
+=item arg1: C<$key> ( string )
 
-=item ret: C<$ret> (string)
+=item ret: C<$ret> ( string )
+
+=item since: 1.99_10
 
 =back
 
