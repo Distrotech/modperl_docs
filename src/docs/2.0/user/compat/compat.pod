@@ -54,12 +54,12 @@ directive.
 
 =head2 C<PerlTaintCheck>
 
-The tainting mode now can be turned on with:
+The taint mode now can be turned on with:
 
   PerlSwitches -T
 
-The default is I<Off>. You cannot turn it I<Off> once it's turned
-I<On>.
+As with standard Perl, by default the taint mode is disabled and once
+enabled cannot be turned off inside the code.
 
 =head2 C<PerlWarn>
 
