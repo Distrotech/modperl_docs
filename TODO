@@ -55,7 +55,7 @@ Content:
 
 =for html <hr>
 <p><b>
-$Id: TODO,v 1.80 2002/10/14 09:36:15 pereinar Exp $
+$Id: TODO,v 1.81 2002/10/14 09:38:07 pereinar Exp $
 </b></p>
 
 =cut
@@ -128,23 +128,6 @@ Later:
 - add feather in the tail
 <img src="[% doc.dir.abs_doc_root %]/images/feather_transbg.gif" width=194 height=80 alt="ASF feather"> 
 
-- Need a good mod_perl banner. Most importantly, it must make it clear
-  what mod_perl is all about:
-    o related to web serving
-    o uses Apache and Perl
-    o fast, powerful, foo
-  
-  Building on the current logo, it should also probably include the
-  Apache feather and the Perl camel, to make people see instantly that
-  it's related to those 2.
-
-  Per Einar suggested having the [modperl] logo with a bullet going
-  through, using thr catch-phrase "Faster than a speeding bullet".
-
-  Anyway, we probably need some graphic designer to make it look good.
-  
-  STATUS: Announcement is out. Deadline July 1st.
-
 - A tutorial on MVC is probably very interesting. Relevant threads:
    o http://mathforum.org/epigone/modperl/jilgygland
    o http://mathforum.org/epigone/modperl/pahphucree
@@ -175,6 +158,7 @@ Later:
   Igor :-)
 
 - mod_perl history page in About section [Per Einar]
+  STATUS: working on it
 
 - Figure out a way to get the SecuritySpace statistics as a nice graph
   on our page, looks more impressive if it's locally hosted like the
