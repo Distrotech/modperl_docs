@@ -108,9 +108,9 @@ be easily merged back into the repository.
 
 =back
 
-=head1 Cvsup
+=head1 cvsup
 
-Cvsup has come out of the FreeBSD group. It's a client/server beast
+C<cvsup> has come out of the FreeBSD group. It's a client/server beast
 that offers an efficient way to sync collections of files over the
 net, and it is very CVS aware, allowing synchronisation of
 repositories or checked out files using the cvs deltas to bring the
