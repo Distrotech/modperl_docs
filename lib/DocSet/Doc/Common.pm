@@ -86,6 +86,7 @@ sub fetch_src_doc_ver {
 
     my %src = ();
     if (-e $src_path) {
+        copy_file($src_path, $dst_path);
         %src = (
             size => format_bytes(-s $dst_path),
             link => filename($dst_path),
@@ -203,13 +204,13 @@ renders ps and pdf version of a the current doc
   %pdf_data = %{ $self->fetch_pdf_doc_ver() }
 
 search for a pdf version of the same document in the parallel tree
-(usually the I<dst_html> tree) and copy+gzip it to the same dir as the
+(usually the I<dst_html> tree) and copy it to the same dir as the
 html version. Later we link to it from the html version of the
 document if the pdf version is found in the same directory as the html
 one.
 
 The function returns a reference to a hash with the keys: I<size> --
-for the size of the gzipped file and the location of the file relative
+for the size of the file and the location of the file relative
 to the current document (it's in the same directory after all).
 
 =item * fetch_src_doc_ver
@@ -220,12 +221,16 @@ the document.
   %src_data = %{ $self->fetch_src_doc_ver() }
 
 fetch the source version of the same document in the parallel tree
-(usually the I<src> tree) and copy+gzip it to the same dir as the html
+(usually the I<src> tree) and copy it to the same dir as the html
 version. Later we link to it from the html version of the document if
-the source version is found in the same directory as the html one.
+the source version is found in the same directory as the html
+one. Notice that we add a I<.orig> extension, because otherwise the
+rendered version of the source document may have the same full name as
+the source file (e.g. if the source was I<.html> and destination one
+is I<.html> too).
 
 The function returns a reference to a hash with the keys: I<size> --
-for the size of the gzipped file and the location of the file relative
+for the size of the source file and the location of the file relative
 to the current document (it's in the same directory after all).
 
 =item * pod_pom_html_view_seq_link_transform_path
