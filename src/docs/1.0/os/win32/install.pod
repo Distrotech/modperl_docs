@@ -233,8 +233,8 @@ L<ftp://theoryx5.uwinnipeg.ca/pub/other/perl-win32-bin/>
 contains this distribution split across multiple files -
 see F<README.join> for instructions on how to join them.
 Alternatively, if you have Perl already, you can get the script
-F<get-perl-win32-bin> which, when invoked as
-C<perl get-perl-win32-bin>, will fetch and join
+F<distinstall> which, when invoked as
+C<perl distinstall>, will fetch and join
 the files for you.
 
 As well as including a number of non-core modules, both of these
