@@ -1,5 +1,0 @@
-Redirect /dist/CVS http://cvs.apache.org/snapshots/modperl
-AddType text/plain .asc .md5
-AddIcon (SIG,/icons/quill.gif) .asc KEYS
-AddDescription "PGP signature" *.asc
-AddDescription "Developer PGP/GPG keys" KEYS
