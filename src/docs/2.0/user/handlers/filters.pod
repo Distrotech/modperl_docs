@@ -2582,6 +2582,30 @@ be taken so not to read the data in, unless it's really necessary.
 ]
 
 
+
+
+=head1 CPAN Modules
+
+Some of the CPAN modules that implement mod_perl 2.0 filters:
+
+=over
+
+=item C<Apache::Clean> - Interface into HTML::Clean for mod_perl 2.0
+
+http://search.cpan.org/dist/Apache-Clean/
+
+=item C<Apache::Filter::HTTPHeadersFixup> - Manipulate Apache 2 HTTP Headers
+
+http://search.cpan.org/dist/Apache-Filter-HTTPHeadersFixup/
+
+=back
+
+
+
+
+
+
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,

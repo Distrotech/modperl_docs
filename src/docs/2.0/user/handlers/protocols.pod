@@ -454,6 +454,23 @@ be all lowercase.
 
 
 
+=head1 CPAN Modules
+
+Some of the CPAN modules that implement mod_perl 2.0 protocols:
+
+=over
+
+=item C<Apache::SMTP> - An SMTP server
+
+http://search.cpan.org/dist/Apache-SMTP/
+
+=back
+
+
+
+
+
+
 
 =head1 Maintainers
 
