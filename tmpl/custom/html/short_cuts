@@ -10,7 +10,7 @@
        ];  
 -%]
 [%- WRAPPER wrap_box 
-        title = 'Hot Short Cuts'
+        title = 'Short Cuts'
 -%]
 
 [%- FOREACH but = buttons -%]
