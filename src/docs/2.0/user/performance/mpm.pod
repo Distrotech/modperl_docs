@@ -98,7 +98,9 @@ connections.
 
 =head2 Work with DataBases under Threaded MPM
 
-The current C<Apache::DBI> is not usable under threaded mpm.
+The current C<Apache::DBI> should be usable under threaded mpm, though
+it doesn't share connections across threads. Each Perl interpreter has
+its own cache, just like in the prefork mpm.
 
 C<DBI::Pool> is a work in progress, which should bring the sharing of
 database connections across threads of the same process. Watch the
