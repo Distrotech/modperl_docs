@@ -429,7 +429,7 @@ sequence still causes to the same failure.
 =item 3
 
 It reports all the successful reductions as it goes to STDOUT and
-report file of the format: smoke-report-<date>.txt.
+report file of the format: smoke-report-E<lt>dateE<gt>.txt.
 
 In addition the systems build parameters are logged into the report
 file, so the detected problems could be reproduced.

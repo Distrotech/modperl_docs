@@ -915,160 +915,160 @@ detailed explanations above.
 
 =begin pod2html
 
-<TABLE BORDER=1>
-  <TR>
-    <TH>
-    </TD>
-    <TH>
-      Application Framework
-    </TD>
-    <TH>
-      Pipeline or Callback
-    </TD>
-    <TH>
-      Parsing Method
-    </TD>
-    <TH>
-      Language
-    </TD>
-  </TR>
-  <TR>
-    <TD>
-      HTML::Mason
-    </TD>
-    <TD>
-      Framework
-    </TD>
-    <TD>
-      Callback
-    </TD>
-    <TD>
-      Compiled
-    </TD>
-    <TD>
-      Perl
-    </TD>
-  </TR>
-  <TR>
-    <TD>
-      Template Toolkit
-    </TD>
-    <TD>
-      Just Templates
-    </TD>
-    <TD>
-      Pipeline
-    </TD>
-    <TD>
-      Compiled
-    </TD>
-    <TD>
-      Mini-Language
-    </TD>
-  </TR>
-  <TR>
-    <TD>
-      Apache::ASP
-    </TD>
-    <TD>
-      Framework
-    </TD>
-    <TD>
-      Callback
-    </TD>
-    <TD>
-      Compiled
-    </TD>
-    <TD>
-      Perl and XSL
-    </TD>
-  </TR>
-  <TR>
-    <TD>
-      HTML::Embperl
-    </TD>
-    <TD>
-      Framework
-    </TD>
-    <TD>
-      Callback
-    </TD>
-    <TD>
-      Compiled
-    </TD>
-    <TD>
-      Perl
-    </TD>
-  </TR>
-  <TR>
-    <TD>
-      SSI
-    </TD>
-    <TD>
-      Just Templates
-    </TD>
-    <TD>
-      Callback
-    </TD>
-    <TD>
-      Repeated Parse
-    </TD>
-    <TD>
-      Mini-Language
-    </TD>
-  </TR>
-  <TR>
-    <TD>
-      AxKit
-    </TD>
-    <TD>
-      Framework
-    </TD>
-    <TD>
-      Pipeline
-    </TD>
-    <TD>
-      Compiled or Cached Parse Tree
-    </TD>
-    <TD>
-      Perl and XSL and Mini-Language(s)
-    </TD>
-  </TR>
-  <TR>
-    <TD>
-      HTML::Template
-    </TH>
-    <TD>
-      Just Templates
-    </TD>
-    <TD>
-      Pipeline
-    </TD>
-    <TD>
-      Cached Parse Tree
-    </TD>
-    <TD>
-      Mini-Language
-    </TD>
-  </TR>
-  <TR>
-    <TD>
-      Text::Template
-    </TD>
-    <TD>
-      Just Templates
-    </TD>
-    <TD>
-      Pipeline
-    </TD>
-    <TD>
-      Compiled
-    </TD>
-    <TD>
-      Perl
-    </TD>
-  </TR>
-</TABLE>
+  <TABLE BORDER=1>
+    <TR>
+      <TH>
+      </TD>
+      <TH>
+        Application Framework
+      </TD>
+      <TH>
+        Pipeline or Callback
+      </TD>
+      <TH>
+        Parsing Method
+      </TD>
+      <TH>
+        Language
+      </TD>
+    </TR>
+    <TR>
+      <TD>
+        HTML::Mason
+      </TD>
+      <TD>
+        Framework
+      </TD>
+      <TD>
+        Callback
+      </TD>
+      <TD>
+        Compiled
+      </TD>
+      <TD>
+        Perl
+      </TD>
+    </TR>
+    <TR>
+      <TD>
+        Template Toolkit
+      </TD>
+      <TD>
+        Just Templates
+      </TD>
+      <TD>
+        Pipeline
+      </TD>
+      <TD>
+        Compiled
+      </TD>
+      <TD>
+        Mini-Language
+      </TD>
+    </TR>
+    <TR>
+      <TD>
+        Apache::ASP
+      </TD>
+      <TD>
+        Framework
+      </TD>
+      <TD>
+        Callback
+      </TD>
+      <TD>
+        Compiled
+      </TD>
+      <TD>
+        Perl and XSL
+      </TD>
+    </TR>
+    <TR>
+      <TD>
+        HTML::Embperl
+      </TD>
+      <TD>
+        Framework
+      </TD>
+      <TD>
+        Callback
+      </TD>
+      <TD>
+        Compiled
+      </TD>
+      <TD>
+        Perl
+      </TD>
+    </TR>
+    <TR>
+      <TD>
+        SSI
+      </TD>
+      <TD>
+        Just Templates
+      </TD>
+      <TD>
+        Callback
+      </TD>
+      <TD>
+        Repeated Parse
+      </TD>
+      <TD>
+        Mini-Language
+      </TD>
+    </TR>
+    <TR>
+      <TD>
+        AxKit
+      </TD>
+      <TD>
+        Framework
+      </TD>
+      <TD>
+        Pipeline
+      </TD>
+      <TD>
+        Compiled or Cached Parse Tree
+      </TD>
+      <TD>
+        Perl and XSL and Mini-Language(s)
+      </TD>
+    </TR>
+    <TR>
+      <TD>
+        HTML::Template
+      </TH>
+      <TD>
+        Just Templates
+      </TD>
+      <TD>
+        Pipeline
+      </TD>
+      <TD>
+        Cached Parse Tree
+      </TD>
+      <TD>
+        Mini-Language
+      </TD>
+    </TR>
+    <TR>
+      <TD>
+        Text::Template
+      </TD>
+      <TD>
+        Just Templates
+      </TD>
+      <TD>
+        Pipeline
+      </TD>
+      <TD>
+        Compiled
+      </TD>
+      <TD>
+        Perl
+      </TD>
+    </TR>
+  </TABLE>
 
 =end pod2html
 

@@ -25,7 +25,7 @@ function's synopsis.
 
 =over
 
-=item * $r->header_in()
+=item * $r-E<gt>header_in()
 
   $r->header_in( $header_name, [$value] )
 
@@ -37,7 +37,7 @@ Set or modify the value of a client header:
 
    $r->header_in($key, $val);
 
-=item * $r->header_out()
+=item * $r-E<gt>header_out()
 
   $r->header_out( $header, $value )
 
