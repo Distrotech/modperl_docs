@@ -171,14 +171,16 @@ reloaded subroutines.
 
 =head2 Pseudo-hashes
 
-The short summary of this is: Don't use pseudo-hashes. Use an array
-with constant indexes. Its faster in the general case, its more
-guaranteed, and generally, it works.
+The short summary of this is: Don't use pseudo-hashes. They are
+deprecated since Perl 5.8 and will be removed in 5.10
 
-The long summary is that I've done some work to get this working with
-modules that use pseudo-hashes, but its still broken in the case of a
-single module that contains multiple packages that all use
-pseudo-hashes.
+Use an array with constant indexes. Its faster in the general case,
+its more guaranteed, and generally, it works.
+
+The long summary is that some work has been done to get this module
+working with modules that use pseudo-hashes, but it's still broken in
+the case of a single module that contains multiple packages that all
+use pseudo-hashes.
 
 So don't do that.
 
