@@ -7,7 +7,7 @@
     [ 'http://take23.org/', 'mod_perl news @ Take23'],
     ['http://asf.apache.org/', 'The ASF'],
     ['http://www.apacheweek.com/', 'Apache Week'],
-    ['http://perl.org/', 'Perl Mongers'],
+    ['http://www.perl.org/', 'Perl Mongers'],
     ['http://use.perl.org/', 'Use Perl'],
        ]; 
 %]
