@@ -21,8 +21,12 @@ You should take no action if your code includes exit() calls and it's
 OK to continue using them. mod_perl worries to override the exit()
 function with its own version which stops the program flow, and
 performs all the necessary cleanups, but doesn't kill the server. This
-is done by overriding: C<*CORE::GLOBAL::exit>, so if you mess up with
-C<*CORE::GLOBAL::exit> yourself you better know what you are doing.
+is done by overriding:
+
+  *CORE::GLOBAL::exit = \&ModPerl::Util::exit;
+
+so if you mess up with C<*CORE::GLOBAL::exit> yourself you better know
+what you are doing.
 
 You can still call C<CORE::exit> to kill the interpreter, again if you
 know what you are doing.
