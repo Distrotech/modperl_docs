@@ -55,8 +55,8 @@ The most recent changes are listed first.
   o solution to the 'readdir()/opendir() not working' problem (Louis
     Semprini)
 
-  o clearify how to solve the segfault problem caused by built-in
-    mysql support in mod_php (Paul Buder)
+  o clarify how to solve the segfault problem caused by built-in mysql
+    support in mod_php (Paul Buder)
 
 * modules.pod
 
