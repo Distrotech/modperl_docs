@@ -61,7 +61,7 @@ and 2.0 on the same list.
 =head2 Send the Report Inlined
 
 When sending the bug report, please inline it and don't attach it to
-the email. It's hard following up on the attachements.
+the email. It's hard following up on the attachments.
 
 =head2 Important Information
 
