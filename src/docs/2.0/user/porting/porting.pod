@@ -1628,6 +1628,8 @@ mp2, which will find the right docs.
 As for manpages, only one set of manpages can be installed and this
 true for any project (e.g. You can have several generations of the
 same C library installed, but you will have only one set of manpages).
+That's of course ignoring the use of the environment variable
+C<MANPATH>.
 
 So use C<mp2doc> or the online docs:
 http://perl.apache.org/docs/2.0/api/ which you can also L<build
