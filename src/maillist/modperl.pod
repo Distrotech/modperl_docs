@@ -33,7 +33,7 @@ mailto:modperl-subscribe@perl.apache.org
 
 =item * subscribe to the list's digest
 
-mailto:modperl-subscribe@perl.apache.org
+mailto:modperl-subscribe-digest@perl.apache.org
 
 =item * unsubscribe from the list
 

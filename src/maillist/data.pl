@@ -12,7 +12,7 @@ things related to mod_perl and the C<Apache::*> modules.
 DESC
       addr  => {
                 subscribe        => 'modperl-subscribe@perl.apache.org',
-                subscribe_digest => 'modperl-subscribe@perl.apache.org',
+                subscribe_digest => 'modperl-subscribe-digest@perl.apache.org',
                 unsubscribe      => 'modperl-unsubscribe@perl.apache.org',
                 help             => 'modperl-help@perl.apache.org',
                },
