@@ -59,6 +59,12 @@ C<Apache::DBI>, by hacking the C<Apache::DBI> code you can pick a
 connection from the pool of cached connections even if it was opened
 by someone else and your scripts are running on the same web server.
 
+Yet another security issue is a potential compromise of the systems
+via user's code running on the webservers. One of the possible
+solutions here is to use chroot(1) or jail(8) mechanisms which allow
+to run subsystems isolated from the main system. So if a subsystem
+gets compromised the whole system is still safe.
+
 There are many more things to be aware of so at this time you have to
 say I<No>.
 

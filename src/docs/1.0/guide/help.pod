@@ -564,7 +564,7 @@ http://www.apache.org/docs/handler.html
 
 http://www.engelschall.com/pw/apache/rewriteguide/
 
-=item * articles
+=item * Security:
 
 Security and Apache: An Essential Primer
 http://linuxplanet.com/linuxplanet/print/1527/
@@ -574,6 +574,14 @@ http://linuxplanet.com/linuxplanet/print/1445/
 
 Installing and Securing the Apache Webserver with SSL
 http://www.securityfocus.com/infocus/1356
+
+The jail(1) facility:
+http://docs.freebsd.org/44doc/papers/jail/jail.html,
+http://www.freebsd.org/doc/en_US.ISO8859-1/books/developers-handbook/jail.html.
+
+The chroot(1) facility:
+http://www.bpfh.net/simes/computing/chroot-break.html and
+http://penguin.epfl.ch/chroot.html.
 
 =item * mod_throttle_access
 
