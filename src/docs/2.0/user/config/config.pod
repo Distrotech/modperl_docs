@@ -1151,8 +1151,7 @@ Apache specifies other allowed location types which are currently not
 used by the core mod_perl directives and their definition can be found
 in I<include/httpd_config.h> (hint: search for C<RSRC_CONF>).
 
-Also see L<Single Phase's Multiple Handlers
-Behavior|docs::2.0::user::handlers::intro/Single_Phase_s_Multiple_Handlers_Behavior>.
+Also see L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers>.
 
 
 

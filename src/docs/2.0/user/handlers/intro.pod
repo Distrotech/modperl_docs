@@ -79,7 +79,7 @@ execution.
 
 C<Apache::DECLINED> is another return value that indicates success,
 but it's only relevant for
-L<phases|docs::2.0::user::handlers::intro/Single_Phase_s_Multiple_Handlers_Behavior>
+L<phases|docs::2.0::user::handlers::intro/Stacked_Handlers>
 of type C<L<RUN_FIRST|/RUN_FIRST>>.
 
 L<HTTP handlers|docs::2.0::user::handlers::http> may also return
@@ -217,7 +217,7 @@ several categories:
 
 
 
-=head1 Single Phase's Multiple Handlers Behavior
+=head1 Stacked Handlers
 
 For each phase there can be more than one handler assigned (also known
 as I<hooks>, because the C functions are called

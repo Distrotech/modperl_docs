@@ -1327,9 +1327,10 @@ but instead behaves in the same way as Apache does when multiple
 handlers are configured, respecting (or ignoring) the return 
 value of each handler as it is called.
 
-See L<Single Phase's Multiple Handlers
-Behavior|docs::2.0::user::handlers::intro/Single_Phase_s_Multiple_Handlers_Behavior>
-for a complete description of each hook and its run-type.
+See L<Stacked
+Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> for a
+complete description of each hook and its run-type.
+
 
 
 =head1 C<Apache::src>
