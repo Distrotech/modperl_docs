@@ -650,6 +650,20 @@ C<PerlRequire> and C<PerlModule> statements on the first load, so they
 can succeed on the second load.  Without that flag, the second load
 fails.
 
+=head1 Problematic Perl Modules
+
+Here is the list of Perl Modules that are known to have problems under
+mod_perl 1.0 and possible workarounds, solutions.
+
+=over 
+
+=item C<IPC::Open*>
+
+use C<IPC::Run> instead. It provides the same functionality as the
+C<IPC::Open*> family and more... and it works fine with mod_perl.
+
+=back
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
