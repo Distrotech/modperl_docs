@@ -818,7 +818,20 @@ Use C<L<Apache-E<gt>request|/__Apache___gt_request_>>.
 
 =head2 C<$r-E<gt>send_fd>
 
-See the next item.
+Apache 2.0 provides a new method C<sendfile()> instead of C<send_fd>,
+so if your code used to do:
+
+  open my $fh, "<$file" or die "$!";
+  $r->send_fd($fh);
+  close $fh;
+
+now all you need is:
+
+  $r->sendfile($fh);
+
+There is also a compatibility implementation in pure perl in
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
+
 
 =head2 C<$r-E<gt>send_fd_length>
 
