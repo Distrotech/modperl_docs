@@ -432,7 +432,7 @@ The command is not in a E<lt>VirtualHostE<gt> block.
 
 =over
 
-=item since: 1.99_16
+=item since: 1.99_15
 
 =back
 
@@ -444,7 +444,7 @@ The command is not in a E<lt>LimitE<gt> block.
 
 =over
 
-=item since: 1.99_16
+=item since: 1.99_15
 
 =back
 
@@ -459,7 +459,7 @@ The command is not in a E<lt>DirectoryE<gt> block.
 
 =over
 
-=item since: 1.99_16
+=item since: 1.99_15
 
 =back
 
@@ -474,7 +474,7 @@ The command is not in a E<lt>LocationE<gt>/E<lt>LocationMatchE<gt> block.
 
 =over
 
-=item since: 1.99_16
+=item since: 1.99_15
 
 =back
 
@@ -489,7 +489,7 @@ The command is not in a E<lt>FilesE<gt>/E<lt>FilesMatchE<gt> block.
 
 =over
 
-=item since: 1.99_16
+=item since: 1.99_15
 
 =back
 
@@ -507,7 +507,7 @@ E<lt>DirectoryE<gt> block.
 
 =over
 
-=item since: 1.99_16
+=item since: 1.99_15
 
 =back
 
@@ -522,7 +522,7 @@ The directive appears outside of any container directives.
 
 =over
 
-=item since: 1.99_16
+=item since: 1.99_15
 
 =back
 

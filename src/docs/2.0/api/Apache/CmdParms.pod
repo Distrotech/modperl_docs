@@ -109,7 +109,7 @@ If the context is forbidden, this method returns a textual description
 of why it was forbidden. If the context is permitted, this method returns
 C<undef>.
 
-=item since: 1.99_16
+=item since: 1.99_15
 
 =back
 
