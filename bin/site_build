@@ -57,7 +57,7 @@ sub update {
 }
 
 sub online_sync {
-    system("cp -r $rel/ $dst/");
+    system("cp -pr $rel/ $dst/");
     system("find $dst -type d -exec chmod g+rwx {} \\; >/dev/null 2>&1");
     system("find $dst -type f -exec chmod g+wr {} \\;  >/dev/null 2>&1");
 }
