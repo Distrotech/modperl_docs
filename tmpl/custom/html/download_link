@@ -11,8 +11,14 @@
     END;
 -%]
 [% BLOCK pdf_doc %]
-<a href="[% doc.pdf_doc.link -%]"><img src="[% doc.dir.abs_doc_root %]/images/ver_pdf.gif" width="31" height="32" border="0" alt="PDF version of the document">&nbsp;[% doc.pdf_doc.size %]</a> 
+<a href="[% doc.pdf_doc.link -%]"><img src="[% doc.dir.abs_doc_root %]/images/new_pdf.gif" width="34" height="20" border="0" align="middle" alt="PDF version of the document">&nbsp;[% doc.pdf_doc.size %]</a> 
 [% END %]
 [% BLOCK src_doc %]
+<a href="[% doc.src_doc.link -%]"><img src="[% doc.dir.abs_doc_root %]/images/new_src.gif" width="34" height="20" border="0" align="middle" alt="Source version of the document">&nbsp;[%doc.src_doc.size %]</a>
+[% END %]
+[% BLOCK pdf_doc1 %]
+<a href="[% doc.pdf_doc.link -%]"><img src="[% doc.dir.abs_doc_root %]/images/ver_pdf.gif" width="31" height="32" border="0" alt="PDF version of the document">&nbsp;[% doc.pdf_doc.size %]</a> 
+[% END %]
+[% BLOCK src_doc1 %]
 <a href="[% doc.src_doc.link -%]"><img src="[% doc.dir.abs_doc_root %]/images/ver_src.gif" width="31" height="32" border="0" alt="Source version of the document">&nbsp;[%doc.src_doc.size %]</a>
 [% END %]
