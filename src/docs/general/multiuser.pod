@@ -181,13 +181,18 @@ server on your ISP.  All I need to do is to find out what port my
 rival's server is listening to (e.g. using C<netstat(8)>) and
 configure my own server to listen on the same port.  Although I am
 unable to bind to this port, imagine what will happen when you reboot
-your system and my startup script happens to be run before my rivals!
-I get the port first, now all requests will be redirected to my
+your system and my startup script happens to be run before my rival's
+one!  I get the port first, now all requests will be redirected to my
 server.  I'll leave to your imagination what nasty things might happen
 then.
 
 Of course the ugly things will quickly be revealed, but not before the
 damage has been done.
+
+Luckily there are special tools that can ensure that users that aren't
+authorized to bind to certain ports (above 1024) won't be able to do
+so. One such a tool is called C<cbs> and its documentation can be
+found at I<http://www.epita.fr/~flav/cbs/doc/html>.
 
 =back
 

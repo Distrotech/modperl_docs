@@ -37,6 +37,9 @@ The most recent changes are listed first.
 
 * multiuser.pod
 
+  o add a reference to cbs, which prevents users from bind'ing to
+    certain ports above 1024. [Philippe M. Chiasson]
+
   o chroot(1) info
 
   o jail(8) info (Andrew McNaughton)
