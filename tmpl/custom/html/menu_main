@@ -44,7 +44,7 @@
     -%]
 
 [%- WRAPPER wrap_box 
-        title = 'perl.apache.org'
+        title = '<a href="http://perl.apache.org/">perl.apache.org</a>'
 -%]
 
 [%- FOREACH but = buttons -%]

@@ -78,6 +78,11 @@ div.menu-title {
     text-align: center;
 }
 
+div.menu-title a:link, div.menu-title a:visited, div.menu-title a:active {
+    color: #000000;
+    text-decoration: none;
+}
+
 /* dark blue border color for menu-boxes */
 td.menu-border { background-color: #525d76; }
 

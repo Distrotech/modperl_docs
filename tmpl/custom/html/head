@@ -8,7 +8,7 @@
 <html>
     <head>
         <title>[%- doc.meta.title -%]</title>
-        <link rel="shortcut icon" href="[% doc.dir.abs_doc_root %]/images/favicon.ico">
+        <link rel="shortcut icon" href="[% doc.dir.abs_doc_root %]/images/favicon.ico" type="image/x-icon">
 [%- INCLUDE headers -%]
 
     </head>

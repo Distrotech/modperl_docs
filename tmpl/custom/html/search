@@ -13,7 +13,7 @@
         <tr>
             <td class="menu-border"><br></td>
             <td align="center" class="menu-title-bg">
-                <div class="menu-title">Search</div>
+                <div class="menu-title"><a href="[%- doc.dir.abs_doc_root -%]/search/swish.cgi">Search</a></div>
             </td>
             <td class="menu-border"><br></td>
         </tr>
