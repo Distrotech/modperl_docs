@@ -561,6 +561,14 @@ executed from the base location I</perl> add:
       Options +ExecCGI
   </Location>
 
+It's important to notice that C<PerlAccessHandler> can be configured
+for any subsection of the site, no matter whether it's served by
+mod_perl or not. For example to run the handler from our example for
+all requests to the server simply add to I<httpd.conf>:
+
+  <Location />
+      PerlAccessHandler MyApache::BlockByIP
+  </Location>
 
 
 =head2 PerlAuthenHandler
@@ -672,6 +680,19 @@ I</perl/>:
       Require valid-user
   </Location>
 
+Just like C<PerlAccessHandler> and other mod_perl handlers,
+C<PerlAuthenHandler> can be configured for any subsection of the site,
+no matter whether it's served by mod_perl or not. For example to use
+the authentication handler from the last example for any requests to
+the site, simply use:
+
+  <Location />
+      PerlAuthenHandler MyApache::SecretLengthAuth
+      AuthType Basic
+      AuthName "The Gate"
+      Require valid-user
+  </Location>
+
 
 
 =head2 PerlAuthzHandler
@@ -773,9 +794,16 @@ C<PerlAuthzHandler> setting. The rest doesn't change.
       Require valid-user
   </Location>
 
+And if you want to run the authentication and authorization for the
+whole site, simply add:
 
-
-
+  <Location />
+      PerlAuthenHandler MyApache::SecretLengthAuth
+      PerlAuthzHandler  MyApache::SecretResourceAuthz
+      AuthType Basic
+      AuthName "The Secret Gate"
+      Require valid-user
+  </Location>
 
 
 
@@ -1127,6 +1155,19 @@ The C<MyApache::LogPerUser> handler will append to I<logs/stas.log>:
 and to I<logs/eric.log>:
 
   127.0.0.1 [Sat Aug 31 01:50:39 2002] "/users/eric/test.pl" 200 8
+
+It's important to notice that C<PerlLogHandler> can be configured for
+any subsection of the site, no matter whether it's served by mod_perl
+or not. For example to run the handler from our example for all
+requests to the server simply add to I<httpd.conf>:
+
+  <Location />
+      PerlLogHandler MyApache::LogPerUser
+  </Location>
+
+Since the C<PerlLogHandler> phase is of type
+C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>, all other
+logging handlers will be called as well.
 
 
 =head2 PerlCleanupHandler
