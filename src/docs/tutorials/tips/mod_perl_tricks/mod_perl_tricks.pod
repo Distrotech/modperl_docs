@@ -2980,7 +2980,7 @@ Companion Web site at http://www.w3.org/Security/Faq/
 Everything I know about CGI.pm (and some things I don't!).  John Wiley
 & Sons, 1998.
 
-Companion Web site at http://www.wiley.com/compbooks/stein/
+Companion Web site at http://www.wiley.com/legacy/compbooks/stein/
 
 =item "Writing Apache Modules in Perl and C"
 
@@ -2990,8 +2990,9 @@ Companion Web site at http://www.modperl.com/
 
 =item WebTechniques Columns
 
-I write a monthly column for WebTechniques magazine.  You can find
-back-issues and reprints at http://www.web-techniques.com/
+I write a monthly column for WebTechniques magazine (now New
+Architect).  You can find back-issues and reprints at
+http://www.webtechniques.com/
 
 =item The Perl Journal Columns
 

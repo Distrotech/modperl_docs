@@ -1096,12 +1096,11 @@ case, use C<$SIG{ALRM}> to prevent the timeouts:
   die $@ if $@;
 
 It was recently discovered that C<local $SIG{'ALRM'}> does not restore
-the original underlying C handler.  This was fixed in mod_perl 1.19_01
-(L<CVS version|download::third_party/mod_perl>).  As a matter of fact none of the
-C<local $SIG{FOO}> signals restores the original C handler - read
-L<Debugging Signal Handlers
-($SIG{FOO})|guide::debug/Debugging_Signal_Handlers___SIG_FOO__> for a debug
-technique and a possible workaround.
+the original underlying C handler.  This was fixed in mod_perl
+1.19_01.  As a matter of fact none of the C<local $SIG{FOO}> signals
+restores the original C handler - read L<Debugging Signal Handlers
+($SIG{FOO})|guide::debug/Debugging_Signal_Handlers___SIG_FOO__> for a
+debug technique and a possible workaround.
 
 =head1 Looking inside the server
 
