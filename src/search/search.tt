@@ -141,9 +141,11 @@
             </dd>
             <dd>
                 <div class="searchprops">
-                    Rank: [% item.swishrank %]<br>
-                    [% item.swishdocpath %]<br>
-                    [% item.swishdocsize %] bytes / [% item.swishlastmodified %]
+                    [% item.swishdocpath | replace('#.+', '') %]<br>
+                    Rank: [% item.swishrank %] |
+                    Page: [% item.pagelen / 1000 | format('%2.1f') %]k,
+                    Section: [% item.swishdocsize / 1000 | format('%2.1f') %]k |
+                    [% item.swishlastmodified %]
                 </div>
             </dd>
             
@@ -151,3 +153,5 @@
     [% END %]
 
 [% END %]
+
+

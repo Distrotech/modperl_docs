@@ -57,6 +57,8 @@ sub split_page {
     $tree->parse( ${$params{content}} );  # Why not allow a scalar ref?
     $tree->eof;
 
+    $params{page_length} = length ${$params{content}};
+
 
     # Find the <head> section for use in all split pages
     my $head = $tree->look_down( '_tag', 'head' );
@@ -141,6 +143,10 @@ sub create_page {
         $head->push_content( $meta );
     }
 
+    # Add the total document length, which is different than the section length
+    $head->push_content(
+        HTML::Element->new('meta', name=> 'pagelen', content => $params->{page_length} )
+    );
 
 
     my $body = HTML::Element->new('body');

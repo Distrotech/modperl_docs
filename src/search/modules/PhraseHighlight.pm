@@ -1,7 +1,7 @@
 #=======================================================================
 #  Phrase Highlighting Code
 #
-#    $Id: PhraseHighlight.pm,v 1.1 2002/01/30 06:35:00 stas Exp $
+#    $Id: PhraseHighlight.pm,v 1.2 2002/04/06 19:17:16 moseley Exp $
 #=======================================================================
 package PhraseHighlight;
 use strict;
@@ -162,6 +162,7 @@ sub highlight_text {
             
             for my $match_word ( @$phrase ) {
 
+
                 my $cur_word = $words[ ($word_pos + $end_pos) * 2 ];
                 unless ( $cur_word =~ /$extract_regexp/ ) {
 
@@ -257,7 +258,7 @@ sub highlight_text {
 
             # All done, and mark where to stop looking
             if ( $occurrences-- <= 0 ) {
-                $last = $end;
+                $last = $stop;
                 last WORD;
             }
 
