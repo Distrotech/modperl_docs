@@ -21,7 +21,7 @@ C<Apache::Registry> is the Apache module allowing you to run CGI
 scripts very fast under mod_perl, by compiling all scripts once and
 then caching them in memory.
 
-URIs in the form of I<http://www.host.com/perl/file.pl> will be
+URIs in the form of I<http://www.example.com/perl/file.pl> will be
 compiled as the body of a perl subroutine and executed.  Each server
 process or 'child' will compile the subroutine once and store it in
 memory. It will recompile it whenever the file is updated on disk.

@@ -5414,8 +5414,9 @@ during the actual use of the database connections.  Oracle is
 notoriously latency-sensitive which in most cases generates a network
 transaction per row returned which slows things down if the query
 execution matches many rows. You may want to read the Tim Bunce's
-Advanced DBI talk at http://www.carumba.com/talk/perl/DBI_Talk3_1999/
-which covers a lot of techniques to reduce latency.
+Advanced DBI talk at
+http://dbi.perl.org/doc/conferences/tim_1999/index.html which covers a
+lot of techniques to reduce latency.
 
 So here is the basic approach of making the connection persistent:
 

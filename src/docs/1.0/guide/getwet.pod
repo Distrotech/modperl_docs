@@ -325,11 +325,11 @@ reports. The I<error_log> should contain something like the following:
   mod_perl/1.24 configured -- resuming normal operations
 
 Now point the browser to I<http://localhost/> or
-I<http://your.server.name/> as configured with the C<ServerName>
+I<http://example.name/> as configured with the C<ServerName>
 directive. If the C<Port> directive has been set with a value
 different from C<80>, add this port number at the end of the server
 name. For example, if the port is 8080, test the server with
-I<http://localhost:8080/> or I<http://your.server.name:8080/>. The
+I<http://localhost:8080/> or I<http://example.com:8080/>. The
 infamous I<"It worked"> page should appear in the browser, which is an
 C<index.html> file that C<make install> in the Apache source tree
 installs automatically. If this page does not appear, something went
@@ -582,7 +582,7 @@ The C<localhost> approach will work only if the browser is running on
 the same machine as the server. If not, use the real server name for
 this test. For example:
 
-  http://your.server.name/perl/mod_perl_rules1.pl
+  http://example.com/perl/mod_perl_rules1.pl
 
 If there is any problem please refer to the I<error_log> file for the
 error messages.

@@ -94,7 +94,7 @@ META: add the URL of the DocSet when it gets released.
 =for html
   <table border="0" cellpadding="0" cellspacing="0" width="80%">
       <tr align="center">
-          <td><a href="http://perl.apache.org/"><img src="../images/logo/mod_perl.gif" height="30" width="90" border="0" alt="mod_perl logo"></a></td>
+          <td><a href="http://perl.apache.org/"><img src="../images/logo/mod_perl_logo.jpg" height="31" width="139" border="0" alt="mod_perl logo"></a></td>
           <td><a href="http://validator.w3.org/check/referer"><img src="../images/logo/valid-html401.png" height="31" width="88" border="0" alt="Valid HTML 4.01"></a></td>
           <td><a href="http://jigsaw.w3.org/css-validator/"><img src="../images/logo/valid-css.png" height="31" width="88" border="0" alt="Valid CSS"></a></td>
           <td><a href="http://www.template-toolkit.org/"><img src="../images/logo/tt2power.gif" width="78" height="47" border="0" alt="powered by Template::Toolkit"></a></td>

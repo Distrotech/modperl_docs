@@ -276,9 +276,9 @@ This message happens when the client breaks the connection while your
 script is trying to write to the client.  With Apache 1.3.x, you should
 only see the rwrite messages if C<LogLevel> is set to C<debug>.
 
-There was a bug that reported this debug message regardless of the 
-value of the C<LogLevel> directive.  It was fixed in mod_perl 1.19_01 
-(L<CVS version|download::third_party/mod_perl>).
+There was a bug that reported this debug message regardless of the
+value of the C<LogLevel> directive.  It was fixed in mod_perl 1.19_01
+(L<CVS version|download::source/mod_perl_1_x>).
 
 Generally C<LogLevel> is either C<debug> or C<info>.  C<debug> logs
 everything, C<info> is the next level, which doesn't include debug

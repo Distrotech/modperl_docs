@@ -212,7 +212,7 @@ Baker).
 
 =item * DBI Homepage
 
-http://www.symbolstone.org/technology/perl/DBI/
+http://dbi.perl.org/
 
 =item * DBI mailing list information
 
