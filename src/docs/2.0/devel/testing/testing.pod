@@ -903,7 +903,7 @@ case we put the following configuration bits into this file:
   # this file will be Include-d by @ServerRoot@/httpd.conf
   
   # where Apache::Amazing can be found
-  PerlSwitches -Mlib=@ServerRoot@/../lib
+  PerlSwitches -I@ServerRoot@/../lib
   # preload the module
   PerlModule Apache::Amazing
   <Location /test/amazing>
@@ -1068,14 +1068,14 @@ following:
 
   file:my-extra.conf.in
   ---------------------
-  PerlSwitches -Mlib=@ServerRoot@/../lib
+  PerlSwitches -I@ServerRoot@/../lib
 
 and assuming that the I<ServerRoot> is I<~/modperl-2.0/t/>, when
 I<my-extra.conf> will be created, it'll look like:
 
   file:my-extra.conf
   ------------------
-  PerlSwitches -Mlib=~/modperl-2.0/t/../lib
+  PerlSwitches -I~/modperl-2.0/t/../lib
 
 The valid tokens are defined in C<%Apache::TestConfig::Usage> and also
 can be seen in the output of C<t/TEST -help>'s I<configuration

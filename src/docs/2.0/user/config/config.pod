@@ -38,7 +38,7 @@ and Taint checking add:
 As an alternative to using C<use lib> in I<startup.pl> to adjust
 C<@INC>, now you can use the command line switch to do the same:
 
-  PerlSwitches -Mlib=/home/stas/modperl
+  PerlSwitches -I/home/stas/modperl
 
 
 
