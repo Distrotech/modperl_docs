@@ -81,8 +81,9 @@ non-proxy request, it's not enough to call:
 
   $r->proxyreq(0);
 
-You need to adjust C<$r-E<gt>uri> and C<$r-E<gt>filename> as well.
-
+You need to adjust C<$r-E<gt>uri> and C<$r-E<gt>filename> as well if
+you run that code in C<PerlPostReadRequestHandler> phase, since if you
+don't -- C<mod_proxy>'s fixup handler will override your settings.
 
 
 
