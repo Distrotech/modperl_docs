@@ -22,9 +22,9 @@ Apache::Directive - Perl API for manipulating the Apache configuration tree
   my $node = $tree;
   while ($node) {
       print $node->as_string;
-
+  
       #do something with $node
-
+  
       my $directive = $node->directive;
       my $args = $node->args;
       my $filename = $node->filename;
