@@ -894,14 +894,21 @@ information.
 
 =head2 C<$r-E<gt>notes>
 
-Similar to C<headers_in()>, C<headers_out()> and C<err_headers_out()>
-in mod_perl 2.0, C<$r-E<gt>notes()> returns an
+Similar to
+C<L<headers_in()|docs::2.0::api::Apache::RequestRec/C_headers_in_>>,
+C<L<headers_out()|docs::2.0::api::Apache::RequestRec/C_headers_out_>>
+and
+C<L<err_headers_out()|docs::2.0::api::Apache::RequestRec/C_err_headers_out_>>
+in mod_perl 2.0, C<L<$r-E<gt>notes()|docs::2.0::api::Apache::RequestRec/C_notes_>> returns an
 C<L<APR::Table|docs::2.0::api::APR::Table>> object, which can be used
-as a tied hash or calling its I<get()>/I<set()>/I<add()>/I<unset()>
-methods.
+as a tied hash or calling its
+I<L<get()|docs::2.0::api::APR::Table/C_get_>> /
+I<L<set()|docs::2.0::api::APR::Table/C_set_>> /
+I<L<add()|docs::2.0::api::APR::Table/C_add_>> /
+I<L<unset()|docs::2.0::api::APR::Table/C_unset_>> methods.
 
 It's also possible to adjust the mod_perl 1.0 code using
-Apache::compat's
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>'s
 L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_with_mod_perl_2_0_API>:
 
    use Apache::compat;
