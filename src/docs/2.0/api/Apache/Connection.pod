@@ -150,7 +150,8 @@ The first filter in the connection input filters chain.
 
 =head2 C<keepalive>
 
-Are we going to keep the connection alive for another request?
+This method answers the question: Are we going to keep the connection
+alive for another HTTP request? It's relevant only for HTTP requests.
 
   $status = $c->keepalive();
 
@@ -158,10 +159,41 @@ Are we going to keep the connection alive for another request?
 
 =item arg1: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
 
-=item ret: C<$status> (integer)
+=item ret: C<$status> (C<L<:conn_keepalive
+constant|docs::2.0::api::Apache::Const/C__conn_keepalive_>>)
+
+The method does B<not> return true or false, but one of the states
+which can be compared against (C<L<:conn_keepalive
+constants|docs::2.0::api::Apache::Const/C__conn_keepalive_>>).
+
+=item since: 1.99_13
 
 =back
 
+For example:
+
+  use Apache::RequestRec ();
+  use Apache::Connection ();
+  
+  use Apache::Const -compile => qw(:conn_keepalive);
+  ...
+  my $c = $r->connection;
+  if ($c->keepalive == Apache::CONN_KEEPALIVE) {
+      # do something
+  }
+  elsif ($c->keepalive == Apache::CONN_CLOSE) {
+      # do something else
+  }
+  elsif ($c->keepalive == Apache::CONN_UNKNOWN) {
+      # do yet something else
+  }
+  else {
+      # die "unknown state";
+  }
+
+Notice that new states could be added later by Apache, so your code
+should make no assumptions and do things only if the desired state
+matches.
 
 
 

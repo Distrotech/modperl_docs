@@ -129,6 +129,37 @@ The C<:filter_type> group is for XXX constants.
 
 
 
+
+=head2 C<:conn_keepalive>
+
+  use Apache::Const -compile => qw(:conn_keepalive);
+
+The C<:conn_keepalive> group is used by the
+(C<L<$c-E<gt>keepalive|docs::2.0::api::Apache::Connection/C_keepalive_>>)
+method.
+
+=head3 C<Apache::CONN_UNKNOWN>
+
+The connection is at an unknown state, e.g., initialized but not open
+yet.
+
+since: 1.99_13
+
+=head3 C<Apache::CONN_CLOSE>
+
+The connection will be closed at the end of the current HTTP request.
+
+since: 1.99_13
+
+=head3 C<Apache::CONN_KEEPALIVE>
+
+The connection will be kept alive at the end of the current HTTP request.
+
+since: 1.99_13
+
+
+
+
 =head2 C<:http>
 
   use Apache::Const -compile => qw(:http);
