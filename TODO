@@ -6,14 +6,16 @@
 
  o NS4, this pages is messed up: dst_html/download/bundles.html
 
+ o NS4, if PRE is long the page is scrolled to the right! See
+   dst_html/docs/2.0/devel/debug_c/debug_c.html#Analyzing_the_core_File
+
 - Menu: 
 
   o Need to try to make the menu smaller
 
 - Internal links (e.g. in src/docs/1.0/guide) aren't hyperlinked.
 
-- src/creation.html, should be completed and linked from somewhere
-  (the tail?)
+- src/about/help.html, should be completed
 
 style.css:
 
