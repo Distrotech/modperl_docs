@@ -2620,6 +2620,18 @@ various sources.
 
 [
 
+If a filter desires to store the incoming buckets for post
+processing. It must check whether the bucket type is transient. If it
+is -- the data must be copied away. If not -- the buckets may contain
+corrupted data when used later. The right thing is accomplished
+transparently by apr_bucket_setaside, for which we need to provide a
+perl glue.
+
+]
+
+
+[
+
 This one will be expanded by Geoff at some point:
 
 HTTP output filter developers are ought to handle conditional GETs
