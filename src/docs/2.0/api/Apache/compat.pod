@@ -121,10 +121,6 @@ overriding:
 
 =item * C<Apache::Connection::remote_addr>
 
-=item * C<Apache::Module::top_module>
-
-=item * C<Apache::Module::get_config>
-
 =item * C<Apache::Util::ht_time>
 
 =item * C<APR::URI::unparse>

@@ -703,6 +703,23 @@ instead.
 
 
 
+=head1 C<Apache::Module::> Methods
+
+=head2 C<Apache::Module-E<gt>top_module>
+
+C<Apache::Module-E<gt>top_module> has been replaced with
+the function C<Apache::Module::top_module()>
+
+
+
+
+=head2 C<Apache::Module-E<gt>get_config>
+
+C<Apache::Module-E<gt>get_config> has been replaced with
+the function C<Apache::Module::get_config()>
+
+
+
 
 =head1 C<Apache::Server::> Methods and Variables
 
