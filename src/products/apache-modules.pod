@@ -170,6 +170,7 @@ list|maillist::modperl>, so we can update this information:
   Apache::AuthzNetLDAP              Apache-AuthzNetLDAP-0.07
   Apache::AuthzPasswd               Apache-AuthzPasswd-0.11
   Apache::Clean                     Apache-Clean-2.00_4
+  Apache::DB                        Apache-DB-0.08
   Apache::Filter::HTTPHeadersFixup  Apache-Filter-HTTPHeadersFixup-0.01
   Apache::GeoIP                     Apache-GeoIP-1.215
   Apache::PAR                       Apache-PAR-0.30
@@ -202,7 +203,6 @@ and testing.
   Apache::AutoIndex          Philippe M. Chiasson <gozer AT cpan.org>
   Apache::Icon               Philippe M. Chiasson <gozer AT cpan.org>
   Apache::Template           Geoffrey Young <geoff AT modperlcookbook.org>
-  Apache::DB                 Frank Wiles <frank@wiles.org>
   Apache::DProf              Frank Wiles <frank@wiles.org>
   Apache::SmallProf          Frank Wiles <frank@wiles.org>
 
