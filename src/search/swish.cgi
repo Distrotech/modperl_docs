@@ -12,7 +12,7 @@ use lib qw( modules );  ### This must be adjusted!
 #
 #    To display documentation for this program type "perldoc swish.cgi"
 #
-#    swish.cgi $Revision: 1.1 $ Copyright (C) 2001 Bill Moseley swishscript@hank.org
+#    swish.cgi $Revision: 1.2 $ Copyright (C) 2001 Bill Moseley swishscript@hank.org
 #    Example CGI program for searching with SWISH-E
 #
 #    This example program will only run under an OS that supports fork().
@@ -31,7 +31,7 @@ use lib qw( modules );  ### This must be adjusted!
 #
 #    The above lines must remain at the top of this program
 #
-#    $Id: swish.cgi,v 1.1 2002/01/30 06:35:00 stas Exp $
+#    $Id: swish.cgi,v 1.2 2002/02/04 09:19:39 stas Exp $
 #
 ####################################################################################
 
@@ -140,13 +140,18 @@ sub handler {
 
 sub default_config {
 
+    # make the search of the swish-e executable more flexible. First
+    # search in the PATH, then in the current dir.
+    my $exec = `which swish-e`;
+#warn "found exec: $exec";
+    chomp $exec;
+    $exec ||= './swish-e';
+    die "Cannot find swish-e" unless -x $exec;
 
-    
     ##### Configuration Parameters #########
 
     #---- This lists all the options, with many commented out ---
     # By default, this config is used -- see the process_request() call below.
-    
     # You should adjust for your site, and how your swish index was created.
 
     ##>>
@@ -155,11 +160,10 @@ sub default_config {
     ##>>  Send a small example, without all the comments.
 
     # Items beginning with an "x" or "#" are commented out
-    
+
     return {
         title           => 'Search our site',  # Title of your choice.
-        swish_binary    => './swish-e',        # Location of swish-e binary
-
+        swish_binary    => $exec,              # Location of swish-e binary
 
         # By default, this script tries to read a config file.  You should probably
         # comment this out if not used save a disk stat
@@ -1112,7 +1116,6 @@ sub run_swish {
     $self->swish_command( -x => join( '\t', map { "<$_>" } @properties ) . '\n' );
     $self->swish_command( -H => 9 );
 
-
     # Run swish 
     my $fh = gensym;
     my $pid = open( $fh, '-|' );
@@ -1845,7 +1848,7 @@ Please do not contact the author directly.
 
 =head1 LICENSE
 
-swish.cgi $Revision: 1.1 $ Copyright (C) 2001 Bill Moseley search@hank.org
+swish.cgi $Revision: 1.2 $ Copyright (C) 2001 Bill Moseley search@hank.org
 Example CGI program for searching with SWISH-E
 
 
