@@ -153,6 +153,16 @@ The mod_perl 2.0 version will be loaded first, because the directory
 I<5.8.0/i686-linux-thread-multi/Apache2> is coming before the
 directory I<5.8.0/i686-linux-thread-multi> in C<@INC>.
 
+Finally, mod_perl 2.0 has all its methods spread across many
+modules. In order to use these methods the modules containing them
+have to be loaded first. The module
+C<L<ModPerl::MethodLookup|docs::2.0::api::ModPerl::MethodLookup>> can
+be used to find out which modules need to be used. This module also
+provides a function
+C<L<preload_all_modules()|docs::2.0::api::ModPerl::MethodLookup/preload_all_modules__>>
+that will load all mod_perl 2.0 modules, which is useful when one
+starts to port their mod_perl 1.0 code, though preferrably avoided in
+the production environment.
 
 =head1 C<Apache::Registry>, C<Apache::PerlRun> and Friends
 

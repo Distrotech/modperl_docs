@@ -1,0 +1,187 @@
+=head1 NAME
+
+ModPerl::MethodLookup -- An API for finding modules that include mod_perl 2.0 methods
+
+=head1 Synopsis
+
+  use ModPerl::MethodLookup;
+  
+  # return all module names containing method 'print'
+  my($hint, @modules) =
+      ModPerl::MethodLookup::lookup_method('print');
+  
+  # return only module names containing method 'print' which
+  # expects the first argument to be of type 'Apache::Filter'
+  # (here $filter is an Apache::Filter object)
+  my($hint, @modules) =
+      ModPerl::MethodLookup::lookup_method('print', $filter);
+  
+  # preload all mp2 modules in startup.pl
+  ModPerl::MethodLookup::preload_all_modules();
+
+=head1 Description
+
+mod_perl 2.0 provides many methods, which reside in various
+modules. One has to load each of the modules before using the desired
+methods. C<ModPerl::MethodLookup> provides the Perl API for finding
+module names which contain methods in question and other helper
+functions.
+
+=head1 Api
+
+=head2 lookup_method()
+
+  my($hint, @modules) =
+      ModPerl::MethodLookup::lookup_method('print');
+
+The C<lookup_method()> accepts the method name as an argument.
+
+The first returned value is a string returning a human readable lookup
+result. Normally suggesting which modules should be loaded, ready for
+copy-n-paste or explaining the failure if the lookup didn't succeed.
+
+The second returned value is an array of modules which has matched the
+query, i.e. the names of the modules which contain the requested
+method.
+
+  my($hint, @modules) = 
+      ModPerl::MethodLookup::lookup_method('print', $object);
+
+The C<lookup_method()> accepts a second optional argument, which is a
+blessed object. If there is more than one matches this object is used
+to return only those matches who operate on the objects of the same
+kind. This usage is useful when the AUTOLOAD is used to find
+yet-unloaded modules which include called methods.
+
+=head2 preload_all_modules()
+
+The function C<preload_all_modules()> preloads all mod_perl 2.0
+modules. This is similar to the mod_perl 1.0 behavior which has most
+of its methods loaded at the startup.
+
+CPAN modules developers should make sure their distribution loads each
+of the used mod_perl 2.0 modules explicitly, and not use this
+function, as it takes the fine control away from the users. One should
+avoid doing this the production server (unless all modules are used
+indeed) in order to save memory.
+
+
+=cut
+
+=head1 Applications
+
+=head2 AUTOLOAD
+
+When Perl fails to locate a method it checks whether the package the
+object belongs to has an C<AUTOLOAD> function defined and if so, calls
+it with the same arguments as the missing method while setting a
+global variable C<$AUTOLOAD> (in that package) to the name of the
+originally called method. We can use this facility to lookup the
+modules to be loaded when such a failure occurs. Though since we have
+many packages to take care of we will use a special
+C<UNIVERSAL::AUTOLOAD> function which Perl calls if can't find the
+C<AUTOLOAD> function in the given package.
+
+In that function you can query C<ModPerl::MethodLookup>, require() the
+module that includes the called method and call that method again
+using the goto() trick:
+
+  use ModPerl::MethodLookup;
+  sub UNIVERSAL::AUTOLOAD {
+      my($hint, @modules) =
+          ModPerl::MethodLookup::lookup_method($UNIVERSAL::AUTOLOAD, @_);
+      if (@modules) {
+          eval "require $_" for @modules;
+          goto &$UNIVERSAL::AUTOLOAD;
+      }
+      else {
+          die $hint;
+      }
+  }
+
+However we don't endorse this approach. It's a better approach to
+always abort the execution which printing the C<$hint>and use fix the
+code to load the missing module. Moreover installing
+C<UNIVERSAL::AUTOLOAD> may cause a lot of problems, since once it's
+installed Perl will call it every time some method is missing
+(e.g. undefined C<DESTROY> methods). The following approach seems to
+somewhat work for me. It installs C<UNIVERSAL::AUTOLOAD> only when the
+configuration stage has completed:
+
+  httpd.conf:
+  -----------
+  PerlPostConfigHandler ModPerl::MethodLookupAuto
+
+  startup.pl:
+  -----------
+  {
+    package ModPerl::MethodLookupAuto;
+    use ModPerl::MethodLookup;
+  
+    use Carp;
+    sub handler {
+  
+        # exclude DESTROY resolving
+        my $skip = '^(?!DESTROY$';
+        *UNIVERSAL::AUTOLOAD = sub {
+            my $method = $AUTOLOAD;
+            return if $method =~ /DESTROY/;
+            my ($hint, @modules) =
+                ModPerl::MethodLookup::lookup_method($method, @_);
+            $hint ||= "Can't find method $AUTOLOAD";
+            croak $hint;
+        };
+        return 0;
+    }
+  }
+
+This example doesn't load the modules for you. It'll print to STDERR
+what module should be loaded, when a method from the not-yet-loaded
+module is called.
+
+=head2 Command Line Lookups
+
+When a method is used and mod_perl has reported a failure to find it,
+one can issue a command line query to figure out which module needs to
+be loaded. For example if when executing:
+
+  $r->construct_url();
+
+mod_perl complains:
+
+  Can't locate object method "construct_url" via package
+  "Apache::RequestRec" at ...
+
+you can ask C<ModPerl::MethodLookup> for help:
+
+  % perl -MApache2 -MModPerl::MethodLookup -le \
+     'print((ModPerl::MethodLookup::lookup_method(shift))[0])' construct_url
+  to use method 'construct_url' add:
+          use Apache::URI ();
+
+and after copy-n-pasting the use statement in our code, the problem
+goes away.
+
+One can create a handy alias for this technique. For example, C-style
+shell users can do:
+
+   % alias lookup "perl -MApache2 -MModPerl::MethodLookup -le \\
+     'print((ModPerl::MethodLookup::lookup_method(shift))[0])'"
+
+For Bash-style shell users:
+
+   % alias lookup="perl -MApache2 -MModPerl::MethodLookup -le \
+     'print((ModPerl::MethodLookup::lookup_method(shift))[0])'"
+
+Now the lookup is even easier:
+
+  % lookup construct_url
+  to use method 'construct_url' add:
+          use Apache::URI;
+
+
+=head1 Author
+
+Stas Bekman
+
+=cut
