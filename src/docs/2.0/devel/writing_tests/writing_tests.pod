@@ -631,12 +631,16 @@ to write the test for you. But usually if the report includes a simple
 code that reproduces the bug, it should probably be easy to convert
 this code into a test.
 
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates and
+corrections and patches.
+
+Stas Bekman E<lt>stas@stason.orgE<gt>
+
 =head1 Authors
 
 Stas Bekman E<lt>stas@stason.orgE<gt>
 
 =cut
-
-
-
 

@@ -1,7 +1,5 @@
 =head1 Choosing a Templating System
 
-by Perrin Harkins
-
 =head1 Introduction
 
 Go on, admit it: you've written a templating system.  It's okay,
@@ -1079,5 +1077,19 @@ contain some mistakes.  Send your corrections to perrin@elem.com.
 Future versions of this document will be announced on the mod_perl
 mailing list, and possibly other popular Perl locations as well.
 
+by Perrin Harkins
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates and
+corrections and patches.
+
+Perrin Harkins E<lt>perrin@elem.comE<gt>.
+
+=head1 Authors
+
+Perrin Harkins E<lt>perrin@elem.comE<gt>.
+
+=cut
 
 
