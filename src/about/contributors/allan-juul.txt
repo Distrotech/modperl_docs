@@ -1,8 +1,0 @@
-Name: Allan Juul
-Email: lambretta@inet.uni2.dk
-Summary: Site design.
-
-Allan's work on the design of this website has been of great benefit
-to us all. Not only did he give it good looks, but has also tirelessly
-worked to make it compliant with HTML and CSS standards, while still
-getting it to work with all browsers we could find.
