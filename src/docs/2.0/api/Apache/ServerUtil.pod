@@ -213,7 +213,7 @@ run every time the server shuts down (or restarts), run the following
 code at the server startup:
 
   $base_server_pool = Apache::ServerUtil::base_server_pool();
-  $base_server_pool->cleanup_register(do_my_cleanups());
+  $base_server_pool->cleanup_register(\&do_my_cleanups);
 
 It's necessary to run this code at the server startup (normally
 F<startup.pl>. Cleanup handlers registered after the
