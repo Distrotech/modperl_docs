@@ -61,7 +61,7 @@ Example:
     use Apache::MPM ();
     use APR::OS ();
     if (Apache::MPM->is_threaded) {
-        my $tid_obj = APR::OS::thread_current();
+        my $tid_obj = APR::OS::current_thread_id();
         print "TID: $tid";
     }
     else {
