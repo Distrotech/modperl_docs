@@ -788,19 +788,31 @@ C<L<Apache::Log|docs::2.0::api::Apache::Log>> method.
 
 =head1 Server Object Methods
 
+
+
 =head2 C<$s-E<gt>register_cleanup>
 
 C<$s-E<gt>register_cleanup> has been replaced with
 C<APR::Pool::cleanup_register()> which accepts the pool object as the
 first argument instead of the server object. e.g.:
 
-  sub cleanup_callback { my $data = shift; ... }
-  $s->pool->cleanup_register(\&cleanup_callback, $data);
+  use Apache::ServerUtil ();
+  sub cleanup_callback {
+      my($pool, $s) = @_;
+      # your code comes here
+      Apache::OK;
+  }
+  $s->push_handlers(PerlChildExitHandler => \&my_access);
 
-where the last argument C<$data> is optional, and if supplied will be
-passed as the first argument to the callback function.
+where the arguments are the pool and server objects.
 
-See the C<L<APR::Pool|docs::2.0::api::APR::Pool>> manpage.
+See also
+C<L<PerlChildExitHandler|docs::2.0::user::handlers::server/C_PerlChildExitHandler_>>.
+
+In order to register a cleanup handler to be run only once when the
+main server (not each child process) shutsdown, you can register a
+cleanup handler on the
+C<L<base_server_pool()|docs::2.0::api::Apache::ServerUtil/C_base_server_pool_>>.
 
 
 =head2 C<$s-E<gt>uid>
