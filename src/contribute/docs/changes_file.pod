@@ -91,9 +91,9 @@ A typical entry looks like this:
   
   * otherfile: updated the "Maintenance" section, adding references to
     bla bla bla [other person]
-
+  
   =head1 Sat Nov 12 22:05:23 CET 2002
-
+  
   * docs::index : moved tutorials to "Other documentation" [stas]
   
   * performance: minor corrections [thomas]
