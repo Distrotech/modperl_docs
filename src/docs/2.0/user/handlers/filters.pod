@@ -1613,11 +1613,15 @@ destroy the rest of the incoming bb. need to check on this issue.
 [
 
 HTTP request output filters should probably also unset the C-L header,
-if the filter will changes the size of the data that goes through
-it. (e.g. lc() filter shouldn't do it). However need to check if
-Apache core output filters don't do that already.
+if they change the size of the data that goes through it. (e.g. lc()
+filter shouldn't do it). However need to check if Apache core output
+filters don't do that already.
 
   $filter->r->headers_out->unset('Content-Length');
+
+Same goes for last-modified/etags, which may need to be unset, "vary"
+might need to be added if you want caching to work properly (depending
+on what your filter does.
 
 ]
 
@@ -1632,6 +1636,12 @@ data). Instead the data should be moved into a new bucket.
 Also it looks like we need to $b-E<gt>destroy (need to add the API) in
 addition to $b-E<gt>remove. Which can be done in one stroke using
 $b-E<gt>delete (need to add the API).
+
+]
+
+[
+
+Mention mod_bucketeer as filter debugging tool (in addition to FilterSnoop)
 
 ]
 
