@@ -169,6 +169,155 @@ The whole story and the solutions are documented at:
 http://httpd.apache.org/docs-2.0/faq/error.html#error.sendfile
 
 
+=head2 undefined symbol: apr_table_compress
+
+After a successful mod_perl build, sometimes during the startup or a
+runtime you'd get an "undefined symbol: foo" error. The following is
+one possible scenario to encounter this problem and possible ways to
+resolve it.
+
+Let's say you ran mod_perl's test suite:
+
+  % make test
+
+and got errors, and you looked in the F<error_log> file
+(F<t/logs/error_log>) and saw one or more "undefined symbol" errors,
+e.g.
+
+  % undefined symbol: apr_table_compress
+
+=over
+
+=item Step 1
+
+From the source directory (same place you ran "make test") run:
+
+  % ldd blib/arch/auto/APR/APR.so | grep apr-
+
+META:  ldd is not available on all platforms, e.g. not on Darwin/OS X
+
+You you should get a full path, for example:
+
+  libapr-0.so.0 => /usr/local/apache2/lib/libapr-0.so.0 (0x40003000)
+
+or
+
+  libapr-0.so.0 => /some/path/to/apache/lib/libapr-0.so.0 (0x40003000)
+
+or something like that. It's that full path to libapr-0.so.0 that you
+want.
+
+
+=item Step 2
+
+Do:
+
+  % nm /path/to/your/libapr-0.so.0 | grep table_compress
+
+for example:
+
+  % nm /usr/local/apache2/lib/libapr-0.so.0 | grep table_compress
+
+You should get something like this:
+
+  0000d010 T apr_table_compress
+
+Note that the "grep table_compress" is only an example, the exact
+string you are looking for is the name of the "undefined symbol" from
+the error_log.  So, if you got "undefined symbol: apr_holy_grail" then
+you would do
+
+  % nm /usr/local/apache2/lib/libapr-0.so.0 | grep holy_grail
+
+=item Step 3
+
+Now, let's see what shared libraries your apache binary has. So, if in
+step 1 you got F</usr/local/apache2/lib/libapr-0.so.0> then you will
+do:
+
+  % ldd /usr/local/apache2/bin/httpd
+
+if in step 1 you got F</foo/bar/apache/lib/libapr-0.so.0> then you do:
+
+  % ldd /foo/bar/apache/bin/httpd
+
+The output should look something like this:
+
+  libssl.so.2 => /lib/libssl.so.2 (0x40023000)
+  libcrypto.so.2 => /lib/libcrypto.so.2 (0x40054000)
+  libaprutil-0.so.0 => /usr/local/apache2/lib/libaprutil-0.so.0 (0x40128000)
+  libgdbm.so.2 => /usr/lib/libgdbm.so.2 (0x4013c000)
+  libdb-4.0.so => /lib/libdb-4.0.so (0x40143000)
+  libexpat.so.0 => /usr/lib/libexpat.so.0 (0x401eb000)
+  libapr-0.so.0 => /usr/local/apache2/lib/libapr-0.so.0 (0x4020b000)
+  librt.so.1 => /lib/librt.so.1 (0x40228000)
+  libm.so.6 => /lib/i686/libm.so.6 (0x4023a000)
+  libcrypt.so.1 => /lib/libcrypt.so.1 (0x4025c000)
+  libnsl.so.1 => /lib/libnsl.so.1 (0x40289000)
+  libdl.so.2 => /lib/libdl.so.2 (0x4029f000)
+  libpthread.so.0 => /lib/i686/libpthread.so.0 (0x402a2000)
+  libc.so.6 => /lib/i686/libc.so.6 (0x42000000)
+  /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x40000000)
+
+Those are name =E<gt> value pairs showing the shared libraries used by
+the C<httpd> binary.
+
+Take note of the value for F<libapr-0.so.0> and compare it to what you
+got in step 1. They should be the same, if not, then mod_perl was
+compiled pointing to the wrong Apache installation. You should run
+"make clean" and then
+
+  % perl Makefile.pl MP_APACHE_CONFIG=/path/to/apache/bin/apr-config
+
+using the correct path for the Apache installation.
+
+=item Step 4
+
+You should also search for extra copies of F<libapr-0.so.0>. If you
+find one in I</usr/lib> or I</usr/local/lib> that will explain the
+problem. Most likely you have an old pre-installed apr package which
+gets loaded before the copy you found in step 1.
+
+On most Linux (and Mac OS X) machines you can do a fast search with:
+
+  % locate libapr-0.so.0
+
+which searches a database of files on your machine. The "locate"
+database isn't always up-to-date so a slower, more comprehensive
+search can be run (as root if possible):
+
+  % find / -name "libapr-0.so.0*"
+
+or
+
+  % find /usr/local -name "libapr-0.so.0*"
+
+You might get output like this:
+
+  /usr/local/apache2.0.47/lib/libapr-0.so.0.9.4
+  /usr/local/apache2.0.47/lib/libapr-0.so.0
+  /usr/local/apache2.0.45/lib/libapr-0.so.0.9.3
+  /usr/local/apache2.0.45/lib/libapr-0.so.0
+
+in which case you would want to make sure that you are configuring and
+compiling mod_perl with the latest version of apache, for example
+using the above output, you would do:
+
+  % perl Makefile.PL MP_AP_CONFIG=/usr/local/apache2.0.47
+  % make
+  % make test
+
+
+=back
+
+There could be other causes, but this example shows you how to act
+when you encounter this problem.
+
+
+
+
+
+
 =head1 Issues with APR Used Outside of mod_perl
 
 It doesn't strictly belong to this document, since it's talking about
@@ -177,11 +326,16 @@ page, some time later.
 
 Whenever using an C<APR::> package outside of mod_perl, you need to:
 
-    use APR;
+  use APR;
 
 in order to load the XS subroutines. For example:
 
   % perl -MApache2 -MAPR -MAPR::UUID -le 'print APR::UUID->new->format'
+
+
+
+
+
 
 
 =head1 Maintainers
