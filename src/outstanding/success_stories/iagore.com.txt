@@ -1,6 +1,5 @@
 Date: Fri, 16 Nov 2001 17:58:05 +0100
 From: Roger Espel Llima <roger@iagora.net>
-To: Stas Bekman <stas@stason.org>
 Subject: iAgora - Study, Travel, Work Abroad - Connecting Internationals
 URL: http://www.iagora.com/
 Traffic: several million hits / month

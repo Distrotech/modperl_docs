@@ -1,0 +1,25 @@
+Date: Fri, 15 Mar 2002 13:41:24 -0500
+From: Justin <jb@dslreports.com>
+Subject: dslreports.com: million pageviews per day
+URL: http://dslreports.com
+Traffic: a million pageviews per day
+
+http://dslreports.com pages are entirely modperl, I do almost a
+million pageviews per day, and each page is from 20 to 200 sql
+statements.. and entirely produced by modperl, not templates or
+anything. most pages are produced in less than 200ms.. all the 150
+internal forums as well (10000 posted messages per day and over 2
+million messages online and searchable) are modperl. Everything is
+modperl :)
+
+I use two modperl servers, one sql server, and one frontend (mod
+proxy) server.. all of them are dual cpu 500-1mhz cpus and from 1-4gig
+of memory..
+
+This is all coded and administered now by me, part-time, while I do
+other stuff (like run the business).. I doubt it could be produced by
+any other tool, at least not without way more support staff and
+equipment.
+
+regards
+-Justin
