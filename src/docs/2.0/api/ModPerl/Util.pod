@@ -135,32 +135,6 @@ you really want to avoid under mod_perl.
 
 
 
-=head2 C<untaint>
-
-Untaint the variable, by turning its tainted SV flag off (used
-internally).
-
-  ModPerl::Util::untaint($tainted_var);
-
-=over 4
-
-=item arg1: C<$tainted_var> (scalar)
-
-=item ret: no return value
-
-C<$tainted_var> is untainted.
-
-=item since: 1.99_12
-
-=back
-
-Do not use this function unless you know what you are doing. To learn
-how to properly untaint variables refer to the I<perlsec> manpage.
-
-
-
-
-
 =head2 C<unload_package>
 
 Unloads a stash from the current Perl interpreter in the safest way
@@ -199,6 +173,37 @@ will be unloaded as well.
 
 If the stash had a corresponding entry in C<%INC>, it will be removed
 from there.
+
+
+
+
+
+
+
+
+=head2 C<untaint>
+
+Untaint the variable, by turning its tainted SV flag off (used
+internally).
+
+  ModPerl::Util::untaint($tainted_var);
+
+=over 4
+
+=item arg1: C<$tainted_var> (scalar)
+
+=item ret: no return value
+
+C<$tainted_var> is untainted.
+
+=item since: 1.99_12
+
+=back
+
+Do not use this function unless you know what you are doing. To learn
+how to properly untaint variables refer to the I<perlsec> manpage.
+
+
 
 
 
