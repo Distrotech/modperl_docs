@@ -2267,7 +2267,8 @@ The C<:remotehost> group is for XXX constants.
 
   use Apache::Const -compile => qw(:satisfy);
 
-The C<:satisfy> group is for XXX constants.
+The C<:satisfy> constants group is used in conjunction with
+C<L<$r-E<gt>satisfies|docs::2.0::api::Apache::Access/C_satisfies_>>.
 
 
 
@@ -2280,7 +2281,7 @@ The C<:satisfy> group is for XXX constants.
 
 =back
 
-
+All of the requirements must be met.
 
 
 
@@ -2292,6 +2293,7 @@ The C<:satisfy> group is for XXX constants.
 
 =back
 
+any of the requirements must be met.
 
 
 
@@ -2303,6 +2305,8 @@ The C<:satisfy> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+There are no applicable satisfy lines
 
 
 
