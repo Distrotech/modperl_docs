@@ -37,7 +37,7 @@ First of all:
 So if you aren't using Apache 2.x with mod_perl 2.0 please do not send
 any bug reports.
 
-META: mod_perl-1.99_0x is a to-be mod_perl 2.0.
+META: mod_perl-1.99_xx is mod_perl 2.0 to-be.
 
 =head2 Before Posting a Report
 
@@ -46,6 +46,28 @@ I<error_log> file (t/logs/error_log in case of the failing test
 suite). Usually the errors are self-descriptive and if you remember to
 always check this file whenever you have a problem, chances are that
 you won't need to ask for help.
+
+
+=head2 Test with the Latest mod_perl 2.0 Version
+
+If you are using an older version than the most recently released one,
+chances are that a bug that you are about to report has already been
+fixed. If possible, save us and yourself time and try first to upgrade
+to L<the latest version|download::index>, and only if the bug persists
+report it.
+
+Reviewing the Changes file may help as well. Here is the Changes file
+of the most recenly released version:
+http://perl.apache.org/dist/mod_perl-2.0-current/Changes .
+
+If the problem persists with the latest version, you may also want to
+try to reproduce the problem with L<the latest development
+version|download::source/Development_mod_perl_2_0_Source_Distribution>. It's
+possible that the problem was resolved since the last release has been
+made. Of course if this version solves the problem, don't rush to put
+it in production unless you know what you are doing. Instead ask the
+developers when the new version will be released.
+
 
 =head2 Use a Proper Subject
 
