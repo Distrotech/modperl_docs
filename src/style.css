@@ -38,7 +38,7 @@ code {
 
 div.navbar       a {text-decoration: none; color: #0000ff;}
 div.activenav    a {text-decoration: none; color: #ffffff;}
-div.navbarglobal a {text-decoration: none; color: #ffffff;}
+div.navbarglobal a {text-decoration: none; color: #828DA6;}
 div.notactivenav a {text-decoration: none; color: #525D76;}
 div.toc          a {text-decoration: none; color: #0000ff;}
 
@@ -131,8 +131,8 @@ div.notactivenav {
 
 div.navbarglobal {
         padding: 2px;
-        background-color: #525D76;
-        color: #ffffff;
+        background-color: #ffffff;
+        color: #000000;
 }
 
 div.navbarlocal {
