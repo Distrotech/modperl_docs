@@ -1470,6 +1470,343 @@ on 8002, we get the following results:
 
 
 
+=head1 The Conflict of mp1 vs mp2 vs mp22 vs ... vs mpNN
+
+The following sections summarise issues involving co-existence of
+several mod_perl generations on CPAN and user's filesystem.
+
+
+=head2 Why mod_perl2 didn't Rename its API
+
+The reason for not renaming mp2 core and 3rd party modules APIs to
+embed the version number like (mod_perl2, Apache2::Cookie,
+Apache2::Scoreboard, Apache2::SizeLimit, etc.) is very simple and
+logical. Even though the internals of mp2 core and 3rd party modules
+are totally different from their mp1 counterparts, for the most parts
+the user API hasn't changed at all. Renaming the API is
+counterproductive, as it'll will impose extra work on the modperl
+users, and dangerous as the added complication may drive the users
+away to use other similar technologies which don't have this kludge.
+
+Add to the fact that one Apache-2.2 is released, if mp2 doesn't manage
+to make the incompatible changes in Apache 2.2 transparent to modperl
+users, there will be mp2.2, and we would have needed to make yet
+another namespace rename, even though 99% of the API will be the same
+as mp2.0. Then there will be mp2.4, mp2.6, mp2.8, mp3.0, etc. I hope
+you get the idea.
+
+mp2 provides a Perl API for libapr and libaprutil projects (which can
+be used even if you don't run modperl). At the moment there is libapr
+0.9.x, 1.x and 2.x will be released soon. All those are partially
+incompatible. Since modperl provides only a partial mapping to the C
+APR API the mod_perl users so far can run their code unmodified no
+matter whether they have libapr-0.9, libapr-1.0 or libapr-2.0
+installed. If we were to embed the numbers in the API, users would
+have had to rewrite their application to make it support each new
+release of APR.
+
+Let's look at the multiple C libraries you have installed on your
+machine. 99% of the libraries do not change their API naming when they
+release a new version. Take for example the Berkley DB library. It had
+dbopen(3) for its 1st generation, and 2nd, and 3rd, and 4th.
+
+I hope you now understand why the API should not include a generation
+number in it.
+
+=over
+
+=item Q. Why not use some smart namespace aliasing? e.g. to alias
+C<Apache2::SizeLimit> to C<Apache::SizeLimit> at run time, so the old
+application will work just as well.
+
+A. That would be a workable solution, if the Apache C API didn't have
+methods, which have exactly the same name and arguments in 1.3 and
+2.0, but which do totally different things. One example is
+C<L<Apache::Connection::local_addr|docs::2.0::user::porting::compat/C__connection_E_gt_remote_addr_>>,
+which in mp1 returned a C Socket object which was decoded by
+C<Socket::sockaddr_in>, whereas in mp2 it returns an
+C<APR::SockAddr> object.
+
+
+=back
+
+
+
+
+
+=head2 Platform Support for Multiple Generations of the Same Project
+
+The next issue to look at is the platform/language support for
+multiple generations of the same project.
+
+99% of users will have only one mod_perl installed under the same perl
+tree. So for most users the following issues are non-existent. For
+those few users that need to have more than one mod_perl installed
+under the same tree, the problems and their solutions are discussed
+next.
+
+=head3 (.pm|.so) Files Collision
+
+Again, let's start with the C libraries, and again use Berkley DB
+example.
+
+The public C API lives in its header files. Those headers files don't
+change much between generations, some APIs are modified, others remain
+as before. The header files usually keep the same names. So how can
+you have Berkley DB 1 and 4 on the same machine, while most of the
+header files have the same names? This is done by installing each
+generation into a different sub-directory. On my machine I have db1
+and db4, let's look at F<db.h> header file:
+
+  /usr/include/db1/db.h
+  /usr/include/db4/db.h
+
+Notice that it's the same name, and there is no problem. When an
+application wants to use either of the two the user tells it which of
+the include directories to use at compile time.
+
+The binary of the C library is usually just one file (.so or .a on
+unices), so on my machine I have:
+
+  /usr/lib/libdb1.so
+  /usr/lib/libdb-4.so
+
+let's ignore the fact that those are symlinks for the purpose of this
+discussion. Again the application at compile time is told which of the
+two libraries it should use at loading time.
+
+Now, let's go back to Perl. Perl doesn't provide any support for
+multiple generations of the same project. There are a few workarounds:
+
+=over
+
+=item 1
+
+install a different perl for each separate version of project, in
+which case there is no problem with co-existence.
+
+=item 2
+
+install the second generation in some other directory and adjust
+C<@INC> at perl startup, so that this new directory will appear first.
+
+C<only> and C<only::install> (http://search.cpan.org/dist/only/) do
+exactly that.
+
+=back
+
+mp2 users have to use one of these workarounds. In the case of the
+second workaround, mod_perl uses its own implementation, called
+F<Apache2.pm>. In order to make mp2 co-exist with mp1 install, one
+needs to install mp2 modules in a sub-directory C<Apache2/>. The
+modperl core installer will make sure that this happens if it detects
+that mp1 was installed. 3rd party modules writers need to use
+C<L<ModPerl::MM::WriteMakefile|docs::2.0::api::ModPerl::MM>> which
+will do the right thing. At run time loading F<Apache.pm> will
+L<adjust
+@INC|docs::2.0::user::config::config/Accessing_the_mod_perl_2_0_Modules>
+to include the right paths.
+
+F<Apache2.pm> which is better than C<only::install> because if you
+don't have mp1 installed, F<Apache2.pm> becomes a no-op, as mp2 is not
+getting installed into the F<Apache2/> directory, unless you
+explicitly ask the installer to do so (by passing the
+C<MP_INST_APACHE2=1> option during C<perl Makefile.PL> phase).
+
+Serious modperl users will use the first workaround, which they were
+doing with mp1 too. Why? Because to get the best performance from
+mod_perl, you want to have a custom-compiled perl tuned for your
+needs: http://modperlbook.org/html/ch15_04.html
+
+
+=head2 Documentation and Manpages
+
+If mp2 installs its F<.pm> files under F<Apache2/> C<perldoc> won't
+find those. The alternative solution is to use C<mp2doc> provided by
+mp2, which will find the right docs.
+
+As for manpages, only one set of manpages can be installed and this
+true for any project (e.g. You can have several generations of the
+same C library installed, but you will have only one set of manpages).
+
+So use C<mp2doc> or the online docs:
+http://perl.apache.org/docs/2.0/api/ which you can also L<build
+locally|download::docs>.
+
+
+=head2 CPAN Index
+
+Since mod_perl 2.0 was released users have noticed a problem with CPAN
+clients, which started to fetch mp2 core and 3rd party modules, in the
+case when users were still using mp1. This is not a problem of the mp2
+core or the 3rd party mod_perl modules, but a problem of PAUSE indexer
+which indexes only the latest version of each namespace, without
+supporting projects which have more than one generation, while
+preserving the same namespace, as in the case with mod_perl.
+
+This is not an issue specific to mod_perl and 3rd party Apache
+modules, it's a long existing problem with other modules such as
+C<GD>, C<SQLite>, C<Sun::Solaris::*>, etc.
+
+For example: there are two internally incompatible versions of
+C<Apache::Scoreboard> (but which otherwise work identically for
+users): http://search.cpan.org/~stas/Apache-Scoreboard-2.02/
+http://search.cpan.org/~dougm/Apache-Scoreboard-0.10/. Notice that
+each generation is developed and maintained by a different developer.
+Now C<Apache::VMonitor> which works with mp1 and mp2
+(http://search.cpan.org/dist/Apache-VMonitor/) requires a different
+generation of C<Apache::Scoreboard> depending on whether mp1 or mp2 is
+used. If the PAUSE doesn't index both generations CPAN clients cannot
+satisfy the C<Apache::VMonitor> prerequisites list. This example shows
+that this is not a problem of mp2 core, but of many other packages.
+
+The ideal solution is fix PAUSE indexer to support META.yml's
+C<generation>:
+http://module-build.sourceforge.net/META-spec-new.html#generation and
+to at least index the highest version number of each generation (or
+better index them all). That should be done using a new index file, to
+keep the older CPAN clients working correctly.  Then CPAN clients
+could be adjusted to use that information to make an intelligent
+automatic and/or interactive selection of the right generation, when
+resolving dependencies or executing plain install requests.
+
+Further Ken Williams and John Peacock has suggested an alternative to
+F<META.yml> C<generation> keyword. They offer to use something like a
+"backcompat_to" field, so each distribution will be able to tell
+what's the lowest version it is backcompatible with. That will work
+too, but requires the same changes in PAUSE indexer and the CPAN
+clients.
+
+Jos I. Boumans, the main developer of CPANPLUS, suggests that the
+PAUSE indexer should index all versions of the same module on CPAN, to
+make it easier on the CPAN clients to resolve prerequisites.
+
+If the multiply version indexing is provided, to further simplify the
+work of CPAN clients I've suggested that the work of figuring out
+which mod_perl (or any other project) generation should be installed,
+by creating a convention, where a developer will upload something like
+SmartInstall::project_name (e.g.: SmartInstall::mod_perl) to CPAN, and
+the CPAN client will simply download it, when asked to install
+'project_name', that program will figure out what version is suitable
+for a user and download and install it. But that still requires to
+have multiple revisions index to be available.
+
+
+=over
+
+=item Q. Why this issue was not resolved earlier?
+
+A. The issue was raised several times on the perl5-porters and
+cpan-discuss lists over the period of the last few years. But nothing
+was implemented. You can read the details:
+
+May 2003:
+http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2003-05/msg00220.html
+
+Oct 2003:
+http://www.mail-archive.com/cpan-discuss@perl.org/msg00000.html
+Dec 2003:
+http://www.mail-archive.com/cpan-discuss@perl.org/msg00033.html
+
+Dec 2004:
+http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2004-12/msg00510.html
+http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2004-12/msg00484.html
+
+Amongst other proposed solutions, Autrijus has posted a concrete
+solution to how to fix that:
+http://www.mail-archive.com/cpan-discuss@perl.org/msg00012.html
+
+=item Q. Is it possible to find the non-indexed distros?
+
+A. The easiest way is to use http://search.cpan.org/
+
+If you use C<CPAN> shell, you can use the C<'d'> command:
+
+  cpan> d /mod_perl/
+  Distribution    D/DO/DOUGM/mod_perl-1.27.tar.gz
+  Distribution    G/GO/GOZER/mod_perl-1.28.tar.gz
+  Distribution    G/GO/GOZER/mod_perl-1.29.tar.gz
+  Distribution    G/GO/GOZER/mod_perl-2.0.0-RC1.tar.gz
+  Distribution    G/GO/GOZER/mod_perl-2.0.0-RC2-XMas.tar.gz
+
+(META: I can't seem to find a similar functionality in CPANPLUS
+shells, if you know how please let me know.)
+
+
+
+
+=item Q. Why not Put Several Generation in the Same Distro
+
+A. 1) That doesn't fix the indexing problem.
+
+2) It introduces a huge maintenance problem
+
+  cd mod_perl-1.29_01-dev
+  find . | wc -l
+  285
+  
+  cd mod_perl-2.0.0-RC3/
+  find . | wc -l
+  1022
+
+gives you an idea of how big each project is, and why it's not the
+best solution to throw things together.
+
+When mp2.2 comes out will 3 generations of the modules will be need
+into the same distro? And when mp2.4 comes out? and mp2.6? etc. You
+get the idea.
+
+3) It doesn't work if different generations are maintained by
+different authors.
+
+4) It will enforce users of both versions to upgrade when one of the
+generations makes a new release. While this may work for small
+modules, in case of mod_perl core each upgrade is not to be taken
+lightly, a lot of time, each update goes through a long acceptance
+process, so enforcing one when it's not needed is evil.
+
+It will also force including new not well tested changes in one
+generation, when the other needs to be released.
+
+=back
+
+
+
+=head2 Distributors
+
+Distributors should mark the different generations of mod_perl core as
+conflicting, so only one version can be installed using the binary
+package. Users requiring more than one installation should do a manual
+install.
+
+In order to have any of the 3rd party modperl modules installed users
+need to have the correct modperl package installed. So there is no
+need to mark the 3rd party modules as conflicting, since their most
+important prerequisite (the modperl-core) is already handling that.
+
+Of course packagers can decide to make the two generation packages as
+non-conflicting, by building all mp2 core and 3rd party modules into
+F<Apache2/> subdir, in which case the two will always co-exist. But
+this is not the most logical approach since 99% of users will want
+only one generation of mod_perl core and 3rd party modules.
+
+
+
+
+=head2 The CPAN Shell
+
+In case you have mp1 and mp2 under the same perl and mp2 is installed
+under the F<Apache2/> subdirectory, in order for CPAN shell to find
+you mp2 modules you need to invoke it as:
+
+ % perl -MApache2 -MCPAN -eshell
+
+If you have only mp2 and you didn't ask to install it under the
+F<Apache2/> subdirectory, no special invocation technique is required.
+
+
+
+
 
 =head1 Maintainers
 
