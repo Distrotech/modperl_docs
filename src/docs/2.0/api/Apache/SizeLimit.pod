@@ -32,13 +32,18 @@ C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>>:
   Apache::SizeLimit::setmin(6000);
   Apache::SizeLimit::setmax_unshared(5000);
 
-This will work in places where you are using C<SetHandler perl-script> 
-or anywhere you enable C<PerlOptions +GlobalRequest>.  If you want to 
-avoid turning on C<GlobalRequest>, you can pass an C<Apache::RequestRec> 
-object as the second argument in these subs:
+This will work in places where you are using C<L<SetHandler
+perl-script|docs::2.0::user::config::config/C_perl_script_>> or
+anywhere you enable C<L<PerlOptions
++GlobalRequest|docs::2.0::user::config::config/C_GlobalRequest_>>.  If
+you want to avoid turning on C<GlobalRequest>, you can pass an
+C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> object as
+the second argument in these subs:
 
-  my $r = shift;
+  my $r = shift; # if you don't have $r already
   Apache::SizeLimit::setmax(12000, $r);
+  Apache::SizeLimit::setmin(6000, $r);
+  Apache::SizeLimit::setmax_unshared(5000, $r);
 
 Since checking the process size can take a few system calls on some
 platforms (e.g. linux), you may want to only check the process size
