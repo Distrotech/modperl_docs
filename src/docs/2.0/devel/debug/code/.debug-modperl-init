@@ -22,7 +22,7 @@ define myrun
 end
 
 define modperl_init
-    sharedlibrary modperl
+    sharedlibrary mod_perl
     b modperl_hook_init
     continue
 end

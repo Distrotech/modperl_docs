@@ -84,7 +84,7 @@ commands file:
   b ap_run_pre_config
   run -d `pwd`/t -f `pwd`/t/conf/httpd.conf \
   -DONE_PROCESS -DAPACHE2 -DPERL_USEITHREADS
-  sharedlibrary modperl
+  sharedlibrary mod_perl
   b modperl_hook_init
   # start: modperl_hook_init
   continue
@@ -145,8 +145,8 @@ which also shows which libraries are loaded already.
 
 Also notice that you don't have to type the full path of the library
 when trying to load them, even a partial name will suffice. In our
-commands file example we have used C<sharedlibrary modperl> instead of
-saying C<sharedlibrary libmodperl.so>.
+commands file example we have used C<sharedlibrary mod_perl> instead of
+saying C<sharedlibrary mod_perl.so>.
 
 If you want to set breakpoints and step through the code in the Perl
 and APR core libraries you should load their appropriate libraries:

@@ -65,7 +65,7 @@ continue
 b ap_add_module
 continue
 
-sharedlibrary modperl
+sharedlibrary mod_perl
 b modperl_register_hooks
 continue
 
