@@ -1,4 +1,6 @@
-=head1 Popular Perl Complaints and Myths
+=head1 NAME
+
+Popular Perl Complaints and Myths
 
 =head2 Abbreviations
 
