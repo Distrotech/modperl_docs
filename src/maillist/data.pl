@@ -2,7 +2,7 @@
     (
 
      ### 
-     users =>
+     modperl =>
      {
       title => 'mod_perl Users',
       desc  => <<"DESC",
