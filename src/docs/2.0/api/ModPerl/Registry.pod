@@ -71,8 +71,6 @@ before running the script.
 
 The Apache function `exit' overrides the Perl core built-in function.
 
-The environment variable B<GATEWAY_INTERFACE> is set to C<CGI-Perl/1.1>.
-
 =head1 Commandline Switches In First Line
 
 Normally when a Perl script is run from the command line or under CGI,

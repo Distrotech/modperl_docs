@@ -401,15 +401,21 @@ future, it's documented in modperl_env.c:modperl_env_magic_set_all.)
 
 =head2 C<$ENV{GATEWAY_INTERFACE}>
 
-The environment variable C<$ENV{GATEWAY_INTERFACE}> is deprecated in
-mod_perl 2.0 (See:
-C<L<MP_COMPAT_1X=0|docs::2.0::user::install::install/MP_COMPAT_1X>>). Instead
-use C<$ENV{MOD_PERL}> (available in both mod_perl generations), which
-is set to something like this:
+The environment variable C<$ENV{GATEWAY_INTERFACE}> is not special in
+mod_perl 2.0, but the same as any other CGI environment variables.
+
+Instead use C<$ENV{MOD_PERL}> (available in both mod_perl
+generations), which is set to the mod_perl version, like so:
 
   mod_perl/1.99_03-dev
 
-However to check the version it's better to use C<$mod_perl::VERSION>:
+Therefore in order to check whether you are running under mod_perl,
+you'd say:
+
+  if ($ENV{MOD_PERL}) { ... }
+
+To check for a specific version it's better to use
+C<$mod_perl::VERSION>:
 
   use mod_perl;
   use constant MP2 => ($mod_perl::VERSION >= 1.99);

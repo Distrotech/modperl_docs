@@ -410,21 +410,6 @@ When this option is disabled, the following things will happen:
 
 =item *
 
-Environment variable C<GATEWAY_INTERFACE> will be enabled only if
-C<PerlOptions +SetupEnv> is enabled and its value would be the
-default:
-
-  CGI/1.1
-
-and not:
-
-  CGI-Perl/1.1
-
-The use of C<$ENV{GATEWAY_INTERFACE}> is deprecated and the existance
-of C<$ENV{MOD_PERL}> should be checked instead.
-
-=item *
-
 Deprecated special variable, C<$Apache::__T> won't be available. Use
 C<${^TAINT}> instead.
 

@@ -72,12 +72,6 @@ following technique:
   use constant MP2 => ($mod_perl::VERSION >= 1.99);
   # die "I want mod_perl 2.0!" unless MP2;
 
-=item *
-
-C<$ENV{GATEWAY_INTERFACE}> - is set to C<CGI-Perl/1.1> for
-compatibility with mod_perl 1.0. This variable is deprecated in
-mod_perl 2.0. Use C<$ENV{MOD_PERL}> instead.
-
 =back
 
 mod_perl passes (exports) the following shell environment variables
@@ -290,6 +284,8 @@ explain the
 C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache::RequestRec/C_assbackwards_>>
 method. Notice that registry handlers will do that for you if the
 script's name start with the C<nph-> prefix.
+
+
 
 
 =head3 Forcing HTTP Response Headers Out
