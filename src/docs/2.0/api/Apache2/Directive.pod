@@ -1,15 +1,15 @@
 =head1 NAME
 
-Apache::Directive - Perl API for manipulating the Apache configuration tree
+Apache2::Directive - Perl API for manipulating the Apache configuration tree
 
 
 
 
 =head1 Synopsis
 
-  use Apache::Directive ();
+  use Apache2::Directive ();
   
-  my $tree = Apache::Directive::conftree();
+  my $tree = Apache2::Directive::conftree();
   
   my $documentroot = $tree->lookup('DocumentRoot');
   
@@ -52,7 +52,7 @@ Apache::Directive - Perl API for manipulating the Apache configuration tree
 
 =head1 Description
 
-C<Apache::Directive> provides the Perl API for manipulating the Apache
+C<Apache2::Directive> provides the Perl API for manipulating the Apache
 configuration tree
 
 
@@ -61,7 +61,7 @@ configuration tree
 
 =head1 API
 
-C<Apache::Directive> provides the following functions and/or methods:
+C<Apache2::Directive> provides the following functions and/or methods:
 
 
 
@@ -76,7 +76,7 @@ Get the arguments for the current directive:
 =over 4
 
 =item obj: C<$node>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 =item ret: C<$args> ( string )
 
@@ -92,7 +92,7 @@ For example, in F<httpd.conf>:
 
 And later:
 
-  my $tree = Apache::Directive::conftree();
+  my $tree = Apache2::Directive::conftree();
   my $node = $tree->lookup('PerlSwitches');
   my $args = $node->args;
 
@@ -114,7 +114,7 @@ suitable for inclusion in E<lt>PerlE<gt> sections.
 =over 4
 
 =item obj: C<$conftree>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 The config tree to stringify
 
@@ -133,7 +133,7 @@ For example: in F<httpd.conf>:
 
 And later:
 
-  my $tree = Apache::Directive::conftree();
+  my $tree = Apache2::Directive::conftree();
   my $node = $tree->lookup('Location', '/test/');
   my $hash = $node->as_hash;
 
@@ -160,7 +160,7 @@ F<httpd.conf> format.
 =over 4
 
 =item obj: C<$node>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 The config tree to stringify
 
@@ -179,7 +179,7 @@ For example: in F<httpd.conf>:
 
 And later:
 
-  my $tree = Apache::Directive::conftree();
+  my $tree = Apache2::Directive::conftree();
   my $node = $tree->lookup('Location', '/test/');
   my $string = $node->as_string;
 
@@ -197,14 +197,14 @@ C<$string> is now:
 
 Get the root of the configuration tree:
 
-  $conftree = Apache::Directive::conftree();
+  $conftree = Apache2::Directive::conftree();
 
 =over 4
 
-=item obj: C<Apache::Directive> ( class name )
+=item obj: C<Apache2::Directive> ( class name )
 
 =item ret: C<$conftree>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 =item since: 1.99_12
 
@@ -225,7 +225,7 @@ Get the name of the directive in C<$node>:
 =over 4
 
 =item obj: C<$node>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 =item ret: C<$name> ( string )
 
@@ -248,7 +248,7 @@ Get the F<filename> the configuration node was created from:
 =over 4
 
 =item obj: C<$node>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 =item ret: C<$filename> ( string )
 
@@ -258,7 +258,7 @@ Get the F<filename> the configuration node was created from:
 
 For example:
 
-  my $tree = Apache::Directive::conftree();
+  my $tree = Apache2::Directive::conftree();
   my $node = $tree->lookup('VirtualHost', 'example.com');
   my $filename = $node->filename;
 
@@ -266,7 +266,7 @@ C<$filename> is now the full path to the F<httpd.conf> that
 VirtualHost was defined in.
 
 If the directive was added with 
-C<L<add_config()|docs::2.0::api::Apache::ServerUtil/C_add_config_>>,
+C<L<add_config()|docs::2.0::api::Apache2::ServerUtil/C_add_config_>>,
 the filename will be the path to the F<httpd.conf> that trigerred
 that Perl code.
 
@@ -284,10 +284,10 @@ Get the first child node of this directive:
 =over 4
 
 =item obj: C<$node>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 =item ret: C<$child_node>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 Returns the first child node of C<$node>, C<undef> if there is none
 
@@ -311,7 +311,7 @@ Get the line number in a F<filename> this node was created at:
 =over 4
 
 =item obj: C<$node>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 =item arg1: C<$lineno> (integer)
 
@@ -336,7 +336,7 @@ Get the node(s) matching a certain value.
 =over 4
 
 =item obj: C<$conftree>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 The config tree to stringify
 
@@ -388,10 +388,10 @@ Get the next directive node in the tree:
 =over 4
 
 =item obj: C<$node>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 =item ret: C<$next_node>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 Returns the next sibling of C<$node>, C<undef> if there is none
 
@@ -413,10 +413,10 @@ Get the parent node of this directive:
 =over 4
 
 =item obj: C<$node>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 =item ret: C<parent_node>
-( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
 Returns the parent of C<$node>, C<undef> if this node is the root node
 
