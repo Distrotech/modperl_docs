@@ -44,8 +44,6 @@ Templates:
 General:
 --------
 
-- need to remove the old 1.0 win32 stuff 
-
 - Need to document the font-type and -size used for the image button,
   so in the future we can add new buttons of the same style if needed.
   STATUS: waiting for input from Allan
