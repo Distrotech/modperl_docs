@@ -22,7 +22,7 @@ and then later in a mod_perl filter handler this note can be retrieved
 with:
 
   my $f = shift;
-  my $c = $f->connection;
+  my $c = $f->c;
   my $is = $c->notes->get("mod_perl");
   $f->print("mod_perl $is");
 
