@@ -122,6 +122,8 @@ argument.
 
 A reference to the hash holding the module configuration data.
 
+=item since: 1.99_12
+
 =back
 
 See also L<Apache Server Configuration Customization in Perl|docs::2.0::user::config::custom>
@@ -180,6 +182,8 @@ modules.
 =item ret: C<$loaded> ( boolean )
 
 Returns true if the module is loaded, false otherwise.
+
+=item since: 1.99_12
 
 =back
 
