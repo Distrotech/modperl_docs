@@ -8,6 +8,18 @@ Apache::ServerUtil - Perl API for XXX
 =head1 Synopsis
 
   use Apache::ServerUtil ();
+  
+  $s = Apache->server;
+  my $srv_cfg = $s->dir_config;
+  
+  # get 'conf/' dir path using $r
+  my $conf_dir = $s->server_root_relative('conf', $r->pool);
+  
+  # server level PerlOptions flags lookup
+  $s->push_handlers(ChildExit => \&child_exit)
+      if $s->is_perl_option_enabled('ChildExit');
+
+
 
 META: to be completed
 
@@ -16,7 +28,19 @@ META: to be completed
 
 =head1 Description
 
+C<Apache::ServerUtil> provides the Perl API for Apache server object.
+
 META: to be completed
+
+
+
+=head1 Constants
+
+
+
+=head2 C<Apache::server_root>
+
+returns the value set by the C<ServerRoot> directive.
 
 
 
@@ -26,6 +50,35 @@ META: to be completed
 C<Apache::ServerUtil> provides the following functions and/or methods:
 
 
+
+=head2 server_root_relative()
+
+Returns the canonical form of the filename made absolute to
+C<ServerRoot>:
+
+  $path = $s->server_root_relative($fname);
+
+=over 4
+
+=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+
+=item opt arg2: C<$fname> (string)
+
+=item ret: C<$path> (string)
+
+=back
+
+C<$fname> is appended to the value of C<ServerRoot> and returned. For
+example:
+
+  my $log_dir = Apache::server_root_relative($r->pool, 'logs');
+
+If C<$fname> is not specified, the value of C<ServerRoot> is returned
+with a trailing C</>. (it's the same as using C<''> as C<$fname>'s
+value).
+
+Also see the C<L<Apache::server_root|/C_Apache__server_root_>>
+constant.
 
 
 =head2 C<add_version_component>
