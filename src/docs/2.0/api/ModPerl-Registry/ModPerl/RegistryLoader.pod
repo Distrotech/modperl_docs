@@ -2,7 +2,7 @@
 
 ModPerl::RegistryLoader - Compile ModPerl::RegistryCooker scripts at server startup
 
-=head1 SYNOPSIS
+=head1 Synopsis
 
   # in startup.pl
   use ModPerl::RegistryLoader ();
@@ -14,7 +14,8 @@ ModPerl::RegistryLoader - Compile ModPerl::RegistryCooker scripts at server star
   );
 
   $rlbb->handler($uri, $filename);
-
+  
+  ###
   # uri => filename mapping using a helper function
   sub trans {
       my $uri = shift; 
@@ -26,9 +27,12 @@ ModPerl::RegistryLoader - Compile ModPerl::RegistryCooker scripts at server star
       trans   => \&trans,
   );
   $rl->handler($uri);
+  
+  ###
+  $rlbb->handler($uri, $filename, $virtual_hostname);
 
 
-=head1 DESCRIPTION
+=head1 Description
 
 This modules allows compilation of scripts, running under packages
 derived from C<ModPerl::RegistryCooker>, at server startup.  The
@@ -37,7 +41,11 @@ children get a copy and thus saves some memory by initially sharing
 the compiled copy with the parent and saving the overhead of script's
 compilation on the first request in every httpd instance.
 
-=head1 METHODS
+This module is of course useless for those running the
+C<L<ModPerl::PerlRun>> handler, because the scripts get recompiled on
+each request under this handler.
+
+=head1 Methods
 
 =over
 
@@ -76,10 +84,10 @@ See the handler() item for an example of using the I<trans> attribute.
 
 =item handler()
 
-  $rl->handler($uri, [$filename]);
+  $rl->handler($uri, [$filename, [$virtual_hostname]]);
 
 The handler() method takes argument of C<uri> and optionally of
-C<filename>.
+C<filename> and of C<virtual_hostname>.
 
 URI to filename translation normally doesn't happen until HTTP request
 time, so we're forced to roll our own translation. If the filename is
@@ -143,16 +151,38 @@ the I<cgi-bin> directory relative to C<ServerRoot>.
       }
   }
 
+If C<$virtual_hostname> argument is passed it'll be used in the
+creation of the package name the script will be compiled into for
+those registry handlers that use I<namespace_from_uri()> method.  See
+also the notes on C<$ModPerl::RegistryCooker::NameWithVirtualHost> in
+the C<L<ModPerl::RegistryCooker>> documentation.
+
+Also
+explained in the C<L<ModPerl::RegistryLoader>> documentation, this
+only has an effect at run time if
+C<$ModPerl::RegistryCooker::NameWithVirtualHost> is set to true,
+otherwise the C<$virtual_hostname> argument is ignored.
+
 =back
 
 
-=head1 AUTHORS
+=head1 Implementation Notes
 
-Doug MacEachern
+C<ModPerl::RegistryLoader> performs a very simple job, at run time it
+loads and sub-classes the module passed via the I<package> attribute
+and overrides some of its functions, to emulate the run-time
+environment. This allows to preload the same script into different
+registry environments.
 
-Stas Bekman
+=head1 Authors
+
+The original C<Apache::RegistryLoader> implemented by Doug MacEachern.
+
+Stas Bekman did the porting to the new registry framework based on
+C<ModPerl::RegistryLoader>.
 
 =head1 SEE ALSO
 
-ModPerl::RegistryCooker(3), Apache(3), mod_perl(3)
-
+C<L<ModPerl::RegistryCooker>>, C<L<ModPerl::Registry>>,
+C<L<ModPerl::RegistryBB>>, C<L<ModPerl::PerlRun>>, Apache(3),
+mod_perl(3)

@@ -80,6 +80,19 @@ default: namespace_root()
 
 =item * namespace_from()
 
+If C<namespace_from_uri> is used and the script is called from the
+virtual host, by default the virtual host name is prepended to the uri
+when package name for the compiled script is created. Sometimes this
+behavior is undesirable, e.g., when the same (physical) script is
+accessed using the same path_info but different virtual hosts. In that
+case you can make the script compiled only once for all vhosts, by
+specifying:
+
+  $ModPerl::RegistryCooker::NameWithVirtualHost = 0;
+
+The drawback is that it affects the global environment and all other
+scripts will be compiled ignoring virtual hosts.
+
 default: namespace_from()
 
 =item * is_cached()
