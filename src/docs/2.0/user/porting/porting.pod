@@ -582,9 +582,7 @@ C<warnings> pragma was added):
   #file:apache_mp3_prep.diff
   --- Apache/MP3.pm.orig 2003-06-03 18:44:21.000000000 +1000
   +++ Apache/MP3.pm      2003-06-03 18:44:47.000000000 +1000
-  @@ -2,6 +2,9 @@
-   # $Id: porting.pod,v 1.7 2003/06/10 23:58:19 stas Exp $
-  
+  @@ -4,2 +4,5 @@
    use strict;
   +use warnings;
   +no warnings 'redefine';  # XXX: remove when done with porting
@@ -597,6 +595,10 @@ patch as:
 
   % cd ~/perl/blead-ithread/lib/site_perl/5.9.0/
   % patch -p0 < apache_mp3_prep.diff
+
+(note: I've produced the above patch and one more below with C<diff
+-u1>, to avoid the RCS Id tag geting into this document. Normally I
+produce diffs with C<diff -u> which uses the default context of 3.)
 
 assuming that I<Apache/MP3.pm> is located in the directory
 I<~/perl/blead-ithread/lib/site_perl/5.9.0/>.
@@ -850,17 +852,13 @@ of code to I<Apache/MP3.pm>:
 
   --- Apache/MP3.pm.5     2003-06-06 16:17:50.000000000 +1000
   +++ Apache/MP3.pm       2003-06-06 16:21:14.000000000 +1000
-  @@ -1,6 +1,10 @@
-   package Apache::MP3;
-   # $Id: porting.pod,v 1.7 2003/06/10 23:58:19 stas Exp $
+  @@ -3,2 +3,6 @@
   
   +BEGIN {
   +    die "Apache::compat is loaded loaded" if $INC{'Apache/compat.pm'};
   +}
   +
    use strict;
-   use warnings;
-   no warnings 'redefine';  # XXX: remove when done with porting
 
 and indeed, even though I've commented out the loading of
 C<Apache::compat> from I<startup.pl>, this module was still getting
