@@ -547,12 +547,18 @@ Add C<&callback> filter handler to input connection filter chain.
 
 =back
 
-META: It seems that you can't add a filter when another filter is
+[META: It seems that you can't add a filter when another filter is
 called. I've tried to add an output connection filter from the input
 connection filter when it was called for the first time. It didn't
 have any affect for the first request (over keepalive connection). The
 only way I succeeded to do that is from that input connection filter's
 filter_init handler.
+In fact it does work if there is any filter additional filter of the
+same kind configured from httpd.conf or via filter_init. It looks like
+there is a bug in httpd, where it doesn't prepare the chain of 3rd
+party filter if none were inserted before the first filter was called.]
+
+
 
 
 =head2 C<add_output_filter>
