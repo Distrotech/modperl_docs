@@ -57,8 +57,8 @@ proceed with the tests and it's not a must pass test, you just skip
 it.
 
 It's important to know that there is a special verbose mode, enabled
-with the I<-v> option, in which everything printed by the test goes to
-C<STDOUT>. So for example if your test does this:
+with the I<-verbose> option, in which everything printed by the test
+goes to C<STDOUT>. So for example if your test does this:
 
   print "# testing : feature foo\n";
   print "# expected: $expected\n";
@@ -66,7 +66,7 @@ C<STDOUT>. So for example if your test does this:
   ok $expected eq $received;
 
 in the normal mode, you won't see any of these prints. But if you run
-the test with I<t/TEST -v>, you will see something like this:
+the test with I<t/TEST -verbose>, you will see something like this:
 
   # testing : feature foo
   # expected: 2
@@ -133,11 +133,11 @@ faster to run the tests directly via:
 In case something goes wrong you should run the tests in the verbose
 mode:
 
-  % t/TEST -v
+  % t/TEST -verbose
 
 In this case the test may print useful information, like what values
 it expects and what values it receives, given that the test is written
-to report these. In the silent mode (without C<-v>) these printouts
+to report these. In the silent mode (without C<-verbose>) these printouts
 are suppressed by the test suite.
 
 When debugging problems it helps to keep the I<error_log> file open in
@@ -196,10 +196,10 @@ for the test filenames if you specify them explicitly.
 
 When you run specific tests you may want to run them in the verbose
 mode, and depending on how the test was written, you may get more
-debug information under this mode. This mode is turned on with I<-v>
+debug information under this mode. This mode is turned on with I<-verbose>
 option:
 
-  % t/TEST -run -v protocol/echo
+  % t/TEST -run -verbose protocol/echo
 
 You can run all the tests in a single directory by just passing this
 directory as an argument. You can pass more than one test or directory
@@ -465,7 +465,182 @@ for reports:
 Finally, any other options passed will be forwarded to C<t/TEST> as
 is.
 
-=head2 Advanced Testing
+=head2 RunTime Configuration Overriding
+
+After the server is configured during C<make test> or with C<t/TEST
+-config>, it's possible to explicitly override certain configuration
+parameters. The override-able parameters are listed when executing:
+
+  % t/TEST -help
+
+Probably the most useful parameters are:
+
+=over
+
+=item * -preamble
+
+configuration directives to add at the beginning of I<httpd.conf>.
+For example to turn the tracing on:
+
+  % t/TEST -preamble "PerlTrace all"
+
+=item * -postamble
+
+configuration directives to add at the end of I<httpd.conf>. For
+example to load a certain Perl module:
+
+  % t/TEST -postamble "PerlModule MyDebugMode"
+
+=item * -user
+
+run as user I<nobody>:
+
+  % t/TEST -user nobody
+
+=item * -port
+
+run on a different port:
+
+  % t/TEST -port 8799
+
+=item * -servername
+
+run on a different server:
+
+  % t/TEST -servername test.example.com
+
+=item * -httpd
+
+configure an httpd other than the default (that apxs figures out):
+
+  % t/TEST -httpd ~/httpd-2.0/httpd
+
+=item * -apxs
+
+switch to another apxs:
+
+  % t/TEST -apxs ~/httpd-2.0-prefork/bin/apxs
+
+=back
+
+For a complete list of override-able configuration parameters see the
+output of C<t/TEST -help>.
+
+=head2 Request Generation and Response Options
+
+We have mentioned already the most useful run-time options. Here are
+some other options that you may find useful during testing.
+
+=over
+
+=item * -ping
+
+Ping the server to see whether it runs
+
+  % t/TEST -ping
+
+Ping the server and wait until the server starts, report waiting time.
+
+  % t/TEST -ping=block
+
+This can be useful in conjunction with I<-run> option during debugging:
+
+  % t/TEST -ping=block -run
+
+normally, I<-run> will immediately quit if it detects that the server
+is not running, but with I<-ping=block> in effect, it'll wait
+indefinitely for the server to start up.
+
+=item * -head
+
+Issue a C<HEAD> request. For example to request I</server-info>:
+
+  % t/TEST -head /server-info
+
+=item * -get
+
+Request the body of a certain URL via C<GET>.
+
+  % t/TEST -get /server-info
+
+If no URL is specified C</> is used.
+
+ALso you can issue a C<GET> request but to get only headers as a
+response (e.g. useful to just check C<Content-length>)
+
+  % t/TEST -head -get /server-info
+
+C<GET> URL with authentication credentials:
+
+  % t/TEST -get /server-info -username dougm -password domination
+
+(please keep the password secret!)
+
+=item * -post
+
+Generate a C<POST> request.
+
+Read content to C<POST> from string:
+
+  % t/TEST -post /TestApache::post -content 'name=dougm&company=covalent'
+
+Read content to C<POST> from C<STDIN>:
+
+  % t/TEST -post /TestApache::post -content - < foo.txt
+
+Generate a content body of 1024 bytes in length:
+
+  % t/TEST -post /TestApache::post -content x1024
+
+The same but print only the response headers, e.g. useful to just
+check C<Content-length>:
+
+  % t/TEST -post -head /TestApache::post -content x1024
+
+=item * -header
+
+Add headers to (-get|-post|-head) request:
+
+  % t/TEST -get -header X-Test=10 -header X-Host=example.com /server-info
+
+=item * -ssl
+
+Run all tests through mod_ssl:
+
+  % t/TEST -ssl
+
+=item * -http11
+
+Run all tests with HTTP/1.1 (C<KeepAlive>) requests:
+
+  % t/TEST -http11
+
+=item * -proxy
+
+Run all tests through mod_proxy:
+
+  % t/TEST -proxy
+
+=item * 
+
+=back
+
+The debugging options I<-debug> and I<-breakpoint> are covered in the
+L<Debugging> section.
+
+For a complete list of available switches see the output of C<t/TEST
+-help>.
+
+=head2 Batch Mode
+
+When running in the batch mode and redirecting C<STDOUT>, this state
+is automagically detected and the I<no color> mode is turned on, under
+which the program generates a minimal output to make the log files
+useful. If this doesn't work and you still get all the mess printed
+during the interactive run, set the C<APACHE_TEST_NO_COLOR=1>
+environment variable.
+
+
 
 
 
@@ -1514,7 +1689,7 @@ example represent four possible outcomes of using the skip() function:
 
 now we run the test:
 
-  % ./t/TEST -run -v skip_subtest_1
+  % ./t/TEST -run -verbose skip_subtest_1
   skip_subtest_1....1..4
   ok 1 # skip foo is missing
   ok 2 # skip foo is missing
@@ -1558,7 +1733,7 @@ works just like ok().  For example, you can write this test:
 
 and then ask to run only sub-tests 1 and 3 and to skip the rest.
 
-  % ./t/TEST -v skip_subtest_2 1 3
+  % ./t/TEST -verbose skip_subtest_2 1 3
   skip_subtest_2....1..4
   ok 1
   ok 2 # skip skipping this subtest
@@ -1572,7 +1747,7 @@ Only the sub-tests 1 and 3 get executed.
 A range of sub-tests to run can be given using the Perl's range
 operand:
 
-  % ./t/TEST -v skip_subtest_2 2..4
+  % ./t/TEST -verbose skip_subtest_2 2..4
   skip_subtest_2....1..4
   ok 1 # skip askipping this subtest
   not ok 2
@@ -1643,9 +1818,9 @@ the test will print the following:
 
 No debug help here, since in a non-verbose mode the debug comments
 aren't printed.  If we run the same test using the verbose mode,
-enabled with C<-v>:
+enabled with C<-verbose>:
 
-  % t/TEST -v debug_comments
+  % t/TEST -verbose debug_comments
   debug_comments....1..1
   # testing feature foo
   # expected: a good value
@@ -1986,6 +2161,30 @@ ineffective. Therefore it's a good idea to get yourself familiar with
 Perl and C debuggers, and this knowledge will save you a lot of time
 and grief in a long run.
 
+=head2 Tracing
+
+Start the server under strace(1):
+
+  % t/TEST -debug strace
+
+The output goes to I<t/logs/strace.log>.
+
+META: complete
+
+run .t test under the perl debugger
+% t/TEST -d perl t/modules/access.t
+
+run .t test under the perl debugger (nonstop mode, output to t/logs/perldb.out)
+% t/TEST -d perl=nostop t/modules/access.t
+
+turn on -v and LWP trace (1 is the default) mode in Apache::TestRequest
+% t/TEST -d lwp t/modules/access.t
+
+turn on -v and LWP trace mode (level 2) in Apache::TestRequest
+% t/TEST -d lwp=2 t/modules/access.t
+
+
+
 =head2 Under C debugger
 
 META: to be written
@@ -1995,7 +2194,7 @@ META: to be written
 When the Perl code misbehaves it's the best to run it under the Perl
 debugger. Normally started as:
 
-  % perl -d program.pl
+  % perl -debug program.pl
 
 the flow control gets passed to the Perl debugger, which allows you to
 run the program in single steps and examine its states and variables
