@@ -31,13 +31,13 @@ are represented in a C<%Location> hash, e.g.:
   <Perl>
   
   $Location{"/~dougm/"} = {
-    AuthUserFile => '/tmp/htpasswd',
-    AuthType => 'Basic',
-    AuthName => 'test',
+    AuthUserFile   => '/tmp/htpasswd',
+    AuthType       => 'Basic',
+    AuthName       => 'test',
     DirectoryIndex => [qw(index.html index.htm)],
-    Limit => {
-      METHODS => 'GET POST',
-      require => 'user dougm',
+    Limit          => {
+        METHODS => 'GET POST',
+        require => 'user dougm',
     },
   };
   
@@ -83,19 +83,20 @@ configuration file and the full power of Perl to tweak the local
 configuration. For example to solve the problem of the C<ServerName>
 directive you might have this C<E<lt>Perl E<gt>> section:
 
-  <Perl>
+  <Perl >
   $ServerName = `hostname`;
   </Perl>
 
 For example if you want to allow personal directories on all machines
 except the ones whose names start with I<secure>:
 
-  <Perl>
+  <Perl >
   $ServerName = `hostname`;
-  if ( $ServerName !~ /^secure/) {
-    $UserDir = "public.html";
-  } else {
-    $UserDir = "DISABLED";
+  if ($ServerName !~ /^secure/) {
+      $UserDir = "public.html";
+  }
+  else {
+      $UserDir = "DISABLED";
   }
   </Perl>
 
@@ -137,9 +138,9 @@ handler argument must be given to the section:
 And in My/PerlSection/Handler.pm:
 
   sub My::Handler::handler : handler {
-    my($self, $parms, $args) = @_;
-    #do your thing!
-    }
+      my($self, $parms, $args) = @_;
+      #do your thing!
+  }
 
 So, when that given C<E<lt>Perl E<gt>> block in encountered, the code
 within will first be evaluated, then the handler routine will be
