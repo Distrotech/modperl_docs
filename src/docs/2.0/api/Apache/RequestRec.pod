@@ -828,7 +828,7 @@ new value
 
 =item ret: C<$hostname> ( string )
 
-the current hostname, or the previous value if the optionnal
+the current hostname, or the previous value if the optional
 C<$new_hostname> argument was passed
 
 =item since: 1.99_19
