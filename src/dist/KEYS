@@ -36,7 +36,6 @@ mod_perl developers/maintainers:
         PGP 5:
             pgpk -l  <your name> >> this file
             pgpk -xa <your name> and append it to this file
-            
 
         GnuPG
             gpg --list-keys <your name>
@@ -48,7 +47,7 @@ mod_perl developers/maintainers:
             pgp -sba mod_perl-x.xx.tar.gz
 
         PGP 5:
-            pgps -b --armor mod_perl-1.99_11.tar.gz
+            pgps -b --armor mod_perl-x.xx.tar.gz
 
         GnuPG
             gpg --detach-sign --armor mod_perl-x.xx.tar.gz 
