@@ -10,6 +10,7 @@
 file ~/httpd/worker/bin/httpd
 handle SIGPIPE nostop
 handle SIGPIPE pass
+set auto-solib-add 0
 
 define myrun
     tbreak main
@@ -17,7 +18,6 @@ define myrun
     #  ADJUST: the httpd.conf file's path if needed
     #  ADJUST: add -DPERL_USEITHREADS to debug threaded mpms
     run -d `pwd`/t -f `pwd`/t/conf/httpd.conf -DONE_PROCESS -DAPACHE2
-    set auto-solib-add 0
     continue
 end
 

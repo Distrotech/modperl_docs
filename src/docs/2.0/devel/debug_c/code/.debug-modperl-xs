@@ -13,6 +13,7 @@
 file /home/stas/httpd/worker/bin/httpd
 handle SIGPIPE nostop
 handle SIGPIPE pass
+set auto-solib-add 0
 
 define myrun
     tbreak main
@@ -21,7 +22,6 @@ define myrun
     # ADJUST: add -DPERL_USEITHREADS to debug threaded mpms
     run -d `pwd`/t -f `pwd`/t/conf/httpd.conf \
     -DONE_PROCESS -DNO_DETATCH -DAPACHE2
-    set auto-solib-add 0
     continue
 end
 
