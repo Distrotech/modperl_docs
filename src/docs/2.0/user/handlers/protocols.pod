@@ -86,8 +86,6 @@ The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because it's not
 known yet which resource the request will be mapped to.
 
-Example:
-
 A I<pre_connection> handler accepts connection record and socket
 objects as its arguments:
 
@@ -96,6 +94,48 @@ objects as its arguments:
       # ...
       return Apache::OK;
   }
+
+A good I<pre_connection> phase example is to have a facility to block
+remote clients by their IP before too many resources were used. This
+is almost as good as a firewall blocking, before Apache has started to
+do any work at all.
+
+C<MyApache::BlockIP2> retrieves client's remote IP and looks it up in
+the black list (which should certainly live outside the code, e.g. dbm
+file, but a hardcoded list is good enough for our example).
+
+  #file:/MyApache/BlockIP2.pm
+  #--------------------------
+  package MyApache::BlockIP2;
+  
+  use Apache::Connection ();
+  
+  use Apache::Const -compile => qw(FORBIDDEN OK);
+  
+  my %bad_ips = map {$_ => 1} qw(127.0.0.1 10.0.0.4);
+  
+  sub handler {
+      my Apache::Connection $c = shift;
+  
+      my $ip = $c->remote_ip;
+      if (exists $bad_ips{$ip}) {
+          warn "IP $ip is blocked\n";
+          return Apache::FORBIDDEN;
+      }
+  
+      return Apache::OK;
+  }
+  
+  1;
+
+This all happens during the I<pre_connection> phase:
+
+  PerlPreConnectionHandler MyApache::BlockIP2
+
+If a client connects from a blacklisted IP, Apache will simply abort
+the connection without sending any reply to the client, and move on to
+serving the next request.
+
 
 
 =head2 PerlProcessConnectionHandler
