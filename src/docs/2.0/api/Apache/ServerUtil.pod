@@ -125,7 +125,7 @@ Add a component to the version string
 
 =item arg1: C<$component> ( string )
 
-The string componennt to add
+The string component to add
 
 =item ret: no return value
 
