@@ -190,7 +190,7 @@ documentation|docs::index>, L<http://perl.apache.org/>,
 L<http://take23.org/>, L<http://httpd.apache.org/>,
 L<http://www.activestate.com/>,
 and the
-L<FAQs for mod_perl on Win32|docs::2.0::os::win32::faq>.
+L<FAQs for mod_perl on Win32|docs::general::os::win32::faq>.
 Help is also available through the archives of and subscribing to
 the L<mod_perl mailing list|maillist::modperl>.
 

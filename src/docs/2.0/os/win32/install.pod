@@ -212,13 +212,13 @@ before loading F<mod_perl.so>. If all else fails, a reboot may help.
 
 =head2 All in one packages
 
-At L<ftp://theoryx5.uwinnipeg.ca/pub/other/> there is a self-extracting
+At L<http://theoryx5.uwinnipeg.ca/pub/other/> there is a self-extracting
 archive F<Perl-5.8-win32-bin.exe> containing a binary version
 of perl-5.8 (compatible with ActivePerl 8xx), together with Apache 2.0
 and mod_perl 2.0. See the file F<Perl-5.8-win32-bin.readme> for
 a description. If you have trouble
 fetching the whole file at once, the directory
-L<ftp://theoryx5.uwinnipeg.ca/pub/other/Perl-5.8-win32-bin/>
+L<http://theoryx5.uwinnipeg.ca/pub/other/Perl-5.8-win32-bin/>
 contains this distribution split across multiple files -
 see F<README.join> for instructions on how to join them. Alternatively,
 if you have Perl already, you can get the script
@@ -233,7 +233,7 @@ Win32|docs::2.0::os::win32::config>, the L<mod_perl
 documentation|docs::index>, L<http://take23.org/>,
 L<http://httpd.apache.org/>, L<http://www.activestate.com/>,
 and the
-L<FAQs for mod_perl on Win32|docs::2.0::os::win32::faq>.  
+L<FAQs for mod_perl on Win32|docs::general::os::win32::faq>.  
 Help is also available through the archives of and subscribing to
 the L<mod_perl mailing list|maillist::modperl>.
 

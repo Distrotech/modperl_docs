@@ -1,0 +1,22 @@
+=head1 NAME
+
+Changes
+
+=head1 Description
+
+Refer to this document to learn what changes were made to the
+documents, since you've read these last time.
+
+The most recent changes are listed first.
+
+=head1 Mod Jan  1 16:05:30   SGT 2003
+
+* Addition of faq about GUI front ends
+  [Terra Info E<lt>info@terranovum.comE<gt>]
+
+=head1 Mod Jan  1 15:40:30   SGT 2003
+
+* Make the os docset, containing the win32 chapter.
+  [Randy Kobes E<lt>randy@theoryx5.uwinnipeg.caE<gt>]
+
+=cut

@@ -226,10 +226,10 @@ There are at least two binary packages for Win32 that contain the
 necessary Perl and Apache binaries: IndigoPerl from
 L<http://www.indigostar.com/>, and the self-extracting archive
 F<perl-win32-bin.exe> from
-L<ftp://theoryx5.uwinnipeg.ca/pub/other/> - see the file
+L<http://theoryx5.uwinnipeg.ca/pub/other/> - see the file
 F<perl-win32-bin.readme> for a description. If you have trouble
 fetching the whole file at once, the directory
-L<ftp://theoryx5.uwinnipeg.ca/pub/other/perl-win32-bin/>
+L<http://theoryx5.uwinnipeg.ca/pub/other/perl-win32-bin/>
 contains this distribution split across multiple files -
 see F<README.join> for instructions on how to join them.
 Alternatively, if you have Perl already, you can get the script
@@ -344,7 +344,7 @@ The directions for L<configuring mod_perl 1.0 on
 Win32|docs::1.0::os::win32::config>, the L<mod_perl
 documentation|docs::index>, L<http://take23.org/>,
 and the
-L<FAQs for mod_perl on Win32|docs::2.0::os::win32::faq>.
+L<FAQs for mod_perl on Win32|docs::general::os::win32::faq>.
 Help is also available through the archives of and subscribing to
 the L<mod_perl mailing list|maillist::modperl>.
 
