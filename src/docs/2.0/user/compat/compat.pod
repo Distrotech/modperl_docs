@@ -183,9 +183,10 @@ then in I<httpd.conf>:
 
   Alias /perl /path/to/perl/scripts
   <Location /perl>
-     Options +ExecCGI
      SetHandler perl-script
      PerlResponseHandler Apache::Registry
+     Options +ExecCGI
+     PerlOptions +ParseHeaders
   </Location>
 
 Notice that C<Apache::compat> has to be loaded before C<CGI.pm> if the
