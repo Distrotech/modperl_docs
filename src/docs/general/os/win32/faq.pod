@@ -298,6 +298,13 @@ the unix version - in particular, features enabling the utilities
 to be used within the Apache2 sources are missing. Nevertheless,
 they may be useful for building and installing 3rd-party C modules.
 
+=head2 Why is use of C<Apache::Log> on Win32 so slow?
+
+On Win32 Apache attempts to lock all writes to a file whenever
+it's opened for append (which is the case with logging functions), as
+Unix has this behavior built-in, while Win32 does not. Therefore
+C<Apache::Log> functions could be slower than Perl's print()/warn().
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
