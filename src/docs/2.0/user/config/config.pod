@@ -1179,11 +1179,65 @@ distribution.
 META: need help to write the tutorial section on this with examples.
 
 
+=head1 Adjusting C<@INC>
+
+You can always adjust contents of C<@INC> before the server
+starts. There are several ways to do that.
+
+=over
+
+=item * I<startup.pl>
+
+In L<the startup file|/Startup_File> you can use the C<lib> pragma
+like so:
+
+  use lib qw(/home/httpd/project1/lib /tmp/lib);
+  use lib qw(/home/httpd/project2/lib);
+
+=item * I<httpd.conf>
+
+In I<httpd.conf> you can use the C<PerlSwitches> directive to pass
+arguments to perl as you do from the command line, e.g.:
+
+  PerlSwitches -I/home/httpd/project1/lib -I/tmp/lib
+  PerlSwitches -I/home/httpd/project2/lib
+
+=back
+
+=head2 C<PERL5LIB> and C<PERLLIB> Environment Variables
+
+The effect of the C<PERL5LIB> and C<PERLLIB> environment variables on
+C<@INC> is described in the I<perlrun> manpage. mod_perl 2.0 doesn't
+do anything special about them.
+
+It's important to remind that both C<PERL5LIB> and C<PERLLIB> are
+ignored when the taint mode (C<PerlSwitches -T>) is in effect. Since
+you want to make sure that your mod_perl server is running under the
+taint mode, you can't use the C<PERL5LIB> and C<PERLLIB> environment
+variables.
+
+=head2 Modifying C<@INC> on a Per-VirtualHost
+
+If Perl used with mod_perl was built with ithreads support one can
+specify different C<@INC> values for different VirtualHosts, using a
+combination of C<L<PerlOptions +Parent|/C_Parent_>> and
+C<L<PerlSwitches|/C_PerlSwitches_>>. For example:
+
+  <VirtualHost ...>
+      ServerName dev1
+      PerlOptions +Parent
+      PerlSwitches -I/home/dev1/lib/perl
+      PerlModule Apache2
+  </VirtualHost>
+
+  <VirtualHost ...>
+      ServerName dev2
+      PerlOptions +Parent
+      PerlSwitches -I/home/dev2/lib/perl
+      PerlModule Apache2
+  </VirtualHost>
+
 =head1 General Issues
-
-=head2 Is There a Way to Modify C<@INC> on a Per-VirtualHost
-
-You can, using the L<PerlOptions +Parent|/C_Parent_> option.
 
 
 =head1 Maintainers
