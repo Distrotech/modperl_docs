@@ -11,11 +11,11 @@ Apache::Module - Perl API for creating and working with Apache modules
   
   # iterate over the whole module list
   for (my $modp = Apache::Module::top_module(); $modp; $modp = $modp->next) {
-      my $name          = $modp->name;
-      my $index         = $modp->module_index;
-      my $version       = $modp->version;
-      my $commands      = $modp->cmds;
-      my $minor_version = $modp->minor_version;
+      my $name                = $modp->name;
+      my $index               = $modp->module_index;
+      my $apache_api_version  = $modp->apache_api_version;
+      my $commands            = $modp->cmds;
+      my $minor_version       = $modp->minor_version;
   }
   
   # find a specific module
@@ -63,6 +63,29 @@ Perl|docs::2.0::user::config::custom>.
 
 C<Apache::Module> provides the following functions and/or methods:
 
+
+
+
+
+
+=head2 C<apache_api_version>
+
+Get the httpd API version this module was build against, B<not>
+the module's version; Used to check that module is compatible
+with this version of the server before loading it.
+
+  $version = $module->apache_api_version();
+
+=over 4
+
+=item obj: C<$module>
+( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
+
+=item ret: C<$version> ( integer )
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -357,29 +380,6 @@ module iteration.
 
 =item ret: C<$module>
 ( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head2 C<version>
-
-Get the httpd API version this module was build against, B<not>
-the module's version; Used to check that module is compatible
-with this version of the server before loading it.
-
-  $version = $module->version();
-
-=over 4
-
-=item obj: C<$module>
-( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
-
-=item ret: C<$version> ( integer )
 
 =item since: 1.99_12
 
