@@ -86,8 +86,9 @@ so it'll rebuild the html of the modified files.
 When the /www/ fs is full and we attempt to copy files over it, the
 whole online version may get rendered broken, since some (all) files
 will be simply truncated to 0. so the script takes care of checking
-whether the filesystem is under 95% (which happens quite often) and
-won't update the online version if that's the case.
+whether the available space on the filesystem is at least 50MB bigger
+than the size of the site, and if not, the online version of the site
+won't be updated.
 
 *** Resolving Problems ***
 
