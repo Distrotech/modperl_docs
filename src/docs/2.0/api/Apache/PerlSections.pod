@@ -175,4 +175,29 @@ for example:
 Would create a new alias. The source code of C<Apache::PerlSections>
 is a good place to look for a practical example.
 
+=head1 Bugs
+
+=head2 E<lt>PerlE<gt> directive missing closing 'E<gt>'
+
+httpd-2.0.47 and earlier had a bug in the configuration parser which
+caused the startup failure with the following error:
+
+  Starting httpd:
+  Syntax error on line ... of /etc/httpd/conf/httpd.conf:
+  <Perl> directive missing closing '>'     [FAILED]
+
+This has been fixed in httpd-2.0.48. If you can't upgrade to this or a
+higher version, please add a space before the closing 'E<gt>' of the
+opening tag as a workaround. So if you had:
+
+  <Perl>
+  # some code
+  </Perl>
+
+change it to be:
+
+  <Perl >
+  # some code
+  </Perl>
+
 =cut

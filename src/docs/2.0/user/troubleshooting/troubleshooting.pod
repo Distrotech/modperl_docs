@@ -70,6 +70,12 @@ different, so you may need to apply a different Perl one-liner.
 
 Update DBI to at least version 1.31.
 
+
+=head2  E<lt>PerlE<gt> directive missing closing 'E<gt>'
+
+See the L<Apache::PerlSections|docs::2.0::api::Apache::PerlSections/E_lt_PerlE_gt__directive_missing_closing__E_gt__> manpage.
+
+
 =head1 Shutdown and Restart
 
 
