@@ -136,6 +136,7 @@ DocSet::RunTime::set_opt(\%options);
 # absolutize the base url
 
 
+
 ######################################
 ### Create the PS/PDF DocSet
 ######################################
@@ -184,6 +185,7 @@ Options:
   -p    generate PS file
   -d    generate PDF file
   -f    force a complete rebuild
+  -l    do hypertext links validation
   -m    executed from Makefile (forces rebuild,
 				no PS/PDF file,
 				no tgz archive!)
@@ -194,7 +196,6 @@ USAGE
 #  -t    create tar.gz
 #  -s    create the splitted html version
 #  -a    print available hypertext anchors
-#  -l    do hypertext links validation
 #  -e    slides mode (for presentations)
 
   exit;
