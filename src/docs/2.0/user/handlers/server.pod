@@ -206,7 +206,7 @@ implementation in the C<MyApache::StartupLog> module in detail.
 
 
 
-=head2 PerlOpenLogsHandler
+=head2 C<PerlOpenLogsHandler>
 
 The I<open_logs> phase happens just before the I<post_config> phase.
 
@@ -271,7 +271,7 @@ simple loop. For example to print out the configured port numbers do:
 C<$s> is the base server object.
 
 The pool arguments in this phase and
-C<L<PerlPostConfigHandler|/PerlPostConfigHandler>> are:
+C<L<PerlPostConfigHandler|/C_PerlPostConfigHandler_>> are:
 
 =over
 
@@ -331,9 +331,9 @@ example we used the I<post_config()> handler:
   }
 
 As you can see, its arguments are identical to the
-L<I<open_logs|/PerlOpenLogsHandler>> phase's handler. In this example
-handler we don't do much, but logging that the configuration was
-completed and returning right away.
+L<I<open_logs|/C_PerlOpenLogsHandler_>> phase's handler. In this
+example handler we don't do much, but logging that the configuration
+was completed and returning right away.
 
 As you've seen in the example this handler is configured by adding to
 I<httpd.conf>:
@@ -341,8 +341,8 @@ I<httpd.conf>:
   PerlPostConfigHandler MyApache::StartupLog::post_config
 
 Everything that applies to
-C<L<PerlOpenLogsHandler|/PerlOpenLogsHandler>> identically applies to
-this handler.
+C<L<PerlOpenLogsHandler|/C_PerlOpenLogsHandler_>> identically applies
+to this handler.
 
 The
 C<L<add_version_component()|docs::2.0::api::Apache::ServerUtil/C_add_version_component_>>
