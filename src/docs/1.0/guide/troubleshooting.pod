@@ -4,8 +4,9 @@ Warnings and Errors Troubleshooting Index
 
 =head1 Description
 
-FIXME: DESCRIPTION
-
+If you encounter an error or warning you don't understand, check this
+chapter for solutions to common warnings and errors that the mod_perl
+community has encountered in the last few years.
 
 =head1 General Advice
 

@@ -4,8 +4,8 @@ Real World Scenarios
 
 =head1 Description
 
-FIXME: DESCRIPTION
-
+This chapter provides step by step installation guide for the various
+setups discussed in L<Choosing the Right Strategy|guide::strategy>.
 
 =head1 Assumptions 
 

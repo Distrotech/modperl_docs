@@ -4,8 +4,9 @@ Performance Tuning
 
 =head1 Description
 
-FIXME: DESCRIPTION
-
+An exhaustive list of various techniques you might want to use to get
+the most performance possible out of your mod_perl server:
+configuration, coding, memory use and more.
 
 =head1 The Big Picture
 

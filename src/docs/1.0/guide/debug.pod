@@ -4,7 +4,8 @@ Debugging mod_perl
 
 =head1 Description
 
-FIXME: DESCRIPTION
+Tired of Internal Server Errors? Find out how to debug your mod_perl
+applications, thanks to a number of features of Perl and mod_perl.
 
 
 =head1 Warning and Errors Explained
@@ -3411,8 +3412,19 @@ As you have noticed, I still haven't explained why the process hanging
 in the C<while(1)> loop isn't aborted by Apache.  The next section
 covers this.
 
-META: add the note about using the 'curinfo' gdb macro to perform an
-easy detecting of the hanging location.
+To easily detect the hanging location, you can go through these steps
+while running gdb:
+
+ (gdb) where
+ (gdb) source ~/.gdbinit
+ (gdb) curinfo
+
+(adjust the path to I<.gdbinit> if needed.)
+
+After loading the special macros file (I<.gdbinit>) you can use the
+I<curinfo> gdb macro to figure out the file and line number the code
+stuck in.
+
 
 =head1 Debugging Hanging processes (continued)
 
@@ -3664,7 +3676,7 @@ I<perl_config.c> after I<"ALRM">, before I<NULL>.
 
 =head1 Code Profiling
 
-(Meta: duplication??? I've started to write about profiling somewhere
+(META: duplication??? I've started to write about profiling somewhere
 in this file)
 
 It is possible to profile code run under mod_perl with the

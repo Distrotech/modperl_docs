@@ -4,7 +4,9 @@ Workarounds for some known bugs in browsers.
 
 =head1 Description
 
-FIXME: DESCRIPTION
+Unfortunately for web programmers, browser bugs are not uncommon, and
+sometimes we have to deal with them; refer to this chapter for some
+known bugs and how you can work around them.
 
 
 =head1 Preventing QUERY_STRING from getting corrupted because of &entity key names

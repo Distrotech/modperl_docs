@@ -4,7 +4,15 @@ mod_perl for ISPs. mod_perl and Virtual Hosts
 
 =head1 Description
 
-FIXME: DESCRIPTION
+mod_perl hosting by ISPs: fantasy or reality? This section covers some
+topics that might be of interest to users looking for ISPs to host
+their mod_perl-based website, and ISPs looking for a way to provide
+such services.
+
+Today, it is a reality: there are a number of ISPs hosting mod_perl,
+although the number of these is not as big as we would have liked it
+to be. To see a list of ISPs that can provide mod_perl hosting, see
+L<ISPs supporting mod_perl|support::isps>.
 
 
 =head1 ISPs providing mod_perl services - a fantasy or a reality

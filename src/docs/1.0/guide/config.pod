@@ -4,7 +4,9 @@ mod_perl Configuration
 
 =head1 Description
 
-FIXME: DESCRIPTION
+This section documents the various configuration options available for
+Apache and mod_perl, as well as the Perl startup files, and more esoteric
+possibilites such as configuring Apache with Perl.
 
 =head1 Server Configuration
 
@@ -987,7 +989,7 @@ and C<FALSE> otherwise.
 If a C<Perl*Handler> is prototyped with C<$$>, this handler will be
 invoked as a method.  For example:
 
-  package My;
+  package MyClass;
   @ISA = qw(BaseClass);
    
   sub handler ($$) {
@@ -1003,28 +1005,85 @@ invoked as a method.  For example:
   }
   
   1;
-  __END__
 
 Configuration:
 
- PerlHandler My
+  PerlHandler MyClass
 
 or
 
- PerlHandler My->handler
+  PerlHandler MyClass->handler
 
 Since the handler is invoked as a method, it may inherit from other
 classes:
 
- PerlHandler My->method
+  PerlHandler MyClass->method
 
-META: requires more explanation!
+In this case, the C<MyClass> class inherits this method from
+C<BaseClass>. This means that any method of C<MyClass> or any of its
+parent classes can serve as a mod_perl handler, and that you can apply
+good OO methodology within your mod_perl handlers.
 
-In this case, the C<My> class inherits this method from C<BaseClass>.
+For instance, you could have this base class:
+
+  package ServeContent;
+  
+  use Apache::Constants qw(OK);
+  
+  sub handler($$) {
+     my($class, $r) = @_;
+  
+     $r->send_http_header('text/plain');
+     $r->print($class->get_content());
+  
+     return OK;
+  }
+  
+  sub get_content {
+     return 'Hello World';
+  }
+  
+  1;
+
+And then use the same base class for different contents:
+
+  package HelloWorld;
+  
+  use ServeContent;
+  @ISA = qw(ServeContent);
+  
+  sub get_content {
+     return 'Hello, happy world!';
+  }
+  
+  package GoodbyeWorld;
+  
+  use ServeContent;
+  @ISA = qw(ServeContent);
+  
+  sub get_content {
+     return 'Goodbye, cruel world!';
+  }
+  
+  1;
+
+Now you can keep the same handler subroutine for a group of modules
+which are similiar. The following configuration will enable the
+handlers from the subclasses:
+
+  <Location /hello>
+      SetHandler perl-script
+      PerlHandler HelloWorld->handler
+  </Location>
+
+  <Location /bye>
+      SetHandler perl-script
+      PerlHandler GoodbyeWorld->handler
+  </Location>
 
 To build in this feature, configure with:
 
- % perl Makefile.PL PERL_METHOD_HANDLERS=1 [ ... ]
+  % perl Makefile.PL PERL_METHOD_HANDLERS=1 [ ... ]
 
 =head2 PerlFreshRestart
 
@@ -1649,9 +1708,9 @@ sections.
 =head2 References
 
 For more info see
-http://www.modperl.com Chapter 8
+I<Writing Apache Modules with Perl and C>, Chapter 8:
+http://modperl.com:9000/book/chapters/ch8.html
 
-META: a direct link?
 
 =head1 Validating the Configuration Syntax
 

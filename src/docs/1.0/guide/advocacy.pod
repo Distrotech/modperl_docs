@@ -4,13 +4,22 @@ mod_perl Advocacy
 
 =head1 Description
 
-FIXME: DESCRIPTION
+Having a hard time getting mod_perl into your organization? We have
+collected some arguments you can use to convince your boss why the
+organization wants mod_perl.
+
+You can contact the L<mod_perl advocacy list|maillist::list-advocacy>
+if you have any more questions, or good arguments you have used (any
+success-stories are also welcome to L<the docs-dev
+list|maillist::list-docs-dev>).
+
+Also see L<Popular Perl Complaints and Myths|faqs::perl_myth>.
 
 =head1 Thoughts about scalability and flexibility
 
-Your need for scalability and flexibility depends on what you need from
-your web site.  If you only want a simple guest book or database gateway
-with no feature headroom, you can get away with any
+Your need for scalability and flexibility depends on what you need
+from your web site.  If you only want a simple guest book or database
+gateway with no feature headroom, you can get away with any
 EASY_AND_FAST_TO_DEVELOP_TOOL (Exchange, MS IIS, Lotus Notes, etc).
 
 Experience shows that you will soon want more functionality, at which

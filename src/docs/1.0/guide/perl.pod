@@ -2592,6 +2592,10 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
+=item *
+
+Matt Sergeant E<lt>matt (at) sergeant.orgE<gt>
+
 =back
 
 Only the major authors are listed above. For contributors see the

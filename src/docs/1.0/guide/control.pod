@@ -4,7 +4,9 @@ Controlling and Monitoring the Server
 
 =head1 Description
 
-FIXME: DESCRIPTION
+Covers techniques to restart mod_perl enabled Apache, SUID scripts,
+monitoring, and other maintenance chores, as well as some specific
+setups.
 
 =head1 Restarting Techniques
 

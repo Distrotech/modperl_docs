@@ -4,7 +4,35 @@ Apache::* modules
 
 =head1 Description
 
-FIXME: DESCRIPTION
+Overview of some of the most popular modules for mod_perl, both to use
+directly from your code and as mod_perl handlers.
+
+Over the time, mod_perl has collected an impressive amount of modules
+which are distributed in the standard Perl way, over CPAN. Found in
+the C<Apache::> namespace, these implement various functionalities you
+might need when creating a mod_perl-based website. For mod_perl, we
+can actually make a distinction between two types of modules:
+
+=over
+
+=item *
+
+Apache handlers, which handle request phases or whole requests and are
+standalone (C<Apache::GTopLimit> for example).
+
+=item *
+
+Convenience modules, which are like standard Perl modules,
+implementing some useful aspect of web programming, usually using
+mod_perl API for a greater performance or functionality unavailable in
+plain Perl. (A good example of this is C<Apache::Session>.) These
+modules exist under the C<Apache::> namespace because they can only be
+used under mod_perl.
+
+=back
+
+For a complete list of modules, see the L<Apache/Perl Module
+list|products::apache-modlist>.
 
 
 =head1 Apache::Session - Maintain session state across HTTP requests
@@ -233,7 +261,7 @@ See the C<Apache::RequestNotes> manpage for more information.
 =head1 Apache::PerlRun - Run unaltered CGI scripts under mod_perl
 
 See L<Apache::PerlRun - a closer
-look|guide::porting/Apache_PerlRun_a_closer_look>.
+look|guide::porting/Apache__PerlRun__a_closer_look>.
 
 =head1 Apache::RegistryNG -- Apache::Registry New Generation
 
@@ -318,13 +346,61 @@ It works with C<Apache::Registry> as well, for example:
 It's really a regular C<Apache::Registry> setup, except for the added
 modules in the PerlHandler line.
 
-(L<Apache::GzipChain|guide::modules/Apache__GzipChain___compress_HTML__or_anything__in_the_OutputChain> allows to
-compress the output on the fly.)
+(L<Apache::GzipChain|guide::modules/Apache__GzipChain___compress_HTML__or_anything__in_the_OutputChain>
+allows to compress the output on the fly.)
 
 =head1 Apache::Filter - Alter the output of previous handlers
 
-META: to be written (actually summarized the info from Apache::Filter
-manpage)
+C<Apache::Filter>, like C<Apache::OutputChain>, allows you to chain
+stacked handlers. It's not very different from C<Apache::OutputChain>,
+except for the way you configure the filters. A normal configuration
+with C<Apache::Filter> would be the following:
+
+  PerlModule Apache::Filter Apache::RegistryFilter Apache::SSI Apache::Gzip
+  Alias /perl /home/httpd/perl
+  <Location /perl>
+     SetHandler "perl-script"
+     Options +ExecCGI
+     PerlSetVar Filter On
+     PerlHandler Apache::RegistryFilter Apache::SSI Apache::Gzip
+  </Location>
+
+This accomplishes some things many CGI programmers want: you can
+output SSI code from your C<Apache::Registry> scripts, have it parsed
+by C<Apache::SSI>, and then compressed with C<Apache::Gzip> (see
+L<Apache::Gzip|guide::modules/Apache__Gzip___Auto_compress_web_files_with_Gzip>
+below).
+
+Thanks to C<Apache::Filter>, you can also write your own filter
+modules, which allow you to read in the output from the previous
+handler in the chain and modify it. You would do something like this
+in your C<handler> subroutine:
+
+  $r = $r->filter_register();  # Required
+  my $fh = $r->filter_input(); # Optional (you might not need the input FH)
+  while (<$fh>) {
+      s/ something / something else /;
+      print;
+  }
+
+Another interesting thing to do with C<Apache::Filter> would be to use
+it for XML output from your scripts(these modules are hypothetical,
+this is handled much better by AxKit, Matt Seargeant's XML application
+server for mod_perl (see http://www.axkit.org/ ).
+
+  <Location /perl/xml-output>
+     SetHandler perl-script
+     Options +ExecCGI
+     PerlSetVar Filter On
+     PerlHandler Apache::RegistryFilter Apache::XSLT
+  </Location>
+
+As you can see, you can get a lot of freedom by using stacked
+handlers, allowing you to separate various parts of your programs and
+leave those tasks up to other modules, which may already be available
+from CPAN (this is much better than the CGI time when your script
+would have to do I<everything> itself, because you couldn't do much
+with its output).
 
 =head1 Apache::GzipChain - compress HTML (or anything) in the OutputChain
 

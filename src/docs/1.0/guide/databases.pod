@@ -4,8 +4,10 @@ mod_perl and Relational Databases
 
 =head1 Description
 
-FIXME: DESCRIPTION
-
+Creating dynamic websites with mod_perl often involves using
+relational databases. C<Apache::DBI>, which provides a database
+connections persistence which boosts the mod_perl performance, is
+explained in this chapter.
 
 =head1 Why Relational (SQL) Databases
 

@@ -4,7 +4,9 @@ Getting Help and Further Learning
 
 =head1 Description
 
-FIXME: DESCRIPTION
+If your question isn't answered by reading this guide, check this section
+for information on how to get help on mod_perl, Apache, or other topics
+discussed here.
 
 
 =head1 READ ME FIRST
@@ -22,7 +24,7 @@ should avoid asking questions, but you should not abuse the available
 help and you should I<RTFM> before you call for I<HELP>.  (Remember the
 fable of the shepherd boy and the wolves).
 
-For more information See L<Get helped with mod_perl|guide::help/Get_help_with_mod_perl>.
+For more information See L<Get help with mod_perl|guide::help/Get_help_with_mod_perl>.
 
 =head1 Contacting me
 
@@ -34,7 +36,7 @@ section and follow the guidelines described there.
 
 However, you are welcome to submit corrections and suggestions
 directly to me at
-stas@stason.org?subject=mod_perl%20guide%20corrections.  If you are
+stas (at) stason.org?subject=mod_perl%20guide%20corrections.  If you are
 going to submit heavy corrections of the text (I love those!), please
 help me by downloading the source pages in POD from
 http://www.stason.org/guide-snapshots/, directly editing them and
@@ -43,8 +45,9 @@ of such changes.  Thank you!
 
 I<PLEASE DO NOT SEND QUESTIONS DIRECTLY TO ME, I didn't invite those
 by writing the guide.  They will all be immediately deleted.  Please
-ask questions on the mod_perl list and if we can answer your question,
-one (or more) of us will answer it on the list.  Thank you!>
+ask questions on the L<mod_perl list|maillist::list-users> and if we can
+answer your question, one (or more) of us will answer it on the list.
+Thank you!>
 
 =head2 How to Report Problems
 
@@ -221,7 +224,7 @@ SAMS lists this book as:
   Price: $39.99
   Pages: 600
 
-=item * Managing and Programming mod_perl
+=item * Practical mod_perl
 
 http://www.modperlbook.com is the home site of the new mod_perl book,
 that Eric Cholet and Stas Bekman are co-authoring.  We expect
@@ -285,124 +288,61 @@ http://www.heise.de/ix/artikel/2000/01/156/
 
 =item * mod_perl mailing lists
 
+META: shouldn't we just link directly to the mailing list page? (once
+linking to a section works).
+
 =over
 
-=item * The mod_perl mailing list
+=item *
+
+L<The mod_perl mailing list|maillist::list-users>
 
 The Apache/Perl mailing list I<is available for mod_perl users and
 developers to share ideas, solve problems and discuss things related
-to mod_perl and the Apache::* modules.> To subscribe to this list,
-send email to modperl-subscribe@perl.apache.org .  To unsubscribe send
-email to modperl-unsubscribe@perl.apache.org .
+to mod_perl and the Apache::* modules.>
 
-To subscribe to the digest list send email to
-modperl-digest-subscribe@perl.apache.org .
+See the L<mailing list's info page|maillist::list-users> for more info.
 
-Searchable mailing list archives are available:
-
-=over
 
 =item *
 
-http://mathforum.org/epigone/modperl
-
-=item *
-
-http://www.geocrawler.com/lists/3/web/182/0/
-
-=item *
-
-http://www.mail-archive.com/modperl%40apache.org/
-
-=item *
-
-http://www.davin.ottawa.on.ca/archive/modperl/
-
-=item *
-
-http://marc.theaimsgroup.com/?l=apache-modperl
-
-=item *
-
-http://www.egroups.com/group/modperl/
-
-=back
-
-=item * The mod_perl development mailing list
+L<The mod_perl development mailing list|maillist::list-dev>
 
 This list is for discussions about the development of the core
 mod_perl.
 
-Subscription information.
-
-To subscribe to this list send an empty email to
-dev-subscribe@perl.apache.org.  To unsubscribe from the list send an
-empty email to dev-unsubscribe@perl.apache.org.  To get help with the
-list send an empty email to dev-help@perl.apache.org.
-
-List's searchable archives:
-
-=over
 
 =item *
 
-http://marc.theaimsgroup.com/?l=apache-modperl-dev&r=1&w=2#apache-modperl-dev
+L<The mod_perl documentation mailing list|maillist::list-docs-dev>
+
+This mailing list is for discussing mod_perl documentation, and is the one
+you should contact with issues related to this Guide or other
+documentation on this website.
 
 =item *
 
-http://www.mail-archive.com/dev%40perl.apache.org/
-
-=back
-
-=item * The mod_perl documentation mailing list
-
-This mailing list is for discussing mod_perl documentation.
-
-Subscription information
-
-  Subscribe to the list: docs-dev-subscribe@perl.apache.org.
-  Unsubscribe from the list: docs-dev-unsubscribe@perl.apache.org.
-  Get help with the list: docs-dev-help@perl.apache.org.
-
-=item * The Apache test framework development mailing list
+L<The Apache test framework development mailing
+list|maillist::list-test-dev>
 
 The test-dev list is the list where Apache HTTP Test project is
 discussed.
 
-Subscription information:
+=item *
 
-  Subscribe to the list: test-dev-subscribe@httpd.apache.org.
-  Unsubscribe from the list: test-dev-unsubscribe@httpd.apache.org.
-  Get help with the list: test-dev-help@httpd.apache.org.
-
-List's searchable archive:
-
-http://www.apachelabs.org/test-dev/
-
-=item * The advocacy mailing list
+L<The advocacy mailing list|maillist::list-advocacy>
 
 The list for mod_perl advocacy issues, discussions about
 sites, etc.
 
-Subscribe by sending a mail to advocacy-subscribe@perl.apache.org.
-Unsubscribe by sending a mail to advocacy-unsubscribe@perl.apache.org.
-Use advocacy@perl.apache.org to post to the list.
+=item *
 
-The archive: http://www.mail-archive.com/advocacy@perl.apache.org/.
-
-=item * The modperl-cvs mailing list
+L<The modperl-cvs mailing list|maillist::list-cvs>
 
 The modperl developers list is the list where you can watch mod_perl
 getting patched.  No real discussions happen on this list, but if you
 want to know about the latest changes in the mod_perl core before
 everyone else, this is a list to be on.
-
-To subscribe to this list, send email to
-modperl-cvs-subscribe@perl.apache.org .  To unsubscribe send email to
-modperl-cvs-unsubscribe@perl.apache.org .  Send email to
-modperl-cvs@perl.apache.org to post to the list.
-
-No archives available.
 
 =back
 
@@ -451,6 +391,7 @@ http://world.std.com/~swmcd/steven/perl/pm/xs/nw/NW.html
 
 I<Advanced Perl Programming> By Sriram Srinivasan. Published by
 O'Reilly & Associates. ISBN: 1-56592-220-4. Chapters 18-20.
+http://www.oreilly.com/catalog/advperl/
 
 perl-xs mailing list on perl.org (mail perl-xs-subscribe@perl.org)
 
@@ -511,7 +452,7 @@ http://stason.org/TULARC/webmaster/myfaq.html
 
 =item * Idiot's Guide to CGI programming
 
-http://www.perl.com/CPAN/doc/FAQs/cgi/idiots-guide.html
+http://www.webdeveloper.com/cgi-perl/cgi_idiots_guide_to_perl.html
 
 =item * WWW Security FAQ
 

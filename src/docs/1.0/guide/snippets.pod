@@ -4,8 +4,8 @@ Code Snippets
 
 =head1 Description
 
-FIXME: DESCRIPTION
-
+A collection of mod_perl code snippets which you can either adapt to
+your own use or integrate directly into your own code.
 
 =head1 Redirecting Errors to the Client Instead of error_log
 

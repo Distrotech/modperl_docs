@@ -4,8 +4,8 @@ Choosing the Right Strategy
 
 =head1 Description
 
-FIXME: DESCRIPTION
-
+This document discusses various mod_perl setup strategies used to get
+the best performance and scalability of the services.
 
 =head1 Do it like I do it!?
 
@@ -648,14 +648,18 @@ caching in mind.
 
 =item *
 
-Memory usage. Squid uses quite a bit of memory.
-
-META: more details?
+Memory usage. Squid uses quite a bit of memory. In fact, it caches a good
+part of its content in memory, to be able to serve it directly from RAM,
+a technique which is a lot quicker than serving from disk. However, as you
+already have your mod_perl server caching its code in RAM, you might not
+want another RAM-hogging beast taking up your precious memory (see the
+Squid FAQ for reference: http://www.squid-cache.org/Doc/FAQ/FAQ-8.html ).
 
 =item *
 
 HTTP protocol level. Squid is pretty much a C<HTTP/1.0> server, which
-seriously limits the deployment of C<HTTP/1.1> features.
+seriously limits the deployment of C<HTTP/1.1> features, such as
+C<Keep-Alive> requests.
 
 =item *
 

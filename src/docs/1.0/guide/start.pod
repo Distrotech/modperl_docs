@@ -4,7 +4,9 @@ Guide's Overview
 
 =head1 Description
 
-FIXME: DESCRIPTION
+The overview of the different parts of the guide, giving you an idea
+of what you should read, and in which order. Provides a good summary
+of all the documentation.
 
 
 =head1 What's inside?

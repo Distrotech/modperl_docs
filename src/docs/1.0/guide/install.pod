@@ -4,7 +4,10 @@ mod_perl Installation
 
 =head1 Description
 
-FIXME: DESCRIPTION
+An in-depth explanation of the mod_perl installation process, from the
+basic installation in 10 steps, to more complex one with all the
+possible options you might want to use, including DSO build. It
+includes troubleshooting tips too.
 
 
 =head1 A Summary of a Basic mod_perl Installation

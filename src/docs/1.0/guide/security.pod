@@ -4,7 +4,10 @@ Protecting Your Site
 
 =head1 Description
 
-FIXME: DESCRIPTION
+Securing your site should be your first priority, because of the
+consequences a break-in might have. We discuss the various
+authentication and authorization techniques available, a very
+interesting use of mod_perl.
 
 
 =head1 The Importance of Your site's Security
