@@ -9,7 +9,7 @@
 [%
     INCLUDE title;
 
-    INCLUDE navbar_local
+    INCLUDE navbar_local_top
         nav=doc.nav
         rel_doc_root=doc.dir.rel_doc_root;
 
@@ -21,14 +21,16 @@
     FOREACH sec = doc.body;
         sec;
         "<br><br>";
-        menu;
+        IF loop.count == loop.size;
+            INCLUDE navbar_local_bottom
+                nav=doc.nav
+                rel_doc_root=doc.dir.rel_doc_root;
+        ELSE;
+            INCLUDE top_link;
+        END;
         "<br><br>";
     END;
     "<!-- SwishCommand noindex -->";
-
-    INCLUDE navbar_local
-        nav=doc.nav
-        rel_doc_root=doc.dir.rel_doc_root;
 %]
 </div>
 <!-- end content-->

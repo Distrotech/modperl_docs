@@ -15,7 +15,7 @@
         "<p>${doc.meta.abstract}</p>";
     END;
 
-    INCLUDE download;
+    INCLUDE download_link;
 
 #    INCLUDE navbar_local
 #        nav=doc.nav

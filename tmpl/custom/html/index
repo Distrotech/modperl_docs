@@ -9,6 +9,8 @@
     content = ''
 -%]
 
+<!-- Swishcommand noindex -->
+
 <!-- left box (NAV)-->
 <div class='leftbox'>
     [% INCLUDE menu_top_level nav=doc.nav; %]
