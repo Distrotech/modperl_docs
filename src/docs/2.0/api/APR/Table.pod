@@ -40,7 +40,7 @@ C<APR::Table> allows its users to manipulate opaque string-content
 tables.
 
 The table's structure is somewhat similar to the Perl's hash
-structure, but allows multiply values for the same key.  An access to
+structure, but allows multiple values for the same key.  An access to
 the records stored in the table always requires a key.
 
 The key-value pairs are stored in the order they are added.
