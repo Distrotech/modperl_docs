@@ -1,0 +1,72 @@
+=head1 NAME
+
+Apache::RequestRec -- A Perl API for Apache request object
+
+=head1 SYNOPSIS
+
+    sub handler{
+        my $r = shift;
+        # now the API can be used on $r
+    }
+
+=head1 DESCRIPTION
+
+META: complete
+
+=head1 API
+
+Function arguments (if any) and return values are shown in the
+function's synopsis.
+
+=over
+
+=item * dir_config()
+
+dir_config() provides an interface for the per-directory variable
+specified by the C<PerlSetVar> and C<PerlAddVar> directives, and also
+can be manipulated via the C<APR::Table> methods.
+
+The keys are case-insensitive.
+
+  $apr_table = $r->dir_config();
+
+dir_config() called in a scalar context without the C<$key> argument
+returns a I<HASH> reference blessed into the I<APR::Table> class. This
+object can be manipulated via the I<APR::Table> methods. For available
+methods see I<APR::Table>.
+
+  @values = $r->dir_config( $key );
+
+If the C<$key> argument is passed in the list context a list of all
+matching values will be returned. This method is ineffective for big
+tables, as it does a linear search of the table. Thefore avoid using
+this way of calling dir_config() unless you know that there could be
+more than one value for the wanted key and all the values are wanted.
+
+  $value = $r->dir_config( $key );
+
+If the C<$key> argument is passed in the scalar context only a single
+value will be returned. Since the table preserves the insertion order,
+if there is more than one value for the same key, the oldest value
+assosiated with the desired key is returned. Calling in the scalar
+context is also much faster, as it'll stop searching the table as soon
+as the first match happens.
+
+  $r->dir_config( $key => $val );
+
+If the C<$key> and the C<$val> arguments are used, the set() operation
+will happen: all existing values associated with the key C<$key> (and
+the key itself) will be deleted and C<$value> will be placed instead.
+
+  $r->dir_config( $key => undef );
+
+If C<$val> is I<undef> the unset() operation will happen: all existing
+values associated with the key C<$key> (and the key itself) will be
+deleted.
+
+=item *
+
+=back
+
+
+=cut
