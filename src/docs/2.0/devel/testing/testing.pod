@@ -1815,50 +1815,41 @@ as a last argument for plan():
 
 =over
 
-=item * skip_unless()
-
-Alternatively to specifying a last argument for plan(), the
-skip_unless() function can be called before plan(), to decide whether
-to skip the whole test or not. plan() won't be reached if skip_unless
-decides to skip the test.
-
-skip_unless()'s argument is a list of things to test. The list can
-include scalars, which are passed to have_module(), and hash
-references. The hash references have a condition code reference as a
-key and a reason for failure as a value. The condition code is run and
-if it fails the provided reason is used to tell user why the test was
-skipped.
-
-For example:
-
-  skip_unless({sub {$a==$b} => "$a != $b!"
-               sub {$a==1}  => "$a != 1!"},
-              'LWP',
-              'cgi_d',
-               {sub {0} => "forced to be skipped"},
-             );
-  plan tests => 5;
-
-In this example, the first argument is a hash reference which includes
-two pairs of condition test functions and the corresponding reasons,
-the second and the third arguments are scalars passed to have_module()
-and the last argument is another hash reference with a single
-condition. This is just to demonstrate that you can supply conditions
-in various syntaxes without particular order. If any of the
-requirements from this list fail, plan() won't be called since
-skip_unless() will call exit().
-
 =item * have_module()
 
-have_module() tests for existance of Perl modules or C modules
+have_module() tests for presense of Perl modules or C modules
 I<mod_*>. It accepts a list of modules or a reference to the list.  If
 at least one of the modules is not found it returns a false value,
 otherwise it returns a true value. For example:
 
   plan tests => 5, have_module qw(Chatbot::Eliza Apache::AI);
 
-will skip the whole test if both Perl modules C<Chatbot::Eliza> and
-C<Apache::AI> are not available.
+will skip the whole test unless both Perl modules C<Chatbot::Eliza>
+and C<Apache::AI> are available.
+
+=item * have
+
+have() called as a last argument of plan() can impose multiple
+requirements at once.
+
+have()'s arguments can include scalars, which are passed to
+have_module(), and hash references. The hash references have a
+condition code reference as a value and a reason for failure as a
+key. The condition code is run and if it fails the provided reason is
+used to tell user why the test was skipped.
+
+For example:
+
+  plan tests => 5,
+      have 'LWP',
+           { "perl >= 5.7.3 is required" => sub { $] >= 5.007003   } },
+           { "not Win32"                 => sub { $^O eq 'MSWin32' } },
+           'cgid';
+
+In this example, we require the presense of the C<LWP> Perl module,
+C<mod_cgid>, that we run under perl E<gt>= 5.7.3 on Win32. If any of
+the requirements from this list fail, the test will be skipped and
+each failed requiremnt will print a reason for its failure.
 
 =item * have_perl()
 
@@ -1869,6 +1860,12 @@ C<$Config{usefoo}> is equal to I<'define'>. For example:
 
 if Perl wasn't compiled with C<-Duseithreads> the condition will be
 false and the test will be skipped.
+
+Also it checks for Perl extensions. For example:
+
+  plan tests => 5, have_perl 'iolayers';
+
+tests whether C<PerlIO> is available.
 
 =item * have_lwp()
 
@@ -1890,7 +1887,11 @@ tests for a specific version of httpd. For example:
 
   plan tests => 2, have_apache 2;
 
-will skip the test if not run under httpd 2.x.
+will skip the test if not run under httpd-2.x.
+
+  plan tests => 2, have_apache 1;
+
+will run the test only if run under Apache version 1.x.
 
 =back
 
