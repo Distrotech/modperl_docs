@@ -157,7 +157,9 @@ list|maillist::modperl>, so we can update this information:
 
   Apache::AuthExpire
   Apache::AuthNetLDAP
+  Apache::AuthenPasswd
   Apache::AuthzNetLDAP
+  Apache::AuthzPasswd
   Apache::Clean
   Apache::Peek
   CGI
