@@ -20,7 +20,7 @@ div.logobox {
 
 /* opera */
 body[class="body-margins"] {
-    width: auto !important; 
+    width: auto !important;
 }
 
 p, dl, ul, ol  {
@@ -140,22 +140,20 @@ div.leftbox {
 
 
 div.rightbox {
-    position: relative;
-    top: 0px;
-    left: 0px;
+    position: inherit; /*this can not be relative, absolute or unspecifed*/
     padding: 0px 0px 0px 0px;
-    margin: 0px 0px 0px 196px; 
+    margin: 0px 0px 0px 196px;
     border: 1px; /* this border MUST be _1px_ for ns4 */
     background-color: #ffffff;
     color: #000000;
 }
 
 div.footer {
-    position: relative;
+    position: inherit; 
     top: 0px;
     left: 0px;
     padding: 40px 50px 20px 50px;
-    margin: 0px 0px 0px 196px; 
+    margin: 0px 0px 0px 196px;
     border: 1px; /* this border MUST be _1px_ for ns4 */
     text-align: center;
     background-color: #ffffff;
@@ -476,7 +474,7 @@ td.search-box-bg {
 
 
 /*** notorious space gif feat ***/
-/* 
+/*
 we use the html tag <small> for this feat, hence that tag wont work as normal
 we can [probably] use any non block tag we want
 */
@@ -492,17 +490,17 @@ br.smallbr {
     font-family: helvetica, arial, verdana, sans-serif;
     font-size: 1px ;
     line-height: 1px;
-    display: run-in ; 
+    display: run-in ;
 }
 
 /* opera, ns6 display inline if you meet <small class="nbr"> , display must not be #inline" for opera*/
 small[class="nbr"] {
-    display: block; 
+    display: block;
 }
 
 /* for internet explorer 5.5 windows nt/2000, others? */
 small {
-    display: none; 
+    display: none;
 }
 
 /*** table styles, make them fit with the general design ***/
