@@ -192,7 +192,7 @@ alive for another HTTP request after the current request is completed?
 =item obj: C<$c>
 ( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
-=item arg1 opt: C<$new_status> (C<L<:conn_keepalive
+=item opt arg1: C<$new_status> (C<L<:conn_keepalive
 constant|docs::2.0::api::Apache::Const/C__conn_keepalive_>>)
 
 Normally you should not mess with setting this option when handling
@@ -256,7 +256,7 @@ How many requests were already served over the current connection.
 =item obj: C<$c>
 ( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
-=item obj opt: C<$new_served> (integer)
+=item opt arg1: C<$new_served> (integer)
 
 Set the number of served requests over the current
 connection. Normally you won't do that when handling HTTP

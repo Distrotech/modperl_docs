@@ -40,14 +40,14 @@ Convert time from an integer value into a string in a specified format
 
 The pool to allocate memory from
 
-=item arg2 opt: C<$time> (number)
+=item opt arg2: C<$time> (number)
 
 The time to convert (e.g., C<time()> or
 C<L<$r-E<gt>request_time|docs::2.0::api::Apache::RequestRec/C_request_time_>>).
 
 If the value is not passed the current time will be used.
 
-=item arg3 opt: C<$fmt> (string)
+=item opt arg3: C<$fmt> (string)
 
 The format to use for the conversion, using strftime(3) tokens.
 
@@ -55,7 +55,7 @@ If the value is not passed the default format used is:
 
   "%a, %d %b %Y %H:%M:%S %Z"
 
-=item arg4 opt: C<$gmt> (integer)
+=item opt arg4: C<$gmt> (integer)
 
 The time will be not converted to GMT if 0 is passed.
 
