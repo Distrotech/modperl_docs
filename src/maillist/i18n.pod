@@ -1,6 +1,6 @@
 =head1 NAME
 
-International mod_perl mailing list
+International mod_perl mailing lists
 
 =head1 Description
 
