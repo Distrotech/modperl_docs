@@ -69,6 +69,41 @@ This code prints the current thread id if running under a threaded
 MPM, otherwise it prints the process id.
 
 
+=head1 Developing Modules
+
+=head1 Apache::Reload
+
+META: need to port Apache::Reload notes from the guide here. but the
+gist is:
+
+  PerlModule Apache::Reload
+  PerlInitHandler Apache::Reload
+  PerlSetVar ReloadAll Off
+  PerlSetVar ReloadModules "ModPerl::* Apache::*"
+
+Though notice that we have started to practice the following style in
+our modules:
+
+  package Apache::Whatever;
+  
+  use strict;
+  use warnings FATAL => 'all';
+
+C<FATAL => 'all'> escalate all warnings into fatal errors. So when
+C<Apache::Whatever> is modified and reloaded by C<Apache::Reload> the
+request is aborted. Therefore if you follow this very healthy style
+and want to use C<Apache::Reload>, flex the strictness by changing it
+to:
+
+  use warnings FATAL => 'all';
+  no warnings 'redefine';
+
+but if you still want the I<redefine> warnings, but so they won't be
+fatal:
+
+  use warnings FATAL => 'all';
+  no warnings 'redefine';
+  use warnings 'redefine';
 
 
 =head1 Perl Specifics in mod_perl Environment
