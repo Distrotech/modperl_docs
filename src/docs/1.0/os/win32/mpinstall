@@ -1,0 +1,234 @@
+#####################################################################
+# A Perl script to fetch and install via ppm mod_perl on Win32
+# Copyright 2002, by Randy Kobes.
+# This script may be distributed under the same terms as Perl itself.
+# Please report problems to Randy Kobes <randy@theoryx5.uwinnipeg.ca>
+#####################################################################
+
+use strict;
+use warnings;
+use ExtUtils::MakeMaker;
+use LWP::Simple;
+use Archive::Tar;
+use Compress::Zlib;
+use File::Copy;
+use Config;
+
+die "This only works for Win32" unless $^O =~ /Win32/i;
+die "No mod_perl ppm package available for this Perl" if ($] < 5.006001);
+
+my ($apache2, $apache);
+
+# find a possible Apache2 directory
+APACHE2: {
+  for my $drive ('C'..'G') {
+    for my $p ('Apache2', 'Program files/Apache2', 
+	       'Program Files/Apache Group/Apache2') { 
+      if (-d "$drive:/$p") {
+	$apache2 = "$drive:/$p";
+	last APACHE2;
+      }
+    }
+  }
+}
+if ($apache2) {
+  my $ans = prompt(qq{Install mod_perl-2 for "$apache2"?}, 'yes');
+  $apache2 = undef unless ($ans =~ /^y/i);
+}
+
+# if no Apache2, try to find Apache1
+unless ($apache2) {
+ APACHE: {
+    for my $drive ('C'..'G') {
+      for my $p ('Apache', 'Program Files/Apache', 
+		 'Program Files/Apache Group/Apache') {
+	if (-d "$drive:/$p") {
+	  $apache = "$drive:/$p";
+	  last APACHE;
+	}
+      }
+    }
+  }
+}
+if ($apache) {
+  my $ans = prompt(qq{Install mod_perl-1 for "$apache"?}, 'yes');
+  $apache = undef unless ($ans =~ /^y/i);
+}
+
+# check Apache versions 
+if ($apache or $apache2) {
+  my $vers;
+  if ($apache) {
+    $vers = qx{"$apache\\apache.exe" -v};
+    die qq{"$apache" does not appear to be version 1.3}
+      unless $vers =~ m!Apache/1.3!;
+  }
+  else {
+    $vers = qx{"$apache2\\bin\\apache.exe" -v};
+    die qq{"$apache2" does not appear to be version 2.0}
+      unless $vers =~ m!Apache/2.0!;
+  }
+}
+
+# prompt to get an Apache installation directory
+else {
+  my $dir = prompt("Where is your apache installation directory?", '');
+  die 'Need to specify the Apache installation directory' unless $dir;
+  die qq{"$dir" does not exist} unless (-d $dir);
+  if ($dir =~ /Apache2/) {
+    my $ans = prompt(qq{Install mod_perl-2 for "$dir"?}, 'yes');
+    $apache2 = $dir if ($ans =~ /^y/i);
+  }
+  else {
+    my $ans = prompt(qq{Install mod_perl-1 for "$dir"?}, 'yes');
+    $apache = $dir if ($ans =~ /^y/i);
+  }
+  unless ($apache or $apache2) {
+    my $mpv = prompt('Which mod_perl version would you like [1 or 2]?', 2);
+    if ($mpv == 1) {
+      $apache = $dir;
+    }
+    elsif ($mpv == 2) {
+      $apache2 = $dir;
+    }
+    else {
+      die 'Please specify either "1" or "2"';
+    }
+  }
+}
+
+die 'Please specify an Apache directory' unless ($apache or $apache2);
+
+my $theoryx5 = 'http://theoryx5.uwinnipeg.ca';
+my ($ppd, $tgz, $ppdfile, $tgzfile);
+
+# set appropriate ppd and tar.gz files
+if ($] < 5.008) {
+  if ($apache2) {
+    $ppdfile = 'mod_perl-2.ppd';
+    $tgzfile = 'mod_perl-2.tar.gz';
+    $ppd = $theoryx5 . '/ppmpackages/' . $ppdfile;
+    $tgz = $theoryx5 . '/ppmpackages/x86/' . $tgzfile;
+  }
+  else {
+    my $ans = prompt('Do you need EAPI support for mod_ssl?', 'no');
+    if ($ans =~ /^n/i) {
+      $ppdfile = 'mod_perl.ppd';
+      $tgzfile = 'mod_perl.tar.gz';
+      $ppd = $theoryx5 . '/ppmpackages/' . $ppdfile;
+      $tgz = $theoryx5 . '/ppmpackages/x86/' . $tgzfile;
+    }
+    else {
+      $ppdfile = 'mod_perl-eapi.ppd';
+      $tgzfile = 'mod_perl-eapi.tar.gz';
+      $ppd = $theoryx5 . '/ppmpackages/' . $ppdfile;
+      $tgz = $theoryx5 . '/ppmpackages/x86/' . $tgzfile;
+    }
+  }
+}
+else {
+  if ($apache2) {
+    $ppdfile = 'mod_perl.ppd';
+    $tgzfile = 'mod_perl.tar.gz';
+    $ppd = $theoryx5 . '/ppms/' . $ppdfile;
+    $tgz = $theoryx5 . '/ppms/x86/' . $tgzfile;
+  }
+  else {
+    die 'No mod_perl-1 package available for this perl version';
+  }
+}
+
+my $tmp = $ENV{TEMP} || $ENV{TMP} || '.';
+chdir $tmp or die "Cannot chdir to $tmp: $!";
+
+# fetch the ppd and tar.gz files
+print "Fetching $ppd ...";
+getstore($ppd, $ppdfile);
+print " done!\n";
+die "Failed to fetch $ppd" unless -e $ppdfile;
+print "Fetching $tgz ...";
+getstore($tgz, $tgzfile);
+print " done!\n";
+die "Failed to fetch $tgz" unless -e $tgzfile;
+
+# edit the ppd file to reflect a local installation
+my $old = $ppdfile . 'old';
+rename $ppdfile, $old 
+  or die "renaming $ppdfile to $old failed: $!";
+open(OLD, $old) or die "Cannot open $old: $!";
+open(NEW, ">$ppdfile") or die "Cannot open $ppdfile: $!";
+while (<OLD>) {
+  next if /<INSTALL/;
+  s/$tgz/$tgzfile/;
+  print NEW $_;
+}
+close OLD;
+close NEW;
+
+# install mod_perl via ppm
+my $ppm = $Config{bin} . '\ppm';
+my @args = ($ppm, 'install', $ppdfile);
+print "\n@args\n";
+system(@args) == 0 or die "system @args failed: $?";
+
+# extract mod_perl.so from the tar.gz file
+my $so = 'mod_perl.so';
+my $archive = Archive::Tar->new($tgzfile, 1);
+print "\nExtracting mod_perl.so ...";
+$archive->extract($so);
+die "Extraction of $so failed" unless (-e $so);
+print " done!\n";
+
+# figure out where to place mod_perl.so
+my $modules = $apache ? "$apache/modules" : "$apache2/modules";
+$modules = prompt("Where should $so be placed?", $modules);
+unless (-d $modules) {
+  my $ans = prompt(qq{"$modules" does not exist. Create it?}, 'yes');
+  if ($ans =~ /^y/i) {
+    mkdir $modules or die "Cannot create $modules: $!";
+  }
+  else {
+    $modules = undef;
+  }
+}
+# move mod_perl.so to the Apache modules directory
+if ($modules) {
+  print "\nMoving $so to $modules ...";
+  move($so, qq{$modules})
+    or die "Moving $so to $modules failed: $!";
+  print " done!\n";
+}
+else {
+  die "Please install $so to your Apache modules directory manually";
+}
+
+# clean up, if desired
+my $ans = prompt("Remove temporary installation files from $tmp?", 'yes');
+if ($ans =~ /^y/i) {
+  unlink ($ppdfile, $old, $tgzfile) 
+    or warn "Cannot unlink files from $tmp: $!";
+}
+
+# get the name and location of the perlxx.dll
+(my $dll = $Config{libperl}) =~ s!\.lib$!.dll!;
+$dll = $Config{bin} . '/' . $dll;
+$dll =~ s!\\!/!g;
+
+# suggest a minimal httpd.conf configuration
+my $ap = $apache || $apache2;
+print <<"END";
+
+mod_perl was successfully installed.
+To try it out, put the following directives in your
+Apache httpd.conf file (under $ap/conf):
+
+  LoadFile "$dll"
+  LoadModule perl_module modules/$so
+
+in the section where other apache modules are loaded,
+and then fire up the server. You may also have to add 
+$Config{bin} to your PATH environment variable. 
+
+For more information, visit http://perl.apache.org/.
+
+END

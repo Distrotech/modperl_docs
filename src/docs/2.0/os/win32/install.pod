@@ -135,7 +135,14 @@ not have spaces in their names (eg, F<C:/Apache2>).
 After installing Perl and Apache 2.0, you can then install mod_perl
 via the C<PPM> utility. ActiveState does not maintain mod_perl in
 their ppm repository, so you must get it from a different location
-other than ActiveState's site. One way is simply as (broken over two
+other than ActiveState's site. A quick way to do this is to download
+the script F<mpinstall> and save it as, for example, I<mpinstall>.
+Invoking this as C<perl mpinstall> on a command line
+will take you through a dialogue, based on your configuration, 
+which will determine and install, via C<ppm>, the desired 
+mod_perl ppm package.
+
+The direct way to install mod_perl via ppm is simply as (broken over two
 lines for readability)
 
   C:\> ppm install
