@@ -15,6 +15,12 @@ Basic Layout:
 DocSet:
 -------
 
+- need to be able to copy elements from the <head> section of the
+  source html into the target file. Since this may cause collisions
+  with preset headers, need to override the preset header's elements
+  with source header elements. meaning that the TT should be able to
+  reproduce the headers.
+
 - how do we make L<foo|../search/swish.cgi> I cannot do search::swish,
   it's not a doc.
   STATUS: need to extend pod parser with U<title (url|relative url)>
@@ -51,8 +57,12 @@ General:
 Content:
 --------
 
-- rewrite 404.html to be a plain html to be copied as is to dst_html,
-  with a link to perl.apache.org only.
+- need to fix 404.html to include:
+
+  <base href="http://perl.apache.org/"> 
+
+  STATUS: DocSet needs to support copying of other than <title>
+  headers first.
 
 - how about adding a page: 'link to us', with a selection of a few
   logos/buttons for people to reuse, including a copy-n-paste-ready
@@ -146,9 +156,11 @@ Site Migration process:
 - move the embperl cvs, as is and make sure that it's copied over as
   is without processing
 
-- move the /dist/ stuff, or symlink to it. remove all the pods from
-  /dist/
+- /dist/:
 
+  o move the /dist/ stuff, or symlink to it. 
+  o remove all the pods from /dist/
+  o apache-modlist.html has moved (.htaccess already redirects it)
 
 ====================================================================
 
