@@ -629,6 +629,15 @@ See the C<L<APR::Pool|docs::2.0::api::APR::Pool>> manpage.
 
 =head1 Request Object Methods
 
+=head2 C<$r-E<gt>cgi_env>
+
+See the next item
+
+=head2 C<$r-E<gt>cgi_var>
+
+C<$r-E<gt>cgi_env> and C<$r-E<gt>cgi_var> should be replaced with
+C<$r-E<gt>subprocess_env>, which works identically in both mod_perl
+generations.
 
 =head2 C<$r-E<gt>current_callback>
 
