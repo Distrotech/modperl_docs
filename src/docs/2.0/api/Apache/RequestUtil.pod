@@ -811,11 +811,12 @@ including the admin information or nothing at all.
 
 =head2 C<request>
 
-Retrieve the ( C<L<Apache::RequestRec
+Get/set the ( C<L<Apache::RequestRec
 object|docs::2.0::api::Apache::RequestRec>> ) object for the current
 request.
 
   $r = Apache->request;
+       Apache->request($new_r);
 
 =over 4
 
@@ -823,16 +824,22 @@ request.
 
 The Apache class name
 
+=item opt arg1: C<$new_r>
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+
 =item ret: C<$r>
 ( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
-=item since: 1.99_10
+=item since: 1.99_17
 
 =back
 
-This method is only available if C<L<PerlOptions
+The get-able part of this method is only available if C<L<PerlOptions
 +GlobalRequest|docs::2.0::user::config::config/C_GlobalRequest_>> is
-in effect.
+in effect or if C<Apache-E<gt>request($new_r)> was called earlier. So
+instead of setting C<L<PerlOptions
++GlobalRequest|docs::2.0::user::config::config/C_GlobalRequest_>>, one
+can set the global request from within the handler.
 
 
 
