@@ -36,7 +36,7 @@ b load_module
 # ADJUST: the httpd.conf file's path if needed
 # ADJUST: add -DPERL_USEITHREADS to debug threaded mpms
 run -d `pwd`/t -f `pwd`/t/conf/httpd.conf \
--DONE_PROCESS -DNO_DETATCH -DAPACHE2
+-DONE_PROCESS -DNO_DETACH -DAPACHE2
 
 # skip over 'tbreak main'
 continue
