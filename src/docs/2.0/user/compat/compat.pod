@@ -575,8 +575,23 @@ The functions C<$r-E<gt>hard_timeout>, C<$r-E<gt>reset_timeout>,
 C<$r-E<gt>soft_timeout> and C<$r-E<gt>kill_timeout> aren't needed
 in mod_perl 2.0.
 
+=head2 C<$r-E<gt>set_byterange>
 
+See the next item.
 
+=head2 C<$r-E<gt>each_byterange>
+
+The functions C<$r-E<gt>set_byterange> and C<$r-E<gt>each_byterange>
+aren't in the Apache 2.0 API, and therefore don't exist in mod_perl
+2.0. The byterange serving functionality is now implemented in the
+ap_byterange_filter, which is a part of the core http module, meaning
+that it's automatically taking care of serving the requested ranges
+off the normal complete response. There is no need to configure
+it. It's executed only if the appropriate request headers are
+set. These headers aren't listed here, since there are several
+combinations of them, including the older ones which are still
+supported. For a complete info on these see
+I<modules/http/http_protocol.c>.
 
 
 =head1 Apache::File
