@@ -43,7 +43,7 @@ supported by the used perl build.
       unless APR::PerlIO::PERLIO_LAYERS_ARE_ENABLED;
 
 Notice that loading C<APR::PerlIO> won't fail when Perl IO layers
-aren't available since C<APR::PerlIO provides functionality for Perl
+aren't available since C<APR::PerlIO> provides functionality for Perl
 builds not supporting Perl IO layers.
 
 =head1 API
