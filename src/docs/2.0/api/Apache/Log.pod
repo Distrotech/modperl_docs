@@ -97,6 +97,12 @@ The filename and the line number of the caller are logged only if
 C<Apache::LOG_DEBUG> is used (because that's how Apache 2.0 logging
 mechanism works).
 
+Note: On Win32 Apache attempts to lock all writes to a file whenever
+it's opened for append (which is the case with logging functions), as
+Unix has this behavior built-in, while Win32 does not. Therefore
+C<Apache::Log> functions could be slower than Perl's print()/warn().
+
+
 
 
 
