@@ -830,7 +830,7 @@ C<L<APR::Finfo|docs::2.0::api::APR::Finfo>> object. You can then
 invoke the C<L<APR::Finfo|docs::2.0::api::APR::Finfo>> accessor
 methods on it.
 
-It's also possible to to adjust the mod_perl 1.0 code using
+It's also possible to adjust the mod_perl 1.0 code using
 Apache::compat's
 L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_with_mod_perl_2_0_API>.
 For example:
@@ -868,7 +868,7 @@ C<L<APR::Table|docs::2.0::api::APR::Table>> object, which can be used
 as a tied hash or calling its I<get()>/I<set()>/I<add()>/I<unset()>
 methods.
 
-It's also possible to to adjust the mod_perl 1.0 code using
+It's also possible to adjust the mod_perl 1.0 code using
 Apache::compat's
 L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_with_mod_perl_2_0_API>:
 
@@ -1083,7 +1083,7 @@ now it'll be written as:
   my $remoteport = $c->remote_addr->port;
   my $remoteip   = $c->remote_addr->ip_get;
 
-It's also possible to to adjust the code using Apache::compat's
+It's also possible to adjust the code using Apache::compat's
 L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_with_mod_perl_2_0_API>:
 
   use Socket 'sockaddr_in';
@@ -1236,13 +1236,27 @@ prints:
 
   http://localhost.localdomain:8529/TestAPI::uri
 
-Notice that if C<L<Apache::compat|docs::2.0::api::Apache::compat>> is
-loaded, C<unparse()> will transparently set I<scheme> to I<http> to
-preserve the backwards compatibility with mod_perl 1.0.
-
 See the C<L<APR::URI|docs::2.0::api::APR::URI>> manpage for more
 information.
 
+It's also possible to adjust the behavior to be mod_perl 1.0
+compatible using Apache::compat's
+L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_with_mod_perl_2_0_API>,
+in which case C<unparse()> will transparently set I<scheme> to
+I<http>.
+
+  # request http://localhost.localdomain:8529/TestAPI::uri
+  Apache::compat::override_mp2_api('APR::URI::unparse');
+  my $parsed = $r->parsed_uri;
+  # set hostname, but not the scheme
+  $parsed->hostname($r->get_server_name);
+  $parsed->port($r->get_server_port);
+  print $parsed->unparse;
+  Apache::compat::restore_mp2_api('APR::URI::unparse');
+
+prints:
+
+  http://localhost.localdomain:8529/TestAPI::uri
 
 
 
