@@ -12,16 +12,15 @@ These are the mod_perl specific books.
 
 =head2 Writing Apache Modules with Perl and C
 
-=for html <img src="../../images/books/wrapmod.jpg" alt="Writing
-Apache Modules with Perl and C" align="right">
+=for html <img src="../../images/books/wrapmod.jpg"
+width="107" height="140" align="right"
+alt="Writing Apache Modules with Perl and C">
 
-http://www.modperl.com is the home site of The Apache Modules Book, a book
+http://www.modperl.com/ is the home site of The Apache Modules Book, a book
 about creating Web server modules using the Apache API, written by
 Lincoln Stein and Doug MacEachern.
 
-The book should be available from your local bookstore or from your
-favorite on-line bookseller.  O'Reilly & Associates lists this book
-as:
+O'Reilly & Associates lists this book as:
 
   Writing Apache Modules with Perl and C
   By Lincoln Stein & Doug MacEachern
@@ -32,10 +31,11 @@ as:
 
 =head2 The mod_perl Developer's Cookbook
 
-=for html <img src="../../images/books/modperlcookbook.jpg" alt="The
-mod_perl Developer's Cookbook" align="right">
+=for html <img src="../../images/books/modperlcookbook.jpg"
+width="113" height="140" align="right"
+alt="The mod_perl Developer's Cookbook">
 
-Home site: http://www.modperlcookbook.org
+Home site: http://www.modperlcookbook.org/
 
 SAMS lists this book as:
 
@@ -48,17 +48,25 @@ SAMS lists this book as:
 
 =head2 Practical mod_perl
 
-http://www.modperlbook.com is the home site of the new mod_perl book,
-that Eric Cholet and Stas Bekman are co-authoring.  We expect the book
-to be published in 2002 by O'Reilly & Associates.
+=for html <img src="../../images/books/practical_modperl.jpg"
+width="128" height="169" align="right"
+alt="Practical mod_perl">
 
-Ideas, suggestions and comments are welcome. Please send them to
-E<lt>info {at} modperlbook.comE<gt>.
+Home site: http://modperlbook.org/
+
+O'Reilly & Associates lists this book as:
+
+  Practical mod_perl
+  By Stas Bekman, Eric Cholet
+  May 2003
+  0-596-00227-0, Order Number: 2270
+  924 pages, $49.95 US, $77.95 CA, £35.50 UK 
 
 =head2 mod_perl Pocket Reference
 
-=for html <img src="../../images/books/modperlpr.jpg" alt="mod_perl
-Pocket Reference" align="right">
+=for html <img src="../../images/books/modperlpr.jpg" 
+width="85" height="140" align="right" 
+alt="mod_perl Pocket Reference">
 
 The I<mod_perl Pocket Reference> by Andrew Ford was published by
 O'Reilly and Associates http://www.oreilly.com/catalog/modperlpr/
@@ -80,8 +88,9 @@ programs at http://www.refcards.com.
 
 =head2 Embedding Perl in HTML with Mason
 
-=for html <img src="../../images/books/masonbook.jpg" alt="Embedding
-Perl in HTML with Mason" align="right">
+=for html <img src="../../images/books/masonbook.jpg"
+width="107" height="140" align="right"
+alt="Embedding Perl in HTML with Mason">
 
 I<Embedding Perl in HTML with Mason> discusses Mason
 (http://www.masonhq.com), a toolkit for web programming that runs
@@ -101,8 +110,9 @@ http://www.oreilly.com/catalog/perlhtmlmason/
 
 =head2 Running Weblogs with Slash
 
-=for html <img src="../../images/books/runblogslash.jpg" alt="Running
-Weblogs with Slash" align="right">
+=for html <img src="../../images/books/runblogslash.jpg"
+width="107" height="140" align="right"
+alt="Running Weblogs with Slash">
 
 Slash (http://www.slashcode.org/) is the open-source software system
 that drives the hugely popular Slashdot (http://www.slashdot.org/) web
