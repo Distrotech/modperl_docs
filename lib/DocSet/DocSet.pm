@@ -33,18 +33,19 @@ sub init {
     }
 
     # we assume that the docset was not modified since the last run.
-    # if at least one source doc was modified, the docset is considered
-    # modified as well and should be rebuild. It's the responsibility
-    # of the modified object to make its parent docset as modified.
+    # if at least one source doc/config file was modified, the docset
+    # is considered modified as well and should be rebuild. It's the
+    # responsibility of the modified object to make its parent docset
+    # as modified.
     $self->modified(0);
 
-    # currently there are 4 reasons why the docset is considered
+    # currently there are 5 reasons why the docset is considered
     # 'modified', if at least one of these is 'modified':
     # 1. the included docset
     # 2. the included chapter
     # 3. the included 'copy as-is' files
     # 4. config.cfg is newer than corresponding index.html
-    # 
+    # 5. the cache file is missing
 
 }
 
@@ -56,7 +57,19 @@ sub scan {
     # each output mode need its own cache, because of the destination
     # links which are different
     my $mode = $self->get('tmpl_mode');
-    my $cache = DocSet::Cache->new("$src_root/cache.$mode.dat");
+
+    my $cache_file = "$src_root/cache.$mode.dat";
+    # rebuild of the docset is forced if the cache file doesn't exist
+    unless (-e $cache_file && -r _) {
+        $self->modified(1);
+        $self->rebuild(1);
+    }
+
+    # rebuild forces all objects to be rebuilt
+    $self->rebuild(1) if DocSet::RunTime::get_opts('rebuild_all');
+
+    # create the new cache object for updates 
+    my $cache = DocSet::Cache->new($cache_file, 1);
     $self->cache($cache); # store away
 
     # cleanup the cache or rebuild
@@ -137,6 +150,15 @@ sub scan {
 
     $cache->node_groups($self->node_groups);
 
+    # compare whether the config file is newer than the index.html
+    my $dst_root = $self->get_dir('dst_root');
+    my $config_file = $self->{config_file};
+
+    my $dst_index = "$dst_root/index.html";
+    my($should_update, $reason) = 
+        $self->should_update($config_file, $dst_index);
+    $self->modified(1) if $should_update;
+
     # sync the cache
     $cache->write;
 
@@ -158,12 +180,13 @@ sub docset_scan_n_cache {
     my($self, $src_rel_dir, $hidden) = @_;
 
     my $src_root = $self->get_dir('src_root');
-    my $cfg_file =  "$src_root/$src_rel_dir/config.cfg";
-    my $docset = $self->new($cfg_file, $self, $src_rel_dir);
+    my $config_file =  "$src_root/$src_rel_dir/config.cfg";
+    my $docset = $self->new($config_file, $self, $src_rel_dir);
     $docset->scan;
 
     # cache the children meta data
     my $id = $docset->get('id');
+    $self->cache->add($id);
     my $meta = {
                 stitle   => $docset->get('stitle'),
                 title    => $docset->get('title'),
@@ -172,29 +195,29 @@ sub docset_scan_n_cache {
                };
     $self->cache->set($id, 'meta', $meta, $hidden);
 
-    # compare whether the config file is newer than the index.html
-    my $dst_root = $self->get_dir('dst_root');
-    my $dst_index = "$dst_root/$src_rel_dir/index.html";
-    my($should_update, $reason) = 
-        $self->should_update($cfg_file, $dst_index);
-    $docset->modified(1) if $should_update;
-
     note "\n"; # mark the end of scan
 
     return $docset;
 }
 
 
+
 sub link_scan_n_cache {
     my($self, $link, $hidden) = @_;
     my %meta = %$link; # make a copy
     my $id = delete $meta{id};
+    $meta{title} = $meta{stitle} unless exists $meta{title};
+    $meta{stitle} = $meta{title} unless exists $meta{stitle};
+    $self->cache->add($id);
     $self->cache->set($id, 'meta', \%meta, $hidden);
 }
 
 
 sub chapter_scan_n_cache {
     my($self, $src_file, $hidden) = @_;
+
+    my $id = $src_file;
+    $self->cache->add($id);
 
     my $trg_ext = $self->trg_ext();
 
@@ -252,7 +275,6 @@ sub chapter_scan_n_cache {
     $chapter->scan();
 
     # cache the chapter's meta and toc data
-    my $id = $src_file;
     $self->cache->set($id, 'meta', $chapter->meta, $hidden);
     $self->cache->set($id, 'toc',  $chapter->toc,  $hidden);
 
@@ -364,7 +386,7 @@ sub should_update {
         (-e $dst_path and -M $dst_path < -M $src_path) ? 1 : 0;
 
     my $reason = $not_modified ? 'not modified' : 'modified';
-    if (DocSet::RunTime::get_opts('rebuild_all')) {
+    if ($self->rebuild()) {
         return (1, "$reason / forced");
     }
     else {

@@ -11,7 +11,7 @@ use Carp;
 my %attrs = map {$_ => 1} qw(toc meta order);
 
 sub new {
-    my($class, $path) = @_;
+    my($class, $path, $update) = @_;
 
     die "no cache path specified" unless defined $path;
 
@@ -20,6 +20,20 @@ sub new {
                       dirty  => 0,
                      }, ref($class)||$class;
     $self->read();
+
+    if ($update) {
+        # we will reconstruct the ids order to make sure to reflect the
+        # changes in added and removed items (and those who have changed
+        # their order)
+        $self->{cache}{_ordered_ids} = [];
+
+        # XXX: because we rewrite _order_ids on each invocation, we have to sync
+        # the cache to the disk, even if it didn't really change. In the
+        # future we may do somechecksum check and write the file only if
+        # the checksum has changed, so at this moment the dirty mechanism
+        # does nothing
+        $self->{dirty} = 1;
+    }
 
     return $self;
 }
@@ -51,6 +65,12 @@ sub write {
     }
 }
 
+sub add {
+    my($self, $id) = @_;
+    push @{ $self->{cache}{_ordered_ids} }, $id;
+    $self->{cache}{$id}{seq} = $#{ $self->{cache}{_ordered_ids} };
+}
+
 # set a cache entry (overrides a prev entry if any exists)
 sub set {
     my($self, $id, $attr, $data, $hidden) = @_;
@@ -59,11 +79,12 @@ sub set {
     croak "must specify an attribute" unless defined $attr;
     croak "unknown attribute $attr"   unless exists $attrs{$attr};
 
-    # remember the addition order (unless it's an update)
-    unless (exists $self->{cache}{$id}) {
-        push @{ $self->{cache}{_ordered_ids} }, $id;
-        $self->{cache}{$id}{seq} = $#{ $self->{cache}{_ordered_ids} };
-    }
+#    # remember the addition order (unless it's an update)
+#    unless (exists $self->{cache}{$id}) {
+#        push @{ $self->{cache}{_ordered_ids} }, $id;
+#        $self->{cache}{$id}{seq} = $#{ $self->{cache}{_ordered_ids} };
+#    }
+
     $self->{cache}{$id}{$attr} = $data;
     $self->{cache}{$id}{_hidden} = $hidden;
     $self->{dirty} = 1;
@@ -144,7 +165,7 @@ sub seq2id {
     my($self, $seq) = @_;
 
     croak "must specify a seq number"  unless defined $seq;
-    if ($self->{cache}{_ordered_ids}) {
+    if ($self->{cache}{_ordered_ids} && defined $self->{cache}{_ordered_ids}->[$seq]) {
         return $self->{cache}{_ordered_ids}->[$seq];
     }
     else {
@@ -244,15 +265,24 @@ C<DocSet::Cache> - Maintain a Non-Volatile Cache of DocSet's Data
 
   use DocSet::Cache ();
 
-  my $cache = DocSet::Cache->new($cache_path);
-  $cache->read;
+  my $cache = DocSet::Cache->new($cache_path, 1);
+
+  # $cache->read; # read by new() already
   $cache->write;
 
+  # add a cache item to the ordered list
+  $cache->add($id);
+
+  # set/unset cached item's attributes
   $cache->set($id, $attr, $data);
+  $cache->unset($id, $attr)
+
+  # get cached item's attributes
   my $data = $cache->get($id, $attr);
   print "$id is cached" if $cache->is_cached($id);
+
+  # invalidate cache (deletes all items)
   $cache->invalidate();
-  $cache->unset($id, $attr)
 
   my $seq = $cache->id2seq($id);
   my $id = $cache->seq2id($seq);

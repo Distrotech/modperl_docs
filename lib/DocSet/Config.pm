@@ -118,8 +118,8 @@ sub read_config {
 
     # - make sure that at least title or stitle were specified
     # - alias one to another if only one was specified
-    $self->{title}  ||= $self->{stitle};
-    $self->{stitle} ||= $self->{title};
+    $self->{title}  = $self->{stitle} unless exists $self->{title};
+    $self->{stitle} = $self->{title}  unless exists $self->{stitle};
     die "Either 'title' or 'stitle' must appear in $config_file"
         unless $self->{title};
 
@@ -127,7 +127,8 @@ sub read_config {
     # so this value is relevant only for the real top parent node
     $self->{dir}{abs_doc_root} = '.';
 
-    $self->{dir}{path_from_base} ||= '';
+    $self->{dir}{path_from_base} = '' 
+        unless exists $self->{dir}{path_from_base};
 
     $self->{dir}{src_root} = File::Basename::dirname $config_file;
 
@@ -209,6 +210,27 @@ sub modified {
     }
     return $self->{modified};
 
+}
+
+# similar to DocSet::RunTime::get_opts('rebuild_all');
+# but can be set for the scope of a single docset (which affects only
+# the immediate children)
+sub rebuild {
+    my $self = shift;
+    if (@_) {
+        my $status = shift;
+
+        # protect from 'rebuild' status reset (once it's set to any
+        #value it cannot be reset to 0), must be a mistake. If we
+        # don't check this, it's possible that in one place the object
+        # is marked to rebuild the docset, but somewhere later a logic mistake
+        # resets this value to 0, (non-dirty).
+        if (exists $self->{rebuild} && !$status) {
+            Carp::croak("Cannot reset the 'rebuild' status");
+        }
+        $self->{rebuild} = $status;
+    }
+    return $self->{rebuild};
 }
 
 #
