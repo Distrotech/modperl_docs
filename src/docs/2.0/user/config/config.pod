@@ -41,10 +41,8 @@ C<ServerRoot> is specified.
 
 If mod_perl has been statically linked it's automatically enabled.
 
-Win32 users need to make sure that the path to the Perl binary (e.g.,
-I<C:\Perl\bin>) is in the C<PATH> environment variable.
-
-
+For Win32 specific details, see the documentation on
+L<Win32 configuration|docs::2.0::os::win32::config>.
 
 
 
