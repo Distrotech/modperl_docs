@@ -308,6 +308,9 @@ This example doesn't load the modules for you. It'll print to STDERR
 what module should be loaded, when a method from the not-yet-loaded
 module is called.
 
+A similar technique is used by
+C<L<Apache::porting|docs::2.0::api::Apache::porting>>.
+
 =head2 Command Line Lookups
 
 When a method is used and mod_perl has reported a failure to find it,
