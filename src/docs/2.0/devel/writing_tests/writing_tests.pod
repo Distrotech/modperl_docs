@@ -719,9 +719,103 @@ response part is named: I<t/response/TestApache/cool.pm> the request
 part should be named I<t/apache/cool.t>. See the regular expression
 that does that in the previous section.
 
-=head2 Developing Tests in C
+=head2 Developing Test Response Handlers in C
 
-META: to be written
+If you need to exercise some C API and you don't have a Perl glue for
+it, you can still use C<Apache::Test> for the testing. It allows you
+to write response handlers in C and makes it easy to integrate these
+with other Perl tests and use Perl for request part which will
+exercise the C module.
+
+The C modules look just like standard Apache C modules, with a couple
+of differences to:
+
+=over
+
+=item a
+
+help them fit into the test suite
+
+=item b
+
+allow them to compile nicely with Apache 1.x or 2.x.
+
+=back
+
+The I<httpd-test> ASF project is a good example to look at. The C
+modules are located under: I<httpd-test/perl-framework/c-modules/>.
+Look at I<c-modules/echo_post/echo_post.c> for a nice simple example.
+C<mod_echo_post> simply echos data that is C<POST>ed to it.
+
+The differences between vairous tests may be summarized as follows:
+
+=over
+
+=item *
+
+If the first line is:
+
+  #define HTTPD_TEST_REQUIRE_APACHE 1
+
+or
+
+  #define HTTPD_TEST_REQUIRE_APACHE 2
+
+then the test will be skipped unless the version matches. If a module
+is compatible with the version of Apache used then it will be
+automatically compiled by I<t/TEST> with C<-DAPACHE1> or C<-DAPACHE2>
+so you can conditionally compile it to suit different httpd versions.
+
+=item *
+
+If there is a section bounded by:
+
+  #if CONFIG_FOR_HTTPD_TEST
+  ...
+  #endif
+
+in the I<.c> file then that section will be inserted verbatim into
+I<t/conf/httpd.conf> by I<t/TEST>.
+
+=back
+
+There is a certain amount of magic which hopefully allows most modules
+to be compiled for Apache 1.3 or Apache 2.0 without any conditional
+stuff.  Replace XXX with the module name, for example echo_post or
+random_chunk:
+
+=over
+
+=item *
+
+You should:
+
+  #include "apache_httpd_test.h" 
+
+which should be preceded by an:
+
+  #define APACHE_HTTPD_TEST_HANDLER XXX_handler
+
+I<apache_httpd_test.h> pulls in a lot of required includes and defines
+some constants and types that are not defined for Apache 1.3.
+
+=item *
+
+The handler function should be:
+
+  static int XXX_handler(request_rec *r);
+
+=item *
+
+At the end of the file should be an:
+
+  APACHE_HTTPD_TEST_MODULE(XXX)
+
+where XXX is the same as that in C<APACHE_HTTPD_TEST_HANDLER>. This
+will generate the hooks and stuff.
+
+=back
+
 
 =head1 Developing Tests: Gory Details
 
@@ -991,6 +1085,8 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 =head1 Authors
 
 Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+Gary Benson E<lt>gbenson (at) redhat.comE<gt>
 
 =cut
 
