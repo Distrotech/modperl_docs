@@ -88,6 +88,12 @@ phases:
       return Apache::OK;
   }
   
+  sub child_exit {
+      my($child_pool, $s) = @_;
+      say("process $$ now exits");
+      return Apache::OK;
+  }
+
   sub say {
       my($caller) = (caller(1))[3] =~ /([^:]+)$/;
       if (defined $log_fh) {
@@ -113,6 +119,7 @@ And the I<httpd.conf> configuration section:
   PerlOpenLogsHandler   MyApache::StartupLog::open_logs
   PerlPostConfigHandler MyApache::StartupLog::post_config
   PerlChildInitHandler  MyApache::StartupLog::child_init
+  PerlChildExitHandler  MyApache::StartupLog::child_exit
 
 When we perform a server startup followed by a shutdown, the
 I<logs/startup_log> is created if it didn't exist already (it shares
@@ -133,6 +140,10 @@ the following is getting logged to I<logs/startup_log>:
   [Thu Aug 22 15:57:11 2002] - child_init : process 21831 is born to serve
   [Thu Aug 22 15:57:11 2002] - child_init : process 21832 is born to serve
   [Thu Aug 22 15:57:11 2002] - child_init : process 21833 is born to serve
+  [Thu Aug 22 15:57:12 2002] - child_exit : process 21833 now exits
+  [Thu Aug 22 15:57:12 2002] - child_exit : process 21832 now exits
+  [Thu Aug 22 15:57:12 2002] - child_exit : process 21831 now exits
+  [Thu Aug 22 15:57:12 2002] - child_exit : process 21830 now exits
   [Thu Aug 22 15:57:12 2002] - END        : process 21825 is shutdown
 
 First of all, we can clearly see that Apache always restart itself
@@ -144,8 +155,9 @@ child process. In our example we have had the setting
 C<StartServers=4>, therefore you can see four child processes were
 started.
 
-Finally you can see that on server shutdown the END {} block has been
-executed by the parent server only.
+Finally you can see that on server shutdown, the I<child_exit> phase
+is run for each child process and the C<END {}> block is executed by
+the parent process only.
 
 Apache also specifies the I<pre_config> phase, which is executed
 before the configuration files are parsed, but this is of no use to
@@ -172,10 +184,11 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
-As we have seen in the C<MyApache::StartupLog::open_logs> handler, the
-I<open_logs> phase handlers accept four arguments: the configuration
-pool, the logging streams pool, the temporary pool and the server
-object:
+As we have seen in the
+C<L<MyApache::StartupLog::open_logs|/Startup_Phases_Demonstration_Module>>
+handler, the I<open_logs> phase handlers accept four arguments: the
+configuration pool, the logging streams pool, the temporary pool and
+the server object:
 
   sub open_logs {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
@@ -211,9 +224,8 @@ happens at the I<child_init> phase).
 This phase can be used for initializing things to be shared between
 all child processes. You can do the same in the startup file, but in
 the I<post_config> phase you have an access to a complete
-configuration tree.
-
-META: once mod_perl will have the API for that.
+configuration tree (via
+C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>).
 
 This phase is of type
 C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
@@ -221,8 +233,8 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
-In our C<MyApache::StartupLog> example we used the I<post_config()>
-handler:
+In our C<L<MyApache::StartupLog|/Startup_Phases_Demonstration_Module>>
+example we used the I<post_config()> handler:
 
   sub post_config {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
@@ -257,8 +269,8 @@ C<L<VOID|docs::2.0::user::handlers::intro/item_VOID>>.
 The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
-In our C<MyApache::StartupLog> example we used the I<child_init()>
-handler:
+In our C<L<MyApache::StartupLog|/Startup_Phases_Demonstration_Module>>
+example we used the I<child_init()> handler:
 
   sub child_init {
       my($child_pool, $s) = @_;
@@ -278,16 +290,34 @@ I<httpd.conf>:
 
 =head2 PerlChildExitHandler
 
-The child_exit stage is used to execute some code just before the
-child process (not threads!) is killed.
+Opposite to the I<child_init> phase, the I<child_exit> phase is
+executed before the child process exits. Notice that it happens only
+when the process exits, not the thread (assuming that you are using a
+threaded mpm).
 
 This phase is of type
-C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
+C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>. 
 
 The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
-META: examples are needed (for now mod_perl 1.0 docs apply)
+In our C<L<MyApache::StartupLog|/Startup_Phases_Demonstration_Module>>
+example we used the I<child_exit()> handler:
+
+  sub child_exit {
+      my($child_pool, $s) = @_;
+      say("process $$ now exits");
+      return Apache::OK;
+  }
+
+The I<child_exit()> handler accepts two arguments: the child process
+pool and the server object. The example handler logs the pid of the
+child process it's run in and returns.
+
+As you've seen in the example this handler is configured by adding to
+I<httpd.conf>:
+
+  PerlOpenLogsHandler MyApache::StartupLog::child_exit
 
 
 =head1 Maintainers
