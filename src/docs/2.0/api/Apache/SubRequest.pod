@@ -122,7 +122,7 @@ behind the scenes.
 
 =head2 C<internal_redirect_handler>
 
-Identical to C<internal_redirect|/C_internal_redirect_>, plus
+Identical to C<L<internal_redirect|/C_internal_redirect_>>, plus
 automatically sets
 C<L<$r-E<gt>content_type|docs::2.0::api::Apache::RequestRec/C_content_type_>>
 is of the sub-request to be the same as of the main request, if
