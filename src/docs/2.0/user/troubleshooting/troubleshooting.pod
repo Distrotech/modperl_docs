@@ -21,6 +21,52 @@ troubleshooting.
 =head1 Configuration and Startup
 
 
+=head2 Server Hanging at the Startup
+
+First you need to figure out where it hangs. strace(1) or an
+equivalent utility can be used to discover which call the server hangs
+on. You need to start the process in the single server mode so you
+will have only one process to monitor.
+
+For example if the server hangs during 'make test', you should run:
+
+  % cd modperl-2.0
+  % strace /path/to/httpd -d t -f t/conf/httpd.conf \
+    -DAPACHE2 -DONE_PROCESS -DNO_DETATCH
+
+(and may be C<-DPERL_USEITHREADS> if it was in the original output of
+C<make test>.)
+
+If the trace ends with:
+
+  open("/dev/random", O_RDONLY)           = 3
+  read(3, <unfinished ...>
+
+then you have a problem with your OS, as F</dev/random> doesn't have
+enough entropy to give the required random data, and therefore it
+hangs. This may happen in C<apr_uuid_get()> C call or Perl
+C<APR::UUID-E<gt>new>.
+
+The solution in this case is either to fix the problem with
+your OS, so that
+
+  % perl -le 'open I, "/dev/random"; read I, $d, 10; print $d'
+
+will print some random data and not block. Or you can use an even
+simpler test:
+
+  % cat /dev/random
+
+which should print some random data and not block.
+
+If you can't fix the OS problem, you can rebuild Apache 2.0 with
+C<--with-devrandom=/dev/urandom> - however, that is not secure for
+certain needs.  Alternatively setup EGD and rebuild Apache 2.0 with
+C<--with-egd>. Apache 2.1/apr-1.1 will have a self-contained PRNG
+generator built-in, which won't rely on F</dev/random>.
+
+
+
 =head2 (28)No space left on device
 
 httpd-2.0 is not very helpful at telling which device has run out of
@@ -105,6 +151,12 @@ PHSS_29484 and PHSS_29485. Once installed the issue should go away.
 
 
 =head1 Runtime
+
+
+
+=head2 C<APR::UUID-E<gt>new> Hanging
+
+See L<Server Hanging at the Startup|/Server_Hanging_at_the_Startup>.
 
 
 
