@@ -136,7 +136,7 @@ sub find_src_doc {
     for my $path (keys %src_docs) {
         if (my $found_path = match_in_doc_src_subset($path,
                                                      $resource_rel_path)) {
-            return $found_path;
+            return path2uri($found_path);
         }
     }
 
@@ -147,7 +147,7 @@ sub find_src_doc {
     for my $path (@search_paths) {
         if ($resource_rel_path =~ m|^$path/(.*)|) {
             if (my $found_path = match_in_doc_src_subset($path, $1)) {
-                return $found_path;
+                return path2uri($found_path);
             }
         }
     }
@@ -167,7 +167,7 @@ sub match_in_doc_src_subset {
 #print qq{Try:  $base_path :: $rel_path.$ext\n};
         if (exists $src_docs{$base_path}{"$rel_path.$ext"}) {
 #print qq{Found $base_path/$rel_path.$ext\n};
-            return join '/', $base_path, "$rel_path.$ext";
+            return catdir $base_path, "$rel_path.$ext";
         }
     }
     return;

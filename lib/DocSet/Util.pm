@@ -23,7 +23,7 @@ use vars qw(@ISA @EXPORT);
              create_dir filename filename_ext require_package dumper
              sub_trace note get_date get_timestamp proc_tmpl
              build_matchmany_sub banner confess cluck carp
-             format_bytes expand_dir which);
+             format_bytes expand_dir which path2uri);
 
 # copy_file($src_path, $dst_path);
 # copy a file at $src_path to $dst_path, 
@@ -124,6 +124,16 @@ sub filename_ext {
     my $ext = (File::Basename::fileparse($filename, '\.[^\.]*'))[2] || '';
     $ext =~ s/^\.(.*)/lc $1/e;
     $ext;
+}
+
+
+# since on non-Unix platforms the fs path's separator don't match the
+# URI separator ('/'), we need to rewrite those paths
+# accept a relative native path 
+# return relative URI
+sub path2uri {
+    return unless defined $_[0];
+    return join '/', File::Spec->splitdir(shift);
 }
 
 sub get_date {
@@ -318,6 +328,7 @@ C<DocSet::Util> - Commonly used functions
   my $ext = filename_ext($filename);
   my $date = get_date();
   my $timestamp = get_timestamp();
+  my $uri = path2uri($os_path);
 
   require_package($package);
   my $output = proc_tmpl($tmpl_root, $tmpl_file, $mode, $vars);
@@ -352,6 +363,8 @@ META: to be completed (see SYNOPSIS meanwhile)
 =item * read_file_paras
 
 =item * filename_ext
+
+=item * path2uri
 
 =item * get_date
 

@@ -148,6 +148,11 @@ sub up {
 }
 
 # get the first child node
+# note that in order not to break the navigation links, it always
+# returns a value if there is a child node, no matter if it's hidden
+# or not. so the check for hidden must be done in the caller's code,
+# e.g.: $o->down->first - first() will return undef if the first is
+# hidden.
 sub down {
     my($self) = @_;
 
