@@ -60,17 +60,17 @@ It's important to know that there is a special verbose mode, enabled
 with the I<-v> option, in which everything printed by the test goes to
 C<STDOUT>. So for example if your test does this:
 
-  print "testing : feature foo\n";
-  print "expected: $expected\n";
-  print "received: $received\n";
+  print "# testing : feature foo\n";
+  print "# expected: $expected\n";
+  print "# received: $received\n";
   ok $expected eq $received;
 
 in the normal mode, you won't see any of these prints. But if you run
 the test with I<t/TEST -v>, you will see something like this:
 
-  testing : feature foo
-  expected: 2
-  received: 2
+  # testing : feature foo
+  # expected: 2
+  # received: 2
   ok 2
 
 When you develop the test you should always put the debug statements
@@ -639,7 +639,7 @@ like this:
 
   my $config   = Apache::Test::config();
   my $hostport = Apache::TestRequest::hostport($config) || '';
-  print "connecting to $hostport\n";
+  print "# connecting to $hostport\n";
 
   my $received = $config->http_raw_get("/TestApache::cool", undef);
   my $expected = "COOL";
@@ -692,10 +692,10 @@ But if we run it in the debug (verbose) mode, we can actually see what
 we are testing, what was expected and what was received:
 
   apache/cool....1..1
-  connecting to localhost:8529
-  testing : testing TestApache::cool
-  expected: COOL
-  received: COOL
+  # connecting to localhost:8529
+  # testing : testing TestApache::cool
+  # expected: COOL
+  # received: COOL
   ok 1
   ok
   All tests successful.
