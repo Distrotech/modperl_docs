@@ -79,10 +79,10 @@ which include Perl, Apache, and mod_perl.
 =head2 Are mod_perl ppm packages available?
 
 PPM packages for both
-L<mod_perl 1.0|docs::1.0::os::win32::install/PPM_Packages>
-and 
-L<mod_perl 2.0|docs::2.0::os::win32::install/PPM_Packages>
-are available.
+L<mod_perl 1.0|docs::1.0::os::win32::install/PPM_Packages>,
+for ActivePerl 6xx builds, and 
+L<mod_perl 2.0|docs::2.0::os::win32::install/PPM_Packages>,
+for ActivePerl 8xx builds, are available.
 
 =head2 Should I use mod_perl 1.0 or mod_perl 2.0?
 
@@ -203,6 +203,18 @@ If this setting is correct, and
 this occurs under mod_perl 2.0 and
 Perl-5.6.1, try upgrading to
 L<Perl-5.8.0|docs::2.0::os::win32::install>.
+
+=head2 I get a "Can't locate object method ..." error.
+
+First off, if this is due to running some script from the
+command line, this might be normal behaviour, as many
+Apache modules require one to be in the Apache environment
+to work. If this does occur from within Apache, and is
+a problem with mod_perl 2.0, it may be that the right
+module hasn't been loaded - see the discussion of
+L<Command Line 
+Lookups|docs::2.0::api::ModPerl::MethodLookup/Command_Line_Lookups>
+for a method to discover which module is needed.
 
 =head2 How do I run ASP scripts?
 
