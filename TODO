@@ -137,7 +137,7 @@ Site Migration process:
 - move the embperl cvs, as is and make sure that it's copied over as
 is without processing
 
-- move the dist/ stuff, or symlink to it.
+- move the dist/ stuff, or symlink to its.
 
 ====================================================================
 
@@ -151,3 +151,9 @@ Later:
 
 - add feather in the tail
 <img src="[% doc.dir.abs_doc_root %]/images/feather_transbg.gif" width=194 height=80 alt="ASF feather"> 
+
+- should probaly move the logos from
+  http://wypug.digital-word.com/mod_perl/ to the new site.
+
+- we definitely should include the master PNG/SVG versions of the new
+  logo on the site.
