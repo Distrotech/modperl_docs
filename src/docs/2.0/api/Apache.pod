@@ -1,0 +1,67 @@
+=head1 NAME
+
+Apache -- A ghost mod_perl 2.0 class
+
+=head1 Synopsis
+
+=head1 Description
+
+There is no Apache class per se.
+
+There are several modules that put their functions into the
+C<Apache::> namespace. For example
+C<L<ModPerl::Util|docs::2.0::api::ModPerl::Util>> defines a function
+C<L<Apache::current_callback()|docs::2.0::api::ModPerl::Util/C_current_callback_>>:
+
+  use ModPerl::Util;
+  my $callback = Apache::current_callback();
+
+There are several modules that require the I<Apache> class as the
+first argument to the class methods that they define. For example
+C<L<Apache::Server|docs::2.0::api::Apache::Server>> defines a class
+method
+C<L<Apache-E<gt>server|docs::2.0::api::Apache::Server/C_server_>>:
+
+  use Apache::Server;
+  my $server = Apache->server;
+
+There are several modules that install constants into the C<Apache::>
+namespace. For example
+C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>> defines a
+constant
+C<L<Apache::server_root|docs::2.0::api::Apache::ServerUtil/C_Apache__server_root_>>:
+
+  use Apache::ServerUtil;
+  my $server_root = Apache::server_root;
+
+To use this functions and methods you need to load the module that
+defines them. If you aren't sure which module contains the symbol you
+are after, use the helper module
+C<L<ModPerl::MethodLookup|docs::2.0::api::ModPerl::MethodLookup>>.
+
+
+
+
+
+=head1 See Also
+
+L<mod_perl 2.0 documentation|docs::2.0::index>.
+
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
+
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
+
+=cut
+
