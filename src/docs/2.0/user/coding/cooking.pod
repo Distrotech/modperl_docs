@@ -29,9 +29,9 @@ here.
   
       $r->err_headers_out->add('Set-Cookie' => $cookie);
       $r->headers_out->set(Location => $location);
-      $r->status(Apache2::REDIRECT);
+      $r->status(Apache2::Const::REDIRECT);
   
-      return Apache2::REDIRECT;
+      return Apache2::Const::REDIRECT;
   }
   1;
 
@@ -55,7 +55,7 @@ here.
       $r->err_headers_out->add('Set-Cookie' => $cookie);
       $r->headers_out->set(Location => $location);
   
-      return Apache2::REDIRECT;
+      return Apache2::Const::REDIRECT;
   }
   1;
 

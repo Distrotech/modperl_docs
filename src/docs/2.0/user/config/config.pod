@@ -827,7 +827,7 @@ environment variables as seen by it:
           print "$_ => $ENV{$_}\n";
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   1;
@@ -865,7 +865,7 @@ C<modperl> core handler:
           $r->print("$_ => $ENV{$_}\n");
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   1;

@@ -47,7 +47,7 @@ Apache2::ServerUtil - Perl API for Apache server record utils
   $s->method_register('NEWGET');
   
   # register server shutdown callback
-  Apache2::ServerUtil::server_shutdown_register_cleanup(sub { Apache2::OK });
+  Apache2::ServerUtil::server_shutdown_register_cleanup(sub { Apache2::Const::OK });
   
   # do something only when the server restarts
   my $cnt = Apache2::ServerUtil::restart_count();
@@ -163,7 +163,7 @@ server string at the server startup:
   sub add_my_version {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
       $s->add_version_component("Hikers, Inc/0.99999");
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 or of course you could register the
@@ -546,7 +546,7 @@ Multiple handlers:
 
 Anonymous functions:
 
-  $s->push_handlers(PerlLogHandler => sub { return Apache2::OK });
+  $s->push_handlers(PerlLogHandler => sub { return Apache2::Const::OK });
 
 
 
@@ -825,7 +825,7 @@ Multiple handlers:
 
 Anonymous functions:
 
-  $r->set_handlers(PerlLogHandler => sub { return Apache2::OK });
+  $r->set_handlers(PerlLogHandler => sub { return Apache2::Const::OK });
 
 Reset any previously set handlers:
 

@@ -386,7 +386,7 @@ If C<$new_loglevel> is passed, returns the setting before the change.
 For example, to set the C<LogLevel> value to C<info>:
 
   use Apache2::Const -compile => qw(LOG_INFO);
-  $s->loglevel(Apache2::LOG_INFO);
+  $s->loglevel(Apache2::Const::LOG_INFO);
 
 
 

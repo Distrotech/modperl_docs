@@ -150,9 +150,9 @@ For example if the configuration for the current request was:
 The following applies:
 
   use Apache2::Const -compile => qw(:options);
-  $r->allow_options & Apache2::OPT_INDEXES;   # TRUE
-  $r->allow_options & Apache2::OPT_SYM_LINKS; # TRUE
-  $r->allow_options & Apache2::OPT_EXECCGI;   # FALSE
+  $r->allow_options & Apache2::Const::OPT_INDEXES;   # TRUE
+  $r->allow_options & Apache2::Const::OPT_SYM_LINKS; # TRUE
+  $r->allow_options & Apache2::Const::OPT_EXECCGI;   # FALSE
 
 
 
@@ -191,8 +191,8 @@ For example if the configuration for the current request was:
 The following applies:
 
   use Apache2::Const -compile => qw(:override);
-  $r->allow_overrides & Apache2::OR_AUTHCFG; # TRUE
-  $r->allow_overrides & Apache2::OR_LIMIT; # FALSE
+  $r->allow_overrides & Apache2::Const::OR_AUTHCFG; # TRUE
+  $r->allow_overrides & Apache2::Const::OR_LIMIT; # FALSE
 
 
 
@@ -300,13 +300,13 @@ The current request
 =item ret1: C<$rc>
 ( C<L<Apache2::Const constant|docs::2.0::api::Apache2::Const>> )
 
-C<Apache2::OK> if the C<$passwd> value is set (and assured a correct
+C<Apache2::Const::OK> if the C<$passwd> value is set (and assured a correct
 value in
 C<L<$r-E<gt>user|docs::2.0::api::Apache2::RequestRec/C_user_>>);
 otherwise it returns an error code, either
-C<Apache2::HTTP_INTERNAL_SERVER_ERROR> if things are really confused,
-C<Apache2::HTTP_UNAUTHORIZED> if no authentication at all seemed to be
-in use, or C<Apache2::DECLINED> if there was authentication, but it
+C<Apache2::Const::HTTP_INTERNAL_SERVER_ERROR> if things are really confused,
+C<Apache2::Const::HTTP_UNAUTHORIZED> if no authentication at all seemed to be
+in use, or C<Apache2::Const::DECLINED> if there was authentication, but it
 wasn't C<Basic> (in which case, the caller should presumably decline
 as well).
 
@@ -584,10 +584,10 @@ The current request
 How the requirements must be met.  One of the C<L<Apache2::Const
 :satisfy constants|docs::2.0::api::Apache2::Const/C__satisfy_>>:
 
-C<L<Apache2::SATISFY_ANY|docs::2.0::api::Apache2::Const/C_Apache2::SATISFY_ANY_>>,
-C<L<Apache2::SATISFY_ALL|docs::2.0::api::Apache2::Const/C_Apache2::SATISFY_ALL_>>
+C<L<Apache2::Const::SATISFY_ANY|docs::2.0::api::Apache2::Const/C_Apache2::Const::SATISFY_ANY_>>,
+C<L<Apache2::Const::SATISFY_ALL|docs::2.0::api::Apache2::Const/C_Apache2::Const::SATISFY_ALL_>>
 and
-C<L<Apache2::SATISFY_NOSPEC|docs::2.0::api::Apache2::Const/C_Apache2::SATISFY_NOSPEC_>>.
+C<L<Apache2::Const::SATISFY_NOSPEC|docs::2.0::api::Apache2::Const/C_Apache2::Const::SATISFY_NOSPEC_>>.
 
 =item since: 1.99_12
 

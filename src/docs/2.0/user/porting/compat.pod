@@ -403,13 +403,13 @@ following technique can be used for using constants:
   
   sub handler {
       # ...
-      return MP2 ? Apache2::OK : Apache::Constants::OK;
+      return MP2 ? Apache2::Const::OK : Apache::Constants::OK;
   }
   1;
 
 Notice that if you don't use the idiom:
 
-      return MP2 ? Apache2::OK : Apache::Constants::OK;
+      return MP2 ? Apache2::Const::OK : Apache::Constants::OK;
 
 but something like the following:
 
@@ -419,7 +419,7 @@ but something like the following:
   }
   sub handler2 {
       ...
-      return Apache2::OK();
+      return Apache2::Const::OK();
   }
 
 You need to add C<()>. If you don't do that, let's say that you run
@@ -569,7 +569,7 @@ into something like:
   sub handler {
     print "Content-type: text/plain\n\n";
     print "Hello";
-    return Apache2::OK;
+    return Apache2::Const::OK;
   }
 
 where the C<handler()> function always receives C<$r> as an argument,
@@ -598,7 +598,7 @@ it'll really be converted into something like:
           print "Content-type: text/plain\n\n";
       }
       print "Hello"
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 The script works under both mod_perl and mod_cgi.
@@ -973,7 +973,7 @@ server object. e.g.:
   sub cleanup_callback {
       my($pool, $s) = @_;
       # your code comes here
-      Apache2::OK;
+      Apache2::Const::OK;
   }
   $s->push_handlers(PerlChildExitHandler => \&my_access);
 

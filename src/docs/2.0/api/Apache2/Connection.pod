@@ -208,32 +208,32 @@ The type of lookup to perform:
 
 =over
 
-=item C<Apache2::REMOTE_DOUBLE_REV>
+=item C<Apache2::Const::REMOTE_DOUBLE_REV>
 
 will always force a DNS lookup, and also force a double reverse
 lookup, regardless of the C<HostnameLookups> setting.  The result is
 the (double reverse checked) hostname, or undef if any of the lookups
 fail.
 
-=item C<Apache2::REMOTE_HOST>
+=item C<Apache2::Const::REMOTE_HOST>
 
 returns the hostname, or C<undef> if the hostname lookup fails.  It
 will force a DNS lookup according to the C<HostnameLookups> setting.
 
-=item C<Apache2::REMOTE_NAME>
+=item C<Apache2::Const::REMOTE_NAME>
 
 returns the hostname, or the dotted quad if the hostname lookup fails.
 It will force a DNS lookup according to the C<HostnameLookups>
 setting.
 
-=item C<Apache2::REMOTE_NOLOOKUP>
+=item C<Apache2::Const::REMOTE_NOLOOKUP>
 
-is like C<Apache2::REMOTE_NAME> except that a DNS lookup is never
+is like C<Apache2::Const::REMOTE_NAME> except that a DNS lookup is never
 forced.
 
 =back
 
-Default value is C<Apache2::REMOTE_NAME>.
+Default value is C<Apache2::Const::REMOTE_NAME>.
 
 =item opt arg2: C<$dir_config>
 ( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
@@ -370,13 +370,13 @@ For example:
   use Apache2::Const -compile => qw(:conn_keepalive);
   ...
   my $c = $r->connection;
-  if ($c->keepalive == Apache2::CONN_KEEPALIVE) {
+  if ($c->keepalive == Apache2::Const::CONN_KEEPALIVE) {
       # do something
   }
-  elsif ($c->keepalive == Apache2::CONN_CLOSE) {
+  elsif ($c->keepalive == Apache2::Const::CONN_CLOSE) {
       # do something else
   }
-  elsif ($c->keepalive == Apache2::CONN_UNKNOWN) {
+  elsif ($c->keepalive == Apache2::Const::CONN_UNKNOWN) {
       # do yet something else
   }
   else {

@@ -41,7 +41,7 @@ subroutine. For example:
       $r->content_type('text/plain');
       $r->print("Now is: " . scalar(localtime) . "\n");
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   1;
 
@@ -79,32 +79,32 @@ don't rely on the result of last expression to be used as the return
 value -- things will change in the future and you won't know why
 things aren't working anymore.
 
-The only value that can be returned by all handlers is C<Apache2::OK>,
+The only value that can be returned by all handlers is C<Apache2::Const::OK>,
 which tells Apache that the handler has successfully finished its
 execution.
 
-C<Apache2::DECLINED> is another return value that indicates success,
+C<Apache2::Const::DECLINED> is another return value that indicates success,
 but it's only relevant for
 L<phases|docs::2.0::user::handlers::intro/Stacked_Handlers>
 of type C<L<RUN_FIRST|/RUN_FIRST>>.
 
 L<HTTP handlers|docs::2.0::user::handlers::http> may also return
-C<Apache2::DONE> which tells Apache to stop the normal L<HTTP request
+C<Apache2::Const::DONE> which tells Apache to stop the normal L<HTTP request
 cycle|docs::2.0::user::handlers::http/HTTP_Request_Cycle_Phases> and
 fast forward to the
 C<L<PerlLogHandler|docs::2.0::user::handlers::http/PerlLogHandler>>,
 followed by
 C<L<PerlCleanupHandler|docs::2.0::user::handlers::http/PerlCleanupHandler>>.
 L<HTTP handlers|docs::2.0::user::handlers::http> may return any HTTP
-status, which similarly to C<Apache2::DONE> will cause an abort of the
+status, which similarly to C<Apache2::Const::DONE> will cause an abort of the
 request cycle, by also will be interpreted as an error. Therefore you
-don't want to return C<Apache2::HTTP_OK> from your HTTP response
-handler, but C<Apache2::OK> and Apache will send the C<200 OK> status
+don't want to return C<Apache2::Const::HTTP_OK> from your HTTP response
+handler, but C<Apache2::Const::OK> and Apache will send the C<200 OK> status
 by itself.
 
 L<Filter handlers|docs::2.0::user::handlers::filters> return
-C<Apache2::OK> to indicate that the filter has successfully
-finished. If the return value is C<Apache2::DECLINED>, mod_perl will
+C<Apache2::Const::OK> to indicate that the filter has successfully
+finished. If the return value is C<Apache2::Const::DECLINED>, mod_perl will
 read and forward the data on behalf of the filter. Please notice that
 this feature is specific to mod_perl. If there is some problem with
 obtaining or sending the bucket brigades, or the buckets in it,
@@ -116,12 +116,12 @@ L<Protocol handler|docs::2.0::user::handlers::protocols> return values
 aren't really handled by Apache, the handler is supposed to take care
 of any errors by itself. The only special case is the
 C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreConnectionHandler>>
-handler, which, if returning anything but C<Apache2::OK> or
-C<Apache2::DONE>, will prevent from
+handler, which, if returning anything but C<Apache2::Const::OK> or
+C<Apache2::Const::DONE>, will prevent from
 C<L<PerlConnectionHandler|docs::2.0::user::handlers::protocols/PerlConnectionHandler>>
 to be
 run. C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreConnectionHandler>>
-handlers should always return C<Apache2::OK>.
+handlers should always return C<Apache2::Const::OK>.
 
 
 
@@ -271,22 +271,22 @@ And here is the description of the possible types:
 
 Handlers of the type C<VOID> will be I<all> executed in the order they
 have been registered disregarding their return values. Though in
-mod_perl they are expected to return C<Apache2::OK>.
+mod_perl they are expected to return C<Apache2::Const::OK>.
 
 =head2 C<RUN_FIRST>
 
 Handlers of the type C<RUN_FIRST> will be executed in the order they
 have been registered until the first handler that returns something
-other than C<Apache2::DECLINED>. If the return value is
-C<Apache2::DECLINED>, the next handler in the chain will be run. If the
-return value is C<Apache2::OK> the next phase will start. In all other
+other than C<Apache2::Const::DECLINED>. If the return value is
+C<Apache2::Const::DECLINED>, the next handler in the chain will be run. If the
+return value is C<Apache2::Const::OK> the next phase will start. In all other
 cases the execution will be aborted.
 
 =head2 C<RUN_ALL>
 
 Handlers of the type C<RUN_ALL> will be executed in the order they
 have been registered until the first handler that returns something
-other than C<Apache2::OK> or C<Apache2::DECLINED>.
+other than C<Apache2::Const::OK> or C<Apache2::Const::DECLINED>.
 
 For C API declarations see I<include/ap_config.h>, which includes
 other types which aren't exposed by mod_perl handlers.

@@ -17,9 +17,9 @@ Apache2::Log - Perl API for Apache Logging Methods
   my $s = Apache2->server;
   
   $s->log_error("server: log_error");
-  $s->log_serror(__FILE__, __LINE__, Apache2::LOG_ERR,
+  $s->log_serror(__FILE__, __LINE__, Apache2::Const::LOG_ERR,
                  APR::SUCCESS, "log_serror logging at err level");
-  $s->log_serror(Apache2::Log::LOG_MARK, Apache2::LOG_DEBUG,
+  $s->log_serror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
   Apache2::ServerRec->log_error("routine warning");
   
@@ -51,20 +51,20 @@ Apache2::Log - Perl API for Apache Logging Methods
       my $s = $r->server;
       $s->log_error("server: log_error");
   
-      $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::LOG_DEBUG,
+      $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_DEBUG,
                      APR::ENOTIME, "in debug");
   
-      $s->log_serror(Apache2::Log::LOG_MARK, Apache2::LOG_INFO,
+      $s->log_serror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_INFO,
                      APR::SUCCESS, "server info");
   
-      $s->log_serror(Apache2::Log::LOG_MARK, Apache2::LOG_ERR,
+      $s->log_serror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_ERR,
                      APR::ENOTIME, "fatal error");
   
       $r->log_reason("fatal error");
       $r->warn('routine request warning');
       $s->warn('routine server warning');
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   1;
 
@@ -85,12 +85,12 @@ current C<LogLevel> is set to I<warning>, only messages with log level
 of the level I<warning> or higher (I<err>, I<crit>, I<elert> and
 I<emerg>) will be logged. Therefore this:
 
-  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::LOG_WARNING,
+  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_WARNING,
                  APR::ENOTIME, "warning!");
 
 will log the message, but this one won't:
 
-  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::LOG_INFO,
+  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_INFO,
                  APR::ENOTIME, "just an info");
 
 It will be logged only if the server log level is set to I<info> or
@@ -100,7 +100,7 @@ C<L<$s-E<gt>loglevel()|docs::2.0::api::Apache2::ServerRec/C_loglevel_>>
 method.
 
 The filename and the line number of the caller are logged only if
-C<Apache2::LOG_DEBUG> is used (because that's how Apache 2.0 logging
+C<Apache2::Const::LOG_DEBUG> is used (because that's how Apache 2.0 logging
 mechanism works).
 
 Note: On Win32 Apache attempts to lock all writes to a file whenever
@@ -131,21 +131,21 @@ The following constants (sorted from the most severe level to the
 least severe) are used in logging methods to specify the log level at
 which the message should be logged:
 
-=head3 C<Apache2::LOG_EMERG>
+=head3 C<Apache2::Const::LOG_EMERG>
 
-=head3 C<Apache2::LOG_ALERT>
+=head3 C<Apache2::Const::LOG_ALERT>
 
-=head3 C<Apache2::LOG_CRIT>
+=head3 C<Apache2::Const::LOG_CRIT>
 
-=head3 C<Apache2::LOG_ERR>
+=head3 C<Apache2::Const::LOG_ERR>
 
-=head3 C<Apache2::LOG_WARNING>
+=head3 C<Apache2::Const::LOG_WARNING>
 
-=head3 C<Apache2::LOG_NOTICE>
+=head3 C<Apache2::Const::LOG_NOTICE>
 
-=head3 C<Apache2::LOG_INFO>
+=head3 C<Apache2::Const::LOG_INFO>
 
-=head3 C<Apache2::LOG_DEBUG>
+=head3 C<Apache2::Const::LOG_DEBUG>
 
 
 
@@ -161,7 +161,7 @@ constants do:
 Here is the rest of the logging related constants:
 
 
-=head3 C<Apache2::LOG_LEVELMASK>
+=head3 C<Apache2::Const::LOG_LEVELMASK>
 
 used to mask off the level value, to make sure that the log level's
 value is within the proper bits range. e.g.:
@@ -172,14 +172,14 @@ value is within the proper bits range. e.g.:
 
 
 
-=head3 C<Apache2::LOG_TOCLIENT>
+=head3 C<Apache2::Const::LOG_TOCLIENT>
 
 used to give content handlers the option of including the error text
 in the C<ErrorDocument> sent back to the client. When
-C<Apache2::LOG_TOCLIENT> is passed to C<log_rerror()> the error message
+C<Apache2::Const::LOG_TOCLIENT> is passed to C<log_rerror()> the error message
 will be saved in the C<$r>'s notes table, keyed to the string
 I<"error-notes">, if and only if the severity level of the message is
-C<Apache2::LOG_WARNING> or greater and there are no other
+C<Apache2::Const::LOG_WARNING> or greater and there are no other
 I<"error-notes"> entry already set in the request record's notes
 table. Once the I<"error-notes"> entry is set, it is up to the error
 handler to determine whether this text should be sent back to the
@@ -188,7 +188,7 @@ client.  For example:
   use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(ENOTIME);
   $r->log_rerror(Apache2::Log::LOG_MARK,
-                 Apache2::LOG_ERR|Apache2::LOG_TOCLIENT,
+                 Apache2::Const::LOG_ERR|Apache2::Const::LOG_TOCLIENT,
                  APR::ENOTIME,
                  "request log_rerror");
 
@@ -203,7 +203,7 @@ B<MUST> be escaped to prevent CSS attacks.
 
 
 
-=head3 C<Apache2::LOG_STARTUP>
+=head3 C<Apache2::Const::LOG_STARTUP>
 
 is useful for startup message where no timestamps, logging level is
 wanted. For example:
@@ -211,7 +211,7 @@ wanted. For example:
   use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(SUCCESS);
   $s->log_serror(Apache2::Log::LOG_MARK,
-                 Apache2::LOG_INFO,
+                 Apache2::Const::LOG_INFO,
                  APR::SUCCESS,
                  "This log message comes with a header");
 
@@ -219,12 +219,12 @@ will print:
 
   [Wed May 14 16:47:09 2003] [info] This log message comes with a header
 
-whereas, when C<Apache2::LOG_STARTUP> is binary ORed as in:
+whereas, when C<Apache2::Const::LOG_STARTUP> is binary ORed as in:
 
   use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(SUCCESS);
   $s->log_serror(Apache2::Log::LOG_MARK,
-                 Apache2::LOG_INFO|Apache2::LOG_STARTUP,
+                 Apache2::Const::LOG_INFO|Apache2::Const::LOG_STARTUP,
                  APR::SUCCESS,
                  "This log message comes with no header");
 
@@ -339,10 +339,10 @@ For example:
 
   use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(ENOTIME SUCCESS);
-  $s->log_serror(Apache2::Log::LOG_MARK, Apache2::LOG_ERR,
+  $s->log_serror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_ERR,
                  APR::SUCCESS, "log_serror logging at err level");
   
-  $s->log_serror(Apache2::Log::LOG_MARK, Apache2::LOG_DEBUG,
+  $s->log_serror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
 
 
@@ -357,7 +357,7 @@ For example:
 
 is the same as:
 
-  $s->log_error(Apache2::Log::LOG_MARK, Apache2::LOG_WARNING,
+  $s->log_error(Apache2::Log::LOG_MARK, Apache2::Const::LOG_WARNING,
                 APR::SUCCESS, @warnings)
 
 =over 4
@@ -511,10 +511,10 @@ For example:
 
   use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(ENOTIME SUCCESS);
-  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::LOG_ERR,
+  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_ERR,
                  APR::SUCCESS, "log_rerror logging at err level");
   
-  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::LOG_DEBUG,
+  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
 
 
@@ -527,7 +527,7 @@ For example:
 
 is the same as:
 
-  $r->log_error(Apache2::Log::LOG_MARK, Apache2::LOG_WARNING,
+  $r->log_error(Apache2::Log::LOG_MARK, Apache2::Const::LOG_WARNING,
                 APR::SUCCESS, @warnings)
 
 =over 4

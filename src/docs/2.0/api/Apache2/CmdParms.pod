@@ -30,7 +30,7 @@ Apache2::CmdParms - Perl API for Apache command parameters object
       $cmd = $parms->cmd;
   
       # check the current command's context
-      $error = $parms->check_cmd_context(Apache2::NOT_IN_LOCATION);
+      $error = $parms->check_cmd_context(Apache2::Const::NOT_IN_LOCATION);
   
       # this command's context
       $context = $parms->context;
@@ -138,7 +138,7 @@ For example here is how to check whether a command is allowed in the
 C<E<lt>LocationE<gt>> container:
 
   use Apache2::Const -compile qw(NOT_IN_LOCATION);
-  if (my $error = $parms->check_cmd_context(Apache2::NOT_IN_LOCATION)) {
+  if (my $error = $parms->check_cmd_context(Apache2::Const::NOT_IN_LOCATION)) {
       die "directive ... not allowed in <Location> context"
   }
 
@@ -301,7 +301,7 @@ For example to check that the C<AllowOverride>'s C<AuthConfig> and
 C<FileInfo> options are enabled for this command, do:
 
   use Apache2::Const -compile qw(:override);
-  $wanted = Apache2::OR_AUTHCFG | Apache2::OR_FILEINFO;
+  $wanted = Apache2::Const::OR_AUTHCFG | Apache2::Const::OR_FILEINFO;
   $masked = $parms->override & $wanted;
   unless ($wanted == $masked) {
       die "...";

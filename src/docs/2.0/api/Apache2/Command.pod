@@ -57,7 +57,7 @@ What the command expects as arguments:
 constant|docs::2.0::api::Apache2::Const/C__cmd_how_>> )
 
 The flag value representing the type of this command
-(i.e. C<Apache2::ITERATE>, C<Apache2::TAKE2>).
+(i.e. C<Apache2::Const::ITERATE>, C<Apache2::Const::TAKE2>).
 
 =item since: 1.99_12
 
@@ -161,7 +161,7 @@ What overrides need to be allowed to enable this command:
 constant|docs::2.0::api::Apache2::Const/C__override_>> )
 
 The bit mask representing the overrides this command is allowed in
-(i.e C<Apache2::OR_ALL>/C<Apache2::ACCESS_CONF>).
+(i.e C<Apache2::Const::OR_ALL>/C<Apache2::Const::ACCESS_CONF>).
 
 =item since: 1.99_12
 
@@ -170,8 +170,8 @@ The bit mask representing the overrides this command is allowed in
 For example:
 
   use Apache2::Const -compile => qw(:override);
-  $cmd->req_override() & Apache2::OR_AUTHCFG;
-  $cmd->req_override() & Apache2::OR_LIMIT;
+  $cmd->req_override() & Apache2::Const::OR_AUTHCFG;
+  $cmd->req_override() & Apache2::Const::OR_LIMIT;
 
 
 

@@ -125,7 +125,7 @@ constant|docs::2.0::api::APR::Const>> )
 Which allow-override bits are set
 
 Default value is:
-C<L<Apache2::OR_AUTHCFG|docs::2.0::api::Apache2::Const/C_Apache2__OR_AUTHCFG_>>
+C<L<Apache2::Const::OR_AUTHCFG|docs::2.0::api::Apache2::Const/C_Apache2__OR_AUTHCFG_>>
 
 =item ret: no return value
 
@@ -936,7 +936,7 @@ Multiple handlers:
 
 Anonymous functions:
 
-  $r->push_handlers(PerlLogHandler => sub { return Apache2::OK });
+  $r->push_handlers(PerlLogHandler => sub { return Apache2::Const::OK });
 
 
 
@@ -1029,7 +1029,7 @@ Multiple handlers:
 
 Anonymous functions:
 
-  $r->set_handlers(PerlLogHandler => sub { return Apache2::OK });
+  $r->set_handlers(PerlLogHandler => sub { return Apache2::Const::OK });
 
 Reset any previously set handlers:
 

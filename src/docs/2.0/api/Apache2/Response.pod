@@ -9,7 +9,7 @@ Apache2::Response - Perl API for Apache HTTP request response methods
 
   use Apache2::Response ();
   
-  $r->custom_response(Apache2::FORBIDDEN, "No Entry today");
+  $r->custom_response(Apache2::Const::FORBIDDEN, "No Entry today");
   
   $etag = $r->make_etag($force_weak);
   $r->set_etag();
@@ -65,7 +65,7 @@ The current request
 constant|docs::2.0::api::Apache2::Const>> )
 
 The status for which the custom response should be used
-(e.g. C<Apache2::AUTH_REQUIRED>)
+(e.g. C<Apache2::Const::AUTH_REQUIRED>)
 
 =item arg2: C<$string> (string)
 
@@ -89,12 +89,12 @@ the response body for the access handler failure:
       my $r = shift;
    
       if (MyApache2::MyShop::tired_squirrels()) {
-          $r->custom_response(Apache2::FORBIDDEN,
+          $r->custom_response(Apache2::Const::FORBIDDEN,
               "It's siesta time, please try later");
-          return Apache2::FORBIDDEN;
+          return Apache2::Const::FORBIDDEN;
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   ...
 
@@ -170,7 +170,7 @@ The current request
 =item ret: C<$status> ( C<L<Apache2::Const
 status constant|docs::2.0::api::Apache2::Const>> )
 
-C<Apache2::OK> if the response fulfills the condition GET
+C<Apache2::Const::OK> if the response fulfills the condition GET
 rules. Otherwise some other status code (which should be returned to
 Apache).
 

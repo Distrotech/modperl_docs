@@ -91,7 +91,7 @@ A I<pre_connection> handler accepts a connection record at its argument:
   sub handler {
       my $c = shift;
       # ...
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 [META: There is another argument passed (the actual client socket), but
@@ -125,10 +125,10 @@ file, but a hardcoded list is good enough for our example).
       my $ip = $c->remote_ip;
       if (exists $bad_ips{$ip}) {
           warn "IP $ip is blocked\n";
-          return Apache2::FORBIDDEN;
+          return Apache2::Const::FORBIDDEN;
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   1;
@@ -168,7 +168,7 @@ connection record object. Here is a simplified handler skeleton:
       my $sock = $c->client_socket;
       $sock->opt_set(APR::SO_NONBLOCK, 0);
       # ...
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 Most likely you'll need to set the socket to perform blocking IO. On
@@ -252,7 +252,7 @@ Here is the code:
           $sock->send($buff);
       }
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
   1;
 
@@ -275,7 +275,7 @@ connection in the interactive mode.
 
 If the handler receives some data, it sends it unmodified back to the
 client with the C<APR::Socket::send()> method. When the loop is
-finished the handler returns C<Apache2::OK>, telling Apache to
+finished the handler returns C<Apache2::Const::OK>, telling Apache to
 terminate the connection. As mentioned earlier since this handler is
 working directly with the connection socket, no filters can be
 applied.
@@ -351,7 +351,7 @@ handlers.
       my $last = 0;
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb_in,
-                                                  Apache2::MODE_GETLINE);
+                                                  Apache2::Const::MODE_GETLINE);
           last if $rc == APR::EOF;
           die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
   
@@ -382,7 +382,7 @@ handlers.
       $bb_in->destroy;
       $bb_out->destroy;
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
   
   use base qw(Apache2::Filter);
@@ -395,7 +395,7 @@ handlers.
           $filter->print(lc $buffer);
       }
     
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   1;
@@ -459,7 +459,7 @@ using a single bucket brigade. Here is the modified code:
   
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
-                                                  Apache2::MODE_GETLINE);
+                                                  Apache2::Const::MODE_GETLINE);
           last if $rc == APR::EOF;
           die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
   
@@ -481,7 +481,7 @@ using a single bucket brigade. Here is the modified code:
   
       $bb->destroy;
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
 
 This code is shorter and simpler. Since it sends out the same bucket
@@ -523,7 +523,7 @@ attempt to do any transformation, but simply passes the data though:
   
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
-                                                  Apache2::MODE_GETLINE);
+                                                  Apache2::Const::MODE_GETLINE);
           last if $rc == APR::EOF;
           die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
   
@@ -532,7 +532,7 @@ attempt to do any transformation, but simply passes the data though:
   
       $bb->destroy;
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
 
 Since the simplified handler no longer has the condition:
@@ -566,7 +566,7 @@ the buckets in the brigade. The handler now becomes:
   
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
-                                                  Apache2::MODE_GETLINE);
+                                                  Apache2::Const::MODE_GETLINE);
           last if $rc == APR::EOF;
           die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
   
@@ -583,7 +583,7 @@ the buckets in the brigade. The handler now becomes:
   
       $bb->destroy;
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
 
 Notice, that once we slurped the data in the buckets, we had to strip
@@ -646,7 +646,7 @@ Here is the whole module:
       my $c = shift;
       my $socket = $c->client_socket;
   
-      if ((my $rc = login($c)) != Apache2::OK) {
+      if ((my $rc = login($c)) != Apache2::Const::OK) {
           $socket->send("Access Denied\n");
           return $rc;
       }
@@ -659,14 +659,14 @@ Here is the whole module:
           next unless $cmd = getline($socket);
   
           if (my $sub = $commands{$cmd}) {
-              last unless $sub->($socket) == Apache2::OK;
+              last unless $sub->($socket) == Apache2::Const::OK;
           }
           else {
               $socket->send("Commands: @cmds\n");
           }
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub login {
@@ -679,7 +679,7 @@ Here is the whole module:
                          run_auth_checker)) {
           my $rc = $r->$method();
   
-          if ($rc != Apache2::OK and $rc != Apache2::DECLINED) {
+          if ($rc != Apache2::Const::OK and $rc != Apache2::Const::DECLINED) {
               return $rc;
           }
   
@@ -694,7 +694,7 @@ Here is the whole module:
           }
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub getline {
@@ -723,7 +723,7 @@ Here is the whole module:
       $socket->send(scalar <$fh>);
       close $fh;
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub date {
@@ -731,7 +731,7 @@ Here is the whole module:
   
       $socket->send(scalar(localtime) . "\n");
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub who {
@@ -742,10 +742,10 @@ Here is the whole module:
   
       $socket->send(scalar `who`);
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
-  sub quit { Apache2::DONE }
+  sub quit { Apache2::Const::DONE }
   
   1;
   __END__
@@ -786,9 +786,9 @@ loop, iterating over three methods: C<run_access_checker()>,
 C<run_check_user_id()> and C<run_auth_checker()>.  These methods will
 call directly into the Apache functions that invoke module handlers
 for these phases and will return an integer status code, such as
-C<Apache2::OK>, C<Apache2::DECLINED> or C<Apache2::FORBIDDEN>.  If
-I<run_access_check> returns something other than C<Apache2::OK> or
-C<Apache2::DECLINED>, that status will be propagated up to the handler
+C<Apache2::Const::OK>, C<Apache2::Const::DECLINED> or C<Apache2::Const::FORBIDDEN>.  If
+I<run_access_check> returns something other than C<Apache2::Const::OK> or
+C<Apache2::Const::DECLINED>, that status will be propagated up to the handler
 routine and then back up to Apache.  Otherwise, the access check
 passed and the loop will break unless C<some_auth_required()> returns
 true.  This would be false given the previous configuration example,
@@ -824,7 +824,7 @@ request loop entered.  Inside the loop the C<getline()> function
 returns just one line of data, with newline characters stripped.  If
 the string sent by the client is in our command table, the command is
 then invoked, otherwise a usage message is sent.  If the command does
-not return C<Apache2::OK>, we break out of the loop.
+not return C<Apache2::Const::OK>, we break out of the loop.
 
 Let's use this configuration:
 

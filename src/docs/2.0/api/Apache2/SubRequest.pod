@@ -113,7 +113,7 @@ The URI to replace the current request with
 
 In case that you want some other request to be served as the top-level
 request instead of what the client requested directly, call this
-method from a handler, and then immediately return C<Apache2::OK>. The
+method from a handler, and then immediately return C<Apache2::Const::OK>. The
 client will be unaware the a different request was served to her
 behind the scenes.
 
@@ -297,7 +297,7 @@ I</new_uri>:
       my $subr = $r->lookup_uri("/new_uri");
       $sub->run;
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 If let's say you have three request output filters registered to run
@@ -335,7 +335,7 @@ The sub-request (e.g. returned by C<L<lookup_uri|/C_lookup_uri_>>)
 
 =item ret: C<$rc> ( integer )
 
-The return code of the handler (C<Apache2::OK>, C<Apache2::DECLINED>,
+The return code of the handler (C<Apache2::Const::OK>, C<Apache2::Const::DECLINED>,
 etc.)
 
 =item since: 1.99_12

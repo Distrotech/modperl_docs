@@ -280,7 +280,7 @@ request or connection).
 Notice that you should either complete the current filter invocation
 normally (by calling C<L<get_brigade|/C_get_brigade_>> or
 C<L<pass_brigade|/C_pass_brigade_>> depending on the filter kind) or
-if nothing was done, return C<Apache2::DECLINED> and mod_perl will take
+if nothing was done, return C<Apache2::Const::DECLINED> and mod_perl will take
 care of passing the current bucket brigade through unmodified to the
 next filter in chain.
 
@@ -295,7 +295,7 @@ C<L<$c-E<gt>keepalive|docs::2.0::api::Apache2::Connection/C_keepalive_>>
 ) and the connection filter is removed, it won't be added until the
 connection is closed. Which may happen after many HTTP requests. You
 may want to keep the filter in place and pass the data through
-unmodified, by returning C<Apache2::DECLINED>. If you need to reset the
+unmodified, by returning C<Apache2::Const::DECLINED>. If you need to reset the
 whole or parts of the filter context between requests, use the
 L<technique based on C<$c-E<gt>keepalives>
 counting|docs::2.0::user::handler::filters>.
@@ -425,7 +425,7 @@ that was passed to the filter handler (the third argument).
 At the end of this section the available modes are presented.
 
 If the argument C<$mode> is not passed,
-C<L<Apache2::MODE_READBYTES|docs::2.0::api::Apache2::Const/C_Apache2__MODE_READBYTES_>>
+C<L<Apache2::Const::MODE_READBYTES|docs::2.0::api::Apache2::Const/C_Apache2__MODE_READBYTES_>>
 is used as a default value.
 
 
@@ -501,31 +501,31 @@ are:
 
 =over
 
-=item * C<L<Apache2::MODE_READBYTES|docs::2.0::api::Apache2::Const/C_Apache2__MODE_READBYTES_>>
+=item * C<L<Apache2::Const::MODE_READBYTES|docs::2.0::api::Apache2::Const/C_Apache2__MODE_READBYTES_>>
 
 The filter should return at most readbytes data
 
-=item * C<L<Apache2::MODE_GETLINE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_GETLINE_>>
+=item * C<L<Apache2::Const::MODE_GETLINE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_GETLINE_>>
 
 The filter should return at most one line of CRLF data.  (If a
 potential line is too long or no CRLF is found, the filter may return
 partial data).
 
-=item * C<L<Apache2::MODE_EATCRLF|docs::2.0::api::Apache2::Const/C_Apache2__MODE_EATCRLF_>>
+=item * C<L<Apache2::Const::MODE_EATCRLF|docs::2.0::api::Apache2::Const/C_Apache2__MODE_EATCRLF_>>
 
 The filter should implicitly eat any CRLF pairs that it sees.
 
-=item * C<L<Apache2::MODE_SPECULATIVE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_SPECULATIVE_>>
+=item * C<L<Apache2::Const::MODE_SPECULATIVE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_SPECULATIVE_>>
 
 The filter read should be treated as speculative and any returned data
 should be stored for later retrieval in another mode.
 
-=item * C<L<Apache2::MODE_EXHAUSTIVE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_EXHAUSTIVE_>>
+=item * C<L<Apache2::Const::MODE_EXHAUSTIVE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_EXHAUSTIVE_>>
 
 The filter read should be exhaustive and read until it can not read
 any more. Use this mode with extreme caution.
 
-=item * C<L<Apache2::MODE_INIT|docs::2.0::api::Apache2::Const/C_Apache2__MODE_INIT_>>
+=item * C<L<Apache2::Const::MODE_INIT|docs::2.0::api::Apache2::Const/C_Apache2__MODE_INIT_>>
 
 The filter should initialize the connection if needed, NNTP or FTP
 over SSL for example.
@@ -555,7 +555,7 @@ from the upstream filter:
       
       # ... process $bb
       
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 Usually arguments C<$mode>, C<$block>, C<$readbytes> are the same as
@@ -574,7 +574,7 @@ If you decide not check the return code, you can write it as:
       
       # ... process $bb
       
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 and the error checking will be done on your behalf.
@@ -663,7 +663,7 @@ buckets in the bucket brigade):
       my $rc = $f->next->pass_brigade($bb);
       return $rc unless $rc == APR::SUCCESS;
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 
@@ -987,7 +987,7 @@ actually called.
   sub init : FilterInitHandler {
       my $f = shift;
       #...
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 In order to hook this filter callback, the real filter has to assign
@@ -1017,7 +1017,7 @@ C<L<FilterInitHandler|/C_FilterInitHandler_>> attribute. For example:
   sub filter : FilterRequestHandler FilterHasInitHandler(\&init) {
       my ($f, $bb) = @_;
       # ...
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 For further discussion and examples refer to the L<Filter

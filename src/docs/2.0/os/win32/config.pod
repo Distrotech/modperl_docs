@@ -149,7 +149,7 @@ F<Hello.pm> as follows:
   Hello from <B>$package</B>! The time is $time.
   </BODY></HTML>
   END
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
   1;

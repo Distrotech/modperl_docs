@@ -202,8 +202,8 @@ request methods they do not handle.  Prior to aborting the handler
 like this the handler should set C<$r-E<gt>allowed> to the list of
 methods that it is willing to handle.  This bitvector is used to
 construct the C<"Allow:"> header required for C<OPTIONS> requests, and
-C<Apache2::HTTP_METHOD_NOT_ALLOWED> (405) and
-C<Apache2::HTTP_NOT_IMPLEMENTED> (501) status codes.
+C<Apache2::Const::HTTP_METHOD_NOT_ALLOWED> (405) and
+C<Apache2::Const::HTTP_NOT_IMPLEMENTED> (501) status codes.
 
 Since the default Apache handler deals with the C<OPTIONS> method, all
 response handlers can usually decline to deal with C<OPTIONS>. For
@@ -211,25 +211,25 @@ example if the response handler handles only C<GET> and C<POST>
 methods, and not C<OPTIONS>, it may want to say:
 
    use Apache2::Const -compile => qw(OK DECLINED M_GET M_POST M_OPTIONS);
-   if ($r->method_number == Apache2::M_OPTIONS) {
-       $r->allowed($r->allowed | (1<<Apache2::M_GET) | (1<<Apache2::M_POST));
-       return Apache2::DECLINED;
+   if ($r->method_number == Apache2::Const::M_OPTIONS) {
+       $r->allowed($r->allowed | (1<<Apache2::Const::M_GET) | (1<<Apache2::Const::M_POST));
+       return Apache2::Const::DECLINED;
    }
 
 C<TRACE> is always allowed, modules don't need to set it explicitly.
 
 Since the default_handler will always handle a C<GET>, a module which
 does *not* implement C<GET> should probably return
-C<Apache2::HTTP_METHOD_NOT_ALLOWED>.  Unfortunately this means that a
+C<Apache2::Const::HTTP_METHOD_NOT_ALLOWED>.  Unfortunately this means that a
 script C<GET> handler can't be installed by mod_actions.
 
 For example, if the module can handle only POST method it could start
 with:
 
    use Apache2::Const -compile => qw(M_POST HTTP_METHOD_NOT_ALLOWED);
-   unless ($r->method_number == Apache2::M_POST) {
-       $r->allowed($r->allowed | (1<<Apache2::M_POST));
-       return Apache2::HTTP_METHOD_NOT_ALLOWED;
+   unless ($r->method_number == Apache2::Const::M_POST) {
+       $r->allowed($r->allowed | (1<<Apache2::Const::M_POST));
+       return Apache2::Const::HTTP_METHOD_NOT_ALLOWED;
    }
 
 
@@ -565,12 +565,12 @@ For example, if a handler wants to return a 404 response, but
 nevertheless to set a cookie, it has to be:
 
   $r->err_headers_out->add('Set-Cookie' => $cookie);
-  return Apache2::NOT_FOUND;
+  return Apache2::Const::NOT_FOUND;
 
 If the handler does:
 
   $r->headers_out->add('Set-Cookie' => $cookie);
-  return Apache2::NOT_FOUND;
+  return Apache2::Const::NOT_FOUND;
 
 the C<Set-Cookie> header won't be sent.
 
@@ -897,7 +897,7 @@ behind the scenes):
       my $data = '';
       my $seen_eos = 0;
       do {
-          $r->input_filters->get_brigade($bb, Apache2::MODE_READBYTES,
+          $r->input_filters->get_brigade($bb, Apache2::Const::MODE_READBYTES,
                                          APR::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
@@ -993,8 +993,8 @@ if C<$new_method> was passed the previous value is returned.
 
 =head2 C<method_number>
 
-Get/set the HTTP method, issued by the client (C<Apache2::M_GET>,
-C<Apache2::M_POST>, etc.)
+Get/set the HTTP method, issued by the client (C<Apache2::Const::M_GET>,
+C<Apache2::Const::M_POST>, etc.)
 
   $methnum      = $r->method_number();
   $prev_methnum = $r->method_number($new_methnum);
@@ -1105,7 +1105,7 @@ There is no local copy of this response
 =back
 
 Used internally in certain sub-requests to prevent sending
-C<Apache2::HTTP_NOT_MODIFIED> for a fragment or error documents. For
+C<Apache2::Const::HTTP_NOT_MODIFIED> for a fragment or error documents. For
 example see the implementation in F<modules/filters/mod_include.c>.
 
 Also used internally in
@@ -1586,7 +1586,7 @@ Get/set the reply status for the client request.
 If C<$new_status> is passed the new status is assigned.
 
 Normally you would use some C<L<Apache2::Const
-constant|docs::2.0::api::Apache2::Const>>, e.g. C<Apache2::REDIRECT>.
+constant|docs::2.0::api::Apache2::Const>>, e.g. C<Apache2::Const::REDIRECT>.
 
 =item ret: C<$newval> ( integer )
 
@@ -1601,14 +1601,14 @@ If C<$new_status> is passed the old value is returned.
 Usually you will set this value indirectly by returning the status
 code as the handler's function result.  However, there are rare
 instances when you want to trick Apache into thinking that the module
-returned an C<Apache2::OK> status code, but actually send the browser a
+returned an C<Apache2::Const::OK> status code, but actually send the browser a
 non-OK status. This may come handy when implementing an HTTP proxy
 handler.  The proxy handler needs to send to the client, whatever
 status code the proxied server has returned, while returning
-C<Apache2::OK> to Apache. e.g.:
+C<Apache2::Const::OK> to Apache. e.g.:
 
   $r->status($some_code);
-  return Apache2::OK
+  return Apache2::Const::OK
 
 See also C<L<$r-E<gt>status_line|/C_status_line_>>, which. if set,
 overrides C<$r-E<gt>status>.
@@ -1649,7 +1649,7 @@ whatever response the proxied server has sent, it'll usually use
 C<status_line()>, like so:
 
   $r->status_line($response->code() . ' ' . $response->message());
-  return Apache2::OK;
+  return Apache2::Const::OK;
 
 In this example C<$response> could be for example an C<HTTP::Response>
 object, if C<LWP::UserAgent> was used to implement the proxy.
@@ -1659,7 +1659,7 @@ new response codes. For example you could invent a new error code and
 tell Apache to use that in the response like so:
 
   $r->status_line("499 We have been FooBared");
-  return Apache2::OK;
+  return Apache2::Const::OK;
 
 Here C<499> is the new response code, and I<We have been FooBared> is
 the custom response message.
@@ -1869,7 +1869,7 @@ If C<$new_user> was passed, the previous value is returned.
 For example, let's print the username passed by the client:
 
   my($res, $sent_pw) = $r->get_basic_auth_pw;
-  return $res if $res != Apache2::OK;
+  return $res if $res != Apache2::Const::OK;
   print "User: ", $r->user;
 
 

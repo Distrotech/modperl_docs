@@ -987,7 +987,7 @@ replace this code with mod_perl 2.0 equivalent:
    use Socket 'sockaddr_in';
 
 and I also had to adjust the constants, since what used to be C<OK>,
-now has to be C<Apache2::OK>, mainly because in mod_perl 2.0 there is
+now has to be C<Apache2::Const::OK>, mainly because in mod_perl 2.0 there is
 an enormous amount of constants (coming from Apache and APR) and most
 of them are grouped in C<Apache2::> or C<APR::> namespaces. The
 C<L<Apache2::Const|docs::2.0::api::Apache2::Const>> and
@@ -1014,7 +1014,7 @@ the regex pattern:
        my $mime = $self->r->lookup_file("$dir/$d")->content_type;
   
   -    push(@directories,$d) if !$seen{$d}++ && $mime eq DIR_MAGIC_TYPE;
-  +    push(@directories,$d) if !$seen{$d}++ && $mime eq Apache2::DIR_MAGIC_TYPE;
+  +    push(@directories,$d) if !$seen{$d}++ && $mime eq Apache2::Const::DIR_MAGIC_TYPE;
   
        # .m3u files should be configured as audio/playlist MIME types in your apache .conf file
        push(@playlists,$d) if $mime =~ m!^audio/(playlist|x-mpegurl|mpegurl|x-scpls)$!;
@@ -1112,7 +1112,7 @@ In 2.0 lingo, we just need to set the C<content_type()>:
   
   -  $self->r->send_http_header( $self->html_content_type );
   +  $self->r->content_type( $self->html_content_type );
-     return Apache2::OK if $self->r->header_only;
+     return Apache2::Const::OK if $self->r->header_only;
   
      print start_html(
   @@ -336,7 +336,7 @@
@@ -1121,22 +1121,22 @@ In 2.0 lingo, we just need to set the C<content_type()>:
   
   -  $r->send_http_header('audio/mpegurl');
   +  $r->content_type('audio/mpegurl');
-     return Apache2::OK if $r->header_only;
+     return Apache2::Const::OK if $r->header_only;
   
      # local user
   @@ -495,7 +495,7 @@
-     return Apache2::DECLINED unless my ($directories,$mp3s,$playlists,$txtfiles)
+     return Apache2::Const::DECLINED unless my ($directories,$mp3s,$playlists,$txtfiles)
        = $self->read_directory($dir);
   
   -  $self->r->send_http_header( $self->html_content_type );
   +  $self->r->content_type( $self->html_content_type );
-     return Apache2::OK if $self->r->header_only;
+     return Apache2::Const::OK if $self->r->header_only;
   
      $self->page_top($dir);
 
 also I've noticed that there was this code:
 
-  return Apache2::OK if $self->r->header_only;
+  return Apache2::Const::OK if $self->r->header_only;
 
 This technique is no longer needed in 2.0, since Apache 2.0
 automatically discards the body if the request is of type C<HEAD> --
@@ -1174,7 +1174,7 @@ argument and not the file descriptor. So I have fixed the code:
   -      close(FILE);
   +
   +    if($r->content_type eq 'audio/x-scpls'){
-  +      $r->sendfile($r->filename) || return Apache2::NOT_FOUND;
+  +      $r->sendfile($r->filename) || return Apache2::Const::NOT_FOUND;
 
 =item C<log_reason>
 
@@ -1347,7 +1347,7 @@ The code:
      MP2 ? $r->content_type('text/plain')
          : $r->send_http_header('text/plain');
      print "$class was called\n";
-     return MP2 ? Apache2::OK : Apache::Constants::OK;
+     return MP2 ? Apache2::Const::OK : Apache::Constants::OK;
   }
 
 Here are two complete examples. The second example implements
@@ -1410,7 +1410,7 @@ The code:
       my($class, $r) = @_;
       $r->content_type('text/plain');
       $r->print("mp2: $class was called\n");
-      return Apache2::OK();
+      return Apache2::Const::OK();
   }
 
 Assuming that mod_perl 1.0 is listening on port 8001 and mod_perl 2.0

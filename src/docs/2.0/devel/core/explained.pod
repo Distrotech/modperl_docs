@@ -438,7 +438,7 @@ invoked from Perl and what is returned:
       $subst = Apache2::CoreDemo::subst_sp($a, $b);
       ok t_cmp($a - $b, $subst, "subst via SP");
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
   
   1;

@@ -62,7 +62,7 @@ The current request
 =item ret: C<$rc> ( integer )
 
 C<L<APR::Const status constant|docs::2.0::api::APR::Const>> if request
-is malformed, C<Apache2::OK> otherwise.
+is malformed, C<Apache2::Const::OK> otherwise.
 
 =item since: 1.99_10
 
@@ -73,7 +73,7 @@ routine should be called at the beginning of a no-body handler, e.g.,
 
    use Apache2::Const -compile => qw(OK);
    $rc = $r->discard_request_body;
-   return $rc if $rc != Apache2::OK;
+   return $rc if $rc != Apache2::Const::OK;
 
 
 

@@ -29,53 +29,53 @@ Apache2::HookRun - Perl API for Invoking Apache HTTP phases
       # $r->push_handlers(PerlAccessHandler => \&my_access);
   
       $rc = $r->run_post_read_request();
-      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
+      return $rc unless $rc == Apache2::Const::OK or $rc == Apache2::Const::DECLINED;
   
       $rc = $r->run_translate_name;
-      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
+      return $rc unless $rc == Apache2::Const::OK or $rc == Apache2::Const::DECLINED;
   
       $rc = $r->run_map_to_storage;
-      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
+      return $rc unless $rc == Apache2::Const::OK or $rc == Apache2::Const::DECLINED;
   
       # this must be run all a big havoc will happen in the following
       # phases
       $r->location_merge($path);
   
       $rc = $r->run_header_parser;
-      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
+      return $rc unless $rc == Apache2::Const::OK or $rc == Apache2::Const::DECLINED;
   
       my $args = $r->args || '';
       if ($args eq 'die') {
-          $r->die(Apache2::SERVER_ERROR);
-          return Apache2::DONE;
+          $r->die(Apache2::Const::SERVER_ERROR);
+          return Apache2::Const::DONE;
       }
   
       $rc = $r->run_access_checker;
-      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
+      return $rc unless $rc == Apache2::Const::OK or $rc == Apache2::Const::DECLINED;
   
       $rc = $r->run_auth_checker;
-      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
+      return $rc unless $rc == Apache2::Const::OK or $rc == Apache2::Const::DECLINED;
   
       $rc = $r->run_check_user_id;
-      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
+      return $rc unless $rc == Apache2::Const::OK or $rc == Apache2::Const::DECLINED;
   
       $rc = $r->run_type_checker;
-      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
+      return $rc unless $rc == Apache2::Const::OK or $rc == Apache2::Const::DECLINED;
   
       $rc = $r->run_fixups;
-      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
+      return $rc unless $rc == Apache2::Const::OK or $rc == Apache2::Const::DECLINED;
   
       # $r->run_handler is called internally by $r->invoke_handler,
       # invoke_handler sets all kind of filters, and does a few other
       # things but it's possible to call $r->run_handler, bypassing
       # invoke_handler
       $rc = $r->invoke_handler;
-      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
+      return $rc unless $rc == Apache2::Const::OK or $rc == Apache2::Const::DECLINED;
   
       $rc = $r->run_log_transaction;
-      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
+      return $rc unless $rc == Apache2::Const::OK or $rc == Apache2::Const::DECLINED;
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 
@@ -170,7 +170,7 @@ The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache2::OK>,
+The status of the current phase run: C<Apache2::Const::OK>,
 C<Apache2::HTTP_...>
 
 =item since: 1.99_12
@@ -207,8 +207,8 @@ the current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache2::OK>,
-C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
+The status of the current phase run: C<Apache2::Const::OK>,
+C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -241,8 +241,8 @@ the current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache2::OK>,
-C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
+The status of the current phase run: C<Apache2::Const::OK>,
+C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -282,8 +282,8 @@ The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache2::OK>,
-C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
+The status of the current phase run: C<Apache2::Const::OK>,
+C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -323,8 +323,8 @@ The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache2::OK>,
-C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
+The status of the current phase run: C<Apache2::Const::OK>,
+C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -355,8 +355,8 @@ The request_rec
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache2::OK>,
-C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
+The status of the current phase run: C<Apache2::Const::OK>,
+C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -390,7 +390,7 @@ The current request
 
 =item ret: C<$rc> ( integer )
 
-C<Apache2::OK> or C<Apache2::DECLINED>.
+C<Apache2::Const::OK> or C<Apache2::Const::DECLINED>.
 
 =item since: 1.99_12
 
@@ -416,8 +416,8 @@ The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache2::OK>,
-C<Apache2::DECLINED>, C<Apache2::HTTP_...>
+The status of the current phase run: C<Apache2::Const::OK>,
+C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>
 
 =item since: 1.99_12
 
@@ -448,9 +448,9 @@ The current request
 
 =item ret: C<$rc> ( integer )
 
-C<Apache2::DONE> (or C<Apache2::HTTP_*>) if this contextless request was
-just fulfilled (such as C<TRACE>), C<Apache2::OK> if this is not a
-file, and C<Apache2::DECLINED> if this is a file.  The core
+C<Apache2::Const::DONE> (or C<Apache2::HTTP_*>) if this contextless request was
+just fulfilled (such as C<TRACE>), C<Apache2::Const::OK> if this is not a
+file, and C<Apache2::Const::DECLINED> if this is a file.  The core
 map_to_storage (C<Apache2::HOOK_RUN_LAST>) will C<directory_walk()> and
 C<file_walk()> the C<$r-E<gt>filename> (all internal C functions).
 
@@ -486,8 +486,8 @@ The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache2::OK> or
-C<Apache2::DECLINED>.
+The status of the current phase run: C<Apache2::Const::OK> or
+C<Apache2::Const::DECLINED>.
 
 =item since: 1.99_12
 
@@ -519,8 +519,8 @@ The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache2::OK>,
-C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
+The status of the current phase run: C<Apache2::Const::OK>,
+C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -550,8 +550,8 @@ the current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache2::OK>,
-C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
+The status of the current phase run: C<Apache2::Const::OK>,
+C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 

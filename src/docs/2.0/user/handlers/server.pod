@@ -80,25 +80,25 @@ phases:
       my $oldfh = select($log_fh); $| = 1; select($oldfh);
   
       say("process $$ is born to reproduce");
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub post_config {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
       say("configuration is completed");
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub child_init {
       my($child_pool, $s) = @_;
       say("process $$ is born to serve");
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub child_exit {
       my($child_pool, $s) = @_;
       say("process $$ now exits");
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub say {
@@ -238,7 +238,7 @@ the main server object:
       my $oldfh = select($log_fh); $| = 1; select($oldfh);
   
       say("process $$ is born to reproduce");
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 In our example the handler opens a log file for appending and sets the
@@ -265,7 +265,7 @@ simple loop. For example to print out the configured port numbers do:
           my $port = $vs->port;
           warn "vhost port: $port\n";
       }
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 C<$s> is the base server object.
@@ -327,7 +327,7 @@ example we used the I<post_config()> handler:
   sub post_config {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
       say("configuration is completed");
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 As you can see, its arguments are identical to the
@@ -379,7 +379,7 @@ example we used the I<child_init()> handler:
   sub child_init {
       my($child_pool, $s) = @_;
       say("process $$ is born to serve");
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 The I<child_init()> handler accepts two arguments: the child process
@@ -415,7 +415,7 @@ example we used the I<child_exit()> handler:
   sub child_exit {
       my($child_pool, $s) = @_;
       say("process $$ now exits");
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 The I<child_exit()> handler accepts two arguments: the child process

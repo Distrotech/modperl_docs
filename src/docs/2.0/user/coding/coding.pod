@@ -410,7 +410,7 @@ setting the I<Content-Type> header, following by an immediate flush:
       $r->rflush; # send the headers out
   
       $r->print(long_operation());
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 If this doesn't work, check whether you have configured any

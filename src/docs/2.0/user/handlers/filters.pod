@@ -130,7 +130,7 @@ And here is the filter handler code:
           $f->print($buffer);
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   1;
 
@@ -143,7 +143,7 @@ extension:
   </Files>
 
 Filter handlers are similar to HTTP handlers, they are expected to
-return C<Apache2::OK> or C<Apache2::DECLINED>, but instead of receiving
+return C<Apache2::Const::OK> or C<Apache2::Const::DECLINED>, but instead of receiving
 C<$r> (the request object) as the first argument, they receive C<$f>
 (the filter object).
 
@@ -357,7 +357,7 @@ like:
           finalize($f);
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   sub init     { ... }
   sub process  { ... }
@@ -411,13 +411,13 @@ number of times it was invoked during a single request:
       $f->ctx($ctx);
       warn "filter was invoked $ctx->{invoked} times\n";
   
-      return Apache2::DECLINED;
+      return Apache2::Const::DECLINED;
   }
 
 Since this filter handler doesn't consume the data from the upstream
-filter, it's important that this handler returns C<Apache2::DECLINED>,
+filter, it's important that this handler returns C<Apache2::Const::DECLINED>,
 in which case mod_perl passes the current bucket brigade to the next
-filter. If this handler returns C<Apache2::OK>, the data will be simply
+filter. If this handler returns C<Apache2::Const::OK>, the data will be simply
 lost. And if that data included a special EOS token, this may wreck
 havoc.
 
@@ -539,7 +539,7 @@ Here is a code for a transparent input filter:
       my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
       return $rv unless $rv == APR::SUCCESS;
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 When the input filter I<in()> is invoked, it first asks the upstream
@@ -606,7 +606,7 @@ Here is an example of a transparent output filter:
       my $rv = $f->next->pass_brigade($bb);
       return $rv unless $rv == APR::SUCCESS;
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   1;
 
@@ -936,7 +936,7 @@ And the corresponding module:
   
       $r->add_output_filter(\&MyApache2::FilterObfuscate::handler);
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   1;
@@ -1061,7 +1061,7 @@ an init handler:
   sub init : FilterInitHandler {
       my $f = shift;
       #...
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 The attribute C<FilterInitHandler> marks the Perl function suitable to
@@ -1075,7 +1075,7 @@ had a chance to run, if some condition is true:
   sub init : FilterInitHandler {
       my $f = shift;
       $f->remove() if should_remove_filter();
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 Not all C<Apache2::Filter> methods can be used in the init handler,
@@ -1102,7 +1102,7 @@ attribute. For example:
   sub filter : FilterRequestHandler FilterHasInitHandler(\&init) {
       my ($f, $bb) = @_;
       # ...
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 While attributes are parsed during the code compilation (it's really a
@@ -1170,12 +1170,12 @@ the request's I<args> and I<content> as strings:
   
       $r->print("args:\n", $r->args, "\n");
   
-      if ($r->method_number == Apache2::M_POST) {
+      if ($r->method_number == Apache2::Const::M_POST) {
           my $data = content($r);
           $r->print("content:\n$data\n");
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   use Apache2::Const -compile => qw(MODE_READBYTES);
@@ -1191,7 +1191,7 @@ the request's I<args> and I<content> as strings:
       my $data = '';
       my $seen_eos = 0;
       do {
-          $r->input_filters->get_brigade($bb, Apache2::MODE_READBYTES,
+          $r->input_filters->get_brigade($bb, Apache2::Const::MODE_READBYTES,
                                          APR::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
@@ -1278,7 +1278,7 @@ Now let's write the snooping filter:
           return $rv unless $rv == APR::SUCCESS;
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub bb_dump {
@@ -1567,7 +1567,7 @@ the bucket brigades:
   sub handler : FilterConnectionHandler {
       my($f, $bb, $mode, $block, $readbytes) = @_;
   
-      return Apache2::DECLINED if $f->ctx;
+      return Apache2::Const::DECLINED if $f->ctx;
   
       my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
       return $rv unless $rv == APR::SUCCESS;
@@ -1585,7 +1585,7 @@ the bucket brigades:
           }
       }
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
   1;
 
@@ -1634,10 +1634,10 @@ required substitution, though once it completes the job it sets the
 context to 1.
 
 To optimize the speed, the filter immediately returns
-C<Apache2::DECLINED> when it's invoked after the substitution job has
+C<Apache2::Const::DECLINED> when it's invoked after the substitution job has
 been done:
 
-    return Apache2::DECLINED if $f->ctx;
+    return Apache2::Const::DECLINED if $f->ctx;
 
 In that case mod_perl will call C<get_brigade()> internally which will
 pass the bucket brigade to the downstream filter. Alternatively the
@@ -1645,7 +1645,7 @@ filter could do:
 
     my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
     return $rv unless $rv == APR::SUCCESS;
-    return Apache2::OK if $f->ctx;
+    return Apache2::Const::OK if $f->ctx;
 
 but this is a bit less efficient.
 
@@ -1655,7 +1655,7 @@ been done.
 
   if ($f->ctx) {
       $f->remove;
-      return Apache2::DECLINED;
+      return Apache2::Const::DECLINED;
   }
 
 However, this can't be used with Apache 2.0.49 and lower, since it has
@@ -1679,7 +1679,7 @@ need anymore:
 Finally we set the context to 1, so we know not to apply the
 substitution on the following data and break from the I<for> loop.
 
-The handler returns C<Apache2::OK> indicating that everything was
+The handler returns C<Apache2::Const::OK> indicating that everything was
 fine. The downstream filter will receive the bucket brigade with one
 bucket modified.
 
@@ -1707,7 +1707,7 @@ the following response handler:
       $r->set_content_length(length $response);
       $r->print($response);
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
   
   1;
@@ -1817,7 +1817,7 @@ request's body: C<MyApache2::InputRequestFilterLC>:
           $bb->insert_tail($b);
       }
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
   
   1;
@@ -1894,7 +1894,7 @@ stream-oriented API.
           $f->print(lc $buffer);
       }
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
   1;
 
@@ -2005,7 +2005,7 @@ numerals 1234567890 and the English alphabet in a single string:
       $r->print(1..9, "0\n");
       $r->print('a'..'z', "\n");
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
   1;
 
@@ -2045,7 +2045,7 @@ API:
           }
       }
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
   1;
 
@@ -2115,7 +2115,7 @@ care of these issues:
           $f->ctx($leftover) if defined $leftover;
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
 The handler uses the C<$leftover> variable to store unprocessed data
@@ -2172,7 +2172,7 @@ to accomplish exactly the same task as the first filter.
       my $rv = $f->next->pass_brigade($bb_ctx);
       return $rv unless $rv == APR::SUCCESS;
   
-      Apache2::OK;
+      Apache2::Const::OK;
   }
   1;
 
@@ -2318,14 +2318,14 @@ implementation details. First let's look at the C<response()> handler
   
       $r->content_type('text/plain');
   
-      if ($r->method_number == Apache2::M_POST) {
+      if ($r->method_number == Apache2::Const::M_POST) {
           my $data = read_post($r);
           #warn "HANDLER READ: $data\n";
           my $length = length $data;
           $r->print("read $length chars");
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub read_post {
@@ -2336,7 +2336,7 @@ implementation details. First let's look at the C<response()> handler
       my $data = '';
       my $seen_eos = 0;
       do {
-          $r->input_filters->get_brigade($bb, Apache2::MODE_READBYTES,
+          $r->input_filters->get_brigade($bb, Apache2::Const::MODE_READBYTES,
                                          APR::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
@@ -2417,7 +2417,7 @@ Now comes the filter (which lives in the same package):
           warn "storing the remainder: $len bytes\n";
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   # split a string into tokens of TOKEN_SIZE bytes and a remainder
@@ -2545,7 +2545,7 @@ pass-through-unmodified mode. Here is a skeleton of the module:
       my $ctx = context($f);
   
       # pass through unmodified
-      return Apache2::DECLINED if $ctx->{state};
+      return Apache2::Const::DECLINED if $ctx->{state};
   
       # get data, do some processing, send it out
       process(); # your code comes here
@@ -2553,7 +2553,7 @@ pass-through-unmodified mode. Here is a skeleton of the module:
       # change the state if some condition is reached
       $ctx->{state}++ if $done_condition;
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub context {
@@ -2592,7 +2592,7 @@ C<context> wrapper to be:
       }
   
       my $c = $f->c;
-      if ($c->keepalive == Apache2::CONN_KEEPALIVE &&
+      if ($c->keepalive == Apache2::Const::CONN_KEEPALIVE &&
           $ctx->{state} && $c->keepalives > $ctx->{keepalives}) {
   
           $ctx->{state}      = 0;

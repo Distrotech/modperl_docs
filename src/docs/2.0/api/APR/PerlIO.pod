@@ -17,7 +17,7 @@ APR::PerlIO -- Perl IO layer for APR
       # work with $fh as normal $fh
       close $fh;
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
 
   # outside mod_perl

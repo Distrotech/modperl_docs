@@ -25,7 +25,7 @@ All HTTP Request handlers have the following structure:
       
       # handler code comes here
       
-      return Apache2::OK; # or another status constant
+      return Apache2::Const::OK; # or another status constant
   }
   1;
 
@@ -129,9 +129,9 @@ chapter|docs::2.0::user::handlers::filters>.
 Before discussing each handler in detail remember that if you use
 L<the stacked handlers
 feature|docs::2.0::user::handlers::intro/Stacked_Handlers> all
-handlers in the chain will be run as long as they return C<Apache2::OK>
-or C<Apache2::DECLINED>. Because stacked handlers is a special case. So
-don't be surprised if you've returned C<Apache2::OK> and the next
+handlers in the chain will be run as long as they return C<Apache2::Const::OK>
+or C<Apache2::Const::DECLINED>. Because stacked handlers is a special case. So
+don't be surprised if you've returned C<Apache2::Const::OK> and the next
 handler was still executed. This is a feature, not a bug.
 
 Now let's discuss each of the mentioned handlers in detail.
@@ -211,7 +211,7 @@ here:
   sub handler {
       my $r = shift;
       $^T = $r->request_time;
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   1;
 
@@ -290,13 +290,13 @@ I<news.pl>, so you can still use the former URI mapping:
       $r->uri("/perl/news.pl");
       $r->args("date=$date&id=$id&page=$page");
   
-      return Apache2::DECLINED;
+      return Apache2::Const::DECLINED;
   }
   1;
 
 The handler matches the URI and assigns a new URI via C<$r-E<gt>uri()>
 and the query string via C<$r-E<gt>args()>. It then returns
-C<Apache2::DECLINED>, so the next translation handler will get invoked,
+C<Apache2::Const::DECLINED>, so the next translation handler will get invoked,
 if more rewrites and translations are needed.
 
 Of course if you need to do a more complicated rewriting, this handler
@@ -348,7 +348,7 @@ using the following code:
       my $r = shift;
   
       # skip ap_directory_walk stat() calls
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   1;
 
@@ -370,10 +370,10 @@ handle such, you may rewrite it as:
   sub handler {
       my $r = shift;
   
-      return Apache2::DECLINED if $r->method_number == Apache2::M_TRACE;
+      return Apache2::Const::DECLINED if $r->method_number == Apache2::Const::M_TRACE;
   
       # skip ap_directory_walk stat() calls
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   1;
 
@@ -457,13 +457,13 @@ and here is the C<MyApache2::SendEmail> handler:
   sub handler {
       my $r = shift;
   
-      return Apache2::DECLINED unless $r->method eq METHOD;
+      return Apache2::Const::DECLINED unless $r->method eq METHOD;
   
       $r->server->method_register(METHOD);
       $r->handler("perl-script");
       $r->push_handlers(PerlResponseHandler => \&send_email_handler);
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub send_email_handler {
@@ -476,7 +476,7 @@ and here is the C<MyApache2::SendEmail> handler:
   
       $r->content_type('text/plain');
       $r->print($status ? "ACK" : "NACK");
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   use APR::Brigade ();
@@ -495,7 +495,7 @@ and here is the C<MyApache2::SendEmail> handler:
       my $data = '';
       my $seen_eos = 0;
       do {
-          $r->input_filters->get_brigade($bb, Apache2::MODE_READBYTES,
+          $r->input_filters->get_brigade($bb, Apache2::Const::MODE_READBYTES,
                                          APR::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
@@ -530,7 +530,7 @@ returns immediately and passes the control to the next handler if the
 request method is not equal to C<EMAIL> (set in the C<METHOD>
 constant):
 
-      return Apache2::DECLINED unless $r->method eq METHOD;
+      return Apache2::Const::DECLINED unless $r->method eq METHOD;
 
 Next it tells Apache that this new method is a valid one and that the
 C<perl-script> handler will do the processing.
@@ -550,7 +550,7 @@ C<PerlResponseHandler> list of handlers:
 
 The function terminates the header_parser phase by:
 
-      return Apache2::OK;
+      return Apache2::Const::OK;
 
 All other phases run as usual, so you can reuse any HTTP protocol
 hooks, such as authentication and fixup phases. 
@@ -569,11 +569,11 @@ Then send the email:
 
 Finally return to the client a simple response acknowledging that
 email has been sent and finish the response phase by returning
-C<Apache2::OK>:
+C<Apache2::Const::OK>:
 
       $r->content_type('text/plain');
       $r->print($status ? "ACK" : "NACK");
-      return Apache2::OK;
+      return Apache2::Const::OK;
 
 Of course you will want to add extra validations if you want to use
 this code in production. This is just a proof of concept
@@ -687,8 +687,8 @@ The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 The concept behind access checker handler is very simple, return
-C<Apache2::FORBIDDEN> if the access is not allowed, otherwise return
-C<Apache2::OK>.
+C<Apache2::Const::FORBIDDEN> if the access is not allowed, otherwise return
+C<Apache2::Const::OK>.
 
 The following example handler denies requests made from IPs on the
 blacklist.
@@ -711,8 +711,8 @@ blacklist.
       my $r = shift;
   
       return exists $bad_ips{$r->connection->remote_ip}
-          ? Apache2::FORBIDDEN
-          : Apache2::OK;
+          ? Apache2::Const::FORBIDDEN
+          : Apache2::Const::OK;
   }
   
   1;
@@ -754,8 +754,8 @@ C<AuthType> and at least one C<require> directive.
 
 This phase is usually used to verify a user's identification
 credentials. If the credentials are verified to be correct, the
-handler should return C<Apache2::OK>.  Otherwise the handler returns
-C<Apache2::HTTP_UNAUTHORIZED> to indicate that the user has not
+handler should return C<Apache2::Const::OK>.  Otherwise the handler returns
+C<Apache2::Const::HTTP_UNAUTHORIZED> to indicate that the user has not
 authenticated successfully.  When Apache sends the HTTP header with
 this code, the browser will normally pop up a dialog box that prompts
 the user for login information.
@@ -789,19 +789,19 @@ secret length, specified by the constant C<SECRET_LENGTH>.
       my $r = shift;
   
       my ($status, $password) = $r->get_basic_auth_pw;
-      return $status unless $status == Apache2::OK;
+      return $status unless $status == Apache2::Const::OK;
   
-      return Apache2::OK 
+      return Apache2::Const::OK 
           if SECRET_LENGTH == length join " ", $r->user, $password;
   
       $r->note_basic_auth_failure;
-      return Apache2::HTTP_UNAUTHORIZED;
+      return Apache2::Const::HTTP_UNAUTHORIZED;
   }
   
   1;
 
 First the handler retrieves the status of the authentication and the
-password in plain text. The status will be set to C<Apache2::OK> only
+password in plain text. The status will be set to C<Apache2::Const::OK> only
 when the user has supplied the username and the password
 credentials. If the status is different, we just let Apache handle
 this situation for us, which will usually challenge the client so
@@ -840,7 +840,7 @@ usually this requires the password to be encrypted first, since
 storing passwords in clear is a bad idea.
 
 Finally if our authentication fails the handler calls
-note_basic_auth_failure() and returns C<Apache2::HTTP_UNAUTHORIZED>, which
+note_basic_auth_failure() and returns C<Apache2::Const::HTTP_UNAUTHORIZED>, which
 sets the proper HTTP response headers that tell the client that its
 user that the authentication has failed and the credentials should be
 supplied again.
@@ -895,9 +895,9 @@ whether a user is authorized to access the requested resource.
 As this phase is tightly connected to the authentication phase, the
 handlers registered for this phase are only called when the requested
 resource is password protected, similar to the auth phase. The handler
-is expected to return C<Apache2::DECLINED> to defer the decision,
-C<Apache2::OK> to indicate its acceptance of the user's authorization,
-or C<Apache2::HTTP_UNAUTHORIZED> to indicate that the user is not
+is expected to return C<Apache2::Const::DECLINED> to defer the decision,
+C<Apache2::Const::OK> to indicate its acceptance of the user's authorization,
+or C<Apache2::Const::HTTP_UNAUTHORIZED> to indicate that the user is not
 authorized to access the requested document.
 
 This phase is of type
@@ -935,15 +935,15 @@ properly authenticated:
           my($section) = $r->uri =~ m|^/company/(\w+)/|;
           if (defined $section && exists $protected{$section}) {
               my $users = $protected{$section};
-              return Apache2::OK if grep { $_ eq $user } @$users;
+              return Apache2::Const::OK if grep { $_ eq $user } @$users;
           }
           else {
-              return Apache2::OK;
+              return Apache2::Const::OK;
           }
       }
   
       $r->note_basic_auth_failure;
-      return Apache2::HTTP_UNAUTHORIZED;
+      return Apache2::Const::HTTP_UNAUTHORIZED;
   }
   
   1;
@@ -963,7 +963,7 @@ resource the handler does the same thing as it does when the
 authentication fails, i.e, calls:
 
       $r->note_basic_auth_failure;
-      return Apache2::HTTP_UNAUTHORIZED;
+      return Apache2::Const::HTTP_UNAUTHORIZED;
 
 The configuration is similar to the one in L<the previous
 section|/PerlAuthenHandler>, this time we just add the 
@@ -1032,7 +1032,7 @@ or:
 depending on which type of response handler is wanted.
 
 Writing a C<PerlTypeHandler> handler which sets the content-type value
-and returns C<Apache2::DECLINED> so that the default handler will do
+and returns C<Apache2::Const::DECLINED> so that the default handler will do
 the rest of the work, is not a good idea, because mod_mime will
 probably override this and other settings.
 
@@ -1095,7 +1095,7 @@ the file extension of the request's URI.
           $r->set_handlers(PerlResponseHandler => $exts{$ext}->[CALLBACK]);
       }
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub cgi_handler { content_handler($_[0], 'cgi') }
@@ -1108,7 +1108,7 @@ the file extension of the request's URI.
       $r->content_type('text/plain');
       $r->print("A handler of type '$type' was called");
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   1;
@@ -1215,7 +1215,7 @@ I<"Hello world">. Let's write a handler that prints itself:
       $r->content_type('text/plain');
       $r->print('sub handler ', B::Deparse->new->coderef2text(\&handler));
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   1;
 
@@ -1287,7 +1287,7 @@ URI path component. Here is the log handler that does that:
       my $r = shift;
   
       my($username) = $r->uri =~ m|^/users/([^/]+)|;
-      return Apache2::DECLINED unless defined $username;
+      return Apache2::Const::DECLINED unless defined $username;
   
       my $entry = sprintf qq(%s [%s] "%s" %d %d\n),
           $r->connection->remote_ip, scalar(localtime),
@@ -1300,14 +1300,14 @@ URI path component. Here is the log handler that does that:
       print $fh $entry;
       close $fh;
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   1;
 
 First the handler tries to figure out what username the request is
 issued for, if it fails to match the URI, it simply returns
-C<Apache2::DECLINED>, letting other log handlers to do the
-logging. Though it could return C<Apache2::OK> since all other log
+C<Apache2::Const::DECLINED>, letting other log handlers to do the
+logging. Though it could return C<Apache2::Const::OK> since all other log
 handlers will be run anyway.
 
 Next it builds the log entry, similar to the default I<access_log>
@@ -1457,7 +1457,7 @@ the end of the request.
   
       $r->push_handlers(PerlCleanupHandler => \&cleanup);
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub cleanup {
@@ -1466,7 +1466,7 @@ the end of the request.
       die "Can't find file: $file" unless -e $file;
       unlink $file or die "failed to unlink $file";
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   1;
 
@@ -1555,7 +1555,7 @@ technique:
   
       $r->pool->cleanup_register(\&cleanup, $file);
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   
   sub cleanup {
@@ -1564,7 +1564,7 @@ technique:
       die "Can't find file: $file" unless -e $file;
       unlink $file or die "failed to unlink $file";
   
-      return Apache2::OK;
+      return Apache2::Const::OK;
   }
   1;
 
@@ -1606,7 +1606,7 @@ the request is of type HEAD in mod_perl 1.0 we L<used to return
 early|docs::1.0::guide::porting/Generating_correct_HTTP_Headers> from
 the handler:
 
-  return Apache2::OK if $r->header_only;
+  return Apache2::Const::OK if $r->header_only;
 
 This logic should not be used in mod_perl 2.0, because Apache 2.0
 automatically discards the response body for HEAD requests. It expects
