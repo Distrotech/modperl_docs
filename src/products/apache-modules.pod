@@ -202,6 +202,9 @@ and testing.
   Apache::AutoIndex          Philippe M. Chiasson <gozer AT cpan.org>
   Apache::Icon               Philippe M. Chiasson <gozer AT cpan.org>
   Apache::Template           Geoffrey Young <geoff AT modperlcookbook.org>
+  Apache::DB                 Frank Wiles <frank@wiles.org>
+  Apache::DProf              Frank Wiles <frank@wiles.org>
+  Apache::SmallProf          Frank Wiles <frank@wiles.org>
 
 =head1 mod_perl 2.0 Specific Modules
 
