@@ -1,5 +1,7 @@
 # things to do for mod_perl site infrastructure
 
+- Internal links (e.g. in src/docs/1.0/guide) aren't hyperlinked.
+
 - ErrorDocument (can we use .htaccess?) => /404.html
 
 - URL changes adjustments to go to src/.htaccess:
