@@ -36,9 +36,15 @@ built-in. That means that it should report:
   useithreads='define';
   usemultiplicity='define';
 
-If thats not what you see rebuild Perl with C<-Dusethreads>.
+If that's not what you see rebuild Perl with C<-Dusethreads>.
 
 =back
+
+
+
+
+
+
 
 =head1 Installing from Source
 
