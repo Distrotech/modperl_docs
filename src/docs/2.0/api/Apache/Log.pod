@@ -29,18 +29,19 @@ Apache::Log - Perl API for Apache Logging Methods
 
   #in a handler
   #------------
-  use Apache::Log;
+  package Foo;
   
   use strict;
   use warnings FATAL => 'all';
   
+  use Apache::Log;
+  
   use Apache::Const -compile => qw(OK :log);
   use APR::Const    -compile => qw(:error SUCCESS);
   
-  sub handler{
+  sub handler {
       my $r = shift;
       $r->log_error("request: log_error");
-      $r->warn("whoah!");
   
       my $rlog = $r->log;
       for my $level qw(emerg alert crit error warn notice info debug) {
@@ -65,7 +66,7 @@ Apache::Log - Perl API for Apache Logging Methods
 
       return Apache::OK;
   }
-
+  1;
 
 
 
@@ -116,6 +117,9 @@ or individually:
 
   use Apache::Const -compile => qw(LOG_DEBUG LOG_INFO);
 
+
+
+
 =head2 LogLevel Constants
 
 The following constants (sorted from the most severe level to the
@@ -138,21 +142,30 @@ which the message should be logged:
 
 =head3 C<Apache::LOG_DEBUG>
 
+
+
+=head2 Other Constants
+
+
 Make sure to compile the APR status constants before using them. For
 example to compile C<APR::SUCESS> and all the APR error status
 constants do:
 
   use APR::Const    -compile => qw(:error SUCCESS);
 
+Here is the rest of the logging related constants:
 
-=head2 Other Constants
 
 =head3 C<Apache::LOG_LEVELMASK>
 
 used to mask off the level value, to make sure that the log level's
 value is within the proper bits range. e.g.:
 
- $loglevel &= LOG_LEVELMASK;
+  $loglevel &= LOG_LEVELMASK;
+
+
+
+
 
 =head3 C<Apache::LOG_TOCLIENT>
 
@@ -167,23 +180,35 @@ table. Once the I<"error-notes"> entry is set, it is up to the error
 handler to determine whether this text should be sent back to the
 client.  For example:
 
-  $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_ERR|Apache::LOG_TOCLIENT,
-                 APR::ENOTIME, "request log_rerror");
+  use Apache::Const -compile => qw(:log);
+  use APR::Const    -compile => qw(ENOTIME);
+  $r->log_rerror(Apache::Log::LOG_MARK,
+                 Apache::LOG_ERR|Apache::LOG_TOCLIENT,
+                 APR::ENOTIME,
+                 "request log_rerror");
 
 now the log message can be retrieved via:
 
   $r->notes->get("error-notes");
 
 Remember that client-generated text streams sent back to the client
-MUST be escaped to prevent CSS attacks.
+B<MUST> be escaped to prevent CSS attacks.
+
+
+
+
 
 =head3 C<Apache::LOG_STARTUP>
 
 is useful for startup message where no timestamps, logging level is
 wanted. For example:
 
-  $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_INFO,
-                 APR::SUCCESS, "This log message comes with a header");
+  use Apache::Const -compile => qw(:log);
+  use APR::Const    -compile => qw(SUCCESS);
+  $s->log_serror(Apache::Log::LOG_MARK,
+                 Apache::LOG_INFO,
+                 APR::SUCCESS,
+                 "This log message comes with a header");
 
 will print:
 
@@ -191,8 +216,12 @@ will print:
 
 whereas, when C<Apache::LOG_STARTUP> is binary ORed as in:
 
-  $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_INFO|Apache::LOG_STARTUP,
-                 APR::SUCCESS, "This log message comes with no header");
+  use Apache::Const -compile => qw(:log);
+  use APR::Const    -compile => qw(SUCCESS);
+  $s->log_serror(Apache::Log::LOG_MARK,
+                 Apache::LOG_INFO|Apache::LOG_STARTUP,
+                 APR::SUCCESS,
+                 "This log message comes with no header");
 
 then the logging will be:
 
@@ -213,13 +242,16 @@ just logs the supplied message to I<error_log>
 
 =over 4
 
-=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s>
+( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
 
-=item arg1: C<@message> (ARRAY)
+=item arg1: C<@message> ( strings ARRAY )
 
 what to log
 
-=item ret: (XXX)
+=item ret: no return value
+
+=item since: 1.99_12
 
 =back
 
@@ -240,35 +272,43 @@ gives an access to built-in status codes.
 
 =over 4
 
-=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s>
+( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
 
-=item arg1: C<$file> (string)
+=item arg1: C<$file> ( string )
 
 The file in which this function is called
 
-=item arg2: C<$line> (number)
+=item arg2: C<$line> ( number )
 
 The line number on which this function is called
 
-=item arg3: C<$level> (C<L<Apache::LOG_* constant|/LogLevel_Constants>>)
+=item arg3: C<$level>
+( C<L<Apache::LOG_* constant|/LogLevel_Constants>> )
 
 The level of this error message
 
-=item arg4: C<$status> (integer)
+=item arg4: C<$status>
+( C<L<APR::Const status constant|docs::2.0::api::APR::Const>> )
 
-The status code from the last command (similar to $! in perl, usually
-APR:: status constant)
+The status code from the last command (similar to $! in perl), usually
+C<L<APR::Const constant|docs::2.0::api::APR::Const>> or coming from an
+L<exception object|docs::2.0::api::APR::Error>.
 
-=item arg5: C<@message> (ARRAY)
+=item arg5: C<@message> ( strings ARRAY )
 
-The log message
+The log message(s)
 
-=item ret: (XXX)
+=item ret: no return value
+
+=item since: 1.99_12
 
 =back
 
 For example:
 
+  use Apache::Const -compile => qw(:log);
+  use APR::Const    -compile => qw(ENOTIME SUCCESS);
   $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
                  APR::SUCCESS, "log_serror logging at err level");
   
@@ -278,18 +318,26 @@ For example:
 
 
 
+
 =head2 C<$s-E<gt>log>
 
-returns a log handle which can be used to L<log messages of different
+get a log handle which can be used to L<log messages of different
 levels|/LogLevel_Methods>.
 
   my $slog = $s->log;
 
 =over 4
 
-=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s>
+( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
 
-=item ret: C<$slog> (scalar)
+=item ret: C<$slog> ( C<Apache::Log::Server> object )
+
+C<Apache::Log::Server> object to be used with L<LogLevel
+methods|/LogLevel_Methods>.
+
+=item since: 1.99_12
+
 
 =back
 
@@ -306,19 +354,24 @@ levels|/LogLevel_Methods>.
 
 =head2 C<$r-E<gt>log_error>
 
-logs the supplied message (similar to C<L<$s-E<gt>log_error|/C__s_E_gt_log_error_>>).
+just logs the supplied message (similar to
+C<L<$s-E<gt>log_error|/C__s_E_gt_log_error_>> ).
 
   $r->log_error(@message);
 
 =over 4
 
-=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r>
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
-=item arg1: C<@message> (ARRAY)
+=item arg1: C<@message> ( strings ARRAY )
 
 what to log
 
-=item ret: (XXX)
+=item ret: no return value
+
+=item since: 1.99_12
+
 
 =back
 
@@ -341,8 +394,16 @@ gives an access to built-in status codes.
 arguments are identical to
 C<L<$s-E<gt>log_serror|/C__s_E_gt_log_serror_>>.
 
+=over 4
+
+=item since: 1.99_12
+
+=back
+
 For example:
 
+  use Apache::Const -compile => qw(:log);
+  use APR::Const    -compile => qw(ENOTIME SUCCESS);
   $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
                  APR::SUCCESS, "log_rerror logging at err level");
   
@@ -352,18 +413,26 @@ For example:
 
 
 
+
 =head2 C<$r-E<gt>log>
 
-returns a log handle which can be used to L<log messages of different
+get a log handle which can be used to L<log messages of different
 levels|/LogLevel_Methods>.
 
   $rlog = $r->log;
 
 =over 4
 
-=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> 
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
-=item ret: C<$rlog> (scalar)
+=item ret: C<$rlog> ( C<Apache::Log::Request> object )
+
+C<Apache::Log::Request> object to be used with L<LogLevel
+methods|/LogLevel_Methods>.
+
+=item since: 1.99_12
+
 
 =back
 
@@ -389,9 +458,14 @@ to control when messages should be logged:
 
 =over 4
 
-=item obj: C<$slog> (log handle)
+=item obj: C<$slog> ( L<server|/C__s_E_gt_log_> or
+L<request|/C__s_E_gt_log_> log handle )
 
-=item arg1: C<@message> (ARRAY)
+=item arg1: C<@message> ( strings ARRAY )
+
+=item ret: no return value
+
+=item since: 1.99_12
 
 =back
 
@@ -461,40 +535,36 @@ See L<LogLevel Methods|/LogLevel_Methods>.
 
 =head1 General Functions
 
-=head2 C<Apache::Log::LOG_MARK>
 
-  ($file, $line) = Apache::Log::LOG_MARK();
+
+
+
+=head2 C<LOG_MARK>
 
 Though looking like a constant, this is a function, which returns a
 list of two items: C<(__FILE__, __LINE__)>, i.e. the file and the line
 where the function was called from.
 
-It's mostly useful to be passed as the first argument to those logging
-methods, expecting the filename and the line number as the first
-arguments (e.g., C<L<$s-E<gt>log_serror|/C__s_E_gt_log_serror_>> and
-C<L<$r-E<gt>log_rerror|/C__r_E_gt_log_rerror_>>).
-
-
-=head2 C<Apache::Log::log_pid>
-
-
-Log the current pid of the parent process
-
-  Apache::Log::log_pid($pool, $fname);
+  my($file, $line) = Apache::Log::LOG_MARK();
 
 =over 4
 
-=item obj: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item ret1: C<$file> ( string )
 
-The pool to use for logging
+=item ret2: C<$line> ( number )
 
-=item arg1: C<$fname> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
-
-The name of the file to log to
-
-=item ret: no return value
+=item since: 1.99_12
 
 =back
+
+It's mostly useful to be passed as the first argument to those logging
+methods, expecting the filename and the line number as the first
+arguments (e.g., C<L<$s-E<gt>log_serror|/C__s_E_gt_log_serror_>> and
+C<L<$r-E<gt>log_rerror|/C__r_E_gt_log_rerror_>> ).
+
+
+
+
 
 
 =head1 Aliases
@@ -517,6 +587,47 @@ For example:
 =head2 C<Apache::warn>
 
   Apache->warn(@warnings);
+
+
+
+
+=head1 Unsupported API
+
+C<Apache::Log> also provides auto-generated perl interface for a few
+other methods which aren't tested at the moment and therefore their
+API is a subject to change. These methods will be finalized later as a
+need arises. If you want to rely on any of the following methods
+please contact the L<the mod_perl development mailing
+list|maillist::dev> so we can help eachother take the steps necessary
+to shift the method to an officially supported API.
+
+
+=head2 C<log_pid>
+
+META: what is this method good for? it just calls getpid and logs
+it. In any case it has nothing to do with the logging API. And it uses
+static variables, it probably shouldn't be in the Apache public API.
+
+Log the current pid
+
+  Apache::Log::log_pid($pool, $fname);
+
+=over 4
+
+=item obj: C<$p> ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
+
+The pool to use for logging
+
+=item arg1: C<$fname> ( file path )
+
+The name of the file to log to
+
+=item ret: no return value
+
+=item since: subject to change
+
+
+=back
 
 
 
