@@ -60,10 +60,10 @@ mod_perl they are expected to return C<Apache::OK>.
 
 Handlers of the type C<RUN_FIRST> will be executed in the order they
 have been registered until the first handler that returns something
-other than C<Apache::DECLINED>. If the return value is C<Apache::OK>,
-the next handler in the chain will be run. If the return value is
-C<Apache::DECLINED> the next phase will start. In all other cases the
-execution will be aborted.
+other than C<Apache::DECLINED>. If the return value is
+C<Apache::DECLINED>, the next handler in the chain will be run. If the
+return value is C<Apache::OK> the next phase will start. In all other
+cases the execution will be aborted.
 
 =item * RUN_ALL
 
