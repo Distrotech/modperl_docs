@@ -18,8 +18,8 @@ ModPerl::Util - Helper mod_perl Functions
   # untaint a string (do not use it! see the doc)
   ModPerl::Util::untaint($string);
   
-  # removes a module as best as it can
-  ModPerl::Util::unload_package($module);
+  # removes a stash (.so, %INC{$stash}, etc.) as best as it can
+  ModPerl::Util::unload_package($stash);
 
 
 
@@ -197,7 +197,8 @@ loaded, calling C<unload_package('CGI')> won't affect C<CGI::Carp>.
 If the module's stash had a corresponding XS shared object loaded it
 will be unloaded as well.
 
-If the module was in Perl's C<%INC>, it will be removed from it.
+If the stash had a corresponding entry in C<%INC>, it will be removed
+from there.
 
 
 
