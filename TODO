@@ -19,19 +19,8 @@ DocSet:
   it's not a doc.
   STATUS: need to extend pod parser with U<title (url|relative url)>
 
-- DocSet doesn't check if there are two indentical fragment anchors on
-  the same page. need to do that checking and unconditionally complain
-  when this happens.
-
 Menu: 
 -----
-
-style.css:
-----------
-
-- TOC links are blue w/o underline, and links in page have underline.
-  Need to coordinate links better.
-
 
 Templates:
 ----------
@@ -53,6 +42,20 @@ Content:
 
 - ask perl.com to link to perl.apache.org from 'perl sites' section.
   + also they need to add theperlreview.com
+
+- consider adding version id to each single document and the docsets,
+  so those who download/read pages can tell when things get updated
+  (the timestamp is not reliable) and also can be used to help figure
+  out against which version the bug was reported. e.g. the following
+  should be good enough:
+
+=for html <hr>
+<p><b>
+$Id: TODO,v 1.71 2002/06/29 19:21:32 stas Exp $
+</b></p>
+
+=cut
+
 
 Search:
 -------
@@ -112,7 +115,6 @@ elaborate one?
 Site Migration process:
 
 - 404.html:
-  s|http://perl.apache.org/release/|http://perl.apache.org/|
   check that 404.html actually works.
 
 - move the embperl cvs, as is and make sure that it's copied over as
