@@ -69,9 +69,9 @@ This code prints the current thread id if running under a threaded
 MPM, otherwise it prints the process id.
 
 
-=head1 Developing Modules
+=head1 Code Developing Nuances
 
-=head1 Apache::Reload
+=head2 Auto-Reloading Modified Modules with Apache::Reload
 
 META: need to port Apache::Reload notes from the guide here. but the
 gist is:
@@ -89,22 +89,27 @@ our modules:
   use strict;
   use warnings FATAL => 'all';
 
-C<FATAL =E<gt> 'all'> escalate all warnings into fatal errors. So when
-C<Apache::Whatever> is modified and reloaded by C<Apache::Reload> the
-request is aborted. Therefore if you follow this very healthy style
-and want to use C<Apache::Reload>, flex the strictness by changing it
-to:
+C<FATAL =E<gt> 'all'> escalates all warnings into fatal errors. So
+when C<Apache::Whatever> is modified and reloaded by C<Apache::Reload>
+the request is aborted. Therefore if you follow this very healthy
+style and want to use C<Apache::Reload>, flex the strictness by
+changing it to:
 
   use warnings FATAL => 'all';
   no warnings 'redefine';
 
-but if you still want the I<redefine> warnings, but so they won't be
-fatal:
+but you probably still want to get the I<redefine> warnings, but
+reduce them to be non-fatal. The following will do the trick:
 
   use warnings FATAL => 'all';
   no warnings 'redefine';
   use warnings 'redefine';
 
+Perl 5.8.0 allows to do all this in one line:
+
+  use warnings FATAL => 'all', NONFATAL => 'redefine';
+
+Refer to the I<perllexwarn> manpage for more information.
 
 =head1 Perl Specifics in mod_perl Environment
 
