@@ -279,6 +279,8 @@ the Perl alias will be created in the current C<PACKAGE>.
 
 =head3 Structures Mapping
 
+See %ModPerl::MapUtil::disabled_map in lib/ModPerl/MapUtil.pm
+
 META: complete
 
 =head3 Types Mapping
