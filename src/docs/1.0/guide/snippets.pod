@@ -1492,22 +1492,28 @@ the C<db_names> array.
 
 Here is another version using C<File::Backup>:
 
-  #!/usr/bin/perl -w
+  #!/usr/bin/perl
+  # written by Miroslav Madzarevic, mire@modperldev.com
   use strict;
+  
+  umask 0177;
   
   use File::Backup qw|backup|;
   
   backup(
-     'from'          => "/home/mire/www",
-     'to'            => "/opt/backup/box/some_dir",
+     'from'          => "",
+     'to'            => "/opt/backup/mysql/backup",
      'torootname'    => "example_backup_",
      'keep'          => 4,
-     'tar'           => "/bin/tar",
+     'tar'           => "/usr/bin/mysqldump",
      'compress'      => "/usr/bin/bzip2",
-     'tarflags'      => "cvf",
+     'tarflags'      => "example -uroot -proot_pass -a >",
      'compressflags' => "",
-     'tarsuffix'     => '.tar',
+     'tarsuffix'     => '.sql',
   );
+
+
+
 
 Now make the script executable and arrange the crontab entry to run
 the backup script nightly.  Note that the disk space used by the
