@@ -12,7 +12,7 @@ examples of their use.
 Apache distinguish between numerous phases for which it provides hooks
 (because the C functions are called I<ap_hook_E<lt>phase_nameE<gt>>)
 where modules can plug various callbacks to extend and alter the
-default behaviour of the webserver.  mod_perl provides a Perl
+default behavior of the webserver.  mod_perl provides a Perl
 interface for most of the available hooks, so mod_perl modules writers
 can change the Apache behavior in Perl. These callbacks are usually
 referred to as I<handlers> and therefore the configuration directives
@@ -189,7 +189,7 @@ the following is getting logged to I<logs/startup_log>:
 
 First of all, we can clearly see that Apache always restart itself
 after the first I<post_config> phase is over. The logs show that the
-I<post_config> phase is preceeded by the I<open_logs> phase. Only
+I<post_config> phase is preceded by the I<open_logs> phase. Only
 after Apache has restarted itself and has completed the I<open_logs>
 and I<post_config> phase again the I<child_init> phase is run for each
 child process. In our example we have had the setting
@@ -359,7 +359,7 @@ where possible.  Buckets come in different types, such as files, data
 blocks, end of stream indicators, pools, etc. To manipulate a bucket
 one doesn't need to know its internal representation.
 
-The stream of data is represented by bucket bridades.  When a filter
+The stream of data is represented by bucket brigades.  When a filter
 is called it gets passed the brigade that was the output of the
 previous filter. This brigade is then manipulated by the filter (e.g.,
 by modifying some buckets) and passed to the next filter in the stack.
@@ -734,8 +734,8 @@ represented by the following pseudo-code:
       pass_brigade($bb_out);
   }
 
-The handler receives the incoming data via bucket bridages, one at a
-time in a loop. It then process each bridage, by retrieving the
+The handler receives the incoming data via bucket bridges, one at a
+time in a loop. It then process each bridge, by retrieving the
 buckets contained in it, reading the data in, then creating new
 buckets using the received data, and attaching them to the outgoing
 brigade. When all the buckets from the incoming bucket brigade were
@@ -823,7 +823,7 @@ It's possible that the cycle will not be completed if any of the
 phases terminates it, usually when an error happens.
 
 Notice that when the response handler is reading the input data it can
-be filtered through request input filters, which are preceeded by
+be filtered through request input filters, which are preceded by
 connection input filters if any. Similarly the generated response is
 first run through request output filters and eventually through
 connection output filters before it's sent to the client. We will talk
@@ -837,7 +837,7 @@ The I<post_read_request> phase is the first request phase and happens
 immediately after the request has been read and HTTP headers were
 parsed.
 
-This phase is usually used to do processings that must happen once per
+This phase is usually used to do processing that must happen once per
 request. For example C<Apache::Reload> is usually invoked at this
 phase to reload modified Perl modules.
 
@@ -951,7 +951,7 @@ filename or directory.
 
 There are many useful things that can be performed at this
 stage. Let's look at the example handler that rewrites request URIs,
-similar to what mod_rewrite does. For example, if your website was
+similar to what mod_rewrite does. For example, if your web-site was
 originally made of static pages, and now you have moved to a dynamic
 page generation chances are that you don't want to change the old
 URIs, because you don't want to break links for those who link to your
@@ -1011,7 +1011,7 @@ The I<header_parser> phase is the first phase to happen after the
 request has been mapped to its C<E<lt>LocationE<gt>> (or an equivalent
 container). At this phase the handler can examine the request headers
 and to take a special action based on these. For example this phase
-can be used to block evil clients targetting certain resources, while
+can be used to block evil clients targeting certain resources, while
 little resources were wasted so far.
 
 This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
@@ -1027,10 +1027,10 @@ as early as possible. And usually you can take any
 C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>> and turn
 it into C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> by
 simply changing the directive name in I<httpd.conf> and moving it
-inside the contrainer where it should be executed. Moreover, because
+inside the container where it should be executed. Moreover, because
 of this similarity mod_perl provides a special directive
 C<L<PerlInitHandler|/PerlInitHandler>> which if found outside resource
-countainers behaves as
+containers behaves as
 C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>>,
 otherwise as C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>>.
 
@@ -1038,7 +1038,7 @@ You already know that Apache handles the C<HEAD>, C<GET>, C<POST> and
 several other HTTP methods. But did you know that you can invent your
 own HTTP method as long as there is a client that supports it. If you
 think of emails, they are very similar to HTTP messages: they have a
-set of headers and a body, sometimes a multipart body. Therefore we
+set of headers and a body, sometimes a multi-part body. Therefore we
 can develop a handler that extends HTTP by adding a support for the
 C<EMAIL> method.  We can enable this protocol extension during and
 push the real content handler during the
@@ -1386,7 +1386,7 @@ the client, we can proceed with the authentication. Our authentication
 algorithm is unusual. Instead of validating the username/password pair
 against a password file, we simply check that the string built from
 these two items plus a single space is C<SECRET_LENGTH> long (14 in
-our example). So for example the pair I<mod_perl/rules> autheniticates
+our example). So for example the pair I<mod_perl/rules> authenticates
 correctly, whereas I<secret/password> does not, because the latter
 pair will make a string of 15 characters. Of course this is not a
 strong authentication scheme and you shouldn't use it for serious
@@ -1772,7 +1772,7 @@ same. C<B::Deparse> is fun to play with!
 
 The I<log_transaction> phase happens no matter how the previous phases
 have ended up. If one of the earlier phases has aborted a request,
-e.g., failed authenication or 404 (file not found) errors, the rest of
+e.g., failed authentication or 404 (file not found) errors, the rest of
 the phases up to and including the response phases are skipped. But
 this phase is always executed.
 
@@ -2201,7 +2201,7 @@ bucket brigade. Therefore we can read the contents of the brigade
 right away. After that we pass the brigade to the next filter.
 
 Finally we dump to STDERR the information about the type of the
-current mode, and the content of the bucket bridage.
+current mode, and the content of the bucket bridge.
 
 Let's snoop on connection and request filter levels in both
 directions by applying the following configuration:
@@ -2453,7 +2453,7 @@ that bucket and if it finds that the data is of interest to us, it
 modifies the data, creates a new bucket using the modified data and
 links it to the tail of the outgoing brigade, while discarding the
 original bucket. In our case the interesting data is a such that
-matches the regex C</^GET/>. If the data is not interesting to the
+matches the regular expression C</^GET/>. If the data is not interesting to the
 handler, it simply links the unmodified bucket to the outgoing
 brigade.
 

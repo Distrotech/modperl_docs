@@ -6,7 +6,7 @@ mod_perl 2.0 Server Configuration
 
 =head1 Description
 
-This chapter provides an indepth mod_perl 2.0 configuration details.
+This chapter provides an in-depth mod_perl 2.0 configuration details.
 
 
 
@@ -120,7 +120,7 @@ If you need to use the backwards compatibility layer load:
 
   use Apache::compat ();
 
-Next we preload the commanly used mod_perl 2.0 modules and precompile
+Next we preload the commonly used mod_perl 2.0 modules and precompile
 common constants.
 
 Finally as usual the I<startup.pl> file must be terminated with C<1;>.
@@ -213,8 +213,8 @@ this value can be retrieved inside C<Apache::VarTest::handler()> with:
   $r->dir_config('VarTest');
 
 Alternatively use the Apache core directives C<SetEnv> and C<PassEnv>,
-which always populate C<r-E<gt>suprocess_env>, but this doesn't happen
-until the Apache fixup phase, which could be too late for your needs.
+which always populate C<r-E<gt>subprocess_env>, but this doesn't happen
+until the Apache I<fixups> phase, which could be too late for your needs.
 
 =head2 perl-script
 
@@ -431,7 +431,7 @@ And can be disabled with:
 =head2 C<ParseHeaders>
 
 Scan output for HTTP headers, same functionality as mod_perl 1.0's
-C<PerlSendHeaders>, but more robust. This option is usually needs to
+C<PerlSendHeader>, but more robust. This option is usually needs to
 be enabled for registry scripts which send the HTTP header with:
 
   print "Content-type: text/html\n\n";
@@ -462,7 +462,7 @@ C<Apache::FixupB> handlers.
 
 =head2 C<SetupEnv>
 
-Set up enviroment variables for each request ala mod_cgi. 
+Set up environment variables for each request ala mod_cgi. 
 
 When this option is enabled, I<mod_perl> fiddles with the environment
 to make it appear as if the code is called under the mod_cgi handler.
@@ -563,7 +563,7 @@ These directives are enabled only in a threaded mod_perl+Apache combo:
 
 =head2 C<PerlInterpStart>
 
-The number of intepreters to clone at startup time.
+The number of interpreters to clone at startup time.
 
 =head2 C<PerlInterpMax>
 
@@ -604,8 +604,8 @@ For example, if a C<PerlAccessHandler> is configured, an interpreter
 will be selected before it is run and not released until after the
 logging phase.
 
-Intepreters will be shared across subrequests by default, however, it
-is possible to configure the intepreter scope to be per-subrequest on
+Interpreters will be shared across sub-requests by default, however, it
+is possible to configure the interpreter scope to be per-sub-request on
 a per-directory basis:
 
   PerlInterpScope subrequest
@@ -619,10 +619,10 @@ It is also possible to configure the scope to be per-handler:
   PerlInterpScope handler
 
 With this configuration, an interpreter will be selected before
-C<PerlAccessHandlers> are run, and putback immediately afterwards,
+C<PerlAccessHandlers> are run, and put back immediately afterwards,
 before Apache moves onto the authentication phase.  If a
 C<PerlFixupHandler> is configured further down the chain, another
-interpreter will be selected and again putback afterwards, before
+interpreter will be selected and again put back afterwards, before
 C<PerlResponseHandler> is run.
 
 For protocol handlers, the interpreter is held for the lifetime of the
@@ -756,7 +756,7 @@ code.
 =item DIR
 
 C<E<lt>DirectoryE<gt>>, C<E<lt>LocationE<gt>>, C<E<lt>FilesE<gt>> and
-all their regex variants (mnemonic: I<DIRectory>). These directives
+all their regular expression variants (mnemonic: I<DIRectory>). These directives
 can also appear in I<.htaccess> files.  These directives are defined
 as C<OR_ALL> in the source code.
 
@@ -769,40 +769,8 @@ Apache specifies other allowed location types which are currently not
 used by the core mod_perl directives and their definition can be found
 in I<include/httpd_config.h> (hint: search for C<RSRC_CONF>).
 
-
-The I<Type> column specifies a phase's behavior when there is more
-then one handler registered to run for this phase. (For C API
-declarations see I<include/ap_config.h>, which includes other types
-which aren't exposed by mod_perl.)
-
-
-=over
-
-=item * VOID
-
-Handlers of the type C<VOID> will be I<all> executed in the order they
-have been registered disregarding their return values. Though in
-mod_perl they are expected to return C<Apache::OK>.
-
-=item * RUN_FIRST
-
-Handlers of the type C<RUN_FIRST> will be executed in the order they
-have been registered until the first handler that returns something
-other than C<Apache::DECLINED>. If the return value is
-C<Apache::DECLINED>, the next handler in the chain will be run. If the
-return value is C<Apache::OK> the next phase will start. In all other
-cases the execution will be aborted.
-
-=item * RUN_ALL
-
-Handlers of the type C<RUN_ALL> will be executed in the order they
-have been registered until the first handler that returns something
-other than C<Apache::OK> or C<Apache::DECLINED>.
-
-=back
-
-Also see L<mod_perl Directives Argument Types and Allowed
-Location|user::config::config/mod_perl_Directives_Argument_Types_and_Allowed_Location>
+Also see L<Perl*Handler
+Types|docs::2.0::user::handlers::handlers/Perl_Handler_Types>.
 
 
 
