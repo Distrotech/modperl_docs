@@ -171,12 +171,14 @@ list|maillist::modperl>, so we can update this information:
   Apache::AuthzPasswd               Apache-AuthzPasswd-0.11
   Apache::Clean                     Apache-Clean-2.00_4
   Apache::DB                        Apache-DB-0.08
+  Apache::DProf                     Apache-DB-0.08
   Apache::Filter::HTTPHeadersFixup  Apache-Filter-HTTPHeadersFixup-0.01
   Apache::GeoIP                     Apache-GeoIP-1.215
   Apache::PAR                       Apache-PAR-0.30
   Apache::Peek                      Apache-Peek-1.01
   Apache::Scoreboard                Apache-Scoreboard-2.01
   Apache::SessionManager            Apache-SessionManager 1.00
+  Apache::SmallProf                 Apache-DB-0.08
   Apache::VMonitor                  Apache-VMonitor-2.0
   CGI                               CGI.pm-2.93
   CGI::Cookie                       CGI.pm-2.93 (comes in the CGI dist)
@@ -203,8 +205,6 @@ and testing.
   Apache::AutoIndex          Philippe M. Chiasson <gozer AT cpan.org>
   Apache::Icon               Philippe M. Chiasson <gozer AT cpan.org>
   Apache::Template           Geoffrey Young <geoff AT modperlcookbook.org>
-  Apache::DProf              Frank Wiles <frank@wiles.org>
-  Apache::SmallProf          Frank Wiles <frank@wiles.org>
 
 =head1 mod_perl 2.0 Specific Modules
 
