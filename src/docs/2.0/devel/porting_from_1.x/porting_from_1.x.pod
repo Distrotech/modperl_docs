@@ -147,7 +147,7 @@ found at: http://httpd.apache.org/docs-2.0/developer/
 The Apache 2.0 API documentation now resides in the C header files,
 which can be conveniently browsed via http://docx.webperf.org/.
 
-The APR API can be found here http://apr.apache.org/.
+The APR API documentation can be found here http://apr.apache.org/.
 
 The new Apache and APR APIs include many new functions. Though certain
 functions have been preserved, either as is or with a changed
