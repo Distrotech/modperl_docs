@@ -13,9 +13,6 @@ Basic Layout:
 DocSet:
 -------
 
-- SRC should link to the source page, not the generated HTML, even if
-  the source was HTML. This now broken, need to fix.
-
 - how do we make L<foo|../search/swish.cgi> I cannot do search::swish,
   it's not a doc.
   STATUS: need to extend pod parser with U<title (url|relative url)>

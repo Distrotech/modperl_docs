@@ -78,13 +78,14 @@ sub fetch_src_doc_ver {
     my $dst_path = catfile $self->{dst_root}, $self->{src_uri};
     my $src_path = catfile $self->{src_root}, $self->{src_uri};
 
+    # the source file may have the same extension as the dest file, so
+    # add a new extension. This will also be useful for doing patches.
+    $dst_path .= ".orig";
+
 #print "TRYING $dst_path $src_path \n";
 
     my %src = ();
     if (-e $src_path) {
-        # it's ok if the source file has the same name as the dest,
-        # because the final dest file wasn't created yet.
-        copy_file($src_path, $dst_path);
         %src = (
             size => format_bytes(-s $dst_path),
             link => filename($dst_path),
