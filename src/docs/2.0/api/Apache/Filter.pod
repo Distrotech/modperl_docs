@@ -11,25 +11,321 @@ Apache::Filter -- A Perl API for Apache 2.0 Filtering
 C<Apache::Filter> provides the Perl API for Apache 2.0 filtering
 framework
 
-=head1 API
+=head1 Configuration Directives
 
-Function arguments (if any) and return values are shown in the
-function's synopsis.
+META: consider moving the config specs here and point here instead
+from filters.pod.
 
-=head2 ...
+=head2 C<PerlInputFilterHandler>
 
-=head1 Attributes
+See
+C<L<PerlInputFilterHandler|docs::2.0::user::handlers::filters/PerlInputFilterHandler>>.
+
+
+=head2 C<PerlOutputFilterHandler>
+
+See
+C<L<PerlOutputFilterHandler|docs::2.0::user::handlers::filters/PerlOutputFilterHandler>>.
+
+
+=head2 C<PerlSetInputFilter>
+
+See
+C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/PerlSetInputFilter>>.
+
+
+=head2 C<PerlSetOutputFilter>
+
+
+See
+C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/PerlSetInputFilter>>.
+
+
+
+
+
+=head1 Common Filter API
+
+The following methods can be called from any filter:
+
+
+=head2 C<c>
+
+Inside a connection filter the current connection object can be
+retrieved with:
+
+  my $c = $f->c;
+
+
+
+
+=head2 C<ctx>
+
+A filter context is created before the filter is called for the first
+time and its destroyed at the end of the request. The context is
+preserved between filter invocations of the same request. So if a
+filter needs to store some data between invocations it should use the
+filter context for that.  The filter context is initialized with the
+C<undef> value.
+
+The C<ctx> method accepts a single SCALAR argument. Therefore if you
+want to store any other perl datastructure you should use a reference
+to it.
+
+For example you can store a hash reference:
+
+  $f->ctx({ foo => 'bar' });
+
+and then access it:
+
+  $foo = $f->ctx->{foo};
+
+if you access the context more than once it's more efficient to copy
+it's value before using it:
+
+  my $ctx = $f->ctx;
+  $foo = $ctx->{foo};
+
+to avoid redundant method calls. As of this writing C<$ctx> is not a
+tied variable, so if you modify it need to store it at the end:
+
+  $f->ctx($ctx);
+
+META: later we might make it a TIEd-variable interface, so it'll be
+stored automatically.
+
+This method is useful when it's acting as a flag which ensures that
+something happens only once. For example:
+
+      unless ($f->ctx) {
+          do_something_once();
+          $f->ctx(1);
+      }
+
+=head2 C<frec>
+
+  my $fr = $f->frec([$frec]);
+
+Get/set the C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>
+(filter record) object.
+
+=head2 C<next>
+
+  $f->next;
+
+Returns the C<Apache::Filter> object of the next filter in chain.
+
+Since Apache inserts several core filters at the end of each chain,
+normally this method always returns an object. However if it's not a
+mod_perl filter handler, you can call only the following methods on
+it: C<L<get_brigade|/C_get_brigade_>>,
+C<L<pass_brigade|/C_pass_brigade_>>, C<L<c|/C_c_>>, C<L<r|/C_r_>>,
+C<L<frec|/C_frec_>> and C<L<next|/C_next_>>. If you call other methods
+the behavior is undefined.
+
+META: I doubt anybody will ever need to mess with other filters, from
+within a mod_perl filter. but if the need arises it's easy to tell a
+mod_perl filter from non-mod_perl one by calling
+C<$f-E<gt>frec-E<gt>name> (it'll return one of the following four
+names: I<modperl_request_output>, I<modperl_request_input>,
+I<modperl_connection_output> or I<modperl_connection_input>).
+
+=head2 C<r>
+
+Inside an HTTP request filter the current request object can be
+retrieved with:
+
+  my $r = $f->r;
+
+=head2 C<remove>
+
+  $filter->remove;
+
+Remove the current filter from the filter chain (for the current
+request).
+
+Notice that you should either complete the current filter invocation
+normally (by calling C<L<get_brigade|/C_get_brigade_>> or
+C<L<pass_brigade|/C_pass_brigade_>> depending on the filter kind) or
+if nothing was done, return C<Apache::DECLINED> and mod_perl will take
+care of passing the current bucket brigade through unmodified to the
+next filter in chain.
+
+
+
+
+
+=head1 Bucket Brigade Filter API
+
+The following methods can be called from any filter, directly
+manipulating bucket brigades:
+
+
+=head2 C<fflush>
+
+  $f->fflush($bb);
+
+Flush the C<$bb> brigade down the filter stack.
+
+
+=head2 C<get_brigade>
+
+  sub filter {
+      my($f, $bb, $mode, $block, $readbytes) = @_;
+      
+      my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
+      return $rv unless $rv == APR::SUCCESS;
+      
+      # ... process $bb
+      
+      return Apache::OK;
+  }
+
+This is a method to use in bucket brigade input filters.  It acquires
+a bucket brigade from the upstream input filter.
+
+Normally arguments C<$mode>, C<$block>, C<$readbytes> are the same as
+passed to the filter itself.
+
+It returns C<APR::SUCCESS> on success, otherwise a failure code, in
+which case it should be returned to the caller.
+
+
+=head2 C<pass_brigade>
+
+  sub filter {
+      my($f, $bb) = @_;
+      
+      # ... process $bb
+      
+      my $rv = $f->next->pass_brigade($bb);
+      return $rv unless $rv == APR::SUCCESS;
+      
+      # process $bb
+      return Apache::OK;
+  }
+
+This is a method to use in bucket brigade output filters.  It passes
+the current bucket brigade to the downstream output filter.
+
+It returns C<APR::SUCCESS> on success, otherwise a failure code, in
+which case it should be returned to the caller.
+
+
+=head1 Streaming Filter API
+
+The following methods can be called from any filter, which uses the
+simplified streaming functionality:
+
+=head2 C<seen_eos>
+
+  $f->seen_eos;
+
+This methods returns a true value when the EOS bucket is seen by the
+C<L<read|/C_read_>> method. This only works in streaming filters which
+exhaustively C<L<$f-E<gt>read|/C_read_>> all the incoming data in a
+while loop, like so:
+
+      while ($f->read(my $buffer, $read_len)) {
+          # do something with $buffer
+      }
+      if ($f->seen_eos) {
+          # do something
+      }
+
+This method is useful when a streaming filter wants to append
+something to the very end of data, or do something at the end of the
+last filter invocation. After the EOS bucket is read, the filter
+should expect not to be invoked again.
+
+Only for testing and debugging purposes, one may explicitly turn this
+flag on/off manually:
+
+  $f->seen_eos(1);
+
+Never explicitly set or unset this flag manually in the normal
+code. If you need to do that, either your filter or one of the
+upstream filters is badly written (e.g. doesn't propogate the EOS
+bucket, or sends more buckets after the EOS bucket).
+
+
+=head2 C<read>
+
+  $f->read(my $buffer, $read_len);
+
+Reads at most C<$read_len> characters into C<$buffer>. It returns a
+true value as long as it had something to read, and a false value
+otherwise.
+
+This is a streaming filter method, which acquires the bucket brigade
+behind the scenes and reads data from all buckets. If the EOS bucket
+is read, the C<L<seen_eos|/C_seen_eos_>> method will return a true
+value.
+
+
+=head2 C<print>
+
+  $f->print($buffer);
+
+Sends the contents of C<$buffer> to the next filter in chain (via
+internal buffer).
+
+This method should be used only in streaming filters.
+
+
+=head1 Other Filter-related API
+
+Other methods which affect filters, but called on
+non-C<Apache::Filter> objects:
+
+=head2 C<add_input_filter>
+
+  $r->add_input_filter(\&callback);
+
+Adds C<&callback> filter handler to input request filter chain.
+
+  $c->add_input_filter(\&callback);
+
+Adds C<&callback> filter handler to input connection filter chain.
+
+=head2 C<add_output_filter>
+
+  $r->add_output_filter(\&callback);
+
+Adds C<&callback> filter handler to output request filter chain.
+
+  $c->add_output_filter(\&callback);
+
+Adds C<&callback> filter handler to output connection filter chain.
+
+
+
+
+
+
+
+=head1 Filter Handler Attributes
 
 To use attributes the package they are defined in, has to subclass
 C<Apache::Filter>:
 
   use base qw(Apache::Filter);
 
-Attributes are parsed during the code compilation.
+Attributes are parsed during the code compilation, by
+C<MODIFY_CODE_ATTRIBUTES>, inherited from the C<Apache::Filter> class.
 
 =head2 C<FilterRequestHandler>
 
+The C<FilterRequestHandler> attribute tells mod_perl to insert the
+filter into an HTTP request filter chain.
+
+This is the default mode. So if you are writing an HTTP request
+filter, you don't have to specify this attribute.
+
 =head2 C<FilterConnectionHandler>
+
+The C<FilterConnectionHandler> attribute tells mod_perl to insert this
+filter into a connection filter chain.
 
 =head2 C<FilterInitHandler>
 
@@ -92,9 +388,10 @@ handler). So the above code leads to the following evaluation:
 
   $init_handler_sub = eval "package MyFilter; get_pre_handler()";
 
-though, this is done in C.
+though, this is done in C, using the C<eval_pv> C call.
 
-META: currently only one callback can be registered per filter, if the
-need to register more than one arises it should be very easy to do.
+META: currently only one initialization callback can be registered per
+filter handler. If the need to register more than one arises it should
+be very easy to do.
 
 =cut

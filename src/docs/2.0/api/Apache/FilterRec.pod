@@ -1,15 +1,16 @@
 =head1 NAME
 
-Apache::Filter -- A Perl API for Apache 2.0 Filter Records
+Apache::FilterRec -- A Perl API for Apache 2.0 Filter Records
 
 =head1 Synopsis
 
   use Apache::FilterRec;
   # ...
   sub filter {
-      my $f = shift;
-      my $next_f = $f->next;
-      my $name = $f->name;
+      my $f      = shift;
+      my $frec   = $f->frec;
+      my $next_f = $frec->next;
+      my $name   = $frec->name;
       # ...
   }
 
