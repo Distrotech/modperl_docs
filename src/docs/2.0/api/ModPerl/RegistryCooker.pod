@@ -254,7 +254,8 @@ Stas Bekman
 
 =head1 See Also
 
-C<L<ModPerl::Registry>>, C<L<ModPerl::RegistryBB>>,
-C<L<ModPerl::PerlRun>>, Apache(3), mod_perl(3)
+C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>>,
+C<L<ModPerl::RegistryBB|docs::2.0::api::ModPerl::RegistryBB>> and
+C<L<ModPerl::PerlRun|docs::2.0::api::ModPerl::PerlRun>>.
 
 =cut

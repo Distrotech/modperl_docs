@@ -31,7 +31,8 @@ Stas Bekman
 
 =head1 See Also
 
-C<L<ModPerl::RegistryCooker>>, C<L<ModPerl::Registry>>, Apache(3),
-mod_perl(3)
+C<L<ModPerl::RegistryCooker|docs::2.0::api::ModPerl::RegistryCooker>>,
+C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>> and
+C<L<ModPerl::PerlRun|docs::2.0::api::ModPerl::PerlRun>>.
 
 =cut
