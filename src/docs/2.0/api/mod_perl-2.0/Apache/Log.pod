@@ -12,12 +12,15 @@ Apache::Log -- Perl API for Apache Logging Methods
   my $s = Apache->server;
   
   $s->log_error("server: log_error");
-  
   $s->log_serror(Apache::LOG_MARK, Apache::LOG_ERR,
                  0, "log_serror logging at err level");
-  
   $s->log_serror(Apache::LOG_MARK, Apache::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
+  Apache::Server->log_error("routine warning");
+  
+  Apache->warn("routine warning");
+  Apache::warn("routine warning");
+  Apache::Server->warn("routine warning");
 
   #in a handler
   #------------
@@ -25,13 +28,14 @@ Apache::Log -- Perl API for Apache Logging Methods
   sub handler{
       my $r = shift;
       $r->log_error("request: log_error");
+      $r->warn("whoah!");
   
       my $rlog = $r->log;
       for my $level qw(emerg alert crit error warn notice info debug) {
           no strict 'refs';
           $rlog->$level($package, "request: $level log level");
       }
-
+  
       # can use server methods as well
       my $s = $r->server;
       $s->log_error("server: log_error");
@@ -46,8 +50,6 @@ Apache::Log -- Perl API for Apache Logging Methods
                      APR::ENOTIME, "fatal error");
 
       $s->warn('routine server warning');
-      Apache->warn("routine warning");
-
   }
 
 
@@ -238,7 +240,7 @@ same as C<$s-E<gt>log_rerror>. For example:
 
 Similar to C<$s-E<gt>log()>
 
-=head2 emerg(), alert(), crit(), error(), warn(), notice(), info(), debug()
+=head2 the emerg(), alert(), crit(), error(), warn(), notice(), info(), debug() methods
 
 Similar to the server's log functions with the same names.
 
@@ -272,17 +274,21 @@ where the function was called from.
 
   $s->warn(@warnings);
 
-C<$s-E<gt>warn()> is an alias to C<$s-E<gt>log-E<gt>warn()>.
+is the same as:
 
+  $s->log_error(Apache::LOG_MARK, Apache::LOG_WARNING|Apache::LOG_NOERRNO,
+                0, @warnings)
 For example:
 
   $s->warn('routine server warning');
 
 =head2 C<Apache-E<gt>warn()>
 
+=head2 C<Apache::warn()>
+
   Apache->warn(@warnings);
 
-C<Apache-E<gt>warn()> is an alias to C<$s-E<gt>log-E<gt>warn()>.
+
 
 
 =cut
