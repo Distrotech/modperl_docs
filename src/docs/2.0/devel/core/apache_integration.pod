@@ -41,7 +41,7 @@ custom callbacks which Apache will call at various stages that will be
 explained later.
 
 C<STANDARD20_MODULE_STUFF> is a standard macro defined in
-I<httpd-2.0/include/http_config.h>. Currently its main use if for
+I<httpd-2.0/include/http_config.h>. Currently its main use is for
 attaching Apache version magic numbers, so the previously compiled
 module won't be attempted to be used with newer Apache versions, whose
 API may have changed.
