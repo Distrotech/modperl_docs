@@ -161,8 +161,11 @@ sub extract_pod {
 
     my @pod = ();
     my $in_pod = 0;
-    for (split /\n\n/, ${ $self->{content} }) {
-        $in_pod ||= /^=/s;
+    for (split /\n{2,}/, ${ $self->{content} }) {
+        unless ($in_pod) {
+            s/^[\s\n]*//ms; # skip empty lines in preamble
+            $in_pod = /^=/s;
+        }
         next unless $in_pod;
         $in_pod = 0 if /^=cut/;
         push @pod, $_;
