@@ -70,12 +70,11 @@ contain at the top-level a Visual Studio project file
 C<InstallBin - Win32 Release> target to build and install Apache 2.0,
 which by default will be placed in F</Apache2>.
 
-Having built and installed Apache 2.0, 
-next obtain the mod_perl 2.0 sources. First obtain the 
-L<mod_perl 2.0 sources|download::source/2_0_Development_Source_Distribution>
-as a C<tar.gz> file -
-when unpacked, using Winzip or similar tools, a subdirectory
-F<mod_perl-x.xx> will be created. Next, run the command
+Having built and installed Apache 2.0, next obtain the mod_perl 2.0
+sources. First obtain the L<mod_perl 2.0
+sources|download::source/Development_mod_perl_2_0_Source_Distribution>
+as a C<tar.gz> file - when unpacked, using Winzip or similar tools, a
+subdirectory F<mod_perl-x.xx> will be created. Next, run the command
 
     C:\modperl_src> perl Makefile.PL MP_AP_PREFIX=\Path\to\Apache2
 
@@ -105,14 +104,14 @@ under an F<Apache2> subdirectory in your Perl tree.  You will then
 have to employ either a C<use Apache2;> line in your scripts/packages
 or else a C<PerlModule Apache2> directive in Apache's F<httpd.conf>.
 
-If this build fails, or you want features not present in the
-official releases, you may want to try the sources obtained
-from cvs - see the discussion on the
-L<2.0 Development Source Distribution|download::source/2_0_Development_Source_Distribution>
-for details. Be aware, though,
-that as well as providing bug fixes, there may be new features being
-added and tested in the cvs versions, so at any given time there are
-no guarantees that these packages will build and test successfully.
+If this build fails, or you want features not present in the official
+releases, you may want to try the sources obtained from cvs - see the
+discussion on the L<2.0 Development Source
+Distribution|download::source/Development_mod_perl_2_0_Source_Distribution>
+for details. Be aware, though, that as well as providing bug fixes,
+there may be new features being added and tested in the cvs versions,
+so at any given time there are no guarantees that these packages will
+build and test successfully.
 
 =head2 PPM Packages
 
