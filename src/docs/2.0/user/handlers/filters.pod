@@ -1222,7 +1222,7 @@ Now let's write the snooping filter:
   
       my @data;
       for (my $b = $bb->first; $b; $b = $bb->next($b)) {
-          $b->read(my $bdata);
+          my $data = $b->read;
           $bdata = '' unless defined $bdata;
           push @data, $b->type->name, $bdata;
       }
@@ -1510,9 +1510,7 @@ the bucket brigades:
       return $rv unless $rv == APR::SUCCESS;
   
       for (my $b = $bb->first; $b; $b = $bb->next($b)) {
-          my $data;
-          my $status = $b->read($data);
-          return $status unless $status == APR::SUCCESS;
+          my $data = $b->read;
           warn("data: $data\n");
   
           if ($data and $data =~ s|^GET|HEAD|) {
@@ -1739,7 +1737,7 @@ request's body: C<MyApache::InputRequestFilterLC>:
       my $rv = $f->next->get_brigade($bb_ctx, $mode, $block, $readbytes);
       return $rv unless $rv == APR::SUCCESS;
   
-      while (!$bb_ctx->empty) {
+      while (!$bb_ctx->is_empty) {
           my $b = $bb_ctx->first;
   
           $b->remove;
@@ -1749,10 +1747,7 @@ request's body: C<MyApache::InputRequestFilterLC>:
               last;
           }
   
-          my $data;
-          my $status = $b->read($data);
-          return $status unless $status == APR::SUCCESS;
-  
+          my $data = $b->read;
           $b = APR::Bucket->new(lc $data) if $data;
   
           $bb->insert_tail($b);
@@ -1847,7 +1842,7 @@ optimize their speed. In certain cases a bucket brigade filter may be
 more efficient than the stream-oriented. For example if the filter
 applies transformation to selected buckets, certain buckets may
 contain open filehandles or pipes, rather than real data. And when you
-call read() the buckets will be forced to read that data in. But if
+call C<read()> the buckets will be forced to read that data in. But if
 you didn't want to modify these buckets you could pass them as they
 are and let Apache do faster techniques for sending data from the file
 handles or pipes.
@@ -2093,7 +2088,7 @@ to accomplish exactly the same task as the first filter.
       my $c = $f->c;
       my $bb_ctx = APR::Brigade->new($c->pool, $c->bucket_alloc);
   
-      while (!$bb->empty) {
+      while (!$bb->is_empty) {
           my $bucket = $bb->first;
   
           $bucket->remove;
@@ -2103,10 +2098,7 @@ to accomplish exactly the same task as the first filter.
               last;
           }
   
-          my $data;
-          my $status = $bucket->read($data);
-          return $status unless $status == APR::SUCCESS;
-  
+          my $data = $bucket->read;
           if ($data) {
               $data = join "",
                   map {scalar(reverse $_), "\n"} split "\n", $data;
@@ -2292,7 +2284,7 @@ implementation details. First let's look at the C<response()> handler
               return $rv;
           }
   
-          while (!$bb->empty) {
+          while (!$bb->is_empty) {
               my $buf;
               my $b = $bb->first;
   
@@ -2304,11 +2296,8 @@ implementation details. First let's look at the C<response()> handler
                   last;
               }
   
-              my $status = $b->read($buf);
+              my $buf = $b->read;
               warn "DATA bucket: [$buf]\n" if $debug;
-              if ($status != APR::SUCCESS) {
-                  return $status;
-              }
               push @data, $buf;
           }
   
@@ -2320,7 +2309,7 @@ implementation details. First let's look at the C<response()> handler
   }
 
 The C<response()> handler is trivial -- it reads the POSTed data and
-prints how many bytes it has read. C<read_post()> sucks all POSTed
+prints how many bytes it has read. C<read_post()> sucks in all POSTed
 data without parsing it.
 
 Now comes the filter (which lives in the same package):
@@ -2402,7 +2391,7 @@ Now comes the filter (which lives in the same package):
       my @data;
       for (my $b = $bb->first; $b; $b = $bb->next($b)) {
           $seen_eos++, last if $b->is_eos;
-          $b->read(my $bdata);
+          my $bdata = $b->read;
           $bdata = '' unless defined $bdata;
           push @data, $bdata;
       }
@@ -2698,7 +2687,7 @@ the buckets. Also this number may change in the future.
 Hmm, I've also seen it read in 7819 chunks. I suppose this is not very
 reliable. But it's probably a good idea to ask at least 8k, so if a
 bucket brigade has < 8k, nothing will need to be stored in the
-internal buffer. i.e. read() will return less than asked for.
+internal buffer. i.e. C<read()> will return less than asked for.
 
 ]
 

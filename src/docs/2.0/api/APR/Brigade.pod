@@ -30,7 +30,7 @@ APR::Brigade - Perl API for manipulating APR Bucket Brigades
   $len = $bb->length;
   $bb3 = $bb->split($b_last);
   
-  last if $bb->empty();
+  last if $bb->is_empty();
   $bb->destroy();
 
 
@@ -109,11 +109,11 @@ The bucket brigade to destroy.
 
 
 
-=head2 C<empty>
+=head2 C<is_empty>
 
 Test whether the bucket brigade is empty
 
-  $ret = $bb->empty();
+  $ret = $bb->is_empty();
 
 =over 4
 

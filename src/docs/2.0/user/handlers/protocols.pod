@@ -363,9 +363,9 @@ handlers.
               last;
           }
   
-          last if $bb_in->empty;
+          last if $bb_in->is_empty;
   
-          while (!$bb_in->empty) {
+          while (!$bb_in->is_empty) {
               my $bucket = $bb_in->first;
   
               $bucket->remove;
