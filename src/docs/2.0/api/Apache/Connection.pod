@@ -636,16 +636,26 @@ Get this connection's remote socket address
 
 Client's IP address
 
-  $remote_ip = $c->remote_ip();
+  $remote_ip      = $c->remote_ip();
+  $prev_remote_ip = $c->remote_ip($new_remote_ip);
 
 =over 4
 
 =item obj: C<$c>
 ( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
-=item ret: C<$remote_ip> (string)
+=item opt arg1: C<$new_remote_ip> ( string )
 
-=item since: 1.99_12
+If passed a new value will be set
+
+=item ret: C<$remote_ip> ( string )
+
+current remote ip address
+
+if the optional argument C<$new_remote_ip> was passed the previous
+value is returned.
+
+=item since: 1.99_18
 
 =back
 
