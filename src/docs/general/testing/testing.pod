@@ -1983,7 +1983,15 @@ Used to require a minimum version of Apache. For example:
 
 requires Apache 2.0.40 or higher.
 
+=item have_apache_version
 
+Used to require a specific version of Apache.
+
+For example:
+
+  plan tests => 5, have_apache_version("2.0.40");
+
+requires Apache 2.0.40.
 
 =back
 
