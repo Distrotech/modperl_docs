@@ -1,8 +1,8 @@
 =head1 NAME
 
-win32_apache2 - obtaining and configuring mod_perl-2 for Win32
+install - installing mod_perl-2 for Win32
 
-=head1 DESCRIPTION
+=head1 Description
 
 As described in the discussion of issues in
 L<multithreaded win32|docs::1.0::os::win32::multithread>,
@@ -12,9 +12,9 @@ thread serving a request at a time. This effectively
 prevents concurrent processing, which can have serious
 implications for busy sites. This problem is addressed
 in the multi-thread/multi-process approach of mod_perl-2/Apache-2.
-This document discusses how to obtain and configure mod_perl-2.
+This document discusses how to obtain mod_perl-2.
 
-=head1 OBTAINING
+=head1 Installing
 
 Apache-2 and mod_perl-2 can be obtained in two ways - either
 as binaries, or through building from the sources.
@@ -160,184 +160,44 @@ with other versions of Apache-2/mod_perl-2.
 
 =back 
 
-=head1 CONFIGURATION
+=head1 See Also
 
-Add this line to F<C:/Apache2/conf/httpd.conf>:
-
- LoadModule perl_module modules/mod_perl.so
-
-Be sure that the path to your Perl binary (eg, F<C:/Perl/bin>) is in
-your C<PATH> environment variable. You may also want to use
-a start-up script to load commonly used modules; this can be
-done with a directive as, eg,
-
- PerlRequire "C:/Apache2/conf/extra.pl"
-
-where a sample start-up script F<C:/Apache2/conf/extra.pl> is
-
-  use Apache2 ();
-  use ModPerl::Util ();
-  use Apache::RequestRec ();
-  use Apache::RequestIO ();
-  use Apache::RequestUtil ();
-  use Apache::Server ();
-  use Apache::ServerUtil ();
-  use Apache::Connection ();
-  use Apache::Log ();
-  use Apache::Const -compile => ':common';
-  use APR::Const -compile => ':common';
-  use APR::Table ();
-  use Apache::compat ();
-  use ModPerl::Registry ();
-  use CGI ();
-  1;
-
-The C<Apache2> module is used to add to C<@INC> the
-relevant directories underneath, eg, F</Perl/site/lib/Apache2/>
-used when building mod_perl-2 with an C<MP_INST_APACHE2=1>
-option to C<perl Makefile.PL> (the C<PPM> packages discussed
-above were built this way). C<Apache::compat> is used to
-provide backwards compatibility with mod_perl-1.
-C<ModPerl::Registry>, named so as not to conflict with
-C<Apache::Registry> of mod_perl-1, is used for registry scripts.
-
-=head2 Registry scripts
-
-Using C<ModPerl::Registry> to speed up cgi scripts may be done as
-follows. Create a directory, for example, F<C:/Apache2/perl/>, which
-will hold your scripts, such as
-
-  ##  printenv -- demo CGI program which just prints its environment
-  ##
-  use strict;
-  print "Content-type: text/html\n\n";
-  print "<HTML><BODY><H3>Environment variables</H3><UL>";
-  foreach (sort keys %ENV) {
-    my $val = $ENV{$_};
-    $val =~ s|\n|\\n|g;
-    $val =~ s|"|\\"|g;
-    print "<LI>$_ = \"${val}\"</LI>\n";
-  }
-  #sleep(10);
-  print "</UL></BODY></HTML>";
-
-Note that Apache takes care of using the proper line endings
-when sending the I<Content-type> header. Next, insert in 
-F<C:/Apache2/conf/httpd.conf> the following directives:
-
-  Alias /perl/ "/Apache2/perl/"
-  <Location /perl>
-     SetHandler perl-script
-     PerlResponseHandler ModPerl::Registry
-     Options +ExecCGI
-     PerlOptions +ParseHeaders
-  </Location>
-
-whereby the script would be called as
-
-   http://localhost/perl/name_of_script
-
-The C<PerlOptions +ParseHeaders> directive is needed when
-the script sends the header (in mod_perl-1, this was given
-as C<PerlSendHeader ON)>. Note that if you use the C<CGI.pm>
-module in your script, then the directive
-
-     PerlOptions +GlobalRequest
-
-should be added within the relevant C<Location> block. 
-
-As an illustration of how mod_perl-2 addresses the issues
-raised in the discussion of issues in
-L<multithread win32|docs::1.0::os::win32::multithread>
-concerning the threading limitations
-of mod_perl-1 on Win32, consider the C<printenv> script above
-with the C<sleep(10)> line uncommented. Using the Apache
-benchmarking tool C<ab> of the Apache-2 Win32 distribution:
-
-   ab -n 5 -c 5 http://localhost/perl/printenv
-
-to make 5 concurrent requests, we find the following results.
-For mod_perl-1/Apache-1:
-
-  Server Software:        Apache/1.3.23
-  Concurrency Level:      5
-  Time taken for tests:   50.51972 seconds
-  Complete requests:      5
-  Failed requests:        0
-  Requests per second:    0.10 [#/sec] (mean)
-  Time per request:       50.052 [ms] (mean)
-  Time per request:       10.010 [ms] (mean, across all concurrent requests)
-  Transfer rate:          0.14 [Kbytes/sec] received
-
-while for mod_perl-2/Apache-2:
-
-  Server Software:        Apache/2.0.36
-  Concurrency Level:      5
-  Time taken for tests:   1.81555 seconds
-  Complete requests:      5
-  Requests per second:    4.62 [#/sec] (mean)
-  Time per request:       1.082 [ms] (mean)
-  Time per request:       0.216 [ms] (mean, across all concurrent requests)
-  Transfer rate:          7.40 [Kbytes/sec] received
-
-The dramatic difference is due to the fact that in Apache-1/mod_perl-1 
-a given request has to finish (taking essentially 10 seconds, due
-to the C<sleep(10)> call) before the next request is processed, whereas
-on Apache-2/mod_perl-2 the requests are processed as they arrive.
-
-=head2 Hello World
-
-As you will discover, there is much to mod_perl beyond simple speed-up
-of cgi scripts. Here is a simple I<Hello, World> example that
-illustrates the use of mod_perl as a content handler.  Create a file
-F<Hello.pm> as follows:
-
-  package Apache::Hello;
-  use strict;
-
-  use Apache::RequestRec ();  # for $r->content_type
-  use Apache::RequestIO ();   # for $r->puts
-  use Apache::Const -compile => ':common';
-
-  sub handler {
-      my $r = shift;
-      my $time = scalar localtime();
-      my $package = __PACKAGE__;
-      $r->content_type('text/html');
-      $r->puts(<<"END");
-  <HTML><BODY>
-  <H3>Hello</H3>
-  Hello from <B>$package</B>! The time is $time.
-  </BODY></HTML>
-  END
-      return Apache::OK;
-  }
-
-  1;
-
-and save it in, for example, the F<C:/Perl/site/lib/Apache2/Apache/>
-directory. Next put the following directives in
-F<C:/Apache2/conf/httpd.conf>:
-
-  PerlModule Apache::Hello
-  <Location /hello>
-    SetHandler modperl
-    PerlResponseHandler Apache::Hello
-  </Location>
-
-With this, calls to
-
-   http://localhost/hello
-
-will use C<Apache::Hello> to deliver the content.
-
-=head1 SEE ALSO
-
-http://perl.apache.org/, http://take23.org/, 
+The directions for
+<configuring mod_perl-2 on Win32|docs::1.0::os::win32::config>, 
+the L<mod_perl documentation|docs::index>,
+http://take23.org/, 
 http://httpd.apache.org/, and http://www.activestate.com/.
 Help on setting up and configuring mod_perl-2 can be
 found by subscribing to the mod_perl mailing list,
 details of which are at http://perl.apache.org/.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * 
+
+Randy Kobes E<lt>randy@theoryx5.uwinnipeg.caE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Randy Kobes E<lt>randy@theoryx5.uwinnipeg.caE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 
