@@ -151,6 +151,13 @@ When you do that, the modules that have been changed, will be
 magically reloaded on the next request. This option works with any
 mode described before.
 
+=head2 Unregistering a module
+
+In some cases, it might be necessary to explicitely stop reloading
+a module.
+
+  Apache::Reload->unregister_module('Some::Module');
+
 =head1 Performance Issues
 
 This modules is perfectly suited for a development environment. Though
