@@ -12,20 +12,28 @@ Setting up swish-e:
 Indexing:
 ---------
 
-1. normally build the site:
+1. Set an environment variable to the path of the site:
+
+    export MODPERL_SITE='http://perl.org'
+
+or
+
+    export MODPERL_SITE='http://localhost:4000/dst_html'
+
+This is used as the base for spidering, plus is used to determine
+the sections of the site (for limiting the site to those sections.
+    
+
+2. normally build the site:
 
   % bin/build -f (-d to build pdfs)
 
 which among other things creates the dir: dst_html/search
 
-2. check that swish.conf points to the right base URL, e.g.:
-
-  SwishProgParameters default http://localhost/modperl-site/
-
 3. Index the site
 
   % cd dst_html/search
-  % swish-e -S prog -c swish.conf
+  % ./swish-e -S prog -c swish.conf
 
 You should see something like:
 
@@ -81,3 +89,28 @@ Swish-e related adjustments to the template:
 
 
 
+How does indexing work?
+-----------------------
+
+Swish is run with a config file, and is run in a mode that says
+to use an external program to fetch documents.  That external program
+is called spider.pl (part of the swish-e distribution).
+
+spider.pl uses a config file (by default) of SwishSpiderConfig.pl.  This file
+builds an array of hashes (in this case a sinlge hash in the array).  This hash
+is the config.
+
+Part of the config are call-back functions that spider.pl will call while spidering.
+One says to skip image files.  Another one is a bit more tricky.  It splits a document into
+sections, creates new "sub-pages" that are complete HTML pages, and calls the function in spider.pl
+that sends those off to swish for indexing.  (That function then returns false to tell swish not to
+index that document since the sections have already been indexed.)
+
+That's about it.
+
+One trick.  For debugging you can run the spider without indexing.
+
+   ./spider.pl > bigfile.out
+
+Another trick, you can send SIGHUP to spider.pl while indexing and
+it will stop spidering, but let swish index what's been read so far.

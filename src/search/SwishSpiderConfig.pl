@@ -2,13 +2,19 @@
 #
 # a few custom callbacks are located after the @servers definition section.
 
+
+
+my $base_path = $ENV{MODPERL_SITE} || die "must set \$ENV{MODPERL_SITE}";
+
+die "Don't use trailing slash in MODPERL_SITE" if $base_path =~ m!/$!;
+
+
 @servers = (
     {
-        base_url        => 'http://mardy:40994/dst_html/index.html',
+        base_url        => "$base_path/index.html",
 
         # Debugging -- see perldoc spider.pl
 
-        #base_url        => 'http://mardy.hank.org:40994/dst_html/docs/guide/index.html',
         #max_depth => 1,
         #debug => DEBUG_HEADERS,
         #debug => DEBUG_URL|DEBUG_SKIPPED|DEBUG_INFO,
@@ -21,12 +27,9 @@
 
         delay_min       => .0001,
 
+
         # Ignore images files
-        test_url => sub {
-            return if $_[0]->path =~ /\.(?:gif|jpeg|.png|.gz)$/i;
-            return unless $_[0]->path =~ m!^/preview/modperl-site!;
-            return 1;
-        },
+        test_url => sub { return $_[0]->path !~ /\.(?:gif|jpeg|.png|.gz)$/i },
 
         # Only index text/html
         test_response   => sub { return $_[2]->content_type =~ m[text/html] },
@@ -35,7 +38,7 @@
         filter_content  => \&split_page,
 
         # optionally validate external links
-        validate_links => 1,
+        validate_links  => $ENV{VALIDATE_LINKS} || 0,
     },
 
 );
@@ -92,11 +95,20 @@ sub create_page {
         $head->push_content( $title );
     }
 
+    # Extract out part of the path to use for limiting searches to parts of the document tree.
+
+    if ( $uri =~ m!$base_path/([^/]+)/.+$! ) {
+        my $meta = HTML::Element->new('meta', name=> 'section', content => $1);
+        $head->push_content( $meta );
+    }
+        
+
     my $body = HTML::Element->new('body');
     my $doc  = HTML::Element->new('html');
 
     $body->push_content( $section );
     $doc->push_content( $head, $body );
+
 
     my $new_content = $doc->as_HTML(undef,"\t");
     output_content( $params->{server}, \$new_content,

@@ -15,6 +15,7 @@
         [% PROCESS search_form %]
         [% PROCESS nav_bar %]
         [% PROCESS results_list %]
+        [% IF search.navigation('hits') > search.config('page_size'); PROCESS nav_bar; END %]
     [% END %]
 
 [% END %]

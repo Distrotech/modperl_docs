@@ -2,7 +2,7 @@
 use strict;
 
 
-# $Id: spider.pl,v 1.2 2002/01/31 01:51:50 stas Exp $
+# $Id: spider.pl,v 1.3 2002/03/03 11:27:22 stas Exp $
 #
 # "prog" document source for spidering web servers
 #
@@ -23,7 +23,7 @@ use HTML::LinkExtor;
 use HTML::Tagset;
 
 use vars '$VERSION';
-$VERSION = sprintf '%d.%02d', q$Revision: 1.2 $ =~ /: (\d+)\.(\d+)/;
+$VERSION = sprintf '%d.%02d', q$Revision: 1.3 $ =~ /: (\d+)\.(\d+)/;
 
 use vars '$bit';
 use constant DEBUG_ERRORS   => $bit = 1;    # program errors
@@ -36,10 +36,13 @@ use constant DEBUG_LINKS    => $bit <<= 1;  # prints links as they are extracted
 
 
 use constant MAX_SIZE       => 5_000_000;   # Max size of document to fetch
+use constant MAX_WAIT_TIME  => 30;          # request time.
 
 #Can't locate object method "host" via package "URI::mailto" at ../prog-bin/spider.pl line 473.
 #sub URI::mailto::host { return '' };
 
+
+# This is not the right way to do this.
 sub UNIVERSAL::host { '' };
 sub UNIVERSAL::port { '' };
 sub UNIVERSAL::host_port { '' };
@@ -62,7 +65,7 @@ sub UNIVERSAL::host_port { '' };
     print STDERR "$0: Reading parameters from '$config'\n";
 
     my $abort;
-    local $SIG{HUP} = sub { $abort++ };
+    local $SIG{HUP} = sub { warn "Caught SIGHUP\n"; $abort++ } unless $^O =~ /Win32/i;
 
     my %visited;  # global -- I suppose would be smarter to localize it per server.
 
@@ -74,8 +77,9 @@ sub UNIVERSAL::host_port { '' };
             die "You must specify 'base_url' in your spider config settings\n";
         }
 
-        for (ref $s->{base_url} eq 'ARRAY' ? @{$s->{base_url}} : $s->{base_url} ) {
-            $s->{base_url} = $_;
+        my @urls = ref $s->{base_url} eq 'ARRAY' ? @{$s->{base_url}} :( $s->{base_url});
+        for my $url ( @urls ) {
+            $s->{base_url} = $url;
             process_server( $s );
         }
     }
@@ -100,11 +104,17 @@ sub process_server {
     # set defaults
 
     $server->{debug} ||= 0;
-    $server->{debug} = 0 unless $server->{debug} =~ /^\d+$/;
+    die "debug parameter '$server->{debug}' must be a number\n" unless $server->{debug} =~ /^\d+$/;
 
 
     $server->{max_size} ||= MAX_SIZE;
     die "max_size parameter '$server->{max_size}' must be a number\n" unless $server->{max_size} =~ /^\d+$/;
+
+
+    $server->{max_wait_time} ||= MAX_WAIT_TIME;
+    die "max_wait_time parameter '$server->{max_wait_time}' must be a number\n" if $server->{max_wait_time} !~ /^\d+/;
+
+
 
     $server->{link_tags} = ['a'] unless ref $server->{link_tags} eq 'ARRAY';
     $server->{link_tags_lookup} = { map { lc, 1 } @{$server->{link_tags}} };
@@ -139,14 +149,32 @@ sub process_server {
     my $uri = URI->new( $server->{base_url} );
     $uri->fragment(undef);
 
+    if ( $uri->userinfo ) {
+        die "Can't specify parameter 'credentials' because base_url defines them\n"
+            if $server->{credentials};
+        $server->{credentials} = $uri->userinfo;
+        $uri->userinfo( undef );
+    }
+
+
     print STDERR "\n -- Starting to spider: $uri --\n" if $server->{debug};
 
     
 
     # set the starting server name (including port) -- will only spider on server:port
     
-    $server->{authority} = $uri->authority;
-    $server->{same} = [ $uri->authority ];
+
+    # All URLs will end up with this host:port
+    $server->{authority} = $uri->canonical->authority;
+
+    # All URLs must match this scheme ( Jan 22, 2002 - spot by Darryl Friesen )
+    $server->{scheme} = $uri->scheme;
+
+
+
+    # Now, set the OK host:port names
+    $server->{same} = [ $uri->canonical->authority ];
+    
     push @{$server->{same}}, @{$server->{same_hosts}} if ref $server->{same_hosts};
 
     $server->{same_host_lookup} = { map { $_, 1 } @{$server->{same}} };
@@ -169,8 +197,9 @@ sub process_server {
 
 
     my $ua;
+
     if ( $server->{ignore_robots_file} ) {
-        $ua = LWP::UserAgent->new( );
+        $ua = LWP::UserAgent->new;
         return unless $ua;
         $ua->agent( $server->{agent} );
         $ua->from( $server->{email} );
@@ -180,6 +209,9 @@ sub process_server {
         return unless $ua;
         $ua->delay( $server->{delay_min} || 0.1 );
     }
+
+    # Set the timeout on the server and using Windows.
+    $ua->timeout( $server->{max_wait_time} ) if $^O =~ /Win32/i;
 
         
     $server->{ua} = $ua;  # save it for fun.
@@ -223,6 +255,56 @@ sub process_server {
             $server->{counts}{$_}/$start;
     }
 }
+
+
+#-----------------------------------------------------------------------
+# Deal with Basic Authen
+
+
+
+# Thanks Gisle!
+sub get_basic_credentials {
+    my($uri, $server, $realm ) = @_;
+    my $netloc = $uri->canonical->host_port;
+
+    my ($user, $password);
+
+    eval {
+        local $SIG{ALRM} = sub { die "timed out\n" };
+        alarm( $server->{credential_timeout} || 30 ) unless $^O =~ /Win32/i;
+
+        if (  $uri->userinfo ) {
+            print STDERR "\nSorry: invalid username/password\n";
+            $uri->userinfo( undef );
+        }
+            
+
+        print STDERR "Need Authentication for $uri at realm '$realm'\n(<Enter> skips)\nUsername: ";
+        $user = <STDIN>;
+        chomp($user);
+        die "No Username specified\n" unless length $user;
+
+        alarm( $server->{credential_timeout} || 30 ) unless $^O =~ /Win32/i;
+
+        print STDERR "Password: ";
+        system("stty -echo");
+        $password = <STDIN>;
+        system("stty echo");
+        print STDERR "\n";  # because we disabled echo
+        chomp($password);
+
+        alarm( 0 ) unless $^O =~ /Win32/i;
+    };
+
+    return if $@;
+
+    return join ':', $user, $password;
+
+
+}
+            
+
+        
 
 #----------- Non recursive spidering ---------------------------
 
@@ -275,8 +357,29 @@ sub process_link {
     $server->{no_index} = 0;
     $server->{no_spider} = 0;
 
+
+    # Set basic auth if defined - use URI specific first, then credentials
+    if ( my ( $user, $pass ) = split /:/, ( $uri->userinfo || $server->{credentials} || '' ) ) {
+        $request->authorization_basic( $user, $pass );
+    }
+
+
+    
+
     my $been_here;
     my $callback = sub {
+
+        # Reset alarm;
+        alarm( $server->{max_wait_time} ) unless $^O =~ /Win32/i;
+
+
+        # Cache user/pass
+        if ( $server->{cur_realm} && $uri->userinfo ) {
+             my $key = $uri->canonical->host_port . ':' . $server->{cur_realm};
+             $server->{auth_cache}{$key} =  $uri->userinfo;
+        }
+
+        $uri->userinfo( undef ) unless $been_here;
 
         die "test_response" if !$been_here++ && !check_user_function( 'test_response', $uri, $server, $_[1], \$_[0]  );
             
@@ -290,10 +393,53 @@ sub process_link {
 
     };
 
-    my $response = $ua->simple_request( $request, $callback, 4096 );
+    my $response;
+
+    eval {
+        local $SIG{ALRM} = sub { die "timed out\n" };
+        alarm( $server->{max_wait_time} ) unless $^O =~ /Win32/i;
+        $response = $ua->simple_request( $request, $callback, 4096 );
+        alarm( 0 ) unless $^O =~ /Win32/i;
+    };
 
 
     return if $server->{abort};
+
+
+    if ( $response && $response->code == 401 && $response->header('WWW-Authenticate') && $response->header('WWW-Authenticate') =~ /realm="([^"]+)"/i ) {
+        my $realm = $1;
+
+        my $user_pass;
+
+        # Do we have a cached user/pass for this realm?
+        my $key = $uri->canonical->host_port . ':' . $realm;
+
+        if ( $user_pass = $server->{auth_cache}{$key} ) {
+
+            # If we didn't just try it, try again
+            unless( $uri->userinfo && $user_pass eq $uri->userinfo ) {
+                $uri->userinfo( $user_pass );
+                return process_link( $server, $uri, $parent, $depth );
+            }
+        }
+
+        # otherwise, prompt:
+
+
+        if ( $user_pass = get_basic_credentials( $uri, $server, $realm ) ) {
+            $uri->userinfo( $user_pass );
+
+            $server->{cur_realm} = $realm;  # save so we can cache
+            my $links = process_link( $server, $uri, $parent, $depth );
+            delete $server->{cur_realm};
+
+            return $links;
+        }
+        print STDERR "Skipping $uri\n";
+    }
+
+    $uri->userinfo( undef );
+        
 
 
     # Log the response
@@ -322,6 +468,7 @@ sub process_link {
         return;
     }
 
+    $response->request->uri->userinfo( undef );
 
 
     # skip excluded by robots.txt
@@ -501,13 +648,15 @@ sub extract_links {
 
         # which tags to use ( not reported in debug )
 
-        print STDERR " ?? Looking at extracted tag '$tag'\n" if $server->{debug} & DEBUG_LINKS;
+        my $attr = join ' ', map { qq[$_="$attr{$_}"] } keys %attr;
+
+        print STDERR "\nLooking at extracted tag '<$tag $attr>'\n" if $server->{debug} & DEBUG_LINKS;
 
         unless ( $server->{link_tags_lookup}{$tag} ) {
         
             # each tag is reported only once per page
             print STDERR
-                " ?? <$tag> skipped because not one of (",
+                "   <$tag> skipped because not one of (",
                 join( ',', @{$server->{link_tags}} ),
                 ")\n" if $server->{debug} & DEBUG_LINKS && !$skipped_tags{$tag}++;
 
@@ -539,18 +688,14 @@ sub extract_links {
                 next unless check_link( $u, $server, $base, $tag, $attribute );
                 
                 push @links, $u;
-                print STDERR qq[ ++ <$tag $attribute="$u"> Added to list of links to follow\n] if $server->{debug} & DEBUG_LINKS;
+                print STDERR qq[   $attribute="$u" Added to list of links to follow\n] if $server->{debug} & DEBUG_LINKS;
                 $found++;
             }
         }
 
 
         if ( !$found && $server->{debug} & DEBUG_LINKS ) {
-            my $s = "<$tag";
-            $s .= ' ' . qq[$_="$attr{$_}"] for sort keys %attr;
-            $s .= '>';
-                
-            print STDERR " ?? tag $s did not include any links to follow\n";
+            print STDERR "  tag did not include any links to follow or is a duplicate\n";
         }
         
     }
@@ -599,15 +744,15 @@ sub check_link {
 
     # Here we make sure we are looking at a link pointing to the correct (or equivalent) host
 
-    unless ( $server->{same_host_lookup}{$u->authority} ) {
+    unless ( $server->{scheme} eq $u->scheme && $server->{same_host_lookup}{$u->canonical->authority} ) {
 
-        print STDERR qq[ ?? <$tag $attribute="$u"> skipped because different authority (server:port)\n] if $server->{debug} & DEBUG_LINKS;
+        print STDERR qq[ ?? <$tag $attribute="$u"> skipped because different host\n] if $server->{debug} & DEBUG_LINKS;
         $server->{counts}{'Off-site links'}++;
         validate_link( $server, $u, $base ) if $server->{validate_links};
         return;
     }
     
-    $u->authority( $server->{authority} );  # Force all the same host name
+    $u->host_port( $server->{authority} );  # Force all the same host name
 
     # Allow rejection of this URL by user function
 
@@ -661,10 +806,10 @@ sub validate_link {
         my $request = HTTP::Request->new('HEAD', $uri->canonical );
 
         eval {
-            $SIG{ALRM} = sub { die "timed out\n" };
-            alarm 5;
+            local $SIG{ALRM} = sub { die "timed out\n" };
+            alarm( $server->{max_wait_time} ) unless $^O =~ /Win32/i;
             $response = $ua->simple_request( $request );
-            alarm 0;
+            alarm( 0 ) unless $^O =~ /Win32/i;
         };
 
         if ( $@ ) {
@@ -729,13 +874,15 @@ sub commify {
 }
 
 sub default_urls {
-    die "$0: Must list URLs when using 'default'\n" unless @ARGV;
 
     my $validate = 0;
     if ( $ARGV[0] eq 'validate' ) {
         shift @ARGV;
         $validate = 1;
     }
+
+    die "$0: Must list URLs when using 'default'\n" unless @ARGV;
+
 
     my @content_types  = qw{ text/html text/plain };
 
@@ -786,8 +933,17 @@ spider.pl - Example Perl program to spider web servers
         },
     );
 
-  begin indexing:
+Begin indexing:
+
     swish-e -S prog -c swish.config
+
+Note: When running on some versions of Windows (e.g. Win ME and Win 98 SE)
+you may need to index using the command:
+
+    perl spider.pl | swish-e -S prog -c swish.conf -i stdin
+
+This pipes the output of the spider directly into swish.
+   
 
 =head1 DESCRIPTION
 
@@ -1013,6 +1169,19 @@ URL as a reference to a list
 
     base_url => [qw! http://swish-e.org/ http://othersite.org/other/index.html !],
 
+You may specify a username and password:
+
+    base_url => 'http://user:pass@swish-e.org/index.html',
+
+but you may find that to be a security issue.  If a URL is protected by Basic Authentication
+you will be prompted for a username and password.  This might be a slighly safer way to go.
+
+The parameter C<max_wait_time> controls how long to wait for user entry before skipping the
+current URL.
+
+See also C<credentials> below.
+
+
 =item same_hosts
 
 This optional key sets equivalent B<authority> name(s) for the site you are spidering.
@@ -1034,9 +1203,9 @@ as:
 
     http://www.mysite.edu/path/to/file.html
 
-Note: This should probably be called B<same_authority> because it compares the URI C<authority>
+Note: This should probably be called B<same_host_port> because it compares the URI C<host:port>
 against the list of host names in C<same_hosts>.  So, if you specify a port name in you will
-probably want to specify the port name in the the list of hosts in C<same_hosts>:
+want to specify the port name in the the list of hosts in C<same_hosts>:
 
     my %serverA = (
         base_url    => 'http://sunsite.berkeley.edu:4444/',
@@ -1075,6 +1244,16 @@ This optional key sets the delay in minutes to wait between requests.  See the
 LWP::RobotUA man page for more information.  The default is 0.1 (6 seconds),
 but in general you will probably want it much smaller.  But, check with
 the webmaster before using too small a number.
+
+=item max_wait_time
+
+This setting is the number of seconds to wait for data to be returned from
+the request.  Data is returned in chunks to the spider, and the timer is reset each time
+a new chunk is reported.  Therefore, documents (requests) that take longer than this setting
+should not be aborted as long as some data is received every max_wait_time seconds.
+The default it 30 seconds.
+
+NOTE: This option has no effect on Windows.
 
 =item max_time
 
@@ -1203,6 +1382,19 @@ be a tiny bit slower.
 
 Just a hack.  If you set this true the spider will do HEAD requests all links (e.g. off-site links), just
 to make sure that all your links work.
+
+=item credentials
+
+You may specify a username and password to be used automatically when spidering:
+
+    credentials => 'username:password',
+
+A username and password supplied in a URL will override this setting.
+
+=item credential_timeout
+
+Sets the number of seconds to wait for user input when prompted for a username or password.
+The default is 30 seconds.
 
 =back
 
@@ -1445,7 +1637,7 @@ indexing binary files such as image files, but can also be used with html
 files to index only the document titles.
 
 As shown above, you can turn this feature on for specific documents by setting a flag in
-the server hash passed into the C<test_response> or C<filter_contents> subroutines.
+the server hash passed into the C<test_response> or C<filter_content> subroutines.
 For example, in your configuration file you might have the C<test_response> callback set
 as:
 
@@ -1466,7 +1658,7 @@ type (as set by the swish configuration settings C<IndexContents> or C<DefaultCo
 HTML I<and> a title is found in the html document.
 
 Note: In most cases you probably would not want to send a large binary file to swish, just
-to be ignored.  Therefore, it would be smart to use a C<filter_contents> callback routine to
+to be ignored.  Therefore, it would be smart to use a C<filter_content> callback routine to
 replace the contents with single character (you cannot use the empty string at this time).
 
 A similar flag may be set to prevent indexing a document at all, but still allow spidering.
