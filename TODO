@@ -86,6 +86,10 @@ Content:
 
 - Need to resolve prompt issue. (user/root prompt)
 
+- Complete the "Contribute" section with information on *how* to
+  contribute (style.pod, etc for docs, and other things for devel and
+  maillists)
+
 Search:
 -------
  - consider adding auto-focus feature:
