@@ -8,10 +8,10 @@ Apache::ServerUtil -- Methods for work with Apache::Server object
   
   $s = Apache->server;
   my $srv_cfg = $s->dir_config;
-
+  
   # get 'conf/' dir path using $r
   my $conf_dir = Apache::server_root_relative('conf', $r->pool);
-
+  
   # get 'log/' dir path using default server startup pool
   my $log_dir = Apache::server_root_relative('log');
 
@@ -26,21 +26,15 @@ META: complete
 Function arguments (if any) and return values are shown in the
 function's synopsis.
 
-=head2 CONSTANTS
+=head1 CONSTANTS
 
-=over
-
-=item * server_root
+=head2 server_root
 
 returns the value set by the C<ServerRoot> directive.
 
-=back
+=head1 FUNCTIONS
 
-=head2 FUNCTIONS
-
-=over
-
-=item * server_root_relative()
+=head2 server_root_relative()
 
 Returns the canonical form of the filename made absolute to
 C<ServerRoot>:
@@ -58,13 +52,9 @@ value).
 
 Also see the C<server_root> constant.
 
-=back
+=head1 METHODS
 
-=head2 METHODS
-
-=over
-
-=item * server()
+=head2 server()
 
 The main server's object can be retrieved with:
 
@@ -72,7 +62,7 @@ The main server's object can be retrieved with:
 
 Gets the C<Apache::Server> object for the main server.
 
-=item * dir_config()
+=head2 dir_config()
 
 dir_config() provides an interface for the per-server variables
 specified by the C<PerlSetVar> and C<PerlAddVar> directives, and also
@@ -116,7 +106,7 @@ If C<$val> is I<undef> the unset() operation will happen: all existing
 values associated with the key C<$key> (and the key itself) will be
 deleted.
 
-=item * push_handlers()
+=head2 push_handlers()
 
   $s->push_handlers(PerlResponseHandler => \&handler);
   $s->push_handlers(PerlResponseHandler => [\&handler, \&handler2]);
@@ -124,12 +114,8 @@ deleted.
   # XXX: not implemented yet
   $s->push_handlers(PerlResponseHandler => sub {...});
 
-=item * add_handlers()
+=head2 add_handlers()
 
-=item * get_handlers()
-
-
-=back
-
+=head2 get_handlers()
 
 =cut
