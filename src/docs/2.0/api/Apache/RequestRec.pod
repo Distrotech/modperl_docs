@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache::RequestRec - Perl API for XXX
+Apache::RequestRec - Perl API for Apache request record accessors
 
 
 
