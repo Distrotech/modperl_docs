@@ -665,6 +665,11 @@ As with any file with Perl code that gets C<use()>'d or
 C<require()>'d, it must return a I<true> value.  To ensure that this
 happens don't forget to add C<1;> at the end of I<startup.pl>.
 
+Notice that unless mod_perl is compiled as DSO and unless
+C<L<PerlFreshRestart|/PerlFreshRestart>> is set to C<On>, one needs to
+fully stop and start Apache for any changes to take affect, if the
+files and modules have been modified.
+
 =head2 Perl*Handlers
 
 As you probably know Apache traverses a loop for each HTTP request it
