@@ -226,7 +226,7 @@ Next, create the symlinks:
 And finally install the crontab:
 
   # every monday rebuild all, including pdf
-  30 05  * * 1 /usr/local/modperl-docs/bin/site_build_force_pdf_index
+  30 03  * * 1 /usr/local/modperl-docs/bin/site_build_force_pdf_index
   # update all (only changes/no pdf) every 6 hours
   15 6,12,18 * * * /usr/local/modperl-docs/bin/site_build_index
   # update all (only changes and pdfs) once a day
