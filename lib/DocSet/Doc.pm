@@ -1,0 +1,217 @@
+package DocSet::Doc;
+
+use strict;
+use warnings;
+use DocSet::Util;
+use URI;
+
+sub new {
+    my $class = shift;
+    my $self = bless {}, ref($class)||$class;
+    $self->init(@_);
+    return $self;
+}
+
+sub init {
+    my($self, %args) = @_;
+    while (my($k, $v) = each %args) {
+        $self->{$k} = $v;
+    }
+}
+
+sub scan {
+    my($self) = @_;
+
+    note "Scanning $self->{src_uri}";
+    $self->src_read();
+
+    $self->retrieve_meta_data();
+}
+
+sub render {
+    my($self, $cache) = @_;
+
+    # if the object wasn't stored rescan
+    #$self->scan() unless $self->meta;
+
+    my $src_uri       = $self->{src_uri};
+    my $dst_path      = $self->{dst_path};
+
+    my $rel_doc_root  = $self->{rel_doc_root};
+    my $abs_doc_root  = $self->{abs_doc_root};
+    $abs_doc_root .= "/$rel_doc_root" if defined $rel_doc_root;
+
+    $self->{dir} = {
+        abs_doc_root => $abs_doc_root,
+        rel_doc_root => $rel_doc_root,
+    };
+
+    $self->{nav} = DocSet::NavigateCache->new($cache->path, $src_uri);
+
+    note "Rendering $dst_path";
+    $self->convert();
+    write_file($dst_path, $self->{output});
+}
+
+# read the source and remember the mod time
+# sets $self->{content}
+#      $self->{timestamp}
+sub src_read {
+    my($self) = @_;
+
+    # META: at this moment everything is a file path
+    my $src_uri = "file://" . $self->{src_path};
+    my $u = URI->new($src_uri);
+
+    my $scheme = $u->scheme;
+
+    if ($scheme eq 'file') {
+        my $path = $u->path;
+
+        my $content = '';
+        read_file($path, \$content);
+        $self->{content} = \$content;
+
+        # file change timestamp
+        my($mon, $day, $year) = (localtime ( (stat($path))[9] ) )[4,3,5];
+        $self->{timestamp} = sprintf "%02d/%02d/%04d", ++$mon,$day,1900+$year;
+
+    }
+    else {
+        die "$scheme is not implemented yet";
+    }
+
+    if (my $sub = $self->can('src_filter')) {
+        $self->$sub();
+    }
+
+
+}
+
+sub meta {
+    my $self = shift;
+
+    if (@_) {
+        $self->{meta} = shift;
+    }
+    else {
+        $self->{meta};
+    }
+}
+
+sub toc {
+    my $self = shift;
+
+    if (@_) {
+        $self->{toc} = shift;
+    }
+    else {
+        $self->{toc};
+    }
+}
+
+
+# abstract methods
+#sub src_filter {}
+
+
+
+1;
+__END__
+
+=head1 NAME
+
+C<DocSet::Doc> - A Base Document Class
+
+=head1 SYNOPSIS
+
+   use DocSet::Doc::HTML ();
+   my $doc = DocSet::Doc::HTML->new(%args);
+   $doc->scan();
+   my $meta = $doc->meta();
+   my $toc  = $doc->toc();
+   $doc->render();
+
+   # internal methods
+   $doc->src_read();
+   $doc->src_filter();
+
+=head1 DESCRIPTION
+
+This super class implement core methods for scanning a single document
+of a given format and rendering it into another format. It provides
+sub-classes with hooks that can change the default behavior. Note that
+this class cannot be used as it is, you have to subclass it and
+implement the required methods listed later.
+
+=head1 METHODS
+
+=over
+
+=item * new
+
+=item * init
+
+=item * scan
+
+scan the document into a parsed tree and retrieve its meta and toc
+data if possible.
+
+=item * render
+
+render the output document and write it to its final destination.
+
+=item * src_read
+
+Fetches the source of the document. The source can be read from
+different media, i.e. a file://, http://, relational DB or OCR :)
+
+A subclass may implement a "source" filter. For example if the source
+document is written in an extended POD the source filter may convert
+it into a standard POD. If the source includes some template
+directives these can be pre-processed as well.
+
+The document's content is coming out of this class ready for parsing
+and converting into other formats.
+
+=item * meta
+
+a simple set/get-able accessor to the I<meta> attribute.
+
+=item * toc
+
+a simple set/get-able accessor to the I<toc> attribute
+
+=back
+
+=head1 ABSTRACT METHODS
+
+These methods must be implemented by the sub-classes:
+
+=over
+
+=item retrieve_meta_data
+
+Retrieve and set the meta data that describes the input document into
+the I<meta> object attribute. Various documents may provide different
+meta information. The only required meta field is I<title>.
+
+=back
+
+These methods can be implemented by the sub-classes:
+
+=over
+
+=item src_filter
+
+A subclass may want to preprocess the source document before it'll be
+processed. This method is called after the source has been read. By
+default nothing happens.
+
+=back
+
+=head1 AUTHORS
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=cut
