@@ -443,6 +443,25 @@ is to add:
 
   PerlHeaderParserHandler "sub { tie *STDOUT, 'Apache' unless tied *STDOUT; }"
 
+Another solution is not to use un unqualified C<print()>, but
+C<$r-E<gt>print()>, for example replace:
+
+  print "Hello";
+
+with:
+
+  $r->print("Hello");
+
+If you don't have C<$r>, you can obtain it with:
+
+  my $r = Apache->request;
+
+
+
+
+
+
+
 
 
 =head2 "exit signal Segmentation fault (11)" with mysql
