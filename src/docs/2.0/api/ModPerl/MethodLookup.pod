@@ -81,8 +81,10 @@ The C<lookup_method()> function accepts a second optional argument,
 which is a blessed object or the class it's blessed into. If there is
 more than one matches this extra information is used to return only
 modules of those methods which operate on the objects of the same
-kind. This usage is useful when the C<L<AUTOLOAD|/C_AUTOLOAD_>> is used
-to find yet-unloaded modules which include called methods.
+kind. If the second argument is a sub-classed object it'll be handled
+correctly, by checking its super-class.  This usage is useful when the
+C<L<AUTOLOAD|/C_AUTOLOAD_>> is used to find yet-unloaded modules which
+include called methods.
 
 Examples:
 
@@ -290,11 +292,10 @@ the child process starts.
     use Carp;
     sub handler {
   
-        # exclude DESTROY resolving
-        my $skip = '^(?!DESTROY$';
         *UNIVERSAL::AUTOLOAD = sub {
             my $method = $AUTOLOAD;
-            return if $method =~ /DESTROY/;
+            return if $method =~ /DESTROY/; # exclude DESTROY resolving
+
             my ($hint, @modules) =
                 ModPerl::MethodLookup::lookup_method($method, @_);
             $hint ||= "Can't find method $AUTOLOAD";
