@@ -31,8 +31,8 @@ if the snapshot is of a big size.
 =head2 Q. I cannot read the PDF version of the documents
 
 B<A>. The PDF files require a browser plugin or standalone PDF reader to be read:
-You can get the Adobe Acrobat Reader for many different platforms from L<their
-website|http://www.adobe.com/products/acrobat/readstep2.html>.
+You can get the Adobe Acrobat Reader for many different platforms from their
+website: http://www.adobe.com/products/acrobat/readstep2.html .
 
 =head2 Q. How the site search works
 
