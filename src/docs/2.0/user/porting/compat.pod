@@ -406,9 +406,14 @@ This configuration makes C<Apache-E<gt>request> available B<only>
 during the response phase
 (C<L<PerlResponseHandler|docs::2.0::user::handlers::http/PerlResponseHandler>>). Other
 phases can make C<Apache-E<gt>request> available, by explicitly
-setting it in the handler that has an access to C<$r>. For example:
+setting it in the handler that has an access to C<$r>. For example the
+following skeleton for an I<authen> phase handler makes the
+C<Apache-E<gt>request> available in the calls made from it:
 
   package MyApache::Auth;
+  
+  # PerlAuthenHandler MyApache::Auth
+  
   use Apache::RequestUtil ();
   #...
   sub handler {
