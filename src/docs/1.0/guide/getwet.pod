@@ -1,6 +1,6 @@
 =head1 NAME
 
-Getting your feet wet
+Getting Your Feet Wet
 
 =head1 Description
 
