@@ -66,7 +66,7 @@ Returns the root of the configuration tree.
 
 =over 4
 
-=item arg1: C<Apache::Directive> (class name)
+=item obj: C<Apache::Directive> (class name)
 
 =item ret: C<$tree> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
@@ -88,7 +88,7 @@ suitable for inclusion in the E<lt>PerlE<gt> sections.
 
 =over 4
 
-=item arg1: C<$conftree> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$conftree> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 The config tree to stringify
 
@@ -108,7 +108,7 @@ httpd.conf format.
 
 =over 4
 
-=item arg1: C<$conftree> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$conftree> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 The config tree to stringify
 
@@ -127,11 +127,11 @@ Returns node(s) matching a certain value.
 
 =over 4
 
-=item arg1: C<$conftree> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$conftree> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 The config tree to stringify
 
-=item arg2: C<$directive> (string)
+=item arg1: C<$directive> (string)
 
 =item opt arg3: C<args> (string)
 
@@ -184,15 +184,15 @@ Walk a config tree and setup the server's internal structures
 
 =over 4
 
-=item arg1: C<$conftree> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$conftree> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 The config tree to walk
 
-=item arg2: C<$cmdparms> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item arg1: C<$cmdparms> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
 The cmd_parms to pass to all functions
 
-=item arg3: C<$section_vector> (C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>>)
+=item arg2: C<$section_vector> (C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>>)
 
 The per-section config vector.
 
@@ -220,7 +220,7 @@ Returns the name of the directive in C<$node>.
 
 =over 4
 
-=item arg1: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 =item ret: C<$directive> (string)
 
@@ -239,7 +239,7 @@ separated list
 
 =over 4
 
-=item arg1: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 =item ret: C<$args> (string)
 
@@ -257,7 +257,7 @@ The next directive node in the tree
 
 =over 4
 
-=item arg1: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 =item ret: C<$next_node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
@@ -277,7 +277,7 @@ The first child node of this directive
 
 =over 4
 
-=item arg1: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 =item ret: C<$child_node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
@@ -299,7 +299,7 @@ The parent node of this directive
 
 =over 4
 
-=item arg1: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 =item ret: C<parent_node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
@@ -321,9 +321,9 @@ directive's module can store add'l data here
 
 =over 4
 
-=item arg1: C<$conftree> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$conftree> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
-=item arg2: C<$newval> XXX
+=item arg1: C<$newval> XXX
 
 =item ret: XXX
 
@@ -341,7 +341,7 @@ Returns the filename the configuration node was created from
 
 =over 4
 
-=item arg1: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 =item ret: C<$filename> (string)
 
@@ -359,9 +359,9 @@ Returns the line number in C<filename> this node was created from
 
 =over 4
 
-=item arg1: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item obj: C<$node> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
-=item arg2: C<$lineno> (integer)
+=item arg1: C<$lineno> (integer)
 
 =back
 

@@ -38,19 +38,19 @@ Construct a full hostname
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
-=item arg2: C<$hostname> (string)
+=item arg1: C<$hostname> (string)
 
 The hostname of the server
 
-=item arg3: C<$port> (string)
+=item arg2: C<$port> (string)
 
 The port the server is running on
 
-=item arg4: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg3: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool to allocate from
 
@@ -75,15 +75,15 @@ request rec
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
-=item arg2: C<$uri> (string)
+=item arg1: C<$uri> (string)
 
 The path to the requested file
 
-=item arg3: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg2: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool to allocate the URL from
 
@@ -107,11 +107,11 @@ parse_uri: break apart the uri
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
-=item arg2: C<$uri> (string)
+=item arg1: C<$uri> (string)
 
 The uri to break apart
 
@@ -131,7 +131,7 @@ Unescape URLs
 
 =over 4
 
-=item arg1: C<$url> (string)
+=item obj: C<$url> (string)
 
 The URL to unescape
 

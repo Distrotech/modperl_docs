@@ -39,7 +39,7 @@ http, ftp, https, gopher, wais, nntp, snews, and prospero
 
 =over 4
 
-=item arg1: C<$scheme_str> (string)
+=item obj: C<$scheme_str> (string)
 
 The string that contains the current scheme
 
@@ -63,9 +63,9 @@ scheme ("http"/"ftp"/...)
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
+=item obj: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
 
-=item arg2: C<$newval> (string)
+=item arg1: C<$newval> (string)
 
 =back
 
@@ -83,9 +83,9 @@ combined [user[:password]\@]host[:port]
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
+=item obj: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
 
-=item arg2: C<$newval> (string)
+=item arg1: C<$newval> (string)
 
 =back
 
@@ -103,9 +103,9 @@ user name, as in http://user:passwd\@host:port/
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
+=item obj: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
 
-=item arg2: C<$newval> (string)
+=item arg1: C<$newval> (string)
 
 =back
 
@@ -123,9 +123,9 @@ password, as in http://user:passwd\@host:port/
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
+=item obj: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
 
-=item arg2: C<$newval> (string)
+=item arg1: C<$newval> (string)
 
 =back
 
@@ -143,9 +143,9 @@ hostname from URI (or from Host: header)
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
+=item obj: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
 
-=item arg2: C<$newval> (string)
+=item arg1: C<$newval> (string)
 
 =back
 
@@ -163,9 +163,9 @@ the request path (or "/" if only scheme://host was given)
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
+=item obj: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
 
-=item arg2: C<$newval> (string)
+=item arg1: C<$newval> (string)
 
 =back
 
@@ -183,9 +183,9 @@ Everything after a '?' in the path, if present
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
+=item obj: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
 
-=item arg2: C<$newval> (string)
+=item arg1: C<$newval> (string)
 
 =back
 
@@ -203,9 +203,9 @@ Trailing "#fragment" string, if present
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
+=item obj: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
 
-=item arg2: C<$newval> (string)
+=item arg1: C<$newval> (string)
 
 =back
 
@@ -223,9 +223,9 @@ has the structure been initialized
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
+=item obj: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
 
-=item arg2: C<$newval> (number)
+=item arg1: C<$newval> (number)
 
 =back
 
@@ -243,9 +243,9 @@ has the DNS been looked up yet
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
+=item obj: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
 
-=item arg2: C<$newval> (number)
+=item arg1: C<$newval> (number)
 
 =back
 
@@ -263,9 +263,9 @@ has the dns been resolved yet
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
+=item obj: C<$obj> (C<L<APR::URI|docs::2.0::api::APR::URI>>)
 
-=item arg2: C<$newval> (number)
+=item arg1: C<$newval> (number)
 
 =back
 

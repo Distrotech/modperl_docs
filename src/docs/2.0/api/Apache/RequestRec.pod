@@ -46,9 +46,9 @@ adjust other related fields.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
-=item arg2 opt: C<$val> (integer)
+=item arg1 opt: C<$val> (integer)
 
 0, 1 or none.
 
@@ -98,7 +98,7 @@ The pool associated with the request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
@@ -118,7 +118,7 @@ The connection record to the client
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
 
@@ -137,7 +137,7 @@ the server the request C<$r> is running under.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
@@ -157,7 +157,7 @@ Pointer to the redirected request if this is an external redirect
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$next_r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
@@ -177,7 +177,7 @@ Pointer to the previous request if this is an internal redirect
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$prev_r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
@@ -195,7 +195,7 @@ Get the main request record
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$main_r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
@@ -225,7 +225,7 @@ First line of request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$request> (string)
 
@@ -245,9 +245,9 @@ allowing you to send any headers.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
-=item arg2 opt: C<$newval> (integer)
+=item arg1 opt: C<$newval> (integer)
 
 assign a new state.
 
@@ -288,7 +288,7 @@ HEAD request, as opposed to GET
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$status> (integer)
 
@@ -308,7 +308,7 @@ Protocol string, as given to us, or HTTP/0.9
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$protocl> (string)
 
@@ -328,7 +328,7 @@ Protocol version number of protocol; 1.1 = 1001
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$proto_num> (integer)
 
@@ -348,7 +348,7 @@ Host, as set by full URI or Host:
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$hostname> (string)
 
@@ -368,7 +368,7 @@ Time when the request started
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$request_time> (number)
 
@@ -388,7 +388,7 @@ Status line, if set by script
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$status_line> (string)
 
@@ -409,7 +409,7 @@ Get/set status line
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item opt arg2: C<$new_status> (integer)
 
@@ -435,7 +435,7 @@ Request method (eg. GET, HEAD, POST, etc.)
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$method> (string)
 
@@ -455,7 +455,7 @@ Apache::M_GET, Apache::M_POST, etc.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$methno> (integer)
 
@@ -475,7 +475,7 @@ META: Autogenerated - needs to be reviewed/completed
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$allowed> (number)
 
@@ -510,7 +510,7 @@ Array of extension methods
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$array> (C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>>)
 
@@ -530,7 +530,7 @@ List of allowed methods
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$list> (C<L<Apache::MethodList|docs::2.0::api::Apache::MethodList>>)
 
@@ -550,7 +550,7 @@ body byte count, for easy access
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$bytes_sent> (integer)
 
@@ -571,7 +571,7 @@ Last modified time of the requested resource
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item opt arg2: C<$new_mtime> (number)
 
@@ -596,7 +596,7 @@ methods aren't used, (and plain $r-E<lt>read() is used instead).
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$bytes> (integer)
 
@@ -614,7 +614,7 @@ META: Autogenerated - needs to be reviewed/completed
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$headers_in> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
@@ -631,7 +631,7 @@ MIME header environment for the response
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$headers_out> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
@@ -652,7 +652,7 @@ persist across internal redirects
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item err: C<$err_headers_out> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
@@ -678,7 +678,7 @@ Notes from one module to another
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item opt arg2: C<$new_notes> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
@@ -701,7 +701,7 @@ META: Autogenerated - needs to be reviewed/completed
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item opt arg2: C<$new_handler> (string)
 
@@ -722,9 +722,9 @@ Get/set the HTTP response I<Content-type> header value.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
-=item arg2 opt: C<$new_content_type> (MIME type/string)
+=item arg1 opt: C<$new_content_type> (MIME type/string)
 
 Assign a new HTTP response content-type. It will affect the response
 only if HTTP headers weren't sent yet.
@@ -756,7 +756,7 @@ META: Autogenerated - needs to be reviewed/completed
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$ce> (string)
 
@@ -776,7 +776,7 @@ Array of strings representing the content languages
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$array_header> (C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>>)
 
@@ -797,7 +797,7 @@ If an authentication check was made, this gets set to the user name.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item opt arg2: C<$user> (string)
 
@@ -819,7 +819,7 @@ slot in the request record
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item opt arg2: C<$newval> (string)
 
@@ -856,7 +856,7 @@ There is no local copy of this response
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$status> (integer)
 
@@ -876,7 +876,7 @@ The URI without any parsing performed
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$unparsed_uri> (string)
 
@@ -897,7 +897,7 @@ The path portion of the URI
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item opt arg2: C<$uri> (string)
 
@@ -920,7 +920,7 @@ The filename on disk corresponding to this response
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item opt arg2: C<$filename> (string)
 
@@ -942,7 +942,7 @@ META: Autogenerated - needs to be reviewed/completed
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$canon_filename> (string)
 
@@ -963,7 +963,7 @@ The PATH_INFO extracted from this request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item opt arg2: C<$path_info> (string)
 
@@ -986,7 +986,7 @@ The QUERY_ARGS extracted from this request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item opt arg2: C<$args> (string)
 
@@ -1013,9 +1013,9 @@ user's preference upon HOOK_VERY_FIRST of the fixups.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
-=item arg2: C<$newval> (integer)
+=item arg1: C<$newval> (integer)
 
 =back
 
@@ -1035,7 +1035,7 @@ files, etc.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$per_dir_config> (C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>>)
 
@@ -1055,9 +1055,9 @@ Notes on *this* request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
-=item arg2: C<$newval> (C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>>)
+=item arg1: C<$newval> (C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>>)
 
 =back
 
@@ -1075,7 +1075,7 @@ A list of output filters to be used for this request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$output_filters> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
 
@@ -1095,7 +1095,7 @@ A list of input filters to be used for this request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$input_filters> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
 
@@ -1115,7 +1115,7 @@ A list of protocol level output filters to be used for this request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$proto_output_filters> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
 
@@ -1135,7 +1135,7 @@ A list of protocol level input filters to be used for this request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$proto_input_filters> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
 

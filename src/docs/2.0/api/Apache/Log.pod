@@ -213,9 +213,9 @@ just logs the supplied message to I<error_log>
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
-=item arg2: C<@message> (ARRAY)
+=item arg1: C<@message> (ARRAY)
 
 what to log
 
@@ -240,26 +240,26 @@ gives an access to built-in status codes.
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
-=item arg2: C<$file> (string)
+=item arg1: C<$file> (string)
 
 The file in which this function is called
 
-=item arg3: C<$line> (number)
+=item arg2: C<$line> (number)
 
 The line number on which this function is called
 
-=item arg4: C<$level> (C<L<Apache::LOG_* constant|/LogLevel_Constants>>)
+=item arg3: C<$level> (C<L<Apache::LOG_* constant|/LogLevel_Constants>>)
 
 The level of this error message
 
-=item arg5: C<$status> (integer)
+=item arg4: C<$status> (integer)
 
 The status code from the last command (similar to $! in perl, usually
 APR:: status constant)
 
-=item arg6: C<@message> (ARRAY)
+=item arg5: C<@message> (ARRAY)
 
 The log message
 
@@ -287,7 +287,7 @@ levels|/LogLevel_Methods>.
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item ret: C<$slog> (scalar)
 
@@ -312,9 +312,9 @@ logs the supplied message (similar to C<L<$s-E<gt>log_error|/C__s_E_gt_log_error
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
-=item arg2: C<@message> (ARRAY)
+=item arg1: C<@message> (ARRAY)
 
 what to log
 
@@ -361,7 +361,7 @@ levels|/LogLevel_Methods>.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 =item ret: C<$rlog> (scalar)
 
@@ -389,9 +389,9 @@ to control when messages should be logged:
 
 =over 4
 
-=item arg1: C<$slog> (log handle)
+=item obj: C<$slog> (log handle)
 
-=item arg2: C<@message> (ARRAY)
+=item arg1: C<@message> (ARRAY)
 
 =back
 
@@ -484,11 +484,11 @@ Log the current pid of the parent process
 
 =over 4
 
-=item arg1: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item obj: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool to use for logging
 
-=item arg2: C<$fname> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg1: C<$fname> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The name of the file to log to
 

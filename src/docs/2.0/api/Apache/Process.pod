@@ -38,7 +38,7 @@ Global pool. Cleared upon normal exit
 
 =over 4
 
-=item arg1: C<$proc> (C<L<Apache::Process|docs::2.0::api::Apache::Process>>)
+=item obj: C<$proc> (C<L<Apache::Process|docs::2.0::api::Apache::Process>>)
 
 =item ret: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
@@ -58,7 +58,7 @@ Configuration pool. Cleared upon restart
 
 =over 4
 
-=item arg1: C<$proc> (C<L<Apache::Process|docs::2.0::api::Apache::Process>>)
+=item obj: C<$proc> (C<L<Apache::Process|docs::2.0::api::Apache::Process>>)
 
 =item ret: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
@@ -78,7 +78,7 @@ The name of the program used to execute the program
 
 =over 4
 
-=item arg1: C<$proc> (C<L<Apache::Process|docs::2.0::api::Apache::Process>>)
+=item obj: C<$proc> (C<L<Apache::Process|docs::2.0::api::Apache::Process>>)
 
 =item ret: C<$short_name> (string)
 

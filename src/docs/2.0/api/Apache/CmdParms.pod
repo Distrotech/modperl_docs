@@ -38,9 +38,9 @@ Argument to command from cmd_table
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (XXX)
+=item arg1: C<$newval> (XXX)
 
 =item ret: no return value
 
@@ -60,9 +60,9 @@ Which allow-override bits are set
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (integer)
+=item arg1: C<$newval> (integer)
 
 =item ret: no return value
 
@@ -82,9 +82,9 @@ Which methods are E<lt>LimitE<gt>ed
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (number)
+=item arg1: C<$newval> (number)
 
 =item ret: no return value
 
@@ -105,9 +105,9 @@ methods which are limited
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>>)
+=item arg1: C<$newval> (C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>>)
 
 =item ret: no return value
 
@@ -128,9 +128,9 @@ methods which are xlimited
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (C<L<Apache::MethodList|docs::2.0::api::Apache::MethodList>>)
+=item arg1: C<$newval> (C<L<Apache::MethodList|docs::2.0::api::Apache::MethodList>>)
 
 =item ret: no return value
 
@@ -150,9 +150,9 @@ Config file structure.
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (C<L<Apache::ConfigFile|docs::2.0::api::Apache::ConfigFile>>)
+=item arg1: C<$newval> (C<L<Apache::ConfigFile|docs::2.0::api::Apache::ConfigFile>>)
 
 =item ret: no return value
 
@@ -173,9 +173,9 @@ the directive specifying this command
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item arg1: C<$newval> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 =item ret: no return value
 
@@ -195,9 +195,9 @@ Pool to allocate new storage in
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg1: C<$newval> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 =item ret: no return value
 
@@ -218,9 +218,9 @@ wiped before the first request is served...
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg1: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 =item ret: no return value
 
@@ -241,9 +241,9 @@ server_rec being configured for
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item ret: no return value
 
@@ -268,9 +268,9 @@ a server context (path == NULL) or being called in a dir context (path
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (string)
+=item arg1: C<$newval> (string)
 
 =item ret: no return value
 
@@ -290,9 +290,9 @@ configuration command
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (C<L<Apache::Command|docs::2.0::api::Apache::Command>>)
+=item arg1: C<$newval> (C<L<Apache::Command|docs::2.0::api::Apache::Command>>)
 
 =item ret: no return value
 
@@ -312,9 +312,9 @@ per_dir_config vector passed to handle_command
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>>)
+=item arg1: C<$newval> (C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>>)
 
 =item ret: no return value
 
@@ -334,9 +334,9 @@ directive with syntax error
 
 =over 4
 
-=item arg1: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
+=item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg2: C<$newval> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
+=item arg1: C<$newval> (C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>)
 
 =item ret: no return value
 

@@ -82,15 +82,15 @@ with the same key.
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to add to.
 
-=item arg2: C<$key> (string)
+=item arg1: C<$key> (string)
 
 The key to use.
 
-=item arg3: C<$val> (string)
+=item arg2: C<$val> (string)
 
 The value to add.
 
@@ -111,7 +111,7 @@ Delete all of the elements from a table.
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to clear.
 
@@ -132,11 +132,11 @@ merging duplicates:
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to compress.
 
-=item arg2: C<$flags> (integer)
+=item arg1: C<$flags> (integer)
 
   APR::OVERLAP_TABLES_MERGE -- to merge
   APR::OVERLAP_TABLES_SET   -- to overwrite
@@ -170,11 +170,11 @@ Create a new table and copy another table into it.
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to copy.
 
-=item arg2: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg1: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool to allocate the new table out of.
 
@@ -198,11 +198,11 @@ a key-value pair.
 
 =over 4
 
-=item arg1: C<$p> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$p> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to operate on.
 
-=item arg2: C<$sub> (CODE ref/string)
+=item arg1: C<$sub> (CODE ref/string)
 
 A subroutine reference or name to be called on each item in the table.
 The subroutine can abort the iteration by returning 0 and should
@@ -233,11 +233,11 @@ data is still in the table.
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to search for the key.
 
-=item arg2: C<$key> (string)
+=item arg1: C<$key> (string)
 
 The key to search for.
 
@@ -266,11 +266,11 @@ Make a new table.
 
 =over 4
 
-=item arg1: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item obj: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool to allocate the pool out of.
 
-=item arg2: C<$nelts> (integer)
+=item arg1: C<$nelts> (integer)
 
 The number of elements in the initial table.
 
@@ -295,15 +295,15 @@ been stored:
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to search for the data.
 
-=item arg2: C<$key> (string)
+=item arg1: C<$key> (string)
 
 The key to merge data for.
 
-=item arg3: C<$val> (string)
+=item arg2: C<$val> (string)
 
 The data to add.
 
@@ -326,15 +326,15 @@ method.
 
 =over 4
 
-=item arg1: C<$t_a> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t_a> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to add the data to.
 
-=item arg2: C<$t_b> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item arg1: C<$t_b> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to iterate over, adding its data to table C<$t_a>
 
-=item arg3: C<$flags> (integer)
+=item arg2: C<$flags> (integer)
 
 How to add the table to table C<$t_a>.
 
@@ -385,15 +385,15 @@ than one value for the same key.
 
 =over 4
 
-=item arg1: C<$t_base> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t_base> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to add at the end of the new table.
 
-=item arg2: C<$t_overlay> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item arg1: C<$t_overlay> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The first table to put in the new table.
 
-=item arg3: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg2: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool to use for the new table.
 
@@ -416,15 +416,15 @@ with the same key, this will over-write the old data.
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to add the data to.
 
-=item arg2: C<$key> (string)
+=item arg1: C<$key> (string)
 
 The key to use.
 
-=item arg3: C<$val> (string)
+=item arg2: C<$val> (string)
 
 The value to add.
 
@@ -445,11 +445,11 @@ Remove data from the table.
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 The table to remove data from.
 
-=item arg2: C<$key> (string)
+=item arg1: C<$key> (string)
 
 The key of the data being removed.
 
@@ -481,9 +481,9 @@ you can access all key-value pairs that share the same key.
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
-=item arg2: C<$key> (string)
+=item arg1: C<$key> (string)
 
 =item ret: C<$ret> (integer)
 
@@ -501,7 +501,7 @@ you can access all key-value pairs that share the same key.
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 =item ret: no return value
 
@@ -517,11 +517,11 @@ you can access all key-value pairs that share the same key.
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
-=item arg2: C<$key> (string)
+=item arg1: C<$key> (string)
 
-=item arg3: C<$value> (string)
+=item arg2: C<$value> (string)
 
 =item ret: no return value
 
@@ -537,9 +537,9 @@ you can access all key-value pairs that share the same key.
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
-=item arg2: C<$key> (string)
+=item arg1: C<$key> (string)
 
 =item ret: no return value
 
@@ -555,9 +555,9 @@ you can access all key-value pairs that share the same key.
 
 =over 4
 
-=item arg1: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
+=item obj: C<$t> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
-=item arg2: C<$key> (string)
+=item arg1: C<$key> (string)
 
 =item ret: C<$ret> (string)
 

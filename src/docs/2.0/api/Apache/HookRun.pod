@@ -38,11 +38,11 @@ Kill the current request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
-=item arg2: C<$type> (XXX)
+=item arg1: C<$type> (XXX)
 
 Why the request is dieing
 
@@ -65,7 +65,7 @@ responsibility of serving the request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
@@ -92,7 +92,7 @@ independent of 'Require' directive usage.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 the current request
 
@@ -121,7 +121,7 @@ determines that access control has been applied to this resource
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 the current request
 
@@ -150,7 +150,7 @@ access_checker hook, and before the auth_checker hook.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
@@ -175,7 +175,7 @@ request is created.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
@@ -200,7 +200,7 @@ is invoked just before any content-handler
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
@@ -224,7 +224,7 @@ Run the handler functions for each module
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The request_rec
 
@@ -247,7 +247,7 @@ Run the header parser functions for each module
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
@@ -272,7 +272,7 @@ over and above the normal server things.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
@@ -299,7 +299,7 @@ based on the filesystem.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
@@ -330,7 +330,7 @@ allows modules to make decisions based upon the input header fields
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
@@ -356,7 +356,7 @@ default rules will be followed.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
@@ -382,7 +382,7 @@ language, etc.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 the current request
 

@@ -38,7 +38,7 @@ Free the memory associated with a sub request
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The sub request to finish
 
@@ -60,11 +60,11 @@ Redirect the current request to a sub_req, merging the pools
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
-=item arg2: C<$sub_req> (string)
+=item arg1: C<$sub_req> (string)
 
 A subrequest created from this request
 
@@ -90,11 +90,11 @@ Redirect the current request to some other uri
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
-=item arg2: C<$new_uri> (string)
+=item arg1: C<$new_uri> (string)
 
 The URI to replace the current request with
 
@@ -118,11 +118,11 @@ internal redirect.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
-=item arg2: C<$new_uri> (string)
+=item arg1: C<$new_uri> (string)
 
 The URI to replace the current request with.
 
@@ -145,22 +145,22 @@ can be inspected to find information about the requested file
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
-=item arg2: C<$finfo> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item arg1: C<$finfo> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
 The apr_dir_read result to lookup
 
-=item arg3: C<$subtype> (integer)
+=item arg2: C<$subtype> (integer)
 
 What type of subrequest to perform, one of;
 
   Apache::SUBREQ_NO_ARGS     ignore r->args and r->path_info
   Apache::SUBREQ_MERGE_ARGS  merge  r->args and r->path_info
 
-=item arg4: C<$next_filter> (integer)
+=item arg3: C<$next_filter> (integer)
 
 The first filter the sub_request should use.  If this is
 NULL, it defaults to the first filter for the main request
@@ -186,15 +186,15 @@ inspected to find information about the requested file
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
-=item arg2: C<$new_file> (string)
+=item arg1: C<$new_file> (string)
 
 The URI to lookup
 
-=item arg3: C<$next_filter> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item arg2: C<$next_filter> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
 
 The first filter the sub_request should use.  If this is NULL, it
 defaults to the first filter for the main request
@@ -220,15 +220,15 @@ inspected to find information about the requested URI.
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
-=item arg2: C<$new_file> (string)
+=item arg1: C<$new_file> (string)
 
 The URI to lookup
 
-=item arg3: C<$next_filter> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item arg2: C<$next_filter> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
 
 The first filter the sub_request should use.  If this is NULL, it
 defaults to the first filter for the main request
@@ -255,19 +255,19 @@ URI
 
 =over 4
 
-=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
 The current request
 
-=item arg2: C<$method> (string)
+=item arg1: C<$method> (string)
 
 The method to use in the new sub request
 
-=item arg3: C<$new_file> (string)
+=item arg2: C<$new_file> (string)
 
 The URI to lookup
 
-=item arg4: C<$next_filter> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item arg3: C<$next_filter> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
 
 The first filter the sub_request should use.  If this is NULL, it
 defaults to the first filter for the main request

@@ -38,7 +38,7 @@ The process this server is running in
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item ret: C<$proc> (C<L<Apache::Process|docs::2.0::api::Apache::Process>>)
 
@@ -58,7 +58,7 @@ The next server in the list (if there are vhosts)
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item ret: C<$next_s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
@@ -88,7 +88,7 @@ Get/set the server admin value
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_server_admin> (string)
 
@@ -116,7 +116,7 @@ Get/set the server hostname value
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_server_hostname> (string)
 
@@ -146,7 +146,7 @@ Get/set the port value
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_port> (string)
 
@@ -176,7 +176,7 @@ Get/set the error_fname value
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_error_fname> (string)
 
@@ -206,7 +206,7 @@ Get/set the log level value
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_loglevel> (string)
 
@@ -235,7 +235,7 @@ Get/set the is_virtual value
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_is_virtual> (string)
 
@@ -266,7 +266,7 @@ config structures.
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<new_module_config> (C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>>)
 
@@ -295,7 +295,7 @@ start checking per-directory info.
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_lookup_defaults> (C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>>)
 
@@ -324,7 +324,7 @@ Get/set the addrs value
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_addrs> (C<L<Apache::ServerAddr|docs::2.0::api::Apache::ServerAddr>>)
 
@@ -353,7 +353,7 @@ Get/set the timeout, as an apr interval, before we give up
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_timeout> (string)
 
@@ -382,7 +382,7 @@ Get/set the apr interval we will wait for another request
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_keep_alive_timeout> (string)
 
@@ -409,7 +409,7 @@ Get/set maximum requests per connection
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_keep_alive_max> (string)
 
@@ -435,7 +435,7 @@ Use persistent connections?
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_keep_alive> (string)
 
@@ -462,7 +462,7 @@ Get/set pathname for ServerPath
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_path> (string)
 
@@ -490,7 +490,7 @@ Get/set normal names for ServerAlias servers
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_names> (C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>>)
 
@@ -519,7 +519,7 @@ Wildcarded names for ServerAlias servers
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_wild_names> (C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>>)
 
@@ -547,7 +547,7 @@ Get/set limit on size of the HTTP request line
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_limit_req_line> (string)
 
@@ -574,7 +574,7 @@ limit on size of any request header field
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_limit_req_fieldsize> (string)
 
@@ -603,7 +603,7 @@ Get/set limit on number of request header fields
 
 =over 4
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item obj: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
 =item opt arg2: C<$new_limit_req_fields> (string)
 

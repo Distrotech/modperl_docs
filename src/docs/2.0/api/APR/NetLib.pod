@@ -39,11 +39,11 @@ representation.
 
 =over 4
 
-=item arg1: C<$ipsub> (C<L<APR::IpSubnet|docs::2.0::api::APR::IpSubnet>>)
+=item obj: C<$ipsub> (C<L<APR::IpSubnet|docs::2.0::api::APR::IpSubnet>>)
 
 The ip-subnet representation
 
-=item arg2: C<$sa> (C<L<APR::SockAddr|docs::2.0::api::APR::SockAddr>>)
+=item arg1: C<$sa> (C<L<APR::SockAddr|docs::2.0::api::APR::SockAddr>>)
 
 The socket address to test
 

@@ -38,7 +38,7 @@ The registered name for this filter
 
 =over 4
 
-=item arg1: C<$frec> (C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>)
+=item obj: C<$frec> (C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>)
 
 =item ret: C<$name> (string)
 
@@ -58,7 +58,7 @@ The next filter_rec in the list
 
 =over 4
 
-=item arg1: C<$frec> (C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>)
+=item obj: C<$frec> (C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>)
 
 =item ret: C<$next_frec> (C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>)
 

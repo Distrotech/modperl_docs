@@ -54,11 +54,11 @@ Register cleanup callbacks to run
 
 =over 4
 
-=item arg1: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item obj: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool object to register the cleanup for
 
-=item arg2: C<$callback> (CODE ref or SUB name)
+=item arg1: C<$callback> (CODE ref or SUB name)
 
 a cleanup callback CODE reference or just a name of the subroutine
 (fully qualified unless defined in the current package).
@@ -112,7 +112,7 @@ subpools.
 
 =over 4
 
-=item arg1: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item obj: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool to clear
 
@@ -136,7 +136,7 @@ frees all the memory.
 
 =over 4
 
-=item arg1: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item obj: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool to destroy
 
@@ -158,11 +158,11 @@ Determine if pool a is an ancestor of pool b
 
 =over 4
 
-=item arg1: C<$a> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item obj: C<$a> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool to search
 
-=item arg2: C<$b> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg1: C<$b> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool to search for
 
@@ -187,11 +187,11 @@ Tag a pool (give it a name)
 
 =over 4
 
-=item arg1: C<$pool> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item obj: C<$pool> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 The pool to tag
 
-=item arg2: C<$tag> (string)
+=item arg1: C<$tag> (string)
 
 The tag
 

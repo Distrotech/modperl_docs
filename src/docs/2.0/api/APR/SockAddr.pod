@@ -40,11 +40,11 @@ IPv4-mapped IPv6 addresses with IPv4 addresses.
 
 =over 4
 
-=item arg1: C<$addr1> (C<L<APR::SockAddr|docs::2.0::api::APR::SockAddr>>)
+=item obj: C<$addr1> (C<L<APR::SockAddr|docs::2.0::api::APR::SockAddr>>)
 
 One of the APR socket addresses.
 
-=item arg2: C<$addr2> (C<L<APR::SockAddr|docs::2.0::api::APR::SockAddr>>)
+=item arg1: C<$addr2> (C<L<APR::SockAddr|docs::2.0::api::APR::SockAddr>>)
 
 The other APR socket address.
 

@@ -39,20 +39,20 @@ instead of using a pre-opened file.
 
 =over 4
 
-=item arg1: C<$finfo> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$finfo> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
 Where to store the information about the file, which is
 never touched if the call fails.
 
-=item arg2: C<$fname> (string)
+=item arg1: C<$fname> (string)
 
 The name of the file to stat.
 
-=item arg3: C<$wanted> (string)
+=item arg2: C<$wanted> (string)
 
 The desired apr_finfo_t fields, as a bit flag of APR_FINFO_ values
 
-=item arg4: C<$cont> (integer)
+=item arg3: C<$cont> (integer)
 
 the pool to use to allocate the new file.
 
@@ -76,9 +76,9 @@ Allocates memory and closes lingering handles in the specified pool
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg1: C<$newval> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
 
 =back
 
@@ -97,9 +97,9 @@ including all available 'wanted' fields and potentially more
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (integer)
+=item arg1: C<$newval> (integer)
 
 =back
 
@@ -117,9 +117,9 @@ The access permissions of the file.  Mimics Unix access rights.
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (integer)
+=item arg1: C<$newval> (integer)
 
 =back
 
@@ -139,9 +139,9 @@ If the type cannot be determined, the value is APR_UNKFILE.
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (integer)
+=item arg1: C<$newval> (integer)
 
 =back
 
@@ -162,9 +162,9 @@ most notably Win32.
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (integer)
+=item arg1: C<$newval> (integer)
 
 =back
 
@@ -186,9 +186,9 @@ on some versions of OSX.
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (integer)
+=item arg1: C<$newval> (integer)
 
 =back
 
@@ -209,9 +209,9 @@ most notably Win32.
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (integer)
+=item arg1: C<$newval> (integer)
 
 =back
 
@@ -232,9 +232,9 @@ most notably Win32.
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (number)
+=item arg1: C<$newval> (number)
 
 =back
 
@@ -252,9 +252,9 @@ The number of hard links to the file.
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (integer)
+=item arg1: C<$newval> (integer)
 
 =back
 
@@ -272,9 +272,9 @@ The size of the file
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (integer)
+=item arg1: C<$newval> (integer)
 
 =back
 
@@ -292,9 +292,9 @@ The storage size consumed by the file
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (integer)
+=item arg1: C<$newval> (integer)
 
 =back
 
@@ -316,9 +316,9 @@ but NTFS filesystems do not.
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (number)
+=item arg1: C<$newval> (number)
 
 =back
 
@@ -336,9 +336,9 @@ The time the file was last modified
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (number)
+=item arg1: C<$newval> (number)
 
 =back
 
@@ -356,9 +356,9 @@ The time the file was last changed
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (number)
+=item arg1: C<$newval> (number)
 
 =back
 
@@ -376,9 +376,9 @@ The pathname of the file (possibly unrooted)
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (string)
+=item arg1: C<$newval> (string)
 
 =back
 
@@ -396,9 +396,9 @@ The file's name (no path) in filesystem case
 
 =over 4
 
-=item arg1: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
+=item obj: C<$obj> (C<L<APR::Finfo|docs::2.0::api::APR::Finfo>>)
 
-=item arg2: C<$newval> (string)
+=item arg1: C<$newval> (string)
 
 =back
 
