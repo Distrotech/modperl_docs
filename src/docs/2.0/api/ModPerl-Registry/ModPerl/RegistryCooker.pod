@@ -33,13 +33,27 @@ META: in the future this functionality may move into a separate class.
 
 Here are the current overridable methods:
 
+META: these are all documented in RegistryCooker.pm, though not using
+pod. please help to port these to pod and move the descriptions here.
+
 =over
 
 =item * new()
 
+create the class's object, bless it and return it
+
+  my $obj = $class->new($r);
+
+C<$class> -- the registry class, usually C<__PACKAGE__> can be used.
+
+C<$r> -- C<L<Apache::Request>> object.
+
 default: new()
 
 =item * init()
+
+initializes the data object's fields: C<REQ>, C<FILENAME>,
+C<URI>. Called from the new().
 
 default: init()
 
@@ -128,15 +142,31 @@ default: convert_script_to_compiled_handler()
 
 =back
 
-Special Predefined functions
+
+
+
+=head2 Special Predefined Functions
+
+The following functions are implemented as constants.
 
 =over
 
 =item * NOP()
 
-META: compelete
+Use when the function shouldn't do anything.
+
+=item * TRUE()
+
+Use when a function should always return a true value.
+
+=item * FALSE()
+
+Use when a function should always return a false value.
 
 =back
+
+
+
 
 =head1 Sub-classing Techniques
 
@@ -199,8 +229,8 @@ e.g., that creates a namespace based on the inode, you can do:
       return (stat $self->[FILENAME])[1];
   }
 
-META: when $r->finfo will be ported it'll be more effecient. (stat
-$r->finfo)[1]
+META: when $r-E<gt>finfo will be ported it'll be more effecient. 
+(stat $r-E<gt>finfo)[1]
 
 
 =head1 Authors

@@ -183,7 +183,18 @@ latter module is used.
 
 META: complete
 
+META: document that for now ModPerl::Registry doesn't chdir() into the
+script's dir like Apache::Registry does, because chdir() affects the
+whole process under threads.
 
+
+=head2 C<ModPerl::RegistryLoader>
+
+In mod_perl 1.0 it was only possible to preload scripts as
+C<Apache::Registry> handlers. In 2.0 the loader can use any of the
+registry classes to preload into. The old API works as before, but new
+options can be passed. See the I<L<ModPerl::RegistryLoader>> manpage
+for more information.
 
 
 =head1 C<Apache::Constants>

@@ -46,11 +46,15 @@ compilation on the first request in every httpd instance.
 When creating a new C<ModPerl::RegistryLoader> object, one has to
 specify which of the C<ModPerl::RegistryCooker> derived modules to
 use. For example if a script is going to run under
-C<Apache::RegistryBB> the object is initialized as:
+C<ModPerl::RegistryBB> the object is initialized as:
 
   my $rlbb = ModPerl::RegistryLoader->new(
       package => 'ModPerl::RegistryBB',
   );
+
+If the package is not specified C<ModPerl::Registry> is assumed:
+
+  my $rlbb = ModPerl::RegistryLoader->new();
 
 To turn the debugging on, set the I<debug> attribute to a true value:
 
