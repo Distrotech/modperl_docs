@@ -170,7 +170,8 @@ SSL, are now possible without needing to modify the the server code
 which was the case with Apache 1.3.
 
 In order to make the filtering mechanism efficient and avoid
-unnecessary copying, the I<Bucket Brigades> technology was introduced.
+unnecessary copying, while keeping the data abstracted, the I<Bucket
+Brigades> technology was introduced.
 
 A bucket represents a chunk of data.  Buckets linked together comprise
 a brigade. Each bucket in a brigade can be modified, removed and
