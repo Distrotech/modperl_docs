@@ -1,5 +1,5 @@
 [%- WRAPPER wrap_box
-    title = 'Books'
+    title = "<a href=\"${doc.dir.abs_doc_root}/docs/offsite/books.html\">Books</a>"
 -%]
 
         <tr>
