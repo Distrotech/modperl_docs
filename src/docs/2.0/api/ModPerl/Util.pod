@@ -163,16 +163,16 @@ how to properly untaint variables refer to the I<perlsec> manpage.
 
 =head2 C<unload_module>
 
-Unloads a module from the current perl interpreter in the safest way
+Unloads a stash from the current Perl interpreter in the safest way
 possible.
 
-  ModPerl::Util::unload_module($module);
+  ModPerl::Util::unload_module($stash);
 
 =over 4
 
-=item arg1: C<$module> (scalar)
+=item arg1: C<$stash> ( string )
 
-The package (stash) name to unload.
+The Perl stash to unload. e.g. C<MyApache::MyData>.
 
 =item ret: no return value
 
@@ -180,14 +180,22 @@ The package (stash) name to unload.
 
 =back
 
-Unloading a module from Perl is a complicated business. This function
-tries very hard to do the right thing. After calling this module, it
-should be safe to C<use> a new version of the module.
+Unloading a Perl stash is a complicated business. This function tries
+very hard to do the right thing. After calling this module, it should
+be safe to C<use> a new version of the module.
 
 References to module elements (function, variables, etc) that were
 taken from outside the unloaded module will still be valid.
 
+This function may wipe off things loaded by other modules, if the
+latter have inserted things into the C<$stash> it was told to unload.
 
+C<unload_module()> takes care not to delete sub-stashes when deleting
+the requested stash. So for example if C<CGI> and C<CGI::Carp> are
+loaded, calling C<unload_module('CGI')> won't affect C<CGI::Carp>.
+
+If the module's stash had a corresponding XS shared object loaded it
+will be unloaded as well.
 
 
 
