@@ -1,6 +1,6 @@
 =head1 NAME
 
-Developing and Running Tests with the C<Apache::Test> Framework
+Running and Developing Tests with the C<Apache::Test> Framework
 
 =head1 Introduction
 
@@ -9,11 +9,11 @@ particular explains how to:
 
 =over
 
-=item * run existing tests
+=item 1 run existing tests
 
-=item * setup a testing environment
+=item 2 setup a testing environment for a new project
 
-=item * develop new tests
+=item 3 develop new tests
 
 =back
 
