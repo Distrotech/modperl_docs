@@ -8,12 +8,12 @@
     <p>&nbsp;</p>
     <p>&nbsp;</p>
 
-<div align=middle><font size="7"><b>[% doc.meta.title %]</b></font></div>
+<div align=center><font size="7"><b>[% doc.meta.title %]</b></font></div>
 
     <p>&nbsp;</p>
     <p>&nbsp;</p>
 
-<table align=middle width=60%>
+<table align=center width=60%>
   <tr>
     <td>
         [% doc.meta.abstract %]

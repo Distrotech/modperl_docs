@@ -10,7 +10,7 @@
     <p>&nbsp;</p>
     <p>&nbsp;</p>
 
-    <h1 align=middle>
+    <h1 align=center>
       [% doc.meta.title %]
     </h1>
 
