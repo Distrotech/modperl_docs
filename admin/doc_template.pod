@@ -13,10 +13,14 @@ page, so make sure to put the general overview in this first paragraph.
 
 =head1 Maintainers
 
-Maintainer is the person(s) you should contact with updates,
+The maintainer is the person you should contact with updates,
 corrections and patches.
 
-Foo Bar E<lt>foo (at) bar.example.comE<gt>
+=over
+
+=item * Foo Bar E<lt>foo (at) bar.example.comE<gt>
+
+=back
 
 =head1 Authors
 
