@@ -79,9 +79,9 @@ In httpd.conf:
 In startup.pl or another PerlRequire'd file:
 
  package This::Class;
-
+ 
  $My::Obj = bless {};
-
+ 
  sub method ($$) {
      my($obj, $r) = @_;
      $r->send_http_header("text/plain");
@@ -111,7 +111,7 @@ module to a object, and can now do a
 	 -size      => [131,18],
 	 -elements  => 'wday mday mon year hour min',
  );
-
+ 
  $Client2::Datebar = new Datebar
 	 -imagepath => '/home/client2/datebar/',
 	 -size      => [90,14],
