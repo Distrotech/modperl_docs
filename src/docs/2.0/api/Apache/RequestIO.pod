@@ -55,7 +55,7 @@ interpreted as the next request on a persistent connection.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
 The current request
 
@@ -88,7 +88,7 @@ Send data to the client.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
 =item arg1: C<@msg> ( ARRAY )
 
@@ -120,7 +120,7 @@ Format and send data to the client (same as C<printf>).
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
 =item arg1: C<$format> ( string )
 
@@ -156,7 +156,7 @@ Send data to the client
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
 =item arg1: C<@msg> ( ARRAY )
 
@@ -192,7 +192,7 @@ Read data from the client.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
 =item arg1: C<$buffer> ( SCALAR )
 
@@ -235,7 +235,7 @@ Flush any buffered data to the client.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
 =item ret: no return value
 
@@ -262,7 +262,7 @@ Send a file or a part of it
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
 =item arg1: C<$filename> ( string )
 
@@ -316,7 +316,7 @@ Send partial string to the client
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
 =item arg1: C<$buffer> ( SCALAR )
 
