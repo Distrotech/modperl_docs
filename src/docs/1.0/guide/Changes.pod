@@ -68,6 +68,14 @@ The most recent changes are listed first.
   o show an example on how to load the mod_perl related config only
     when mod_perl is loaded (Rafael Garcia-Suarez)
 
+  o More information about PerlSetEnv/PerlPassEnv w/ practical example
+    [Per Einar]
+
+  o Extend on PerlSetVar/PerlAddVar but more importantly, add
+    information about subrequests w/ lookup_file and dir_config
+    provided by Matt Sergeant in this thread:
+    http://mathforum.org/epigone/modperl/praxdwumze [Per Einar]
+
 * debug.pod
 
   o extended on curinfo macro (Per Einar Ellefsen)
@@ -113,6 +121,11 @@ The most recent changes are listed first.
     different projects/subprojects.
 
   o added descriptions to all chapters (Per Einar Ellefsen)
+
+  o The document structure has been reorganized and decentralized:
+    some general chapters have left the Guide in favor of the "General
+    Documentation" section, which is where you should look now for
+    some of the sections that were earlier here [Thomas Klausner]
 
 * Minor corrections:
 

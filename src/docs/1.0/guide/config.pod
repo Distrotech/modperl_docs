@@ -1116,28 +1116,74 @@ But note that even if you have
 
 and mod_perl as a DSO you will still get a I<FreshRestart>.
 
-=head2 PerlSetVar, PerlSetEnv and PerlPassEnv
+=head2 PerlSetEnv and PerlPassEnv
 
   PerlSetEnv key val
   PerlPassEnv key
 
 C<PerlPassEnv> passes, C<PerlSetEnv> sets and passes I<ENVironment>
 variables to your scripts.  You can access them in your scripts
-through C<%ENV> (e.g. C<$ENV{"key"}>).
+through C<%ENV> (e.g. C<$ENV{"key"}>). These commands are useful to
+pass information to your handlers or scripts, or to any modules you
+use that require some additional configuration.
+
+For example, the Oracle RDBMS requires a number of C<ORACLE_*>
+environment variables to be set so that you can connect to it through
+C<DBI>. So you might want to put this in your I<httpd.conf>:
+
+  PerlSetEnv ORACLE_BASE /oracle
+  PerlSetEnv ORACLE_HOME /oracle
+        :             :
+
+You can then use C<DBI> to access your oracle server without having to
+set the environment variables in your handlers.
+
+C<PerlPassEnv> proposes another approach: you might want to set the
+corresponding environment variables in your shell, and not reproduce
+the information in your I<httpd.conf>. For example, you might have
+this in your I<.bash_profile>:
+
+  ORACLE_BASE=/oracle
+  ORACLE_HOME=/oracle
+  export ORACLE_BASE ORACLE_HOME
+
+However, Apache (or mod_perl) don't pass on environment variables from
+the shell by default; you'll have to specify these using either the
+standard C<PassEnv> or mod_perl's C<PerlPassEnv> directives.
+
+  PerlPassEnv ORACLE_BASE ORACLE_HOME
 
 Regarding the setting of C<PerlPassEnv PERL5LIB> in I<httpd.conf>: if
 you turn on taint checks (C<PerlTaintCheck On>), C<$ENV{PERL5LIB}>
 will be ignored (unset).  See the 'L<Switches -w,
 -T|guide::porting/Command_Line_Switches___w___T__etc_>' section.
 
-C<PerlSetVar> is very similar to C<PerlSetEnv>, but you extract it
-with another method.
+While the Apache's C<SetEnv>/C<PassEnv> and mod_perl's
+C<PerlSetEnv>/C<PerlPassEnv> apparently do the same thing, the former
+doesn't happen until the fixup phase, the latter happens as soon as
+possible, so those variables are available before then, e.g. in
+C<PerlAuthenHandler> for C<$ENV{ORACLE_HOME}> (or another environment
+variable that you need in these early request processing stages).
+
+
+=head2 PerlSetVar and PerlAddVar
+
+C<PerlSetVar> is very similar to C<PerlSetEnv>; however, variables set
+using C<PerlSetVar> are only available through the mod_perl API, and
+is thus more suitable for configuration. For example, environment
+variables are available to all, and might show up on casual "print
+environment" scripts, which you might not like. C<PerlSetVar> is
+well-suited for modules needing some configuration, but not wanting to
+implement first-class configuration handlers just to get some
+information.
 
   PerlSetVar foo bar
 
 or
 
-  push @{ $Location{"/"}->{PerlSetVar} }, [ foo => 'bar' ];
+  <Perl>
+    push @{ $Location{"/"}->{PerlSetVar} }, [ foo => 'bar' ];
+  </Perl>
 
 and in the code you read it with:
 
@@ -1164,13 +1210,14 @@ into the variable, emulating arrays. For example:
   PerlAddVar foo bar1
   PerlAddVar foo bar2
 
-or the equal:
+or the equivalent:
 
   PerlAddVar foo bar
   PerlAddVar foo bar1
   PerlAddVar foo bar2
 
-To retrieve the values use the C<dir_config-E<gt>get()> method:
+To retrieve the values use the C<$r-E<gt>dir_config-E<gt>get()>
+method:
 
   my @foo = $r->dir_config->get('foo');
 
@@ -1179,18 +1226,66 @@ or
   my %foo = $r->dir_config->get('foo');
 
 Make sure that you use an even number of elements if you store the
-retrieved values in a hash.
+retrieved values in a hash, like this:
 
-While the Apache's C<SetEnv> and mod_perl's C<PerlSetEnv> apparently
-perform the same thing, the former doesn't happen until the fixup
-phase, the latter happens as soon as possible, so those variables are
-available before then, e.g. in C<PerlAuthenHandler> for
-C<$ENV{ORACLE_HOME}> (or another environment variable that you need in
-these early request processing stages).
+  PerlAddVar foo key1
+  PerlAddVar foo value1
+  PerlAddVar foo key2
+  PerlAddVar foo value2
+
+Then C<%foo> will have a structure like this:
+
+  %foo = (
+      key1 => 'value1',
+      key2 => 'value2',
+  );
+
+There are some things you should know about L<sub
+requests|Apache/Sub_Requests> and C<$r-E<gt>dir_config>. For
+C<$r-E<gt>lookup_uri>, everything works as expected, because all
+normal phases are run. You can then retrieve variables set in the
+server scope of the configuration, in C<E<lt>VirtualHostE<gt>>
+sections, in C<E<lt>LocationE<gt>> sections, etc.
+
+However, when using the C<$r-E<gt>lookup_file> method, you are
+effectively skipping the URI translation phase. This means that the
+URI won't be known by Apache, only the file name to retrieve. As such,
+C<E<lt>LocationE<gt>> sections won't be applied. This means that if
+you were using:
+
+  Alias /perl-subr/ /home/httpd/perl-subr/
+  <Location /perl-subr>
+    PerlSetVar foo bar
+    PerlSetVar foo2 bar2
+  </Location>
+
+And issue a subrequest using C<$r-E<gt>lookup_file> and try to
+retrieve its directory configuration (C<Apache::SubRequest> class is
+just a subclass of C<Apache>):
+
+  my $subr = $r->lookup_file('/home/httpd/perl-subr/script.pl');
+  print $subr->dir_config('foo');
+
+You won't get the results you wanted.
+
+As a side note: the issue we discussed here means that
+I</perl-subr/script.pl> won't even run under mod_perl if configured in
+the normal L<Apache::Registry> way (using a C<E<lt>LocationE<gt>>
+section), because the C<E<lt>LocationE<gt>> blocks won't be
+applied. You'd have to use a C<E<lt>DirectoryE<gt>> or
+C<E<lt>FilesE<gt>> section configuration to achieve the desired
+effect. As to the C<PerlSetVar> discussion, using
+C<E<lt>DirectoryE<gt>> or C<E<lt>FilesE<gt>> section would solve the
+problem.
 
 =head2 PerlSetupEnv
 
-See L<PerlSetupEnv Off|guide::performance/PerlSetupEnv_Off>.
+C<PerlSetupEnv On> will allow you to access the environment variables
+like C<$ENV{REQUEST_URI}>, which are available under CGI. However,
+when programming handlers, there are always better ways to access
+these variables through the Apache API. Therefore, it is recommended
+to turn it C<Off> except for scripts which absolutely require it. See
+L<PerlSetupEnv Off|guide::performance/PerlSetupEnv_Off>.
 
 =head2 PerlWarn and PerlTaintCheck
 
