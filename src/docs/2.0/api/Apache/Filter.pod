@@ -346,7 +346,7 @@ Refer to the C<L<pass_brigade()|/C_pass_brigade_>> entry.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-Exceptions are thrown only when this function is called in the void
+Exceptions are thrown only when this function is called in the VOID
 context. Refer to the C<L<get_brigade()|/C_get_brigade_>> entry for
 details.
 
@@ -477,7 +477,7 @@ return code can also be C<APR::EOF>, which is success as well.
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
 You don't have to ask for the return value. If this function is called
-in the void context, e.g.:
+in the VOID context, e.g.:
 
   $f->next->get_brigade($bb, $mode, $block, $readbytes);
 
@@ -634,7 +634,7 @@ to avoid checking the errors explicitly.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-Exceptions are thrown only when this function is called in the void
+Exceptions are thrown only when this function is called in the VOID
 context. Refer to the C<L<get_brigade()|/C_get_brigade_>> entry for
 details.
 
