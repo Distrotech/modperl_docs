@@ -33,33 +33,36 @@ td.sel-bg {
     background-color: #525d76;
 }
 
-div.nonselectedmenuitem a:link, div.nonselectedmenuitem a:visited, div.nonselectedmenuitem a:active {
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 0.9em;
-    color: #525d76;
-    text-decoration: none;
-}
-
-div.selectedmenuitem a, div.selectedmenuitem a:link, div.selectedmenuitem a:visited, div.selectedmenuitem a:active {
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 0.9em;
-    color: #ffffff;
-    text-decoration: none;
-}
 
 div.nonselectedmenuitem {
     padding: 3px;
     background-color: #ffffff;
+    font-size: 0.9em;
+    font-family: verdana, arial, helvetica, sans-serif;
+}
+
+div.nonselectedmenuitem a:link, div.nonselectedmenuitem a:visited, div.nonselectedmenuitem a:active {
+    color: #525d76;
+    text-decoration: none;
+}
+
+
+div.nonselectedmenuitem a:hover {
+    color: #999999;
 }
 
 div.selectedmenuitem {
     padding: 3px;
     background-color: #525d76;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 0.9em;
 }
 
-div.nonselectedmenuitem a:hover {
-    color: #999999;
+div.selectedmenuitem a, div.selectedmenuitem a:link, div.selectedmenuitem a:visited, div.selectedmenuitem a:active {
+    color: #ffffff;
+    text-decoration: none;
 }
+
 
 div.selectedmenuitem a:hover {
     color: #cccc99;
@@ -87,6 +90,8 @@ td.search {
     font-size: 0.8em;
     color: #ffffff;
 }
+
+
 
 /* main boxes */
 div.leftbox {
@@ -246,17 +251,18 @@ dl a:hover {
 
 
 /* font specs for download widget */
+td.download {
+    font-size: 0.80em;
+    font-family: helvetica, arial, verdana, sans-serif;
+}
+
 td.download a:link, td.download a:active , td.download a:visited {
     text-decoration: none;
-    font-size: 0.85em;
-    font-family: helvetica, arial, verdana, sans-serif;
 }
 
 td.download a:hover {
     text-decoration: none;
     color: #666666;
-    font-size: 0.85em;
-    font-family: helvetica, arial, verdana, sans-serif;
 }
 
 /* "spacegif" substitute in menus */
