@@ -7,8 +7,8 @@ Input and Output Filters
 This chapter discusses mod_perl's input and output filter handlers.
 
 If all you need is to lookup the filtering API proceed directly to the
-C<L<Apache::Filter|docs::2.0::api::Apache::Filter>> and
-C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>> manpages.
+C<L<Apache2::Filter|docs::2.0::api::Apache2::Filter>> and
+C<L<Apache2::FilterRec|docs::2.0::api::Apache2::FilterRec>> manpages.
 
 =head1 Your First Filter
 
@@ -102,18 +102,18 @@ carriage return.
 
 And here is the filter handler code:
 
-  #file:MyApache/FilterObfuscate.pm
+  #file:MyApache2/FilterObfuscate.pm
   #--------------------------------
-  package MyApache::FilterObfuscate;
+  package MyApache2::FilterObfuscate;
   
   use strict;
   use warnings;
   
-  use Apache::Filter ();
-  use Apache::RequestRec ();
+  use Apache2::Filter ();
+  use Apache2::RequestRec ();
   use APR::Table ();
   
-  use Apache::Const -compile => qw(OK);
+  use Apache2::Const -compile => qw(OK);
   
   use constant BUFF_LEN => 1024;
   
@@ -130,20 +130,20 @@ And here is the filter handler code:
           $f->print($buffer);
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   1;
 
-Next we configure Apache to apply the C<MyApache::FilterObfuscate>
+Next we configure Apache to apply the C<MyApache2::FilterObfuscate>
 filter to all requests that get mapped to files with an I<".html">
 extension:
 
   <Files ~ "\.html">
-      PerlOutputFilterHandler MyApache::FilterObfuscate
+      PerlOutputFilterHandler MyApache2::FilterObfuscate
   </Files>
 
 Filter handlers are similar to HTTP handlers, they are expected to
-return C<Apache::OK> or C<Apache::DECLINED>, but instead of receiving
+return C<Apache2::OK> or C<Apache2::DECLINED>, but instead of receiving
 C<$r> (the request object) as the first argument, they receive C<$f>
 (the filter object).
 
@@ -184,12 +184,12 @@ functionality:
 
 the C<unset()> call will be made only on the first filter call for
 each request. Of course you can store any kind of a Perl data
-structure in C<L<$f-E<gt>ctx|docs::2.0::api::Apache::Filter/C_ctx_>>
+structure in C<L<$f-E<gt>ctx|docs::2.0::api::Apache2::Filter/C_ctx_>>
 and retrieve it later in subsequent filter invocations of the same
 request. We will show plenty of examples using this method in the
 following sections.
 
-Of course the C<MyApache::FilterObfuscate> filter logic should take
+Of course the C<MyApache2::FilterObfuscate> filter logic should take
 into account situations where removing new line characters will break
 the correct rendering, as is the case if there are multi-line
 C<E<lt>preE<gt>>...C<E<lt>/preE<gt>> entries, but since it escalates
@@ -316,7 +316,7 @@ sent:
 META: EOS buckets are valid for Request filters. For Connection
 filters, you will get one only in the response filters only at the end
 of the connection. See the trick how to workaround this in
-C<Apache::Filter::HTTPHeadersFixup>. Need to mention that in a few
+C<Apache2::Filter::HTTPHeadersFixup>. Need to mention that in a few
 other places in this doc.
 
 Notice that the EOS bucket may come attached to the last bucket
@@ -357,7 +357,7 @@ like:
           finalize($f);
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   sub init     { ... }
   sub process  { ... }
@@ -388,7 +388,7 @@ of the request.
       }
 
 When the filter is invoked for the first time
-C<L<$f-E<gt>ctx|docs::2.0::api::Apache::Filter/C_ctx_>> returns
+C<L<$f-E<gt>ctx|docs::2.0::api::Apache2::Filter/C_ctx_>> returns
 C<undef> and the custom function init() is called. This function
 could, for example, retrieve some configuration data, set in
 I<httpd.conf> or initialize some datastructure to its default value.
@@ -411,13 +411,13 @@ number of times it was invoked during a single request:
       $f->ctx($ctx);
       warn "filter was invoked $ctx->{invoked} times\n";
   
-      return Apache::DECLINED;
+      return Apache2::DECLINED;
   }
 
 Since this filter handler doesn't consume the data from the upstream
-filter, it's important that this handler returns C<Apache::DECLINED>,
+filter, it's important that this handler returns C<Apache2::DECLINED>,
 in which case mod_perl passes the current bucket brigade to the next
-filter. If this handler returns C<Apache::OK>, the data will be simply
+filter. If this handler returns C<Apache2::OK>, the data will be simply
 lost. And if that data included a special EOS token, this may wreck
 havoc.
 
@@ -526,11 +526,11 @@ is.
 
 Here is a code for a transparent input filter:
 
-  #file:MyApache/FilterTransparent.pm (first part)
+  #file:MyApache2/FilterTransparent.pm (first part)
   #-----------------------------------------------
-  package MyApache::FilterTransparent;
+  package MyApache2::FilterTransparent;
   
-  use Apache::Const -compile => qw(OK);
+  use Apache2::Const -compile => qw(OK);
   use APR::Const -compile => ':common';
   
   sub in {
@@ -539,7 +539,7 @@ Here is a code for a transparent input filter:
       my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
       return $rv unless $rv == APR::SUCCESS;
   
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 When the input filter I<in()> is invoked, it first asks the upstream
@@ -598,7 +598,7 @@ to return.
 
 Here is an example of a transparent output filter:
 
-  #file:MyApache/FilterTransparent.pm (continued)
+  #file:MyApache2/FilterTransparent.pm (continued)
   #-----------------------------------------------
   sub out {
       my ($f, $bb) = @_;
@@ -606,7 +606,7 @@ Here is an example of a transparent output filter:
       my $rv = $f->next->pass_brigade($bb);
       return $rv unless $rv == APR::SUCCESS;
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   1;
 
@@ -699,7 +699,7 @@ server startup. A filter handler can be configured not to be
 C<L<AutoLoad|docs::2.0::user::config::config/C_AutoLoad_>>ed, using
 the C<-> prefix. For example:
 
-  PerlInputFilterHandler -MyApache::FilterTest::lc
+  PerlInputFilterHandler -MyApache2::FilterTest::lc
 
 The following sections include several examples that use the
 C<PerlInputFilterHandler> handler.
@@ -735,10 +735,10 @@ configured earlier).
 To mix mod_perl and non-mod_perl input filters of the L<same
 priority|/Filter_Priority_Types> nothing special should be done. For
 example if we have an imaginary Apache filter C<FILTER_FOO> and
-mod_perl filter C<MyApache::FilterInputFoo>, this configuration:
+mod_perl filter C<MyApache2::FilterInputFoo>, this configuration:
 
   SetInputFilter FILTER_FOO
-  PerlInputFilterHandler MyApache::FilterInputFoo
+  PerlInputFilterHandler MyApache2::FilterInputFoo
 
 will add both filters, however the order of their invocation might be
 not the one that you've expected. To make the invocation order the
@@ -746,11 +746,11 @@ same as the insertion order replace C<SetInputFilter> with
 C<PerlSetInputFilter>, like so:
 
   PerlSetInputFilter FILTER_FOO
-  PerlInputFilterHandler MyApache::FilterInputFoo
+  PerlInputFilterHandler MyApache2::FilterInputFoo
 
 now C<FILTER_FOO> filter will be always executed before the
-C<MyApache::FilterInputFoo> filter, since it was configured before
-C<MyApache::FilterInputFoo> (i.e., it'll apply its transformations on
+C<MyApache2::FilterInputFoo> filter, since it was configured before
+C<MyApache2::FilterInputFoo> (i.e., it'll apply its transformations on
 the incoming data last). Here is a diagram input filters chain and the
 data flow from the network to the response handler for the presented
 configuration:
@@ -761,7 +761,7 @@ configuration:
          FILTER_FOO
              /\
              ||
-   MyApache::FilterInputFoo
+   MyApache2::FilterInputFoo
              /\
              ||
      core input filters
@@ -772,20 +772,20 @@ configuration:
 As explained in the section L<Filter Priority
 Types|/Filter_Priority_Types> this directive won't affect filters of 
 different priority. For example assuming that
-C<MyApache::FilterInputFoo> is a C<FilterRequestHandler> filter, the
+C<MyApache2::FilterInputFoo> is a C<FilterRequestHandler> filter, the
 configurations:
 
-  PerlInputFilterHandler MyApache::FilterInputFoo
+  PerlInputFilterHandler MyApache2::FilterInputFoo
   PerlSetInputFilter DEFLATE
 
 and
 
   PerlSetInputFilter DEFLATE
-  PerlInputFilterHandler MyApache::FilterInputFoo
+  PerlInputFilterHandler MyApache2::FilterInputFoo
 
 are equivalent, because mod_deflate's C<DEFLATE> filter has a higher
-priority than C<MyApache::FilterInputFoo>, thefore it'll always be
-inserted into the filter chain after C<MyApache::FilterInputFoo>,
+priority than C<MyApache2::FilterInputFoo>, thefore it'll always be
+inserted into the filter chain after C<MyApache2::FilterInputFoo>,
 (i.e. the C<DEFLATE> filter will apply its transformations on the
 incoming data first). Here is a diagram input filters chain and the
 data flow from the network to the response handler for the presented
@@ -794,7 +794,7 @@ configuration:
       response handler
              /\
              ||
-   MyApache::FilterInputFoo
+   MyApache2::FilterInputFoo
              /\
              ||
           DEFLATE
@@ -808,10 +808,10 @@ configuration:
 C<SetInputFilter>'s C<;> semantics are supported as well. For
 example, in the following configuration:
 
-  PerlInputFilterHandler MyApache::FilterInputFoo
+  PerlInputFilterHandler MyApache2::FilterInputFoo
   PerlSetInputFilter FILTER_FOO;FILTER_BAR
 
-C<MyApache::FilterOutputFoo> will be executed first, followed by
+C<MyApache2::FilterOutputFoo> will be executed first, followed by
 C<FILTER_FOO> and finally by C<FILTER_BAR> (again, assuming that all
 three filters have the same priority).
 
@@ -834,7 +834,7 @@ priority|/Filter_Priority_Types> nothing special should
 be done. This configuration:
 
   SetOutputFilter INCLUDES
-  PerlOutputFilterHandler MyApache::FilterOutputFoo
+  PerlOutputFilterHandler MyApache2::FilterOutputFoo
 
 will add all two filters to the filter chain, however the order of
 their invocation might be not the one that you've expected. To
@@ -842,10 +842,10 @@ preserve the insertion order replace C<SetOutputFilter> with
 C<PerlSetOutputFilter>, like so:
 
   PerlSetOutputFilter INCLUDES
-  PerlOutputFilterHandler MyApache::FilterOutputFoo
+  PerlOutputFilterHandler MyApache2::FilterOutputFoo
 
 now mod_include's C<INCLUDES> filter will be always executed before
-the C<MyApache::FilterOutputFoo> filter. Here is a diagram input
+the C<MyApache2::FilterOutputFoo> filter. Here is a diagram input
 filters chain and the data flow from the response handler to the
 network for the presented configuration:
 
@@ -855,7 +855,7 @@ network for the presented configuration:
           INCLUDES
              ||
              \/
-   MyApache::FilterOutputFoo
+   MyApache2::FilterOutputFoo
              ||
              \/
      core output filters
@@ -866,10 +866,10 @@ network for the presented configuration:
 C<SetOutputFilter>'s C<;> semantics are supported as well. For
 example, in the following configuration:
 
-  PerlOutputFilterHandler MyApache::FilterOutputFoo
+  PerlOutputFilterHandler MyApache2::FilterOutputFoo
   PerlSetOutputFilter INCLUDES;FILTER_FOO
 
-C<MyApache::FilterOutputFoo> will be executed first, followed by
+C<MyApache2::FilterOutputFoo> will be executed first, followed by
 C<INCLUDES> and finally by C<FILTER_FOO> (again, assuming that all
 three filters have the same priority).
 
@@ -879,10 +879,10 @@ might be different. For example in the following configuration:
 
   PerlSetOutputFilter DEFLATE
   PerlSetOutputFilter INCLUDES
-  PerlOutputFilterHandler MyApache::FilterOutputFoo
+  PerlOutputFilterHandler MyApache2::FilterOutputFoo
 
 mod_include's C<INCLUDES> filter will be always executed before the
-C<MyApache::FilterOutputFoo> filter. The latter will be followed by
+C<MyApache2::FilterOutputFoo> filter. The latter will be followed by
 mod_deflate's C<DEFLATE> filter, even though it was configured before
 the other two filters. This is because it has a L<higher
 priority|/Filter_Priority_Types>. And the corresponding diagram looks
@@ -894,7 +894,7 @@ like so:
           INCLUDES
              ||
              \/
-   MyApache::FilterOutputFoo
+   MyApache2::FilterOutputFoo
              ||
              \/
            DEFLATE
@@ -919,34 +919,34 @@ callbacks at request time. For example here is how to add an output
 filter during the Fixup phase:
 
   <Files *\.html >
-    PerlFixupHandler MyApache::AddFilterDyn
+    PerlFixupHandler MyApache2::AddFilterDyn
   </Files>
 
 And the corresponding module:
 
-  #file:MyApache/AddFilterDyn.pm
-  package MyApache::AddFilterDyn;
+  #file:MyApache2/AddFilterDyn.pm
+  package MyApache2::AddFilterDyn;
   
-  use Apache::Const -compile => qw(OK);
-  use Apache::Filter;
-  use MyApache::FilterObfuscate;
+  use Apache2::Const -compile => qw(OK);
+  use Apache2::Filter;
+  use MyApache2::FilterObfuscate;
   
   sub handler {
       my $r = shift;
   
-      $r->add_output_filter(\&MyApache::FilterObfuscate::handler);
+      $r->add_output_filter(\&MyApache2::FilterObfuscate::handler);
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   1;
 
 You can also add connection filters dynamically. For more information
-referer to the C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>
+referer to the C<L<Apache2::Filter|docs::2.0::api::Apache2::Filter>>
 manpage:
-C<L<add_input_filter|docs::2.0::api::Apache::Filter/C_add_input_filter_>>
+C<L<add_input_filter|docs::2.0::api::Apache2::Filter/C_add_input_filter_>>
 and
-C<L<add_output_filter|docs::2.0::api::Apache::Filter/C_add_output_filter_>>.
+C<L<add_output_filter|docs::2.0::api::Apache2::Filter/C_add_output_filter_>>.
 
 
 
@@ -962,8 +962,8 @@ HTTP request filter handlers are declared using the
 C<FilterRequestHandler> attribute. Consider the following request
 input and output filters skeleton:
 
-  package MyApache::FilterRequestFoo;
-  use base qw(Apache::Filter);
+  package MyApache2::FilterRequestFoo;
+  use base qw(Apache2::Filter);
   
   sub input  : FilterRequestHandler {
       my($f, $bb, $mode, $block, $readbytes) = @_;
@@ -979,20 +979,20 @@ input and output filters skeleton:
 
 If the attribute is not specified, the default C<FilterRequestHandler>
 attribute is assumed.  Filters specifying subroutine attributes must
-subclass C<Apache::Filter>, others only need to:
+subclass C<Apache2::Filter>, others only need to:
 
-  use Apache::Filter ();
+  use Apache2::Filter ();
 
 The request filters are usually configured in the
 C<E<lt>LocationE<gt>> or equivalent sections:
 
-  PerlModule MyApache::FilterRequestFoo
-  PerlModule MyApache::NiceResponse
+  PerlModule MyApache2::FilterRequestFoo
+  PerlModule MyApache2::NiceResponse
   <Location /filter_foo>
       SetHandler modperl
-      PerlResponseHandler     MyApache::NiceResponse
-      PerlInputFilterHandler  MyApache::FilterRequestFoo::input
-      PerlOutputFilterHandler MyApache::FilterRequestFoo::output
+      PerlResponseHandler     MyApache2::NiceResponse
+      PerlInputFilterHandler  MyApache2::FilterRequestFoo::input
+      PerlOutputFilterHandler MyApache2::FilterRequestFoo::output
   </Location>
 
 Now we have the request input and output filters configured.
@@ -1001,8 +1001,8 @@ The connection filter handler uses the C<FilterConnectionHandler>
 attribute. Here is a similar example for the connection input and
 output filters.
 
-  package MyApache::FilterConnectionBar;
-  use base qw(Apache::Filter);
+  package MyApache2::FilterConnectionBar;
+  use base qw(Apache2::Filter);
   
   sub input  : FilterConnectionHandler {
       my($f, $bb, $mode, $block, $readbytes) = @_;
@@ -1022,14 +1022,14 @@ C<E<lt>VirtualHostE<gt>> or the global server configuration:
 
   Listen 8005
   <VirtualHost _default_:8005>
-      PerlModule MyApache::FilterConnectionBar
-      PerlModule MyApache::NiceResponse
+      PerlModule MyApache2::FilterConnectionBar
+      PerlModule MyApache2::NiceResponse
    
-      PerlInputFilterHandler  MyApache::FilterConnectionBar::input
-      PerlOutputFilterHandler MyApache::FilterConnectionBar::output
+      PerlInputFilterHandler  MyApache2::FilterConnectionBar::input
+      PerlOutputFilterHandler MyApache2::FilterConnectionBar::output
       <Location />
           SetHandler modperl
-          PerlResponseHandler MyApache::NiceResponse
+          PerlResponseHandler MyApache2::NiceResponse
       </Location>
    
   </VirtualHost>
@@ -1061,7 +1061,7 @@ an init handler:
   sub init : FilterInitHandler {
       my $f = shift;
       #...
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 The attribute C<FilterInitHandler> marks the Perl function suitable to
@@ -1075,20 +1075,20 @@ had a chance to run, if some condition is true:
   sub init : FilterInitHandler {
       my $f = shift;
       $f->remove() if should_remove_filter();
-      return Apache::OK;
+      return Apache2::OK;
   }
 
-Not all C<Apache::Filter> methods can be used in the init handler,
+Not all C<Apache2::Filter> methods can be used in the init handler,
 because it's not a filter. Hence you can use methods that L<operate on
 the filter
-itself|docs::2.0::api::Apache::Filter/Common_Filter_API>, such as
-C<L<remove()|docs::2.0::api::Apache::Filter/C_remove_>> and
-C<L<ctx()|docs::2.0::api::Apache::Filter/C_ctx_>> or retrieve request
-information, such as C<L<r()|docs::2.0::api::Apache::Filter/C_r_>> and
-C<L<c()|docs::2.0::api::Apache::Filter/C_c_>>. But not methods that
+itself|docs::2.0::api::Apache2::Filter/Common_Filter_API>, such as
+C<L<remove()|docs::2.0::api::Apache2::Filter/C_remove_>> and
+C<L<ctx()|docs::2.0::api::Apache2::Filter/C_ctx_>> or retrieve request
+information, such as C<L<r()|docs::2.0::api::Apache2::Filter/C_r_>> and
+C<L<c()|docs::2.0::api::Apache2::Filter/C_c_>>. But not methods that
 operate on data, such as
-C<L<read()|docs::2.0::api::Apache::Filter/C_read_>> and
-C<L<print()|docs::2.0::api::Apache::Filter/C_print_>>.
+C<L<read()|docs::2.0::api::Apache2::Filter/C_read_>> and
+C<L<print()|docs::2.0::api::Apache2::Filter/C_print_>>.
 
 In order to hook an init filter handler, the real filter has to assign
 this callback using the C<FilterHasInitHandler> which accepts a
@@ -1096,13 +1096,13 @@ reference to the callback function, similar to C<push_handlers()>. The
 used callback function has to have the C<FilterInitHandler>
 attribute. For example:
 
-  package MyApache::FilterBar;
-  use base qw(Apache::Filter);
+  package MyApache2::FilterBar;
+  use base qw(Apache2::Filter);
   sub init   : FilterInitHandler { ... }
   sub filter : FilterRequestHandler FilterHasInitHandler(\&init) {
       my ($f, $bb) = @_;
       # ...
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 While attributes are parsed during the code compilation (it's really a
@@ -1112,24 +1112,24 @@ attribute is compiled at a later stage once the module is compiled.
 The argument to C<FilterHasInitHandler()> can be any Perl code which
 when C<eval()>'ed returns a code reference. For example:
 
-  package MyApache::OtherFilter;
-  use base qw(Apache::Filter);
+  package MyApache2::OtherFilter;
+  use base qw(Apache2::Filter);
   sub init  : FilterInitHandler { ... }
   
-  package MyApache::FilterBar;
-  use MyApache::OtherFilter;
-  use base qw(Apache::Filter);
-  sub get_pre_handler { \&MyApache::OtherFilter::init }
+  package MyApache2::FilterBar;
+  use MyApache2::OtherFilter;
+  use base qw(Apache2::Filter);
+  sub get_pre_handler { \&MyApache2::OtherFilter::init }
   sub filter : FilterHasInitHandler(get_pre_handler()) { ... }
 
-Here the C<MyApache::FilterBar::filter> handler is configured to run
-the C<MyApache::OtherFilter::init> init handler.
+Here the C<MyApache2::FilterBar::filter> handler is configured to run
+the C<MyApache2::OtherFilter::init> init handler.
 
 Notice that the argument to C<FilterHasInitHandler()> is always
 C<eval()>'ed in the package of the real filter handler (not the init
 handler). So the above code leads to the following evaluation:
 
-  $init_sub = eval "package MyApache::FilterBar; get_pre_handler()";
+  $init_sub = eval "package MyApache2::FilterBar; get_pre_handler()";
 
 though, this is done in C, using the C<eval_pv()> C call.
 
@@ -1143,26 +1143,26 @@ be very easy to extend the functionality.
 Before we delve into the details of how to write filters that do
 something with the data, lets first write a simple filter that does
 nothing but snooping on the data that goes through it. We are going to
-develop the C<MyApache::FilterSnoop> handler which can snoop on
+develop the C<MyApache2::FilterSnoop> handler which can snoop on
 request and connection filters, in input and output modes.
 
 But first let's develop a simple response handler that simply dumps
 the request's I<args> and I<content> as strings:
 
-  file:MyApache/Dump.pm
+  file:MyApache2/Dump.pm
   ---------------------
-  package MyApache::Dump;
+  package MyApache2::Dump;
   
   use strict;
   use warnings;
   
-  use Apache::RequestRec ();
-  use Apache::RequestIO ();
-  use Apache::Filter ();
+  use Apache2::RequestRec ();
+  use Apache2::RequestIO ();
+  use Apache2::Filter ();
   use APR::Brigade ();
   use APR::Bucket ();
   
-  use Apache::Const -compile => qw(OK M_POST);
+  use Apache2::Const -compile => qw(OK M_POST);
   
   sub handler {
       my $r = shift;
@@ -1170,15 +1170,15 @@ the request's I<args> and I<content> as strings:
   
       $r->print("args:\n", $r->args, "\n");
   
-      if ($r->method_number == Apache::M_POST) {
+      if ($r->method_number == Apache2::M_POST) {
           my $data = content($r);
           $r->print("content:\n$data\n");
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
-  use Apache::Const -compile => qw(MODE_READBYTES);
+  use Apache2::Const -compile => qw(MODE_READBYTES);
   use APR::Const    -compile => qw(SUCCESS BLOCK_READ);
   
   use constant IOBUFSIZE => 8192;
@@ -1191,7 +1191,7 @@ the request's I<args> and I<content> as strings:
       my $data = '';
       my $seen_eos = 0;
       do {
-          $r->input_filters->get_brigade($bb, Apache::MODE_READBYTES,
+          $r->input_filters->get_brigade($bb, Apache2::MODE_READBYTES,
                                          APR::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
@@ -1217,10 +1217,10 @@ the request's I<args> and I<content> as strings:
 
 which is configured as:
 
-  PerlModule MyApache::Dump
+  PerlModule MyApache2::Dump
   <Location /dump>
       SetHandler modperl
-      PerlResponseHandler MyApache::Dump
+      PerlResponseHandler MyApache2::Dump
   </Location>
 
 If we issue the following request:
@@ -1238,20 +1238,20 @@ As you can see it simply dumped the query string and the posted data.
 
 Now let's write the snooping filter:
 
-  file:MyApache/FilterSnoop.pm
+  file:MyApache2/FilterSnoop.pm
   ----------------------------
-  package MyApache::FilterSnoop;
+  package MyApache2::FilterSnoop;
   
   use strict;
   use warnings;
   
-  use base qw(Apache::Filter);
-  use Apache::FilterRec ();
+  use base qw(Apache2::Filter);
+  use Apache2::FilterRec ();
   use APR::Brigade ();
   use APR::Bucket ();
   use APR::BucketType ();
   
-  use Apache::Const -compile => qw(OK DECLINED);
+  use Apache2::Const -compile => qw(OK DECLINED);
   use APR::Const -compile => ':common';
   
   sub connection : FilterConnectionHandler { snoop("connection", @_) }
@@ -1278,7 +1278,7 @@ Now let's write the snooping filter:
           return $rv unless $rv == APR::SUCCESS;
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   sub bb_dump {
@@ -1340,19 +1340,19 @@ directions by applying the following configuration:
 
   Listen 8008
   <VirtualHost _default_:8008>
-      PerlModule MyApache::FilterSnoop
-      PerlModule MyApache::Dump
+      PerlModule MyApache2::FilterSnoop
+      PerlModule MyApache2::Dump
   
       # Connection filters
-      PerlInputFilterHandler  MyApache::FilterSnoop::connection
-      PerlOutputFilterHandler MyApache::FilterSnoop::connection
+      PerlInputFilterHandler  MyApache2::FilterSnoop::connection
+      PerlOutputFilterHandler MyApache2::FilterSnoop::connection
   
       <Location /dump>
           SetHandler modperl
-          PerlResponseHandler MyApache::Dump
+          PerlResponseHandler MyApache2::Dump
           # Request filters
-          PerlInputFilterHandler  MyApache::FilterSnoop::request
-          PerlOutputFilterHandler MyApache::FilterSnoop::request
+          PerlInputFilterHandler  MyApache2::FilterSnoop::request
+          PerlOutputFilterHandler MyApache2::FilterSnoop::request
       </Location>
   
   </VirtualHost>
@@ -1364,7 +1364,7 @@ If we issue the following request:
 
   % echo "mod_perl rules" | POST 'http://localhost:8008/dump?foo=1&bar=2'
 
-We get the same response, when using C<MyApache::FilterSnoop>, because
+We get the same response, when using C<MyApache2::FilterSnoop>, because
 our snooping filter didn't change anything. Though there was a lot of
 output printed to I<error_log>. We present it all here, since it helps
 a lot to understand how filters work.
@@ -1421,7 +1421,7 @@ filters will never see the bucket brigades with HTTP headers, as it has
 been consumed by the last core connection filter.
 
 The following two entries are generated when
-C<MyApache::Dump::handler> reads the POSTed content:
+C<MyApache2::Dump::handler> reads the POSTed content:
 
   <<< connection input filter
       o bucket 1: HEAP
@@ -1441,7 +1441,7 @@ data. The last bucket in the brigade received by the request input
 filter is of type I<EOS>, meaning that all the input data from the
 current request has been received.
 
-Next we can see that C<MyApache::Dump::handler> has generated its
+Next we can see that C<MyApache2::Dump::handler> has generated its
 response. However we can see that only the request output filter gets
 run at this point:
 
@@ -1549,25 +1549,25 @@ and turns it into:
 The following input filter handler does that by directly manipulating
 the bucket brigades:
 
-  file:MyApache/InputFilterGET2HEAD.pm
+  file:MyApache2/InputFilterGET2HEAD.pm
   -----------------------------------
-  package MyApache::InputFilterGET2HEAD;
+  package MyApache2::InputFilterGET2HEAD;
   
   use strict;
   use warnings;
   
-  use base qw(Apache::Filter);
+  use base qw(Apache2::Filter);
   
   use APR::Brigade ();
   use APR::Bucket ();
   
-  use Apache::Const -compile => 'OK';
+  use Apache2::Const -compile => 'OK';
   use APR::Const    -compile => ':common';
   
   sub handler : FilterConnectionHandler {
       my($f, $bb, $mode, $block, $readbytes) = @_;
   
-      return Apache::DECLINED if $f->ctx;
+      return Apache2::DECLINED if $f->ctx;
   
       my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
       return $rv unless $rv == APR::SUCCESS;
@@ -1585,7 +1585,7 @@ the bucket brigades:
           }
       }
   
-      Apache::OK;
+      Apache2::OK;
   }
   1;
 
@@ -1628,16 +1628,16 @@ Our filter has to perform the substitution of only one HTTP header
 (which normally resides in one bucket), so we have to make sure that
 no other data gets mangled (e.g. there could be POSTED data and it may
 match C</^GET/> in one of the buckets). We use
-C<L<$f-E<gt>ctx|docs::2.0::api::Apache::Filter/C_ctx_>> as a flag
+C<L<$f-E<gt>ctx|docs::2.0::api::Apache2::Filter/C_ctx_>> as a flag
 here. When it's undefined the filter knows that it hasn't done the
 required substitution, though once it completes the job it sets the
 context to 1.
 
 To optimize the speed, the filter immediately returns
-C<Apache::DECLINED> when it's invoked after the substitution job has
+C<Apache2::DECLINED> when it's invoked after the substitution job has
 been done:
 
-    return Apache::DECLINED if $f->ctx;
+    return Apache2::DECLINED if $f->ctx;
 
 In that case mod_perl will call C<get_brigade()> internally which will
 pass the bucket brigade to the downstream filter. Alternatively the
@@ -1645,7 +1645,7 @@ filter could do:
 
     my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
     return $rv unless $rv == APR::SUCCESS;
-    return Apache::OK if $f->ctx;
+    return Apache2::OK if $f->ctx;
 
 but this is a bit less efficient.
 
@@ -1655,7 +1655,7 @@ been done.
 
   if ($f->ctx) {
       $f->remove;
-      return Apache::DECLINED;
+      return Apache2::DECLINED;
   }
 
 However, this can't be used with Apache 2.0.49 and lower, since it has
@@ -1679,25 +1679,25 @@ need anymore:
 Finally we set the context to 1, so we know not to apply the
 substitution on the following data and break from the I<for> loop.
 
-The handler returns C<Apache::OK> indicating that everything was
+The handler returns C<Apache2::OK> indicating that everything was
 fine. The downstream filter will receive the bucket brigade with one
 bucket modified.
 
 Now let's check that the handler works properly. For example, consider
 the following response handler:
 
-  file:MyApache/RequestType.pm
+  file:MyApache2/RequestType.pm
   ---------------------------
-  package MyApache::RequestType;
+  package MyApache2::RequestType;
   
   use strict;
   use warnings;
   
-  use Apache::RequestIO ();
-  use Apache::RequestRec ();
-  use Apache::Response ();
+  use Apache2::RequestIO ();
+  use Apache2::RequestRec ();
+  use Apache2::Response ();
   
-  use Apache::Const -compile => 'OK';
+  use Apache2::Const -compile => 'OK';
   
   sub handler {
       my $r = shift;
@@ -1707,7 +1707,7 @@ the following response handler:
       $r->set_content_length(length $response);
       $r->print($response);
   
-      Apache::OK;
+      Apache2::OK;
   }
   
   1;
@@ -1722,7 +1722,7 @@ this response handler is configured as:
   <VirtualHost _default_:8005>
       <Location />
           SetHandler modperl
-          PerlResponseHandler +MyApache::RequestType
+          PerlResponseHandler +MyApache2::RequestType
       </Location>
   </VirtualHost>
 
@@ -1739,16 +1739,16 @@ where the response's body is:
 
 And the C<Content-Length> header is set to 24.
 
-However if we enable the C<MyApache::InputFilterGET2HEAD> input
+However if we enable the C<MyApache2::InputFilterGET2HEAD> input
 connection filter:
 
   Listen 8005
   <VirtualHost _default_:8005>
-      PerlInputFilterHandler +MyApache::InputFilterGET2HEAD
+      PerlInputFilterHandler +MyApache2::InputFilterGET2HEAD
   
       <Location />
           SetHandler modperl
-          PerlResponseHandler +MyApache::RequestType
+          PerlResponseHandler +MyApache2::RequestType
       </Location>
   </VirtualHost>
 
@@ -1776,22 +1776,22 @@ have an access to a request object.
 =head2 Bucket Brigade-based Input Filters
 
 Let's look at the request input filter that lowers the case of the
-request's body: C<MyApache::InputRequestFilterLC>:
+request's body: C<MyApache2::InputRequestFilterLC>:
 
-  file:MyApache/InputRequestFilterLC.pm
+  file:MyApache2/InputRequestFilterLC.pm
   -------------------------------------
-  package MyApache::InputRequestFilterLC;
+  package MyApache2::InputRequestFilterLC;
   
   use strict;
   use warnings;
   
-  use base qw(Apache::Filter);
+  use base qw(Apache2::Filter);
   
-  use Apache::Connection ();
+  use Apache2::Connection ();
   use APR::Brigade ();
   use APR::Bucket ();
   
-  use Apache::Const -compile => 'OK';
+  use Apache2::Const -compile => 'OK';
   use APR::Const    -compile => ':common';
   
   sub handler : FilterRequestHandler {
@@ -1817,7 +1817,7 @@ request's body: C<MyApache::InputRequestFilterLC>:
           $bb->insert_tail($b);
       }
   
-      Apache::OK;
+      Apache2::OK;
   }
   
   1;
@@ -1843,14 +1843,14 @@ will become:
 
 which messes up the request method, the URL and the protocol.
 
-Now if we use the C<MyApache::Dump> response handler, we have
+Now if we use the C<MyApache2::Dump> response handler, we have
 developed before in this chapter, which dumps the query string and the
 content body as a response, and configure the server as follows:
 
   <Location /lc_input>
       SetHandler modperl
-      PerlResponseHandler    +MyApache::Dump
-      PerlInputFilterHandler +MyApache::InputRequestFilterLC
+      PerlResponseHandler    +MyApache2::Dump
+      PerlInputFilterHandler +MyApache2::InputRequestFilterLC
   </Location>
 
 When issuing a POST request:
@@ -1874,16 +1874,16 @@ string wasn't changed.
 Let's now look at the same filter implemented using the
 stream-oriented API.
 
-  file:MyApache/InputRequestFilterLC2.pm
+  file:MyApache2/InputRequestFilterLC2.pm
   -------------------------------------
-  package MyApache::InputRequestFilterLC2;
+  package MyApache2::InputRequestFilterLC2;
   
   use strict;
   use warnings;
   
-  use base qw(Apache::Filter);
+  use base qw(Apache2::Filter);
   
-  use Apache::Const -compile => 'OK';
+  use Apache2::Const -compile => 'OK';
   
   use constant BUFF_LEN => 1024;
   
@@ -1894,7 +1894,7 @@ stream-oriented API.
           $f->print(lc $buffer);
       }
   
-      Apache::OK;
+      Apache2::OK;
   }
   1;
 
@@ -1940,8 +1940,8 @@ The configuration section is pretty much identical:
 
  <Location /lc_input2>
       SetHandler modperl
-      PerlResponseHandler    +MyApache::Dump
-      PerlInputFilterHandler +MyApache::InputRequestFilterLC2
+      PerlResponseHandler    +MyApache2::Dump
+      PerlInputFilterHandler +MyApache2::InputRequestFilterLC2
   </Location>
 
 When issuing a POST request:
@@ -1985,17 +1985,17 @@ brigades manipulation or the simplified stream-oriented interface.
 First let's develop a response handler that sends two lines of output:
 numerals 1234567890 and the English alphabet in a single string:
 
-  file:MyApache/SendAlphaNum.pm
+  file:MyApache2/SendAlphaNum.pm
   -------------------------------
-  package MyApache::SendAlphaNum;
+  package MyApache2::SendAlphaNum;
   
   use strict;
   use warnings;
   
-  use Apache::RequestRec ();
-  use Apache::RequestIO ();
+  use Apache2::RequestRec ();
+  use Apache2::RequestIO ();
   
-  use Apache::Const -compile => qw(OK);
+  use Apache2::Const -compile => qw(OK);
   
   sub handler {
       my $r = shift;
@@ -2005,7 +2005,7 @@ numerals 1234567890 and the English alphabet in a single string:
       $r->print(1..9, "0\n");
       $r->print('a'..'z', "\n");
   
-      Apache::OK;
+      Apache2::OK;
   }
   1;
 
@@ -2022,16 +2022,16 @@ filter.
 The first filter implementation is using the stream-oriented filtering
 API:
 
-  file:MyApache/FilterReverse1.pm
+  file:MyApache2/FilterReverse1.pm
   ----------------------------
-  package MyApache::FilterReverse1;
+  package MyApache2::FilterReverse1;
   
   use strict;
   use warnings;
   
-  use base qw(Apache::Filter);
+  use base qw(Apache2::Filter);
   
-  use Apache::Const -compile => qw(OK);
+  use Apache2::Const -compile => qw(OK);
   
   use constant BUFF_LEN => 1024;
   
@@ -2045,34 +2045,34 @@ API:
           }
       }
   
-      Apache::OK;
+      Apache2::OK;
   }
   1;
 
 Next, we add the following configuration to I<httpd.conf>:
 
-  PerlModule MyApache::FilterReverse1
-  PerlModule MyApache::SendAlphaNum
+  PerlModule MyApache2::FilterReverse1
+  PerlModule MyApache2::SendAlphaNum
   <Location /reverse1>
       SetHandler modperl
-      PerlResponseHandler     MyApache::SendAlphaNum
-      PerlOutputFilterHandler MyApache::FilterReverse1
+      PerlResponseHandler     MyApache2::SendAlphaNum
+      PerlOutputFilterHandler MyApache2::FilterReverse1
   </Location>
 
 Now when a request to I</reverse1> is made, the response handler
-C<MyApache::SendAlphaNum::handler()> sends:
+C<MyApache2::SendAlphaNum::handler()> sends:
 
   1234567890
   abcdefghijklmnopqrstuvwxyz
 
 as a response and the output filter handler
-C<MyApache::FilterReverse1::handler> reverses the lines, so the client
+C<MyApache2::FilterReverse1::handler> reverses the lines, so the client
 gets:
 
   0987654321
   zyxwvutsrqponmlkjihgfedcba
 
-The C<Apache::Filter> module loads the C<read()> and C<print()>
+The C<Apache2::Filter> module loads the C<read()> and C<print()>
 methods which encapsulate the stream-oriented filtering interface.
 
 The reversing filter is quite simple: in the loop it reads the data in
@@ -2115,7 +2115,7 @@ care of these issues:
           $f->ctx($leftover) if defined $leftover;
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 The handler uses the C<$leftover> variable to store unprocessed data
@@ -2131,19 +2131,19 @@ reverses and flushes any remaining data.
 The following filter implementation is using the bucket brigades API
 to accomplish exactly the same task as the first filter.
 
-  file:MyApache/FilterReverse2.pm
+  file:MyApache2/FilterReverse2.pm
   --------------------------------
-  package MyApache::FilterReverse2;
+  package MyApache2::FilterReverse2;
   
   use strict;
   use warnings;
   
-  use base qw(Apache::Filter);
+  use base qw(Apache2::Filter);
   
   use APR::Brigade ();
   use APR::Bucket ();
   
-  use Apache::Const -compile => 'OK';
+  use Apache2::Const -compile => 'OK';
   use APR::Const    -compile => ':common';
   
   sub handler : FilterRequestHandler {
@@ -2172,18 +2172,18 @@ to accomplish exactly the same task as the first filter.
       my $rv = $f->next->pass_brigade($bb_ctx);
       return $rv unless $rv == APR::SUCCESS;
   
-      Apache::OK;
+      Apache2::OK;
   }
   1;
 
 and the corresponding configuration:
 
-  PerlModule MyApache::FilterReverse2
-  PerlModule MyApache::SendAlphaNum
+  PerlModule MyApache2::FilterReverse2
+  PerlModule MyApache2::SendAlphaNum
   <Location /reverse2>
       SetHandler modperl
-      PerlResponseHandler     MyApache::SendAlphaNum
-      PerlOutputFilterHandler MyApache::FilterReverse2
+      PerlResponseHandler     MyApache2::SendAlphaNum
+      PerlOutputFilterHandler MyApache2::FilterReverse2
   </Location>
 
 Now when a request to I</reverse2> is made, the client gets:
@@ -2209,7 +2209,7 @@ of the new bucket brigade and break the loop. Finally we pass the
 created brigade with modified data to the next filter and return.
 
 Similarly to the original version of
-C<MyApache::FilterReverse1::handler>, this filter is not smart enough
+C<MyApache2::FilterReverse1::handler>, this filter is not smart enough
 to handle incomplete lines. However the exercise of making the filter
 foolproof should be trivial by porting a better matching rule and
 using the C<$leftover> buffer from the previous section is trivial and
@@ -2301,16 +2301,16 @@ Now you understand what did we want from the filter, it's time for the
 implementation details. First let's look at the C<response()> handler
 (the first part of the module):
 
-  #file:MyApache/Underrun.pm
+  #file:MyApache2/Underrun.pm
   #-------------------------
-  package MyApache::Underrun;
+  package MyApache2::Underrun;
   
   use strict;
   use warnings;
   
   use constant IOBUFSIZE => 8192;
   
-  use Apache::Const -compile => qw(MODE_READBYTES OK M_POST);
+  use Apache2::Const -compile => qw(MODE_READBYTES OK M_POST);
   use APR::Const    -compile => qw(SUCCESS BLOCK_READ);
   
   sub response {
@@ -2318,14 +2318,14 @@ implementation details. First let's look at the C<response()> handler
   
       $r->content_type('text/plain');
   
-      if ($r->method_number == Apache::M_POST) {
+      if ($r->method_number == Apache2::M_POST) {
           my $data = read_post($r);
           #warn "HANDLER READ: $data\n";
           my $length = length $data;
           $r->print("read $length chars");
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   sub read_post {
@@ -2336,7 +2336,7 @@ implementation details. First let's look at the C<response()> handler
       my $data = '';
       my $seen_eos = 0;
       do {
-          $r->input_filters->get_brigade($bb, Apache::MODE_READBYTES,
+          $r->input_filters->get_brigade($bb, Apache2::MODE_READBYTES,
                                          APR::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
@@ -2364,11 +2364,11 @@ data without parsing it.
 
 Now comes the filter (which lives in the same package):
 
-  #file:MyApache/Underrun.pm (continued)
+  #file:MyApache2/Underrun.pm (continued)
   #-------------------------------------
-  use Apache::Filter ();
+  use Apache2::Filter ();
   
-  use Apache::Const -compile => qw(OK M_POST);
+  use Apache2::Const -compile => qw(OK M_POST);
   
   use constant TOKEN_SIZE => 1024*16 + 5; # ~16k
   
@@ -2417,7 +2417,7 @@ Now comes the filter (which lives in the same package):
           warn "storing the remainder: $len bytes\n";
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   # split a string into tokens of TOKEN_SIZE bytes and a remainder
@@ -2467,11 +2467,11 @@ bucket brigade, so the read in a while loop can be repeated)
 
 And here is the configuration for this setup:
 
-  PerlModule MyApache::Underrun
+  PerlModule MyApache2::Underrun
   <Location />
-    PerlInputFilterHandler MyApache::Underrun::filter
+    PerlInputFilterHandler MyApache2::Underrun::filter
     SetHandler modperl
-    PerlResponseHandler MyApache::Underrun::response
+    PerlResponseHandler MyApache2::Underrun::response
   </Location>
 
 
@@ -2505,10 +2505,10 @@ Filter writers must follow the following rules:
 =head2 Connection Filters over KeepAlive Connections
 
 Whenever a new HTTP request is processed, request filters get their
-context (C<L<$f-E<gt>ctx|docs::2.0::api::Apache::Filter/C_ctx_>>)
+context (C<L<$f-E<gt>ctx|docs::2.0::api::Apache2::Filter/C_ctx_>>)
 reset. This is also true for connection filters context, as long as
 the connection is not
-C<L<keepalive|docs::2.0::api::Apache::Connection/C_keepalive_>>). When
+C<L<keepalive|docs::2.0::api::Apache2::Connection/C_keepalive_>>). When
 the connection is kept alive, there could be many requests processed
 during a single connection and the same filter context will persist
 through all of them, until the maximum number of KeepAlive requests
@@ -2517,7 +2517,7 @@ connection.
 
 Sometimes it's desirable to reset the whole context or parts of it
 before a HTTP request is processed. For example
-C<Apache::Filter::HTTPHeadersFixup> needs to know when it should start
+C<Apache2::Filter::HTTPHeadersFixup> needs to know when it should start
 and stop processing HTTP headers. It keeps the state in the filter's
 context. The problem is that whenever a new HTTP request is coming in,
 it needs to be able to reset the state machine. If it doesn't, it'll
@@ -2525,19 +2525,19 @@ process the HTTP headers of the first request and miss the rest of the
 requests.
 
 So let's say we have a hypothetical module
-C<MyApache::Filter::StateMachine> which implements an input connection
+C<MyApache2::Filter::StateMachine> which implements an input connection
 filter, which processes incoming data as long as the I<state> flag is
 down. Once that flag goes up the filter switches to the
 pass-through-unmodified mode. Here is a skeleton of the module:
 
-  #file:MyApache/Filter/StateMachine.pm
+  #file:MyApache2/Filter/StateMachine.pm
   #------------------------------------
-  package MyApache::Filter::StateMachine;
+  package MyApache2::Filter::StateMachine;
   
-  use base qw(Apache::Filter);
-  use Apache::Connection ();
+  use base qw(Apache2::Filter);
+  use Apache2::Connection ();
   
-  use Apache::Const -compile => qw(OK DECLINED CONN_KEEPALIVE);
+  use Apache2::Const -compile => qw(OK DECLINED CONN_KEEPALIVE);
   
   sub handler : FilterConnectionHandler {
       my($f, $bb, $mode, $block, $readbytes) = @_;
@@ -2545,7 +2545,7 @@ pass-through-unmodified mode. Here is a skeleton of the module:
       my $ctx = context($f);
   
       # pass through unmodified
-      return Apache::DECLINED if $ctx->{state};
+      return Apache2::DECLINED if $ctx->{state};
   
       # get data, do some processing, send it out
       process(); # your code comes here
@@ -2553,7 +2553,7 @@ pass-through-unmodified mode. Here is a skeleton of the module:
       # change the state if some condition is reached
       $ctx->{state}++ if $done_condition;
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   sub context {
@@ -2592,7 +2592,7 @@ C<context> wrapper to be:
       }
   
       my $c = $f->c;
-      if ($c->keepalive == Apache::CONN_KEEPALIVE &&
+      if ($c->keepalive == Apache2::CONN_KEEPALIVE &&
           $ctx->{state} && $c->keepalives > $ctx->{keepalives}) {
   
           $ctx->{state}      = 0;

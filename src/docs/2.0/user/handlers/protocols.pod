@@ -60,7 +60,7 @@ this phase to setup the connection record based on the type of
 connection that is being used.  mod_perl itself uses this phase to
 register the connection input and output filters.
 
-In mod_perl 1.0 during code development C<Apache::Reload> was used to
+In mod_perl 1.0 during code development C<Apache2::Reload> was used to
 automatically reload modified since the last request Perl modules. It
 was invoked during C<post_read_request>, the first HTTP request's
 phase. In mod_perl 2.0 I<pre_connection> is the earliest phase, so if
@@ -70,7 +70,7 @@ Perl interpreter to the lifetime of the connection via:
 
   PerlInterpScope connection
 
-and invoke the C<Apache::Reload> handler during the I<pre_connection>
+and invoke the C<Apache2::Reload> handler during the I<pre_connection>
 phase. However this development-time advantage can become a
 disadvantage in production--for example if a connection, handled by
 HTTP protocol, is configured as C<KeepAlive> and there are several
@@ -91,7 +91,7 @@ A I<pre_connection> handler accepts a connection record at its argument:
   sub handler {
       my $c = shift;
       # ...
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 [META: There is another argument passed (the actual client socket), but
@@ -102,40 +102,40 @@ to block remote clients by their IP, before too many resources were
 consumed. This is almost as good as a firewall blocking, as it's
 executed before Apache has started to do any work at all.
 
-C<MyApache::BlockIP2> retrieves client's remote IP and looks it up in
+C<MyApache2::BlockIP2> retrieves client's remote IP and looks it up in
 the black list (which should certainly live outside the code, e.g. dbm
 file, but a hardcoded list is good enough for our example).
 
-  #file:MyApache/BlockIP2.pm
+  #file:MyApache2/BlockIP2.pm
   #-------------------------
-  package MyApache::BlockIP2;
+  package MyApache2::BlockIP2;
   
   use strict;
   use warnings;
   
-  use Apache::Connection ();
+  use Apache2::Connection ();
   
-  use Apache::Const -compile => qw(FORBIDDEN OK);
+  use Apache2::Const -compile => qw(FORBIDDEN OK);
   
   my %bad_ips = map {$_ => 1} qw(127.0.0.1 10.0.0.4);
   
   sub handler {
-      my Apache::Connection $c = shift;
+      my Apache2::Connection $c = shift;
   
       my $ip = $c->remote_ip;
       if (exists $bad_ips{$ip}) {
           warn "IP $ip is blocked\n";
-          return Apache::FORBIDDEN;
+          return Apache2::FORBIDDEN;
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   1;
 
 This all happens during the I<pre_connection> phase:
 
-  PerlPreConnectionHandler MyApache::BlockIP2
+  PerlPreConnectionHandler MyApache2::BlockIP2
 
 If a client connects from a blacklisted IP, Apache will simply abort
 the connection without sending any reply to the client, and move on to
@@ -168,7 +168,7 @@ connection record object. Here is a simplified handler skeleton:
       my $sock = $c->client_socket;
       $sock->opt_set(APR::SO_NONBLOCK, 0);
       # ...
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 Most likely you'll need to set the socket to perform blocking IO. On
@@ -189,7 +189,7 @@ accomplish the same and allow for connection filters to do their work.
 =head3 Socket-based Protocol Module
 
 To demonstrate the workings of a protocol module, we'll take a look at
-the C<MyApache::EchoSocket> module, which simply echoes the data read
+the C<MyApache2::EchoSocket> module, which simply echoes the data read
 back to the client. In this module we will use the implementation that
 works directly with the connection socket and therefore bypasses
 connection filters if any.
@@ -201,11 +201,11 @@ non-standard port B<8010>:
 
   Listen 8010
   <VirtualHost _default_:8010>
-      PerlModule                   MyApache::EchoSocket
-      PerlProcessConnectionHandler MyApache::EchoSocket
+      PerlModule                   MyApache2::EchoSocket
+      PerlProcessConnectionHandler MyApache2::EchoSocket
   </VirtualHost>
 
-C<MyApache::EchoSocket> is then enabled when starting Apache:
+C<MyApache2::EchoSocket> is then enabled when starting Apache:
 
   panic% httpd
 
@@ -225,17 +225,17 @@ And we give it a whirl:
 
 Here is the code:
 
-  file:MyApache/EchoSocket.pm
+  file:MyApache2/EchoSocket.pm
   ---------------------------
-  package MyApache::EchoSocket;
+  package MyApache2::EchoSocket;
   
   use strict;
   use warnings FATAL => 'all';
   
-  use Apache::Connection ();
+  use Apache2::Connection ();
   use APR::Socket ();
   
-  use Apache::Const -compile => 'OK';
+  use Apache2::Const -compile => 'OK';
   use APR::Const    -compile => 'SO_NONBLOCK';
   
   use constant BUFF_LEN => 1024;
@@ -252,7 +252,7 @@ Here is the code:
           $sock->send($buff);
       }
   
-      Apache::OK;
+      Apache2::OK;
   }
   1;
 
@@ -260,8 +260,8 @@ The example handler starts with the standard I<package> declaration
 and of course, C<use strict;>.  As with all C<Perl*Handler>s, the
 subroutine name defaults to I<handler>.  However, in the case of a
 protocol handler, the first argument is not a C<request_rec>, but a
-C<conn_rec> blessed into the C<Apache::Connection> class.  We have
-direct access to the client socket via C<Apache::Connection>'s
+C<conn_rec> blessed into the C<Apache2::Connection> class.  We have
+direct access to the client socket via C<Apache2::Connection>'s
 I<client_socket> method.  This returns an object, blessed into the
 C<APR::Socket> class. Before using the socket, we make sure that it's
 set to perform blocking IO, by using the C<APR::SO_NONBLOCK> constant,
@@ -275,7 +275,7 @@ connection in the interactive mode.
 
 If the handler receives some data, it sends it unmodified back to the
 client with the C<APR::Socket::send()> method. When the loop is
-finished the handler returns C<Apache::OK>, telling Apache to
+finished the handler returns C<Apache2::OK>, telling Apache to
 terminate the connection. As mentioned earlier since this handler is
 working directly with the connection socket, no filters can be
 applied.
@@ -290,14 +290,14 @@ connection output filter that turns all uppercase characters into
 their lowercase equivalents.
 
 The following configuration defines a virtual host listening on port
-8011 and which enables the C<MyApache::EchoBB> connection handler, which
-will run its output through C<MyApache::EchoBB::lowercase_filter> filter:
+8011 and which enables the C<MyApache2::EchoBB> connection handler, which
+will run its output through C<MyApache2::EchoBB::lowercase_filter> filter:
 
   Listen 8011
   <VirtualHost _default_:8011>
-      PerlModule                   MyApache::EchoBB
-      PerlProcessConnectionHandler MyApache::EchoBB
-      PerlOutputFilterHandler      MyApache::EchoBB::lowercase_filter
+      PerlModule                   MyApache2::EchoBB
+      PerlProcessConnectionHandler MyApache2::EchoBB
+      PerlOutputFilterHandler      MyApache2::EchoBB::lowercase_filter
   </VirtualHost>
 
 As before we start the httpd server:
@@ -324,21 +324,21 @@ because of the output filter.
 And here is the implementation of the connection and the filter
 handlers.
 
-  file:MyApache/EchoBB.pm
+  file:MyApache2/EchoBB.pm
   -----------------------
-  package MyApache::EchoBB;
+  package MyApache2::EchoBB;
   
   use strict;
   use warnings FATAL => 'all';
   
-  use Apache::Connection ();
+  use Apache2::Connection ();
   use APR::Socket ();
   use APR::Bucket ();
   use APR::Brigade ();
   use APR::Error ();
   
   use APR::Const    -compile => qw(SUCCESS EOF SO_NONBLOCK);
-  use Apache::Const -compile => qw(OK MODE_GETLINE);
+  use Apache2::Const -compile => qw(OK MODE_GETLINE);
   
   sub handler {
       my $c = shift;
@@ -351,7 +351,7 @@ handlers.
       my $last = 0;
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb_in,
-                                                  Apache::MODE_GETLINE);
+                                                  Apache2::MODE_GETLINE);
           last if $rc == APR::EOF;
           die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
   
@@ -382,10 +382,10 @@ handlers.
       $bb_in->destroy;
       $bb_out->destroy;
   
-      Apache::OK;
+      Apache2::OK;
   }
   
-  use base qw(Apache::Filter);
+  use base qw(Apache2::Filter);
   use constant BUFF_LEN => 1024;
   
   sub lowercase_filter : FilterConnectionHandler {
@@ -395,7 +395,7 @@ handlers.
           $filter->print(lc $buffer);
       }
     
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   1;
@@ -427,7 +427,7 @@ bucket brigade is passed out to the outgoing connection filters, it
 won't be buffered but sent to the client right away.
 
 It's possible to make the flushing code simpler, by using a dedicated
-method C<L<fflush()|docs::2.0::api::Apache::Filter/C_fflush_>> that
+method C<L<fflush()|docs::2.0::api::Apache2::Filter/C_fflush_>> that
 does just that -- flushing of the bucket brigade. It replaces 3 lines
 of code:
 
@@ -459,7 +459,7 @@ using a single bucket brigade. Here is the modified code:
   
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
-                                                  Apache::MODE_GETLINE);
+                                                  Apache2::MODE_GETLINE);
           last if $rc == APR::EOF;
           die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
   
@@ -481,7 +481,7 @@ using a single bucket brigade. Here is the modified code:
   
       $bb->destroy;
   
-      Apache::OK;
+      Apache2::OK;
   }
 
 This code is shorter and simpler. Since it sends out the same bucket
@@ -523,7 +523,7 @@ attempt to do any transformation, but simply passes the data though:
   
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
-                                                  Apache::MODE_GETLINE);
+                                                  Apache2::MODE_GETLINE);
           last if $rc == APR::EOF;
           die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
   
@@ -532,7 +532,7 @@ attempt to do any transformation, but simply passes the data though:
   
       $bb->destroy;
   
-      Apache::OK;
+      Apache2::OK;
   }
 
 Since the simplified handler no longer has the condition:
@@ -566,7 +566,7 @@ the buckets in the brigade. The handler now becomes:
   
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
-                                                  Apache::MODE_GETLINE);
+                                                  Apache2::MODE_GETLINE);
           last if $rc == APR::EOF;
           die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
   
@@ -583,7 +583,7 @@ the buckets in the brigade. The handler now becomes:
   
       $bb->destroy;
   
-      Apache::OK;
+      Apache2::OK;
   }
 
 Notice, that once we slurped the data in the buckets, we had to strip
@@ -609,7 +609,7 @@ L<mailing list|maillist::modperl> so we can include it here.
 
 =head2 Command Server
 
-The C<MyApache::CommandServer> example is based on the example in the
+The C<MyApache2::CommandServer> example is based on the example in the
 "TCP Servers with IO::Socket" section of the I<perlipc> manpage.  Of
 course, we don't need C<IO::Socket> since Apache takes care of those
 details for us.  The rest of that example can still be used to
@@ -617,7 +617,7 @@ illustrate implementing a simple text protocol.  In this case, one
 where a command is sent by the client to be executed on the server
 side, with results sent back to the client.
 
-The C<MyApache::CommandServer> handler will support four commands:
+The C<MyApache2::CommandServer> handler will support four commands:
 C<motd>, C<date>, C<who> and C<quit>.  These are probably not commands
 which can be exploited, but should we add such commands, we'll want to
 limit access based on ip address/hostname, authentication and
@@ -626,18 +626,18 @@ themselves, since we bypass the HTTP protocol handler.
 
 Here is the whole module:
 
-  package MyApache::CommandServer;
+  package MyApache2::CommandServer;
   
   use strict;
   use warnings FATAL => 'all';
   
-  use Apache::Connection ();
-  use Apache::RequestUtil ();
-  use Apache::HookRun ();
-  use Apache::Access ();
+  use Apache2::Connection ();
+  use Apache2::RequestUtil ();
+  use Apache2::HookRun ();
+  use Apache2::Access ();
   use APR::Socket ();
   
-  use Apache::Const -compile => qw(OK DONE DECLINED);
+  use Apache2::Const -compile => qw(OK DONE DECLINED);
   
   my @cmds = qw(motd date who quit);
   my %commands = map { $_, \&{$_} } @cmds;
@@ -646,7 +646,7 @@ Here is the whole module:
       my $c = shift;
       my $socket = $c->client_socket;
   
-      if ((my $rc = login($c)) != Apache::OK) {
+      if ((my $rc = login($c)) != Apache2::OK) {
           $socket->send("Access Denied\n");
           return $rc;
       }
@@ -659,27 +659,27 @@ Here is the whole module:
           next unless $cmd = getline($socket);
   
           if (my $sub = $commands{$cmd}) {
-              last unless $sub->($socket) == Apache::OK;
+              last unless $sub->($socket) == Apache2::OK;
           }
           else {
               $socket->send("Commands: @cmds\n");
           }
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   sub login {
       my $c = shift;
   
-      my $r = Apache::RequestRec->new($c);
+      my $r = Apache2::RequestRec->new($c);
       $r->location_merge(__PACKAGE__);
   
       for my $method (qw(run_access_checker run_check_user_id
                          run_auth_checker)) {
           my $rc = $r->$method();
   
-          if ($rc != Apache::OK and $rc != Apache::DECLINED) {
+          if ($rc != Apache2::OK and $rc != Apache2::DECLINED) {
               return $rc;
           }
   
@@ -694,7 +694,7 @@ Here is the whole module:
           }
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   sub getline {
@@ -723,7 +723,7 @@ Here is the whole module:
       $socket->send(scalar <$fh>);
       close $fh;
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   sub date {
@@ -731,7 +731,7 @@ Here is the whole module:
   
       $socket->send(scalar(localtime) . "\n");
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   sub who {
@@ -742,10 +742,10 @@ Here is the whole module:
   
       $socket->send(scalar `who`);
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
-  sub quit { Apache::DONE }
+  sub quit { Apache2::DONE }
   
   1;
   __END__
@@ -754,13 +754,13 @@ Here is the whole module:
 Next, let's explain what this module does in details.
 
 As with all C<PerlProcessConnectionHandlers>, we are passed an
-C<Apache::Connection> object as the first argument.  Again, we will be
+C<Apache2::Connection> object as the first argument.  Again, we will be
 directly accessing the client socket via the I<client_socket> method.
 The I<login> subroutine is called to check if access by this client
 should be allowed.  This routine makes up for what we lost with the
 core HTTP protocol handler bypassed.
 
-First we call the C<Apache::RequestRec> C<new()> method, which returns
+First we call the C<Apache2::RequestRec> C<new()> method, which returns
 a I<request_rec> object, just like that, which is passed at request
 time to L<HTTP protocol|docs::2.0::user::handlers::http>
 C<Perl*Handlers> and returned by the subrequest API methods,
@@ -774,7 +774,7 @@ matches the given name and merge it with the default server
 configuration.  For example, should we only wish to allow access to
 this server from certain locations:
 
-  <Location MyApache::CommandServer>
+  <Location MyApache2::CommandServer>
       Order Deny,Allow
       Deny from all
       Allow from 10.*
@@ -786,15 +786,15 @@ loop, iterating over three methods: C<run_access_checker()>,
 C<run_check_user_id()> and C<run_auth_checker()>.  These methods will
 call directly into the Apache functions that invoke module handlers
 for these phases and will return an integer status code, such as
-C<Apache::OK>, C<Apache::DECLINED> or C<Apache::FORBIDDEN>.  If
-I<run_access_check> returns something other than C<Apache::OK> or
-C<Apache::DECLINED>, that status will be propagated up to the handler
+C<Apache2::OK>, C<Apache2::DECLINED> or C<Apache2::FORBIDDEN>.  If
+I<run_access_check> returns something other than C<Apache2::OK> or
+C<Apache2::DECLINED>, that status will be propagated up to the handler
 routine and then back up to Apache.  Otherwise, the access check
 passed and the loop will break unless C<some_auth_required()> returns
 true.  This would be false given the previous configuration example,
 but would be true in the presence of a C<require> directive, such as:
 
-  <Location MyApache::CommandServer>
+  <Location MyApache2::CommandServer>
       Order Deny,Allow
       Deny from all
       Allow from 10.*
@@ -824,15 +824,15 @@ request loop entered.  Inside the loop the C<getline()> function
 returns just one line of data, with newline characters stripped.  If
 the string sent by the client is in our command table, the command is
 then invoked, otherwise a usage message is sent.  If the command does
-not return C<Apache::OK>, we break out of the loop.
+not return C<Apache2::OK>, we break out of the loop.
 
 Let's use this configuration:
 
   Listen 8085
   <VirtualHost _default_:8085>
-      PerlProcessConnectionHandler MyApache::CommandServer
+      PerlProcessConnectionHandler MyApache2::CommandServer
   
-      <Location MyApache::CommandServer>
+      <Location MyApache2::CommandServer>
           Order Deny,Allow
           Allow from 127.0.0.1
           Require user dougm
@@ -859,7 +859,7 @@ Now we are ready to try the command server:
   Escape character is '^]'.
   Login: dougm
   Password: foobar
-  Welcome to MyApache::CommandServer
+  Welcome to MyApache2::CommandServer
   Available commands: motd date who quit
   motd
   Have a lot of fun...

@@ -53,22 +53,22 @@ it's killed by the server or the server is shutdown.
 Let's look at the following example that demonstrates all the startup
 phases:
 
-  file:MyApache/StartupLog.pm
+  file:MyApache2/StartupLog.pm
   ---------------------------
-  package MyApache::StartupLog;
+  package MyApache2::StartupLog;
   
   use strict;
   use warnings;
   
-  use Apache::Log ();
-  use Apache::ServerUtil ();
+  use Apache2::Log ();
+  use Apache2::ServerUtil ();
   
   use Fcntl qw(:flock);
   use File::Spec::Functions;
   
-  use Apache::Const -compile => 'OK';
+  use Apache2::Const -compile => 'OK';
   
-  my $log_path = catfile Apache::ServerUtil::server_root,
+  my $log_path = catfile Apache2::ServerUtil::server_root,
       "logs", "startup_log";
   my $log_fh;
   
@@ -80,25 +80,25 @@ phases:
       my $oldfh = select($log_fh); $| = 1; select($oldfh);
   
       say("process $$ is born to reproduce");
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   sub post_config {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
       say("configuration is completed");
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   sub child_init {
       my($child_pool, $s) = @_;
       say("process $$ is born to serve");
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   sub child_exit {
       my($child_pool, $s) = @_;
       say("process $$ now exits");
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   sub say {
@@ -134,11 +134,11 @@ And the I<httpd.conf> configuration section:
     MaxRequestsPerChild  0
   </IfModule>
   
-  PerlModule            MyApache::StartupLog
-  PerlOpenLogsHandler   MyApache::StartupLog::open_logs
-  PerlPostConfigHandler MyApache::StartupLog::post_config
-  PerlChildInitHandler  MyApache::StartupLog::child_init
-  PerlChildExitHandler  MyApache::StartupLog::child_exit
+  PerlModule            MyApache2::StartupLog
+  PerlOpenLogsHandler   MyApache2::StartupLog::open_logs
+  PerlPostConfigHandler MyApache2::StartupLog::post_config
+  PerlChildInitHandler  MyApache2::StartupLog::child_init
+  PerlChildExitHandler  MyApache2::StartupLog::child_exit
 
 When we perform a server startup followed by a shutdown, the
 I<logs/startup_log> is created if it didn't exist already (it shares
@@ -199,7 +199,7 @@ mod_perl, because mod_perl is loaded only during the configuration
 phase.
 
 Now let's discuss each of the mentioned startup handlers and their
-implementation in the C<MyApache::StartupLog> module in detail.
+implementation in the C<MyApache2::StartupLog> module in detail.
 
 
 
@@ -225,7 +225,7 @@ The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
 As we have seen in the
-C<L<MyApache::StartupLog::open_logs|/Startup_Phases_Demonstration_Module>>
+C<L<MyApache2::StartupLog::open_logs|/Startup_Phases_Demonstration_Module>>
 handler, the I<open_logs> phase handlers accept four arguments: the
 configuration pool, the logging stream pool, the temporary pool and
 the main server object:
@@ -238,7 +238,7 @@ the main server object:
       my $oldfh = select($log_fh); $| = 1; select($oldfh);
   
       say("process $$ is born to reproduce");
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 In our example the handler opens a log file for appending and sets the
@@ -248,13 +248,13 @@ in the parent process.
 As you've seen in the example this handler is configured by adding to
 the top level of I<httpd.conf>:
 
-  PerlOpenLogsHandler MyApache::StartupLog::open_logs
+  PerlOpenLogsHandler MyApache2::StartupLog::open_logs
 
 This handler can be executed only by the main server. If you want to
 traverse the configured virtual hosts, you can accomplish that using a
 simple loop. For example to print out the configured port numbers do:
 
-  use Apache::ServerRec ();
+  use Apache2::ServerRec ();
   # ...
   sub open_logs {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
@@ -265,7 +265,7 @@ simple loop. For example to print out the configured port numbers do:
           my $port = $vs->port;
           warn "vhost port: $port\n";
       }
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 C<$s> is the base server object.
@@ -313,7 +313,7 @@ This phase can be used for initializing things to be shared between
 all child processes. You can do the same in the startup file, but in
 the I<post_config> phase you have an access to a complete
 configuration tree (via
-C<L<Apache::Directive|docs::2.0::api::Apache::Directive>>).
+C<L<Apache2::Directive|docs::2.0::api::Apache2::Directive>>).
 
 This phase is of type
 C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
@@ -321,13 +321,13 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
-In our C<L<MyApache::StartupLog|/Startup_Phases_Demonstration_Module>>
+In our C<L<MyApache2::StartupLog|/Startup_Phases_Demonstration_Module>>
 example we used the I<post_config()> handler:
 
   sub post_config {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
       say("configuration is completed");
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 As you can see, its arguments are identical to the
@@ -338,14 +338,14 @@ was completed and returning right away.
 As you've seen in the example this handler is configured by adding to
 I<httpd.conf>:
 
-  PerlPostConfigHandler MyApache::StartupLog::post_config
+  PerlPostConfigHandler MyApache2::StartupLog::post_config
 
 Everything that applies to
 C<L<PerlOpenLogsHandler|/C_PerlOpenLogsHandler_>> identically applies
 to this handler.
 
 The
-C<L<add_version_component()|docs::2.0::api::Apache::ServerUtil/C_add_version_component_>>
+C<L<add_version_component()|docs::2.0::api::Apache2::ServerUtil/C_add_version_component_>>
 includes another useful example.
 
 
@@ -365,7 +365,7 @@ phase only once in their life-time.
 In the prefork MPM this phase is useful for initializing any data
 structures which should be private to each process. For example
 C<Apache::DBI> pre-opens database connections during this phase and
-C<Apache::Resource> sets the process' resources limits.
+C<Apache2::Resource> sets the process' resources limits.
 
 This phase is of type
 C<L<VOID|docs::2.0::user::handlers::intro/item_VOID>>.
@@ -373,13 +373,13 @@ C<L<VOID|docs::2.0::user::handlers::intro/item_VOID>>.
 The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
-In our C<L<MyApache::StartupLog|/Startup_Phases_Demonstration_Module>>
+In our C<L<MyApache2::StartupLog|/Startup_Phases_Demonstration_Module>>
 example we used the I<child_init()> handler:
 
   sub child_init {
       my($child_pool, $s) = @_;
       say("process $$ is born to serve");
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 The I<child_init()> handler accepts two arguments: the child process
@@ -389,7 +389,7 @@ child process it's run in and returns.
 As you've seen in the example this handler is configured by adding to
 I<httpd.conf>:
 
-  PerlChildInitHandler  MyApache::StartupLog::child_init
+  PerlChildInitHandler  MyApache2::StartupLog::child_init
 
 
 
@@ -409,13 +409,13 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
-In our C<L<MyApache::StartupLog|/Startup_Phases_Demonstration_Module>>
+In our C<L<MyApache2::StartupLog|/Startup_Phases_Demonstration_Module>>
 example we used the I<child_exit()> handler:
 
   sub child_exit {
       my($child_pool, $s) = @_;
       say("process $$ now exits");
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 The I<child_exit()> handler accepts two arguments: the child process
@@ -425,7 +425,7 @@ child process it's run in and returns.
 As you've seen in the example this handler is configured by adding to
 I<httpd.conf>:
 
-  PerlChildExitHandler  MyApache::StartupLog::child_exit
+  PerlChildExitHandler  MyApache2::StartupLog::child_exit
 
 
 
@@ -552,7 +552,7 @@ C<L<PerlLoadModule|docs::2.0::user::config::config/C_PerlLoadModule_>>
 
 =item *
 
-C<L<E<lt>PerlE<gt> section|docs::2.0::api::Apache::PerlSections>>
+C<L<E<lt>PerlE<gt> section|docs::2.0::api::Apache2::PerlSections>>
 
 =item *
 
@@ -562,7 +562,7 @@ C<L<PerlConfigRequire|docs::2.0::user::config::config/C_PerlConfigRequire_>>
 
 Therefore if you want to trigger an early Perl startup, you could add
 an empty C<L<E<lt>PerlE<gt>
-section|docs::2.0::api::Apache::PerlSections>> in F<httpd.conf>:
+section|docs::2.0::api::Apache2::PerlSections>> in F<httpd.conf>:
 
   <Perl>
   # trigger an early Perl startup
@@ -592,12 +592,11 @@ I<startup.pl> for mod_perl 2.0:
 
   file:startup.pl
   ---------------
-  use Apache2 ();
   
   use lib qw(/home/httpd/perl);
   
   # enable if the mod_perl 1.0 compatibility is needed
-  # use Apache::compat ();
+  # use Apache2::compat ();
   
   # preload all mp2 modules
   # use ModPerl::MethodLookup;
@@ -605,35 +604,32 @@ I<startup.pl> for mod_perl 2.0:
   
   use ModPerl::Util (); #for CORE::GLOBAL::exit
   
-  use Apache::RequestRec ();
-  use Apache::RequestIO ();
-  use Apache::RequestUtil ();
+  use Apache2::RequestRec ();
+  use Apache2::RequestIO ();
+  use Apache2::RequestUtil ();
   
-  use Apache::ServerRec ();
-  use Apache::ServerUtil ();
-  use Apache::Connection ();
-  use Apache::Log ();
+  use Apache2::ServerRec ();
+  use Apache2::ServerUtil ();
+  use Apache2::Connection ();
+  use Apache2::Log ();
   
   use APR::Table ();
   
   use ModPerl::Registry ();
   
-  use Apache::Const -compile => ':common';
+  use Apache2::Const -compile => ':common';
   use APR::Const -compile => ':common';
   
   1;
 
-In this file the C<Apache2> modules is loaded, so L<the 2.0 modules
-will be
-found|docs::2.0::user::config::config/Accessing_the_mod_perl_2_0_Modules>. Afterwards
-C<@INC> in adjusted to include non-standard directories with Perl
-modules:
+In this file C<@INC> in adjusted to include non-standard 
+directories with Perl modules:
 
   use lib qw(/home/httpd/perl);
 
 If you need to use the backwards compatibility layer load:
 
-  use Apache::compat ();
+  use Apache2::compat ();
 
 Next we preload the commonly used mod_perl 2.0 modules and precompile
 common constants.
@@ -651,7 +647,7 @@ Finally as usual the I<startup.pl> file must be terminated with C<1;>.
 Ideally the code running at the server startup shouldn't be affected
 by L<the apache restart|/Start_Immediately_Restarts>. If however this
 is not the case, you can use
-C<L<Apache::ServerUtil::restart_count|docs::2.0::api::Apache::ServerUtil/C_restart_count_>>.
+C<L<Apache2::ServerUtil::restart_count|docs::2.0::api::Apache2::ServerUtil/C_restart_count_>>.
 
 
 
