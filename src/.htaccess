@@ -25,6 +25,30 @@ Redirect permanent /faq/mod_perl_api.html http://perl.apache.org/docs/1.0/faqs/m
 Redirect permanent /features/tmpl-cmp.html http://perl.apache.org/docs/2.0/world/templates/choosing.html
 Redirect permanent /perl_myth.html http://perl.apache.org/docs/1.0/faqs/perl_myth.html
 
+Redirect permanent /distributions.html http://perl.apache.org/download/index.html
+Redirect permanent /tidbits.html http://perl.apache.org/docs/offsite/articles.html
+Redirect permanent /products.html http://perl.apache.org/products/index.html
+Redirect permanent /isp.html http://perl.apache.org/help/isps.html
+Redirect permanent /sites.html http://perl.apache.org/outstanding/sites.html
+
+# Stories
+Redirect permanent /stories/index.html http://perl.apache.org/outstanding/success_stories/index.html
+Redirect permanent /stories/ColbyChem.html html http://perl.apache.org/outstanding/success_stories/colbychem.html
+Redirect permanent /stories/France-Presse.html http://perl.apache.org/outstanding/success_stories/www.afp-direct.com.html
+Redirect permanent /stories/adultad.html http://perl.apache.org/outstanding/success_stories/adultad.html
+Redirect permanent /stories/bsat.html http://perl.apache.org/outstanding/success_stories/bsat.html
+Redirect permanent /stories/idl-net.html http://perl.apache.org/outstanding/success_stories/idl-net.html
+Redirect permanent /stories/imdb.html http://perl.apache.org/outstanding/success_stories/imdb.com.html
+Redirect permanent /stories/lind-waldock.html http://perl.apache.org/outstanding/success_stories/www.lind-waldock.com.html
+Redirect permanent /stories/presto.html http://perl.apache.org/outstanding/success_stories/presto.html
+Redirect permanent /stories/seds-org.html http://perl.apache.org/outstanding/success_stories/seds.org.html
+Redirect permanent /stories/singlesheaven.html http://perl.apache.org/outstanding/success_stories/singlesheaven.com.html
+Redirect permanent /stories/tgix.html http://perl.apache.org/outstanding/success_stories/tgix.html
+Redirect permanent /stories/uber-alles.html http://perl.apache.org/outstanding/success_stories/openscape.org.html
+Redirect permanent /stories/webby.html http://perl.apache.org/outstanding/success_stories/imdb.com.html
+Redirect permanent /stories/winamillion.html http://perl.apache.org/outstanding/success_stories/winamillion.msn.com.html
+Redirect permanent /stories/wmboerse.html http://perl.apache.org/outstanding/success_stories/wmboerse.html
+
 # Win32 docs
 Redirect permanent /win32_binaries.html http://perl.apache.org/docs/1.0/win32/binaries.html
 Redirect permanent /win32_binaries.pod http://perl.apache.org/docs/1.0/win32/binaries.pod
