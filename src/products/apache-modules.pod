@@ -130,9 +130,42 @@ are planning a substantial framework with many inter-related modules,
 you should probably go with a top-level namespace outside of
 C<Apache::>.
 
+For an illustration of how this would look for the older modules, you
+can look at this L<example
+categorization|products::old-modules-categorized>.
+
 B<Note:> I<Of course> none of these categories are cast in stone: you
 should feel free to choose the module name that suits your module best
 instead of trying to follow these general indications. If in doubt,
 just ask around at the mod_perl list; you are sure to get some
 assistance in naming your module! Furthermore, you should look at the
 way it's done on CPAN, and apply it under the C<Apache::> namespace.
+
+=head1 Maintainers
+
+The maintainer is the person you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Per Einar Ellefsen E<lt>pereinar (at) oslo.online.noE<gt>
+
+=back
+
+=head1 Authors
+
+=over
+
+=item *
+
+Per Einar Ellefsen E<lt>pereinar (at) oslo.online.noE<gt>
+
+=item *
+
+Doug MacEachern
+
+=back
+
+=cut
