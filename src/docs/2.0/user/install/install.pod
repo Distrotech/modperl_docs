@@ -78,6 +78,8 @@ with CPAN.pm shell:
 
 I<options> an optional list of (key,value) pairs.
 
+Make sure to read the explanation of C<L<MP_AP_PREFIX|/MP_AP_PREFIX>>:
+
 =head3 Boolean Build Options
 
 The following options are boolean and can be set with C<MP_XXX=1> or
@@ -178,7 +180,8 @@ META: this option most likely will go away, use MP_AP_PREFIX
 
 Apache installation prefix, under which the Apache I<include/>
 directory can be found. If Apache is not installed yet, you can point
-to the source directory. For example if you've have installed Apache
+to the source directory, but only after you've built or configured
+Apache in it. For example if you've have installed Apache
 2.0 in C<\Apache2> on Win32, you should use:
 
   MP_AP_PREFIX=\Apache2
