@@ -53,8 +53,10 @@ die "Cannot find swish-e at $swish_binary: $!" unless -x $swish_binary;
 my $cwd = Cwd::fastcwd();
 chdir "$Bin/../dst_html/search";
 
+$ENV{SPIDER_QUIET} = $verbose_level_reverse;
+
 # index
-my $command = "SPIDER_QUIET=$verbose_level_reverse $swish_binary -v $verbose_level -S prog -c swish.conf";
+my $command = "$swish_binary -v $verbose_level -S prog -c swish.conf";
 #print "$command\n";
 CORE::system($command);
 
