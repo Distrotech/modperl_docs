@@ -42,6 +42,7 @@ Content:
 
 - ask perl.com to link to perl.apache.org from 'perl sites' section.
   + also they need to add theperlreview.com
+  STATUS: sent a request to gnat
 
 - consider adding version id to each single document and the docsets,
   so those who download/read pages can tell when things get updated
@@ -51,7 +52,7 @@ Content:
 
 =for html <hr>
 <p><b>
-$Id: TODO,v 1.76 2002/07/02 04:49:56 stas Exp $
+$Id: TODO,v 1.77 2002/07/12 11:13:20 stas Exp $
 </b></p>
 
 =cut
@@ -113,23 +114,9 @@ elaborate one?
 
 Site Migration process:
 
-- 404.html:
-  check that 404.html actually works.
-
-- move the embperl cvs, as is and make sure that it's copied over as
-  is without processing
-
-- bin/makeindex: adjust to perl.apache.org/
-  $ENV{MODPERL_SITE} = "http://perl.apache.org/release/";
-
-- /dist/:
-
-  o move the /dist/ stuff, or symlink to it. 
-  o remove all the pods from /dist/
-  o remove apache-modlist.html
-
 - get Apache team to link to correct place at
   http://httpd.apache.org/userslist.html
+  STATUS: sent a request to docs@httpd.apache.org
 
 ====================================================================
 
