@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache::PerlSections - Default Handler for Perl sections
+Apache2::PerlSections - Default Handler for Perl sections
 
 
 
@@ -73,7 +73,7 @@ or C<PerlPassEnv>, a C<E<lt>PerlE<gt>> section could read in a file and:
 
 or
 
-  Apache->httpd_conf("PerlPassEnv $key $val");
+  Apache2->httpd_conf("PerlPassEnv $key $val");
 
 These are somewhat simple examples, but they should give you the basic
 idea. You can mix in any Perl code you desire. See I<eg/httpd.conf.pl>
@@ -124,7 +124,7 @@ Or:
   $PerlConfig .= "Alias /foo /bar\n";
 
 See also
-C<L<$r-E<gt>add_config|docs::2.0::api::Apache::RequestUtil/C_add_config_>>
+C<L<$r-E<gt>add_config|docs::2.0::api::Apache2::RequestUtil/C_add_config_>>
 
 
 
@@ -139,14 +139,14 @@ behaviour of C<E<lt>PerlE<gt>> sections.
 
 
 
-=head2 C<$Apache::PerlSections::Save>
+=head2 C<$Apache2::PerlSections::Save>
 
 Each C<E<lt>PerlE<gt>> section is evaluated in its unique namespace,
-by default residing in a sub-namespace of C<Apache::ReadConfig::>,
+by default residing in a sub-namespace of C<Apache2::ReadConfig::>,
 therefore any local variables will end up in that namespace. For
 example if a C<E<lt>PerlE<gt>> section happened to be in file
 F</tmp/httpd.conf> starting on line 20, the namespace:
-C<Apache::ReadConfig::tmp::httpd_conf::line_20> will be used. Now if
+C<Apache2::ReadConfig::tmp::httpd_conf::line_20> will be used. Now if
 it had:
 
   <Perl>
@@ -156,19 +156,19 @@ it had:
   </Perl>
 
 The local global variable C<$foo> becomes
-C<$Apache::ReadConfig::tmp::httpd_conf::line_20::foo>, the other
+C<$Apache2::ReadConfig::tmp::httpd_conf::line_20::foo>, the other
 variable remain where they are.
 
 By default, the namespace in which C<E<lt>PerlE<gt>> sections are
 evaluated is cleared after each block closes. In our example nuking
-C<$Apache::ReadConfig::tmp::httpd_conf::line_20::foo>, leaving the
+C<$Apache2::ReadConfig::tmp::httpd_conf::line_20::foo>, leaving the
 rest untouched.
 
-By setting C<$Apache::PerlSections::Save> to a true value, the content
+By setting C<$Apache2::PerlSections::Save> to a true value, the content
 of those namespaces will be preserved and will be available for
-inspection by C<L<Apache::Status|docs::2.0::api::Apache::Status>> and
-C<L<Apache::PerlSections-E<gt>dump|/C_Apache__PerlSections_E_gt_dump_>>
-In our example C<$Apache::ReadConfig::tmp::httpd_conf::line_20::foo>
+inspection by C<L<Apache2::Status|docs::2.0::api::Apache2::Status>> and
+C<L<Apache2::PerlSections-E<gt>dump|/C_Apache2__PerlSections_E_gt_dump_>>
+In our example C<$Apache2::ReadConfig::tmp::httpd_conf::line_20::foo>
 will still be accessible from other perl code, after the
 C<E<lt>PerlE<gt>> section was parsed.
 
@@ -180,7 +180,7 @@ C<E<lt>PerlE<gt>> section was parsed.
 
 
 
-=head2 C<Apache::PerlSections-E<gt>dump>
+=head2 C<Apache2::PerlSections-E<gt>dump>
 
 This method will dump out all the configuration variables mod_perl
 will be feeding to the apache config gears. The output is suitable to
@@ -190,13 +190,13 @@ For example:
 
   <Perl>
   
-  $Apache::PerlSections::Save = 1;
+  $Apache2::PerlSections::Save = 1;
   
   $Port = 8529;
   
   $Location{"/perl"} = {
      SetHandler => "perl-script",
-     PerlHandler => "Apache::Registry",
+     PerlHandler => "ModPerl::Registry",
      Options => "ExecCGI",
   };
   
@@ -217,7 +217,7 @@ For example:
   </Perl>
   
   <Perl>
-  print Apache::PerlSections->dump;
+  print Apache2::PerlSections->dump;
   </Perl>
 
 This will print something like this:
@@ -230,7 +230,7 @@ This will print something like this:
   );
   
   $Location{'/perl'} = (
-      PerlHandler => 'Apache::Registry',
+      PerlHandler => 'Apache2::Registry',
       SetHandler => 'perl-script',
       Options => 'ExecCGI'
   );
@@ -260,7 +260,7 @@ will not be dumped.
 
 
 
-=head2 C<Apache::PerlSections-E<gt>store>
+=head2 C<Apache2::PerlSections-E<gt>store>
 
 This method will call the C<dump> method, writing the output
 to a file, suitable to be pulled in via C<require> or C<do>.
@@ -272,7 +272,7 @@ to a file, suitable to be pulled in via C<require> or C<do>.
 =head1 Advanced API
 
 mod_perl 2.0 now introduces the same general concept of handlers to
-C<E<lt>PerlE<gt>> sections.  Apache::PerlSections simply being the
+C<E<lt>PerlE<gt>> sections.  Apache2::PerlSections simply being the
 default handler for them.
 
 To specify a different handler for a given perl section, an extra
@@ -301,7 +301,7 @@ invoked with 3 arguments:
 self-explanatory
 
 =item arg2: C<$parms>
-( C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>> )
+( C<L<Apache2::CmdParms|docs::2.0::api::Apache2::CmdParms>> )
 
 C<$parms> is specific for the current Container, for example, you
 might want to call C<$parms-E<gt>server()> to get the current server.
@@ -313,7 +313,7 @@ the table object of the section arguments. The 2 guaranteed ones will
 be:
 
   $args->{'handler'} = 'My::PerlSection::Handler';
-  $args->{'package'} = 'Apache::ReadConfig';
+  $args->{'package'} = 'Apache2::ReadConfig';
 
 Other C<name="value"> pairs given on the C<E<lt>PerlE<gt>> line will
 also be included.
@@ -324,12 +324,12 @@ At this point, it's up to the handler routing to inspect the namespace
 of the C<$args>-E<gt>{'package'} and chooses what to do.
 
 The most likely thing to do is to feed configuration data back into
-apache. To do that, use Apache::Server-E<gt>add_config("directive"),
+apache. To do that, use Apache2::Server-E<gt>add_config("directive"),
 for example:
 
   $parms->server->add_config("Alias /foo /bar");
 
-Would create a new alias. The source code of C<Apache::PerlSections>
+Would create a new alias. The source code of C<Apache2::PerlSections>
 is a good place to look for a practical example.
 
 
