@@ -450,7 +450,7 @@ and higher we can just do:
 
 
 
-=head2 How C<Apache::MP3> was ported to mod_perl 2.0
+=head2 How C<Apache::MP3> was Ported to mod_perl 2.0
 
 C<Apache::MP3> is an elaborate application that uses a lot of mod_perl
 API. After porting it, I have realized that if you go through the
@@ -539,6 +539,8 @@ Now my I<httpd.conf> looked like this:
   
   PerlSwitches -wT
   
+  PerlRequire "/home/httpd/2.0/perl/startup.pl"
+  
   PerlModule Apache::Reload
   PerlInitHandler Apache::Reload
   PerlSetVar ReloadAll Off
@@ -581,7 +583,7 @@ C<warnings> pragma was added):
   --- Apache/MP3.pm.orig 2003-06-03 18:44:21.000000000 +1000
   +++ Apache/MP3.pm      2003-06-03 18:44:47.000000000 +1000
   @@ -2,6 +2,9 @@
-   # $Id: porting.pod,v 1.5 2003/06/06 09:21:57 stas Exp $
+   # $Id: porting.pod,v 1.6 2003/06/10 23:47:28 stas Exp $
   
    use strict;
   +use warnings;
@@ -850,7 +852,7 @@ of code to I<Apache/MP3.pm>:
   +++ Apache/MP3.pm       2003-06-06 16:21:14.000000000 +1000
   @@ -1,6 +1,10 @@
    package Apache::MP3;
-   # $Id: porting.pod,v 1.5 2003/06/06 09:21:57 stas Exp $
+   # $Id: porting.pod,v 1.6 2003/06/10 23:47:28 stas Exp $
   
   +BEGIN {
   +    die "Apache::compat is loaded loaded" if $INC{'Apache/compat.pm'};
@@ -1273,6 +1275,17 @@ no longer exists in mod_perl 2.0:
       $r->send_http_header() unless Apache::exists_config_define("MODPERL2");
       ...
   }
+
+Relevant links to other places in the porting documents:
+
+=over
+
+=item *
+
+L<mod_perl 1.0 and 2.0 Constants Coexistence|docs::2.0::user::compat/mod_perl_1_0_and_2_0_Constants_Coexistence>
+
+=back
+
 
 =head1 Maintainers
 
