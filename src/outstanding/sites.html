@@ -133,6 +133,10 @@ combination of Perl and MySQL. Slashdot runs under mod_perl (using <a
 href="http://www.slashcode.org/">SlashCode</a>) which keeps things
 nice and speedy.  </p>
 
+<p> <b>Macromedia: </b> The creators of Flash and other interesting
+web technologies and programs use mod_perl for <a
+href="http://www.macromedia.com/">their website</a>.</p>
+
 <p>
 
 <b>Search engine: </b> <a href="http://www.sol.no/">Scandinavia
@@ -152,6 +156,9 @@ Unix TeX system), and MuPAD (a symbolic math program) are available at
 scripts query an mSQL database via various criteria, and employ the
 CPAN multiplexer code to choose a nearby mirror of the archive, if
 available and desired.  </p>
+
+<p> The <a href="http://www.athand.com/">AtHand Network Yellow
+pages</a> serve their content thanks to mod_perl.</p>
 
 <p>
 
@@ -200,7 +207,7 @@ making hotel and restaurant reservations online. Its traffic exceeds
 100,000,000 page views a month. Of course it's running under mod_perl.
 </p>
 
-<p> <b>Match-making site:</b> <a
+<p> <b>Online communities:</b> <a
 href="http://www.webpersonals.com/">Webpersonals</a> uses
 <tt>HTML::Embperl</tt> running under mod_perl to drive this nice match
 making site.
@@ -208,7 +215,7 @@ making site.
 
 <p>
 
-<b>Interactive text network:</b> Alvar Freude uses mod_perl on
+Alvar Freude uses mod_perl on
 <a href="http://www.a-blast.org/">Assoziations-Blaster</a>.  It is a
 "truly interactive text network", written completely in mod_perl. For
 a quick, non-technical overview take a look <a
@@ -241,6 +248,20 @@ non-linear real-time linker I use a ~50 line regexp .-) The HTML files
 are compressed on-the-fly with <tt>Compress::Zlib</tt>, so we keep
 bandwidth (and transmission time to the users) small.  </p>
 
+<p>
+
+Jayme Cox explains that at Broderbund Software, we have a site running
+mod_perl to keep persistant database connections open between our
+Apache web farm and our Oracle database server. We have a <a
+href="http://www.warlords3.com">game site</a> that checks our Oracle
+DB for a customers email address and lets them download additional
+game maps if they have registered the software. Using persistant DB
+connections increased the perceived response time by over 200%.
+</p>
+
+<p>The <a href="http://members2.fantasy.sportsline.com/">Fantasy
+Sports</a> site, which puts you in the position of manager of a group
+of athletes, runs mod_perl to server its dynamic content.</p>
 
 <p> <b>Ovulation calendar: </b> <a
 href="http://conceptionstore.com">Conceptionstore.com</a>'s <a
@@ -257,18 +278,6 @@ published API interface for client programs.  "We're very satisfied
 with mod_perl, and very thankful for it."
 </p>
 
-
-<p>
-
-<b>Game site:</b> Jayme Cox explains that at Broderbund Software, we
-have a site running mod_perl to keep persistant database connections
-open between our Apache web farm and our Oracle database server. We
-have a <a href="http://www.warlords3.com">game site</a> that checks
-our Oracle DB for a customers email address and lets them download
-additional game maps if they have registered the software. Using
-persistant DB connections increased the perceived response time by
-over 200%.
-</p>
 
 <p>
 
@@ -348,7 +357,7 @@ commerce.
 <hr>
 
 <p>Is <b>your</b> site running mod_perl? <a
-href="../maillist/list-docs-dev.html">Let us know!</a>. </p>
+href="../maillist/docs-dev.html">Let us know!</a>. </p>
 
 </body>
 </html>
