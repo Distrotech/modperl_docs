@@ -1323,6 +1323,8 @@ General directives:
   --------------------------------------------
   PerlSwitches                 ITERATE    SRV
   PerlRequire                  ITERATE    SRV
+  PerlConfigRequire            ITERATE    SRV
+  PerlPostConfigRequire        ITERATE    SRC
   PerlModule                   ITERATE    SRV
   PerlLoadModule               RAW_ARGS   SRV
   PerlOptions                  ITERATE    DIR
