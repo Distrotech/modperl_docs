@@ -1900,7 +1900,9 @@ The C<:mpmq> group is for querying MPM properties.
 
   use Apache::Const -compile => qw(:options);
 
-The C<:options> group is for XXX constants.
+The C<:options> group is contains constants corresponding to the
+C<Options> configuration directive. For examples see:
+C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
 
 
@@ -2029,7 +2031,9 @@ The C<:options> group is for XXX constants.
 
   use Apache::Const -compile => qw(:override);
 
-The C<:override> group is for XXX constants.
+The C<:override> group is contains constants corresponding to the
+C<AllowOverride> configuration directive. For examples see:
+C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
 
 
