@@ -1281,11 +1281,18 @@ argument. For example:
 C<Apache::Util::unescape_uri()> has been replaced with
 C<Apache::unescape_url()>.
 
+
 =head2 C<Apache::Util::escape_html()>
 
-C<Apache::Util::escape_html> currently is available only via
-C<L<Apache::compat|docs::2.0::api::Apache::compat>> until
-I<ap_escape_html> is reworked to not require a pool.
+C<Apache::Util::escape_html> is not available in mod_perl 2.0.  Use
+C<HTML::Entities> instead
+(http://search.cpan.org/dist/HTML-Parser/lib/HTML/Entities.pm).
+
+It's also available via
+C<L<Apache::compat|docs::2.0::api::Apache::compat>> for backwards
+compatibility.
+
+
 
 =head2 C<Apache::Util::parsedate()>
 
