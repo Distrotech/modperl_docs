@@ -158,17 +158,17 @@ header files, such as: I<include/ap_compat.h>,
 I<srclib/apr/include/apr_compat.h>, and
 I<srclib/apr-util/include/apu_compat.h>, which list functions whose
 names have changed but which are otherwise the same. If failed,
-proceed to look in the other headers files in directories:
+proceed to look in other headers files in the following directories:
 
 =over
 
 =item *
 
-ap_ functions in I<include/>
+I<ap_> functions in I<include/>
 
 =item *
 
-apr_ function in I<srclib/apr/include/> and
+I<apr_> functions in I<srclib/apr/include/> and
 I<srclib/apr-util/include/>
 
 =back
