@@ -9,7 +9,7 @@
    buttons = [];
    IF prev;
         link = INCLUDE link prefix=rel_doc_root link=prev.meta.link;
-	left = "<img src='/modperl-site-domm/images/left.gif' ALT='prev' border=0>";
+	left = "<img src='${doc.dir.abs_doc_root}/images/left.gif' ALT='prev' border=0>";
 	buttons.push({link => link, 
                      text => "${prev.meta.title}" 
 		     prelink => "<td align='right' width='40%'><div class='navbarlocaltext'>",   
@@ -31,7 +31,7 @@
 
 
        buttons.push({link => "$rel_doc_root/index.html", 
-                     text => "<img src='/modperl-site-domm/images/up.png' ALT='up' border=0>"
+                     text => "<img src='${doc.dir.abs_doc_root}/images/up.png' ALT='up' border=0>"
 		     postlink => "</td>",   
 	             prelink => "<td align='center' valign='top' width='3%'>",
 
@@ -40,7 +40,7 @@
 
    IF next;
        link  = INCLUDE link prefix=rel_doc_root link=next.meta.link;
-	right="<img src='/modperl-site-domm/images/right.gif' ALT='next' border=0>";
+	right="<img src='${doc.dir.abs_doc_root}/images/right.gif' ALT='next' border=0>";
        buttons.push({link => link, 
                      text =>  "$right"   
 		     postlink => "</td>",   
