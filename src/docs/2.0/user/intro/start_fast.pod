@@ -67,7 +67,7 @@ compatibility layer:
   PerlModule Apache::compat
 
 For more information see: L<Migrating from mod_perl 1.0 to mod_perl
-2.0|docs::2.0::user::compat::compat>.
+2.0|docs::2.0::user::porting::compat>.
 
 
 

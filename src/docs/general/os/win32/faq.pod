@@ -166,7 +166,7 @@ as such on Win32, except in this context within Apache.
 See the discussion of configuring 
 L<Apache::Registry|docs::1.0::guide::config/My_CGI_Perl_Code_Gets_Returned_as_Plain_Text_Instead_of_Being_Executed_by_the_Webserver>; for mod_perl 2.0, a
 L<different
-configuration|docs::2.0::user::compat::compat/C_Apache__Registry___C_Apache__PerlRun__and_Friends>
+configuration|docs::2.0::user::porting::compat/C_Apache__Registry___C_Apache__PerlRun__and_Friends>
 is required.
 
 =head2 I get a "Save-As" dialogue box when calling a script.
@@ -174,14 +174,14 @@ is required.
 See the discussion about 
 L<PerlSendHeader|docs::1.0::guide::config/My_Script_Works_under_mod_cgi__but_when_Called_via_mod_perl_I_Get_a__Save_As__Prompt>; note that for mod_perl 2.0, 
 there is a L<different
-syntax|docs::2.0::user::compat::compat/C_PerlSendHeader_>.
+syntax|docs::2.0::user::porting::compat/C_PerlSendHeader_>.
 
 =head2 My script displays a "Content-type" header in the browser.
 
 Check the setting of 
 L<PerlSendHeader|docs::1.0::guide::porting/Generating_correct_HTTP_Headers>;
 note that for mod_perl 2.0, there is a L<different
-syntax|docs::2.0::user::compat::compat/C_PerlSendHeader_>.
+syntax|docs::2.0::user::porting::compat/C_PerlSendHeader_>.
 
 =head1 Using mod_perl
 
@@ -198,7 +198,7 @@ L<mod_perl 2.0|docs::2.0::os::win32::install>.
 You should check the setting of 
 L<PerlSendHeader|docs::1.0::guide::porting/Generating_correct_HTTP_Headers>;
 for mod_perl 2.0, there is a L<different
-syntax|docs::2.0::user::compat::compat/C_PerlSendHeader_>.
+syntax|docs::2.0::user::porting::compat/C_PerlSendHeader_>.
 If this setting is correct, and
 this occurs under mod_perl 2.0 and
 Perl-5.6.1, try upgrading to

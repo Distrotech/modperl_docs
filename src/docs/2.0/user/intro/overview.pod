@@ -586,7 +586,7 @@ un-useful to Perl aren't glued.  Most of the API behaves just as it
 did in mod_perl 1.0, so users of the API will not notice the
 difference, other than the addition of many new methods. Where API has
 changed a special L<back compatibility
-module|docs::2.0::user::compat::compat> can be used.
+module|docs::2.0::user::porting::compat> can be used.
 
 In mod_perl 2.0 the APR API resides in the C<APR::> namespace, and
 obviously the C<Apache::> namespace is mapped to the Apache API.

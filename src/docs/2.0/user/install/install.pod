@@ -367,7 +367,7 @@ by Apache:
   PerlWarn
 
 Use L<their 2.0
-equivalents|docs::2.0::user::compat::compat/Configuration_Files_Porting>
+equivalents|docs::2.0::user::porting::compat/Configuration_Files_Porting>
 instead.
 
 =back

@@ -69,7 +69,7 @@ backwards compatibility and it makes no sense to duplicate
 documentation.
 
 Another important document to read is: L<Migrating from mod_perl 1.0
-to mod_perl 2.0|docs::2.0::user::compat::compat> which covers all
+to mod_perl 2.0|docs::2.0::user::porting::compat> which covers all
 mod_perl 1.0 constants, functions and methods that have changed in
 mod_perl 2.0.
 

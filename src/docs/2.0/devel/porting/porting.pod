@@ -147,7 +147,7 @@ takes the control over performance away from users.
 =head1 Porting a Perl Module to Run under mod_perl 2.0
 
 Note: API changes are listed in L<the backwards compatibility
-document|docs::2.0::user::compat::compat/>.
+document|docs::2.0::user::porting::compat/>.
 
 The following sections will guide you through the steps of porting
 your modules to mod_perl 2.0.
@@ -278,7 +278,7 @@ nevertheless it doesn't work, since its usage has changed (e.g. its
 prototype has changed, or it requires ditfferent arguments, etc.).
 
 In either of these cases, refer to L<the backwards compatibility
-document|docs::2.0::user::compat::compat/> for an exhaustive list of
+document|docs::2.0::user::porting::compat/> for an exhaustive list of
 API calls that have been modified or removed.
 
 =head3 Methods that No Longer Exist
@@ -305,10 +305,10 @@ This prints:
 
 Looks like we are calling a non-existent method! Our next step is to
 refer to L<the backwards compatibility
-document|docs::2.0::user::compat::compat/>, wherein we find that as we
+document|docs::2.0::user::porting::compat/>, wherein we find that as we
 suspected, the method C<log_reason()> no longer exists, and that
 L<instead we should use the other standard logging
-functions|docs::2.0::user::compat::compat/C__r_E_gt_log_reason_>
+functions|docs::2.0::user::porting::compat/C__r_E_gt_log_reason_>
 provided by the C<Apache::Log> module.
 
 =head3 Methods Whose Usage Has Been Modified
