@@ -3589,7 +3589,19 @@ Of course you can move the code in the module into an external file,
 
 in the normal way (no C<E<lt>PerlE<gt>> section required).
 
+There is an even simpler way to save that last C<stat()> call. Instead
+of using C<PerlTransHandler> combined with:
 
+  Alias /foo /
+
+we can use:
+
+  AliasMatch ^/foo /
+
+which in the current implementation (at least in apache-1.3.28)
+doesn't incur the C<stat()> call. Using the regex instead of prefix
+matching might slow things a bit, but is probably still faster than
+the C<stat()> call.
 
 
 

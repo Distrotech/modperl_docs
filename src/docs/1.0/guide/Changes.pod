@@ -32,9 +32,12 @@ The most recent changes are listed first.
    redirects. [Alan Bailward, <alan (at) ufies.org>]
 
  o Added a short version of the mysql back script ["mire"
-   <mire@sezampro.yu>]
+   <mire (at) sezampro.yu>]
 
 * performance.pod
+
+ o Using AliasMatch instead of Alias saves yet another stat call 
+   [Eric Kolve <ekolve (at) comcast.net>]
 
  o Note about browser not rendering immediately even under $|=1.
    [Lee Goddard <home (at) LeeGoddard.com>]
