@@ -18,6 +18,15 @@ Basic Layout:
 DocSet:
 -------
 
+- the sitemap doesn't show up as selected in the menu when you go there.
+
+-       # if the pre section is too long ps2pdf fails to generate pdf,
+        # so split it into 40 lines chunks.
+        $result = '';
+        while ($text =~ /((?:[^\n]*\n){1,40})/sg) {
+           $result .= "<PRE>$1</PRE>\n";
+        }
+
 - how do we make L<foo|../search/swish.cgi> I cannot do search::swish,
   it's not a doc.
   STATUS: need to extend pod parser with U<title (url|relative url)>
