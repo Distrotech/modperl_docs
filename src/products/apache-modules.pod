@@ -155,19 +155,23 @@ available from CPAN. If you know of other modules that have been
 ported but not listed here, please contact L<the modperl
 list|maillist::modperl>, so we can update this information:
 
-  Apache::AuthExpire
-  Apache::AuthNetLDAP
-  Apache::AuthPerLDAP
-  Apache::AuthenNIS
-  Apache::AuthenPasswd
-  Apache::AuthenSmb
-  Apache::AuthzNIS
-  Apache::AuthzNetLDAP
-  Apache::AuthzPasswd
-  Apache::Clean
-  Apache::Peek
-  CGI
-  CGI::Cookie
+  Module Name                 Required Dist Package
+  -------------------------------------------------
+  Apache::AuthExpire         Apache-AuthExpire-0.38
+  Apache::AuthNetLDAP        Apache-AuthNetLDAP-0.25
+  Apache::AuthPerLDAP        Apache-AuthPerLDAP-2.01
+  Apache::AuthenNIS          Apache-AuthenNIS-0.11
+  Apache::AuthenNTLM         Apache-AuthenNTLM-2.04
+  Apache::AuthenPasswd       Apache-AuthenPasswd-0.12
+  Apache::AuthenSmb          Apache-AuthenSmb-0.70
+  Apache::AuthzNIS           Apache-AuthzNIS-0.11
+  Apache::AuthzNetLDAP       Apache-AuthzNetLDAP-0.07
+  Apache::AuthzPasswd        Apache-AuthzPasswd-0.11
+  Apache::Clean              Apache-Clean-2.00_4 (not released)
+  Apache::Peek               Apache-Peek-1.01
+  CGI                        CGI.pm-2.93
+  CGI::Cookie                CGI.pm-2.93 (comes in the CGI dist)
+
 
 =head1 Porting in Process
 
@@ -186,7 +190,6 @@ and testing.
                              Clemens Schrimpe <csch AT Kiez.NET>
   Apache::Scoreboard         Stas Bekman <stas AT stason.org>
   Apache::VMonitor           Stas Bekman <stas AT stason.org>
-  Apache::AuthPerLDAP        Shannon Eric Peevey <speeves AT unt.edu>
   Apache::Request            http://httpd.apache.org/apreq/
   Apache::Language           Philippe M. Chiasson <gozer AT cpan.org>
   Apache::AutoIndex          Philippe M. Chiasson <gozer AT cpan.org>
