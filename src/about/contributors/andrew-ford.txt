@@ -1,0 +1,9 @@
+Name: Andrew Ford
+Email: A.Ford@ford-mason.co.uk
+URL: http://www.refcards.com/
+Summary: mod_perl refcard, Apache::FakeRequest
+
+Andrew has made contributions to the <tt>Apache::FakeRequest</tt>
+module and is the author of the <a
+href="http://www.refcards.com/about/mod_perl.html">mod_perl
+refcard</a>.

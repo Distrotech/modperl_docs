@@ -1,0 +1,13 @@
+Name: Geoffrey Young
+Email: geoff@modperlcookbook.org
+URL: http://www.modperlcookbook.org/~geoff/
+Summary: Modules, documentation/code patches. Co-authored mod_perl Developer's Cookbook
+
+Geoff has co-authored <a href="http://www.modperlcookbook.org/">The
+mod_perl Developer's Cookbook</a> that mod_perl people seem to be
+enjoying.  He has also written some <a
+href="http://www.cpan.org/modules/by-authors/id/G/GE/GEOFF/"><tt>Apache::</tt>
+modules</a> and submitted the occasional code patch to mod_perl
+proper. On the documentation site, he has contributed a lot of info
+about RPM packages, as well as providing helpful comments and
+corrections.

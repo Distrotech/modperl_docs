@@ -1,0 +1,12 @@
+Name: Ken Williams
+Email: ken@forum.swarthmore.edu
+URL: http://mathforum.org/~ken/
+Summary: Modules, mailing list archives.
+
+Author of the <tt>Apache::Taco</tt>, <tt>Apache::SSI</tt> and
+<tt>Apache::Filter</tt> modules. Ken's <a
+href="http://mathforum.org">MathForum</a> also hosts archives of some
+of the mod_perl mailing lists.
+
+Ken has also reviewed a lot of stuff in the guide. Many snippets from
+his emails are included in the guide.

@@ -1,0 +1,7 @@
+Name: Peter Tillemans
+Email: pti@pandora.be
+Summary: Win32 patches
+
+Peter helped bring mod_perl up to Win32 speed with various patches
+including support for <code>make test</code>.  He also maintained the
+Windows 95 binary distribution of mod_perl.

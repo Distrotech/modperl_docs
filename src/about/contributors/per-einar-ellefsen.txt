@@ -1,0 +1,9 @@
+Name: Per Einar Ellefsen
+Email: per.einar@skynet.be
+Summary: Documentation, site help.
+
+Per Einar has helped out with this website, for the most part through
+various documentation patches and additions, reviewing of documents,
+and maintaining some sections of the site.
+
+He also tries to help out users having problems on the mailing list.

@@ -1,0 +1,10 @@
+Name: Ged W. Haywood
+Email: ged@www2.jubileegroup.co.uk
+Summary: Documentation and user help
+
+For reviewing and fixing the whole guide, providing lots of
+constructive criticism and helping to reorganize the guide to make it
+more user friendly.
+
+Ged has also devoted time to help out users having problems on the
+mailing list.

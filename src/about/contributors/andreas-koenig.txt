@@ -1,0 +1,17 @@
+Name: Andreas Koenig
+Email: andreas.koenig@anima.de
+Summary: Early efforts, bug spotting, modules, documentation
+
+<b>Lots</b> of bug spotting, fixing and patching since the early days.
+Andreas introduced the <tt>Apache::Registry</tt> that we all know and love.
+He put a great deal of time and effort into <tt>CGI.pm</tt> overhaul efforts
+(aka <tt>CGI::XA</tt> &amp; <tt>CGI::Switch</tt>).  
+
+Various contributions to the Apache/Perl API.  PAUSE efforts beyond
+the call of "duty".  <tt>Apache::Stage</tt>,
+<tt>Apache::GzipChain</tt> and <tt>Apache::UploadSrv</tt> modules on
+CPAN.  Andreas was the first to run mod_perl on a production site, the
+<a href="http://pause.perl.org/">Perl Authors Upload Server</a>, aka
+PAUSE.
+
+Andreas also contrbuted the "Correct HTTP headers" document.

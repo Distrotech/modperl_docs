@@ -1,0 +1,21 @@
+Name: Stas Bekman
+Email: stas@stason.org
+URL: http://www.stason.org/
+Image: stas-bekman.jpg
+Summary: Lots of documentation, modules, mod_perl 2. Co-authoring Practical mod_perl.
+
+Stas's work on the mod_perl Guide (now integrated into the
+documentation) gave birth to a <i>great</i> piece of documentation,
+recommended to all aspiring mod_perl programmers.  He has also
+contributed a great deal to the mod_perl documentation and was the
+project leader for the creation of this site.
+
+On the coding side, Stas has written the
+<code>Apache::VMonitor</code>, <code>Apache::GTopLimit</code> and
+<code>Apache::Watchdog::RunAway</code> modules. He has contributed a
+great deal of work to mod_perl 1.x, and is now also working on
+mod_perl 2, most notably the <code>ModPerl::Registry</code> family.
+
+
+He is also co-authoring <a href="http://modperlbook.org/">Practical
+mod_perl</a> with Eric Cholet, to be published soon by O'Reilly.

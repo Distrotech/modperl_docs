@@ -1,0 +1,8 @@
+Name: Thomas Klausner
+Email: domm@zsi.at
+Image: thomas-klausner.jpg
+Summary: Original site design. Documentation re-organization.
+
+Thomas was the winner of the mod_perl site redesign contest, although
+things have changed a lot since then. He also did a big documentation
+reshuffling which made it a lot easier for everybody.

@@ -1,0 +1,5 @@
+Name: Mark Summerfield
+Summary: documentation review.
+
+For reviewing and fixing all the guide's chapters, improving guide's
+readability and suggesting useful extensions.

@@ -1,0 +1,10 @@
+Name: Jeffrey Baker
+Email: jeff@godzilla.tamu.edu
+Summary: Previous maintainer of NT binary distribution. Apache::Session. Docs.
+
+Previous maintainer of the mod_perl NT binary distribution and author
+of the <tt>Apache::Session</tt> module.
+
+For his "guide to mod_perl database performance" and many useful
+comments on the list that has been reused in the guide's material.
+

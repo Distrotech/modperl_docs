@@ -1,0 +1,4 @@
+Name: Wesley Darlington
+Summary: Documentation.
+
+Contributed a big section of the scenario chapter.

@@ -1,0 +1,4 @@
+Name: Randy Harmon
+Summary: documentation
+
+For rewriting the mod_perl advocacy chapter.

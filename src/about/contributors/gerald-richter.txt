@@ -1,0 +1,12 @@
+Name: Gerald Richter
+Email: richter@ecos.de
+URL: http://perl.apache.org/embperl/
+Image: gerald-richter.jpg
+Summary: Embperl, mod_perl 2.0 build system abstraction.
+
+Gerald has helped us with various bug spotting and fixing over the
+years.  His <a
+href="http://perl.apache.org/embperl/"><tt>Embperl</tt></a> toolkit,
+specially designed to run under mod_perl, has saved many lives.
+
+He is now working on abstracting the mod_perl 2.0 build system.

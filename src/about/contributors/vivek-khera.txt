@@ -1,0 +1,8 @@
+Name: Vivek Khera
+Email: vivek@khera.org
+URL: http://www.khera.org/~vivek/
+Summary: Documentation. Apache::Sandwich
+
+Vivek has saved many lives with his mod_perl_tuning.pod document, now
+merged into the documentation. He has also written the practical
+<code>Apache::Sandwich</code> module.

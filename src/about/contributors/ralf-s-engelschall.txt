@@ -1,0 +1,13 @@
+Name: Ralf S. Engelschall
+Email: rse@engelschall.com
+URL: http://www.engelschall.com/
+Summary: ePerl, improved mod_perl install process.
+Organization: Private
+Occupation: Cable & Wireless Deutschland GmbH
+Location: Munich, Germany
+
+Ralf, aka "Dr. Cosmetics", has greatly improved the mod_perl
+configure/build/install process by implementing APACI, DSO and APXS
+support, along with various documentation enhancements.  He has also
+written the <code>Apache::ePerl</code> module to enable mod_perl
+support for his ePerl embedded Perl solution.

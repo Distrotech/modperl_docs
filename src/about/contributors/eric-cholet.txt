@@ -1,0 +1,14 @@
+Name: Eric Cholet
+Email: cholet@logilune.com
+URL: http://www.logilune.com/eric/
+Summary: Modules, debugging, documentation. Co-authoring Practical mod_perl
+
+Author of <tt>Apache::EmbperlChain</tt> and
+<tt>Apache::RefererBlock</tt>.  Involved with many heroic debugging
+sessions.
+
+He has also written entire sections of the mod_perl User's guide, and
+pointed out technical errors in it.
+
+Eric is also co-authoring <a href="http://modperlbook.org/">Practical
+mod_perl</a> with Stas Bekman, to be published soon by O'Reilly.

@@ -1,0 +1,4 @@
+Name: Richard A. Wells
+Summary: documentation review
+
+For reviewing and correcting a large part of the guide.

@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>mod_perl Contributors</title>
+<meta name="description" content="A list of people having helped
+mod_perl along the way, and information about them">
+</head>
+
+<body>
+
+<p> There are thousands of people who have contributed to what
+mod_perl is today.  This file is here to recognize the tremendous
+efforts of the major contributors to the mod_perl effort. </p>
+
+<p> While <a href="#doug-maceachern">Doug MacEachern</a> is behind the
+majority of mod_perl's design, code and documentation, he and mod_perl
+never would have made it this far without the help from everyone in
+the mod_perl community.  His heartfelt thanks goes out to all of you!
+</p>
+
+<p> This list is generated from a set of text files, and the
+contributors are sorted alphabetically.</p>
+
+<p>Module authors aren't listed here, because keeping track of them
+would be too much work. For information about module authors, please
+refer to the <a href="../../products/apache-modlist.html">Apache/Perl
+Module list</a>.</p>
+
+<h2>Contributors</h2>
+
+<table width="100%">
+<tr>
+        <td class="menu-title-bg">
+        <div class="menu-title">
+                Contributor
+        </div>
+        </td>
+        <td class="menu-title-bg">
+        <div class="menu-title">
+                Activities
+        </div>
+        </td>
+</tr>
+[% FOREACH person = people %]
+<tr>
+        <td class="non-sel-bg">
+                <a href="#[% person.id %]">[% person.name %]</a>
+        </td>
+        <td class="non-sel-bg">
+                [% person.summary %]
+        </td>
+</tr>
+[% END %]
+</table>
+
+<h2>Information</h2>
+
+[% FOREACH person = people %]
+
+<hr>
+<p>
+<a name="[% person.id %]"></a>
+[% IF person.image %]
+<img src="[% person.image%]" alt="Picture of [% person.name %]" align="right">
+[% END %]
+
+<b>Name: </b> [% person.name %]<br>
+
+[%- IF person.email %]
+<b>E-mail: </b> [% person.email %]<br>
+[% END %]
+
+[%- IF person.url %]
+<b>URL: </b> <a href="[% person.url %]">[% person.url %]</a><br>
+[% END %]
+
+[% FOREACH key = person.info.keys %]
+<b>[% key %]: </b> [% person.info.$key %]<br>
+[% END %]
+
+</p>
+
+[% person.body %]
+
+[% END %]
+
+<hr>
+
+
+<p> This list was probably incomplete the moment it was created. We
+have done the best to our ability to make it as complete as
+possible. However, we aren't gods. So if you have contributed to
+mod_perl, but aren't listed here, or want to change your information,
+please contact <a href="mailto:per.einar@skynet.be">Per Einar
+Ellefsen</a> with as much information as you can.  </p>
+
+<p>For a list of contributors for which we don't have enough
+information, make sure to visit <a href="other.html">this
+page</a>.</p>
+
+
+</body>
+</html>

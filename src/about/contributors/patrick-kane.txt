@@ -1,0 +1,5 @@
+Name: Patrick Kane
+Email: modus@pr.es.to
+Summary: Original mod_perl FAQ.
+
+Patrick wrote the original mod_perl FAQ.
