@@ -76,9 +76,9 @@ Here is a very basic module that declares two new configuration
 directives: C<MyParameter>, which accepts one or more arguments, and
 C<MyOtherParameter> which accepts a single argument.
 
-  #file:MyApache/MyParameters.pm
+  #file:MyApache2/MyParameters.pm
   #-----------------------------
-  package MyApache::MyParameters;
+  package MyApache2::MyParameters;
   
   use strict;
   use warnings FATAL => 'all';
@@ -86,24 +86,24 @@ C<MyOtherParameter> which accepts a single argument.
   use Apache::Test;
   use Apache::TestUtil;
   
-  use Apache::Const -compile => qw(OR_ALL ITERATE);
+  use Apache2::Const -compile => qw(OR_ALL ITERATE);
   
-  use Apache::CmdParms ();
-  use Apache::Module ();
+  use Apache2::CmdParms ();
+  use Apache2::Module ();
   
   my @directives = (
       {
        name         => 'MyParameter',
        func         => __PACKAGE__ . '::MyParameter',
-       req_override => Apache::OR_ALL,
-       args_how     => Apache::ITERATE,
+       req_override => Apache2::OR_ALL,
+       args_how     => Apache2::ITERATE,
        errmsg       => 'MyParameter Entry1 [Entry2 ... [EntryN]]',
       },
       {
        name         => 'MyOtherParameter',
       },
   );
-  Apache::Module::add(__PACKAGE__, \@directives);
+  Apache2::Module::add(__PACKAGE__, \@directives);
   
   sub MyParameter {
       my($self, $parms, @args) = @_;
@@ -114,7 +114,7 @@ C<MyOtherParameter> which accepts a single argument.
 And here is how to use it in I<httpd.conf>:
 
   # first load the module so Apache will recognize the new directives
-  PerlLoadModule MyApache::MyParameters
+  PerlLoadModule MyApache2::MyParameters
   
   MyParameter one two three
   MyOtherParameter Foo
@@ -134,7 +134,7 @@ A minimal configuration module is comprised of three groups of elements:
 directives and their behavior.
 
 =item * A call to
-C<L<Apache::Module::add()|docs::2.0::api::Apache::Module/C_add_>> to
+C<L<Apache2::Module::add()|docs::2.0::api::Apache2::Module/C_add_>> to
 register the new directives with apache.
 
 =item * A subroutine per each new directive, which is called when the
@@ -154,8 +154,8 @@ we had:
       {
        name         => 'MyParameter',
        func         => __PACKAGE__ . '::MyParameter',
-       req_override => Apache::OR_ALL,
-       args_how     => Apache::ITERATE,
+       req_override => Apache2::OR_ALL,
+       args_how     => Apache2::ITERATE,
        errmsg       => 'MyParameter Entry1 [Entry2 ... [EntryN]]',
       },
       {
@@ -212,28 +212,28 @@ The I<> attribute defines the valid scope in which this directive can
 appear. There are L<several
 constants|/Directive_Scope_Definition_Constants> which map onto the
 corresponding Apache macros. These constants should be imported from
-the C<L<Apache::Const|docs::2.0::api::Apache::Const>>
+the C<L<Apache2::Const|docs::2.0::api::Apache2::Const>>
 package.
 
 For example, to use the C<OR_ALL> constant, which allows directives to
 be defined anywhere, first, it needs to be imported:
 
-  use Apache::Const -compile => qw(OR_ALL);
+  use Apache2::Const -compile => qw(OR_ALL);
 
 and then assigned to the I<req_override> attribute:
 
-  req_override => Apache::OR_ALL,
+  req_override => Apache2::OR_ALL,
 
 It's possible to combine several options using the unary
 operators. For example, the following setting:
 
-  req_override => Apache::RSRC_CONF | Apache::ACCESS_CONF
+  req_override => Apache2::RSRC_CONF | Apache2::ACCESS_CONF
 
 will allow the directive to appear anywhere in I<httpd.conf>, but
 forbid it from ever being used in I<.htaccess> files:
 
 This attribute is optional. If not supplied, the default value of
-C<L<Apache::OR_ALL|/C_Apache__OR_ALL_>> is used.
+C<L<Apache2::OR_ALL|/C_Apache2__OR_ALL_>> is used.
 
 =head3 C<args_how>
 
@@ -241,20 +241,20 @@ Directives can receive zero, one or many arguments. In order to help
 Apache validate that the number of arguments is valid, the I<args_how>
 attribute should be set to the desired value. Similar to the
 I<L<req_override|/C_req_override_>> attribute, the
-C<L<Apache::Const|docs::2.0::api::Apache::Const>> package provides a
-special C<L<:cmd_how|docs::2.0::api::Apache::Const/C__cmd_how_>>
+C<L<Apache2::Const|docs::2.0::api::Apache2::Const>> package provides a
+special C<L<:cmd_how|docs::2.0::api::Apache2::Const/C__cmd_how_>>
 constants group which maps to the corresponding Apache macros.  There
 are L<several
 constants|/Directive_Syntax_Definition_Constants> to choose from.
 
 In our example, the directive C<MyParameter> accepts one or more
 arguments, therefore we have the
-C<L<Apache::ITERATE|/C_Apache__ITERATE_>> constant:
+C<L<Apache2::ITERATE|/C_Apache2__ITERATE_>> constant:
 
-       args_how => Apache::ITERATE,
+       args_how => Apache2::ITERATE,
 
 This attribute is optional. If not supplied, the default value of
-C<L<Apache::TAKE1|/C_Apache__TAKE1_>> is used.
+C<L<Apache2::TAKE1|/C_Apache2__TAKE1_>> is used.
 
 
 =head3 C<errmsg>
@@ -287,14 +287,14 @@ directive handler.  For instance:
       {
        name         => '<Location',
        # func defaults to Redirect()
-       req_override => Apache::RSRC_CONF,
-       args_how     => Apache::RAW_ARGS,
+       req_override => Apache2::RSRC_CONF,
+       args_how     => Apache2::RAW_ARGS,
       },
       {
        name         => '<LocationMatch',
        func         => Redirect,
-       req_override => Apache::RSRC_CONF,
-       args_how     => Apache::RAW_ARGS,
+       req_override => Apache2::RSRC_CONF,
+       args_how     => Apache2::RAW_ARGS,
        cmd_data     => '1',
       },
   );
@@ -304,9 +304,9 @@ the C<Location> and C<LocationMatch> directives.  In the
 C<Location()> callback we can check the data in the I<cmd_data> slot
 to see whether the directive being processed is C<LocationMatch>
 and alter our logic accordingly.  How? Through the 
-C<info()> method exposed by the C<Apache::CmdParms> class.
+C<info()> method exposed by the C<Apache2::CmdParms> class.
 
-  use Apache::CmdParms ();
+  use Apache2::CmdParms ();
   
   sub Location {
   
@@ -326,9 +326,9 @@ two directives.
 
 Once the C<L<@directives|/C__CMDS_>> array is populated, it needs to be
 registered with apache using 
-C<L<Apache::Module::add()|docs::2.0::api::Apache::Module/C_add_>>
+C<L<Apache2::Module::add()|docs::2.0::api::Apache2::Module/C_add_>>
 
-  Apache::Module::add(__PACKAGE__, \@directives);
+  Apache2::Module::add(__PACKAGE__, \@directives);
 
 =head2 Directive Scope Definition Constants
 
@@ -339,58 +339,58 @@ the following constants:
 
 (these constants are declared in I<httpd-2.0/include/http_config.h>.)
 
-=head3 C<Apache::OR_NONE>
+=head3 C<Apache2::OR_NONE>
 
 The directive cannot be overridden by any of the C<AllowOverride>
 options.
 
-=head3 C<Apache::OR_LIMIT>
+=head3 C<Apache2::OR_LIMIT>
 
 The directive can appear within directory sections, but not outside
 them.  It is also allowed within I<.htaccess> files, provided that
 C<AllowOverride Limit> is set for the current directory.
 
-=head3 C<Apache::OR_OPTIONS>
+=head3 C<Apache2::OR_OPTIONS>
 
 The directive can appear anywhere within I<httpd.conf>, as well as
 within I<.htaccess> files provided that C<AllowOverride Options> is
 set for the current directory.
 
-=head3 C<Apache::OR_FILEINFO>
+=head3 C<Apache2::OR_FILEINFO>
 
 The directive can appear anywhere within I<httpd.conf>, as well as
 within I<.htaccess> files provided that C<AllowOverride FileInfo> is
 set for the current directory.
 
-=head3 C<Apache::OR_AUTHCFG>
+=head3 C<Apache2::OR_AUTHCFG>
 
 The directive can appear within directory sections, but not outside
 them.  It is also allowed within I<.htaccess> files, provided that
 C<AllowOverride AuthConfig> is set for the current directory.
 
-=head3 C<Apache::OR_INDEXES>
+=head3 C<Apache2::OR_INDEXES>
 
 The directive can appear anywhere within I<httpd.conf>, as well as
 within I<.htaccess> files provided that C<AllowOverride Indexes> is
 set for the current directory.
 
-=head3 C<Apache::OR_UNSET>
+=head3 C<Apache2::OR_UNSET>
 
 META: details? "unset a directive (in Allow)"
 
-=head3 C<Apache::ACCESS_CONF>
+=head3 C<Apache2::ACCESS_CONF>
 
 The directive can appear within directory sections.  The directive is
 not allowed in I<.htaccess> files.
 
-=head3 C<Apache::RSRC_CONF>
+=head3 C<Apache2::RSRC_CONF>
 
 The directive can appear in I<httpd.conf> outside a directory section
 (C<E<lt>DirectoryE<gt>>, C<E<lt>LocationE<gt>> or C<E<lt>FilesE<gt>>;
 also C<E<lt>FilesMatchE<gt>> and kin).  The directive is not allowed
 in I<.htaccess> files.
 
-=head3 C<Apache::OR_EXEC_ON_READ>
+=head3 C<Apache2::OR_EXEC_ON_READ>
 
 Force directive to execute a command which would modify the
 configuration (like including another file, or C<IFModule>).
@@ -402,9 +402,9 @@ because they affect the configuration tree (e.g., C<Include> may load
 extra configuration) or because they tell Apache about new directives
 (e.g., C<IfModule> or C<PerlLoadModule>, may load a module, which
 installs handlers for new directives). These directives must have the
-C<Apache::OR_EXEC_ON_READ> turned on.
+C<Apache2::OR_EXEC_ON_READ> turned on.
 
-=head3 C<Apache::OR_ALL>
+=head3 C<Apache2::OR_ALL>
 
 The directive can appear anywhere.  It is not limited in any way.
 
@@ -418,7 +418,7 @@ the callback subroutine, specified with the I<L<func|/C_func_>>
 attribute, will be called with two or more arguments. The first two
 arguments are always C<$self> and C<$parms>. A typical callback
 function which expects a single value
-(C<L<Apache::TAKE1|/C_Apache__TAKE1_>>) might look like the following:
+(C<L<Apache2::TAKE1|/C_Apache2__TAKE1_>>) might look like the following:
 
   sub MyParam {
       my($self, $parms, $arg) = @_;
@@ -469,14 +469,14 @@ object will be returned.
 =item 2
 
 C<$parms> is an
-C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>
+C<L<Apache2::CmdParms|docs::2.0::api::Apache2::CmdParms>>
 object from which you can retrieve various other information about the
 configuration. For example to retrieve the server object:
 
   my $s = $parms->server;
 
 See
-C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>
+C<L<Apache2::CmdParms|docs::2.0::api::Apache2::CmdParms>>
 for more information.
 
 =item 3
@@ -494,19 +494,19 @@ section|/Directive_Syntax_Definition_Constants>.
 The following values of the I<L<args_how|/C_args_how_>> attribute
 define how many arguments and what kind of arguments directives can
 accept. These values are constants that can be imported from the
-C<L<Apache::Const|docs::2.0::api::Apache::Const>> package
+C<L<Apache2::Const|docs::2.0::api::Apache2::Const>> package
 (C<L<:cmd_how constants
-group|docs::2.0::api::Apache::Const/C__cmd_how_>>).
+group|docs::2.0::api::Apache2::Const/C__cmd_how_>>).
 
 For example:
 
-  use Apache::Const -compile => qw(TAKE1 TAKE23);
+  use Apache2::Const -compile => qw(TAKE1 TAKE23);
 
 
 
 
 
-=head3 C<Apache::NO_ARGS>
+=head3 C<Apache2::NO_ARGS>
 
 The directive takes no arguments.  The callback will be invoked once
 each time the directive is encountered.  For example:
@@ -520,7 +520,7 @@ each time the directive is encountered.  For example:
 
 
 
-=head3 C<Apache::TAKE1>
+=head3 C<Apache2::TAKE1>
 
 The directive takes a single argument.  The callback will be invoked
 once each time the directive is encountered, and its argument will be
@@ -535,7 +535,7 @@ passed as the third argument. For example:
 
 
 
-=head3 C<Apache::TAKE2>
+=head3 C<Apache2::TAKE2>
 
 The directive takes two arguments.  They are passed to the callback as
 the third and fourth arguments. For example:
@@ -549,10 +549,10 @@ the third and fourth arguments. For example:
 
 
 
-=head3 C<Apache::TAKE3>
+=head3 C<Apache2::TAKE3>
 
-This is like C<L<Apache::TAKE1|/C_Apache__TAKE1_>> and
-C<L<Apache::TAKE2|/C_Apache__TAKE2_>>, but the directive takes three
+This is like C<L<Apache2::TAKE1|/C_Apache2__TAKE1_>> and
+C<L<Apache2::TAKE2|/C_Apache2__TAKE2_>>, but the directive takes three
 mandatory arguments. For example:
 
   sub MyParameter {
@@ -564,7 +564,7 @@ mandatory arguments. For example:
 
 
 
-=head3 C<Apache::TAKE12>
+=head3 C<Apache2::TAKE12>
 
 This directive takes one mandatory argument, and a second optional
 one.  This can be used when the second argument has a default value
@@ -579,19 +579,19 @@ that the user may want to override.  For example:
 
 
 
-=head3 C<Apache::TAKE23>
+=head3 C<Apache2::TAKE23>
 
-C<L<Apache::TAKE23|/C_Apache__TAKE23_>> is just like
-C<L<Apache::TAKE12|/C_Apache__TAKE12_>>, except now there are two
+C<L<Apache2::TAKE23|/C_Apache2__TAKE23_>> is just like
+C<L<Apache2::TAKE12|/C_Apache2__TAKE12_>>, except now there are two
 mandatory arguments and an optional third one.
 
 
 
 
 
-=head3 C<Apache::TAKE123>
+=head3 C<Apache2::TAKE123>
 
-In the C<Apache::TAKE123> variant, the first argument is mandatory and
+In the C<Apache2::TAKE123> variant, the first argument is mandatory and
 the other two are optional.  This is useful for providing defaults for
 two arguments.
 
@@ -600,9 +600,9 @@ two arguments.
 
 
 
-=head3 C<Apache::ITERATE>
+=head3 C<Apache2::ITERATE>
 
-C<Apache::ITERATE> is used when a directive can take an unlimited
+C<Apache2::ITERATE> is used when a directive can take an unlimited
 number of arguments.  The callback is invoked repeatedly with a single
 argument, once for each argument in the list.  It's done this way for
 interoperability with the C API, which doesn't have the flexible
@@ -618,9 +618,9 @@ argument passing that Perl provides. For example:
 
 
 
-=head3 C<Apache::ITERATE2>
+=head3 C<Apache2::ITERATE2>
 
-C<Apache::ITERATE2> is used for directives that take a mandatory first
+C<Apache2::ITERATE2> is used for directives that take a mandatory first
 argument followed by a list of arguments to be applied to the first.
 A familiar example is the C<AddType> directive, in which a series of
 file extensions are applied to a single MIME type:
@@ -645,9 +645,9 @@ For example:
 
 
 
-=head3 C<Apache::RAW_ARGS>
+=head3 C<Apache2::RAW_ARGS>
 
-An I<L<args_how|/C_args_how_>> of C<Apache::RAW_ARGS> instructs
+An I<L<args_how|/C_args_how_>> of C<Apache2::RAW_ARGS> instructs
 Apache to turn off parsing altogether.  Instead it simply passes your
 callback function the line of text following the directive.  Leading
 and trailing whitespace is stripped from the text, but it is not
@@ -655,7 +655,7 @@ otherwise processed.  Your callback can then do whatever processing it
 wishes to perform.
 
 This callback receives three arguments (similar to
-C<L<Apache::TAKE1|/C_Apache__TAKE1_>>), the third of which is a
+C<L<Apache2::TAKE1|/C_Apache2__TAKE1_>>), the third of which is a
 string-valued scalar containing the remaining text following the
 directive line.
 
@@ -666,16 +666,16 @@ directive line.
 
 If this mode is used to implement a custom "container" directive, the
 attribute I<L<req_override|/C_req_override_>> needs to OR
-C<L<Apache::OR_EXEC_ON_READ|/C_Apache__OR_EXEC_ON_READ_>>. e.g.:
+C<L<Apache2::OR_EXEC_ON_READ|/C_Apache2__OR_EXEC_ON_READ_>>. e.g.:
 
-  req_override => Apache::OR_ALL | Apache::OR_EXEC_ON_READ,
+  req_override => Apache2::OR_ALL | Apache2::OR_EXEC_ON_READ,
 
 META: complete the details, which are new to 2.0.
 
 To retrieve the contents of a custom "container" directive, use the
-C<L<Apache::Directive|docs::2.0::api::Apache::Directive>> object's methods 
-C<L<as_hash|docs::2.0::api::Apache::Directive/C_as_hash_>>
-or C<L<as_string|docs::2.0::api::Apache::Directive/C_as_string_>> :
+C<L<Apache2::Directive|docs::2.0::api::Apache2::Directive>> object's methods 
+C<L<as_hash|docs::2.0::api::Apache2::Directive/C_as_hash_>>
+or C<L<as_string|docs::2.0::api::Apache2::Directive/C_as_string_>> :
 
   sub MyParameter {
       my($self, $parms, $val) = @_;
@@ -695,7 +695,7 @@ One other trick that is not required, but can provide some more user
 friendliness is to provide a handler for the container end token.  In
 our example, the Apache configuration gears will never see the
 C<E<lt>/MyContainerE<gt>> token, as our
-C<L<Apache::RAW_ARGS|/C_Apache__RAW_ARGS_>> handler will read in that
+C<L<Apache2::RAW_ARGS|/C_Apache2__RAW_ARGS_>> handler will read in that
 line and stop reading when it is seen.  However in order to catch
 cases in which the C<E<lt>/MyContainerE<gt>> text appears without a
 preceding C<E<lt>MyContainerE<gt>> opening section, we need to turn
@@ -706,8 +706,8 @@ exits. For example:
     name         => '</MyContainer>',
     func         => __PACKAGE__ . "::MyContainer_END",
     errmsg       => 'end of MyContainer without beginning?',
-    args_how     => Apache::NO_ARGS,
-    req_override => Apache::OR_ALL,
+    args_how     => Apache2::NO_ARGS,
+    req_override => Apache2::OR_ALL,
   },
   ...
   my $EndToken = "</MyContainer>";
@@ -724,9 +724,9 @@ server will not start, complaining with this error message:
 
 
 
-=head3 C<Apache::FLAG>
+=head3 C<Apache2::FLAG>
 
-When C<Apache::FLAG> is used, Apache will only allow the argument to
+When C<Apache2::FLAG> is used, Apache will only allow the argument to
 be one of two values, C<On> or C<Off>.  This string value will be
 converted into an integer, C<1> if the flag is C<On>, C<0> if it is
 C<Off>.  If the configuration argument is anything other than C<On> or
@@ -757,7 +757,7 @@ As seen in the first example, the module needs to be loaded before the
 new directives can be used. A special directive C<PerlLoadModule> is
 used for this purpose. For example:
 
-  PerlLoadModule MyApache::MyParameters
+  PerlLoadModule MyApache2::MyParameters
 
 This directive is similar to C<PerlModule>, but it require()'s the
 Perl module immediately, causing an early mod_perl startup. After
@@ -795,7 +795,7 @@ C<SERVER_CREATE> is called once for the main server, and once more for
 each virtual host defined in I<httpd.conf>. It's called with two
 arguments: C<$class>, the package name it was created in and C<$parms>
 the already familiar
-C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>
+C<L<Apache2::CmdParms|docs::2.0::api::Apache2::CmdParms>>
 object. The object is expected to return a reference to a blessed
 hash, which will be used by configuration directives callbacks to set
 the values assigned in the configuration file. But it's possible to
@@ -805,12 +805,12 @@ For example, in the following example the object assigns a default
 value, which can be overridden during merge if a the directive was used
 to assign a custom value:
 
-  package MyApache::MyParameters;
+  package MyApache2::MyParameters;
   ...
-  use Apache::Module ();
-  use Apache::CmdParms ();
+  use Apache2::Module ();
+  use Apache2::CmdParms ();
   my @directives = (...);
-  Apache::Module::add(__PACKLAGE__, \@directives);
+  Apache2::Module::add(__PACKLAGE__, \@directives);
   ...
   sub SERVER_CREATE {
       my($class, $parms) = @_;
@@ -821,22 +821,22 @@ to assign a custom value:
 
 To retrieve that value later, you can use:
 
-  use Apache::Module ();
+  use Apache2::Module ();
   ...
-  my $srv_cfg = Apache::Module::get_config('MyApache::MyParameters', $s);
+  my $srv_cfg = Apache2::Module::get_config('MyApache2::MyParameters', $s);
   print $srv_cfg->{name};
 
 If a request is made to a resource inside a virtual host, C<$srv_cfg>
 will contain the object of the virtual host's server. To reach the
 main server's configuration object use:
 
-  use Apache::Module ();
-  use Apache::ServerRec ();
-  use Apache::ServerUtil ();
+  use Apache2::Module ();
+  use Apache2::ServerRec ();
+  use Apache2::ServerUtil ();
   ...
   if ($s->is_virtual) {
-      my $base_srv_cfg = Apache::Module::get_config('MyApache::MyParameters',
-                                                    Apache->server);
+      my $base_srv_cfg = Apache2::Module::get_config('MyApache2::MyParameters',
+                                                    Apache2->server);
       print $base_srv_cfg->{name};
   }
 
@@ -886,12 +886,12 @@ I<.htaccess> file and for each resource defined in it.
 The C<DIR_CREATE> function's skeleton is identical to
 C<SERVER_CREATE>. Here is an example:
 
-  package MyApache::MyParameters;
+  package MyApache2::MyParameters;
   ...
-  use Apache::Module ();
-  use Apache::CmdParms ();
+  use Apache2::Module ();
+  use Apache2::CmdParms ();
   my @directives = (...);
-  Apache::Module::add(__PACKAGE__, \@directives);
+  Apache2::Module::add(__PACKAGE__, \@directives);
   ...
   sub DIR_CREATE {
       my($class, $parms) = @_;
@@ -902,15 +902,15 @@ C<SERVER_CREATE>. Here is an example:
 
 To retrieve that value later, you can use:
 
-  use Apache::Module ();
+  use Apache2::Module ();
   ...
-  my $dir_cfg = Apache::Module::get_config('MyApache::MyParameters',
+  my $dir_cfg = Apache2::Module::get_config('MyApache2::MyParameters',
                                            $s, $r->per_dir_config);
   print $dir_cfg->{foo};
 
 The only difference in the retrieving the directory configuration
 object. Here the third argument C<$r-E<gt>per_dir_config> tells
-C<L<Apache::Module|docs::2.0::api::Apache::Module>> to
+C<L<Apache2::Module|docs::2.0::api::Apache2::Module>> to
 get the directory configuration object.
 
 =head3 C<DIR_MERGE>
@@ -939,18 +939,18 @@ merging works, by showing various merging techniques.
 Here is an example Perl module, which, when loaded, installs four
 custom directives into Apache.
 
-  #file:MyApache/CustomDirectives.pm
+  #file:MyApache2/CustomDirectives.pm
   #---------------------------------
-  package MyApache::CustomDirectives;
+  package MyApache2::CustomDirectives;
   
   use strict;
   use warnings FATAL => 'all';
   
-  use Apache::CmdParms ();
-  use Apache::Module ();
-  use Apache::ServerUtil ();
+  use Apache2::CmdParms ();
+  use Apache2::Module ();
+  use Apache2::ServerUtil ();
   
-  use Apache::Const -compile => qw(OK);
+  use Apache2::Const -compile => qw(OK);
   
   my @directives = (
       { name => 'MyPlus' },
@@ -958,7 +958,7 @@ custom directives into Apache.
       { name => 'MyAppend' },
       { name => 'MyOverride' },
   );
-  Apache::Module::add(__PACKAGE__, \@directives);
+  Apache2::Module::add(__PACKAGE__, \@directives);
   
   sub MyPlus     { set_val('MyPlus',     @_) }
   sub MyAppend   { set_val('MyAppend',   @_) }
@@ -972,7 +972,7 @@ custom directives into Apache.
       my($key, $self, $parms, $arg) = @_;
       $self->{$key} = $arg;
       unless ($parms->path) {
-          my $srv_cfg = Apache::Module::get_config($self,
+          my $srv_cfg = Apache2::Module::get_config($self,
                                                    $parms->server);
           $srv_cfg->{$key} = $arg;
       }
@@ -982,7 +982,7 @@ custom directives into Apache.
       my($key, $self, $parms, $arg) = @_;
       push @{ $self->{$key} }, $arg;
       unless ($parms->path) {
-          my $srv_cfg = Apache::Module::get_config($self,
+          my $srv_cfg = Apache2::Module::get_config($self,
                                                    $parms->server);
           push @{ $srv_cfg->{$key} }, $arg;
       }
@@ -1022,10 +1022,10 @@ It's probably a good idea to specify all the attributes for the
 C<@directives> entries, but here for simplicity we have
 only assigned to the I<L<name|/C_name_>> directive, which is a
 must. Since all our directives take a single argument,
-C<L<Apache::TAKE1|/C_Apache__TAKE1_>>, the default
+C<L<Apache2::TAKE1|/C_Apache2__TAKE1_>>, the default
 I<L<args_how|/C_args_how_>>, is what we need. We also allow the
 directives to appear anywhere, so
-C<L<Apache::OR_ALL|/C_Apache__OR_ALL_>>, the default for
+C<L<Apache2::OR_ALL|/C_Apache2__OR_ALL_>>, the default for
 I<L<req_override|/C_req_override_>>, is good for us as well.
 
 We use the same callback for the directives C<MyPlus>, C<MyAppend> and
@@ -1035,10 +1035,10 @@ entry with the key of the same name as the directive.
 The C<MyList> directive's callback stores the value in the list, a
 reference to which is stored in the hash, again using the name of the
 directive as the key. This approach is usually used when the directive
-is of type C<L<Apache::ITERATE|/C_Apache__ITERATE_>>, so you may have
+is of type C<L<Apache2::ITERATE|/C_Apache2__ITERATE_>>, so you may have
 more than one value of the same kind inside a single container. But in
 our example we choose to have it of the type
-C<L<Apache::TAKE1|/C_Apache__TAKE1_>>.
+C<L<Apache2::TAKE1|/C_Apache2__TAKE1_>>.
 
 In both callbacks in addition to storing the value in the current
 I<directory> configuration, if the value is configured in the main
@@ -1063,14 +1063,14 @@ ancestors or for the current resource.
 
 At the end of the merging, a blessed reference to the merged hash is
 returned. The reference is blessed into the same class, as the base or
-the add objects, which is C<MyApache::CustomDirectives> in our
+the add objects, which is C<MyApache2::CustomDirectives> in our
 example. That hash is used as the merged ancestor's object for a
 sub-resource of the resource that has just undergone merging.
 
 Next we supply the following I<httpd.conf> configuration section, so
 we can demonstrate the features of this example:
 
-  PerlLoadModule MyApache::CustomDirectives
+  PerlLoadModule MyApache2::CustomDirectives
   MyPlus 5
   MyList     "MainServer"
   MyAppend   "MainServer"
@@ -1087,7 +1087,7 @@ we can demonstrate the features of this example:
           MyAppend   "Dir"
           MyOverride "Dir"
           SetHandler modperl
-          PerlResponseHandler MyApache::CustomDirectivesTest
+          PerlResponseHandler MyApache2::CustomDirectivesTest
       </Location>
       <Location /custom_directives_test/subdir>
           MyPlus 1
@@ -1098,12 +1098,12 @@ we can demonstrate the features of this example:
   </VirtualHost>
   <Location /custom_directives_test>
       SetHandler modperl
-      PerlResponseHandler MyApache::CustomDirectivesTest
+      PerlResponseHandler MyApache2::CustomDirectivesTest
   </Location>
 
-C<PerlLoadModule> loads the Perl module C<MyApache::CustomDirectives>
+C<PerlLoadModule> loads the Perl module C<MyApache2::CustomDirectives>
 and then installs a new Apache module named
-C<MyApache::CustomDirectives>, using the callbacks provided by the
+C<MyApache2::CustomDirectives>, using the callbacks provided by the
 Perl module.  In our example functions C<SERVER_CREATE> and
 C<DIR_CREATE> aren't provided, so by default an empty hash will be
 created to represent the configuration object for the merging
@@ -1130,23 +1130,23 @@ which will dump the values of configuration objects that in its
 reach. As we will see that different resources will see see certain
 things identically, while others differently. So here it the handler:
 
-  #file:MyApache/CustomDirectivesTest.pm
+  #file:MyApache2/CustomDirectivesTest.pm
   #-------------------------------------
-  package MyApache::CustomDirectivesTest;
+  package MyApache2::CustomDirectivesTest;
   
   use strict;
   use warnings FATAL => 'all';
   
-  use Apache::RequestRec ();
-  use Apache::RequestIO ();
-  use Apache::ServerRec ();
-  use Apache::ServerUtil ();
-  use Apache::Module ();
+  use Apache2::RequestRec ();
+  use Apache2::RequestIO ();
+  use Apache2::ServerRec ();
+  use Apache2::ServerUtil ();
+  use Apache2::Module ();
   
-  use Apache::Const -compile => qw(OK);
+  use Apache2::Const -compile => qw(OK);
   
   sub get_config {
-      Apache::Module::get_config('MyApache::CustomDirectives', @_);
+      Apache2::Module::get_config('MyApache2::CustomDirectives', @_);
   }
   
   sub handler {
@@ -1160,7 +1160,7 @@ things identically, while others differently. So here it the handler:
       my $srv_cfg = get_config($s);
   
       if ($s->is_virtual) {
-          $secs{"1: Main Server"}  = get_config(Apache->server);
+          $secs{"1: Main Server"}  = get_config(Apache2->server);
           $secs{"2: Virtual Host"} = $srv_cfg;
           $secs{"3: Location"}     = $dir_cfg;
       }
@@ -1184,7 +1184,7 @@ things identically, while others differently. So here it the handler:
           }
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   1;

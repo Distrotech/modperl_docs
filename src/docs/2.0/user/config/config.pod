@@ -52,32 +52,6 @@ handlers|docs::2.0::user::intro::start_fast/Handler_Modules>.
 
 
 
-=head1 Accessing the mod_perl 2.0 Modules
-
-In order to prevent from inadvertently loading mod_perl 1.0 modules
-mod_perl 2.0 Perl modules are installed into dedicated directories
-under I<Apache2/>. The C<Apache2> module prepends the locations of the
-mod_perl 2.0 libraries to C<@INC>, which are the same as the core
-C<@INC>, but with I<Apache2/> appended. This module has to be loaded
-just after mod_perl has been enabled. This can be accomplished with:
-
-  use Apache2 ();
-
-in the
-L<startup|docs::2.0::user::handlers::server/Startup_specific_Coding>
-file.
-
-Only if you don't use a startup file you can add:
-
-  PerlModule Apache2
-
-to I<httpd.conf>, due to the order the C<PerlRequire> and
-C<PerlModule> directives are processed.
-
-
-
-
-
 =head1 Server Configuration Directives
 
 
@@ -89,7 +63,7 @@ With C<E<lt>PerlE<gt>>...C<E<lt>/PerlE<gt>> sections, it is possible
 to configure your server entirely in Perl.
 
 Please refer to the
-L<Apache::PerlSections|docs::2.0::api::Apache::PerlSections> manpage
+L<Apache2::PerlSections|docs::2.0::api::Apache2::PerlSections> manpage
 for more information.
 
 META: a dedicated chapter with examples?
@@ -248,9 +222,9 @@ It also provides control over what class of Perl interpreter pool is
 used for a C<E<lt>VirtualHostE<gt>> or location configured with
 C<E<lt>LocationE<gt>>, C<E<lt>DirectoryE<gt>>, etc.
 
-L<$r-E<gt>is_perl_option_enabled($option)|docs::2.0::api::Apache::RequestUtil/C_is_perl_option_enabled_>
+L<$r-E<gt>is_perl_option_enabled($option)|docs::2.0::api::Apache2::RequestUtil/C_is_perl_option_enabled_>
 and
-L<$s-E<gt>is_perl_option_enabled($option)|docs::2.0::api::Apache::ServerUtil/C_is_perl_option_enabled_>
+L<$s-E<gt>is_perl_option_enabled($option)|docs::2.0::api::Apache2::ServerUtil/C_is_perl_option_enabled_>
 can be used at run-time to check whether a certain C<$option> has been
 enabled. (META: probably need to add/move this to the coding chapter)
 
@@ -314,14 +288,12 @@ META: is -Mlib portable? (problems with -Mlib on Darwin/5.6.0?)
       ServerName dev1
       PerlOptions +Parent
       PerlSwitches -Mlib=/home/dev1/lib/perl
-      PerlModule Apache2
   </VirtualHost>
 
   <VirtualHost ...>
       ServerName dev2
       PerlOptions +Parent
       PerlSwitches -Mlib=/home/dev2/lib/perl
-      PerlModule Apache2
   </VirtualHost>
 
 Remember that C<+Parent> gives you a completely new Perl interpreters
@@ -398,9 +370,9 @@ in our example.
 
 =head3 C<GlobalRequest>
 
-Setup the global C<L<$r|docs::2.0::api::Apache::RequestRec>> object
+Setup the global C<L<$r|docs::2.0::api::Apache2::RequestRec>> object
 for use with
-C<L<Apache-E<gt>request|docs::2.0::api::Apache::RequestUtil/C_request_>>.
+C<L<Apache2-E<gt>request|docs::2.0::api::Apache2::RequestUtil/C_request_>>.
 
 This setting is enabled by default during the
 C<L<PerlResponseHandler|docs::2.0::user::handlers::http/PerlResponseHandler>>
@@ -426,7 +398,7 @@ You can also set that global object from the handler code, like so:
 
   sub handler {
       my $r = shift;
-      Apache->request($r);
+      Apache2->request($r);
       ...
   }
 
@@ -473,24 +445,24 @@ be enabled for registry scripts which send the HTTP header with:
 
 Turn on merging of C<Perl*Handler> arrays. For example with a setting:
 
-  PerlFixupHandler Apache::FixupA
+  PerlFixupHandler Apache2::FixupA
   
   <Location /inside>
-      PerlFixupHandler Apache::FixupB
+      PerlFixupHandler Apache2::FixupB
   </Location>
 
-a request for I</inside> only runs C<Apache::FixupB> (mod_perl 1.0
+a request for I</inside> only runs C<Apache2::FixupB> (mod_perl 1.0
 behavior). But with this configuration:
 
-  PerlFixupHandler Apache::FixupA
+  PerlFixupHandler Apache2::FixupA
   
   <Location /inside>
       PerlOptions +MergeHandlers
-      PerlFixupHandler Apache::FixupB
+      PerlFixupHandler Apache2::FixupB
   </Location>
 
-a request for I</inside> will run both C<Apache::FixupA> and
-C<Apache::FixupB> handlers.
+a request for I</inside> will run both C<Apache2::FixupA> and
+C<Apache2::FixupB> handlers.
 
 
 =head3 C<SetupEnv>
@@ -500,8 +472,8 @@ Set up environment variables for each request ala mod_cgi.
 When this option is enabled, I<mod_perl> fiddles with the environment
 to make it appear as if the code is called under the mod_cgi handler.
 For example, the C<$ENV{QUERY_STRING}> environment variable is
-initialized with the contents of I<Apache::args()>, and the value
-returned by I<Apache::server_hostname()> is put into
+initialized with the contents of I<Apache2::args()>, and the value
+returned by I<Apache2::server_hostname()> is put into
 C<$ENV{SERVER_NAME}>.
 
 But C<%ENV> population is expensive.  Those who have moved to the Perl
@@ -553,7 +525,7 @@ and you issue a request for this script:
   setupenvoff.pl
   --------------
   use Data::Dumper;
-  my $r = Apache->request();
+  my $r = Apache2->request();
   $r->content_type('text/plain');
   print Dumper(\%ENV);
 
@@ -764,11 +736,11 @@ I<httpd.conf>:
 
   <Location /print_env2>
       SetHandler modperl
-      PerlResponseHandler Apache::VarTest
+      PerlResponseHandler Apache2::VarTest
       PerlSetVar VarTest VarTestValue
   </Location>
 
-this value can be retrieved inside C<Apache::VarTest::handler()> with:
+this value can be retrieved inside C<Apache2::VarTest::handler()> with:
 
   $r->dir_config('VarTest');
 
@@ -838,14 +810,14 @@ C<perl-script> core handlers in the following example, which
 represents a simple mod_perl response handler which prints out the
 environment variables as seen by it:
 
-  file:MyApache/PrintEnv1.pm
+  file:MyApache2/PrintEnv1.pm
   -----------------------
-  package MyApache::PrintEnv1;
+  package MyApache2::PrintEnv1;
   use strict;
   
-  use Apache::RequestRec (); # for $r->content_type
-  use Apache::RequestIO ();  # for print
-  use Apache::Const -compile => ':common';
+  use Apache2::RequestRec (); # for $r->content_type
+  use Apache2::RequestIO ();  # for print
+  use Apache2::Const -compile => ':common';
   
   sub handler {
       my $r = shift;
@@ -855,17 +827,17 @@ environment variables as seen by it:
           print "$_ => $ENV{$_}\n";
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   1;
 
 This is the required configuration:
 
-  PerlModule MyApache::PrintEnv1
+  PerlModule MyApache2::PrintEnv1
   <Location /print_env1>
       SetHandler perl-script
-      PerlResponseHandler MyApache::PrintEnv1
+      PerlResponseHandler MyApache2::PrintEnv1
   </Location>
 
 Now issue a request to I<http://localhost/print_env1> and you should
@@ -874,15 +846,15 @@ see all the environment variables printed out.
 Here is the same response handler, adjusted to work with the
 C<modperl> core handler:
 
-  file:MyApache/PrintEnv2.pm
+  file:MyApache2/PrintEnv2.pm
   ------------------------
-  package MyApache::PrintEnv2;
+  package MyApache2::PrintEnv2;
   use strict;
   
-  use Apache::RequestRec (); # for $r->content_type
-  use Apache::RequestIO ();  # for $r->print
+  use Apache2::RequestRec (); # for $r->content_type
+  use Apache2::RequestIO ();  # for $r->print
   
-  use Apache::Const -compile => ':common';
+  use Apache2::Const -compile => ':common';
   
   sub handler {
       my $r = shift;
@@ -893,20 +865,20 @@ C<modperl> core handler:
           $r->print("$_ => $ENV{$_}\n");
       }
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   
   1;
 
 The configuration now will look as:
 
-  PerlModule MyApache::PrintEnv2
+  PerlModule MyApache2::PrintEnv2
   <Location /print_env2>
       SetHandler modperl
-      PerlResponseHandler MyApache::PrintEnv2
+      PerlResponseHandler MyApache2::PrintEnv2
   </Location>
 
-C<MyApache::PrintEnv2> cannot use C<print()> and therefore uses
+C<MyApache2::PrintEnv2> cannot use C<print()> and therefore uses
 C<$r-E<gt>print()> to generate a response. Under the C<modperl> core
 handler C<%ENV> is not populated by default, therefore
 C<subprocess_env()> is called in a void context. Alternatively we
@@ -985,8 +957,8 @@ See C<L<PerlProcessConnectionHandler|docs::2.0::user::handlers::protocols/PerlPr
 
 mod_perl filters are described in the L<filter handlers
 tutorial|docs::2.0::user::handlers::filters>, 
-C<L<Apache::Filter|docs::2.0::api::Apache::Filter>> and
-C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>> manpages.
+C<L<Apache2::Filter|docs::2.0::api::Apache2::Filter>> and
+C<L<Apache2::FilterRec|docs::2.0::api::Apache2::FilterRec>> manpages.
 
 The following filter handler configuration directives are available:
 
@@ -1425,11 +1397,11 @@ the previous example:
 
 If you need to access any of the startup defines in the Perl code you
 use
-C<L<Apache::ServerUtil::exists_config_define()|docs::2.0::Apache::ServerUtil/C_exists_config_define_>>. For
+C<L<Apache2::ServerUtil::exists_config_define()|docs::2.0::Apache2::ServerUtil/C_exists_config_define_>>. For
 example in a startup file you can say:
 
-  use Apache::ServerUtil ();
-  if (Apache::ServerUtil::exists_config_define("PERLDB")) {
+  use Apache2::ServerUtil ();
+  if (Apache2::ServerUtil::exists_config_define("PERLDB")) {
       require Apache::DB;
       Apache::DB->init;
   }
@@ -1437,7 +1409,7 @@ example in a startup file you can say:
 For example to check whether the server has been started in a single
 mode use:
 
-  if (Apache::ServerUtil::exists_config_define("ONE_PROCESS")) {
+  if (Apache2::ServerUtil::exists_config_define("ONE_PROCESS")) {
       print "Running in a single mode";
   }
 
@@ -1457,11 +1429,11 @@ running under mod_perl 1.0 or 2.0:
   </IfDefine>
 
 From within Perl code this can be tested with
-C<L<Apache::ServerUtil::exists_config_define()|docs::2.0::Apache::ServerUtil/C_exists_config_define_>>,
+C<L<Apache2::ServerUtil::exists_config_define()|docs::2.0::Apache2::ServerUtil/C_exists_config_define_>>,
 for example:
 
-  use Apache::ServerUtil ();
-  if (Apache::ServerUtil::exists_config_define("MODPERL2")) {
+  use Apache2::ServerUtil ();
+  if (Apache2::ServerUtil::exists_config_define("MODPERL2")) {
       # some 2.0 specific code
   }
 
@@ -1472,8 +1444,8 @@ for example:
 =head1 Perl Interface to the Apache Configuration Tree
 
 For now refer to the
-L<Apache::Directive|docs::2.0::api::Apache::Directive> manpage and the
-test I<t/response/TestApache/conftree.pm> in the mod_perl source
+L<Apache2::Directive|docs::2.0::api::Apache2::Directive> manpage and the
+test I<t/response/TestApache2/conftree.pm> in the mod_perl source
 distribution.
 
 META: need help to write the tutorial section on this with examples.
@@ -1537,14 +1509,12 @@ C<L<PerlSwitches|/C_PerlSwitches_>>. For example:
       ServerName dev1
       PerlOptions +Parent
       PerlSwitches -I/home/dev1/lib/perl
-      PerlModule Apache2
   </VirtualHost>
 
   <VirtualHost ...>
       ServerName dev2
       PerlOptions +Parent
       PerlSwitches -I/home/dev2/lib/perl
-      PerlModule Apache2
   </VirtualHost>
 
 This technique works under any MPM with ithreads-enabled perl. It's
