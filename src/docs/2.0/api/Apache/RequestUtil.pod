@@ -434,8 +434,8 @@ a string representing the phase to handle.
 
 =item arg3: C<$handlers> (CODE ref or SUB name or ref to an ARRAY of CODE refs)
 
-a reference to a single handler CODE reference or just a name of the
-subroutine (fully qualified unless defined in the current package).
+a single handler CODE reference or just a name of the subroutine
+(fully qualified unless defined in the current package).
 
 if more than one passed, use a reference to an array of CODE refs
 and/or subroutine names.
