@@ -1,0 +1,16 @@
+To be able to run bin/build, bin/docset_build and bin/makeindex under Win32,
+you'll have to go through the following steps (while you are in the
+modperl-docs directory):
+
+  cd bin
+  pl2bat build
+  pl2bat docset_build
+  pl2bat makeindex
+
+Now, being placed in your base directory, you can execute "bin\build" with
+any normal options. Note that you need some extra prereuisites to be able to
+run makeindex (swish-e for instance).
+
+If these files change in CVS, you will need to redo the above steps, or you
+won't see the changes.
+
