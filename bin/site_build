@@ -47,19 +47,19 @@ sub update {
     $flags .= 'd' if $name =~ /pdf/;
     $flags = $flags ? "-$flags" : "";
 
-    qx{ cvs up -dP >/dev/null 2>&1 };
+    system("cvs up -dP >/dev/null 2>&1");
 
-    qx{ bin/build $flags };
+    system("bin/build $flags");
 
-    qx{ bin/makeindex } if $reindex;
+    system("bin/makeindex") if $reindex;
 
 
 }
 
 sub online_sync {
-    qx{ cp -r $rel/ $dst/ };
-    qx{ find $dst -type d -exec chmod g+rwx {} \; >/dev/null 2>&1 };
-    qx{ find $dst -type f -exec chmod g+wr {} \;  >/dev/null 2>&1 };
+    system("cp -r $rel/ $dst/");
+    system("find $dst -type d -exec chmod g+rwx {} \; >/dev/null 2>&1");
+    system("find $dst -type f -exec chmod g+wr {} \;  >/dev/null 2>&1");
 }
 
 sub fs_is_full {
