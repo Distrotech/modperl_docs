@@ -33,23 +33,25 @@ From the diagram it can be seen that an HTTP request is processes by
 
 =item 2 PerlTransHandler
 
-=item 3 PerlHeaderParserHandler (PerlInitHandler)
+=item 3 PerlMapToStorageHandler
 
-=item 4 PerlAccessHandler
+=item 4 PerlHeaderParserHandler (PerlInitHandler)
 
-=item 5 PerlAuthenHandler
+=item 5 PerlAccessHandler
 
-=item 6 PerlAuthzHandler
+=item 6 PerlAuthenHandler
 
-=item 7 PerlTypeHandler
+=item 7 PerlAuthzHandler
 
-=item 8 PerlFixupHandler
+=item 8 PerlTypeHandler
 
-=item 9 PerlResponseHandler
+=item 9 PerlFixupHandler
 
-=item 10 PerlLogHandler
+=item 10 PerlResponseHandler
 
-=item 11 PerlCleanupHandler
+=item 11 PerlLogHandler
+
+=item 12 PerlCleanupHandler
 
 =back
 
@@ -245,6 +247,23 @@ can be easily adjusted to do so.
 To configure this module simply add to I<httpd.conf>:
 
   PerlTransHandler +MyApache::RewriteURI
+
+
+
+
+
+
+=head2 PerlMapToStorageHandler
+                                                                                                   
+META: add something here
+
+This phase is of type
+C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
+
+The handler's configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because at this
+phase the request has not yet been associated with a particular
+filename or directory.
 
 
 

@@ -773,6 +773,10 @@ See C<L<PerlPostReadRequestHandler|docs::2.0::user::handlers::http/PerlPostReadR
 
 See C<L<PerlTransHandler|docs::2.0::user::handlers::http/PerlTransHandler>>.
 
+=head2 C<PerlMapToStorageHandler>
+
+See C<L<PerlMapToStorageHandler|docs::2.0::user::handlers::http/PerlMapToStorageHandler>>.
+
 =head2 C<PerlInitHandler>
 
 See C<L<PerlInitHandler|docs::2.0::user::handlers::http/PerlInitHandler>>.
@@ -991,6 +995,7 @@ Handler assignment directives:
   
   PerlPostReadRequestHandler   ITERATE    SRV
   PerlTransHandler             ITERATE    SRV
+  PerlMapToStorageHandler      ITERATE    SRV
   PerlInitHandler              ITERATE    DIR
   PerlHeaderParserHandler      ITERATE    DIR
   PerlAccessHandler            ITERATE    DIR

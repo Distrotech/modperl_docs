@@ -125,6 +125,8 @@ several categories:
 
 =item * C<L<PerlTransHandler|docs::2.0::user::handlers::http/PerlTransHandler>>
 
+=item * C<L<PerlMapToStorageHandler|docs::2.0::user::handlers::http/PerlMapToStorageHandler>>
+
 =item * C<L<PerlInitHandler|docs::2.0::user::handlers::http/PerlInitHandler>>
 
 =item * C<L<PerlHeaderParserHandler|docs::2.0::user::handlers::http/PerlHeaderParserHandler>>
@@ -245,6 +247,7 @@ following table specifies each handler's behavior in this situation:
   
   PerlPostReadRequestHandler   RUN_ALL
   PerlTransHandler             RUN_FIRST
+  PerlMapToStorageHandler      RUN_FIRST
   PerlInitHandler              RUN_ALL
   PerlHeaderParserHandler      RUN_ALL
   PerlAccessHandler            RUN_ALL
