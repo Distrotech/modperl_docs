@@ -2,10 +2,58 @@
 use strict;
 use Storable;
 
-# This must match up with .swishcgi.conf setting
+=head1 NAME  
+
+make.pl -- program to generate data needed for searching
+
+=head1 Description
+
+make.pl uses input contained within that defines "sections" of the site based
+on path names.  These name can then be used when searching with swish to limit
+searches to just these areas of the site.
+
+When indexing the site with swish-e each file is taged with meta data that indicates
+which section or sections it belongs to.
+
+The input format is described in the source of this file.
+
+make.pl creates two ouptut files:
+
+=over 4
+
+=item search_options
+
+A template toolkit include file for defining an array of section names and a hash that
+maps the section names to nice descriptions.  This data is used to
+create the select box on the side bar during site generation (by running bin/build).
+
+=item checkboxes.storable
+
+A perl data structure used for use in the F<search.cgi> script to generate the nested
+checkboxes for the advanced search feature.  This allows selecting more than one
+area of the site at a time.
+
+This file is saved using the Storable perl module, and is read in by the
+search script (F<swish.cgi>) configuration parameter file F<.swishcgi.conf> and
+made available to Template-Toolkit when F<swish.cgi> is running.
+
+This file is also read when indexing with swish-e (see F<SwishSpiderConfig.pl>) and is used to
+map path names into section names.
+
+=back
+
+Running this program is described in the F<README> file contained in
+the F<src/search> directory of the mod_perl site distribution.
+
+
+=cut
+
+
+# This must match up with .swishcgi.conf setting and SwishSpiderConfig.pl
 my $CHECKBOX_DATA = 'checkboxes.storable';
 
 # This is used for all pages -- it's the array and has for the sidebar search
+# It contains an array parsable by Template Toolkit.
 my $SEARCH_OPTIONS = 'search_options';
 
 
@@ -21,7 +69,7 @@ my $items = <<ITEMS;
     0, download,           Download,                   Download
     0, docs,               Documentation,              All Docs
     1,   docs/1.0,         mod_perl 1.0 Docs,          1.0 Docs
-    2,     docs/1.0/guide, Guide,
+    2,     docs/1.0/guide, Guide
     2,     docs/1.0/win32, Win32
     2,     docs/1.0/api,   API
     1,   docs/2.0,         mod_perl 2.0 Docs,          2.0 Docs
@@ -39,11 +87,16 @@ ITEMS
 
 
 
+    # Split the above items out into a hash.
+
+    my $section_id = 'SecA';
+
     my @items_flat = map {
              s/^\s+//;
              s/\s+$//;
+             $_ = $section_id++ . ", $_";
              my %h;
-             @h{qw/indent value label short/} = split m!\s*,\s*!;
+             @h{qw/section indent path label short/} = split m!\s*,\s*!;
 
              $h{short} ||= ( $h{label} || 'missing description' );
 
@@ -51,16 +104,22 @@ ITEMS
         } split /\n/, $items;
 
 
-    my $array_values = join "\n", map { ' ' x (( $_->{indent}+2 ) * 4) . qq["$_->{value}"] }  @items_flat;
+
+    # Build the data parsable by Template-Toolkit
+    
+    my $array_values = join "\n", map { ' ' x (( $_->{indent}+2 ) * 4) . qq["$_->{section}"] }  @items_flat;
+
     my $hash_values  = join "\n", map {
         my $dots = '..' x  $_->{indent};
         my $spaces = ' ' x (( $_->{indent}+2 ) * 4);
-        qq[$spaces"$_->{value}" => "$dots$_->{short}" ]
+        qq[$spaces"$_->{section}" => "$dots$_->{short}" ]
     } @items_flat;
         
+
+
     my $check_box_array = build_array( \@items_flat );
 
-#use Data::Dumper;                
+#use Data::Dumper;
 #print Dumper $check_box_array;
 
     store( $check_box_array, $CHECKBOX_DATA );  # store for swish.cgi
@@ -99,7 +158,7 @@ EOF
 
 #==============================================================================
 # Subroutine that builds the data structure expected by template toolkit
-# TT uses values .value, .label, and .subs.  See search.tt for example
+# TT uses values .section, .label, and .subs.  See search.tt for example
 #
 #
 #

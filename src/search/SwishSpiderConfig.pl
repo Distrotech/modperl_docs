@@ -1,11 +1,15 @@
 # this is the modified default spider config file that comes with swish-e.
+# Perldoc swish.cgi for docs on the format of this file
 #
-# a few custom callbacks are located after the @servers definition section.
+# a few custom callbacks are located after the @servers definition section
+# these are used to split files into sections.
 
 my $base_path = $ENV{MODPERL_SITE} || die "must set \$ENV{MODPERL_SITE}";
 
 $base_path =~ s[/$][];
 
+# Used to fetch the available "sections" 
+my $CHECKBOX_DATA = 'checkboxes.storable';
 
 
 @servers = (
@@ -63,7 +67,6 @@ sub split_page {
     # Find the <head> section for use in all split pages
     my $head = $tree->look_down( '_tag', 'head' );
 
-
     # Now create a new "document" for each
     create_page( $head->clone, $_->clone, \%params )
         for $tree->look_down( '_tag', 'div', 'class', 'index-section' );
@@ -73,7 +76,8 @@ sub split_page {
     ## so don't index it.
     $tree->delete;
     return 0;
-   
+
+    # old code below to index pages that don't have sections defined.
 
 
     # Indexed the page in sections, just return
@@ -102,34 +106,35 @@ sub create_page {
 
     my $uri = $params->{uri};
 
+    # Grab the first <a name="..."> tag that indicates this section.
+    # and adjust the path
 
-    # Grab the section link, and create a new title
-
-    my $name = $section->look_down( '_tag', 'a', sub { defined($_[0]->attr('name')) } );
-
-    
-    if ( $name ) {
-
-        my @a_content;
+    if ( my $name = $section->look_down( '_tag', 'a', sub { defined($_[0]->attr('name')) } ) ) {
+        $uri->fragment( $name->attr('name') );
+    }
         
-        my $section_name = $name->attr('name');
-        $uri->fragment( $section_name );
 
-        if ( ! (@a_content = $name->content_list) ) {
-            $section_name =~ tr/_/ /;
-            @a_content = ( $section_name );
-        }
 
-        # Modify or create the title
+    # Now grab the first <a href="..">description</a> tag
+    if ( my $link = $section->look_down( '_tag', 'a', sub { defined($_[0]->attr('href')) } ) ) {
+
+        my $description = $link->as_text;
+
+        if ( $description ) {
+
+            # Modify or create the title
     
-        my $title = $head->look_down('_tag', 'title');
+            my $title = $head->look_down('_tag', 'title');
 
-        if ( $title ) {
-            $title->push_content( ': ', @a_content );
-        } else {
-            my $title = HTML::Element->new('title');
-            $title->push_content(  @a_content );
-            $head->push_content( $title );
+            if ( $title ) {
+                $title->push_content( ": $description" );
+
+            } else { # Create a new title
+            
+                my $title = HTML::Element->new('title');
+                $title->push_content( $description );
+                $head->push_content( $title );
+            }
         }
     }
 
@@ -142,9 +147,11 @@ sub create_page {
 
     if ( $uri =~ m!$base_path/(.+)$! ) {
         my $path = $1;
-        $path =~ s{/?[^/]+$}{};  # remove file name, if one
-        my $meta = HTML::Element->new('meta', name=> 'section', content => $path);
-        $head->push_content( $meta );
+
+        if ( my $sections = map_path_to_sections( $path ) ) {
+            my $meta = HTML::Element->new('meta', name=> 'section', content => $sections);
+            $head->push_content( $meta );
+        }
     }
 
     # Add the total document length, which is different than the section length
@@ -171,8 +178,55 @@ sub create_page {
 
     $params->{found}++;  # set flag;
 
+
     $doc->delete;
 }
+
+my %section_names;
+
+sub map_path_to_sections {
+    my $path = shift;
+
+    %section_names = fetch_sections( $CHECKBOX_DATA )
+        unless %section_names;
+
+
+    my @sections;
+    for ( keys %section_names ) {
+        my $test = quotemeta( $_ );
+        push @sections, $section_names{ $_ } if $path =~ /^$test/;
+    }
+
+    return @sections ? join(' ', @sections ) : undef;
+}
+
+        
+
+
+
+use Storable;
+sub fetch_sections {
+    my $file = shift;
+
+    my $items_array = retrieve( $file );
+    die unless $items_array;
+
+    my %sections;
+    recurse_sections( \%sections, $items_array );
+    return %sections;
+
+}
+
+sub recurse_sections {
+    my ( $sections, $items_array ) = @_;
+
+    for ( @$items_array ) {
+        # grab the path and its associated section ID
+        $sections->{ $_->{path} } = $_->{section};
+        recurse_sections( $sections, $_->{subs} ) if $_->{subs};
+    }
+}
+
 
 
 1;

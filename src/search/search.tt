@@ -71,7 +71,7 @@
     <ul>
     [%- FOREACH sec = subs -%]
 
-    <li class="search-list">[% CGI.checkbox('sbm', 0, sec.value, sec.label); %]
+    <li class="search-list">[% CGI.checkbox('sbm', 0, sec.section, sec.label); %]
         [%- IF sec.subs -%][%- PROCESS sub_items subs=sec.subs -%][%- END -%]</li>
 
     [%- END -%]
