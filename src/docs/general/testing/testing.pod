@@ -229,8 +229,8 @@ on port 34343:
 
   % t/TEST -start-httpd -port=34343
 
-or by setting an evironment variable C<APACHE_PORT> to the desired
-value before starting the server.
+or by setting an evironment variable C<APACHE_TEST_PORT> to the
+desired value before starting the server.
 
 Specifying the port explicitly may not be the most convenient option
 if you happen to run many instances of the C<Apache::Test> framework.
