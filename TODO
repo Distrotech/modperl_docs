@@ -15,5 +15,7 @@
 
 - Internal links (e.g. in src/docs/1.0/guide) aren't hyperlinked.
 
-
 - Think about porting the conferences stuff
+
+- /src/creation.html, should be completed and linked from somewhere
+  (the tail?)
