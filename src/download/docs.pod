@@ -155,7 +155,6 @@ Here is the I<httpd.conf> configuration section:
 
   Alias /modperl/ "/usr/local/modperl-docs/dst_html/"
   <Directory "/usr/local/modperl-docs/dst_html">
-      Options Indexes MultiViews
       AllowOverride None
       Order allow,deny
       Allow from all
