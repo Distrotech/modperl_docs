@@ -1536,7 +1536,32 @@ This phase is of type C<L<RUN_FIRST|/item_RUN_FIRST>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
-Example:
+The most important thing to remember when overriding the default
+I<type_checker> handler, which is usually the mod_mime handler, is
+that you have to set the handler that will take care of the response
+phase and the response callback function or the code won't
+work. mod_mime does that based on C<SetHandler> and C<AddHandler>
+directives, and file extensions. So if you want the content handler to
+be run by mod_perl, set either:
+
+  $r->handler('perl-script');
+  $r->set_handlers(PerlResponseHandler => \&handler);
+
+or:
+
+  $r->handler('modperl');
+  $r->set_handlers(PerlResponseHandler => \&handler);
+
+depending on which type of response handler is wanted.
+
+Writing a C<PerlTypeHandler> handler which sets the content-type value
+and returns C<Apache::DECLINED> so that the default handler will do
+the rest of the work, is not a good idea, because mod_mime will
+probably override this and other settings.
+
+Therefore it's the easiest to leave this stage alone and do any
+desired settings in the I<fixups> phase.
+
 
 
 
@@ -1553,7 +1578,102 @@ This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
-Example:
+The following fixup handler example tells Apache at run time which
+handler and callback should be used to process the request based on
+the file extension of the request's URI.
+
+  file:MyApache/FileExtDispatch.pm
+  --------------------------------
+  package MyApache::FileExtDispatch;
+  
+  use Apache::Const -compile => 'OK';
+  
+  use constant HANDLER  => 0;
+  use constant CALLBACK => 1;
+  
+  my %exts = (
+      cgi => ['perl-script',     \&cgi_handler],
+      pl  => ['modperl',         \&pl_handler ],
+      tt  => ['perl-script',     \&tt_handler ],
+      txt => ['default-handler', undef        ],
+  );
+  
+  sub handler {
+      my $r = shift;
+  
+      my ($ext) = $r->uri =~ /\.(\w+)$/;
+      $ext = 'txt' unless defined $ext and exists $exts{$ext};
+  
+      $r->handler($exts{$ext}->[HANDLER]);
+  
+      if (defined $exts{$ext}->[CALLBACK]) {
+          $r->set_handlers(PerlHandler => $exts{$ext}->[CALLBACK]);
+      }
+  
+      return Apache::OK;
+  }
+  
+  sub cgi_handler { content_handler($_[0], 'cgi') }
+  sub pl_handler  { content_handler($_[0], 'pl')  }
+  sub tt_handler  { content_handler($_[0], 'tt')  }
+  
+  sub content_handler {
+      my($r, $type) = @_;
+  
+      $r->content_type('text/plain');
+      $r->print("A handler of type '$type' was called");
+  
+      return Apache::OK;
+  }
+  
+  1;
+
+In the example we have used the following mapping.
+
+  my %exts = (
+      cgi => ['perl-script',     \&cgi_handler],
+      pl  => ['modperl',         \&pl_handler ],
+      tt  => ['perl-script',     \&tt_handler ],
+      txt => ['default-handler', undef        ],
+  );
+
+So that I<.cgi> requests will be handled by the C<perl-script> handler
+and the C<cgi_handler()> callback, I<.pl> requests by C<modperl> and
+C<pl_handler()>, I<.tt> (template toolkit) by C<perl-script> and the
+C<tt_handler()>, finally I<.txt> request by the C<default-handler>
+handler, which requires no callback.
+
+Moreover the handler assumes that if the request's URI has no file
+extension or it does, but it's not in its mapping, the
+C<default-handler> will be used, as if the I<txt> extension was used.
+
+After doing the mapping, the handler assigns the handler:
+
+      $r->handler($exts{$ext}->[HANDLER]);
+
+and the callback if needed:
+
+      if (defined $exts{$ext}->[CALLBACK]) {
+          $r->set_handlers(PerlHandler => $exts{$ext}->[CALLBACK]);
+      }
+
+In this simple example the callback functions don't do much but
+calling the same content handler which simply prints the name of the
+extension if handled by mod_perl, otherwise Apache will serve the
+other files using the default handler. In real world you will use
+callbacks to real content handlers that do real things.
+
+Here is how this handler is configured:
+
+  Alias /dispatch/ /home/httpd/dispatch/
+  <Location /dispatch/>
+      PerlFixupHandler MyApache::FileExtDispatch
+  </Location>
+
+Notice that there is no need to specify anything, but the fixup
+handler. It applies the rest of the settings dynamically at run-time.
+
+
 
 
 =head2 PerlResponseHandler
@@ -1570,16 +1690,66 @@ mod_perl. For example:
      PerlResponseHandler Apache::Registry
   </Location>
 
-C<SetHandler> tells Apache that mod_perl is going to handle the
-response generation. C<PerlResponseHandler> tells mod_perl which
-handler is going to do the job.
+C<SetHandler> set to
+L<C<perl-script>|docs::2.0::user::config::config/perl_script> or
+L<C<modperl>|docs::2.0::user::config::config/modperl> tells Apache
+that mod_perl is going to handle the response
+generation. C<PerlResponseHandler> tells mod_perl which callback is
+going to do the job.
 
 This phase is of type C<L<RUN_FIRST|/item_RUN_FIRST>>.
 
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
-Example:
+Most of the C<Apache::> modules on CPAN are dealing with this
+phase. In fact most of the developers spend the majority of their time
+working on handlers that generate response content.
+
+Let's write a simple response handler, that just generates some
+content. This time let's do something more interesting than printing
+I<Hello world". Let's write a handler that prints itself:
+
+  file:MyApache/Deparse.pm
+  ------------------------
+  package MyApache::Deparse;
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  use B::Deparse ();
+  
+  use Apache::Const -compile => 'OK';
+  
+  sub handler {
+      my $r = shift;
+  
+      $r->content_type('text/plain');
+      $r->print('sub handler ', B::Deparse->new->coderef2text(\&handler));
+  
+      return Apache::OK;
+  }
+  1;
+
+To enable this handler add to I<httpd.conf>:
+
+  <Location /deparse>
+      SetHandler modperl
+      PerlResponseHandler MyApache::Deparse
+  </Location>
+
+Now when the server is restarted and we issue a request to
+I<http://localhost/deparse> we get the following response:
+
+  sub handler {
+      package MyApache::Deparse;
+      my $r = shift @_;
+      $r->content_type('text/plain');
+      $r->print('sub handler ', 'B::Deparse'->new->coderef2text(\&handler));
+      return 0;
+  }
+
+if you compare it to the source code, it's pretty much the
+same. C<B::Deparse> is fun to play with!
 
 
 
