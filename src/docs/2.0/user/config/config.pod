@@ -1467,6 +1467,12 @@ However there is the I<perl5lib> module on CPAN, which, if loaded,
 bypasses perl's security and will affect C<@INC>. Use it only if you
 know what you are doing.
 
+
+
+
+
+
+
 =head2 Modifying C<@INC> on a Per-VirtualHost
 
 If Perl used with mod_perl was built with ithreads support one can
@@ -1487,6 +1493,20 @@ C<L<PerlSwitches|/C_PerlSwitches_>>. For example:
       PerlSwitches -I/home/dev2/lib/perl
       PerlModule Apache2
   </VirtualHost>
+
+This technique works under any MPM with ithreads-enabled perl. It's
+just that under prefork your procs will be huge, because you will
+build a pool of interpreters in each process. While the same happens
+under threaded mpm, there you have many threads per process, so you
+need just 1 or 2 procs and therefore less memory will be used.
+
+
+
+
+
+
+
+
 
 =head1 General Issues
 
