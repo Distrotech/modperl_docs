@@ -35,6 +35,30 @@ URL.  It drops the port designator and uses port 80 anyway.
 See L<Publishing Port Numbers other than
 80|guide::config/Publishing_Port_Numbers_other_than_80>.
 
+=head1 Internet Explorer disregards your ErrorDocuments
+
+Many users stumble upon a common problem related to MS Internet
+Explorer: if your error response, such as when using C<ErrorDocument
+500> or C<$r-E<gt>custom_response>, is too short (which might often be
+the case because you aren't very inspired when writing error
+messages), Internet Explorer completely disregards it and replaces it
+with its own standard error page, even though everything has been sent
+correctly by the server and received by the browser.
+
+The solution to this is quite simple: your content needs to be at
+least 512 bytes. Microsoft describes some solutions to this I<problem>
+here: http://support.microsoft.com/support/kb/articles/Q294/8/07.ASP
+. The easiest solution under Perl is to do something like this:
+
+  # write your HTML headers
+  print "<!-- ", "_" x 513, " -->";
+  # write out the rest of your HTML
+
+Effectively, your content will be long enough, but the user won't
+notice any additional content. If you're doing this with static pages,
+just insert a long enough comment inside your file to make it large
+enough, which will have the same effect.
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
