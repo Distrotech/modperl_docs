@@ -438,6 +438,28 @@ if you are doing a lot of processing for each row on the client side.
 This can tie up the server and prevent other threads from updating the
 tables.
 
+=head1 Transactions Not Committed with MySQL InnoDB Tables
+
+Sometimes, when using MySQL's InnoDB table type, you may notice that
+changes you committed in one process don't seem to be visible to other
+processes.  You may not be aware that InnoDB tables use a default
+approach to transactions that is actually more cautious than PostgreSQL
+or Oracle's default.  It's called "repeatable read", and the gist of
+it is that you don't see updates made in other processes since your
+last commit.  There is an explanation of this here:
+http://dev.mysql.com/doc/mysql/en/InnoDB_Consistent_read_example.html
+
+This is actually not directly related to mod_perl, but you wouldn't
+notice this issue when using CGI because reconecting to the database on
+each request resets things just as doing a commit does.  It is the
+persistent connections used with mod_perl that make this issue visible.
+
+If you suspect this is causing you problems, the simplest way to
+deal with it is to change the isolation level to "read committed" --
+which is more like what PostgreSQL and Oracle do by default -- with
+the "set transaction" command, described here:
+http://dev.mysql.com/doc/mysql/en/InnoDB_transaction_isolation.html
+
 =head1 Optimize: Run Two SQL Engine Servers
 
 Sometimes you end up running many databases on the same machine. These
