@@ -71,6 +71,11 @@ builds not supporting Perl IO layers.
 Most of the API is as in normal perl IO with a few nuances listed in
 the following sections.
 
+META: need to rework the exception mechanism here. Current success in
+using errno ($!) being set (e.g. on open()) is purely accidental and
+not guaranteed across all platforms and functions. So don't rely on
+$!. Will use C<L<APR::Error|docs::2.0::api::APR::Error>> for that
+purpose.
 
 
 
