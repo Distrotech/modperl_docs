@@ -1463,6 +1463,95 @@ META: Virtual host?
 
 META: to be completed
 
+=head2 Extending Startup Configuration for httpd and Perl
+
+Sometimes you need to add extra I<httpd.conf> configuration and perl
+startup specific to your project that uses C<Apache::Test>. This can
+be accomplished by creating the desired files with an extension I<.in>
+in the I<t/conf/> directory and running:
+
+  panic% t/TEST -config
+
+which for each file with the extension I<.in> will create a new file,
+without this extension, convert any template placeholders into real
+values and link it from the main I<httpd.conf>. The latter happens
+only if the file have the following extensions:
+
+=over
+
+=item * .conf.in
+
+will add to I<t/conf/httpd.conf>:
+
+  Include foo.conf
+
+=item * .pl.in
+
+will add to I<t/conf/httpd.conf>:
+
+  PerlRequire foo.pl
+
+=item * other
+
+other files with I<.in> extension will be processed as well, but not
+linked from I<httpd.conf>.
+
+=back
+
+As mentioned before the converted files are created, any special token
+in them are getting replaced with the appropriate values. For example
+the token C<@ServerRoot@> will be replaced with the value defined by
+the C<ServerRoot> directive, so you can write a file that does the
+following:
+
+  my-extra.conf.in
+  ----------------
+  PerlSwitches -Mlib=@ServerRoot@/../lib
+
+and assuming that the I<ServerRoot> is I<~/modperl-2.0/t/>, when
+I<my-extra.conf> will be created, it'll look like:
+
+  my-extra.conf.in
+  ----------------
+  PerlSwitches -Mlib=~/modperl-2.0/t/../lib
+
+The following tokens are valid:
+
+META: complete
+
+          'cgi_module_name' => 'mod_cgi',
+          'conf_dir' => '/home/stas/httpd/prefork/conf',
+          't_conf_file' => '/home/stas/apache.org/modperl-2.0/t/conf/httpd.conf',
+          't_dir' => '/home/stas/apache.org/modperl-2.0/t',
+          'cgi_module' => 'mod_cgi.c',
+          'target' => 'httpd',
+          'thread_module' => 'worker.c',
+          'bindir' => '/home/stas/httpd/prefork/bin',
+          'user' => 'stas',
+          'top_dir' => '/home/stas/apache.org/modperl-2.0',
+          'httpd_conf' => '/home/stas/httpd/prefork/conf/httpd.conf',
+          'httpd' => '/home/stas/httpd/prefork/bin/httpd',
+          'scheme' => 'http',
+          'ssl_module_name' => 'mod_ssl',
+          'port' => 8529,
+          'sbindir' => '/home/stas/httpd/prefork/bin',
+          't_conf' => '/home/stas/apache.org/modperl-2.0/t/conf',
+          'servername' => 'localhost.localdomain',
+          'inherit_documentroot' => '/home/stas/httpd/prefork/htdocs',
+          'proxy' => 'off',
+          'serveradmin' => 'you@your.address',
+          'remote_addr' => '127.0.0.1',
+          'perlpod' => '/home/stas/perl/ithread/lib/5.7.2/pod',
+          'ssl_module' => 'mod_ssl.c',
+          't_logs' => '/home/stas/apache.org/modperl-2.0/t/logs',
+          'maxclients' => 1,
+          'group' => 'stas',
+          'thread_module_name' => 'worker',
+          'documentroot' => '/home/stas/apache.org/modperl-2.0/t/htdocs',
+          'serverroot' => '/home/stas/apache.org/modperl-2.0/t',
+          'perl' => '/home/stas/perl/ithread/bin/perl',
+          'src_dir' => '/home/stas/apache.org/modperl-2.0/src/modules/perl'
+
 =head2 Threaded versus Non-threaded Perl Test's Compatibility
 
 Since the tests are supposed to run properly under non-threaded and
