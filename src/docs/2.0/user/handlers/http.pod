@@ -644,22 +644,23 @@ credentials. If the status is different, we just let Apache handle
 this situation for us, which will usually challenge the client so
 it'll supply the credentials.
 
-Note that get_basic_auth_pw() does a few things behind the scenes,
-which are important to understand if you plan on implementing your
-own authentication mechanism that does not use get_basic_auth_pw().
-First, is checks the value of the configured AuthType for the 
-request, making sure it is 'Basic'.  Then it makes sure that the
+Note that C<get_basic_auth_pw()> does a few things behind the scenes,
+which are important to understand if you plan on implementing your own
+authentication mechanism that does not use C<get_basic_auth_pw()>.
+First, is checks the value of the configured C<AuthType> for the
+request, making sure it is C<Basic>.  Then it makes sure that the
 Authorization (or Proxy-Authorization) header is formatted for
-Basic authentication.  Finally, after isolating the user and password
-from the header, it populates the ap_auth_type slot in the request
-record with 'Basic'.  For the first and last parts of this process,
-mod_perl offers an API. $r->auth_type returns the configured
-authentication type for the current request - whatever was set
-via the AuthType configuration directive.  $r->ap_auth_type populates
-the ap_auth_type slot in the request record, which should be done
-after it has been confirmed that the request is indeed using Basic
-authentication.  $r->ap_auth_type was $r->connection->auth_type in
-mod_perl 1.0.
+C<Basic> authentication.  Finally, after isolating the user and
+password from the header, it populates the I<ap_auth_type> slot in the
+request record with C<Basic>.  For the first and last parts of this
+process, mod_perl offers an API. C<$r-E<gt>auth_type> returns the
+configured authentication type for the current request - whatever was
+set via the C<AuthType> configuration directive.
+C<$r-E<gt>ap_auth_type> populates the I<ap_auth_type> slot in the
+request record, which should be done after it has been confirmed that
+the request is indeed using C<Basic> authentication.  (Note:
+C<$r-E<gt>ap_auth_type> was C<$r-E<gt>connection-E<gt>auth_type> in
+the mod_perl 1.0 API.)
 
 Once we know that we have the username and the password supplied by
 the client, we can proceed with the authentication. Our authentication
