@@ -1057,9 +1057,10 @@ with this configuration:
   use strict;
   use Apache::Connection ();
   use APR::Socket ();
-    
+  use Apache::HookRun ();
+  
   use Apache::Const -compile => qw(OK DECLINED);
- 
+  
   my @cmds = qw(motd date who quit);
   my %commands = map { $_, \&{$_} } @cmds;
   
