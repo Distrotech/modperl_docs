@@ -53,10 +53,6 @@ for my $tag (keys %linkElements) {
     }
 }
 
-# currently retrieves these parts from the source HTML
-# head.title
-# head.meta.description
-# body
 sub parse {
     my($self) = @_;
     
@@ -110,11 +106,12 @@ sub parse {
             accum_h($self, $text);
         }
 
-        my $p = HTML::Parser->new(api_version => 3,
-                                  start_h     => [\&start_h, "self, tagname, attr, text"],
-                                  end_h   => [\&end_h,  "self, tagname"],
-                                  text_h  => [\&text_h, "self, text"],
-                                 );
+        my $p = HTML::Parser->new(
+            api_version => 3,
+            start_h     => [\&start_h, "self, tagname, attr, text"],
+            end_h       => [\&end_h,  "self, tagname"],
+            text_h      => [\&text_h, "self, text"],
+        );
         # Parse document text chunk by chunk
         $p->parse(${ $self->{content} });
         $p->eof;
@@ -124,26 +121,70 @@ sub parse {
     }
 
     {
-        # this one retrieves and stashes away the description (As 'abstract') 
-        # and the body and the title of the given html
+        # this parsing extracts the following elements and makes them
+        # available to templates as:
+        # meta.title
+        # head.meta.* (+ renames: description -> abstract)
+        # head.base
+        # head.link
+        # body
+
+        # init
         my $start_h = sub {
-            my($self, $tagname, $attr) = @_;
-            if ($tagname eq 'meta' && lc $attr->{name} eq 'description') {
-                $self->{parsed_tree}->{abstract} = $attr->{content};
+            my($self, $tagname, $attr, $text) = @_;
+            my $meta = $self->{parsed_tree}{head}{meta};
+
+            # special treatment
+            if ($tagname eq 'meta' && exists $attr->{name} && 
+                lc $attr->{name} eq 'description') {
+                $self->{parsed_tree}{abstract} = $attr->{content};
             }
+            elsif ($tagname eq 'meta' && exists $attr->{content}) {
+                # note: doesn't take into account the 'scheme' attr,
+                # but that one isn't used much
+                if (exists $attr->{name}) {
+                    $meta->{name}{ $attr->{name} } = $attr->{content};
+                }
+                elsif (exists $attr->{'http-equiv'}) {
+                    $meta->{'http-equiv'}{ $attr->{'http-equiv'} }
+                        = $attr->{content};
+                }
+                else {
+                    # unsupported head element?
+                }
+            }
+            elsif ($tagname eq 'base') {
+                # there is usually only one <base>
+                $self->{parsed_tree}{head}{base} = $attr->{href}
+                    if exists $attr->{href};
+            }
+            elsif ($tagname eq 'link') {
+                # link elements won't overlap, because each is
+                # additive -> easier to store text
+                $self->{parsed_tree}{head}{link} .= $text if length $text;
+            }
+            # note: if adding other elements that also appear outside <head>,
+            # you will need to check that you are inside <head>  by setting
+            # a flag when entering it and unsetting it when exiting
         };
     
         my $end_h = sub {
             my($self, $tagname, $skipped_text) = @_;
             # use $p itself as a tmp storage (ok according to the docs)
+            # <title> and <body> get special treatment
+            if ($tagname eq 'title' or $tagname eq 'body') { 
                 $self->{parsed_tree}->{$tagname} = $skipped_text;
+            }
         };
 
-        my $p = HTML::Parser->new(api_version => 3,
-                                  report_tags => [qw(title meta body)],
-                                  start_h => [$start_h, "self, tagname, attr"],
-                                  end_h   => [$end_h,   "self, tagname, skipped_text"],
-                                 );
+        my $p = HTML::Parser->new(
+            api_version => 3,
+            report_tags => [qw(title meta body base link)],
+            start_h     => [$start_h, "self, tagname, attr, text"],
+            end_h       => [$end_h, "self, tagname, skipped_text"],
+        );
+        # init
+        $p->{parsed_tree}{head}{meta} = {};
         # Parse document text chunk by chunk
         $p->parse(${ $self->{content} });
         $p->eof;
@@ -180,7 +221,8 @@ Converts the source HTML document into a parsed tree.
 
 Retrieve and set the meta data that describes the input document into
 the I<meta> object attribute. The I<title> and I<link> meta attributes
-are getting set.
+are getting set. the rest of the E<lt>headE<gt> is made available for
+the templates too.
 
 =back
 

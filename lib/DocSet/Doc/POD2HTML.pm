@@ -48,6 +48,7 @@ sub convert {
                 meta => $self->{meta},
                 toc  => $self->{toc},
                 body => \@body,
+                headers => {},
                 dir  => $self->{dir},
                 nav  => $self->{nav},
                 last_modified => $self->{timestamp},

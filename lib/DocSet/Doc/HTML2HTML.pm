@@ -20,6 +20,7 @@ sub convert {
     my $vars = {
                 meta => $self->{meta},
                 body => \@body,
+                headers => $self->{parsed_tree}{head},
                 dir  => $self->{dir},
                 nav  => $self->{nav},
                 last_modified => $self->{timestamp},
