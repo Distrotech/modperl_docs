@@ -1,5 +1,5 @@
 Name: Mark Imbriaco
-Email: perlhacker@earthlink.net
+Email: mark.imbriaco@pobox.com
 Summary: Original mailing list. First Apache:: module. Original Win95 build.
 
 For setting up the original mod_perl mail list and administration of
