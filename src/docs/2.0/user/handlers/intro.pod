@@ -93,8 +93,8 @@ L<HTTP handlers|docs::2.0::user::handlers::http> may return any HTTP
 status, which similarly to C<Apache::DONE> will cause an abort of the
 request cycle, by also will be interpreted as an error. Therefore you
 don't want to return C<Apache::HTTP_OK> from your HTTP response
-handler, but C<Apache::OK>. If you want to set the status for the HTTP
-response, use the C<$r-E<gt>status()> method.
+handler, but C<Apache::OK> and Apache will send the C<200 OK> status
+by itself.
 
 L<Filter handlers|docs::2.0::user::handlers::filters> return
 C<Apache::OK> to indicate that the filter has successfully
