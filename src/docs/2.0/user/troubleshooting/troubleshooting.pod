@@ -21,6 +21,50 @@ troubleshooting.
 =head1 Configuration and Startup
 
 
+=head2 (28)No space left on device
+
+httpd-2.0 is not very helpful at telling which device has run out of
+precious space. Most of the time when you get an error like:
+
+  (28)No space left on device:
+  mod_rewrite: could not create rewrite_log_lock
+
+it means that your system have run out of semaphore arrays. Sometimes
+it's full with legitimate semaphores at other times it's because some
+application has leaked semaphores and haven't cleaned them up during
+the shutdown (which is usually the case when an application
+segfaults).
+
+Use the relevant application to list the ipc facilities usage. On most
+Unix platforms this is usually an C<ipcs(1)> utility. For example
+linux to list the semaphore arrays you should execute:
+
+  % ipcs -s
+  ------ Semaphore Arrays --------
+  key        semid      owner      perms      nsems
+  0x00000000 2686976    stas      600        1
+  0x00000000 2719745    stas      600        1
+  0x00000000 2752514    stas      600        1
+
+Next you have to figure out what are the dead ones and remove
+them. For example to remove the semid 2719745 execute:
+
+  % ipcrm -s 2719745
+
+Instead of manually removing each, and if you know that none of listed
+the semaphores is really used (all leaked), you can do:
+
+  % ipcs -s | perl -ane '`ipcrm -s $F[1]`'
+
+httpd-2.0 seems to use key C<0x00000000> for its semaphores, so to
+remove only those you can use:
+
+  % ipcs -s | perl -ane '/^0x00000000/ && `ipcrm -s $F[1]`'
+
+Notice that on other platforms the output of C<ipcs -s> might be
+different, so you may need to apply a different one liner.
+
+
 =head2 Segmentation Fault when Using DBI
 
 Update DBI to at least version 1.31.
