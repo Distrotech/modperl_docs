@@ -33,9 +33,9 @@
        count = count + 1;
        link = INCLUDE link prefix=prefix link=p.meta.link;
        IF p.id == current.id;
-           style = 'selected';
+           style = 'selectedmenuitem';
        ELSE;
-           style = 'nonselected';
+           style = 'nonselectedmenuitem';
        END;
        buttons.push({link => link, text => p.meta.stitle, style => style});
        p = p.next; # next node

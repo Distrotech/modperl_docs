@@ -74,28 +74,28 @@ div.menu {
         background-color: #ffffff;
 }
 
-div.selected {
+div.selectedmenuitem {
         font-weight: bold;
         font-size:12px;
         margin-bottom:5px;
         margin-top:5px;
 }
 
-div.selected a:link    {text-decoration: none; color: #525D76;}
-div.selected a:visited {text-decoration: none; color: #525D76;}
-div.selected a:active  {text-decoration: none; color: #525D76;}
-div.selected a:hover   {text-decoration: none; color: #525D76;}
+div.selectedmenuitem a:link    {text-decoration: none; color: #525D76;}
+div.selectedmenuitem a:visited {text-decoration: none; color: #525D76;}
+div.selectedmenuitem a:active  {text-decoration: none; color: #525D76;}
+div.selectedmenuitem a:hover   {text-decoration: none; color: #525D76;}
 
-div.nonselected {
+div.nonselectedmenuitem {
         font-size:12px;
         margin-bottom:5px;
         margin-top:5px;
 }
 
-div.nonselected a:link    {text-decoration: none; color: #525D76;}
-div.nonselected a:visited {text-decoration: none; color: #525D76;}
-div.nonselected a:active  {text-decoration: none; color: #525D76;}
-div.nonselected a:hover   {text-decoration: none; color: #525D76;}
+div.nonselectedmenuitem a:link    {text-decoration: none; color: #525D76;}
+div.nonselectedmenuitem a:visited {text-decoration: none; color: #525D76;}
+div.nonselectedmenuitem a:active  {text-decoration: none; color: #525D76;}
+div.nonselectedmenuitem a:hover   {text-decoration: none; color: #525D76;}
 
 div.ad {
         width: 160px;
