@@ -174,7 +174,7 @@ sub pod_pom_html_view_verbatim {
   <tr>
 
     <td bgcolor="#cccccc" width="1">
-      &nbsp;
+      <br>
     </td>
 
     <td>
