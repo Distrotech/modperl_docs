@@ -26,9 +26,9 @@ local time.
       $r->send_http_header('text/plain');
   
       print <<EOT;
-          Thanks for visiting $server_name.
-          The local time is $now.
-      EOT
+  Thanks for visiting $server_name.
+  The local time is $now.
+  EOT
   
       return Apache::Constants::OK;
   }
