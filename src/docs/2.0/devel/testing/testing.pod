@@ -258,7 +258,7 @@ Depending on the speed of you machine, 4-5 seconds can be a good
 choice. that's approximately the time it takes to configure and start
 the server on a quite slow machine.
 
-=head2 Verbose Testing
+=head2 Verbose Mode
 
 In case something goes wrong you should run the tests in the verbose
 mode:
@@ -283,12 +283,21 @@ cannot run tail(1) on it before the server starts. Every time C<t/TEST
 -clean> is run, I<t/logs/error_log> gets deleted, therefore you have
 to run the tail(1) command again, when the server is started.
 
-=head2 Controlling the Apache::Test's Sound to Noise Ratio
+=head2 Colored Trace Mode
+
+If your terminal supports colored text you may want to set the
+environment variable C<APACHE_TEST_COLOR> to 1 to enable the colored
+tracing which makes it easier to tell the reported errors and
+warnings, from the rest of the notifications. Make sure that the
+environment variable C<APACHE_TEST_COLOR> is set to 0 (or not set at
+all) if you redirect the output from the testing to a file.
+
+=head2 Controlling the Apache::Test's Signal to Noise Ratio
 
 In addition to controlling the verbosity of the test scripts, you can
 control the amount of information printed by the C<Apache::Test>
 framework itself. Similar to Apache's log levels, C<Apache::Test> uses
-these levels for controlling its sound to noise ratio:
+these levels for controlling its signal to noise ratio:
 
   emerg alert crit error warning notice info debug
 
@@ -1827,10 +1836,10 @@ I<mod_*>. It accepts a list of modules or a reference to the list.  If
 at least one of the modules is not found it returns a false value,
 otherwise it returns a true value. For example:
 
-  plan tests => 5, have_module qw(Chatbot::Eliza Apache::AI);
+  plan tests => 5, have_module qw(Chatbot::Eliza CGI mod_proxy);
 
 will skip the whole test unless both Perl modules C<Chatbot::Eliza>
-and C<Apache::AI> are available.
+and C<CGI> and the C module I<mod_proxy.c> are available.
 
 =item * have
 
