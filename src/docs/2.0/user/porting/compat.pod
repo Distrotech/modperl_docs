@@ -1205,7 +1205,7 @@ were writing:
 Now, you would write that as:
 
   use Apache::RequestUtil ();
-  $content = $r->slurp_filename();
+  my $content = ${ $r->slurp_filename() };
 
 
 =head2 C<tmpfile()>

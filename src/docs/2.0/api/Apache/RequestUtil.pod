@@ -74,7 +74,7 @@ Apache::RequestUtil - Perl API for Apache request record utils
   $r->set_basic_credentials($username, $password);
   
   # slurp the contents of $r->filename
-  $content = $r->slurp_filename($tainted);
+  my $content = ${ $r->slurp_filename() };
 
 
 
@@ -1015,7 +1015,7 @@ or
 
 Slurp the contents of C<$r-E<gt>filename>:
 
-  $content = $r->slurp_filename($tainted);
+  $content_ref = $r->slurp_filename($tainted);
 
 =over 4
 
@@ -1038,7 +1038,9 @@ the C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>> handler
 and friends, because the CGI scripts that it reads are considered safe
 (you could just as well C<require()> them).
 
-=item ret: C<$content> ( string )
+=item ret: C<$content_ref> ( SCALAR ref )
+
+A reference to a string with the contents
 
 =item since: 1.99_10
 
