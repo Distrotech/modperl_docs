@@ -44,9 +44,11 @@ Apache::ServerRec - Perl API for Apache server record accessors
 
 =head1 Description
 
-
 C<Apache::ServerRec> provides the Perl API for Apache server_rec
 object.
+
+C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>> provides
+an extra functionality.
 
 
 
