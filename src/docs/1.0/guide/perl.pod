@@ -1749,21 +1749,21 @@ Now we require() the file where the above configuration will be used.
 
 In the I<startup.pl> we might have the following code:
 
-    # retrieve the configuration module path
-  use Apache:
+  # retrieve the configuration module path
+  use Apache;
   my $s             = Apache->server;
   my $base_dir      = $s->dir_config('FooBaseDir')      || '';
   my $config_module = $s->dir_config('FooConfigModule') || '';
   die "FooBaseDir and FooConfigModule aren't set in httpd.conf" 
     unless $base_dir and $config_module;
   
-    # build the real path to the config module
+  # build the real path to the config module
   my $path = "$base_dir/$config_module";
   $path =~ s|::|/|;
   $path .= ".pm";
-    # we have something like "/home/httpd/foo/Foo/Config.pm"
+  # we have something like "/home/httpd/foo/Foo/Config.pm"
   
-    # now we can pull in the configuration module
+  # now we can pull in the configuration module
   require $path;
 
 Now we know the module name and it's loaded, so for example if we need
