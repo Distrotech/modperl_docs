@@ -2,7 +2,7 @@
 use strict;
 
 
-# $Id: spider.pl,v 1.1 2002/01/30 06:35:00 stas Exp $
+# $Id: spider.pl,v 1.2 2002/01/31 01:51:50 stas Exp $
 #
 # "prog" document source for spidering web servers
 #
@@ -23,7 +23,7 @@ use HTML::LinkExtor;
 use HTML::Tagset;
 
 use vars '$VERSION';
-$VERSION = sprintf '%d.%02d', q$Revision: 1.1 $ =~ /: (\d+)\.(\d+)/;
+$VERSION = sprintf '%d.%02d', q$Revision: 1.2 $ =~ /: (\d+)\.(\d+)/;
 
 use vars '$bit';
 use constant DEBUG_ERRORS   => $bit = 1;    # program errors
@@ -410,7 +410,7 @@ sub process_link {
         print STDERR "-Skipped indexing $uri some callback set 'no_index' flag\n" if $server->{debug}&DEBUG_SKIPPED;
 
     } else {
-        return unless check_user_function( 'filter_content', $uri, $server, $response, \$content );
+        return $links_extracted unless check_user_function( 'filter_content', $uri, $server, $response, \$content );
 
         output_content( $server, \$content, $uri, $response )
             unless $server->{no_index};

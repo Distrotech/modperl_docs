@@ -18,6 +18,7 @@
     # render the content
     "<!-- SwishCommand index -->";
     FOREACH sec = doc.body;
+        '<div class="index_section">';
         sec;
         "<br><br>";
         IF loop.count == loop.size;
@@ -28,6 +29,7 @@
             INCLUDE top_link;
         END;
         "<br><br>";
+        "</div>";
     END;
     "<!-- SwishCommand noindex -->";
 %]
