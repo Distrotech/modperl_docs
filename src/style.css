@@ -1,5 +1,5 @@
 body {
-        font-family: helvetica, verdana, sans-serif; 
+        font-family: helvetica, arial, verdana, sans-serif; 
         font-size: 0.8em;
         color: #000000; 
         /* background-color: #000066; */
@@ -175,7 +175,7 @@ div.navbarlocal {
 div.tail {
         padding:5px;
         font-size: 0.6em;
-        font-family: helvetica, verdana, sans-serif;
+        font-family: helvetica, arial, verdana, sans-serif;
         border: 1px;
         border-style: none;
         border-color: #000000;
