@@ -28,7 +28,9 @@ and `man perl'.
 
 =head1 How To Get Help With mod_perl Itself
 
-Please read the sections on L<getting help with mod_perl 1.x|docs::1.0::guide::help> or L<getting help with mod_perl 2.x|docs::2.0::user::help>, depending on what version you are using.
+Please read the sections on L<getting help with mod_perl
+1.x|docs::1.0::guide::help> or L<getting help with mod_perl
+2.x|docs::2.0::user::help>, depending on what version you are using.
 
 =head2 Documentation which comes with the distribution
 
@@ -52,8 +54,9 @@ the L<Offsite Resources|docs::offsite> section.
 =head2 To Get On The List
 
 There are two stages to getting on the list.  Firstly you have to send
-a mail message to: modperl-subscribe@perl.apache.org and wait for receiving
-a response from the mail server with instructions to proceed.
+a mail message to: modperl-subscribe@perl.apache.org and wait for
+receiving a response from the mail server with instructions to
+proceed.
 
 Secondly you have to do what it says in the instructions.  After you
 are subscribed you will receive a messsage with lots of useful
@@ -71,7 +74,8 @@ send an email to modperl-digest-subscribe@perl.apache.org instead.
 Instructions on how to unsubscribe are posted in the headers of every
 message which you receive from the List.  All you have to do is send a
 message to: modperl-unsubscribe@perl.apache.org (or
-modperl-digest-unsubscribe@perl.apache.org if you are on the digest list)
+modperl-digest-unsubscribe@perl.apache.org if you are on the digest
+list)
 
 To prevent malicious individuals from unsubscribing other people, the
 mailing list software insists that the message requesting that an
@@ -89,8 +93,8 @@ you will be given after you subscribe.
 Your message will not be accepted unless you have first L<To Get On
 The List|maillist::list-modperl>.
 
-Do not post to modperl-subscribe@perl.apache.org, except to subscribe to
-the list!  Please do not post to the list itself to attempt to
+Do not post to modperl-subscribe@perl.apache.org, except to subscribe
+to the list!  Please do not post to the list itself to attempt to
 unsubscribe from it.
 
 
@@ -248,10 +252,10 @@ Some suggested tags are:
 		extended discussion of a specific topic, it is helpful if
 		someone summarizes the thread.  Don't be shy, everyone will
 		appreciate the effort.
-
+  
   mod_perl2     As currently both versions of mod_perl are beeing supported
-                on the same list, adding a tag to specifiy which version you
-                are talking about might be a good idea. 
+  or            on the same list, adding a tag to specifiy which version you
+  mp2           are talking about might be a good idea. 
 
 If you can't find a tag which fits your subject, don't worry.  If you
 have a very specific subject to discuss, feel free to choose your own
@@ -291,8 +295,8 @@ often bad days in software development departments...
 
 If the Perl and Apache documentation has not answered your question
 then you could try looking at http://lists.perl.org/ or one of the
-comp.lang.* newsgroups.  From time to time there are efforts to start a
-dedicated Perl mailing list and these usually result in a message or
+comp.lang.* newsgroups.  From time to time there are efforts to start
+a dedicated Perl mailing list and these usually result in a message or
 two on the mod_perl list, so it might be worth your while to search
 the archives.
 
