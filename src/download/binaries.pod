@@ -12,19 +12,13 @@ us (by announcing it at the L<mod_perl list|maillist::modperl>).
 See also L<the source distributions|download::source> and the
 L<bundles|download::bundles>.
 
-=head1 How to get pre-compiled mod_perl
+=head1 How to get pre-compiled mod_perl 1.0
 
-=head2 Win32 mod_perl 1.0
+=head2 Win32 build
 
 Please see the section on L<Win32 mod_perl 1.0 binary
 distributions|docs::1.0::os::win32::install/All_in_one_packages>
 for details on getting all-in-one mod_perl 1.0 binary packages. 
-
-=head2 Win32 mod_perl 2.0 (BETA)
-
-Please see the section on L<Win32 mod_perl 2.0 binary
-distributions|docs::2.0::os::win32::install/All_in_one_packages>
-for details on getting all-in-one mod_perl 2.0 binary packages. 
 
 =head2 Win32 Active Perl
 
@@ -52,5 +46,19 @@ http://www.hazard.maks.net/apache/
 OS vendors may supply their own pre-compiled version of mod_perl.
 Refer to your OS vendor to figure out if they provide a binary version
 of mod_perl.
+
+=head1 How to get pre-compiled mod_perl 2.0
+
+=head2 Win32
+
+Please see the section on L<Win32 mod_perl 2.0 binary
+distributions|docs::2.0::os::win32::install/All_in_one_packages>
+for details on getting all-in-one mod_perl 2.0 binary packages. 
+
+=head2 Fedora
+
+http://buscaluz.org/rpms/ (by Stuart Jansen)
+
+
 
 =cut
