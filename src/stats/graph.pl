@@ -7,7 +7,7 @@
 #April 1999      134255  32570
 #March 1999      112399  28482
 #
-# first set describes a number Hostnames, 2nd - Unique IP numbers
+# the 1st col describes a number of hostnames, 2nd - Unique IP numbers
 #
 # first graph (graph.gif) is a normal one
 #
@@ -18,14 +18,13 @@
 # Note: you need GD::Graph package to be installed in order to use this
 # script.
 
-# This script is free software; you can
-# redistribute it and/or modify it under the same terms as
-# Perl itself.
+# This script is free software; you can redistribute it and/or modify
+# it under the same terms as Perl itself.
 
 # by Stas Bekman <stas@stason.org>
-# Aug, 14 1999
+# Aug 14 1999
 #
-# updated July, 16 to generate jpegs instead of gifs (since gif support
+# updated July 16 2001 to generate jpegs instead of gifs (since gif support
 # was removed from libgd)
 
 use GD::Graph::linespoints;
@@ -50,7 +49,7 @@ pseudo_graph();
 
 # plot a normal graph of points with all the info as possible
 sub normal_graph{
-  my $my_graph = new GD::Graph::linespoints(700,400);
+  my $my_graph = new GD::Graph::linespoints(600,400);
 
   $my_graph->set( 
 		 x_label => 'Months',
@@ -58,7 +57,7 @@ sub normal_graph{
 		 title => "mod_perl usage survey (numbers are by courtesy of netcraft.com).",
 		 y_max_value => $max_y,
 		 y_label_skip => 1,
-		 x_label_skip => 1,
+		 x_label_skip => 3,
 		 x_labels_vertical => 1,
 		 x_label_position => 1/2,
 		 markers => [ 1, 7 ],
