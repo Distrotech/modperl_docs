@@ -154,7 +154,7 @@ I<5.8.0/i686-linux-thread-multi/Apache2> is coming before the
 directory I<5.8.0/i686-linux-thread-multi> in C<@INC>.
 
 
-=head1 The C<Apache::Registry> Family
+=head1 C<Apache::Registry>, C<Apache::PerlRun> and Friends
 
 C<Apache::Registry>, C<Apache::PerlRun> and other modules from the
 registry family now live in the C<ModPerl::> namespace to avoid
@@ -511,12 +511,14 @@ See the L<Apache::RequestRec> manpage.
 =head2 C<$r-E<gt>log_reason>
 
 C<$r-E<gt>log_reason> is not available in mod_perl 2.0 API. Use the
-other standard logging functions provided by the C<L<Apache::Log|docs::2.0::api::mod_perl-2.0::Apache::Log>>
+other standard logging functions provided by the
+C<L<Apache::Log|docs::2.0::api::mod_perl-2.0::Apache::Log>>
 module. For example:
 
   $r->log_error("it works!");
 
-See the C<L<Apache::Log|docs::2.0::api::mod_perl-2.0::Apache::Log>> manpage.
+See the C<L<Apache::Log|docs::2.0::api::mod_perl-2.0::Apache::Log>>
+manpage.
 
 
 =head2 C<$r-E<gt>register_cleanup>
