@@ -3,7 +3,7 @@
 # *** Automatically generated file.  Do not edit.  Modify ./make.pl instead! ***
 #    File: 'search_options'
 #     Use: generating the sidebar select options for searching
-# Created: Mon Jul  1 00:45:05 2002
+# Created: Mon Jul  1 00:48:37 2002
 #--------------------------------------------------------------------------------------
 
     search_areas = [
@@ -38,7 +38,7 @@
         "SecD" => "All Docs" 
             "SecE" => "..1.0 Docs" 
                 "SecF" => "....Guide (1.0)" 
-                "SecG" => "....Win32 (1/.0)" 
+                "SecG" => "....Win32 (1.0)" 
                 "SecH" => "....API (1.0)" 
             "SecI" => "..2.0 Docs" 
                 "SecJ" => "....User (2.0)" 
