@@ -322,7 +322,7 @@ directories, you need to use at least the C<L<MP_APXS|/MP_APXS>>
 option, which should be set to a full path to the C<apxs>
 executable. For example:
 
-  % perl Makefile.PL MP_INST_APACHE2=1 MP_APXS=/path/to/apxs
+  % perl Makefile.PL MP_APXS=/path/to/apxs
 
 For example RedHat Linux system installs the C<httpd> binary, the
 C<apxs> and C<apr-config> scripts (the latter two are needed to build
@@ -340,7 +340,7 @@ If however all Apache 2.0 files were installed under the same
 directory, mod_perl 2.0's build only needs to know the path to that
 directory, passed via the C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option:
 
-  % perl Makefile.PL MP_INST_APACHE2=1 MP_AP_PREFIX=$HOME/httpd/prefork
+  % perl Makefile.PL MP_AP_PREFIX=$HOME/httpd/prefork
 
 =head3 Static mod_perl
 
@@ -394,7 +394,7 @@ turned off if C<MP_USE_DSO=1> is used.
 
 =head4 MP_STATIC_EXTS
 
-Build C<Apache::*.xs> as static extensions.
+Build C<Apache2::*.xs> as static extensions.
 
 =head4 MP_USE_GTOP
 
@@ -413,7 +413,7 @@ When this option is disabled, the following things will happen:
 
 =item *
 
-Deprecated special variable, C<$Apache::__T> won't be available. Use
+Deprecated special variable, C<$Apache2::__T> won't be available. Use
 C<${^TAINT}> instead.
 
 =item *
@@ -425,10 +425,10 @@ C<@INC>. Instead use:
 
 in I<httpd.conf> or:
 
-  use Apache::ServerUtil ();
+  use Apache2::ServerUtil ();
   use File::Spec::Functins qw(catfile);
-  push @INC, catfile Apache::ServerUtil::server_root, "";
-  push @INC, catfile Apache::ServerUtil::server_root, "lib/perl";
+  push @INC, catfile Apache2::ServerUtil::server_root, "";
+  push @INC, catfile Apache2::ServerUtil::server_root, "lib/perl";
 
 in I<startup.pl>.
 
@@ -470,15 +470,6 @@ C<--enable-maintainer-mode>.
 =head4 MP_TRACE
 
 Enable tracing
-
-
-=head4 MP_INST_APACHE2
-
-Install all the I<*.pm> modules relative to the I<Apache2/> directory
-in the Perl modules tree (not Apache files tree).
-
-
-
 
 
 =head3 Non-Boolean Build Options
@@ -614,7 +605,7 @@ same options. Simply C<chdir(1)> to the mod_perl source directory and
 run:
 
   % cd modperl-2.x.xx
-  % perl -MApache::Build -e rebuild
+  % perl -MApache2::Build -e rebuild
 
 
 
