@@ -1,0 +1,23 @@
+[% # links menu
+   # expects to be set:
+   # nav          - cache navigator object
+   # rel_doc_root - relative docs path (only for chapters!)
+-%]
+[% SET buttons = [
+    [ 'http://take23.org/', 'mod_perl news @ Take23'],
+    ['http://asf.apache.org/', 'The ASF'],
+    ['http://www.apacheweek.com/', 'Apache Week'],
+    ['http://perl.org/', 'Perl Mongers'],
+    ['http://use.perl.org/', 'Use Perl'],
+       ]; 
+%]
+<div class='menulinks'>
+[% WRAPPER wrap_box 
+           title = 'sister sites'
+-%]
+[%- FOREACH but = buttons %]
+<div class='nonselectedmenuitem'><a href="[% but.0 %]">[% but.1 %]</a></div>
+[% END %]
+[% END %]
+</div>
+

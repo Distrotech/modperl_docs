@@ -1,0 +1,12 @@
+[%  # wrap_box - create these nice wrap boxes with a header cell
+    # ARGS: title, content
+
+-%]
+<table class="table-surround" width="150px" cellspacing="1" cellpadding="3">
+  <tr><th class="table-top" align="center">[% title %]</th></tr>
+    <tr><td class="table-cell">
+
+      [%- content %]
+    </td>
+  </tr>
+</table>

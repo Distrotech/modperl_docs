@@ -1,4 +1,4 @@
-[% # top level global menu
+[% # main menu
    # expects to be set:
    # nav          - cache navigator object
    # rel_doc_root - relative docs path (only for chapters!)
@@ -41,19 +41,14 @@
        p = p.next; # next node
    END;
 -%]
-<div class='logo'>
-<a href="http://perl.apache.org/"><img src="[% doc.dir.abs_doc_root %]/images/mod_perl2.jpg" border=0 alt="mod_perl icon" height=59 width=150></a><br>
-</div>
-<br>
-<div class='menu'>
-[% FOREACH but = buttons %]
+
+<div class='menumain'>
+[% WRAPPER wrap_box 
+           title = 'perl.apache.org'
+-%]
+[%- FOREACH but = buttons %]
 <div class='[% but.style  %]'><a href="[% but.link %]">[% but.text %]</a></div>
 [% END %]
+[% END %]
 </div>
-
-
-
-
-
-
 

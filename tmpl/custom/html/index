@@ -13,9 +13,13 @@
 
 <!-- left box (NAV)-->
 <div class='leftbox'>
-    [% INCLUDE menu_top_level nav=doc.nav; %]
+    [% INCLUDE logo %]
     <br>
-    [% INCLUDE ad -%]
+    [% INCLUDE menu_main nav=doc.nav; %]
+    <br>
+    [% INCLUDE menu_links %]
+    <br>
+    [% INCLUDE ad %]
     <br><br>
 </div>
 <!-- end left box-->

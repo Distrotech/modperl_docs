@@ -14,12 +14,16 @@
 
 <!-- left box (NAV)-->
 <div class='leftbox'>
-    [% INCLUDE menu_top_level
+    [% INCLUDE logo %]
+    <br>
+    [% INCLUDE menu_main
               nav=doc.nav
               rel_doc_root=doc.dir.rel_doc_root;
     %]
     <br>
-    [% INCLUDE ad -%]
+    [% INCLUDE menu_links %]
+    <br>
+    [% INCLUDE ad %]
     <br><br>
 </div>
 <!-- end left box-->
@@ -27,10 +31,10 @@
 <!-- right box-->
 <div class='rightbox'>
     [% INCLUDE page_body %]
-    <br>
+    <br>....
     [% INCLUDE tail %]
-<!-- end right box-->
 </div>
+<!-- end right box-->
 
 </body>
 </html>

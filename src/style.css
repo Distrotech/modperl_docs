@@ -2,8 +2,9 @@ body {
         font-family: helvetica, verdana, sans-serif; 
         font-size: 0.8em;
         color: #000000; 
-        background-color: #000066;
-}        
+        /* background-color: #000066; */
+        background-image:url(images/bgline.jpg)
+}
 
 .headline {
         padding: 5px;
@@ -27,13 +28,20 @@ a:visited { color: #0000ff;}
 a:active  { color: #0000ff;}
 a:hover   { color: #0000ff;}
 
-pre { 
-        padding: 3px;
-        border: 6px;
-        border-style: solid;
-        border-color: #ffffff;
-        background-color: #ddffff;
+pre {  
+        white-space: pre;
+	font-family: profont, monaco, ocr-a, monospace, fixed;
+	font-size: 1em;;
+	line-height: normal;
+	color: black;
+	background-color: #ddffff;
+	padding: 6px; 
+	margin: .25em;
+        border: 1px;              /* this is a must for */
+        border-color: #ffffff;    /* for <pre>          */
+        border-style: solid;      /* working in NS      */
 }
+
 
 code { 
         font-family: courier new, courier, monospace;
@@ -59,20 +67,44 @@ div.rightbox {
 
 /* boxes in the left box */
 div.logo {
-        width: 160px;
+        width: 150px;
         padding: 5px;  /* 0px works in NS4 */
         border: 1px;
         border-style: none;
         background-color: #ffffff;
 }
 
-div.menu {
-        width: 160px;
+div.menumain {
         border: 1px;
         padding: 5px;
         border-style: none;
-        background-color: #ffffff;
+       /* background-color: #ffffff; */
 }
+
+div.menulinks {
+        border: 1px;
+        padding: 5px;
+        border-style: none;
+        /* background-color: #ffffff; */
+}
+
+div.ad {
+        border: 1px;
+        padding: 5px;
+        border-style: none;
+       /* background-color: #ffffff;*/
+        font-size: x-small;
+        text-align:center;
+}
+
+.table-head	{ }
+.table-top	{ background-color:#cccccc; }
+.table-cell	{ background-color:#eeeeee; 
+		  vertical-align:top; }
+.table-surround	{ background-color:black; }
+.table-light	{ background-color:#00cc99; }
+
+
 
 div.selectedmenuitem {
         font-weight: bold;
@@ -96,16 +128,6 @@ div.nonselectedmenuitem a:link    {text-decoration: none; color: #525D76;}
 div.nonselectedmenuitem a:visited {text-decoration: none; color: #525D76;}
 div.nonselectedmenuitem a:active  {text-decoration: none; color: #525D76;}
 div.nonselectedmenuitem a:hover   {text-decoration: none; color: #525D76;}
-
-div.ad {
-        width: 160px;
-        border: 1px;
-        padding: 5px;
-        border-style: none;
-        background-color: #ffffff;
-         font-size: x-small;
-        text-align:center;
-}
 
 /* boxes in the right box */
 div.content {
