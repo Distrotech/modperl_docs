@@ -1,8 +1,8 @@
 =head1 NAME
 
-APR:PerlIO -- An APR Perl IO layer
+APR::PerlIO -- An APR Perl IO layer
 
-=head1 SYNOPSIS
+=head1 Synopsis
 
   # under mod_perl
   use APR::PerlIO ();
@@ -27,7 +27,7 @@ APR:PerlIO -- An APR Perl IO layer
    close $fh;'
 
 
-=head1 DESCRIPTION
+=head1 Description
 
 C<APR::PerlIO> implements a Perl IO layer using APR's file
 manipulation as its internals.
@@ -40,9 +40,15 @@ Normally you won't call open() with APR layer attribute, but some
 mod_perl functions will return a filehandle which is internally hooked
 to APR. But you can use APR Perl IO directly if you want.
 
+
+
+
+
 =head1 Constants
 
-=head2 PERLIO_LAYERS_ARE_ENABLED
+
+
+=head2 APR::PerlIO::PERLIO_LAYERS_ARE_ENABLED
 
 Before using the Perl IO APR layer one has to check whether it's
 supported by the used perl build.
@@ -54,30 +60,56 @@ Notice that loading C<APR::PerlIO> won't fail when Perl IO layers
 aren't available since C<APR::PerlIO> provides functionality for Perl
 builds not supporting Perl IO layers.
 
+
+
+
+
+
+
 =head1 API
 
 Perl Interface:
 
-=head2 open()
+=head2 C<open>
 
-To use APR Perl IO to open a file the four arguments open() should be
-used. For example:
+Open a file via APR Perl IO layer.
 
   open my $fh, ">:APR", $filename, $r->pool or die $!;
 
-where:
+=over 4
 
-the second argument is the mode to open the file, constructed from two
-sections separated by the C<:> character: the first section is the
-mode to open the file under (E<gt>, E<lt>, etc) and the second section
-must be a string I<APR>.
+=item arg1: C<$fh> (GLOB filehandle)
 
-the fourth argument must be an C<APR::Pool> object.
+The filehandle.
 
-the rest of the arguments are the same as described by the I<open()>
-manpage.
+=item arg2: C<$mode> (string)
+
+The mode to open the file, constructed from two sections separated by
+the C<:> character: the first section is the mode to open the file
+under (E<gt>, E<lt>, etc) and the second section must be a string
+I<APR>. For more information refer to the I<open> entry in the
+I<perlfunc> manpage.
+
+=item arg3: C<$filename> (string)
+
+The path to the filename to open
+
+=item arg4: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+
+The pool object to use to allocate APR::PerlIO layer.
+
+=item ret: success or failure
+
+=back
+
+
+
+
+
 
 =head2 seek()
+
+Sets C<$fh>'s position, just like the C<seek()> perl call:
 
   seek($fh, $offset, $whence);
 
@@ -91,6 +123,9 @@ cannot fit into a non-largefile size C<apr_off_t>.
 To solve the problem, rebuild Perl with C<-Uuselargefiles>. Currently
 there is no way to force APR to build with large files support.
 
+
+
+
 =head1 C API
 
 The C API provides functions to convert between Perl IO and APR Perl
@@ -98,9 +133,29 @@ IO filehandles.
 
 META: document these
 
-=head1 SEE ALSO
 
-The I<perliol(1)>, I<perlapio(1)> and I<perl(1)> manpages.
+
+=head1 See Also
+
+L<mod_perl 2.0 documentation|docs::2.0::index>. The I<perliol(1)>,
+I<perlapio(1)> and I<perl(1)> manpages.
+
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
+
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
+
 
 =cut
 

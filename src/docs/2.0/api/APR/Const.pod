@@ -2,9 +2,9 @@
 
 APR::Const - Perl Interface for APR Constants
 
-=head1 SYNOPSIS
+=head1 Synopsis
 
-=head1 CONSTANTS
+=head1 Constants
 
 
 
@@ -691,5 +691,25 @@ The C<:uri> group is for XXX constants.
 
 =head3 C<APR::URI_WAIS_DEFAULT_PORT>
 
+
+=head1 See Also
+
+L<mod_perl 2.0 documentation|docs::2.0::index>.
+
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
+
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
 
 =cut
