@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache::Const - Perl Interface for Apache Constants
+Apache2::Const - Perl Interface for Apache Constants
 
 
 
@@ -9,13 +9,13 @@ Apache::Const - Perl Interface for Apache Constants
 =head1 Synopsis
 
   # make the constants available but don't import them
-  use Apache::Const -compile => qw(constant names ...);
+  use Apache2::Const -compile => qw(constant names ...);
   
   # w/o the => syntax sugar
-  use Apache::Const ("-compile", qw(constant names ...));
+  use Apache2::Const ("-compile", qw(constant names ...));
   
   # compile and import the constants
-  use Apache::Const qw(constant names ...);
+  use Apache2::Const qw(constant names ...);
 
 
 
@@ -32,17 +32,17 @@ need to explicitly ask to make it available.
 
 For example, the code:
 
-  use Apache::Const -compile => qw(FORBIDDEN OK);
+  use Apache2::Const -compile => qw(FORBIDDEN OK);
 
-makes the constants C<Apache::FORBIDDEN> and C<Apache::OK> available
+makes the constants C<Apache2::FORBIDDEN> and C<Apache2::OK> available
 to your code, but they aren't imported. In which case you need to use
 a fully qualified constants, as in:
 
-  return Apache::OK;
+  return Apache2::OK;
 
 If you drop the argument C<-compile> and write:
 
-  use Apache::Const qw(FORBIDDEN OK);
+  use Apache2::Const qw(FORBIDDEN OK);
 
 Then both constants are imported into your code's namespace and can be
 used standalone like so:
@@ -64,15 +64,15 @@ to quote it.
 
 If you don't want to use that syntax, instead of writing:
 
- use Apache::Const -compile => qw(FORBIDDEN OK);
+ use Apache2::Const -compile => qw(FORBIDDEN OK);
 
 you could write:
 
- use Apache::Const "-compile", qw(FORBIDDEN OK);
+ use Apache2::Const "-compile", qw(FORBIDDEN OK);
 
 and for parentheses-lovers:
 
- use Apache::Const ("-compile", qw(FORBIDDEN OK));
+ use Apache2::Const ("-compile", qw(FORBIDDEN OK));
 
 
 
@@ -84,22 +84,22 @@ and for parentheses-lovers:
 
 =head2 C<:cmd_how>
 
-  use Apache::Const -compile => qw(:cmd_how);
+  use Apache2::Const -compile => qw(:cmd_how);
 
 The C<:cmd_how> constants group is used in
-C<L<Apache::Module::add()|docs::2.0::api::Apache::Module/C_add_>>
+C<L<Apache2::Module::add()|docs::2.0::api::Apache2::Module/C_add_>>
 and
-C<L<$cmds-E<gt>args_how|docs::2.0::api::Apache::Command/C_args_how_>>.
+C<L<$cmds-E<gt>args_how|docs::2.0::api::Apache2::Command/C_args_how_>>.
 
 
 
 
 
 
-=head3 C<Apache::FLAG>
+=head3 C<Apache2::FLAG>
 
 One of I<On> or I<Off> (L<full
-description|docs::2.0::user::config::custom/C_Apache__FLAG_>).
+description|docs::2.0::user::config::custom/C_Apache2__FLAG_>).
 
 =over
 
@@ -111,10 +111,10 @@ description|docs::2.0::user::config::custom/C_Apache__FLAG_>).
 
 
 
-=head3 C<Apache::ITERATE>
+=head3 C<Apache2::ITERATE>
 
 One argument, occuring multiple times (L<full
-description|docs::2.0::user::config::custom/C_Apache__ITERATE_>).
+description|docs::2.0::user::config::custom/C_Apache2__ITERATE_>).
 
 
 
@@ -128,10 +128,10 @@ description|docs::2.0::user::config::custom/C_Apache__ITERATE_>).
 
 
 
-=head3 C<Apache::ITERATE2>
+=head3 C<Apache2::ITERATE2>
 
 Two arguments, the second occurs multiple times (L<full
-description|docs::2.0::user::config::custom/C_Apache__ITERATE2_>).
+description|docs::2.0::user::config::custom/C_Apache2__ITERATE2_>).
 
 =over
 
@@ -143,10 +143,10 @@ description|docs::2.0::user::config::custom/C_Apache__ITERATE2_>).
 
 
 
-=head3 C<Apache::NO_ARGS>
+=head3 C<Apache2::NO_ARGS>
 
 No arguments at all (L<full
-description|docs::2.0::user::config::custom/C__C_Apache__NO_ARGS_>).
+description|docs::2.0::user::config::custom/C__C_Apache2__NO_ARGS_>).
 
 =over
 
@@ -158,10 +158,10 @@ description|docs::2.0::user::config::custom/C__C_Apache__NO_ARGS_>).
 
 
 
-=head3 C<Apache::RAW_ARGS>
+=head3 C<Apache2::RAW_ARGS>
 
 The command will parse the command line itself (L<full
-description|docs::2.0::user::config::custom/C_Apache__RAW_ARGS_>).
+description|docs::2.0::user::config::custom/C_Apache2__RAW_ARGS_>).
 
 =over
 
@@ -173,10 +173,10 @@ description|docs::2.0::user::config::custom/C_Apache__RAW_ARGS_>).
 
 
 
-=head3 C<Apache::TAKE1>
+=head3 C<Apache2::TAKE1>
 
 One argument only (L<full
-description|docs::2.0::user::config::custom/C_Apache__TAKE1_>).
+description|docs::2.0::user::config::custom/C_Apache2__TAKE1_>).
 
 =over
 
@@ -188,10 +188,10 @@ description|docs::2.0::user::config::custom/C_Apache__TAKE1_>).
 
 
 
-=head3 C<Apache::TAKE12>
+=head3 C<Apache2::TAKE12>
 
 One or two arguments (L<full
-description|docs::2.0::user::config::custom/C_Apache__TAKE12_>).
+description|docs::2.0::user::config::custom/C_Apache2__TAKE12_>).
 
 =over
 
@@ -203,10 +203,10 @@ description|docs::2.0::user::config::custom/C_Apache__TAKE12_>).
 
 
 
-=head3 C<Apache::TAKE123>
+=head3 C<Apache2::TAKE123>
 
 One, two or three arguments (L<full
-description|docs::2.0::user::config::custom/C_Apache__TAKE123_>).
+description|docs::2.0::user::config::custom/C_Apache2__TAKE123_>).
 
 =over
 
@@ -218,10 +218,10 @@ description|docs::2.0::user::config::custom/C_Apache__TAKE123_>).
 
 
 
-=head3 C<Apache::TAKE13>
+=head3 C<Apache2::TAKE13>
 
 One or three arguments (L<full
-description|docs::2.0::user::config::custom/C_Apache__TAKE13_>).
+description|docs::2.0::user::config::custom/C_Apache2__TAKE13_>).
 
 =over
 
@@ -233,10 +233,10 @@ description|docs::2.0::user::config::custom/C_Apache__TAKE13_>).
 
 
 
-=head3 C<Apache::TAKE2>
+=head3 C<Apache2::TAKE2>
 
 Two arguments (L<full
-description|docs::2.0::user::config::custom/C_Apache__TAKE2_>).
+description|docs::2.0::user::config::custom/C_Apache2__TAKE2_>).
 
 =over
 
@@ -248,10 +248,10 @@ description|docs::2.0::user::config::custom/C_Apache__TAKE2_>).
 
 
 
-=head3 C<Apache::TAKE23>
+=head3 C<Apache2::TAKE23>
 
 Two or three arguments (L<full
-description|docs::2.0::user::config::custom/C_Apache__TAKE23_>).
+description|docs::2.0::user::config::custom/C_Apache2__TAKE23_>).
 
 =over
 
@@ -263,10 +263,10 @@ description|docs::2.0::user::config::custom/C_Apache__TAKE23_>).
 
 
 
-=head3 C<Apache::TAKE3>
+=head3 C<Apache2::TAKE3>
 
 Three arguments (L<full
-description|docs::2.0::user::config::custom/C_Apache__TAKE3_>).
+description|docs::2.0::user::config::custom/C_Apache2__TAKE3_>).
 
 =over
 
@@ -290,14 +290,14 @@ description|docs::2.0::user::config::custom/C_Apache__TAKE3_>).
 
 =head2 C<:common>
 
-  use Apache::Const -compile => qw(:common);
+  use Apache2::Const -compile => qw(:common);
 
 The C<:common> group is for XXX constants.
 
 
 
 
-=head3 C<Apache::AUTH_REQUIRED>
+=head3 C<Apache2::AUTH_REQUIRED>
 
 =over
 
@@ -309,7 +309,7 @@ The C<:common> group is for XXX constants.
 
 
 
-=head3 C<Apache::DECLINED>
+=head3 C<Apache2::DECLINED>
 
 =over
 
@@ -321,7 +321,7 @@ The C<:common> group is for XXX constants.
 
 
 
-=head3 C<Apache::DONE>
+=head3 C<Apache2::DONE>
 
 =over
 
@@ -333,7 +333,7 @@ The C<:common> group is for XXX constants.
 
 
 
-=head3 C<Apache::FORBIDDEN>
+=head3 C<Apache2::FORBIDDEN>
 
 =over
 
@@ -345,7 +345,7 @@ The C<:common> group is for XXX constants.
 
 
 
-=head3 C<Apache::NOT_FOUND>
+=head3 C<Apache2::NOT_FOUND>
 
 =over
 
@@ -357,7 +357,7 @@ The C<:common> group is for XXX constants.
 
 
 
-=head3 C<Apache::OK>
+=head3 C<Apache2::OK>
 
 =over
 
@@ -369,7 +369,7 @@ The C<:common> group is for XXX constants.
 
 
 
-=head3 C<Apache::REDIRECT>
+=head3 C<Apache2::REDIRECT>
 
 =over
 
@@ -381,7 +381,7 @@ The C<:common> group is for XXX constants.
 
 
 
-=head3 C<Apache::SERVER_ERROR>
+=head3 C<Apache2::SERVER_ERROR>
 
 =over
 
@@ -395,14 +395,14 @@ The C<:common> group is for XXX constants.
 
 =head2 C<:config>
 
-  use Apache::Const -compile => qw(:config);
+  use Apache2::Const -compile => qw(:config);
 
 The C<:config> group is for XXX constants.
 
 
 
 
-=head3 C<Apache::DECLINE_CMD>
+=head3 C<Apache2::DECLINE_CMD>
 
 =over
 
@@ -418,16 +418,16 @@ The C<:config> group is for XXX constants.
 
 =head2 C<:conn_keepalive>
 
-  use Apache::Const -compile => qw(:conn_keepalive);
+  use Apache2::Const -compile => qw(:conn_keepalive);
 
 The C<:conn_keepalive> constants group is used by the
-(C<L<$c-E<gt>keepalive|docs::2.0::api::Apache::Connection/C_keepalive_>>)
+(C<L<$c-E<gt>keepalive|docs::2.0::api::Apache2::Connection/C_keepalive_>>)
 method.
 
 
 
 
-=head3 C<Apache::CONN_CLOSE>
+=head3 C<Apache2::CONN_CLOSE>
 
 The connection will be closed at the end of the current HTTP request.
 
@@ -440,7 +440,7 @@ The connection will be closed at the end of the current HTTP request.
 
 
 
-=head3 C<Apache::CONN_KEEPALIVE>
+=head3 C<Apache2::CONN_KEEPALIVE>
 
 The connection will be kept alive at the end of the current HTTP request.
 
@@ -454,7 +454,7 @@ The connection will be kept alive at the end of the current HTTP request.
 
 
 
-=head3 C<Apache::CONN_UNKNOWN>
+=head3 C<Apache2::CONN_UNKNOWN>
 
 The connection is at an unknown state, e.g., initialized but not open
 yet.
@@ -472,16 +472,16 @@ yet.
 
 =head2 C<:context>
 
-  use Apache::Const -compile => qw(:context);
+  use Apache2::Const -compile => qw(:context);
 
 The C<:context> group is used by the
-C<L<$parms-E<gt>check_cmd_context|docs::2.0::api::Apache::CmdParms/C_check_cmd_context_>>
+C<L<$parms-E<gt>check_cmd_context|docs::2.0::api::Apache2::CmdParms/C_check_cmd_context_>>
 method.
 
 
 
 
-=head3 C<Apache::NOT_IN_VIRTUALHOST>
+=head3 C<Apache2::NOT_IN_VIRTUALHOST>
 
 The command is not in a E<lt>VirtualHostE<gt> block.
 
@@ -493,7 +493,7 @@ The command is not in a E<lt>VirtualHostE<gt> block.
 
 
 
-=head3 C<Apache::NOT_IN_LIMIT>
+=head3 C<Apache2::NOT_IN_LIMIT>
 
 The command is not in a E<lt>LimitE<gt> block.
 
@@ -508,7 +508,7 @@ The command is not in a E<lt>LimitE<gt> block.
 
 
 
-=head3 C<Apache::NOT_IN_DIRECTORY>
+=head3 C<Apache2::NOT_IN_DIRECTORY>
 
 The command is not in a E<lt>DirectoryE<gt> block.
 
@@ -523,7 +523,7 @@ The command is not in a E<lt>DirectoryE<gt> block.
 
 
 
-=head3 C<Apache::NOT_IN_LOCATION>
+=head3 C<Apache2::NOT_IN_LOCATION>
 
 The command is not in a E<lt>LocationE<gt>/E<lt>LocationMatchE<gt> block.
 
@@ -538,7 +538,7 @@ The command is not in a E<lt>LocationE<gt>/E<lt>LocationMatchE<gt> block.
 
 
 
-=head3 C<Apache::NOT_IN_FILES>
+=head3 C<Apache2::NOT_IN_FILES>
 
 The command is not in a E<lt>FilesE<gt>/E<lt>FilesMatchE<gt> block.
 
@@ -554,7 +554,7 @@ The command is not in a E<lt>FilesE<gt>/E<lt>FilesMatchE<gt> block.
 
 
 
-=head3 C<Apache::NOT_IN_DIR_LOC_FILE>
+=head3 C<Apache2::NOT_IN_DIR_LOC_FILE>
 
 The command is not in a E<lt>FilesE<gt>/E<lt>FilesMatchE<gt>, 
 E<lt>LocationE<gt>/E<lt>LocationMatchE<gt> or 
@@ -571,7 +571,7 @@ E<lt>DirectoryE<gt> block.
 
 
 
-=head3 C<Apache::GLOBAL_ONLY>
+=head3 C<Apache2::GLOBAL_ONLY>
 
 The directive appears outside of any container directives.
 
@@ -588,14 +588,14 @@ The directive appears outside of any container directives.
 
 =head2 C<:filter_type>
 
-  use Apache::Const -compile => qw(:filter_type);
+  use Apache2::Const -compile => qw(:filter_type);
 
 The C<:filter_type> group is for XXX constants.
 
 
 
 
-=head3 C<Apache::FTYPE_CONNECTION>
+=head3 C<Apache2::FTYPE_CONNECTION>
 
 =over
 
@@ -607,7 +607,7 @@ The C<:filter_type> group is for XXX constants.
 
 
 
-=head3 C<Apache::FTYPE_CONTENT_SET>
+=head3 C<Apache2::FTYPE_CONTENT_SET>
 
 =over
 
@@ -619,7 +619,7 @@ The C<:filter_type> group is for XXX constants.
 
 
 
-=head3 C<Apache::FTYPE_NETWORK>
+=head3 C<Apache2::FTYPE_NETWORK>
 
 =over
 
@@ -631,7 +631,7 @@ The C<:filter_type> group is for XXX constants.
 
 
 
-=head3 C<Apache::FTYPE_PROTOCOL>
+=head3 C<Apache2::FTYPE_PROTOCOL>
 
 =over
 
@@ -643,7 +643,7 @@ The C<:filter_type> group is for XXX constants.
 
 
 
-=head3 C<Apache::FTYPE_RESOURCE>
+=head3 C<Apache2::FTYPE_RESOURCE>
 
 =over
 
@@ -655,7 +655,7 @@ The C<:filter_type> group is for XXX constants.
 
 
 
-=head3 C<Apache::FTYPE_TRANSCODE>
+=head3 C<Apache2::FTYPE_TRANSCODE>
 
 =over
 
@@ -671,14 +671,14 @@ The C<:filter_type> group is for XXX constants.
 
 =head2 C<:http>
 
-  use Apache::Const -compile => qw(:http);
+  use Apache2::Const -compile => qw(:http);
 
 The C<:http> group is for XXX constants.
 
 
 
 
-=head3 C<Apache::HTTP_ACCEPTED>
+=head3 C<Apache2::HTTP_ACCEPTED>
 
 =over
 
@@ -690,7 +690,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_BAD_GATEWAY>
+=head3 C<Apache2::HTTP_BAD_GATEWAY>
 
 =over
 
@@ -702,7 +702,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_BAD_REQUEST>
+=head3 C<Apache2::HTTP_BAD_REQUEST>
 
 =over
 
@@ -714,7 +714,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_CONFLICT>
+=head3 C<Apache2::HTTP_CONFLICT>
 
 =over
 
@@ -726,7 +726,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_CONTINUE>
+=head3 C<Apache2::HTTP_CONTINUE>
 
 =over
 
@@ -738,7 +738,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_CREATED>
+=head3 C<Apache2::HTTP_CREATED>
 
 =over
 
@@ -750,7 +750,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_EXPECTATION_FAILED>
+=head3 C<Apache2::HTTP_EXPECTATION_FAILED>
 
 =over
 
@@ -762,7 +762,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_FAILED_DEPENDENCY>
+=head3 C<Apache2::HTTP_FAILED_DEPENDENCY>
 
 =over
 
@@ -774,7 +774,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_FORBIDDEN>
+=head3 C<Apache2::HTTP_FORBIDDEN>
 
 =over
 
@@ -786,7 +786,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_GATEWAY_TIME_OUT>
+=head3 C<Apache2::HTTP_GATEWAY_TIME_OUT>
 
 =over
 
@@ -798,7 +798,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_GONE>
+=head3 C<Apache2::HTTP_GONE>
 
 =over
 
@@ -810,7 +810,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_INSUFFICIENT_STORAGE>
+=head3 C<Apache2::HTTP_INSUFFICIENT_STORAGE>
 
 =over
 
@@ -822,7 +822,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_INTERNAL_SERVER_ERROR>
+=head3 C<Apache2::HTTP_INTERNAL_SERVER_ERROR>
 
 =over
 
@@ -834,7 +834,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_LENGTH_REQUIRED>
+=head3 C<Apache2::HTTP_LENGTH_REQUIRED>
 
 =over
 
@@ -846,7 +846,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_LOCKED>
+=head3 C<Apache2::HTTP_LOCKED>
 
 =over
 
@@ -858,7 +858,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_METHOD_NOT_ALLOWED>
+=head3 C<Apache2::HTTP_METHOD_NOT_ALLOWED>
 
 =over
 
@@ -870,7 +870,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_MOVED_PERMANENTLY>
+=head3 C<Apache2::HTTP_MOVED_PERMANENTLY>
 
 =over
 
@@ -882,7 +882,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_MOVED_TEMPORARILY>
+=head3 C<Apache2::HTTP_MOVED_TEMPORARILY>
 
 =over
 
@@ -894,7 +894,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_MULTIPLE_CHOICES>
+=head3 C<Apache2::HTTP_MULTIPLE_CHOICES>
 
 =over
 
@@ -906,7 +906,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_MULTI_STATUS>
+=head3 C<Apache2::HTTP_MULTI_STATUS>
 
 =over
 
@@ -918,7 +918,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_NON_AUTHORITATIVE>
+=head3 C<Apache2::HTTP_NON_AUTHORITATIVE>
 
 =over
 
@@ -930,7 +930,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_NOT_ACCEPTABLE>
+=head3 C<Apache2::HTTP_NOT_ACCEPTABLE>
 
 =over
 
@@ -942,7 +942,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_NOT_EXTENDED>
+=head3 C<Apache2::HTTP_NOT_EXTENDED>
 
 =over
 
@@ -954,7 +954,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_NOT_FOUND>
+=head3 C<Apache2::HTTP_NOT_FOUND>
 
 =over
 
@@ -966,7 +966,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_NOT_IMPLEMENTED>
+=head3 C<Apache2::HTTP_NOT_IMPLEMENTED>
 
 =over
 
@@ -978,7 +978,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_NOT_MODIFIED>
+=head3 C<Apache2::HTTP_NOT_MODIFIED>
 
 =over
 
@@ -990,7 +990,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_NO_CONTENT>
+=head3 C<Apache2::HTTP_NO_CONTENT>
 
 =over
 
@@ -1002,7 +1002,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_OK>
+=head3 C<Apache2::HTTP_OK>
 
 =over
 
@@ -1014,7 +1014,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_PARTIAL_CONTENT>
+=head3 C<Apache2::HTTP_PARTIAL_CONTENT>
 
 =over
 
@@ -1026,7 +1026,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_PAYMENT_REQUIRED>
+=head3 C<Apache2::HTTP_PAYMENT_REQUIRED>
 
 =over
 
@@ -1038,7 +1038,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_PRECONDITION_FAILED>
+=head3 C<Apache2::HTTP_PRECONDITION_FAILED>
 
 =over
 
@@ -1050,7 +1050,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_PROCESSING>
+=head3 C<Apache2::HTTP_PROCESSING>
 
 =over
 
@@ -1062,7 +1062,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_PROXY_AUTHENTICATION_REQUIRED>
+=head3 C<Apache2::HTTP_PROXY_AUTHENTICATION_REQUIRED>
 
 =over
 
@@ -1074,7 +1074,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_RANGE_NOT_SATISFIABLE>
+=head3 C<Apache2::HTTP_RANGE_NOT_SATISFIABLE>
 
 =over
 
@@ -1086,7 +1086,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_REQUEST_ENTITY_TOO_LARGE>
+=head3 C<Apache2::HTTP_REQUEST_ENTITY_TOO_LARGE>
 
 =over
 
@@ -1098,7 +1098,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_REQUEST_TIME_OUT>
+=head3 C<Apache2::HTTP_REQUEST_TIME_OUT>
 
 =over
 
@@ -1110,7 +1110,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_REQUEST_URI_TOO_LARGE>
+=head3 C<Apache2::HTTP_REQUEST_URI_TOO_LARGE>
 
 =over
 
@@ -1122,7 +1122,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_RESET_CONTENT>
+=head3 C<Apache2::HTTP_RESET_CONTENT>
 
 =over
 
@@ -1134,7 +1134,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_SEE_OTHER>
+=head3 C<Apache2::HTTP_SEE_OTHER>
 
 =over
 
@@ -1146,7 +1146,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_SERVICE_UNAVAILABLE>
+=head3 C<Apache2::HTTP_SERVICE_UNAVAILABLE>
 
 =over
 
@@ -1158,7 +1158,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_SWITCHING_PROTOCOLS>
+=head3 C<Apache2::HTTP_SWITCHING_PROTOCOLS>
 
 =over
 
@@ -1170,7 +1170,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_TEMPORARY_REDIRECT>
+=head3 C<Apache2::HTTP_TEMPORARY_REDIRECT>
 
 =over
 
@@ -1182,7 +1182,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_UNAUTHORIZED>
+=head3 C<Apache2::HTTP_UNAUTHORIZED>
 
 =over
 
@@ -1194,7 +1194,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_UNPROCESSABLE_ENTITY>
+=head3 C<Apache2::HTTP_UNPROCESSABLE_ENTITY>
 
 =over
 
@@ -1206,7 +1206,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_UNSUPPORTED_MEDIA_TYPE>
+=head3 C<Apache2::HTTP_UNSUPPORTED_MEDIA_TYPE>
 
 =over
 
@@ -1218,7 +1218,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_UPGRADE_REQUIRED>
+=head3 C<Apache2::HTTP_UPGRADE_REQUIRED>
 
 =over
 
@@ -1230,7 +1230,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_USE_PROXY>
+=head3 C<Apache2::HTTP_USE_PROXY>
 
 =over
 
@@ -1242,7 +1242,7 @@ The C<:http> group is for XXX constants.
 
 
 
-=head3 C<Apache::HTTP_VARIANT_ALSO_VARIES>
+=head3 C<Apache2::HTTP_VARIANT_ALSO_VARIES>
 
 =over
 
@@ -1256,33 +1256,17 @@ The C<:http> group is for XXX constants.
 
 =head2 C<:input_mode>
 
-  use Apache::Const -compile => qw(:input_mode);
+  use Apache2::Const -compile => qw(:input_mode);
 
 The C<:input_mode> group is used by
-C<L<get_brigade|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
+C<L<get_brigade|docs::2.0::api::Apache2::Filter/C_get_brigade_>>.
 
 
 
 
 
 
-=head3 C<Apache::MODE_EATCRLF>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-See
-C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
-
-
-
-
-
-
-=head3 C<Apache::MODE_EXHAUSTIVE>
+=head3 C<Apache2::MODE_EATCRLF>
 
 =over
 
@@ -1291,28 +1275,14 @@ C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>
 =back
 
 See
-C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
+C<L<Apache2::Filter::get_brigade()|docs::2.0::api::Apache2::Filter/C_get_brigade_>>.
 
 
 
 
 
-=head3 C<Apache::MODE_GETLINE>
 
-=over
-
-=item since: 1.99_12
-
-=back
-
-See
-C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
-
-
-
-
-
-=head3 C<Apache::MODE_INIT>
+=head3 C<Apache2::MODE_EXHAUSTIVE>
 
 =over
 
@@ -1321,28 +1291,13 @@ C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>
 =back
 
 See
-C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
+C<L<Apache2::Filter::get_brigade()|docs::2.0::api::Apache2::Filter/C_get_brigade_>>.
 
 
 
 
 
-=head3 C<Apache::MODE_READBYTES>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-See
-C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
-
-
-
-
-
-=head3 C<Apache::MODE_SPECULATIVE>
+=head3 C<Apache2::MODE_GETLINE>
 
 =over
 
@@ -1351,7 +1306,52 @@ C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>
 =back
 
 See
-C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
+C<L<Apache2::Filter::get_brigade()|docs::2.0::api::Apache2::Filter/C_get_brigade_>>.
+
+
+
+
+
+=head3 C<Apache2::MODE_INIT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+See
+C<L<Apache2::Filter::get_brigade()|docs::2.0::api::Apache2::Filter/C_get_brigade_>>.
+
+
+
+
+
+=head3 C<Apache2::MODE_READBYTES>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+See
+C<L<Apache2::Filter::get_brigade()|docs::2.0::api::Apache2::Filter/C_get_brigade_>>.
+
+
+
+
+
+=head3 C<Apache2::MODE_SPECULATIVE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+See
+C<L<Apache2::Filter::get_brigade()|docs::2.0::api::Apache2::Filter/C_get_brigade_>>.
 
 
 
@@ -1363,29 +1363,15 @@ C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>
 
 =head2 C<:log>
 
-  use Apache::Const -compile => qw(:log);
+  use Apache2::Const -compile => qw(:log);
 
 The C<:log> group is for constants used by
-C<L<Apache::Log|docs::2.0::api::Apache::Log>>.
+C<L<Apache2::Log|docs::2.0::api::Apache2::Log>>.
 
 
 
 
-=head3 C<Apache::LOG_ALERT>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_ALERT_>>.
-
-
-
-
-
-=head3 C<Apache::LOG_CRIT>
+=head3 C<Apache2::LOG_ALERT>
 
 =over
 
@@ -1393,27 +1379,13 @@ See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_ALERT_>>.
 
 =back
 
-See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_CRIT_>>.
+See C<L<Apache2::Log|docs::2.0::api::Apache2::Log/C_Apache2__LOG_ALERT_>>.
 
 
 
 
 
-=head3 C<Apache::LOG_DEBUG>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_DEBUG_>>.
-
-
-
-
-
-=head3 C<Apache::LOG_EMERG>
+=head3 C<Apache2::LOG_CRIT>
 
 =over
 
@@ -1421,15 +1393,13 @@ See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_DEBUG_>>.
 
 =back
 
-See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_EMERG_>>.
+See C<L<Apache2::Log|docs::2.0::api::Apache2::Log/C_Apache2__LOG_CRIT_>>.
 
 
 
 
 
-
-
-=head3 C<Apache::LOG_ERR>
+=head3 C<Apache2::LOG_DEBUG>
 
 =over
 
@@ -1437,29 +1407,13 @@ See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_EMERG_>>.
 
 =back
 
-See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_ERR_>>.
+See C<L<Apache2::Log|docs::2.0::api::Apache2::Log/C_Apache2__LOG_DEBUG_>>.
 
 
 
 
 
-
-=head3 C<Apache::LOG_INFO>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_INFO_>>.
-
-
-
-
-
-
-=head3 C<Apache::LOG_LEVELMASK>
+=head3 C<Apache2::LOG_EMERG>
 
 =over
 
@@ -1467,27 +1421,15 @@ See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_INFO_>>.
 
 =back
 
-See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_LEVELMASK_>>.
+See C<L<Apache2::Log|docs::2.0::api::Apache2::Log/C_Apache2__LOG_EMERG_>>.
 
 
 
 
 
-=head3 C<Apache::LOG_NOTICE>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_NOTICE_>>.
 
 
-
-
-
-=head3 C<Apache::LOG_STARTUP>
+=head3 C<Apache2::LOG_ERR>
 
 =over
 
@@ -1495,27 +1437,14 @@ See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_NOTICE_>>.
 
 =back
 
-See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_STARTUP_>>.
+See C<L<Apache2::Log|docs::2.0::api::Apache2::Log/C_Apache2__LOG_ERR_>>.
 
 
 
 
 
-=head3 C<Apache::LOG_TOCLIENT>
 
-=over
-
-=item since: 1.99_12
-
-=back
-
-See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_TOCLIENT_>>.
-
-
-
-
-
-=head3 C<Apache::LOG_WARNING>
+=head3 C<Apache2::LOG_INFO>
 
 =over
 
@@ -1523,7 +1452,78 @@ See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_TOCLIENT_>>.
 
 =back
 
-See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_WARNING_>>.
+See C<L<Apache2::Log|docs::2.0::api::Apache2::Log/C_Apache2__LOG_INFO_>>.
+
+
+
+
+
+
+=head3 C<Apache2::LOG_LEVELMASK>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+See C<L<Apache2::Log|docs::2.0::api::Apache2::Log/C_Apache2__LOG_LEVELMASK_>>.
+
+
+
+
+
+=head3 C<Apache2::LOG_NOTICE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+See C<L<Apache2::Log|docs::2.0::api::Apache2::Log/C_Apache2__LOG_NOTICE_>>.
+
+
+
+
+
+=head3 C<Apache2::LOG_STARTUP>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+See C<L<Apache2::Log|docs::2.0::api::Apache2::Log/C_Apache2__LOG_STARTUP_>>.
+
+
+
+
+
+=head3 C<Apache2::LOG_TOCLIENT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+See C<L<Apache2::Log|docs::2.0::api::Apache2::Log/C_Apache2__LOG_TOCLIENT_>>.
+
+
+
+
+
+=head3 C<Apache2::LOG_WARNING>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+See C<L<Apache2::Log|docs::2.0::api::Apache2::Log/C_Apache2__LOG_WARNING_>>.
 
 
 
@@ -1531,27 +1531,15 @@ See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_WARNING_>>.
 
 =head2 C<:methods>
 
-  use Apache::Const -compile => qw(:methods);
+  use Apache2::Const -compile => qw(:methods);
 
 The C<:methods> constants group is used in conjunction with
-C<L<$r-E<gt>method_number|docs::2.0::api::Apache::RequestRec/C_method_number_>>.
+C<L<$r-E<gt>method_number|docs::2.0::api::Apache2::RequestRec/C_method_number_>>.
 
 
 
 
-=head3 C<Apache::METHODS>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<Apache::M_BASELINE_CONTROL>
+=head3 C<Apache2::METHODS>
 
 =over
 
@@ -1563,7 +1551,7 @@ C<L<$r-E<gt>method_number|docs::2.0::api::Apache::RequestRec/C_method_number_>>.
 
 
 
-=head3 C<Apache::M_CHECKIN>
+=head3 C<Apache2::M_BASELINE_CONTROL>
 
 =over
 
@@ -1575,7 +1563,7 @@ C<L<$r-E<gt>method_number|docs::2.0::api::Apache::RequestRec/C_method_number_>>.
 
 
 
-=head3 C<Apache::M_CHECKOUT>
+=head3 C<Apache2::M_CHECKIN>
 
 =over
 
@@ -1587,7 +1575,7 @@ C<L<$r-E<gt>method_number|docs::2.0::api::Apache::RequestRec/C_method_number_>>.
 
 
 
-=head3 C<Apache::M_CONNECT>
+=head3 C<Apache2::M_CHECKOUT>
 
 =over
 
@@ -1599,7 +1587,7 @@ C<L<$r-E<gt>method_number|docs::2.0::api::Apache::RequestRec/C_method_number_>>.
 
 
 
-=head3 C<Apache::M_COPY>
+=head3 C<Apache2::M_CONNECT>
 
 =over
 
@@ -1611,7 +1599,7 @@ C<L<$r-E<gt>method_number|docs::2.0::api::Apache::RequestRec/C_method_number_>>.
 
 
 
-=head3 C<Apache::M_DELETE>
+=head3 C<Apache2::M_COPY>
 
 =over
 
@@ -1623,7 +1611,19 @@ C<L<$r-E<gt>method_number|docs::2.0::api::Apache::RequestRec/C_method_number_>>.
 
 
 
-=head3 C<Apache::M_GET>
+=head3 C<Apache2::M_DELETE>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+=head3 C<Apache2::M_GET>
 
 =over
 
@@ -1636,7 +1636,7 @@ corresponds to the HTTP C<GET> method
 
 
 
-=head3 C<Apache::M_INVALID>
+=head3 C<Apache2::M_INVALID>
 
 =over
 
@@ -1648,7 +1648,7 @@ corresponds to the HTTP C<GET> method
 
 
 
-=head3 C<Apache::M_LABEL>
+=head3 C<Apache2::M_LABEL>
 
 =over
 
@@ -1660,7 +1660,7 @@ corresponds to the HTTP C<GET> method
 
 
 
-=head3 C<Apache::M_LOCK>
+=head3 C<Apache2::M_LOCK>
 
 =over
 
@@ -1672,7 +1672,7 @@ corresponds to the HTTP C<GET> method
 
 
 
-=head3 C<Apache::M_MERGE>
+=head3 C<Apache2::M_MERGE>
 
 =over
 
@@ -1684,7 +1684,7 @@ corresponds to the HTTP C<GET> method
 
 
 
-=head3 C<Apache::M_MKACTIVITY>
+=head3 C<Apache2::M_MKACTIVITY>
 
 =over
 
@@ -1696,7 +1696,7 @@ corresponds to the HTTP C<GET> method
 
 
 
-=head3 C<Apache::M_MKCOL>
+=head3 C<Apache2::M_MKCOL>
 
 =over
 
@@ -1708,7 +1708,7 @@ corresponds to the HTTP C<GET> method
 
 
 
-=head3 C<Apache::M_MKWORKSPACE>
+=head3 C<Apache2::M_MKWORKSPACE>
 
 =over
 
@@ -1720,7 +1720,7 @@ corresponds to the HTTP C<GET> method
 
 
 
-=head3 C<Apache::M_MOVE>
+=head3 C<Apache2::M_MOVE>
 
 =over
 
@@ -1732,7 +1732,7 @@ corresponds to the HTTP C<GET> method
 
 
 
-=head3 C<Apache::M_OPTIONS>
+=head3 C<Apache2::M_OPTIONS>
 
 =over
 
@@ -1744,7 +1744,7 @@ corresponds to the HTTP C<GET> method
 
 
 
-=head3 C<Apache::M_PATCH>
+=head3 C<Apache2::M_PATCH>
 
 =over
 
@@ -1756,7 +1756,7 @@ corresponds to the HTTP C<GET> method
 
 
 
-=head3 C<Apache::M_POST>
+=head3 C<Apache2::M_POST>
 
 =over
 
@@ -1768,7 +1768,7 @@ corresponds to the HTTP C<POST> method
 
 
 
-=head3 C<Apache::M_PROPFIND>
+=head3 C<Apache2::M_PROPFIND>
 
 =over
 
@@ -1780,7 +1780,7 @@ corresponds to the HTTP C<POST> method
 
 
 
-=head3 C<Apache::M_PROPPATCH>
+=head3 C<Apache2::M_PROPPATCH>
 
 =over
 
@@ -1792,7 +1792,7 @@ corresponds to the HTTP C<POST> method
 
 
 
-=head3 C<Apache::M_PUT>
+=head3 C<Apache2::M_PUT>
 
 =over
 
@@ -1804,7 +1804,7 @@ corresponds to the HTTP C<PUT> method
 
 
 
-=head3 C<Apache::M_REPORT>
+=head3 C<Apache2::M_REPORT>
 
 =over
 
@@ -1816,7 +1816,7 @@ corresponds to the HTTP C<PUT> method
 
 
 
-=head3 C<Apache::M_TRACE>
+=head3 C<Apache2::M_TRACE>
 
 =over
 
@@ -1828,7 +1828,7 @@ corresponds to the HTTP C<PUT> method
 
 
 
-=head3 C<Apache::M_UNCHECKOUT>
+=head3 C<Apache2::M_UNCHECKOUT>
 
 =over
 
@@ -1840,7 +1840,7 @@ corresponds to the HTTP C<PUT> method
 
 
 
-=head3 C<Apache::M_UNLOCK>
+=head3 C<Apache2::M_UNLOCK>
 
 =over
 
@@ -1852,7 +1852,7 @@ corresponds to the HTTP C<PUT> method
 
 
 
-=head3 C<Apache::M_UPDATE>
+=head3 C<Apache2::M_UPDATE>
 
 =over
 
@@ -1864,7 +1864,7 @@ corresponds to the HTTP C<PUT> method
 
 
 
-=head3 C<Apache::M_VERSION_CONTROL>
+=head3 C<Apache2::M_VERSION_CONTROL>
 
 =over
 
@@ -1878,14 +1878,14 @@ corresponds to the HTTP C<PUT> method
 
 =head2 C<:mpmq>
 
-  use Apache::Const -compile => qw(:mpmq);
+  use Apache2::Const -compile => qw(:mpmq);
 
 The C<:mpmq> group is for querying MPM properties.
 
 
 
 
-=head3 C<Apache::MPMQ_NOT_SUPPORTED>
+=head3 C<Apache2::MPMQ_NOT_SUPPORTED>
 
 =over
 
@@ -1897,7 +1897,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_STATIC>
+=head3 C<Apache2::MPMQ_STATIC>
 
 =over
 
@@ -1909,7 +1909,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_DYNAMIC>
+=head3 C<Apache2::MPMQ_DYNAMIC>
 
 =over
 
@@ -1921,7 +1921,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_MAX_DAEMON_USED>
+=head3 C<Apache2::MPMQ_MAX_DAEMON_USED>
 
 =over
 
@@ -1933,7 +1933,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_IS_THREADED>
+=head3 C<Apache2::MPMQ_IS_THREADED>
 
 =over
 
@@ -1945,7 +1945,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_IS_FORKED>
+=head3 C<Apache2::MPMQ_IS_FORKED>
 
 =over
 
@@ -1957,7 +1957,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_HARD_LIMIT_DAEMONS>
+=head3 C<Apache2::MPMQ_HARD_LIMIT_DAEMONS>
 
 =over
 
@@ -1969,7 +1969,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_HARD_LIMIT_THREADS>
+=head3 C<Apache2::MPMQ_HARD_LIMIT_THREADS>
 
 =over
 
@@ -1981,7 +1981,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_MAX_THREADS>
+=head3 C<Apache2::MPMQ_MAX_THREADS>
 
 =over
 
@@ -1993,7 +1993,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_MIN_SPARE_DAEMONS>
+=head3 C<Apache2::MPMQ_MIN_SPARE_DAEMONS>
 
 =over
 
@@ -2005,7 +2005,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_MIN_SPARE_THREADS>
+=head3 C<Apache2::MPMQ_MIN_SPARE_THREADS>
 
 =over
 
@@ -2017,7 +2017,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_MAX_SPARE_DAEMONS>
+=head3 C<Apache2::MPMQ_MAX_SPARE_DAEMONS>
 
 =over
 
@@ -2029,7 +2029,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_MAX_SPARE_THREADS>
+=head3 C<Apache2::MPMQ_MAX_SPARE_THREADS>
 
 =over
 
@@ -2041,7 +2041,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_MAX_REQUESTS_DAEMON>
+=head3 C<Apache2::MPMQ_MAX_REQUESTS_DAEMON>
 
 =over
 
@@ -2053,7 +2053,7 @@ The C<:mpmq> group is for querying MPM properties.
 
 
 
-=head3 C<Apache::MPMQ_MAX_DAEMONS>
+=head3 C<Apache2::MPMQ_MAX_DAEMONS>
 
 =over
 
@@ -2068,28 +2068,16 @@ The C<:mpmq> group is for querying MPM properties.
 
 =head2 C<:options>
 
-  use Apache::Const -compile => qw(:options);
+  use Apache2::Const -compile => qw(:options);
 
 The C<:options> group contains constants corresponding to the
 C<Options> configuration directive. For examples see:
-C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
+C<L<$r-E<gt>allow_options|docs::2.0::api::Apache2::Access/C_allow_options_>>.
 
 
 
 
-=head3 C<Apache::OPT_ALL>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<Apache::OPT_EXECCGI>
+=head3 C<Apache2::OPT_ALL>
 
 =over
 
@@ -2101,7 +2089,7 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
 
 
-=head3 C<Apache::OPT_INCLUDES>
+=head3 C<Apache2::OPT_EXECCGI>
 
 =over
 
@@ -2113,7 +2101,7 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
 
 
-=head3 C<Apache::OPT_INCNOEXEC>
+=head3 C<Apache2::OPT_INCLUDES>
 
 =over
 
@@ -2125,7 +2113,7 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
 
 
-=head3 C<Apache::OPT_INDEXES>
+=head3 C<Apache2::OPT_INCNOEXEC>
 
 =over
 
@@ -2137,7 +2125,7 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
 
 
-=head3 C<Apache::OPT_MULTI>
+=head3 C<Apache2::OPT_INDEXES>
 
 =over
 
@@ -2149,7 +2137,7 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
 
 
-=head3 C<Apache::OPT_NONE>
+=head3 C<Apache2::OPT_MULTI>
 
 =over
 
@@ -2161,7 +2149,7 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
 
 
-=head3 C<Apache::OPT_SYM_LINKS>
+=head3 C<Apache2::OPT_NONE>
 
 =over
 
@@ -2173,7 +2161,7 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
 
 
-=head3 C<Apache::OPT_SYM_OWNER>
+=head3 C<Apache2::OPT_SYM_LINKS>
 
 =over
 
@@ -2185,7 +2173,19 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
 
 
-=head3 C<Apache::OPT_UNSET>
+=head3 C<Apache2::OPT_SYM_OWNER>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+=head3 C<Apache2::OPT_UNSET>
 
 =over
 
@@ -2199,16 +2199,16 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
 =head2 C<:override>
 
-  use Apache::Const -compile => qw(:override);
+  use Apache2::Const -compile => qw(:override);
 
 The C<:override> group contains constants corresponding to the
 C<AllowOverride> configuration directive. For examples see:
-C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
+C<L<$r-E<gt>allow_options|docs::2.0::api::Apache2::Access/C_allow_overrides_>>.
 
 
 
 
-=head3 C<Apache::ACCESS_CONF>
+=head3 C<Apache2::ACCESS_CONF>
 
 F<*.conf> inside C<E<lt>DirectoryE<gt>> or C<E<lt>LocationE<gt>>
 
@@ -2222,13 +2222,13 @@ F<*.conf> inside C<E<lt>DirectoryE<gt>> or C<E<lt>LocationE<gt>>
 
 
 
-=head3 C<Apache::OR_ALL>
+=head3 C<Apache2::OR_ALL>
 
-C<L<Apache::OR_LIMIT|/C_Apache__OR_LIMIT_>> | 
-C<L<Apache::OR_OPTIONS|/C_Apache__OR_OPTIONS_>> | 
-C<L<Apache::OR_FILEINFO|/C_Apache__OR_FILEINFO_>> | 
-C<L<Apache::OR_AUTHCFG|/C_Apache__OR_AUTHCFG_>> | 
-C<L<Apache::OR_INDEXES|/C_Apache__OR_INDEXES_>>
+C<L<Apache2::OR_LIMIT|/C_Apache2__OR_LIMIT_>> | 
+C<L<Apache2::OR_OPTIONS|/C_Apache2__OR_OPTIONS_>> | 
+C<L<Apache2::OR_FILEINFO|/C_Apache2__OR_FILEINFO_>> | 
+C<L<Apache2::OR_AUTHCFG|/C_Apache2__OR_AUTHCFG_>> | 
+C<L<Apache2::OR_INDEXES|/C_Apache2__OR_INDEXES_>>
 
 =over
 
@@ -2240,7 +2240,7 @@ C<L<Apache::OR_INDEXES|/C_Apache__OR_INDEXES_>>
 
 
 
-=head3 C<Apache::OR_AUTHCFG>
+=head3 C<Apache2::OR_AUTHCFG>
 
 F<*.conf> inside C<E<lt>DirectoryE<gt>> or C<E<lt>LocationE<gt>> and
 F<.htaccess> when C<AllowOverride AuthConfig>
@@ -2255,7 +2255,7 @@ F<.htaccess> when C<AllowOverride AuthConfig>
 
 
 
-=head3 C<Apache::OR_FILEINFO>
+=head3 C<Apache2::OR_FILEINFO>
 
 F<*.conf> anywhere and F<.htaccess> when C<AllowOverride FileInfo>
 
@@ -2269,7 +2269,7 @@ F<*.conf> anywhere and F<.htaccess> when C<AllowOverride FileInfo>
 
 
 
-=head3 C<Apache::OR_INDEXES>
+=head3 C<Apache2::OR_INDEXES>
 
 F<*.conf> anywhere and F<.htaccess> when C<AllowOverride Indexes>
 
@@ -2283,7 +2283,7 @@ F<*.conf> anywhere and F<.htaccess> when C<AllowOverride Indexes>
 
 
 
-=head3 C<Apache::OR_LIMIT>
+=head3 C<Apache2::OR_LIMIT>
 
 F<*.conf> inside C<E<lt>DirectoryE<gt>> or C<E<lt>LocationE<gt>> and
 F<.htaccess> when C<AllowOverride Limit>
@@ -2298,7 +2298,7 @@ F<.htaccess> when C<AllowOverride Limit>
 
 
 
-=head3 C<Apache::OR_NONE>
+=head3 C<Apache2::OR_NONE>
 
 F<*.conf> is not available anywhere in this override
 
@@ -2312,7 +2312,7 @@ F<*.conf> is not available anywhere in this override
 
 
 
-=head3 C<Apache::OR_OPTIONS>
+=head3 C<Apache2::OR_OPTIONS>
 
 F<*.conf> anywhere and F<.htaccess> when C<AllowOverride Options>
 
@@ -2326,7 +2326,7 @@ F<*.conf> anywhere and F<.htaccess> when C<AllowOverride Options>
 
 
 
-=head3 C<Apache::OR_UNSET>
+=head3 C<Apache2::OR_UNSET>
 
 Unset a directive (in C<Allow>)
 
@@ -2340,7 +2340,7 @@ Unset a directive (in C<Allow>)
 
 
 
-=head3 C<Apache::RSRC_CONF>
+=head3 C<Apache2::RSRC_CONF>
 
 F<*.conf> outside C<E<lt>DirectoryE<gt>> or C<E<lt>LocationE<gt>>
 
@@ -2356,7 +2356,7 @@ F<*.conf> outside C<E<lt>DirectoryE<gt>> or C<E<lt>LocationE<gt>>
 
 =head2 C<:platform>
 
-  use Apache::Const -compile => qw(:platform);
+  use Apache2::Const -compile => qw(:platform);
 
 The C<:platform> group is for constants that may
 differ from OS to OS.
@@ -2364,7 +2364,7 @@ differ from OS to OS.
 
 
 
-=head3 C<Apache::CRLF>
+=head3 C<Apache2::CRLF>
 
 =over
 
@@ -2376,7 +2376,7 @@ differ from OS to OS.
 
 
 
-=head3 C<Apache::CR>
+=head3 C<Apache2::CR>
 
 =over
 
@@ -2388,7 +2388,7 @@ differ from OS to OS.
 
 
 
-=head3 C<Apache::LF>
+=head3 C<Apache2::LF>
 
 =over
 
@@ -2402,16 +2402,16 @@ differ from OS to OS.
 
 =head2 C<:remotehost>
 
-  use Apache::Const -compile => qw(:remotehost);
+  use Apache2::Const -compile => qw(:remotehost);
 
 The C<:remotehost> constants group is is used by the
-C<L<$c-E<gt>get_remote_host|docs::2.0::api::Apache::Connection/C_get_remote_host_>>
+C<L<$c-E<gt>get_remote_host|docs::2.0::api::Apache2::Connection/C_get_remote_host_>>
 method.
 
 
 
 
-=head3 C<Apache::REMOTE_DOUBLE_REV>
+=head3 C<Apache2::REMOTE_DOUBLE_REV>
 
 =over
 
@@ -2422,19 +2422,7 @@ method.
 
 
 
-=head3 C<Apache::REMOTE_HOST>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<Apache::REMOTE_NAME>
+=head3 C<Apache2::REMOTE_HOST>
 
 =over
 
@@ -2446,7 +2434,19 @@ method.
 
 
 
-=head3 C<Apache::REMOTE_NOLOOKUP>
+=head3 C<Apache2::REMOTE_NAME>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+=head3 C<Apache2::REMOTE_NOLOOKUP>
 
 =over
 
@@ -2460,15 +2460,15 @@ method.
 
 =head2 C<:satisfy>
 
-  use Apache::Const -compile => qw(:satisfy);
+  use Apache2::Const -compile => qw(:satisfy);
 
 The C<:satisfy> constants group is used in conjunction with
-C<L<$r-E<gt>satisfies|docs::2.0::api::Apache::Access/C_satisfies_>>.
+C<L<$r-E<gt>satisfies|docs::2.0::api::Apache2::Access/C_satisfies_>>.
 
 
 
 
-=head3 C<Apache::SATISFY_ALL>
+=head3 C<Apache2::SATISFY_ALL>
 
 =over
 
@@ -2480,7 +2480,7 @@ All of the requirements must be met.
 
 
 
-=head3 C<Apache::SATISFY_ANY>
+=head3 C<Apache2::SATISFY_ANY>
 
 =over
 
@@ -2493,7 +2493,7 @@ any of the requirements must be met.
 
 
 
-=head3 C<Apache::SATISFY_NOSPEC>
+=head3 C<Apache2::SATISFY_NOSPEC>
 
 =over
 
@@ -2509,14 +2509,14 @@ There are no applicable satisfy lines
 
 =head2 C<:types>
 
-  use Apache::Const -compile => qw(:types);
+  use Apache2::Const -compile => qw(:types);
 
 The C<:types> group is for XXX constants.
 
 
 
 
-=head3 C<Apache::DIR_MAGIC_TYPE>
+=head3 C<Apache2::DIR_MAGIC_TYPE>
 
 =over
 
