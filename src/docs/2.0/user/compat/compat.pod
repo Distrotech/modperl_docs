@@ -355,6 +355,13 @@ them, add:
 
   use Apache::SubRequest;
 
+=head2 C<$r-E<gt>get_remote_host>
+
+C<$r-E<gt>get_remote_host> has been renamed and moved into the package
+C<L<Apache::Connection>>:
+
+  use Apache::Connection;
+  $r->connection->remote_host();
 
 =head2 C<$r-E<gt>content>
 
