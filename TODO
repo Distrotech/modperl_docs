@@ -6,18 +6,11 @@ Basic Layout:
 - NS4, if PRE is long the page is scrolled to the right! See
   dst_html/docs/2.0/devel/debug_c/debug_c.html#Analyzing_the_core_File
 
-- since we have <hr> before the tail on all pages, we don't need the
-  &nbsp; x 300 hack, since hr will ensure that the page will always
-  span 100% to the right. the local_nav table also spans 100%. But
-  need to test this first.
-
 DocSet:
 -------
 
 Menu: 
 -----
-
-- Need to try to make the menu smaller
 
 Internal links:
 --------------_
@@ -26,11 +19,6 @@ Internal links:
 
 style.css:
 ----------
-
-- the pdf/src images are a little bit too big vertically, so if some
-  pages don't have this icon the bar following the title jumps.
-
-- how do we make [prev|up|next] widget do the same as <td NOWRAP>?
 
 Templates:
 ----------
@@ -54,6 +42,8 @@ Content:
   images rather than linking to perl.apache.org to fetch the
   image. Could probably go into About section, which can be split into
   a few pages, making About a DocSet.
+
+- implement Changes/Contributors pages for each docset
 
 Search:
 -------
