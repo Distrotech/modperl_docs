@@ -134,8 +134,9 @@ http://coombs.anu.edu.au/~avalon/
 
 The package name is I<libapreq>.
 
-Get it from your favorite CPAN mirror at $CPAN/authors/id/DOUGM/ or
-from http://perl.apache.org/dist/.
+Get it from http://www.apache.org/dist/httpd/libapreq/. More
+information can be found at: http://httpd.apache.org/apreq/.
+
 
 =head1 DataBases
 
