@@ -73,7 +73,8 @@ with CPAN.pm shell:
 =head2 Create the build environment
 
    % cd modperl-2.0
-   % perl Makefile.PL MP_APXS=$apache_prefix/bin/apxs && make
+   % perl Makefile.PL MP_AP_PREFIX=/home/stas/src/httpd-2.0.xx
+   % make
 
 I<options> an optional list of (key,value) pairs.
 
@@ -142,12 +143,14 @@ Path to C<apxs>. For example if you've installed Apache 2.0 under
 I</home/httpd/httpd-2.0> as DSO, the default location would be
 I</home/httpd/httpd-2.0/bin/apxs>.
 
+META: this option most likely will go away, use MP_AP_PREFIX
+
 =item MP_AP_PREFIX
 
-Apache installation prefix. This option can be used to derive C<apxs>
-values on platforms where C<apxs> is not supported (e.g., on Win32).
-For example if you've have installed Apache 2.0 in C<\Apache2> on
-Win32, you should use:
+Apache installation prefix, under which the Apache I<include/>
+directory can be found. If Apache is not installed yet, you can point
+to the source directory. For example if you've have installed Apache
+2.0 in C<\Apache2> on Win32, you should use:
 
   MP_AP_PREFIX=\Apache2
 
