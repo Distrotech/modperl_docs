@@ -1,6 +1,6 @@
 =head1 NAME
 
-mod_perl and related books
+mod_perl and Related Books
 
 =head1 DESCRIPTION
 
