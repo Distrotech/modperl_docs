@@ -150,14 +150,25 @@ The first filter in the connection input filters chain.
 
 =head2 C<keepalive>
 
-This method answers the question: Are we going to keep the connection
-alive for another HTTP request? It's relevant only for HTTP requests.
+This method answers the question: Should the the connection be kept
+alive for another HTTP request after the current request is completed?
 
   $status = $c->keepalive();
+  $status = $c->keepalive($new_status);
 
 =over 4
 
 =item arg1: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+
+=item arg2 opt: C<$new_status> (C<L<:conn_keepalive
+constant|docs::2.0::api::Apache::Const/C__conn_keepalive_>>)
+
+Normally you should not mess with setting this option when handling
+the HTTP protocol. If you do (for example when sending your own
+headers set with
+C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache::RequestRec/C_assbackwards_>>)
+-- take a look at the ap_set_keepalive() function in
+F<httpd-2.0/modules/http/http_protocol.c>.
 
 =item ret: C<$status> (C<L<:conn_keepalive
 constant|docs::2.0::api::Apache::Const/C__conn_keepalive_>>)
@@ -169,6 +180,9 @@ constants|docs::2.0::api::Apache::Const/C__conn_keepalive_>>).
 =item since: 1.99_13
 
 =back
+
+Unless you set this value yourself when implementing non-HTTP
+protocols, it's only relevant for HTTP requests.
 
 For example:
 
@@ -194,6 +208,51 @@ For example:
 Notice that new states could be added later by Apache, so your code
 should make no assumptions and do things only if the desired state
 matches.
+
+
+
+
+=head2 C<keepalives>
+
+How many requests were already served over the current connection.
+
+  $served = $c->keepalives();
+  $served = $c->keepalives($new_served);
+
+=over 4
+
+=item arg1: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+
+=item arg1 opt: C<$new_served> (integer)
+
+Set the number of served requests over the current
+connection. Normally you won't do that when handling HTTP
+requests. (But see below a note regarding
+C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache::RequestRec/C_assbackwards_>>).
+
+=item ret: C<$served> (integer)
+
+How many requests were already served over the current connection.
+
+In most handlers, but HTTP output filter handlers, that value doesn't
+count the current request. For the latter it'll count the current
+request.
+
+=item since: 1.99_13
+
+=back
+
+This method is only relevant for L<keepalive|/C_keepalive_>
+connections. The core connection output filter
+C<ap_http_header_filter> increments this value when the response
+headers are sent and it decides that the connection should not be
+closed (see C<ap_set_keepalive()>).
+
+If you send your own set of HTTP headers with
+C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache::RequestRec/C_assbackwards_>>,
+which includes the C<Keep-Alive> HTTP response header, you must make
+sure to increment the C<keepalives> counter.
+
 
 
 
