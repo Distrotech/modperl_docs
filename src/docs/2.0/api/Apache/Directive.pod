@@ -153,7 +153,7 @@ C<$hash> now is:
 =head2 C<as_string>
 
 Get a string representation of the configuration node, in
-F<httpd.conf> format. This does not traverse down to sub-trees.
+F<httpd.conf> format.
 
    $string = $node->as_string();
 
@@ -170,7 +170,23 @@ The config tree to stringify
 
 =back
 
+For example: in F<httpd.conf>:
 
+  <Location /test>
+    SetHandler perl-script
+    PerlHandler Test::Module
+  </Location>
+
+And later:
+
+  my $tree = Apache::Directive->conftree;
+  my $node = $tree->lookup('Location', '/test/');
+  my $string = $node->as_string;
+
+C<$string> is now:
+
+  SetHandler perl-script
+  PerlHandler Test::Module
 
 
 
