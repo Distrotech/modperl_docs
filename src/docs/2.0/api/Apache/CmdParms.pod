@@ -368,7 +368,7 @@ Pool associated with this command
 
 =head2 C<server>
 
-The server this command is appearing in
+The (vhost) server this command was defined in F<httpd.conf>
 
   $s = $parms->server;
 
