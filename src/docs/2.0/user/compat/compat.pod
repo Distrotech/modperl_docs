@@ -155,21 +155,60 @@ C<Apache::compat> doesn't provide a complete back compatibility layer.
 
 =head1 C<Apache::>
 
-=head2 C<args()>
+=head2 C<$r-E<gt>content()> and C<$r-E<gt>args()> in an Array Context
 
 C<$r-E<gt>args()> in 2.0 returns the query string without parsing and
 splitting it into an array. You can also set the query string by
 passing a string to this method.
 
-See the L<Apache::RequestRec> manpage for more information.
+C<$r-E<gt>content()> and C<$r-E<gt>args()> in an array context were
+mistakes that never should have been part of the mod_perl 1.x
+API. There multiple reason for that, among others:
 
-XXX: When Apache::Request will be ported to 2.0, you can use its
-params() and similar methods to do the parsing for you.
+=over
+
+=item *
+
+does not handle multi-value keys
+
+=item *
+
+does not handle multi-part content types
+
+=item *
+
+does not handle chunked encoding
+
+=item *
+
+slurps C<$r-E<gt>headers_in-E<gt>{'content-length'}> into a single
+buffer (bad for performance, memory bloat, possible dos attack, etc.)
+
+=item *
+
+in general duplicates functionality (and does so poorly) that is done
+better in C<Apache::Request>.
+
+=item *
+
+if one wishes to simply read POST data, there is the more modern
+C<{setup,should,get}_client_block> API, and even more modern filter
+API.  Along with continued support for C<read(STDIN, ...)> and
+C<$r-E<gt>read($buf, $r-E<gt>headers_in-E<gt>{'content-length'}>)
+
+=back
+
+Instead you should use C<Apache::Request>'s params() and similar
+methods to do the parsing for you. See the L<Apache::Request> manpage.
+
+XXX: ...when Apache::Request will be ported to 2.0. For now you can
+use the code in C<Apache::compat> that implements these methods in
+Perl.
 
 =head2  C<chdir_file()>
 
-XXX: Not implemented yet. And won't be implemented for the threaded
-mpms, since chdir is not thread-safe.
+C<chdir()> is not a thread-safe function, therefore C<chdir_file()> is
+gone from the API.
 
 =head2 C<$r-E<gt>connection-E<gt>user>
 
@@ -177,29 +216,7 @@ This method is deprecated in 1.x and C<$r-E<gt>user> should be used
 instead for both versions of mod_perl. C<Apache::user()> method is
 available since mod_perl version 1.24_01.
 
-=head2 C<content()>
 
-C<$r-E<gt>content()> is not available in 2.0. 
-
-XXX: the reason?
-
-Instead you should perform something like the following:
-
-  sub content {
-      my $r = shift;
-  
-      $r->setup_client_block;
-  
-      return undef unless $r->should_client_block;
-  
-      my $len = $r->headers_in->get('content-length');
-  
-      my $buf;
-      $r->get_client_block($buf, $len);
-  
-      return $buf unless wantarray;
-      return $r->parse_args($buf)
-  }
 
 =head2 C<exit()>
 
@@ -207,7 +224,7 @@ C<Apache::exit()> has been replaced with C<ModPerl::Util::exit()>,
 which is a function (not a method) and accepts a single optional
 argument: status, whose default is 0 (== do nothing).
 
-See the L<ModPerl::Util> manpage for more information.
+See the L<ModPerl::Util> manpage.
 
 
 =head2 C<finfo()>
@@ -244,7 +261,7 @@ with:
 
   $r->err_headers_out->{'Pragma'} = "no-cache";
 
-See the L<Apache::RequestRec> manpage for more information.
+See the L<Apache::RequestRec> manpage.
 
 
 
@@ -256,7 +273,7 @@ C<Apache::RequestRec::log_error()>, C<Apache::ServerRec::log_error()>,
 C<Apache::Log::info()> and others.
 
 See the L<Apache::RequestRec>, L<Apache::Server> and L<Apache::Log>
-manpages for more information.
+manpages.
 
 
 =head2 C<module()>
@@ -275,7 +292,7 @@ first argument instead of the request object. e.g.:
 
 where the last argument C<$data> is optional.
 
-See the L<APR::Pool> manpage for more information.
+See the L<APR::Pool> manpage.
 
 
 =head2 C<$r-E<gt>request()>
@@ -308,7 +325,7 @@ C<Apache::server_root_relative> is a function in 2.0.
 
   my $conf_dir = Apache::server_root_relative($r->pool, 'conf');
 
-See the L<Apache::ServerUtil> manpage for more information.
+See the L<Apache::ServerUtil> manpage.
 
 
 
@@ -354,8 +371,7 @@ A few C<Apache::Util> functions have changed their interface.
 
 C<Apache::Util::size_string> has been replaced with
 C<APR::String::format_size>, which returns formatted strings of only 4
-characters long. See the L<C<APR::String>> manpage for more
-information.
+characters long. See the L<C<APR::String>> manpage.
 
 =head2 C<Apache::Util::unescape_uri()>
 
@@ -371,7 +387,7 @@ C<APR::URI-E<gt>parse()>, which is invoked as:
   my $curl = $r->construct_url;
   APR::URI->parse($r->pool, $curl);
 
-See the L<APR::URI> manpage for more information.
+See the L<APR::URI> manpage.
 
 =head1 Miscellaneous
 
@@ -399,8 +415,7 @@ place of subroutine prototypes:
       ...;
   }
 
-see the I<attributes> manpage for additional information on subroutine
-attributes.
+See the I<attributes> manpage.
 
 mod_perl 2.0 doesn't support the C<($$)> prototypes, mainly because
 several callbacks in 2.0 have more arguments than C<$r>, so the
