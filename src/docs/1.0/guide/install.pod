@@ -1259,6 +1259,13 @@ Configure mod_perl:
 Note: Do not forget that if you use C<csh> or C<tcsh> you may need to
 put all the arguments to `perl Makefile.PL' on a single command line.
 
+Note: If when specifying C<SSL_BASE=/usr/local/ssl> Apache's configure
+doesn't find the ssl libraries, please refer to the mod_ssl
+documentation to figure out what C<SSL_BASE> argument it expects
+(usually needed when ssl is not installed in the standard places).
+This topic is out of scope of this document. For some setups using
+C<SSL_BASE=/usr/local> does the trick.
+
 Build, test and install:
 
   % make && make test && make install
