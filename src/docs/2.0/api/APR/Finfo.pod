@@ -22,10 +22,12 @@ C<stat()> call, but you will want to use this module's API to query an
 already C<stat()'ed> filehandle to avoid an extra system call or to
 query attributes specific to APR file handles.
 
-During the later HTTP request handlers C<$r-E<gt>finfo> already
-contains the cached values from the apr's C<stat()> call. So you don't
-want to perform it again, but instead get the C<ARP::Finfo> object
-via:
+During the HTTP request handlers coming after
+C<L<PerlMapToStorageHandler|docs::2.0::user::handlers::http/PerlMapToStorageHandler>>,
+C<L<$r-E<gt>finfo|docs::2.0::api::Apache::RequestRec/C_finfo_>>
+already contains the cached values from the apr's C<stat()> call. So
+you don't want to perform it again, but instead get the C<ARP::Finfo>
+object via:
 
   my $finfo = $r->finfo;
 
