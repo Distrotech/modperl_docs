@@ -1,0 +1,547 @@
+=head1 NAME
+
+What's new under the sun?
+
+=head1 Description
+
+This chapter presents the new features of Apache 2.0, Perl 5.6.0 -
+5.8.0 and their influence on mod_perl 2.0.
+
+=head1 Why mod_perl, the Next Generation
+
+Here and in the rest of this document we refer to mod_perl 1.x series
+as mod_perl 1.0 and, 2.0.x as mod_perl 2.0 to keep things
+simple. Similarly we call Apache 1.3.x series as Apache 1.3 and 2.0.x
+as Apache 2.0
+
+Since Doug MacEachern has introduced mod_perl 1.0 in 1996, he had to
+adjust source code to the many changes Apache and Perl went through,
+while staying compatible with the older versions, leading to a very
+complex source code, with hundreds of C<#ifdefs> and workarounds for
+various incompatibilities in older Perl and Apache versions. When
+Apache 2.0 development was underway, the new threads design was
+introduced, which couldn't be supported by the existing Perl version,
+since it required thread-safe Perl interpreters.
+
+Think of it as a conspiracy or just a lucky coincidence, on March 10,
+2002, the first Apache 2.0 alpha version was released. 13 days later,
+on March 23, 2002, Perl 5.6.0 has been released. And guess what, Perl
+5.6.0 was the first Perl version to support the internal
+thread-safeness across multiple interpreters.
+
+Since Perl 5.6.0 and Apache 2.0 were the very minimum requirements
+there was no need to support older version and it was a great idea to
+start mod_perl 2.0 code base from scratch, incorporating the lessons
+learned during the 5 years of mod_perl's existence.
+
+The new version includes a mechanism for an automatic building of the
+Perl interface to Apache API, which allowed us to easily adjust
+mod_perl 2.0 to ever changing Apache 2.0 API, during its development
+period. Another important feature is the C<Apache::Test> framework,
+which was originally developed for mod_perl 2.0, but then was adopted
+by Apache 2.0 developers to test the core server features and third
+party modules. Moreover the tests written using the C<Apache::Test>
+framework could be run with Apache 1.0 and 2.0, assuming that both
+supported the same features.
+
+There are multiple other interesting changes that have already
+happened to mod_perl in version 2.0 and more will be developed in the
+future. Some of these will be covered in this document and some you
+will discover on your own while reading mod_perl documentation.
+
+=head1 What's new in Apache 2.0
+
+Apache 2.0 has introduces numerous new features and enhancements. Here
+are the most important new features:
+
+=over
+
+=item * I<Apache Portable Runtime> (APR)
+
+The APR presents a standard API for server applications, covering file
+I/O, logging, shared memory, threads, managing child processes and
+many other functionalities needed for developing the Apache core and
+third party modules in a portable and effective way. One of the
+important effects is that it significantly simplifies the code that
+uses the APR making it much easier to review and understand the Apache
+code, increasing the number of revealed bugs and contributed patches.
+
+The APR uses the concept of memory pools, which significantly
+simplifies the memory management code and reduces the possibility of
+having memory leaks, which always haunt C programmers.
+
+=item * I/O Filtering
+
+Apache 2.0 allows multiple modules to filter both the request and the
+response. Now one module can pipe its output as an input to another
+module as if another module was receiving the data directly from the
+TCP stream. The same mechanism works with the generated response.
+
+With I/O filtering in place, things like SSL, data (de-)compression
+and other manipulations are done very easily.
+
+The I/O filtering is based on the concept of bucket brigades and
+implemented in the APR.
+
+
+=item * I<Multi Processing Model modules> (MPMs).
+
+In the previous Apache generation the same code base was trying to
+handle a management of incoming requests for different platforms,
+which lead to scalability problems on certain platforms, mainly on
+those which are different from Unix. This also lead to an undesired
+complexity of the code.
+
+Apache 2.0 introduces the concept of Multi Processing Model modules,
+whose main responsibility is to map the incoming requests to either
+threads, processes or a threads/processes hybrid. Now it's possible
+to write different processing modules specific to various platforms.
+For example the Apache 2.0 on Windows is much more efficient now,
+since it uses I<mpm_winnt> which deploys the native Windows features.
+
+Here is a partial list of major MPMs available as of this writing.
+
+=over
+
+=item prefork
+
+The I<prefork> MPM emulates Apache 1.3's preforking model, where each
+request is handled by a different forked child process.
+
+=item worker
+
+The I<worker> MPM implements a hybrid multi-process multi-threaded
+approach based on the I<pthreads> standard. It uses one acceptor
+thread, multiple worker threads.
+
+=item mpmt_os2, netware, winnt and beos
+
+These MPMs also implement the hybrid multi-process/multi-threaded
+model, with each based on native OS thread implementations.
+
+=back
+
+On platforms that support more than one MPM, it's possible to switch
+the used MPMs as the need change. For example on Unix it's possible to
+start with a preforked module. Then when the demand is growing and the
+code matures, it's possible to migrate to a more efficient threaded
+MPM, assuming that the code base is capable of running in the threaded
+environment.
+
+=item * New Hook Scheme
+
+In Apache 2.0 it's possible to dynamically register functions for each
+Apache hook, and allows more than one function to be registered per
+hook. Moreover when adding new functions, it's possible to specify
+where the new function should be added, e.g. a function can be pushed
+between two already registered functions or in front of them.
+
+=item * Protocol Modules
+
+The previous Apache generation could speak only the HTTP
+protocol. Apache 2.0 has introduced a "server framework" architecture
+making it possible to plug in handlers for protocols other than HTTP.
+The protocol module design also abstracts the transport layer so
+protocols such as SSL can be hooked into the server without requiring
+modifications to the Apache source code.  This allows Apache to be
+extended much further than in the past, making it possible to add
+support for protocols such as FTP, SMTP, RPC flavors and the like.
+The main advantage being that protocol plugins can take advantage of
+Apache's portability, process/thread management, configuration
+mechanism and plugin API.
+
+=item * Parsed Configuration Tree
+
+Apache 2.0 makes the parsed configuration tree available at run time,
+so modules needing to read the configuration data (e.g., mod_info)
+don't have to re-parse the configuration file, but can re-use the
+parsed tree.
+
+=back
+
+All these new features boost the Apache performance, scalability and
+flexibility. The APR helps the overall performance by doing lots of
+platform specific optimizations in the APR internals, and giving the
+developer the API which was already greatly optimized.
+
+Apache 2.0 now includes special modules that can boost
+performance. For example the mod_mmap_static module loads webpages
+into the virtual memory and serves them directly avoiding the overhead
+of I<open()> and I<read()> system calls to pull them in from the
+filesystem.
+
+The I/O layering is helping performance too, since now modules don't
+need to waste memory and CPU cycles to manually store the data in
+shared memory or I<pnotes> in order to pass the data to another
+module, e.g., in order to provide response's gzip compression.
+
+And of course a not least important impact of these features is the
+simplification and added flexibility for the core and third party
+Apache module developers.
+
+=head1 What's new in Perl 5.6.0 - 5.8.0
+
+As we have mentioned earlier Perl 5.6.0 is the minimum requirement
+for mod_perl 2.0. Though as we will see later certain new features
+work only with Perl 5.8.0 and higher.
+
+These are the important changes in the recent Perl versions that had
+an impact on mod_perl. For a complete list of changes see the
+corresponding to the used version I<perldelta> manpage.
+
+The 5.6 Perl generation has introduced the following features:
+
+=over
+
+=item *
+
+The beginnings of support for running multiple interpreters
+concurrently in different threads.  In conjunction with the
+perl_clone() API call, which can be used to selectively duplicate the
+state of any given interpreter, it is possible to compile a piece of
+code once in an interpreter, clone that interpreter one or more times,
+and run all the resulting interpreters in distinct threads. See the
+I<perlembed> and I<perl561delta> manpages.
+
+=item *
+
+The core support for declaring subroutine attributes, which is used by
+mod_perl 2.0's I<method handlers>. See the I<attributes> manpage.
+
+=item *
+
+The I<warnings> pragma, which allows to force the code to be super
+clean, via the setting:
+
+  use warnings FATAL => 'all';
+
+which will abort any code that generates warnings. This pragma also
+allows a fine control over what warnings should be reported. See the
+I<perllexwarn> manpage.
+
+=item *
+
+Certain C<CORE::> functions now can be overridden via C<CORE::GLOBAL::>
+namespace. For example mod_perl now can override C<CORE::exit()> via
+C<CORE::GLOBAL::exit>. See the I<perlsub> manpage.
+
+=item *
+
+The C<XSLoader> extension as a simpler alternative to C<DynaLoader>.
+See the I<XSLoader> manpage.
+
+=item *
+
+The large file support. If you have filesystems that support "large
+files" (files larger than 2 gigabytes), you may now also be able to
+create and access them from Perl. See the I<perl561delta> manpage.
+
+=item *
+
+Multiple performance enhancements were made. See the I<perl561delta>
+manpage.
+
+=item *
+
+Numerous memory leaks were fixed. See the I<perl561delta> manpage.
+
+=item *
+
+Improved security features: more potentially unsafe operations taint
+their results for improved security. See the I<perlsec> and
+I<perl561delta> manpages.
+
+=item *
+
+Available on new platforms: GNU/Hurd, Rhapsody/Darwin, EPOC.
+
+=back
+
+Overall multiple bugs and problems very fixed in the Perl 5.6.1, so if
+you plan on running the 5.6 generation, you should run at least
+5.6.1. It is possible that when this tutorial is printed 5.6.2 will be
+out.
+
+The Perl 5.8.0 has introduced the following features:
+
+=over
+
+=item *
+
+The introduced in 5.6.0 experimental PerlIO layer has been stabilized
+and become the default IO layer in 5.8.0. Now the IO stream can be
+filtered through multiple layers. See the I<perlapio> and I<perliol>
+manpages.
+
+For example this allows mod_perl to inter-operate with the APR IO
+layer and even use the APR IO layer in Perl code. See the
+I<APR::PerlIO> manpage.
+
+Another example of using the new feature is the extension of the
+open() functionality to create anonymous temporary files via:
+
+   open my $fh, "+>", undef or die $!;
+
+That is a literal undef(), not an undefined value. See the open()
+entry in the I<perlfunc> manpage.
+
+=item *
+
+More overridable via C<CORE::GLOBAL::> keywords. See the I<perlsub>
+manpage.
+
+=item * 
+
+The signal handling in Perl has been notoriously unsafe because
+signals have been able to arrive at inopportune moments leaving Perl
+in inconsistent state.  Now Perl delays signal handling until it is
+safe.
+
+=item *
+
+C<File::Temp> was added to allow a creation of temporary files and
+directories in an easy, portable, and secure way.  See the
+I<File::Temp> manpage.
+
+=item *
+
+A new command-line option, C<-t> is available.  It is the little
+brother of C<-T>: instead of dying on taint violations, lexical
+warnings are given.  This is only meant as a temporary debugging aid
+while securing the code of old legacy applications.  B<This is not a
+substitute for C<-T>.> See the I<perlrun> manpage.
+
+A new special variable C<${^TAINT}> was introduced. It indicates
+whether taint mode is enabled. See the I<perlvar> manpage.
+
+=item *
+
+Threads implementation is much improved since 5.6.
+
+=item *
+
+A much better support for Unicode.
+
+=item *
+
+Numerous bugs and memory leaks fixed. For example now you can localize
+the tied C<Apache::DBI> filehandles without leaking memory.
+
+=item *
+
+Available on new platforms: AtheOS, Mac OS Classic, Mac OS X, MinGW,
+NCR MP-RAS, NonStop-UX, NetWare and UTS. The following platforms are
+again supported: BeOS, DYNIX/ptx, POSIX-BC, VM/ESA, z/OS (OS/390).
+
+
+=back
+
+
+=head1 What's new in mod_perl 2.0
+
+The new features introduced by Apache 2.0 and Perl 5.6 and 5.8
+generations provide the base of the new mod_perl 2.0 features. In
+addition mod_perl 2.0 re-implements itself from scratch providing such
+new features as new build and testing framework. Let's look at the
+major changes since mod_perl 1.0.
+
+=head2 Threads Support
+
+In order to adapt to the Apache 2.0 threads architecture (for threaded
+MPMs), mod_perl 2.0 needs to use thread-safe Perl interpreters, also
+known as "ithreads" (Interpreter Threads). This mechanism can be
+enabled at compile time and ensures that each Perl interpreter uses
+its private C<PerlInterpreter> structure for storing its symbol
+tables, stacks and other Perl runtime mechanisms. When this separation
+is engaged any number of threads in the same process can safely
+perform concurrent callbacks into Perl.  This of course requires each
+thread to have its own C<PerlInterpreter> object, or at least that
+each instance is only accessed by one thread at any given time.
+
+The first mod_perl generation has only a single C<PerlInterpreter>,
+which is constructed by the parent process, then inherited across the
+forks to child processes.  mod_perl 2.0 has a configurable number of
+C<PerlInterpreters> and two classes of interpreters, I<parent> and
+I<clone>.  A I<parent> is like that in mod_perl 1.0, where the main
+interpreter created at startup time compiles any pre-loaded Perl code.
+A I<clone> is created from the parent using the Perl API
+I<perl_clone()> function.  At request time, I<parent> interpreters are
+only used for making more I<clones>, as the I<clones> are the
+interpreters which actually handle requests.  Care is taken by Perl to
+copy only mutable data, which means that no runtime locking is
+required and read-only data such as the syntax tree is shared from the
+I<parent>, which should reduce the overall mod_perl memory footprint.
+
+Rather than create a C<PerlInterperter> per-thread by default,
+mod_perl creates a pool of interpreters.  The pool mechanism helps cut
+down memory usage a great deal.  As already mentioned, the syntax tree
+is shared between all cloned interpreters.  If your server is serving
+more than mod_perl requests, having a smaller number of
+PerlInterpreters than the number of threads will clearly cut down on
+memory usage. Finally and perhaps the biggest win is memory re-use: as
+calls are made into Perl subroutines, memory allocations are made for
+variables when they are used for the first time.  Subsequent use of
+variables may allocate more memory, e.g. if a scalar variable needs to
+hold a longer string than it did before, or an array has new elements
+added.  As an optimization, Perl hangs onto these allocations, even
+though their values "go out of scope".  mod_perl 2.0 has a much better
+control over which PerlInterpreters are used for incoming requests.
+The interpreters are stored in two linked lists, one for available
+interpreters and another for busy ones.  When needed to handle a
+request, one interpreter is taken from the head of the available list
+and put back into the head of the same list when done.  This means if
+for example you have 10 interpreters configured to be cloned at
+startup time, but no more than 5 are ever used concurrently, those 5
+continue to reuse Perl's allocations, while the other 5 remain much
+smaller, but ready to go if the need arises.
+
+The interpreters pool mechanism has been abstracted into an API known
+as "tipool", I<Thread Item Pool>. This pool can be used to manage any
+data structure, in which you wish to have a smaller number than the
+number of configured threads. For example a replacement for
+C<Apache::DBI> based on the I<tipool> will allow to reuse database
+connections between multiple threads of the same process.
+
+=head2 Thread-environment Issues
+
+The only thing you have to worry about your code is that it's
+thread-safe and that you don't use functions that affect all threads.
+
+Perl 5.8.0 itself is a thread-safe. That means that operations like
+C<push()>, C<map()>, C<chomp()>, C<=>, C</>, C<+=>, etc. are
+thread-safe. Operations that involve system calls, may or may not be
+thread-safe. It all depends on whether the underlying C libraries used
+by the perl functions are thread-safe.
+
+For example the function C<localtime()> is not thread-safe when the
+implementation of asctime(3) is not thread-safe. Other usually
+problematic functions include readdir(), srand(), etc.
+
+Another important issue that shouldn't be missed is what some people
+refer to as I<thread-locality>. Certain functions executed in a single
+thread affect the whole process and therefore all other threads
+running inside that process. For example if you C<chdir()> in one
+thread, all other thread now see the current working directory of that
+thread that C<chdir()>'ed to that directory. Other functions with
+similar effects include C<umask()>, C<chroot()>, etc. Currently there
+is no cure for this problem. You have to find these functions in your
+code and replace them with different workarounds.
+
+
+=head2 Perl interface to the APR and Apache APIs
+
+As we have mentioned earlier, Apache 2.0 uses two APIs:
+
+=over
+
+=item *
+
+the Apache Portable APR (APR) API, which implements a portable and
+efficient API to handle generically work with files, threads,
+processes, shared memory, etc.
+
+=item *
+
+the Apache API, which handles issues specific to the web server.
+
+=back
+
+mod_perl 2.0 provides its own very flexible special purpose XS code
+generator, which is capable of doing things none of the existing
+generators can handle. It's possible that in the future this generator
+will be generalized and used for other projects of a high complexity.
+
+This generator creates the Perl glue code for the public APR and
+Apache API, almost without a need for any extra code, but a few thin
+wrappers to make the API more Perlish.
+
+In particular, since APR can be used outside of Apache, the Perl
+C<APR::> modules can be used outside of Apache as well.
+
+
+
+=head2 Other New Features
+
+In addition to the already mentioned new features, the following are
+of a major importance:
+
+=over
+
+=item *
+
+Apache 2.0 protocol modules are supported. Later we will see an
+example of a protocol module running on top of mod_perl 2.0.
+
+=item *
+
+mod_perl 2.0 provides a very simply to use interface to the Apache
+filtering API. We will present a filter module example later on.
+
+=item *
+
+A feature-full and flexible C<Apache::Test> framework was developed
+especially for mod_perl testing. While used to test the core mod_perl
+features, it is used by third-party module writers to easily test
+their modules. Moreover C<Apache::Test> was adopted by Apache and
+currently used to test both Apache 1.3, 2.0 and other ASF projects.
+Anything that runs top of Apache can be tested with C<Apache::Test>,
+be the target written in Perl, C, PHP, etc.
+
+=item *
+
+The support of the new MPMs model makes mod_perl 2.0 can scale better
+on wider range of platforms. For example if you've happened to try
+mod_perl 1.0 on Win32 you probably know that the requests had to be
+serialized, i.e.  only a single request could be processed at a time,
+rendering the Win32 platform unusable with mod_perl as a heavy
+production service. Thanks to the new Apache MPM design, now mod_perl
+2.0 can be used efficiently on Win32 platforms using its native
+I<win32> MPM.
+
+
+=back
+
+
+=head2 Optimizations
+
+The rewrite of mod_perl gives us the chances to build a smarter,
+stronger and faster implementation based on lessons learned over the
+4.5 years since mod_perl was introduced.  There are optimizations
+which can be made in the mod_perl source code, some which can be made
+in the Perl space by optimizing its syntax tree and some a combination
+of both.  In this section we'll take a brief look at some of the
+optimizations that are being considered.
+
+The details of these optimizations from the most part are hidden from
+mod_perl users, the exception being that some will only be turned on
+with configuration directives.  A few of which include:
+
+=over 4
+
+=item *
+
+"Compiled" C<Perl*Handlers>
+
+=item *
+
+Inlined C<Apache::*.xs> calls
+
+=item *
+
+Use of Apache Pools for memory allocations
+
+=back
+
+
+
+
+
+
+
+
+
+
+
+
+
+=cut
