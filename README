@@ -1,0 +1,31 @@
+This is mod_perl 2.0 docs documentation project repository
+
+The repository is called modperl-docs, but it'll be automatically
+placed into modperl-2.0/docs when you check out mod_perl-2.0. So you
+can get the repository in one of these ways:
+
+ % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+ % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
+
+and then look in modperl-2.0/docs or:
+
+ % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-docs
+
+You probably want to subscribe to these two mailing lists:
+
+docs-cvs-subscribe@perl.apache.org
+docs-dev-subscribe@perl.apache.org
+
+The first one is for cvs commits and the second is for discussions.
+
+Then you can post to the modperl-docs discussion list. To post take
+the docs-dev-subscribe@perl.apache.org address and remove the
+-subscribe part from it. Please don't advertise the list's direct
+address so we won't get spammed. Thanks.
+
+If you are interested in helping us creating great documentation by
+reviewing what gets committed and submitting new docs and patches,
+please subscribe to these two mailing list.
+
+Welcome to the yet another cool project brought to you by Apache
+Software Foundation.
