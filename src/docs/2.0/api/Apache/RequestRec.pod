@@ -83,7 +83,9 @@ non-proxy request, it's not enough to call:
 
 You need to adjust C<$r-E<gt>uri> and C<$r-E<gt>filename> as well if
 you run that code in C<PerlPostReadRequestHandler> phase, since if you
-don't -- C<mod_proxy>'s fixup handler will override your settings.
+don't -- C<mod_proxy>'s own post_read_request handler will override
+your settings (as it will run after the mod_perl handler).
+
 
 
 
