@@ -402,6 +402,14 @@ directive:
 
   Include conf/mod_perl.conf
 
+If you want to include this configuration conditionally, depending on
+whether your apache has been compiled with mod_perl, you can use the
+C<IfModule> directive:
+
+  <IfModule mod_perl.c>
+      Include conf/mod_perl.conf
+  </IfModule>
+
 mod_perl adds two further directives: C<E<lt>PerlE<gt>> sections allow
 you to execute Perl code from within any configuration file at server
 startup time, and as you will see later, a file containing any Perl

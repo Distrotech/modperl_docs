@@ -49,6 +49,9 @@ The most recent changes are listed first.
 
   o extended on method handlers (Per Einar Ellefsen)
 
+  o show an example on how to load the mod_perl related config only
+    when mod_perl is loaded (Rafael Garcia-Suarez)
+
 * guide::debug
 
   o extended on curinfo macro (Per Einar Ellefsen)
