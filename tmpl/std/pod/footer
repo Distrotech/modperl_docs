@@ -1,6 +1,0 @@
-[% PROCESS misc/author;
-   PROCESS misc/version;
-   PROCESS misc/copyright;
-   PROCESS misc/seealso
-    seealso = page.seealso
--%]
