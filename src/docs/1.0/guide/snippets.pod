@@ -7,6 +7,103 @@ Code Snippets
 A collection of mod_perl code snippets which you can either adapt to
 your own use or integrate directly into your own code.
 
+=head1 File Upload with Apache::Request
+
+The C<Apache::Request> module gives you an easy way to get form
+content, including uploaded files. In order to add file upload
+functionality to your form, you need to add two things.
+
+First, you'll need to add a form field which is type I<file>. This
+will put a C<browse> button on the form that will allow the user to
+choose a file to upload.
+
+Second, you'll neet to make sure to add, to the C<form> tag the
+following:
+
+    enctype="multipart/form-data"
+
+You won't be able to upload a file unless you have added this to the
+C<form> tag.
+
+In your code, you'll need to take a few extra steps to actually
+retrieve that file that has been uploaded. Using the following
+C<form()> method will allow you to have a standard function that
+handles all of your forms, and does the right thing in the event that
+there was a file uploaded. You can put this function in your
+C<mod_perl> handler, or in whatever module you want.
+
+  sub form {
+      use Apache::Request;
+      my $r = Apache->request();
+      my $apr = Apache::Request->new($r);
+      my @keys = $apr->param;
+  
+      my %form;
+      foreach my $key(@keys) {
+  
+          my @value = $apr->param($key);
+          next unless scalar @value;
+  
+          if ( @value > 1 ) {
+              $form{$key} = \@value;
+            } else {
+              $form{$key} = $value[0];
+          }
+      }
+  
+      my $upload = $apr->upload;
+      if ($upload) {
+          $form{UPLOAD} = $upload;
+      }
+  
+     return \%form;
+  }
+
+In your code, you can get the contents of the form by calling this
+function:
+
+  my $form = Your::Class::form(); # Wherever you put this function
+
+The value returned from this function is compatible with C<CGI.pm> and
+other modules such as C<CGI::Lite> Which is to say, the function
+returns a hashref. The keys of the hash are the names in your
+form. The values in the hash are the values entered in those fields,
+with the exception that a multiple select list with multiple things
+selected will return a listref of the selected values.
+
+I<If> your form contained a file upload element, then C<$form{UPLOAD}>
+will contain a file upload object, which you can make calls back into.
+
+For example:
+
+  my $form = Your::Class::form(); # Wherever you put this function
+  if (my $file = $form->{UPLOAD}) {
+      my $filename = $file->filename; # If you need the name
+
+      # And, if you want to save the file at $filelocation ...
+      open F, ">$filelocation";
+      my $filehandle = $file->fh;
+      while (my $d = <$filehandle>) {
+          print F $d;
+      }
+      close F;
+  }
+
+That should give you the general idea of how this works. This lets you
+have a generic form handler that does "normal" forms as well as file
+upload forms, in mod_perl, without having to mess with C<CGI.pm>, and
+without having to do custom things when you have a file upload.
+
+You will need to see the documentation for C<Apache::Upload> for more
+information about how to deal with the file upload object once you
+have it. Note that the C<Apache::Upload> docs are embeded in the
+C<Apache::Request> documentation, so you'll need to look there for
+that information.
+
+=cut
+
+
+
 =head1 Redirecting Errors to the Client Instead of error_log
 
 Many error conditions result in an I<exception> (or I<signal> -- same

@@ -450,6 +450,8 @@ Alphabetically sorted:
 
 =item * Rex Staples
 
+=item * Rich Bowen
+
 =item * Richard A. Wells
 
 =item * Richard Chen
