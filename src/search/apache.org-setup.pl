@@ -8,7 +8,7 @@ my $hostname = Sys::Hostname::hostname();
 # on daedalus (the production server) we cannot modify the config file
 # so we do it here
 if ($hostname && $hostname eq 'daedalus.apache.org') {
-    $ENV{SWISH_BINARY_PATH} = "/usr/local/bin/swish-e";
+    $ENV{SWISH_BINARY_PATH} = "/home/stas/bin/swish-e";
 }
 
 
