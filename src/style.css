@@ -91,6 +91,19 @@ td.search {
     color: #ffffff;
 }
 
+/* formfields */
+
+.input-fld { 
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 1em;
+    height: auto;
+}
+
+.submit-but {
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 0.8em;
+    height: auto;
+}
 
 
 /* main boxes */
@@ -229,18 +242,6 @@ dl a:hover {
     color: #666666;
 }
 
-/* formfields */
-.input-fld { 
-    height: auto;
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 1em;
-}
-
-.submit-but {
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 10px;
-    height: auto;
-}
 
 /* misc */
 
