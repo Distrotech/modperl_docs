@@ -2417,6 +2417,31 @@ threaded perl into:
 
 which is essentially does a lookup in $Config{useithreads}.
 
+=head2 Retrieving the Server Configuration Data
+
+The server configuration data can be retrieved and used in the tests
+via the configuration object:
+
+  use Apache::Test;
+  my $cfg  = Apache::Test::config();
+
+=head3 Module Magic Number
+
+The following code retrieves the major and minor MMN numbers.
+
+  my $cfg  = Apache::Test::config();
+  my $info = $cfg->{httpd_info};
+  
+  my $major = $info->{MODULE_MAGIC_NUMBER_MAJOR};
+  my $minor = $info->{MODULE_MAGIC_NUMBER_MINOR};
+  
+  print "major=$major, minor=$minor\n";
+
+For example for MMN C<20011218:0>, this code prints:
+
+  major=20011218, minor=0
+
+
 =head1 Debugging Tests
 
 Sometimes your tests won't run properly or even worse will
