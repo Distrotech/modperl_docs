@@ -96,14 +96,6 @@ should load the compatibility module as early as possible:
 at the server startup. And unless there are forgotten things or bugs,
 your code should work without any changes under 2.0 series.
 
-If you have mod_perl 1.0 and 2.0 installed on the same system and the
-two use the same perl libraries directories (e.g. I</usr/lib/perl5>),
-make sure to load first the C<Apache2> module which will perform the
-necessary adjustments to C<@INC>.
-
-  use Apache2; # if you have 1.0 and 2.0 installed
-  use Apache::compat;
-
 However, unless you want to keep the 1.0 compatibility, you should try
 to remove the compatibility layer and adjust your code to work under
 2.0 without it. You want to do it mainly for the performance
@@ -111,6 +103,45 @@ improvement.
 
 This document explains what APIs have changed and what new APIs should
 be used instead.
+
+If you have mod_perl 1.0 and 2.0 installed on the same system and the
+two use the same perl libraries directory (e.g. I</usr/lib/perl5>), to
+use mod_perl 2.0 make sure to load first the C<Apache2> module which
+will perform the necessary adjustments to C<@INC>.
+
+  use Apache2; # if you have 1.0 and 2.0 installed
+  use Apache::compat;
+
+So if before loading C<Apache2.pm> the C<@INC> array consisted of:
+
+  /home/stas/perl/ithread/lib/5.8.0/i686-linux-thread-multi
+  /home/stas/perl/ithread/lib/5.8.0
+  /home/stas/perl/ithread/lib/site_perl/5.8.0/i686-linux-thread-multi
+  /home/stas/perl/ithread/lib/site_perl/5.8.0
+  /home/stas/perl/ithread/lib/site_perl
+  .
+
+It will now look as:
+
+  /home/stas/perl/ithread/lib/site_perl/5.8.0/i686-linux-thread-multi/Apache2
+  /home/stas/perl/ithread/lib/5.8.0/i686-linux-thread-multi
+  /home/stas/perl/ithread/lib/5.8.0
+  /home/stas/perl/ithread/lib/site_perl/5.8.0/i686-linux-thread-multi
+  /home/stas/perl/ithread/lib/site_perl/5.8.0
+  /home/stas/perl/ithread/lib/site_perl
+  .
+
+Notice that a new directory was prepended to the search path, so if
+for example the code attempts to load C<Apache::RequestRec> and there
+are two versions of this module undef
+I</home/stas/perl/ithread/lib/site_perl/>:
+
+          5.8.0/i686-linux-thread-multi/Apache/RequestRec.pm
+  5.8.0/i686-linux-thread-multi/Apache2/Apache/RequestRec.pm
+
+The mod_perl 2.0 version will be loaded first, because the directory
+I<5.8.0/i686-linux-thread-multi/Apache2> is coming before the
+directory I<5.8.0/i686-linux-thread-multi> in C<@INC>.
 
 
 =head1 The C<Apache::Registry> Family
