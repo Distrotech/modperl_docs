@@ -1,6 +1,12 @@
 #!/usr/bin/perl -w
 
-# do the indexing process
+# run with -v to enable the verbose mode
+
+my %opts;
+use Getopt::Std;
+getopt('v', \%opts);
+
+# does the indexing process
 # relies on setting of the following env varibles:
 #
 # the root of the site, without the trailing /
@@ -38,6 +44,9 @@ BEGIN {
 use FindBin qw($Bin);
 use Cwd ();
 
+my $verbose_level = exists $opts{v} ? 1 : 0;
+my $verbose_level_reverse = exists $opts{v} ? 0 : 1;
+
 my $swish_binary = $ENV{SWISH_BINARY_PATH} || './swish-e';
 die "Cannot find swish-e at $swish_binary: $!" unless -x $swish_binary;
 
@@ -45,8 +54,8 @@ my $cwd = Cwd::fastcwd();
 chdir "$Bin/../dst_html/search";
 
 # index
-my $command = "$swish_binary -S prog -c swish.conf";
-#print $command;
+my $command = "SPIDER_QUIET=$verbose_level_reverse $swish_binary -v $verbose_level -S prog -c swish.conf";
+#print "$command\n";
 CORE::system($command);
 
 chdir $cwd;
