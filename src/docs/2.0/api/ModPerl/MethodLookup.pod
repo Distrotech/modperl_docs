@@ -149,6 +149,14 @@ The second returned value is an array of methods which have matched
 the query, i.e. the names of the methods that can be invoked on the
 given object (or its class name).
 
+META: As of this writing this method may miss some of the
+functions/methods that can be invoked on the given object. Currently
+we can't programmatically deduct the objects they are invoked on,
+because these methods are written in pure XS and manipulate the
+arguments stack themselves. Currently these are mainly XS functions,
+not methods, which of course aren't invoked on objects. There are also
+logging function wrappers (C<Apache::Log>).
+
 Examples:
 
 What XS methods can be invoked on the object C<$r>:
