@@ -8,7 +8,8 @@ Apache::Module - Perl API for creating and working with Apache modules
 =head1 Synopsis
 
   use Apache::Module ();
-  
+
+  # iterate over the whole module list
   for (my $modp = Apache::Module->top_module; $modp; $modp = $modp->next) {
       my $name = $modp->name;
       my $version = $modp->version;
@@ -17,21 +18,42 @@ Apache::Module - Perl API for creating and working with Apache modules
       my $commands = $modp->cmds;
   }
   
+  # find a specific module
+  my $module = Apache::Module::find_linked_module('mod_ssl.c');
+  
+  # access module configuration from a directive
   sub MyDirective {
       my ($self, $parms, $args) = @_;
       my  $srv_cfg = Apache::Module->get_config($self, $parms->server);
       [...]
   }
+  
+  # test if an Apache module is loaded
+  if (Apache::Module::loaded('mod_ssl.c')) {
+      [...]
+  }
+  
+  # test if a Perl module is loaded
+  if (Apache::Module::loaded('Apache::Status')) {
+      [...]
+  }
+
+
+
+
 
 
 
 =head1 Description
 
-The API provided by this module opens up access to Apache's internal module
-list. It can be used to find and query currently enabled/loaded modules.
+C<Apache::Module> provides the Perl API for creating and working with
+Apache modules
 
 See L<Apache Server Configuration Customization in
 Perl|docs::2.0::user::config::custom>.
+
+
+
 
 
 =head1 API
@@ -45,17 +67,17 @@ C<Apache::Module> provides the following functions and/or methods:
 
 =head2 C<cmds>
 
-Get an C<L<Apache::Command|docs::2.0::api::Apache::Command>> object
+The C<L<Apache::Command|docs::2.0::api::Apache::Command>> object
 that describes all of the directives this module defines.
 
-  $cmd_rec = $module->cmds();
+  $commands = $module->cmds();
 
 =over 4
 
 =item obj: C<$module>
 ( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
 
-=item ret: C<$cmd_rec>
+=item ret: C<$commands>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
 =item since: 1.99_12
@@ -71,25 +93,34 @@ that describes all of the directives this module defines.
 =head2 C<get_config>
 
 Retrieves a module's configuration. Used by configuration directives.
-
-  $cfg = Apache::Module->get_config($self, $parms->server);
-  $cfg = Apache::Module->get_config($self, $r->server, $r->per_dir_config);
+  
+  $cfg = Apache::Module->get_config($class, $server, [$dir_config]);
+  $cfg = $self->get_config($server, [$dir_config]);
 
 =over 4
 
-=item obj: C<$self> ( string or ref )
+=item obj: C<$module>
+( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
 
-The name of the Perl module this configuration is for
+=item arg1: C<$class> ( string )
 
-=item obj: C<$server> 
+The perl package this configuration is for
+
+=item arg1: C<$server> 
 ( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
-=item obj: C<$dir_config>
+The current server, typically C<$r-E<gt>server> or C<$parms-E<gt>server>
+
+=item opt arg1: C<$dir_config>
 ( C<L<Apache::ConfVector object|docs::2.0::api::Apache::ConfVector>> )
 
-=item ret: C<$cfg> (HASH)
+By default, the configuration returned is the server level one. To retrieve
+the per directory configuration, use C<$r-E<gt>per_dir_config> as a last
+argument.
 
-The hash holding the module configuration data.
+=item ret: C<$cfg> (HASH reference)
+
+A reference to the hash holding the module configuration data.
 
 =back
 
@@ -104,18 +135,18 @@ See also L<Apache Server Configuration Customization in Perl|docs::2.0::user::co
 
 Find a module based on the name of the module
 
-  $modp = Apache::Module::find_linked_module($name);
+  $module = Apache::Module::find_linked_module($name);
 
 =over 4
 
-=item obj: C<$name> ( string )
+=item arg1: C<$name> ( string )
 
-the name of the module
+The name of the module ending in C<.c>
 
-=item ret: C<$modp>
+=item ret: C<$module>
 ( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
 
-the module structure if found, undef otherwise
+The module object if found, undef otherwise
 
 =item since: 1.99_12
 
@@ -129,29 +160,50 @@ the module structure if found, undef otherwise
 
 Determines if a certain module is loaded
 
-  if (Apache::Module->loaded($module)) {
-     [...]
-  }
-  
-  if (Apache::Module->loaded('Apache::Status')) {
-     [...]
-  }
-
-The argument to this function can be many things. If the module ends in
-'.c', true will be returned if that module is loaded  If the module ends
-in '.so', true will be returned if that module is loaded and was loaded
-as a DSO with LoadModule. Otherwise, true will be returned if that Perl
-module is loaded.
+  $loaded = Apache::Module->loaded($module);
 
 =over 4
 
 =item name: C<$module> ( string )
 
-the name of the module
+The name of the module to search for.
 
-=item ret: ( boolean )
+If C<$module> ends with C<.c>, search all the modules,
+statically compiled and dynamically loaded.
+
+If C<$module> ends with C<.so>, search only the dynamically
+loaded modules.
+
+If C<$module> doesn't contain a C<.>, search the loaded Perl
+modules.
+
+=item ret: C<$loaded> ( boolean )
+
+Returns true if the module is loaded, false otherwise.
 
 =back
+
+For example, to test if this server supports ssl:
+
+  if(Apache::Module::loaded('mod_ssl.c')) {
+      [...]
+  }
+
+To test is this server dynamically loaded mod_perl:
+
+  if(Apache::Module::loaded('mod_perl.so')) {
+      [...]
+  }
+
+To test if C<L<Apache::Status>> is loaded:
+
+  if(Apache::Module::loaded('Apache::Status')) {
+      [...]
+  }
+
+
+
+
 
 =head2 C<minor_version>
 
@@ -234,58 +286,6 @@ The next module in the list, undef if the last module in the list.
 =item since: 1.99_12
 
 =back
-
-
-
-
-
-
-
-
-=head2 C<remove_loaded_module>
-
-Remove a module from the chained modules list and the list of loaded
-modules
-
-  $module->remove_loaded_module();
-
-=over 4
-
-=item obj: C<$module>
-( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
-
-
-=item ret: no return value
-
-=item since: 1.99_12
-
-=back
-
-
-
-=head2 C<remove_module>
-
-Remove a module from the server.  There are some caveats:
-when the module is removed, its slot is lost so all the current
-per-dir and per-server configurations are invalid. So we should
-only ever call this function when you are invalidating almost
-all our current data. I.e. when doing a restart.
-
-  $module->remove_module();
-
-=over 4
-
-=item obj: C<$module>
-( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
-
-the module structure of the module to remove
-
-=item ret: no return value
-
-=item since: 1.99_12
-
-=back
-
 
 
 
