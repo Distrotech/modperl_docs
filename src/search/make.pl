@@ -78,10 +78,11 @@ my $items = <<ITEMS;
     0, docs,               Documentation,              All Docs
     1,   docs/1.0,         mod_perl 1.0 Docs,          1.0 Docs
     2,     docs/1.0/guide, Guide (1.0)
-    2,     docs/1.0/win32, Win32 (1.0)
+    2,     docs/1.0/os,    OS Specific (1.0)
     2,     docs/1.0/api,   API (1.0)
     1,   docs/2.0,         mod_perl 2.0 Docs,          2.0 Docs
     2,     docs/2.0/user,  User (2.0)
+    2,     docs/2.0/os,    OS Specific (2.0)
     2,     docs/2.0/devel, Developer (2.0)
     2,     docs/2.0/api,   API (2.0)
     1,   docs/general,     General Docs
