@@ -151,6 +151,17 @@ It has been fixed in httpd-2.0.48.
 =back
 
 
+=head2 (22)Invalid argument: core_output_filter: writing data to the network
+
+Apache uses the sendfile syscall on platforms where it is available in
+order to speed sending of responses. Unfortunately, on some systems,
+Apache will detect the presence of sendfile at compile-time, even when
+it does not work properly. This happens most frequently when using
+network or other non-standard file-system.
+
+The whole story and the solutions are documented at:
+http://httpd.apache.org/docs-2.0/faq/error.html#error.sendfile
+
 
 =head1 Issues with APR Used Outside of mod_perl
 
