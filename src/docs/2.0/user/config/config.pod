@@ -1000,11 +1000,12 @@ a combination of one or more option letters from the following list:
   d directive processing
   f filters
   e environment variables
-  g Perl runtime interaction
+  g globals management
   h handlers
   i interpreter pool management
   m memory allocations
   o I/O
+  r Perl runtime interaction
   s Perl sections
   t benchmark-ish timings
 
