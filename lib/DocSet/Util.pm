@@ -11,6 +11,7 @@ use File::Find ();
 use Data::Dumper;
 use Carp;
 use Template;
+use File::Spec::Functions;
 
 require DocSet::RunTime; # interdependency with DocSet::Util
 
@@ -265,8 +266,7 @@ sub expand_dir {
         # perl 5.005_03 on FreeBSD doesn't set the dir it chdir'ed to
         # need to move this to compat level?
         require Cwd;
-        my $cwd;
-        File::Find::find(sub {$cwd = Cwd::cwd(); push @files, catfile $cwd, $_}, $_[0]);
+        File::Find::find(sub {push @files, catfile($cwdCwd::cwd(), $_)}, $_[0]);
     }
 
     return \@files;

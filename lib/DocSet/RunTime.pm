@@ -260,6 +260,7 @@ Only the find_src_doc() function is exported by default.
 
 =item * find_src_doc($resource_rel_path);
 
+returns C<undef> if nothing was found.
 
 =back
 

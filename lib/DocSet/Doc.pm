@@ -129,7 +129,7 @@ sub transform_src_doc {
     my($self, $path) = @_;
 
     if (my $path = find_src_doc($path)) {
-        my $path = catfile $self->{dir}{abs_doc_root}, $path;
+        $path = catfile $self->{dir}{abs_doc_root}, $path;
         $path =~ s|/\./|/|; # avoid .././foo links.
         return $path;
     }
