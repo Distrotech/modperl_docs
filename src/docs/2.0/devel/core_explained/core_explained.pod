@@ -98,11 +98,20 @@ The execution of:
 
   % make source_scan
 
+or:
+
+  % perl build/source_scan.pl 
+
 converts these map files into their Perl table representation in the
 I<xs/tables/current/> directory. This Perl representation is then used
 during C<perl Makefile.PL> to generate the XS code in the I<./WrapXS/>
 directory by the xs_generate() function. This XS code is combined of
 the Apache API Perl glue and mod_perl specific extensions.
+
+NOTE: source_scan requires C::Scan 0.75, which at the moment is
+unreleased, there is a working copy here:
+http://perl.apache.org/~dougm/Scan.pm
+
 
 If you need to skip certain unwanted C defines from being picked by
 the source scanning you can add them to the array
