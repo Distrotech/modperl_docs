@@ -40,8 +40,7 @@ This example shows how to set a breakpoint at I<modperl_hook_init>.
 To automate things you can put those in the I<.gdb-jump-to-init> file:
 
   b apr_dso_load
-  run -DONE_PROCESS -d /home/stas/apache.org/modperl-perlmodule/t \
-  -f /home/stas/apache.org/modperl-perlmodule/t/conf/httpd.conf
+  run -DONE_PROCESS -d `pwd`/t -f `pwd`/t/conf/httpd.conf
   finish
   b modperl_hook_init
   continue
@@ -49,7 +48,7 @@ To automate things you can put those in the I<.gdb-jump-to-init> file:
 and then start the debugger with:
 
   % gdb /home/stas/httpd-2.0/bin/httpd -command \
-  /home/stas/apache.org/modperl-perlmodule/t/.gdb-jump-to-init
+  `pwd`/t/.gdb-jump-to-init
 
 =head2 Starting the Server Fast under gdb
 
