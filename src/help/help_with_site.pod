@@ -30,27 +30,34 @@ if the snapshot is of a big size.
 
 =head2 Q. I cannot read the PDF version of the documents
 
-B<A>. The PDF files require a browser plugin or standalone PDF reader to be read:
-You can get the Adobe Acrobat Reader for many different platforms from their
-website: http://www.adobe.com/products/acrobat/readstep2.html .
+B<A>. The PDF files require a browser plugin or standalone PDF reader
+to be read: You can get the Adobe Acrobat Reader for many different
+platforms from their website:
+http://www.adobe.com/products/acrobat/readstep2.html .
 
 =head2 Q. How the site search works
 
 B<A>. The search page reachable from the menu includes a complete
 usage documentation. But here is a short description:
 
-In the menu on the left there is a search widget which can search the current
-subset of documents, or the whole site. For example if you are reading one of
-the documents in the mod_perl developers guide the search will return hits within
-this document subset. If you are searching at the root of all
-documentation, all documentation subsets will be searched. And finally
-if you search at the root of the site, the whole site will be
-searched. This widget is not intended to replace the I<Find in the
-current document> feature implemented in most web browsers.
+In the menu on the left there is a search widget which can search the
+current subset of documents, or the whole site. For example if you are
+reading one of the documents in the mod_perl developers guide the
+search will return hits within this document subset. If you are
+searching at the root of all documentation, all documentation subsets
+will be searched. And finally if you search at the root of the site,
+the whole site will be searched. This widget is not intended to
+replace the I<Find in the current document> feature implemented in
+most web browsers.
 
 The L<dedicated search page|XXX> provides a more flexible search
 options, including the explanation of these options.
 
+=head2 Q. Why isn't your site running mod_perl?
+
+B<A>. 99% of this site is comprised of a static content, so it doesn't
+make sense to run mod_perl to serve it. You can see mod_perl in action
+L<here|outstanding::index>.
 
 =head1 Contact Info
 
@@ -63,6 +70,14 @@ much information as possible to help us solve your problem.
 The site is automatically generated from a collection of HTML and POD
 files, using Perl DocSet Framework, which in turn is based on Template
 Toolkit.
+
+If you are interested in downloading the site sources, you can get them from CVS:
+
+  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" login
+
+password: "anoncvs".
+
+  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" co modperl-docs
 
 META: add the URL of the DocSet when it gets released.
 
