@@ -1,0 +1,18 @@
+[% 
+# link to the pdf, source and other variants of the doc 
+    # pdf block
+    IF doc.pdf_doc;
+        INCLUDE pdf_doc;
+    END;
+
+    # pdf block
+    IF doc.src_doc;
+        INCLUDE src_doc;
+    END;
+-%]
+[% BLOCK pdf_doc %]
+<a href="[% doc.pdf_doc.link -%]">[PDF]</a> ([% doc.pdf_doc.size %])
+[% END %]
+[% BLOCK src_doc %]
+<a href="[% doc.src_doc.link -%]">[SRC]</a> ([% doc.src_doc.size %])
+[% END %]

@@ -1,6 +1,6 @@
 [% #
    # expected args:
-   # toc - an array with keys: link, title, abstract, subs
+   # toc - an array with keys: link, stitle, title, abstract, subs
    #       (subs is optional and includes a similar array)
 %]
 

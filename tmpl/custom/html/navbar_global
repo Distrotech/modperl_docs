@@ -26,13 +26,13 @@
            END;
 	   nav_not_empty = 1; 
            link = path.join("/");
-           sects.push({link => "$link/index.html", text => p.index_node.title});
+           sects.push({link => "$link/index.html", text => p.index_node.stitle});
        END;
        # a page has index as its parent, so we push it here
        IF rel_doc_root.defined;
 	   nav_not_empty = 1; 
            sects.push({link => "$rel_doc_root/index.html", 
-                       text => nav.index_node.title});
+                       text => nav.index_node.stitle});
        END;
     -%]
 [% IF nav_not_empty == 1 %]

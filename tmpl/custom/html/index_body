@@ -16,6 +16,8 @@
         "<p>${doc.meta.abstract}</p>";
     END;
 
+    INCLUDE download;
+
     PROCESS index_toc toc=doc.toc;
 
     IF doc.body.bot;

@@ -32,7 +32,7 @@
    WHILE p;
        count = count + 1;
        link = INCLUDE link prefix=prefix link=p.meta.link;
-       buttons.push({link => link, text => p.meta.title});
+       buttons.push({link => link, text => p.meta.stitle});
        IF p.id == current.id;
            selected = count;
        END;
