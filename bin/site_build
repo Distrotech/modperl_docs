@@ -3,9 +3,10 @@
 #
 # this script does different things depending on how it was named (or
 # a symlink) if the name includes:
-# force - the whole site is rebuilt
-# pdf   - builds pdfs
-# index - builds the index
+# force   - the whole site is rebuilt
+# pdf     - builds pdfs
+# index   - builds the index
+# verbose - turn the verbose mode on
 #
 # the easiest way is to use symlinks to the same script
 #
@@ -45,6 +46,7 @@ sub update {
     my $flags = '';
     $flags .= 'f' if $name =~ /force/;
     $flags .= 'd' if $name =~ /pdf/;
+    $flags .= 'v' if $name =~ /verbose/;
     $flags = $flags ? "-$flags" : "";
 
     system("cvs up -dP >/dev/null 2>&1");
