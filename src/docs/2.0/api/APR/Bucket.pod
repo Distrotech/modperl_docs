@@ -257,7 +257,12 @@ Create a new bucket and initialize it with data:
 
 =item arg1: C<$data> ( string )
 
-The data to initialize with
+The data to initialize with.
+
+B<Important:> in order to avoid unnecessary data copying the variable
+is stored in the bucket object. That means that if you modify C<$data>
+after passing it to C<new()> you will modify the data in the bucket as
+well. To avoid that pass to C<new()> a copy which you won't modify.
 
 =item opt arg2: C<$offset> ( number )
 
