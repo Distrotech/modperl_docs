@@ -184,16 +184,16 @@ incoming request.
 This setting is enabled by default for sections configured as:
 
   <Location ...>
-      ...
       SetHandler perl-script
+      ...
   </Location>
 
 And can be disabled with:
 
   <Location ...>
-      ...
       SetHandler perl-script
       PerlOptions -GlobalRequest
+      ...
   </Location>
 
 
@@ -250,17 +250,17 @@ CGI environment table.
 This option is enabled by default for sections configured as:
 
   <Location ...>
-      ...
       SetHandler perl-script
+      ...
   </Location>
 
 Since this option adds an overhead to each request, if you don't need
 this functionality you can turn it off for a certain section:
 
   <Location ...>
-      ...
       SetHandler perl-script
       Options -SetupEnv
+      ...
   </Location>
 
 or globally:
@@ -308,8 +308,8 @@ Notice that we have got the value of the environment variable I<TEST>.
 For sections configured as:
 
   <Location ...>
-      ...
       SetHandler modperl
+      ...
   </Location>
 
 it's always turned off and cannot be turned on.

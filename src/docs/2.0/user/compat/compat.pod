@@ -303,11 +303,19 @@ Notice that C<Apache-E<gt>request> is deprecated.  It's error-prone
 and hurts performance when using threaded MPMs, since it has to use
 thread local storage.
 
-For any location that uses C<Apache-E<gt>request>, you need to
-configure:
+For any location that uses C<Apache-E<gt>request> and uses
+C<"modperl"> handler, you need to configure:
 
   <Location ...>
+      SetHandler modperl
       PerlOptions +GlobalRequest
+      ...
+  </Location>
+
+It's already enabled for:
+
+  <Location ...>
+      SetHandler perl-script
       ...
   </Location>
 
