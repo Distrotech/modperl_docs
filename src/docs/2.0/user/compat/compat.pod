@@ -361,7 +361,7 @@ C<$r-E<gt>get_remote_host> has been renamed and moved into the package
 C<L<Apache::Connection>>:
 
   use Apache::Connection;
-  $r->connection->remote_host();
+  $r->connection->get_remote_host();
 
 =head2 C<$r-E<gt>content>
 
