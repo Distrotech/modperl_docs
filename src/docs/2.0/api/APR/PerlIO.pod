@@ -17,11 +17,11 @@ APR::PerlIO -- Perl IO layer for APR
       # work with $fh as normal $fh
       close $fh;
   
-      return Apache::OK;
+      return Apache2::OK;
   }
 
   # outside mod_perl
-  % perl -MApache2 -MAPR -MAPR::PerlIO -MAPR::Pool -le \
+  % perl -MAPR -MAPR::PerlIO -MAPR::Pool -le \
   'open my $fh, ">:APR", "/tmp/apr", APR::Pool->new or die "$!"; \
    print $fh "whoah!"; \
    close $fh;'

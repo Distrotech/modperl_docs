@@ -167,7 +167,7 @@ The socket to poll
 =item arg1: C<$pool>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
-usually C<L<$c-E<gt>pool|docs::2.0::api::Apache::Connection/C_pool_>>.
+usually C<L<$c-E<gt>pool|docs::2.0::api::Apache2::Connection/C_pool_>>.
 
 =item arg2: C<$timeout> ( integer )
 

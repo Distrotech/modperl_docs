@@ -58,9 +58,9 @@ under threaded MPMs returns the current thread ID, otherwise 0.
 
 Example:
 
-    use Apache::MPM ();
+    use Apache2::MPM ();
     use APR::OS ();
-    if (Apache::MPM->is_threaded) {
+    if (Apache2::MPM->is_threaded) {
         my $tid_obj = APR::OS::current_thread_id();
         print "TID: $tid";
     }

@@ -56,7 +56,7 @@ C<L<APR::Brigade-E<gt>new|docs::2.0::api::APR::Brigade/C_new_>>).
 You only need to use this method if you aren't running under httpd.
 If you are running under mod_perl, you already have a bucket
 allocation available via
-C<L<$c-E<gt>bucket_alloc|docs::2.0::api::Apache::Connection/C_bucket_alloc_>>
+C<L<$c-E<gt>bucket_alloc|docs::2.0::api::Apache2::Connection/C_bucket_alloc_>>
 and
 C<L<$bb-E<gt>bucket_alloc|docs::2.0::api::APR::Brigade/C_bucket_alloc_>>.
 

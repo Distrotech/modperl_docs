@@ -285,7 +285,7 @@ C<"/"> if only C<scheme://host>
 =head2 C<rpath>
 
 Gets the C<L<path>> minus the 
-C<L<path_info|docs::2.0::api::Apache::RequestRec/C_path_info_>>
+C<L<path_info|docs::2.0::api::Apache2::RequestRec/C_path_info_>>
 
   $rpath =  $parsed->rpath();
 
@@ -582,7 +582,7 @@ Prints:
 
 =head1 See Also
 
-C<L<Apache::URI|docs::2.0::api::Apache::URI>>, L<mod_perl 2.0
+C<L<Apache2::URI|docs::2.0::api::Apache2::URI>>, L<mod_perl 2.0
 documentation|docs::2.0::index>.
 
 

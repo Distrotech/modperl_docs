@@ -176,7 +176,7 @@ but give the user the human-readable version of the error and not just
 the code.
 
   my $rc = $c->input_filters->get_brigade($bb_in,
-                                          Apache::MODE_GETLINE);
+                                          Apache2::MODE_GETLINE);
   if ($rc != APR::SUCCESS && $rc != APR::EOF) {
       my $error = APR::Error::strerror($rc);
       die "get_brigade error: $rc: $error\n";

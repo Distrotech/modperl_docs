@@ -28,8 +28,8 @@ APR::Const - Perl Interface for APR Constants
 
 This package contains constants specific to C<APR> features.
 
-Refer to C<L<the Apache::Const description
-section|docs::2.0::api::Apache::Const/Description>> for more
+Refer to C<L<the Apache2::Const description
+section|docs::2.0::api::Apache2::Const/Description>> for more
 information.
 
 

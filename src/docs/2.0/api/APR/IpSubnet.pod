@@ -107,8 +107,8 @@ Example:
 Allow accesses only from the localhost (IPv4):
 
   use APR::IpSubnet ();
-  use Apache::Connection ();
-  use Apache::RequestRec ();
+  use Apache2::Connection ();
+  use Apache2::RequestRec ();
   my $ipsub = APR::IpSubnet->new($r->pool, "127.0.0.1");
   ok $ipsub->test($r->connection->remote_addr);
 

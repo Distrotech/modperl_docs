@@ -381,8 +381,8 @@ Example:
 
 Create a new bucket brigade, using the request object's pool:
 
-  use Apache::Connection ();
-  use Apache::RequestRec ();
+  use Apache2::Connection ();
+  use Apache2::RequestRec ();
   use APR::Brigade ();
   my $bb = APR::Brigade->new($r->pool, $r->connection->bucket_alloc);
 

@@ -23,7 +23,7 @@ fields.
 
 Normally you'd get a socket address object, by calling:
 
-  use Apache::Connection ();
+  use Apache2::Connection ();
   my $remote_sock_addr = $c->remote_addr;
   my $local_sock_addr  = $c->remote_local;
 
@@ -64,7 +64,7 @@ If you are familiar with how perl's C<Socket> works:
 in apr-speak that'd be written as:
 
   use APR::SockAddr ();
-  use Apache::Connection ();
+  use Apache2::Connection ();
   my $serverport = $c->local_addr->port;
   my $serverip   = $c->local_addr->ip_get;
   my $remoteport = $c->remote_addr->port;

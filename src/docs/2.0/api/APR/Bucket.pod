@@ -185,7 +185,7 @@ point.
 Example:
 
   use APR::Bucket ();
-  use Apache::Connection ();
+  use Apache2::Connection ();
   my $ba = $c->bucket_alloc;
   my $eos_b = APR::Bucket::eos_create($ba);
 
