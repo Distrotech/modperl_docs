@@ -1,6 +1,6 @@
 =head1 NAME
 
-APR::Table -- A Perl API for manipulating paque string-content table
+APR::Table -- A Perl API for manipulating opaque string-content table
 
 =head1 SYNOPSIS
 

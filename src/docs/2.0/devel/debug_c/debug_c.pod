@@ -161,7 +161,7 @@ debugging process again and again.
 
 META: need to review (unfinished)
 
-=head2
+=head2 ...
 
 
 =head1 Analyzing Dumped Core Files
