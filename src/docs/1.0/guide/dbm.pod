@@ -5,7 +5,7 @@ mod_perl and dbm files
 =head1 Description
 
 Small databases can be implemented pretty efficiently using dbm files,
-but there are still some precautions that must be taken to use
+but there are still some precautions that must be taken to use them
 properly under mod_perl.
 
 =head1 Where and Why to use dbm files

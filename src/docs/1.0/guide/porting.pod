@@ -4,8 +4,8 @@ CGI to mod_perl Porting. mod_perl Coding guidelines.
 
 =head1 Description
 
-This chapter is relevant to both writing a new CGI script or perl
-handler from scratch and migrating an application from plain CGI to
+This chapter is relevant both to writing a new CGI script or perl
+handler from scratch and to migrating an application from plain CGI to
 mod_perl.
 
 It also addresses the situation where the CGI script being ported does

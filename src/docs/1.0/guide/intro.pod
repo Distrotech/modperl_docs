@@ -6,16 +6,16 @@ Introduction and Incentives
 
 An introduction to what mod_perl is all about, its different features,
 and some explanations of the C API, C<Apache::Registry>,
-C<Apache::PerlRun> and the Apache/Perl API.
+C<Apache::PerlRun>, and the Apache/Perl API.
 
 
 =head1 What is mod_perl?
 
 The Apache/Perl integration project brings together the full power of
 the Perl programming language and the Apache HTTP server. With
-mod_perl it is possible to write Apache modules entirely in Perl,
-letting you easily do things that are more difficult or impossible in
-regular CGI programs, such as running sub requests. In addition, the
+mod_perl, it is possible to write Apache modules entirely in Perl,
+letting you easily do things (such as running sub-requests) that are
+more difficult or impossible in regular CGI programs. In addition, the
 persistent Perl interpreter embedded in the server saves the overhead
 of starting an external interpreter, i.e. the penalty of Perl start-up
 time.  And not the least important feature is code caching, where
@@ -26,7 +26,7 @@ which is very fast.
 
 The primary advantages of mod_perl are power and speed. You have full
 access to the inner workings of the web server and can intervene at
-any stage of request-processing. This allows for customized processing
+any stage of request processing. This allows for customized processing
 of (to name just a few of the phases) URI-E<gt>filename translation,
 authentication, response generation, and logging. There is very little
 run-time overhead. In particular, it is not necessary to start a
@@ -58,14 +58,15 @@ When you run your CGI scripts by using a configuration like this:
 
   ScriptAlias /cgi-bin/ /home/httpd/cgi-bin/
 
-you run it under a mod_cgi handler, you never define it
-explicitly. Apache does all the configuration work behind the scenes,
-when you use a ScriptAlias.
+you are running them under a mod_cgi handler, although you never
+define it explicitly. Apache does all the configuration work behind
+the scenes, when you use a ScriptAlias.
 
 By the way, don't confuse C<ScriptAlias> with the C<ExecCGI>
 configuration option, which we enable so that the script will be
 executed rather than returned as a plain text file. For example for
-mod_perl and C<Apache::Registry> you would use a configuration like:
+mod_perl and C<Apache::Registry> you would use a configuration such
+as:
 
   <Location /perl>
     SetHandler perl-script
@@ -77,7 +78,7 @@ mod_perl and C<Apache::Registry> you would use a configuration like:
 =head2 C API
 
 The Apache C API has been present for a long time, and has been the
-usual way to program extensions to Apache, such as mod_perl. When you
+usual way to program extensions (such as mod_perl) to Apache. When you
 write C extension modules, you write C code that is not independent,
 but will be linked into the Apache I<httpd> executable either at build
 time (if the module is statically linked), or at runtime (if it is

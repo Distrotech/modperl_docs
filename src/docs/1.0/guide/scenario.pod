@@ -4,10 +4,11 @@ Real World Scenarios
 
 =head1 Description
 
-This chapter provides step by step installation guide for the various
-setups discussed in L<Choosing the Right Strategy|guide::strategy>.
+This chapter provides a step-by-step installation guide for the
+various setups discussed in L<Choosing the Right
+Strategy|guide::strategy>.
 
-=head1 Assumptions 
+=head1 Assumptions
 
 I will assume for this section that you are familiar with plain (not
 mod_perl enabled) Apache, its compilation and configuration. In all

@@ -1,11 +1,11 @@
-=head1 NAME 
+=head1 NAME
 
 How to use mod_perl's Method Handlers
 
 =head1 Description
 
-Described here are a few examples and hints how to use MethodHandlers
-with mod_perl.
+Described here are a few examples and hints on how to use method
+handlers with mod_perl.
 
 This document assumes familiarity with at least the I<perltoot>
 manpage and "normal" usage of the C<Perl*Handlers>.
