@@ -123,8 +123,8 @@ will be saved in the C<$r>'s notes table, keyed to the string
 I<"error-notes">, if and only if the severity level of the message is
 C<Apache::LOG_WARNING> or greater and there are no other
 I<"error-notes"> entry already set in the request record's notes
-table. Once the I<"error-notes"> entry is set, it is up to the content
-handler to determine whether this text should be send back to the
+table. Once the I<"error-notes"> entry is set, it is up to the error
+handler to determine whether this text should be sent back to the
 client.  For example:
 
   $r->log_rerror(Apache::LOG_MARK, Apache::LOG_ERR|Apache::LOG_TOCLIENT,
