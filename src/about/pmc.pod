@@ -24,9 +24,11 @@ Today, the PMC consists of:
 
 =item * Randy Kobes
 
-=item * Stas Bekman
-
 =back
+
+For more information on the role of the PMC see
+<a href="http://www.apache.org/foundation/how-it-works.html#pmc-members">How
+How the ASF works</a>
 
 
 
