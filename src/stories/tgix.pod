@@ -11,7 +11,7 @@
 
 mod_perl contact management system for Fortune-500 pharmaceutical giant
 
-=head1 Rick Mangi E<lt>rmangi (at) TGIX.COME<gt> says:
+=head1 Rick Mangi E<lt>rmangi (at) TGIX.COME<gt> exclaimed:
 
 =over
 
@@ -51,6 +51,7 @@ Date: Fri, 6 Mar 1998 12:14:49 -0500
     "Perl is a state of mind as much as it is a language grammar"
   _______________________________________________________________
   
+
 
 =cut
 

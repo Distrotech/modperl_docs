@@ -11,7 +11,7 @@
 
 Singles Heaven
 
-=head1 Stas Bekman E<lt>stas (at) stason.orgE<gt> says:
+=head1 Stas Bekman E<lt>stas (at) stason.orgE<gt> exclaimed:
 
 =over
 
@@ -37,6 +37,7 @@ Date: Fri, 14 May 1999 10:06:24 +0200
   into a database driven service, give mod_perl a try !!!
   
   
+
 
 =cut
 

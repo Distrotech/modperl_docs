@@ -11,7 +11,7 @@
 
 Microsoft Network, 1 million hits per week through modperl
 
-=head1 Vivek Khera E<lt>khera (at) KCILINK.COME<gt> says:
+=head1 Vivek Khera E<lt>khera (at) KCILINK.COME<gt> exclaimed:
 
 =over
 
@@ -50,6 +50,7 @@ Date: Fri, 6 Mar 1998 10:34:32 -0500
   PGP/MIME spoken here              http://www.kciLink.com/home/khera/
   
   
+
 
 =cut
 

@@ -11,7 +11,7 @@
 
 Allakhazam's Magical Realm
 
-=head1 Andy Sharp E<lt>asharp E<lt>atE<gt> nector.comE<gt>  says:
+=head1 Andy Sharp E<lt>asharp E<lt>atE<gt> nector.comE<gt>  exclaimed:
 
 =over
 
@@ -75,6 +75,7 @@ URL: http://everquest.allakhazam.com, http://camelot.allakhazam.com, http://eqbe
   
   Running the same site in other technologies would have been possible,
   but would either require more hardware, or more time to develop.
+
 
 =cut
 

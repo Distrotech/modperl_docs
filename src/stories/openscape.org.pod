@@ -11,7 +11,7 @@
 
 Mod_perl Uber Alles
 
-=head1 Christopher A. Thompson E<lt>x4 (at) ROCKETMAIL.COME<gt> says:
+=head1 Christopher A. Thompson E<lt>x4 (at) ROCKETMAIL.COME<gt> exclaimed:
 
 =over
 
@@ -80,6 +80,7 @@ Date: Wed, 15 Apr 1998 09:34:19 -0700
   
   
   
+
 
 =cut
 

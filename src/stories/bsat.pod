@@ -11,7 +11,7 @@
 
 BSat
 
-=head1 Mike Fletcher E<lt>lemur1 (at) MINDSPRING.COME<gt> says:
+=head1 Mike Fletcher E<lt>lemur1 (at) MINDSPRING.COME<gt> exclaimed:
 
 =over
 
@@ -29,6 +29,7 @@ Date: Fri, 6 Mar 1998 13:01:58 -0500
   even excuting any queries against the defect database) on a mostly
   idle SS20.  Under mod_perl, that dropped to approximately 2-4 seconds
   for everything but really large queries (i.e. everything in the db).
+
 
 =cut
 

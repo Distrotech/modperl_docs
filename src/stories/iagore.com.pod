@@ -11,7 +11,7 @@
 
 iAgora - Study, Travel, Work Abroad - Connecting Internationals
 
-=head1 Roger Espel Llima E<lt>roger (at) iagora.netE<gt> says:
+=head1 Roger Espel Llima E<lt>roger (at) iagora.netE<gt> exclaimed:
 
 =over
 
@@ -77,6 +77,7 @@ URL: http://www.iagora.com/
   * Technical: Roger Espel Llima <roger@iagora.net> 
   * Business:  Philippe Negre <philippe@iagora.net>
   
+
 
 =cut
 

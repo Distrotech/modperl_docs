@@ -11,7 +11,7 @@
 
 Students astronomy site
 
-=head1 Smelly Belly E<lt>smiley (at) SEDS.ORGE<gt> says:
+=head1 Smelly Belly E<lt>smiley (at) SEDS.ORGE<gt> exclaimed:
 
 =over
 
@@ -37,6 +37,7 @@ Date: Fri, 6 Mar 1998 12:07:59 -0700
   "I root for a big comet or asteroid as a way of cleansing the planet."
    George Carlin
   
+
 
 =cut
 

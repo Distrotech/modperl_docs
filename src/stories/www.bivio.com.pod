@@ -11,7 +11,7 @@
 
 bivio Investment Club Accounting, Taxes, and more
 
-=head1 Rob Nagler E<lt>info E<lt>atE<gt> bivio.netE<gt> says:
+=head1 Rob Nagler E<lt>info E<lt>atE<gt> bivio.netE<gt> exclaimed:
 
 =over
 
@@ -39,6 +39,7 @@ URL: http://www.bivio.com
   available under the Artistic License from http://www.bivio.net
   This includes a demo application http://petshop.bivio.net which
   is a more concise implementation of J2EE's Blueprint Architecture.
+
 
 =cut
 

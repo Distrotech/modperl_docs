@@ -11,7 +11,7 @@
 
 ColbyChem: a free web server for ISIS/Host
 
-=head1 jwkuehne (at) colby.edu (John Kuehne) says:
+=head1 jwkuehne (at) colby.edu (John Kuehne) exclaimed:
 
 =over
 
@@ -119,6 +119,7 @@ Date: Wed, 13 May 1998 10:23:31 -0400 (EDT)
   
   jwkuehne@colby.edu
   207-872-3652
+
 
 =cut
 

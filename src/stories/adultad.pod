@@ -11,7 +11,7 @@
 
 Performance raised from 1.5 banner per second to over 20 banners per second, 10 million banners a week without a problem
 
-=head1 Marshall Dudley E<lt>mdudley (at) EXECONN.COME<gt> says:
+=head1 Marshall Dudley E<lt>mdudley (at) EXECONN.COME<gt> exclaimed:
 
 =over
 
@@ -49,6 +49,7 @@ Date: Fri, 6 Mar 1998 10:30:10 -0500
   
   Marshall
   
+
 
 =cut
 

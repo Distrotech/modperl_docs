@@ -11,7 +11,7 @@
 
 Computer Aided Teaching system at Mathematics Department at the University of Western Australia
 
-=head1 Kevin Judd E<lt>kevin (at) MATHS.UWA.EDU.AUE<gt> says:
+=head1 Kevin Judd E<lt>kevin (at) MATHS.UWA.EDU.AUE<gt> exclaimed:
 
 =over
 
@@ -38,6 +38,7 @@ Date: Mon, 9 Mar 1998 09:41:44 +0800
   
   Kevin
   
+
 
 =cut
 

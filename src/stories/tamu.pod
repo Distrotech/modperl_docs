@@ -11,7 +11,7 @@
 
 Move from ActiveWare PerlScript on IIS4 to Apache and modperl improved performance by factor 60
 
-=head1 Jeff Baker E<lt>jeff (at) GODZILLA.TAMU.EDUE<gt> says:
+=head1 Jeff Baker E<lt>jeff (at) GODZILLA.TAMU.EDUE<gt> exclaimed:
 
 =over
 
@@ -44,6 +44,7 @@ Date: Tue, 3 Mar 1998 21:13:06 -0600
   Here's to mod_perl!
   Jeffrey
   
+
 
 =cut
 

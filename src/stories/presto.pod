@@ -11,7 +11,7 @@
 
 Forced to improve the quality
 
-=head1 modus (at) PR.ES.TO says:
+=head1 modus (at) PR.ES.TO exclaimed:
 
 =over
 
@@ -46,6 +46,7 @@ Date: Fri, 6 Mar 1998 10:03:41 -0800
   Patrick Michael Kane
   <modus@pr.es.to>
   
+
 
 =cut
 
