@@ -266,7 +266,7 @@ sub expand_dir {
         # perl 5.005_03 on FreeBSD doesn't set the dir it chdir'ed to
         # need to move this to compat level?
         require Cwd;
-        File::Find::find(sub {push @files, catfile($cwdCwd::cwd(), $_)}, $_[0]);
+        File::Find::find(sub {push @files, catfile(Cwd::cwd(), $_)}, $_[0]);
     }
 
     return \@files;
