@@ -626,7 +626,9 @@ I<modules/http/http_protocol.c>.
 =head2 C<$connection-E<gt>auth_type>
 
 The record I<auth_type> doesn't exist in the Apache 2.0's connection
-struct. It exists only in the request record struct.
+struct. It exists only in the request record struct. The new accessor
+in 2.0 API is C<$r-E<gt>ap_auth_type>.
+
 C<Apache::compat> provides a back compatibility method, though it
 relies on the availability of the global C<Apache-E<gt>request>, which
 requires the configuration to have:
@@ -634,6 +636,8 @@ requires the configuration to have:
   PerlOptions +GlobalRequest
 
 to set it up for earlier stages than response handler.
+
+=head2 
 
 =head2  C<$connection-E<gt>user>
 
