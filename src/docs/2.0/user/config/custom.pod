@@ -274,7 +274,7 @@ to specify the same callback for two different directives you
 might want to know which directive is being called currently.
 To do this, you can use the I<cmd_data> parameter, which allows
 you to store arbitrary strings for later retrieval from your
-directive handler.  For instance.
+directive handler.  For instance:
 
   our @APACHE_MODULE_COMMANDS = (
       {
@@ -300,14 +300,14 @@ and alter our logic accordingly.  How? Through the
 C<info()> method exposed by the C<Apache::CmdParms> class.
 
   use Apache::CmdParms ();
-
+  
   sub Location {
-
+  
     my ($cfg, $parms, $data) = @_;
-
+  
     # see if we were called via LocationMatch
     my $regex = $parms->info;
-
+  
     # continue along
   }
 
