@@ -56,9 +56,12 @@ critical for the usefulness of the test. Once you test that you cannot
 proceed with the tests and it's not a must pass test, you just skip
 it.
 
-It's important to know that there is a special verbose mode, enabled
-with the I<-verbose> option, in which everything printed by the test
-goes to C<STDOUT>. So for example if your test does this:
+=head2 Verbose Testing
+
+By default print() statements in the test script are filtered out by
+C<Test::Harness>.  if you want the test to print what it does (if you
+decide to debug some test) use C<-verbose> option. So for example if
+your test does this:
 
   print "# testing : feature foo\n";
   print "# expected: $expected\n";
@@ -80,8 +83,8 @@ in some test, you can ask him to run the failing test in the verbose
 mode and send you back the report. It'll be much easier to understand
 what the problem is if you get these debug printings from the user.
 
-In the section L<"How to Write Tests"> we discuss a few helper
-functions which make the tests writing easier.
+In the section L<"Writing Tests"> several helper functions which make
+the tests writing easier are discussed.
 
 For more details about the C<Test::Harness> module please refer to its
 manpage. Also see the C<Test> manpage about Perl's test suite.
@@ -111,10 +114,19 @@ You can look at the modperl-2.0's or httpd-test's (I<perl-framework>)
 testing environments which both use C<Apache::Test> for their test
 suites.
 
+=head2 Testing Options
+
+Run:
+
+  % t/TEST -help
+
+to get the list of options you can use during testing. They are
+covered in the rest of this document.
+
 =head2 Basic Testing
 
-Running tests is just like for any CPAN Perl module; first we create
-the I<Makefile> and build everything with I<make>:
+Running tests is just like for any CPAN Perl module; first we generate
+the I<Makefile> file and build everything with I<make>:
 
   % perl Makefile.PL [options]
   % make
@@ -125,44 +137,64 @@ first one is usual:
   % make test
 
 but it adds quite an overhead, since it has to check that everything
-is up to date (the usual C<make> source change control). Therefore
-faster to run the tests directly via:
+is up to date (the usual C<make> source change control). Therefore you
+have to run it only once after C<make> and for re-running the tests
+it's faster to run the tests directly via:
 
   % t/TEST
 
-In case something goes wrong you should run the tests in the verbose
-mode:
+When C<make test> or C<t/TEST> are run, all tests found in the I<t>
+directory (files ending with I<.t> are recognized as tests) will be
+run.
 
-  % t/TEST -verbose
+=head2 Individual Testing
 
-In this case the test may print useful information, like what values
-it expects and what values it receives, given that the test is written
-to report these. In the silent mode (without C<-verbose>) these printouts
-are suppressed by the test suite.
+To run a single test, simple specify it at the command line. For
+example to run the test file I<t/protocol/echo.t>, execute:
 
-When debugging problems it helps to keep the I<error_log> file open in
-another console, and see the debug output in the real time via
-tail(1):
+  % t/TEST protocol/echo
 
-  % tail -f t/logs/error_log
+Notice that you don't have to add the I<t/> prefix and I<.t> extension
+for the test filenames if you specify them explicitly, but you can
+have these as well. Therefore the following are all valid commands:
 
-Of course this file gets created only when the server starts, so you
-cannot run tail(1) on it before the server starts.
+  % t/TEST   protocol/echo.t
+  % t/TEST t/protocol/echo
+  % t/TEST t/protocol/echo.t
 
-[F] Later on we will talk about I<-clean> option, for now just
-remember that if you use it I<t/logs/error_log> is deleted, therefore
-you have to run the tail(1) command again, when the server is
-started. [/F]
+The server will be stopped if it was already running and a new one
+will be started before running the I<t/protocol/echo.t> test. At the
+end of the test the server will be shut down.
 
-If you have to run the same tests repeatedly, in most cases you don't
-want to wait for the server to start every time. You can start it
-once:
+When you run specific tests you may want to run them in the verbose
+mode, and depending on how the test was written, you may get more
+debug information under this mode. This mode is turned on with
+I<-verbose> option:
+
+  % t/TEST -verbose protocol/echo
+
+You can run groups of tests at once. This command:
+
+  % ./t/TEST modules protocol/echo
+
+will run all the tests in I<t/modules/> directory, followed by
+I<t/protocol/echo.t> test.
+
+
+=head2 Repetitive Testing
+
+By default when you run the test without I<-run-tests> option, the
+server will be started before the testing and stopped at the end. If
+during a debugging process you need to re-run tests without a need to
+restart the server, you can start the server once:
 
   % t/TEST -start-httpd
 
-and then run tests without restarting the server using I<-run> option:
+and then run the test(s) with I<-run-tests> option many times:
 
-  % t/TEST -run
+  % t/TEST -run-tests
+
+without waiting for the server to restart.
 
 When you are done with tests, stop the server with:
 
@@ -183,43 +215,14 @@ modules when they change on the disk, add to I<t/conf/extra.conf.in>:
 
 and restart the server.
 
-If none of the tests are specified at the command line all tests found
-in the I<t> directory (files ending with I<.t> are recongnized as
-tests) will be run. To run specific tests, they should be explicitly
-specified. For example to run the test file I<t/protocol/echo.t> we
-execute:
+The I<-start-httpd> option always stops the server first if any is
+running. In case you have a server runnning on the same port, (for
+example if you develop the a few tests at the same time in different
+trees), you should run the server on a different port. C<Apache::Test>
+will try to automatically pick a free port, but you can explicitly
+tell on which port to run, using the I<-port> configuration option:
 
-  % t/TEST -run protocol/echo
-
-notice that you don't have to add the I<t/> prefix and I<.t> extension
-for the test filenames if you specify them explicitly.
-
-When you run specific tests you may want to run them in the verbose
-mode, and depending on how the test was written, you may get more
-debug information under this mode. This mode is turned on with I<-verbose>
-option:
-
-  % t/TEST -run -verbose protocol/echo
-
-You can run all the tests in a single directory by just passing this
-directory as an argument. You can pass more than one test or directory
-name at the same time. Thefore assuming that the directory
-I<t/protocol> includes only two files: I<echo.t> and I<eliza.t>--the
-following two commands are equivalent:
-
-  % t/TEST -run protocol/echo protocol/eliza
-  % t/TEST -run protocol
-
-The command:
-
-  % t/TEST -start-httpd
-
-always stops the server first if any is running. In case you have a
-server runnning on the same port, (for example if you develop the a
-few tests at the same time in different trees), you should run the
-server on a different port. C<Apache::Test> will try to automatically
-pick a free port, but you can explicitly tell on which port to run,
-using the I<-port> configuration option:
+META: -port=select is not yet committed!
 
   % t/TEST -start-httpd -port 8799
 
@@ -230,6 +233,31 @@ Normally when I<t/TEST> is run without specifying the tests to run,
 the tests will be sorted alphabetically. If tests are explicitly
 passed as arguments to I<t/TEST> they will be run in a specified
 order.
+
+=head2 Verbose Testing
+
+In case something goes wrong you should run the tests in the verbose
+mode:
+
+  % t/TEST -verbose
+
+In this case the test may print useful information, like what values
+it expects and what values it receives, given that the test is written
+to report these. In the silent mode (without C<-verbose>) these
+printouts are filtered out by C<Test::Harness>. When running in the
+I<verbose> mode usually it's a good idea to run only problematic tests
+to minimize the size of the generated output.
+
+When debugging problems it helps to keep the I<error_log> file open in
+another console, and see the debug output in the real time via
+tail(1):
+
+  % tail -f t/logs/error_log
+
+Of course this file gets created only when the server starts, so you
+cannot run tail(1) on it before the server starts. Every time C<t/TEST
+-clean> is run, I<t/logs/error_log> gets deleted, therefore you have
+to run the tail(1) command again, when the server is started.
 
 =head2 Stress Testing
 
@@ -543,11 +571,11 @@ Ping the server and wait until the server starts, report waiting time.
 
   % t/TEST -ping=block
 
-This can be useful in conjunction with I<-run> option during debugging:
+This can be useful in conjunction with I<-run-tests> option during debugging:
 
-  % t/TEST -ping=block -run
+  % t/TEST -ping=block -run-tests
 
-normally, I<-run> will immediately quit if it detects that the server
+normally, I<-run-tests> will immediately quit if it detects that the server
 is not running, but with I<-ping=block> in effect, it'll wait
 indefinitely for the server to start up.
 
@@ -983,8 +1011,8 @@ following:
 and assuming that the I<ServerRoot> is I<~/modperl-2.0/t/>, when
 I<my-extra.conf> will be created, it'll look like:
 
-  file:my-extra.conf.in
-  ---------------------
+  file:my-extra.conf
+  ------------------
   PerlSwitches -Mlib=~/modperl-2.0/t/../lib
 
 The valid tokens are defined in C<%Apache::TestConfig::Usage> and also
@@ -1774,7 +1802,7 @@ example represent four possible outcomes of using the skip() function:
 
 now we run the test:
 
-  % ./t/TEST -run -verbose skip_subtest_1
+  % ./t/TEST -run-tests -verbose skip_subtest_1
   skip_subtest_1....1..4
   ok 1 # skip foo is missing
   ok 2 # skip foo is missing
@@ -2161,33 +2189,54 @@ ineffective. Therefore it's a good idea to get yourself familiar with
 Perl and C debuggers, and this knowledge will save you a lot of time
 and grief in a long run.
 
-=head2 Tracing
-
-Start the server under strace(1):
-
-  % t/TEST -debug strace
-
-The output goes to I<t/logs/strace.log>.
-
-META: complete
-
-run .t test under the perl debugger
-% t/TEST -d perl t/modules/access.t
-
-run .t test under the perl debugger (nonstop mode, output to t/logs/perldb.out)
-% t/TEST -d perl=nostop t/modules/access.t
-
-turn on -v and LWP trace (1 is the default) mode in Apache::TestRequest
-% t/TEST -d lwp t/modules/access.t
-
-turn on -v and LWP trace mode (level 2) in Apache::TestRequest
-% t/TEST -d lwp=2 t/modules/access.t
-
-
-
 =head2 Under C debugger
 
-META: to be written
+mod_perl-2.0 provides built in 'make test' debug facility. So in case
+you get a core dump during make test, or just for fun, run in one shell:
+
+  % t/TEST -debug
+
+in another shell:
+
+  % t/TEST -run-tests
+
+then the I<-debug> shell will have a C<(gdb)> prompt, type C<where>
+for stacktrace:
+
+  (gdb) where
+
+You can change the default debugger by supplying the name of the
+debugger as an argument to I<-debug>. E.g. to run the server under
+C<ddd>:
+
+  % ./t/TEST -debug=ddd
+
+META: list supported debuggers
+
+If you debug mod_perl internals you can set the breakpoints using the
+I<-breakpoint> option, which can be repeated as many times as
+needed. When you set at least one breakpoint, the server will start
+running till it meets the I<ap_run_pre_config> breakpoint. At this
+point we can set the breakpoint for the mod_perl code, something we
+cannot do earlier if mod_perl was built as DSO. For example:
+
+  % ./t/TEST -debug -breakpoint=modperl_cmd_switches \
+     -breakpoint=modperl_cmd_options
+
+will set the I<modperl_cmd_switches> and I<modperl_cmd_options>
+breakpoints and run the debugger.
+
+If you want to tell the debugger to jump to the start of the mod_perl
+code you may run:
+
+  % ./t/TEST -debug -breakpoint=modperl_hook_init
+
+In fact I<-breakpoint> automatically turns on the debug mode, so you
+can run:
+
+  % ./t/TEST -breakpoint=modperl_hook_init
+
+
 
 =head2 Under Perl debugger
 
@@ -2209,6 +2258,38 @@ test I<apache/read> from mod_perl 2.0 and present the features as we
 go:
 
 META: to be completed
+
+run .t test under the perl debugger
+% t/TEST -debug perl t/modules/access.t
+
+run .t test under the perl debugger (nonstop mode, output to t/logs/perldb.out)
+% t/TEST -debug perl=nostop t/modules/access.t
+
+turn on -v and LWP trace (1 is the default) mode in Apache::TestRequest
+% t/TEST -debug lwp t/modules/access.t
+
+turn on -v and LWP trace mode (level 2) in Apache::TestRequest
+% t/TEST -debug lwp=2 t/modules/access.t
+
+
+=head2 Tracing
+
+To get Start the server under strace(1):
+
+  % t/TEST -debug strace
+
+The output goes to I<t/logs/strace.log>.
+
+Now in a second terminal run:
+
+  % t/TEST -run-tests
+
+Beware that I<t/logs/strace.log> is going to be very big.
+
+META: can we provide strace(1) opts if we want to see only certain
+syscalls?
+
+
 
 
 =head1 Writing Tests Methodology
