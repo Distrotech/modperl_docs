@@ -231,7 +231,7 @@ the compiled script. For example it concerns
 C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>> but not
 C<L<ModPerl::PerlRun|docs::2.0::api::ModPerl::PerlRun>>.
 
-=head3 The problem
+=head3 The Problem
 
 Let's say that there is a module C<My::Utils>:
 
@@ -268,7 +268,7 @@ file). However the script still returns:
 
   the color is white
 
-=head3 The explanation
+=head3 The Explanation
 
 Even though F<My/Utils.pm> was reloaded, C<ModPerl::Registry>'s cached
 code won't run 'C<use My::Utils;>' again (since it happens only once,
@@ -283,7 +283,6 @@ This is easy to verify. Let's change the script to be:
   print "Content-type: text/plain\n\n";
   my $sub_int = \&colour;
   my $sub_ext = \&My::Utils::colour;
-  print "Content-type: text/plain\n\n";
   print "int $sub_int\n";
   print "ext $sub_ext\n";
 
