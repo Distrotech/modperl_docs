@@ -1,0 +1,147 @@
+=head1 NAME
+
+Apache::Directive -- A Perl API for manipulating Apache configuration tree
+
+=head1 Synopsis
+
+  use Apache::Directive;
+  
+  my $tree = Apache::Directive->conftree;
+  
+  my $documentroot = $tree->lookup('DocumentRoot');
+  
+  my $vhost = $tree->lookup('VirtualHost', 'localhost:8000');
+  my $servername = $vhost->{'ServerName'};
+  
+  print $tree->as_string;
+  
+  use Data::Dumper;
+  print Dumper($tree->as_hash);
+  
+  my $node = $tree;
+  while ($node) {
+  
+      #do something with $node
+  
+      if (my $kid = $node->first_child) {
+          $node = $kid;
+      } 
+      elsif (my $next = $node->next) {
+          $node = $next;
+      }
+      else {
+          if (my $parent = $node->parent) {
+              $node = $parent->next;
+          }
+          else {
+              $node = undef;
+          }
+      }  
+  }
+
+=head1 Description
+
+C<Apache::Directive> allows its users to search and navigate the
+internal Apache configuration.
+
+Internally, this information is stored in a tree structure. Each node
+in the tree has a reference to it's parent (if it's not the root), its
+first child (if any), and to its next sibling.
+
+=head1 Class Methods
+
+Function arguments (if any) and return values are shown in the
+function's synopsis.
+
+=head2 C<conftree()>
+
+  $tree = Apache::Directive->conftree();
+
+Returns the root of the configuration tree.
+
+=head1 Object Methods
+
+Function arguments (if any) and return values are shown in the
+function's synopsis.
+
+=head2 C<next()>
+
+  $node = $node->next;
+
+Returns the next sibbling of C<$node>, C<undef> otherwise
+
+=head2 C<first_child()>
+
+  $subtree = $node->first_child;
+
+Returns the first child node of C<$node>, undef otherwise
+
+=head2 C<parent()>
+
+  $parent = $node->parent;
+
+Returns the parent of C<$node>, undef if this node is the root node
+
+=head2 C<directive()>
+
+  $name = $node->directive;
+
+Returns the name of the directive in C<$node>.
+
+=head2 C<args()>
+
+  $args = $node->args;
+
+Returns the arguments to this C<$node>
+
+=head2 C<filename()>
+
+  $fname = $node->filename;
+
+Returns the filename this C<$node> was created from
+
+=head2 C<line_number()>
+
+  $lineno = $node->line_number;
+
+Returns the line number in C<filename> this C<$node> was created from
+
+=head2 C<as_string()>
+
+   print $tree->as_string();
+
+Returns a string representation of the configuration tree, in
+httpd.conf format.
+
+=head2 C<as_hash()>
+
+   $config = $tree->as_hash();
+
+Returns a hash representation of the configuration tree, in a format
+suitable for inclusion in the E<lt>PerlE<gt> sections.
+
+=head2 C<lookup()>
+
+  lookup($directive, [$args])
+
+Returns node(s) matching a certain value. In list context, it will
+return all matching nodes.  In scalar context, it will return only the
+first matching node.
+
+If called with only one C<$directive> value, this will return all
+nodes from that directive:
+
+  @Alias = $tree->lookup('Alias');
+
+Would return all nodes for Alias directives.
+
+If called with an extra C<$args> argument, this will return only nodes
+where both the directive and the args matched:
+
+  $VHost = $tree->lookup('VirtualHosts', '_default_:8000');
+
+=head1 Authors
+
+=head1 Copyright
+
+=cut
