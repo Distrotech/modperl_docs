@@ -921,20 +921,19 @@ detailed explanations above.
 =for html
   <TABLE BORDER=1>
     <TR>
-      <TH>
-      </TD>
+      <TH><br></TH>
       <TH>
         Application Framework
-      </TD>
+      </TH>
       <TH>
         Pipeline or Callback
-      </TD>
+      </TH>
       <TH>
         Parsing Method
-      </TD>
+      </TH>
       <TH>
         Language
-      </TD>
+      </TH>
     </TR>
     <TR>
       <TD>
@@ -1041,7 +1040,7 @@ detailed explanations above.
     <TR>
       <TD>
         HTML::Template
-      </TH>
+      </TD>
       <TD>
         Just Templates
       </TD>
