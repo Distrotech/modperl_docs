@@ -2,6 +2,12 @@
 
 A Reference to mod_perl 1.0 to mod_perl 2.0 Migration.
 
+
+
+
+
+
+
 =head1 Description
 
 This chapter is a reference for porting code and configuration files
@@ -11,21 +17,33 @@ To learn about the porting process you should first read about
 L<porting Perl modules|docs::2.0::user::porting::porting> (and may be
 about L<porting XS modules|docs::2.0::devel::porting::porting>).
 
-As will be explained in details later loading C<Apache::compat> at the
-server startup, should make the code running properly under 1.0 work
-under mod_perl 2.0. If you want to port your code to mod_perl 2.0 or
-writing from scratch and not concerned about backwards compatibility,
-this document explains what has changed compared to mod_perl 1.0.
+As it will be explained in details later, loading
+C<L<Apache::compat|docs::2.0::api::Apache::compat>> at the server
+startup, should make the code running properly under 1.0 work under
+mod_perl 2.0. If you want to port your code to mod_perl 2.0 or writing
+from scratch and not concerned about backwards compatibility, this
+document explains what has changed compared to L<mod_perl
+1.0|docs::1.0::index>.
 
 Several configuration directives were changed, renamed or
 removed. Several APIs have changed, renamed, removed, or moved to new
-packages.  Certain functions while staying exactly the same as in
-mod_perl 1.0, now reside in different packages. Before using them you
-need to find out those packages and load them.
+packages.  Certain functions while staying L<exactly the
+same|docs::1.0::api::index> as in mod_perl 1.0, now reside in
+different packages. Before using them you need to find out those
+packages and load them.
 
 You should be able to find the destiny of the functions that you
 cannot find any more or which behave differently now under the package
 names the functions belong in mod_perl 1.0.
+
+
+
+
+
+
+
+
+
 
 =head1 Configuration Files Porting
 
@@ -37,40 +55,63 @@ C<L<MP_COMPAT_1X=0|docs::2.0::user::install::install/MP_COMPAT_1X>>. If
 you don't need the backwards compatibility consider using the
 directives that have replaced them.
 
+
+
+
 =head2 C<PerlHandler>
 
-C<PerlHandler> was replaced with C<PerlResponseHandler>.
+C<PerlHandler> was replaced with
+C<L<PerlResponseHandler|docs::2.0::user::handlers::http/PerlResponseHandler>>.
+
+
+
 
 =head2 C<PerlSendHeader>
 
-C<PerlSendHeader> was replaced with C<PerlOptions +/-ParseHeaders>
+C<PerlSendHeader> was replaced with C<L<PerlOptions
++/-ParseHeaders|docs::2.0::user::config::config/C_ParseHeaders_>>
 directive.
 
   PerlSendHeader On  => PerlOptions +ParseHeaders
   PerlSendHeader Off => PerlOptions -ParseHeaders
 
+
+
+
 =head2 C<PerlSetupEnv>
 
-C<PerlSetupEnv> was replaced with C<PerlOptions +/-SetupEnv>
+C<PerlSetupEnv> was replaced with C<L<PerlOptions
++/-SetupEnv|docs::2.0::user::config::config/C_SetupEnv_>>
 directive.
 
   PerlSetupEnv On  => PerlOptions +SetupEnv
   PerlSetupEnv Off => PerlOptions -SetupEnv
 
+
+
 =head2 C<PerlTaintCheck>
 
-The taint mode now can be turned on with:
+The taint mode now can be turned on with
+C<L<PerlSwitches|docs::2.0::user::config::config/C_PerlSwitches_>>:
 
   PerlSwitches -T
 
 As with standard Perl, by default the taint mode is disabled and once
 enabled cannot be turned off inside the code.
 
+
+
+
+
 =head2 C<PerlWarn>
 
-Warnings now can be enabled globally with:
+Warnings now can be enabled globally with
+C<L<PerlSwitches|docs::2.0::user::config::config/C_PerlSwitches_>>:
+
 
   PerlSwitches -w
+
+
 
 =head2 C<PerlFreshRestart>
 
@@ -84,20 +125,31 @@ If you need to use the same I<httpd.conf> for 1.0 and 2.0, use:
       PerlFreshRestart
   </IfDefine>
 
+
+
+
 =head2 C<$Apache::Server::StrictPerlSections>
 
-In mod_perl 2.0, C<L<E<lt>PerlE<gt>|docs::2.0::api::Apache::PerlSections>>
-sections errors are now always fatal. Any error in them will cause an immediate
-server startup abort, dumping the error to stderr. To avoid this, C<eval {}>
-can be used to trap errors and ignore them. In mod_perl 1, 'strict' was
-somewhat of a misnomer.
+In mod_perl 2.0, C<L<E<lt>PerlE<gt>
+sections|docs::2.0::api::Apache::PerlSections>> errors are now always
+fatal. Any error in them will cause an immediate server startup abort,
+dumping the error to STDERR. To avoid this, C<eval {}> can be used to
+trap errors and ignore them. In mod_perl 1.0, C<strict> was somewhat
+of a misnomer.
+
+
+
 
 =head2 C<$Apache::Server::SaveConfig>
 
 C<$Apache::Server::SaveConfig> has been renamed to
-C<$Apache::PerlSections::Save>.  see
-C<L<E<lt>PerlE<gt>|docs::2.0::api::Apache::PerlSections>>
-for more information on this global variable.
+C<$Apache::PerlSections::Save>.  see C<L<E<lt>PerlE<gt>
+sections|docs::2.0::api::Apache::PerlSections>> for more information
+on this global variable.
+
+
+
+
 
 =head2 Apache Configuration Customization
 
@@ -107,6 +159,10 @@ directives|docs::2.0::user::config::custom> and now also makes it easy to
 access an Apache parsed configuration tree's values.
 
 META: add L<> to the config tree access when it'll be written.
+
+
+
+
 
 
 =head2 C<@INC> Manipulation
@@ -132,6 +188,10 @@ C<@INC>.
 =back
 
 
+
+
+
+
 =head1 Server Startup
 
 mod_perl 1.0 was always running its startup code as soon as it was
@@ -139,6 +199,8 @@ encountered. In mod_perl 2.0, it is not always the case. Refer to the
 L<mod_perl 2.0 startup process
 section|docs::2.0::user::config::config/Startup_Process> section for
 details.
+
+
 
 
 
@@ -214,6 +276,17 @@ which is useful when one starts to port their mod_perl 1.0 code,
 though preferrably avoided in the production environment if you want
 to save memory.
 
+
+
+
+
+
+
+
+
+
+
+
 =head1 C<Apache::Registry>, C<Apache::PerlRun> and Friends
 
 C<Apache::Registry>, C<Apache::PerlRun> and other modules from the
@@ -222,17 +295,19 @@ registry family now live in the C<ModPerl::> namespace. In mod_perl
 namespace, similar to C<APR::> and C<Apache::> which are used for apr
 and apache features, respectively.
 
-At this moment C<ModPerl::Registry> (and others) doesn't C<chdir()>
-into the script's dir like C<Apache::Registry> does, because
-C<chdir()> affects the whole process under threads. This should be
-resolved by the time mod_perl 2.0 is released. Arthur Bergman works on
-the solution in form of: C<ex::threads::cwd>. See:
+At this moment
+C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>> (and others)
+doesn't C<chdir()> into the script's dir like C<Apache::Registry>
+does, because C<chdir()> affects the whole process under threads. This
+should be resolved by the time mod_perl 2.0 is released. Arthur
+Bergman works on the solution in form of: C<ex::threads::cwd>. See:
 http://www.perl.com/pub/a/2002/06/11/threads.html?page=2 Someone
 should pick up and complete this module to make it really useful.
 
 Meanwhile if you are using a prefork MPM and you have to rely on
 mod_perl performing chdir to the script's directory, you can use the
-following subclass of C<ModPerl::Registry>:
+following subclass of
+C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>>:
 
   #file:ModPerl/RegistryPrefork.pm
   #-------------------------------
@@ -283,6 +358,10 @@ C<L<ModPerl::PerlRun|docs::2.0::api::ModPerl::PerlRun>>.
 
 
 
+
+
+
+
 =head2 C<ModPerl::RegistryLoader>
 
 In mod_perl 1.0 it was only possible to preload scripts as
@@ -291,6 +370,12 @@ registry classes to preload into. The old API works as before, but new
 options can be passed. See the
 C<L<ModPerl::RegistryLoader|docs::2.0::api::ModPerl::RegistryLoader>>
 manpage for more information.
+
+
+
+
+
+
 
 
 
@@ -319,7 +404,16 @@ constants they provide.
 
 META: add the info how to perform the transition. XXX: may be write a
 script, which can tell you how to port the constants to 2.0? Currently
-C<Apache::compat> doesn't provide a complete back compatibility layer.
+C<L<Apache::compat|docs::2.0::api::Apache::compat>> doesn't provide a
+complete back compatibility layer.
+
+
+
+
+
+
+
+
 
 =head2 mod_perl 1.0 and 2.0 Constants Coexistence
 
@@ -373,6 +467,11 @@ under mod_perl 2.0, perl will complain about mod_perl 1.0 constant:
 
 Adding C<()> prevents this warning.
 
+
+
+
+
+
 =head2 Deprecated Constants
 
 C<REDIRECT> and similar constants have been deprecated in Apache for
@@ -387,7 +486,7 @@ scenes:
      REDIRECT      => 'HTTP_MOVED_TEMPORARILY',
 
 but we suggest moving to use the C<HTTP_*> names. For example if
-running in 1.0 compatibility mode change:
+running in mod_perl 1.0 compatibility mode, change:
 
   use Apache::Constants qw(REDIRECT);
 
@@ -398,11 +497,13 @@ to:
 This will work in both mod_perl generations.
 
 
+
+
 =head2 C<SERVER_VERSION()>
 
-C<Apache::Constants::SERVER_VERSION()> has been replaced with:
+C<Apache::Constants::SERVER_VERSION()> has been replaced with
+C<L<Apache::ServerUtil::get_server_version()|docs::2.0::api::Apache::ServerUtil/C_get_server_version_>>.
 
-  Apache::ServerUtil::get_server_version();
 
 
 
@@ -410,6 +511,12 @@ C<Apache::Constants::SERVER_VERSION()> has been replaced with:
 
 C<Apache::Constants::export()> has no replacement in 2.0 as it's not
 needed.
+
+
+
+
+
+
 
 
 =head1 Issues with Environment Variables
@@ -425,7 +532,17 @@ Forked processes (including backticks) won't see CGI emulation
 environment variables. (META: This will hopefully be resolved in the
 future, it's documented in modperl_env.c:modperl_env_magic_set_all.)
 
+
+
+
+
+
+
+
+
 =head1 Special Environment Variables
+
+
 
 =head2 C<$ENV{GATEWAY_INTERFACE}>
 
@@ -459,20 +576,27 @@ C<$mod_perl::VERSION>:
 
 
 
+
+
+
 =head1 C<Apache::> Methods
+
+
+
 
 =head2 C<Apache-E<gt>request>
 
-C<Apache-E<gt>request> usage should be avoided under mod_perl 2.0
-C<$r> should be passed around as an argument instead (or in the worst
-case maintain your own global variable). Since your application may
-run under under threaded mpm, the C<Apache-E<gt>request> usage
-involves storage and retrieval from the thread local storage, which is
-expensive.
+C<L<Apache-E<gt>request|docs::2.0::api::Apache::RequestUtil/C_request_>>
+usage should be avoided under mod_perl 2.0 C<$r> should be passed
+around as an argument instead (or in the worst case maintain your own
+global variable). Since your application may run under under threaded
+mpm, the C<Apache-E<gt>request> usage involves storage and retrieval
+from the thread local storage, which is expensive.
 
-It's possible to use C<$r> even in CGI scripts running under Registry
-modules, without breaking the mod_cgi compatibility. Registry modules
-convert a script like:
+It's possible to use C<$r> even in CGI scripts running under
+C<L<Registry|docs::2.0::api::ModPerl::RegistryCooker>> modules,
+without breaking the mod_cgi compatibility. Registry modules convert a
+script like:
 
   print "Content-type: text/plain";
   print "Hello";
@@ -561,10 +685,16 @@ C<Apache-E<gt>request> available in the calls made from it:
   }
 
 
+
+
+
+
 =head2 C<Apache-E<gt>define>
 
 C<Apache-E<gt>define> has been replaced with
-C<L<Apache::ServerUtil::exists_config_define()|docs::2.0::Apache::ServerUtil/C_exists_config_define_>>.
+C<L<Apache::ServerUtil::exists_config_define()|docs::2.0::api::Apache::ServerUtil/C_exists_config_define_>>.
+
+
 
 
 
@@ -574,20 +704,29 @@ C<L<Apache::ServerUtil::exists_config_define()|docs::2.0::Apache::ServerUtil/C_e
 C<Apache-E<gt>can_stack_handlers> is no longer needed, as mod_perl 2.0
 can always stack handlers.
 
+
+
+
 =head2 C<Apache-E<gt>untaint>
 
 C<Apache-E<gt>untaint> has moved to
-C<L<Apache::ServerUtil|docs::2.0::api::ModPerl::Util>> and now is a
-function, rather a class method. It'll will untaint all its
-arguments. You shouldn't be using this function unless you know what
-you are doing. Refer to the I<perlsec> manpage for more information.
+C<L<Apache::ModPerl::Util::untaint()|docs::2.0::api::ModPerl::Util/C_untaint_>>
+and now is a function, rather a class method. It'll will untaint all
+its arguments. You shouldn't be using this function unless you know
+what you are doing. Refer to the I<perlsec> manpage for more
+information.
 
 C<L<Apache::compat|docs::2.0::api::Apache::compat>> provides the
 backward compatible with mod_perl 1.0 implementation.
 
+
+
+
+
 =head2 C<Apache-E<gt>get_handlers>
 
-To get handlers for the server level, mod_perl 2.0 code should use:
+To get handlers for the server level, mod_perl 2.0 code should use
+C<L<Apache::ServerUtil::get_handlers()|docs::2.0::api::Apache::ServerUtil/C_get_handlers_>>:
 
   $s->get_handlers(...);
 
@@ -598,9 +737,15 @@ or:
 C<Apache-E<gt>get_handlers> is avalable via
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
+See also
+C<L<Apache::RequestUtil::get_handlers()|docs::2.0::api::Apache::RequestUtil/C_get_handlers_>>.
+
+
+
 =head2 C<Apache-E<gt>push_handlers>
 
-To push handlers at the server level, mod_perl 2.0 code should use:
+To push handlers at the server level, mod_perl 2.0 code should use
+C<L<Apache::ServerUtil::push_handlers()|docs::2.0::api::Apache::ServerUtil/C_push_handlers_>>:
 
   $s->push_handlers(...);
 
@@ -611,9 +756,16 @@ or:
 C<Apache-E<gt>push_handlers> is avalable via
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
+See also
+C<L<Apache::RequestUtil::push_handlers()|docs::2.0::api::Apache::RequestUtil/C_push_handlers_>>.
+
+
+
+
 =head2 C<Apache-E<gt>set_handlers>
 
-To set handlers at the server level, mod_perl 2.0 code should use:
+To set handlers at the server level, mod_perl 2.0 code should use
+C<L<Apache::ServerUtil::set_handlers()|docs::2.0::api::Apache::ServerUtil/C_set_handlers_>>:
 
   $s->set_handlers(...);
 
@@ -636,23 +788,29 @@ or
 
   $r->set_handlers(PerlAuthenHandler => undef);
 
-See
-C<L<Apache::RequestUtil|docs::2.0::api::Apache::RequestUtil/C_set_handlers_>>.
+See also
+C<L<Apache::RequestUtil::set_handlers()|docs::2.0::api::Apache::RequestUtil/C_set_handlers_>>.
+
+
+
+
 
 
 =head2 C<Apache-E<gt>httpd_conf>
 
-C<Apache-E<gt>httpd_conf> is now C<$s-E<gt>add_config> or
-C<$r-E<gt>add_config>. e.g.:
+C<Apache-E<gt>httpd_conf> is now
+C<L<$s-E<gt>add_config|docs::2.0::api::Apache::ServerUtil/C_add_config_>>:
 
   require Apache::ServerUtil;
   Apache->server->add_config(['require valid-user']);
 
-See the C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>>
-manpage.
-
 C<Apache-E<gt>httpd_conf> is avalable via
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
+
+See also
+C<L<Apache::RequestUtil::add_config()|docs::2.0::api::Apache::RequestUtil/C_add_config_>>.
+
+
 
 
 
@@ -669,10 +827,14 @@ for backwards compatibility.
 
 
 
+
+
 =head2 C<Apache::exit()>
 
 C<Apache::exit()> has been replaced with
 C<L<ModPerl::Util::exit()|docs::2.0::api::ModPerl::Util/C_exit_>>.
+
+
 
 
 
@@ -687,10 +849,14 @@ Though the C function C<modperl_perl_gensym()> is available for XS/C
 extensions writers.
 
 
+
+
+
 =head2 C<Apache::log_error()>
 
 C<Apache::log_error()> is not available in mod_perl 2.0 API. You can
-use:
+use
+C<L<Apache::Log::log_error()|docs::2.0::api::Apache::Log/C__s_E_gt_log_error_>>:
 
   Apache->server->log_error
 
@@ -699,11 +865,16 @@ C<L<Apache::Log|docs::2.0::api::Apache::Log>> manpage.
 
 
 
+
+
 =head2 C<Apache-E<gt>warn>
 
 C<$Apache-E<gt>warn> has been removed and exists only in
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>. Choose another
 C<L<Apache::Log|docs::2.0::api::Apache::Log>> method.
+
+
+
 
 =head2 C<Apache::warn>
 
@@ -716,12 +887,21 @@ C<L<Apache::Log|docs::2.0::api::Apache::Log>> method.
 =head2 C<Apache::module()>
 
 C<Apache::module()> has been replaced with the function
-C<Apache::Module::loaded()>, which now accepts a single argument: the
-module name.
+C<L<Apache::Module::loaded()|docs::2.0::api::Apache::Module/C_loaded_>>,
+which now accepts a single argument: the module name.
+
+
+
+
+
+
+
 
 
 
 =head1 C<Apache::> Variables
+
+
 
 =head2 C<$Apache::__T>
 
@@ -733,18 +913,23 @@ instead.
 
 =head1 C<Apache::Module::> Methods
 
+
+
+
+
 =head2 C<Apache::Module-E<gt>top_module>
 
-C<Apache::Module-E<gt>top_module> has been replaced with
-the function C<Apache::Module::top_module()>
-
+C<Apache::Module-E<gt>top_module> has been replaced with the function
+C<L<Apache::Module::top_module()|docs::2.0::api::Apache::Module/C_top_module_>>.
 
 
 
 =head2 C<Apache::Module-E<gt>get_config>
 
-C<Apache::Module-E<gt>get_config> has been replaced with
-the function C<Apache::Module::get_config()>
+C<Apache::Module-E<gt>get_config> has been replaced with the function
+C<L<Apache::Module::get_config()|docs::2.0::api::Apache::Module/C_get_config_>>.
+
+
 
 
 
@@ -752,6 +937,9 @@ the function C<Apache::Module::get_config()>
 
 
 =head1 C<Apache::ModuleConfig::> Methods
+
+
+
 
 =head2 C<Apache::ModuleConfig-E<gt>get>
 
@@ -766,10 +954,16 @@ C<L<Apache::Module::get_config()|docs::2.0::api::Apache::Module/C_get_config_>>.
 
 =head1 C<Apache::Server::> Methods and Variables
 
+
+
+
 =head2 C<$Apache::Server::CWD>
 
 C<$Apache::Server::CWD> is deprecated and exists only in
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
+
+
+
 
 =head2 C<$Apache::Server::AddPerlVersion>
 
@@ -788,6 +982,7 @@ Though both exist in C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 
 
+
 =head2 C<Apache::Server-E<gt>warn>
 
 C<Apache::Server-E<gt>warn> has been removed and exists only in
@@ -798,15 +993,19 @@ C<L<Apache::Log|docs::2.0::api::Apache::Log>> method.
 
 
 
+
+
 =head1 Server Object Methods
+
 
 
 
 =head2 C<$s-E<gt>register_cleanup>
 
 C<$s-E<gt>register_cleanup> has been replaced with
-C<APR::Pool::cleanup_register()> which accepts the pool object as the
-first argument instead of the server object. e.g.:
+C<L<APR::Pool::cleanup_register()|docs::2.0::api::APR::Pool/C_cleanup_register_>>
+which accepts the pool object as the first argument instead of the
+server object. e.g.:
 
   use Apache::ServerUtil ();
   sub cleanup_callback {
@@ -827,9 +1026,13 @@ cleanup handler with
 C<L<server_shutdown_cleanup_register()|docs::2.0::api::Apache::ServerUtil/C_server_shutdown_cleanup_register_>>.
 
 
+
+
 =head2 C<$s-E<gt>uid>
 
 See the next entry.
+
+
 
 =head2 C<$s-E<gt>gid>
 
@@ -856,26 +1059,38 @@ not support them and let developers figure out how to code around it
 (e.g. by using C<$E<lt>> and C<$(>).
 
 
+
+
 =head1 Request Object Methods
+
+
 
 =head2 C<$r-E<gt>cgi_env>
 
 See the next item
 
+
+
 =head2 C<$r-E<gt>cgi_var>
 
 C<$r-E<gt>cgi_env> and C<$r-E<gt>cgi_var> should be replaced with
-C<$r-E<gt>subprocess_env>, which works identically in both mod_perl
-generations.
+C<L<$r-E<gt>subprocess_env|docs::2.0::api::Apache::RequestRec/C_subprocess_env_>>,
+which works identically in both mod_perl generations.
+
+
 
 =head2 C<$r-E<gt>current_callback>
 
 C<$r-E<gt>current_callback> is now simply a
-C<ModPerl::Util::current_callback> and can be called for any of the
-phases, including those where C<$r> simply doesn't exist.
+C<L<ModPerl::Util::current_callback|docs::2.0::api::ModPerl::Util/C_current_callback_>>
+and can be called for any of the phases, including those where C<$r>
+simply doesn't exist.
 
 C<L<Apache::compat|docs::2.0::api::Apache::compat>> implements
 C<$r-E<gt>current_callback> for backwards compatibility.
+
+
+
 
 =head2 C<$r-E<gt>cleanup_for_exec>
 
@@ -890,9 +1105,13 @@ C<$r-E<gt>cleanup_for_exec> for backwards compatibility as a NOOP.
 See also the
 C<L<Apache::SubProcess|docs::2.0::api::Apache::SubProcess>> manpage.
 
+
+
+
 =head2 C<$r-E<gt>get_remote_host>
 
-C<get_remote_host()> is now invoked on the C<L<connection
+C<L<get_remote_host()|docs::2.0::api::Apache::Connection/C_get_remote_host_>>
+is now invoked on the C<L<connection
 object|docs::2.0::api::Apache::Connection>>:
 
   use Apache::Connection;
@@ -902,15 +1121,20 @@ C<$r-E<gt>get_remote_host> is available through
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 
+
+
 =head2 C<$r-E<gt>content>
 
 See the next item.
 
+
+
 =head2 C<$r-E<gt>args> in an Array Context
 
-C<$r-E<gt>args> in 2.0 returns the query string without parsing and
-splitting it into an array. You can also set the query string by
-passing a string to this method.
+C<L<$r-E<gt>args|docs::2.0::api::Apache::RequestRec/C_args_>> in 2.0
+returns the query string without parsing and splitting it into an
+array. You can also set the query string by passing a string to this
+method.
 
 C<$r-E<gt>content> and C<$r-E<gt>args> in an array context were
 mistakes that never should have been part of the mod_perl 1.0
@@ -954,6 +1178,11 @@ C<L<Apache::compat|docs::2.0::api::Apache::compat>> (it's slower).
 META: when C<Apache::Request> will be ported to mod_perl 2.0, you will
 have the fast C implementation of these functions.
 
+
+
+
+
+
 =head2  C<$r-E<gt>chdir_file>
 
 C<chdir()> cannot be used in the threaded environment, therefore
@@ -962,10 +1191,16 @@ C<$r-E<gt>chdir_file> is not in the mod_perl 2.0 API.
 For more information refer to: L<Threads Coding Issues Under
 mod_perl|docs::2.0::user::coding::coding/Threads_Coding_Issues_Under_mod_perl>.
 
+
+
+
+
+
 =head2 C<$r-E<gt>is_main>
 
 C<$r-E<gt>is_main> is not part of the mod_perl 2.0 API. Use
-C<!$r-E<gt>main> instead.
+C<L<!$r-E<gt>main|docs::2.0::api::Apache::RequestRec/C_main_>>
+instead.
 
 Refer to the
 C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec/main__>>
@@ -975,9 +1210,10 @@ manpage.
 
 =head2 C<$r-E<gt>filename>
 
-When a new C<filename()> is assigned Apache 2.0 doesn't update the
-finfo structure like it did in Apache 1.3. If the old behavior is
-desired Apache::compat's
+When a new
+C<L<$r-E<gt>filename|docs::2.0::api::Apache::RequestRec/C_filename_>>
+is assigned Apache 2.0 doesn't update the finfo structure like it did
+in Apache 1.3. If the old behavior is desired Apache::compat's
 L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_with_mod_perl_2_0_API>
 can be used. Otherwise one should explicitly update the finfo struct
 when desired as explained in the
@@ -1027,6 +1263,9 @@ don't want this extra call, you'd have to write:
 See the C<L<APR::Finfo|docs::2.0::api::APR::Finfo>> manpage for more
 information.
 
+
+
+
 =head2 C<$r-E<gt>notes>
 
 Similar to
@@ -1055,20 +1294,31 @@ L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_wi
 See the C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>
 manpage.
 
+
+
 =head2 C<$r-E<gt>header_in>
 
-See the next item.
+See C<L<$r-E<gt>err_header_out|/C__r_E_gt_err_header_out_>>.
+
+
 
 =head2 C<$r-E<gt>header_out>
 
-See the next item.
+See C<L<$r-E<gt>err_header_out|/C__r_E_gt_err_header_out_>>.
+
+
+
 
 =head2 C<$r-E<gt>err_header_out>
 
 C<header_in()>, C<header_out()> and C<err_header_out()> are not
-available in 2.0. Use C<headers_in()>, C<headers_out()> and
-C<err_headers_out()> instead (which should be used in 1.0 as
-well). For example you need to replace:
+available in 2.0. Use
+C<L<headers_in()|docs::2.0::api::Apache::RequestRec/C_headers_in_>>,
+C<L<headers_out()|docs::2.0::api::Apache::RequestRec/C_headers_out_>>
+and
+C<L<err_headers_out()|docs::2.0::api::Apache::RequestRec/C_err_headers_out_>>
+instead (which should be used in 1.0 as well). For example you need to
+replace:
 
   $r->err_header_out("Pragma" => "no-cache");
 
@@ -1079,11 +1329,15 @@ with:
 See the L<Apache::RequestRec> manpage.
 
 
+
+
+
 =head2 C<$r-E<gt>register_cleanup>
 
 C<$r-E<gt>register_cleanup> has been replaced with
-C<APR::Pool::cleanup_register()> which accepts the pool object as the
-first argument instead of the request object. e.g.:
+C<L<APR::Pool::cleanup_register()|docs::2.0::api::APR::Pool/C_cleanup_register_>>
+which accepts the pool object as the first argument instead of the
+request object. e.g.:
 
   sub cleanup_callback { my $data = shift; ... }
   $r->pool->cleanup_register(\&cleanup_callback, $data);
@@ -1091,7 +1345,11 @@ first argument instead of the request object. e.g.:
 where the last argument C<$data> is optional, and if supplied will be
 passed as the first argument to the callback function.
 
-See the L<APR::Pool> manpage.
+See the C<L<APR::Pool>> manpage.
+
+
+
+
 
 =head2 C<$r-E<gt>post_connection>
 
@@ -1099,12 +1357,16 @@ C<$r-E<gt>post_connection> has been replaced with:
 
   $r->connection->pool->cleanup_register();
 
-See the L<APR::Pool> manpage.
+See the C<L<APR::Pool>> manpage.
+
+
 
 
 =head2 C<$r-E<gt>request>
 
-Use C<L<Apache-E<gt>request|/__Apache___gt_request_>>.
+Use C<L<Apache-E<gt>request|/C_Apache_E_gt_request_>>.
+
+
 
 =head2 C<$r-E<gt>send_fd>
 
@@ -1129,12 +1391,14 @@ into apr_file_t (with help of apr_os_file_put, which expects a native
 filehandle, so I'm not sure whether this will work on win32).
 
 
+
+
 =head2 C<$r-E<gt>send_http_header>
 
 This method is not needed in 2.0, though available in
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>. 2.0 handlers only
-need to set the I<Content-type> via C<$r-E<gt>content_type($type)>.
-
+need to set the I<Content-type> via
+C<L<$r-E<gt>content_type($type)|docs::2.0::api::Apache::RequestRec/C_content_type_>>.
 
 
 
@@ -1142,7 +1406,7 @@ need to set the I<Content-type> via C<$r-E<gt>content_type($type)>.
 =head2 C<$r-E<gt>server_root_relative>
 
 This method was replaced with
-C<L<Apache::ServerUtil::server_root_relative|docs::2.0::Apache::ServerUtil/C_server_root_relative_>>
+C<L<Apache::ServerUtil::server_root_relative()|docs::2.0::api::Apache::ServerUtil/C_server_root_relative_>>
 function and its first argument is a I<pool> object. For example:
 
   # during request
@@ -1154,25 +1418,36 @@ Note that the old form
 
   my $conf_dir = Apache->server_root_relative('conf');
 
-is no longer valid - C<Apache::server_root_relative> must be
-explicitly passed a pool.
+is no longer valid - C<server_root_relative()> must be explicitly
+passed a pool.
 
 The old functionality is available with
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 
 
+
+
 =head2 C<$r-E<gt>hard_timeout>
 
-See the next item.
+See C<L<$r-E<gt>kill_timeout|/C__r_E_gt_kill_timeout_>>.
+
+
+
 
 =head2 C<$r-E<gt>reset_timeout>
 
-See the next item.
+See C<L<$r-E<gt>kill_timeout|/C__r_E_gt_kill_timeout_>>.
+
+
+
 
 =head2 C<$r-E<gt>soft_timeout>
 
-See the next item.
+See C<L<$r-E<gt>kill_timeout|/C__r_E_gt_kill_timeout_>>.
+
+
+
 
 =head2 C<$r-E<gt>kill_timeout>
 
@@ -1182,9 +1457,16 @@ mod_perl 2.0.  C<L<Apache::compat|docs::2.0::api::Apache::compat>>
 implements these functions for backwards compatibility as NOOPs.
 
 
+
+
+
+
 =head2 C<$r-E<gt>set_byterange>
 
-See the next item.
+See C<L<$r-E<gt>each_byterange|/C__r_E_gt_each_byterange_>>.
+
+
+
 
 =head2 C<$r-E<gt>each_byterange>
 
@@ -1200,13 +1482,25 @@ combinations of them, including the older ones which are still
 supported. For a complete info on these see
 I<modules/http/http_protocol.c>.
 
+
+
+
+
+
+
+
+
+
 =head1 C<Apache::Connection>
+
+
 
 =head2 C<$connection-E<gt>auth_type>
 
 The record I<auth_type> doesn't exist in the Apache 2.0's connection
 struct. It exists only in the request record struct. The new accessor
-in 2.0 API is C<$r-E<gt>ap_auth_type>.
+in 2.0 API is
+C<L<$r-E<gt>ap_auth_type|docs::2.0::api::Apache::RequestRec/C_ap_auth_type_>>.
 
 C<L<Apache::compat|docs::2.0::api::Apache::compat>> provides a back
 compatibility method, though it relies on the availability of the
@@ -1217,19 +1511,32 @@ have:
 
 to set it up for earlier stages than response handler.
 
+
+
+
+
 =head2 C<$connection-E<gt>user>
 
-This method is deprecated in mod_perl 1.0 and C<$r-E<gt>user> should
-be used instead for both versions of mod_perl. C<$r-E<gt>user()>
+This method is deprecated in mod_perl 1.0 and
+C<L<$r-E<gt>user|docs::2.0::api::Apache::RequestRec/C_user_>> should
+be used instead for both mod_perl generations. C<$r-E<gt>user()>
 method is available since mod_perl version 1.24_01.
+
+
+
+
 
 =head2 C<$connection-E<gt>local_addr>
 
-See the next item.
+See C<L<$connection-E<gt>remote_addr|/C__connection_E_gt_remote_addr_>>
+
+
 
 =head2 C<$connection-E<gt>remote_addr>
 
-C<$connection-E<gt>local_addr> and C<$connection-E<gt>remote_addr>
+C<L<$c-E<gt>local_addr|docs::2.0::api::Apache::Connection/C_local_addr_>>
+and
+C<L<$c-E<gt>remote_addr|docs::2.0::api::Apache::Connection/C_remote_addr_>>
 return an C<L<APR::SockAddr|docs::2.0::api::APR::SockAddr>> object and
 you can use this object's methods to retrieve the wanted bits of
 information, so if you had a code like:
@@ -1274,6 +1581,8 @@ The methods from mod_perl 1.0's module C<Apache::File> have been
 either moved to other packages or removed.
 
 
+
+
 =head2 C<new()>, C<open()> and C<close()>
 
 The methods C<new()>, C<open()> and C<close()> were removed. See the
@@ -1289,10 +1598,14 @@ were writing:
     my $content = do { local $/; <$fh> };
     close $fh;
 
-Now, you would write that as:
+Now, you would write that using
+C<L<Apache::RequestUtil::slurp_filename()|docs::2.0::api::Apache::RequestUtil/C_slurp_filename_>>:
 
   use Apache::RequestUtil ();
   my $content = ${ $r->slurp_filename() };
+
+
+
 
 
 =head2 C<tmpfile()>
@@ -1314,27 +1627,35 @@ That is a literal C<undef>, not an undefined value.
 
 =head1 C<Apache::Util>
 
-A few C<Apache::Util> functions have changed their interface.
+A few C<L<Apache::Util|docs::2.0::api::Apache::Util>> functions have
+changed their interface.
+
+
 
 =head2 C<Apache::Util::size_string()>
 
 C<Apache::Util::size_string()> has been replaced with
-C<APR::String::format_size()>, which returns formatted strings of only
-4 characters long. See the
-C<L<APR::String|docs::2.0::api::APR::String>> manpage.
+C<L<APR::String::format_size()|docs::2.0::api::APR::String/C_format_size_>>,
+which returns formatted strings of only 4 characters long.
+
+
+
 
 =head2 C<Apache::Util::escape_uri()>
 
 C<Apache::Util::escape_uri()> has been replaced with
-C<Apache::Util::escape_path()> and requires a pool object as a second
-argument. For example:
+C<L<Apache::Util::escape_path()|docs::2.0::api::Apache::Util/C_escape_path_>>
+and requires a pool object as a second argument. For example:
 
   $escaped_path = Apache::Util::escape_path($path, $r->pool);
+
+
 
 =head2 C<Apache::Util::unescape_uri()>
 
 C<Apache::Util::unescape_uri()> has been replaced with
-C<Apache::unescape_url()>.
+C<L<Apache::URI::unescape_url()|docs::2.0::api::Apache::URI/C_unescape_url_>>.
+
 
 
 =head2 C<Apache::Util::escape_html()>
@@ -1349,15 +1670,21 @@ compatibility.
 
 
 
+
+
 =head2 C<Apache::Util::parsedate()>
 
 C<Apache::Util::parsedate()> has been replaced with
-C<APR::Date::parse_http()>.
+C<L<APR::Date::parse_http()|docs::2.0::api::APR::Date/C_parse_http_>>.
+
+
+
 
 =head2 C<Apache::Util::ht_time()>
 
-C<Apache::Util::ht_time()> now requires a
-C<L<pool|docs::2.0::api::APR::Pool>> object as a first argument.
+C<L<Apache::Util::ht_time()|docs::2.0::api::Apache::Util/C_ht_time_>>
+now requires a C<L<pool|docs::2.0::api::APR::Pool>> object as a first
+argument.
 
 For example:
 
@@ -1380,10 +1707,15 @@ For example:
   Apache::compat::restore_mp2_api('Apache::Util::ht_time');
 
 
+
+
+
+
 =head2 C<Apache::Util::validate_password()>
 
 C<Apache::Util::validate_password()> has been replaced with
-C<APR::Util::password_validate()>. For example:
+C<L<APR::Util::password_validate()|docs::2.0::api::APR::Util/C_password_validate_>>. For
+example:
 
    my $ok = Apache::Util::password_validate("stas", "ZeO.RAc3iYvpA");
 
@@ -1392,21 +1724,29 @@ C<APR::Util::password_validate()>. For example:
 
 
 
+
+
 =head1 C<Apache::URI>
+
+
 
 =head2 C<Apache::URI-E<gt>parse($r, [$uri])>
 
-C<parse()> and its associate methods have moved into the C<APR::URI>
-package. For example:
+C<parse()> and its associate methods have moved into the
+C<L<APR::URI|docs::2.0::api::APR::URI>> package. For example:
 
   my $curl = $r->construct_url;
   APR::URI->parse($r->pool, $curl);
 
 See the C<L<APR::URI|docs::2.0::api::APR::URI>> manpage.
 
+
+
 =head2 C<unparse()>
 
-Other than moving to the C<APR::URI> package, C<unparse> is now
+Other than moving to the package
+C<L<APR::URI|docs::2.0::api::APR::URI>>,
+C<L<unparse|docs::2.0::api::APR::URI/C_unparse_>> is now
 protocol-agnostic. Apache won't use I<http> as the default protocol if
 I<hostname> was set, but I<scheme> wasn't not. So the following code:
 
@@ -1462,6 +1802,8 @@ prints:
 
 =head1 Miscellaneous
 
+
+
 =head2 Method Handlers
 
 In mod_perl 1.0 the method handlers could be specified by using the
@@ -1510,6 +1852,8 @@ to use the same code base under both mod_perl generations when the
 handler has to be a method.
 
 
+
+
 =head2 Stacked Handlers
 
 Both mod_perl 1.0 and 2.0 support the ability to register more
@@ -1531,12 +1875,13 @@ complete description of each hook and its run-type.
 
 
 
+
 =head1 C<Apache::src>
 
 For those who write 3rd party modules using XS, this module was used
 to supply mod_perl specific include paths, defines and other things,
 needed for building the extensions. mod_perl 2.0 makes things
-transparent with C<ModPerl::MM>.
+transparent with C<L<ModPerl::MM|docs::2.0::api::ModPerl::MM>>.
 
 Here is how to write a simple I<Makefile.PL> for modules wanting to
 build XS code against mod_perl 2.0:
@@ -1555,9 +1900,15 @@ META: we probably will have a compat layer at some point.
 
 META: move this section to the devel/porting and link there instead
 
+
+
+
 =head1 C<Apache::Table>
 
-C<Apache::Table> has been renamed to C<APR::Table>.
+C<Apache::Table> has been renamed to
+C<L<APR::Table|docs::2.0::api::APR::Table>>.
+
+
 
 
 
@@ -1569,10 +1920,13 @@ nothing.
 
 
 
+
+
 =head1 C<Apache::StatINC>
 
-C<Apache::StatINC> has been replaced by C<Apache::Reload>, which works
-for both mod_perl generations. To migrate to C<Apache::Reload> simply
+C<Apache::StatINC> has been replaced by
+C<L<Apache::Reload|docs::2.0::api::Apache::Reload>>, which works for
+both mod_perl generations. To migrate to C<Apache::Reload> simply
 replace:
 
   PerlInitHandler Apache::StatINC
@@ -1583,6 +1937,9 @@ with:
 
 However C<Apache::Reload> provides an extra functionality, covered in
 the module's manpage.
+
+
+
 
 
 
