@@ -12,8 +12,7 @@ Normally you don't need to use this module. However if you are using
 an C<APR::> package outside of mod_perl, you need to load APR
 first. For example:
 
-  % perl -MApache2 -MAPR -le 'use APR::Table; use APR::Pool; \
-  $table = APR::Table::make(APR::Pool->new, 2);'
+  % perl -MApache2 -MAPR -MAPR::UUID -le 'print APR::UUID->new->format'
 
 
 =cut

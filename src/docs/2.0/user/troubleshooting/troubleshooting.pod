@@ -147,8 +147,8 @@ Whenever using an C<APR::> package outside of mod_perl, you need to:
 
 in order to load the XS subroutines. For example:
 
-  % perl -MApache2 -MAPR -le 'use APR::Table; use APR::Pool; \
-  $table = APR::Table::make(APR::Pool->new, 2);'
+  % perl -MApache2 -MAPR -MAPR::UUID -le 'print APR::UUID->new->format'
+
 
 =head1 Maintainers
 
