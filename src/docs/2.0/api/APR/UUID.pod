@@ -95,6 +95,28 @@ random engine:
 
 
 
+=head2 C<DESTROY>
+
+  $uuid->DESTROY;
+
+=over 4
+
+=item obj: C<APR::UUID>
+( C<L<APR::UUID object|docs::2.0::api::APR::UUID>> )
+
+=item ret: no return value
+
+=item since: 1.99_12
+
+=back
+
+Do not call this method, it's designed to be only called by Perl when
+the variable goes out of scope. If you call it yourself you will get a
+segfault when perl will call DESTROY on its own.
+
+
+
+
 
 
 =head2 C<parse>
