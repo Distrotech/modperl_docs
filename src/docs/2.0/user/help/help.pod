@@ -166,15 +166,15 @@ rebuild mod_perl with C<MP_DEBUG=1>.
 
 =item * httpd
 
-If the segfault happens in the httpd's domain, rebuild it with
-C<--enable-maintainer-mode>:
+If the segfault happens inside I<ap_> or I<apr_> calls, rebuild httpd
+with C<--enable-maintainer-mode>:
 
   % ./configure --enable-maintainer-mode ...
   % make && make install
 
 =item * perl
 
-If the segfault happesn in the perl's domain, rebuild it with
+If the segfault happens inside I<Perl_> calls, rebuild perl with
 C<-Doptimize='-g'>:
 
   % ./Configure -Doptimize='-g' ...
