@@ -423,8 +423,11 @@ yet.
   use Apache::Const -compile => qw(:context);
 
 The C<:context> group is used by the
-(C<L<$parms-E<gt>check_cmd_context|docs::2.0::api::Apache::Command/C_check_cmd_context_>>)
+C<L<$parms-E<gt>check_cmd_context|docs::2.0::api::Apache::CmdParms/C_check_cmd_context_>>
 method.
+
+
+
 
 =head3 C<Apache::NOT_IN_VIRTUALHOST>
 
