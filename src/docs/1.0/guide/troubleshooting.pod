@@ -148,7 +148,7 @@ linker. If Perl is statically linked, running:
 
 will say:
 
-    useshrplib='true'
+    useshrplib='false'
 
 Again, the solution may vary from system to system, but moving
 F</usr/lib/libperl.a> away while building mod_perl is probably the
