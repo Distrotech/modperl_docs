@@ -294,6 +294,30 @@ http://rt.perl.org:80/rt3/Ticket/Display.html?id=24660
 =head1 Code Parsing and Compilation
 
 
+=head2 Segfault with __read_nocancel Backtrace
+
+If your application segfault and you get a similar to the following
+backtrace:
+
+  (gdb) bt
+  #0  0x4030d4d1 in __read_nocancel () from /lib/tls/libpthread.so.0
+  #1  0x00000000 in ?? ()
+
+that usually means that you've build your non-mod_perl modules with
+ithreads enabled perl. Then you have built a new perl B<without>
+ithreads. But you didn't nuke/rebuild the old non-mod_perl
+modules. Now when you try to run those, you get the above segfault. To
+solve the problem recompile all the modules. The easiest way to
+accomplish that is to either remove all the modules completely, build
+the new perl and then install the new modules. You could also try to
+create a bundle of the existing modules using C<CPAN.pm> prior to
+deleting the old modules, so you can easily reinstall all the modules
+you previously had.
+
+
+
+
+
 
 
 =head2 Registry scripts fail to load with: Unrecognized character \xEF at ...
