@@ -14,6 +14,12 @@ META: needs more organization
 META: there is a new directive CoreDumpDirectory in 2.0.45, need to
 check whether we should mention it.
 
+META: there is a new compile-time option in perl-5.9.0+:
+-DDEBUG_LEAKING_SCALARS, which prints out the addresses of leaked SVs
+and new_SV() can be used to discover where those SVs were allocated.
+(see perlhack.pod for more info)
+
+
 =head2 Setting gdb breakpoints with mod_perl built as DSO
 
 If mod_perl is built as a DSO module, you cannot set the breakpoint in
