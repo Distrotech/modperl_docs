@@ -108,7 +108,7 @@ having memory leaks, which always haunt C programmers.
 
 Filtering of Perl modules output has been possible for years since
 tied filehandle support was added to Perl.  There are several modules,
-such as C<Apache::Filter> and C<Apache::OutputChain> which have been
+such as C<Apache2::Filter> and C<Apache::OutputChain> which have been
 written to provide mechanisms for filtering the C<STDOUT> stream.
 There are several of these modules because no one's approach has quite
 been able to offer the ease of use one would expect, which is due
@@ -218,14 +218,14 @@ For mod_perl, dynamic registration provides a cleaner way to bypass
 the C<Perl*Handler> configuration directives.  By simply adding this
 configuration:
 
-  PerlModule Apache::Foo
+  PerlModule Apache2::Foo
 
-C<Apache::Foo> can register hooks itself at server startup:
+C<Apache2::Foo> can register hooks itself at server startup:
 
-  Apache::Hook->add(PerlAuthenHandler => \&authenticate,
-                    Apache::Hook::MIDDLE);
-  Apache::Hook->add(PerlLogHandler    => \&logger,
-                    Apache::Hook::LAST);
+  Apache2::Hook->add(PerlAuthenHandler => \&authenticate,
+                    Apache2::Hook::MIDDLE);
+  Apache2::Hook->add(PerlLogHandler    => \&logger,
+                    Apache2::Hook::LAST);
 
 META: Not implemented yet (API will change?)
 
@@ -269,11 +269,11 @@ If a mod_perl 1.0 module wants access to configuration information,
 there are two approaches.  A module can "subclass" directive handlers,
 saving a copy of the data for itself, then returning B<DECLINE_CMD> so
 the other modules are also handed the info.  Or, the
-C<$Apache::PerlSections::Save> variable can be set to save
-E<lt>PerlE<gt> configuration in the C<%Apache::ReadConfig::>
+C<$Apache2::PerlSections::Save> variable can be set to save
+E<lt>PerlE<gt> configuration in the C<%Apache2::ReadConfig::>
 namespace.  Both methods are rather kludgy, version 2.0 provides a
 L<Perl interface to the Apache configuration
-tree|docs::2.0::user::config::config/Perl_Interface_to_the_Apache_Configuration_Tree>.
+tree|docs::2.0::user::config::config/Perl_Interface_to_the_Apache2_Configuration_Tree>.
 
 
 =back
@@ -589,12 +589,12 @@ changed a special L<back compatibility
 module|docs::2.0::user::porting::compat> can be used.
 
 In mod_perl 2.0 the APR API resides in the C<APR::> namespace, and
-obviously the C<Apache::> namespace is mapped to the Apache API.
+obviously the C<Apache2::> namespace is mapped to the Apache API.
 
 And in the case of C<APR>, it is possible to use C<APR> modules
 outside of Apache, for example:
 
-  % perl  -MApache2 -MAPR -MAPR::UUID -le 'print APR::UUID->new->format'
+  % perl -MAPR -MAPR::UUID -le 'print APR::UUID->new->format'
   b059a4b2-d11d-b211-bc23-d644b8ce0981
 
 The mod_perl 2.0 generator is a custom suite of modules specifically
@@ -720,7 +720,7 @@ with configuration directives.  A few of which include:
 
 =item *
 
-Inlined C<Apache::*.xs> calls
+Inlined C<Apache2::*.xs> calls
 
 =item *
 

@@ -57,17 +57,13 @@ Enable mod_perl built as DSO, by adding to I<httpd.conf>:
 
   LoadModule perl_module modules/mod_perl.so
 
-Next, tell Perl where to find mod_perl2 libraries:
-
-  PerlModule Apache2
-
 There are many other configuration options which you can find in the
 L<configuration manual|docs::2.0::user::config::config>.
 
 If you want to run mod_perl 1.0 code on mod_perl 2.0 server enable the
 compatibility layer:
 
-  PerlModule Apache::compat
+  PerlModule Apache2::compat
 
 For more information see: L<Migrating from mod_perl 1.0 to mod_perl
 2.0|docs::2.0::user::porting::compat>.
@@ -140,17 +136,17 @@ Finally check that you can run mod_perl handlers. Let's write a
 response handler similar to the registry script from the previous
 section:
 
-  #file:MyApache/Rocks.pm
+  #file:MyApache2/Rocks.pm
   #----------------------
-  package MyApache::Rocks;
+  package MyApache2::Rocks;
   
   use strict;
   use warnings;
   
-  use Apache::RequestRec ();
-  use Apache::RequestIO ();
+  use Apache2::RequestRec ();
+  use Apache2::RequestIO ();
   
-  use Apache::Const -compile => qw(OK);
+  use Apache2::Const -compile => qw(OK);
   
   sub handler {
       my $r = shift;
@@ -158,13 +154,13 @@ section:
       $r->content_type('text/plain');
       print "mod_perl 2.0 rocks!\n";
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   1;
 
-Save the code in the file I<MyApache/Rocks.pm>, somewhere where
+Save the code in the file I<MyApache2/Rocks.pm>, somewhere where
 mod_perl can find it. For example let's put it under
-I</home/httpd/httpd-2.0/perl/MyApache/Rocks.pm>, and we tell mod_perl
+I</home/httpd/httpd-2.0/perl/MyApache2/Rocks.pm>, and we tell mod_perl
 that I</home/httpd/httpd-2.0/perl/> is in C<@INC>, via a startup file
 which includes just:
 
@@ -179,7 +175,7 @@ Now we can configure our module in I<httpd.conf>:
 
   <Location /rocks>
       SetHandler perl-script
-      PerlResponseHandler  MyApache::Rocks
+      PerlResponseHandler  MyApache2::Rocks
   </Location>
 
 Now restart the server and issue a request to
