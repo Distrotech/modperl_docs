@@ -224,6 +224,26 @@ namespace!  So the module does get reloaded and you see the compile
 time errors if there are any, but the symbols don't get imported to
 the right namespace. Therefore the old version of the code is running.
 
+
+=head2 Failing to Find a File to Reload
+
+C<Apache::Reload> uses C<%INC> to find the files on the filesystem. If
+an entry for a certain filepath in C<%INC> is relative,
+C<Apache::Reload> will use C<@INC> to try to resolve that relative
+path. Now remember that mod_perl freezes the value of C<@INC> at the
+server startup, and you can modify it only for the duration of one
+request when you need to load some module which is not in on of the
+C<@INC> directories. So a module gets loaded, and registered in
+C<%INC> with a relative path. Now when C<Apache::Reload> tries to find
+that module to check whether it has been modified, it can't find since
+its directory is not in C<@INC>. So C<Apache::Reload> will silently
+skip that module.
+
+You can enable the C<Debug|/Debug> mode to see what C<Apache::Reload>
+does behind the scenes.
+
+
+
 =head2 Problems with Scripts Running with Registry Handlers that Cache the Code
 
 The following problem is relevant only to registry handlers that cache
