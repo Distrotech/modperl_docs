@@ -1124,7 +1124,7 @@ constant):
       return Apache::DECLINED unless $r->method eq METHOD;
 
 Next it tells Apache that this new method is a valid one and that the
-C<perl-script" handler will do the processing. Finally it pushes the
+C<perl-script> handler will do the processing. Finally it pushes the
 function C<send_email_handler()> to the C<PerlResponseHandler> list of
 handlers:
 
@@ -1168,12 +1168,16 @@ a client that knows how to use the extension. So here is a simple
 client that uses C<LWP::UserAgent> to issue an C<EMAIL> method request
 over HTTP protocol:
 
+  file:send_http_email.pl
+  -----------------------
+  #!/usr/bin/perl
+  
   use strict;
   use warnings;
   
   require LWP::UserAgent;
   
-  my $url = "http://localhost:8002/email/";
+  my $url = "http://localhost:8000/email/";
   
   my %headers = (
       From    => 'example@example.com',
@@ -1191,10 +1195,16 @@ over HTTP protocol:
   my $res = LWP::UserAgent->new->request($req);
   print $res->is_success ? $res->content : "failed";
 
-most of the code is just a custom data. The actual code is made of
-four lines. Create C<HTTP::Headers> and C<HTTP::Request> object.
-Issue a request. At the end we print the response's content if it was
-successful or I<failed> if not.
+most of the code is just a custom data. The code that does something
+consists of four lines at the very end. Create C<HTTP::Headers> and
+C<HTTP::Request> object. Issue the request and get the
+response. Finally print the response's content if it was successful or
+just I<"failed"> if not.
+
+Now save the client code in the file I<send_http_email.pl>, adjust the
+I<To> field, make the file executable and execute it, after you have
+restarted the server. You should receive an email shortly to the
+address set in the I<To> field.
 
 
 
@@ -1245,8 +1255,8 @@ C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> here.
 =head2 PerlAccessHandler
 
 The I<access_checker> phase is the first of three handlers that are
-involved in authentication and authorization, and used for access
-control.
+involved in what's known as AAA: Authentication and Authorization, and
+Access control.
 
 This phase can be used to restrict access from a certain IP address,
 time of the day or any other rule not connected to the user's
@@ -1257,7 +1267,50 @@ This phase is of type C<L<RUN_ALL|/item_RUN_ALL>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
-Example:
+The concept behind access checker handler is very simple, return
+C<Apache::FORBIDDEN> if the access is not allowed, otherwise return
+C<Apache::OK>.
+
+The following example handler blocks requests made from IPs on the
+blacklist.
+
+  file:MyApache/BlockByIP.pm
+  --------------------------
+  package MyApache::BlockByIP;
+  
+  use Apache::RequestRec ();
+  use Apache::Connection ();
+  
+  use Apache::Const -compile => qw(FORBIDDEN OK);
+  
+  my %bad_ips = map {$_ => 1} qw(127.0.0.1 10.0.0.4);
+  
+  sub handler {
+      my $r = shift;
+  
+      return exists $bad_ips{$r->connection->remote_ip}
+          ? Apache::FORBIDDEN
+          : Apache::OK;
+  }
+  
+  1;
+
+The handler retrieves the connection's IP address, looks it up in the
+hash of blacklisted IPs and forbids the access if found. If the IP is
+not blacklisted, the handler returns control to the next access
+checker handler, which may still block the access based on a different
+rule.
+
+To enable the handler simply add it to the container that needs to be
+protected. For example to protect an access to the registry scripts:
+
+  <Location /perl/>
+      SetHandler perl-script
+      PerlResponseHandler ModPerl::Registry
+      PerlAccessHandler MyApache::BlockByIP
+      Options +ExecCGI
+  </Location>
+
 
 
 =head2 PerlAuthenHandler
