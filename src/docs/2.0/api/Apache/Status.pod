@@ -40,6 +40,7 @@ handler, configure C<Apache::Status> as:
 
 Other modules can "plugin" a menu item like so:
 
+  require Apache::Module;
   Apache::Status->menu_item(
      'DBI' => "DBI connections", #item for Apache::DBI module
      sub {
