@@ -148,17 +148,6 @@ C<L<Apache::Status|docs::2.0::api::Apache::Status>>.
 
 
 
-=head2 C<$Apache::Server::StrictPerlSections>
-
-By default, compilation and run-time errors within C<E<lt>Perl E<gt>>
-sections will cause a warning to be printed in the error_log. By
-setting this variable to a true value, code in the sections will be
-evaluated as if "use strict" was in usage, and all warning and errors
-will cause the server to abort startup and report the first error.
-
-
-
-
 =head1 PerlSections dumping
 
 =head2 Apache::PerlSections-E<gt>dump

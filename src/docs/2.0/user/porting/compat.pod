@@ -84,6 +84,14 @@ If you need to use the same I<httpd.conf> for 1.0 and 2.0, use:
       PerlFreshRestart
   </IfDefine>
 
+=head2 C<$Apache::Server::StrictPerlSections>
+
+In mod_perl 2.0, C<L<E<lt>PerlE<gt>|docs::2.0::api::Apache::PerlSections>>
+sections errors are now always fatal. Any error in them will cause an immediate
+server startup abort, dumping the error to stderr. To avoid this, C<eval {}>
+can be used to trap errors and ignore them. In mod_perl 1, 'strict' was
+somewhat of a misnomer.
+
 =head2 Apache Configuration Customization
 
 mod_perl 2.0 has slightly changed the mechanism for L<adding custom
