@@ -123,7 +123,7 @@ If you only add a paragraph/modify a line, please make sure you have
 the I<latest> Subversion version, and then issue:
 
   % cd modperl-docs
-  % svn diff -u > patch
+  % svn diff > patch
 
 And send the I<patch> file to the maintainer or the L<documentation
 mailing list|maillist::docs-dev>, preferably inlined in your e-mail
@@ -134,7 +134,7 @@ I<src/docs/2.0/api/Apache/RequestUtil.pod> doc, to generate the patch
 do:
 
   % cd modperl-docs
-  % svn diff -u src/docs/2.0/api/Apache/RequestUtil.pod > patch
+  % svn diff src/docs/2.0/api/Apache/RequestUtil.pod > patch
 
 This approach will get the diff of only that file.
 
