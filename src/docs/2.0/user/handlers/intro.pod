@@ -316,23 +316,23 @@ META: need to verify the following:
 
 =over
 
-=item *  C<APR::HOOK_REALLY_FIRST>
+=item *  C<APR::Const::HOOK_REALLY_FIRST>
 
 run this hook first, before ANYTHING.
 
-=item *  C<APR::HOOK_FIRST>
+=item *  C<APR::Const::HOOK_FIRST>
 
 run this hook first.
 
-=item *  C<APR::HOOK_MIDDLE>
+=item *  C<APR::Const::HOOK_MIDDLE>
 
 run this hook somewhere.
 
-=item *  C<APR::HOOK_LAST>
+=item *  C<APR::Const::HOOK_LAST>
 
 run this hook after every other hook which is defined.
 
-=item *  C<APR::HOOK_REALLY_LAST>
+=item *  C<APR::Const::HOOK_REALLY_LAST>
 
 run this hook last, after EVERYTHING.
 

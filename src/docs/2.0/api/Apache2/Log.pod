@@ -18,9 +18,9 @@ Apache2::Log - Perl API for Apache Logging Methods
   
   $s->log_error("server: log_error");
   $s->log_serror(__FILE__, __LINE__, Apache2::Const::LOG_ERR,
-                 APR::SUCCESS, "log_serror logging at err level");
+                 APR::Const::SUCCESS, "log_serror logging at err level");
   $s->log_serror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_DEBUG,
-                 APR::ENOTIME, "debug print");
+                 APR::Const::ENOTIME, "debug print");
   Apache2::ServerRec->log_error("routine warning");
   
   Apache2::ServerRec::warn("routine warning");
@@ -52,13 +52,13 @@ Apache2::Log - Perl API for Apache Logging Methods
       $s->log_error("server: log_error");
   
       $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_DEBUG,
-                     APR::ENOTIME, "in debug");
+                     APR::Const::ENOTIME, "in debug");
   
       $s->log_serror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_INFO,
-                     APR::SUCCESS, "server info");
+                     APR::Const::SUCCESS, "server info");
   
       $s->log_serror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_ERR,
-                     APR::ENOTIME, "fatal error");
+                     APR::Const::ENOTIME, "fatal error");
   
       $r->log_reason("fatal error");
       $r->warn('routine request warning');
@@ -86,12 +86,12 @@ of the level I<warning> or higher (I<err>, I<crit>, I<elert> and
 I<emerg>) will be logged. Therefore this:
 
   $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_WARNING,
-                 APR::ENOTIME, "warning!");
+                 APR::Const::ENOTIME, "warning!");
 
 will log the message, but this one won't:
 
   $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_INFO,
-                 APR::ENOTIME, "just an info");
+                 APR::Const::ENOTIME, "just an info");
 
 It will be logged only if the server log level is set to I<info> or
 I<debug>. C<LogLevel> is set in the configuration file, but can be
@@ -153,7 +153,7 @@ which the message should be logged:
 
 
 Make sure to compile the APR status constants before using them. For
-example to compile C<APR::SUCCESS> and all the APR error status
+example to compile C<APR::Const::SUCCESS> and all the APR error status
 constants do:
 
   use APR::Const    -compile => qw(:error SUCCESS);
@@ -189,7 +189,7 @@ client.  For example:
   use APR::Const    -compile => qw(ENOTIME);
   $r->log_rerror(Apache2::Log::LOG_MARK,
                  Apache2::Const::LOG_ERR|Apache2::Const::LOG_TOCLIENT,
-                 APR::ENOTIME,
+                 APR::Const::ENOTIME,
                  "request log_rerror");
 
 now the log message can be retrieved via:
@@ -212,7 +212,7 @@ wanted. For example:
   use APR::Const    -compile => qw(SUCCESS);
   $s->log_serror(Apache2::Log::LOG_MARK,
                  Apache2::Const::LOG_INFO,
-                 APR::SUCCESS,
+                 APR::Const::SUCCESS,
                  "This log message comes with a header");
 
 will print:
@@ -225,7 +225,7 @@ whereas, when C<Apache2::Const::LOG_STARTUP> is binary ORed as in:
   use APR::Const    -compile => qw(SUCCESS);
   $s->log_serror(Apache2::Log::LOG_MARK,
                  Apache2::Const::LOG_INFO|Apache2::Const::LOG_STARTUP,
-                 APR::SUCCESS,
+                 APR::Const::SUCCESS,
                  "This log message comes with no header");
 
 then the logging will be:
@@ -340,10 +340,10 @@ For example:
   use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(ENOTIME SUCCESS);
   $s->log_serror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_ERR,
-                 APR::SUCCESS, "log_serror logging at err level");
+                 APR::Const::SUCCESS, "log_serror logging at err level");
   
   $s->log_serror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_DEBUG,
-                 APR::ENOTIME, "debug print");
+                 APR::Const::ENOTIME, "debug print");
 
 
 
@@ -358,7 +358,7 @@ For example:
 is the same as:
 
   $s->log_error(Apache2::Log::LOG_MARK, Apache2::Const::LOG_WARNING,
-                APR::SUCCESS, @warnings)
+                APR::Const::SUCCESS, @warnings)
 
 =over 4
 
@@ -512,10 +512,10 @@ For example:
   use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(ENOTIME SUCCESS);
   $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_ERR,
-                 APR::SUCCESS, "log_rerror logging at err level");
+                 APR::Const::SUCCESS, "log_rerror logging at err level");
   
   $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_DEBUG,
-                 APR::ENOTIME, "debug print");
+                 APR::Const::ENOTIME, "debug print");
 
 
 
@@ -528,7 +528,7 @@ For example:
 is the same as:
 
   $r->log_error(Apache2::Log::LOG_MARK, Apache2::Const::LOG_WARNING,
-                APR::SUCCESS, @warnings)
+                APR::Const::SUCCESS, @warnings)
 
 =over 4
 

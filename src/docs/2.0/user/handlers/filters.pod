@@ -537,7 +537,7 @@ Here is a code for a transparent input filter:
       my ($f, $bb, $mode, $block, $readbytes) = @_;
   
       my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
-      return $rv unless $rv == APR::SUCCESS;
+      return $rv unless $rv == APR::Const::SUCCESS;
   
       return Apache2::Const::OK;
   }
@@ -604,7 +604,7 @@ Here is an example of a transparent output filter:
       my ($f, $bb) = @_;
   
       my $rv = $f->next->pass_brigade($bb);
-      return $rv unless $rv == APR::SUCCESS;
+      return $rv unless $rv == APR::Const::SUCCESS;
   
       return Apache2::Const::OK;
   }
@@ -1192,7 +1192,7 @@ the request's I<args> and I<content> as strings:
       my $seen_eos = 0;
       do {
           $r->input_filters->get_brigade($bb, Apache2::Const::MODE_READBYTES,
-                                         APR::BLOCK_READ, IOBUFSIZE);
+                                         APR::Const::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
               if ($b->is_eos) {
@@ -1268,14 +1268,14 @@ Now let's write the snooping filter:
       if (defined $mode) {
           # input filter
           my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
-          return $rv unless $rv == APR::SUCCESS;
+          return $rv unless $rv == APR::Const::SUCCESS;
           bb_dump($type, $stream, $bb);
       }
       else {
           # output filter
           bb_dump($type, $stream, $bb);
           my $rv = $f->next->pass_brigade($bb);
-          return $rv unless $rv == APR::SUCCESS;
+          return $rv unless $rv == APR::Const::SUCCESS;
       }
   
       return Apache2::Const::OK;
@@ -1570,7 +1570,7 @@ the bucket brigades:
       return Apache2::Const::DECLINED if $f->ctx;
   
       my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
-      return $rv unless $rv == APR::SUCCESS;
+      return $rv unless $rv == APR::Const::SUCCESS;
   
       for (my $b = $bb->first; $b; $b = $bb->next($b)) {
           $b->read(my $data);
@@ -1644,7 +1644,7 @@ pass the bucket brigade to the downstream filter. Alternatively the
 filter could do:
 
     my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
-    return $rv unless $rv == APR::SUCCESS;
+    return $rv unless $rv == APR::Const::SUCCESS;
     return Apache2::Const::OK if $f->ctx;
 
 but this is a bit less efficient.
@@ -1800,7 +1800,7 @@ request's body: C<MyApache2::InputRequestFilterLC>:
       my $c = $f->c;
       my $bb_ctx = APR::Brigade->new($c->pool, $c->bucket_alloc);
       my $rv = $f->next->get_brigade($bb_ctx, $mode, $block, $readbytes);
-      return $rv unless $rv == APR::SUCCESS;
+      return $rv unless $rv == APR::Const::SUCCESS;
   
       while (!$bb_ctx->is_empty) {
           my $b = $bb_ctx->first;
@@ -2170,7 +2170,7 @@ to accomplish exactly the same task as the first filter.
       }
   
       my $rv = $f->next->pass_brigade($bb_ctx);
-      return $rv unless $rv == APR::SUCCESS;
+      return $rv unless $rv == APR::Const::SUCCESS;
   
       Apache2::Const::OK;
   }
@@ -2337,7 +2337,7 @@ implementation details. First let's look at the C<response()> handler
       my $seen_eos = 0;
       do {
           $r->input_filters->get_brigade($bb, Apache2::Const::MODE_READBYTES,
-                                         APR::BLOCK_READ, IOBUFSIZE);
+                                         APR::Const::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
               if ($b->is_eos) {

@@ -102,7 +102,7 @@ case you rewrite the code to handle the exception like this:
   my $tries = 0;
   RETRY: my $rlen = eval { $sock->recv($buff, 1024) };
   if ($@) {
-      die $@ unless ref $@ && $@ == APR::TIMEUP;
+      die $@ unless ref $@ && $@ == APR::Const::TIMEUP;
       goto RETRY if $tries++ < 3;
   }
   warn "read $rlen bytes\n";
@@ -119,7 +119,7 @@ C<select>. As a result the retry code may look like this:
   my $tries = 0;
   RETRY: my $rlen = eval { $sock->recv($buff, 1024) };
   if ($@) {
-      die $@ unless ref $@ && $@ == APR::TIMEUP;
+      die $@ unless ref $@ && $@ == APR::Const::TIMEUP;
       if ($tries++ < 3) {
           # sleep 250msec
           select undef, undef, undef, 0.25;
@@ -177,7 +177,7 @@ the code.
 
   my $rc = $c->input_filters->get_brigade($bb_in,
                                           Apache2::Const::MODE_GETLINE);
-  if ($rc != APR::SUCCESS && $rc != APR::EOF) {
+  if ($rc != APR::Const::SUCCESS && $rc != APR::Const::EOF) {
       my $error = APR::Error::strerror($rc);
       die "get_brigade error: $rc: $error\n";
   }

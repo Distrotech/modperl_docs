@@ -614,7 +614,7 @@ C<stat> record, like so:
   use APR::Finfo ();
   use APR::Const -compile => qw(FINFO_NORM);
   $r->filename($newfile);
-  $r->finfo(APR::Finfo::stat($newfile, APR::FINFO_NORM, $r->pool));
+  $r->finfo(APR::Finfo::stat($newfile, APR::Const::FINFO_NORM, $r->pool));
 
 if you don't, Apache will still try to use the previously cached
 information about the previously set value of the filename.
@@ -681,7 +681,7 @@ phase):
   use APR::Finfo ();
   use APR::Const -compile => qw(FINFO_NORM);
   
-  my $finfo = APR::Finfo::stat(__FILE__, APR::FINFO_NORM, $r->pool);
+  my $finfo = APR::Finfo::stat(__FILE__, APR::Const::FINFO_NORM, $r->pool);
   $r->finfo($finfo);
 
 =back
@@ -898,7 +898,7 @@ behind the scenes):
       my $seen_eos = 0;
       do {
           $r->input_filters->get_brigade($bb, Apache2::Const::MODE_READBYTES,
-                                         APR::BLOCK_READ, IOBUFSIZE);
+                                         APR::Const::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
               if ($b->is_eos) {

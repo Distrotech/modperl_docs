@@ -433,16 +433,16 @@ is used as a default value.
 constant|docs::2.0::api::APR::Const/C__input_mode_>> )
 
 You may ask the reading operation to be blocking:
-C<L<APR::BLOCK_READ|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>>,
+C<L<APR::Const::BLOCK_READ|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>>,
 or nonblocking:
-C<L<APR::NONBLOCK_READ|docs::2.0::api::APR::Const/C_APR__NONBLOCK_READ_>>.
+C<L<APR::Const::NONBLOCK_READ|docs::2.0::api::APR::Const/C_APR__NONBLOCK_READ_>>.
 
 If inside the filter handler, you should normally pass the same
 blocking mode argument that was passed to the filter handler (the
 forth argument).
 
 If the argument C<$block> is not passed,
-C<L<APR::BLOCK_READ|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>> is
+C<L<APR::Const::BLOCK_READ|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>> is
 used as a default value.
 
 
@@ -462,7 +462,7 @@ value.
 constant|docs::2.0::api::APR::Const>> )
 
 On success,
-C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
+C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
 returned and C<$bb> is populated (see the C<$bb> entry).
 
 In case of a failure -- a failure code is returned, in which case
@@ -472,7 +472,7 @@ If the bottom-most filter doesn't read from the network, then
 C<Apache2::NOBODY_READ> is returned (META: need to add this constant).
 
 Inside L<protocol handlers|docs::2.0::user::handlers::protocols> the
-return code can also be C<APR::EOF>, which is success as well.
+return code can also be C<APR::Const::EOF>, which is success as well.
 
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
@@ -484,11 +484,11 @@ in the VOID context, e.g.:
 
 mod_perl will do the error checking on your behalf, and if the return
 code is not
-C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>>, an
+C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>>, an
 C<L<APR::Error exception|docs::2.0::api::APR::Error>> will be thrown.
 The only time you want to do the error checking yourself, is when
 return codes besides
-C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> are
+C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> are
 considered as successful and you want to manage them by yourself.
 
 =item since: 1.99_15
@@ -551,7 +551,7 @@ from the upstream filter:
       my($f, $bb, $mode, $block, $readbytes) = @_;
       
       my $rc = $f->next->get_brigade($bb, $mode, $block, $readbytes);
-      return $rc unless $rc == APR::SUCCESS;
+      return $rc unless $rc == APR::Const::SUCCESS;
       
       # ... process $bb
       
@@ -621,7 +621,7 @@ argument to the filter handler (after potential manipulations).
 constant|docs::2.0::api::APR::Const>> )
 
 On success,
-C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
+C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
 returned.
 
 In case of a failure -- a failure code is returned, in which case
@@ -661,7 +661,7 @@ buckets in the bucket brigade):
       # ... process $bb
   
       my $rc = $f->next->pass_brigade($bb);
-      return $rc unless $rc == APR::SUCCESS;
+      return $rc unless $rc == APR::Const::SUCCESS;
   
       return Apache2::Const::OK;
   }

@@ -469,7 +469,7 @@ constant|docs::2.0::api::APR::Const/C__read_type_>> )
 
 optional reading mode constant.
 
-By default the read is blocking, via C<L<APR::BLOCK_READ
+By default the read is blocking, via C<L<APR::Const::BLOCK_READ
 constant|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>>.
 
 =item ret: C<$len> ( number )
@@ -499,7 +499,7 @@ Blocking read:
 Non-blocking read:
 
   use APR::Const -compile 'NONBLOCK_READ';
-  my $len = $b->read(my $buffer, APR::NONBLOCK_READ);
+  my $len = $b->read(my $buffer, APR::Const::NONBLOCK_READ);
 
 
 
@@ -571,7 +571,7 @@ Ensure the bucket's data lasts at least as long as the given pool:
 constant|docs::2.0::api::APR::Const>> )
 
 On success,
-C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
+C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
 returned. Otherwise a failure code is returned.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
@@ -584,13 +584,13 @@ i.e.:
 
 mod_perl will do the error checking on your behalf, and if the return
 code is not
-C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>>, an
+C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>>, an
 C<L<APR::Error exception|docs::2.0::api::APR::Error>> will be thrown.
 
 However if your code doesn't know which bucket types it may need to
 setaside, you may want to check the return code and deal with any
 errors. For example one of the possible error codes is
-C<L<APR::ENOTIMPL|docs::2.0::api::APR::Const/C_APR__ENOTIMPL_>>. As of
+C<L<APR::Const::ENOTIMPL|docs::2.0::api::APR::Const/C_APR__ENOTIMPL_>>. As of
 this writing the pipe and socket buckets can't C<setaside()>, in which
 case you may want to look at the C<ap_save_brigade()> implementation.
 

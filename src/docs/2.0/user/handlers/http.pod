@@ -496,7 +496,7 @@ and here is the C<MyApache2::SendEmail> handler:
       my $seen_eos = 0;
       do {
           $r->input_filters->get_brigade($bb, Apache2::Const::MODE_READBYTES,
-                                         APR::BLOCK_READ, IOBUFSIZE);
+                                         APR::Const::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
               if ($b->is_eos) {
@@ -1453,7 +1453,7 @@ the end of the request.
       qx(/bin/ls -l > $file);
   
       my $status = $r->sendfile($file);
-      die "sendfile has failed" unless $status == APR::SUCCESS;
+      die "sendfile has failed" unless $status == APR::Const::SUCCESS;
   
       $r->push_handlers(PerlCleanupHandler => \&cleanup);
   
@@ -1551,7 +1551,7 @@ technique:
       qx(/bin/ls -l > $file);
   
       my $status = $r->sendfile($file);
-      die "sendfile has failed" unless $status == APR::SUCCESS;
+      die "sendfile has failed" unless $status == APR::Const::SUCCESS;
   
       $r->pool->cleanup_register(\&cleanup, $file);
   

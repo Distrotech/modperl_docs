@@ -51,7 +51,7 @@ The C<:common> group is for XXX constants.
 
 
 
-=head3 C<APR::SUCCESS>
+=head3 C<APR::Const::SUCCESS>
 
 =over
 
@@ -72,7 +72,7 @@ The C<:error> group is for XXX constants.
 
 
 
-=head3 C<APR::EABOVEROOT>
+=head3 C<APR::Const::EABOVEROOT>
 
 =over
 
@@ -84,7 +84,7 @@ The C<:error> group is for XXX constants.
 
 
 
-=head3 C<APR::EABSOLUTE>
+=head3 C<APR::Const::EABSOLUTE>
 
 =over
 
@@ -96,7 +96,7 @@ The C<:error> group is for XXX constants.
 
 
 
-=head3 C<APR::EACCES>
+=head3 C<APR::Const::EACCES>
 
 =over
 
@@ -108,7 +108,7 @@ The C<:error> group is for XXX constants.
 
 
 
-=head3 C<APR::EAGAIN>
+=head3 C<APR::Const::EAGAIN>
 
 =over
 
@@ -121,7 +121,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EBADDATE>
+=head3 C<APR::Const::EBADDATE>
 
 =over
 
@@ -133,7 +133,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EBADF>
+=head3 C<APR::Const::EBADF>
 
 =over
 
@@ -145,7 +145,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EBADIP>
+=head3 C<APR::Const::EBADIP>
 
 =over
 
@@ -157,7 +157,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EBADMASK>
+=head3 C<APR::Const::EBADMASK>
 
 =over
 
@@ -169,7 +169,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EBADPATH>
+=head3 C<APR::Const::EBADPATH>
 
 =over
 
@@ -181,7 +181,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EBUSY>
+=head3 C<APR::Const::EBUSY>
 
 =over
 
@@ -193,7 +193,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ECONNABORTED>
+=head3 C<APR::Const::ECONNABORTED>
 
 =over
 
@@ -205,7 +205,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ECONNREFUSED>
+=head3 C<APR::Const::ECONNREFUSED>
 
 =over
 
@@ -217,7 +217,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ECONNRESET>
+=head3 C<APR::Const::ECONNRESET>
 
 =over
 
@@ -229,7 +229,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EDSOOPEN>
+=head3 C<APR::Const::EDSOOPEN>
 
 =over
 
@@ -241,7 +241,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EEXIST>
+=head3 C<APR::Const::EEXIST>
 
 =over
 
@@ -253,7 +253,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EFTYPE>
+=head3 C<APR::Const::EFTYPE>
 
 =over
 
@@ -265,7 +265,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EGENERAL>
+=head3 C<APR::Const::EGENERAL>
 
 =over
 
@@ -277,7 +277,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EHOSTUNREACH>
+=head3 C<APR::Const::EHOSTUNREACH>
 
 =over
 
@@ -289,7 +289,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EINCOMPLETE>
+=head3 C<APR::Const::EINCOMPLETE>
 
 =over
 
@@ -301,7 +301,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EINIT>
+=head3 C<APR::Const::EINIT>
 
 =over
 
@@ -313,7 +313,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EINPROGRESS>
+=head3 C<APR::Const::EINPROGRESS>
 
 =over
 
@@ -325,7 +325,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EINTR>
+=head3 C<APR::Const::EINTR>
 
 =over
 
@@ -337,7 +337,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EINVAL>
+=head3 C<APR::Const::EINVAL>
 
 =over
 
@@ -349,7 +349,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EINVALSOCK>
+=head3 C<APR::Const::EINVALSOCK>
 
 =over
 
@@ -361,7 +361,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EMFILE>
+=head3 C<APR::Const::EMFILE>
 
 =over
 
@@ -373,7 +373,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::EMISMATCH>
+=head3 C<APR::Const::EMISMATCH>
 
 =over
 
@@ -385,7 +385,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENAMETOOLONG>
+=head3 C<APR::Const::ENAMETOOLONG>
 
 =over
 
@@ -397,7 +397,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::END>
+=head3 C<APR::Const::END>
 
 =over
 
@@ -409,7 +409,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENETUNREACH>
+=head3 C<APR::Const::ENETUNREACH>
 
 =over
 
@@ -421,7 +421,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENFILE>
+=head3 C<APR::Const::ENFILE>
 
 =over
 
@@ -433,7 +433,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENODIR>
+=head3 C<APR::Const::ENODIR>
 
 =over
 
@@ -445,7 +445,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOENT>
+=head3 C<APR::Const::ENOENT>
 
 =over
 
@@ -457,7 +457,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOLOCK>
+=head3 C<APR::Const::ENOLOCK>
 
 =over
 
@@ -469,7 +469,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOMEM>
+=head3 C<APR::Const::ENOMEM>
 
 =over
 
@@ -481,7 +481,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOPOLL>
+=head3 C<APR::Const::ENOPOLL>
 
 =over
 
@@ -493,7 +493,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOPOOL>
+=head3 C<APR::Const::ENOPOOL>
 
 =over
 
@@ -505,7 +505,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOPROC>
+=head3 C<APR::Const::ENOPROC>
 
 =over
 
@@ -517,7 +517,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOSHMAVAIL>
+=head3 C<APR::Const::ENOSHMAVAIL>
 
 =over
 
@@ -529,7 +529,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOSOCKET>
+=head3 C<APR::Const::ENOSOCKET>
 
 =over
 
@@ -541,7 +541,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOSPC>
+=head3 C<APR::Const::ENOSPC>
 
 =over
 
@@ -553,7 +553,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOSTAT>
+=head3 C<APR::Const::ENOSTAT>
 
 =over
 
@@ -565,7 +565,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOTDIR>
+=head3 C<APR::Const::ENOTDIR>
 
 =over
 
@@ -577,7 +577,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOTEMPTY>
+=head3 C<APR::Const::ENOTEMPTY>
 
 =over
 
@@ -589,7 +589,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOTHDKEY>
+=head3 C<APR::Const::ENOTHDKEY>
 
 =over
 
@@ -601,7 +601,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOTHREAD>
+=head3 C<APR::Const::ENOTHREAD>
 
 =over
 
@@ -613,7 +613,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOTIME>
+=head3 C<APR::Const::ENOTIME>
 
 =over
 
@@ -625,7 +625,7 @@ different system calls, especially IO calls.
 
 
 
-=head3 C<APR::ENOTIMPL>
+=head3 C<APR::Const::ENOTIMPL>
 
 Something is not implemented
 
@@ -639,7 +639,7 @@ Something is not implemented
 
 
 
-=head3 C<APR::ENOTSOCK>
+=head3 C<APR::Const::ENOTSOCK>
 
 =over
 
@@ -651,7 +651,7 @@ Something is not implemented
 
 
 
-=head3 C<APR::EOF>
+=head3 C<APR::Const::EOF>
 
 =over
 
@@ -663,7 +663,7 @@ Something is not implemented
 
 
 
-=head3 C<APR::EPATHWILD>
+=head3 C<APR::Const::EPATHWILD>
 
 =over
 
@@ -675,7 +675,7 @@ Something is not implemented
 
 
 
-=head3 C<APR::EPIPE>
+=head3 C<APR::Const::EPIPE>
 
 =over
 
@@ -687,7 +687,7 @@ Something is not implemented
 
 
 
-=head3 C<APR::EPROC_UNKNOWN>
+=head3 C<APR::Const::EPROC_UNKNOWN>
 
 =over
 
@@ -699,7 +699,7 @@ Something is not implemented
 
 
 
-=head3 C<APR::ERELATIVE>
+=head3 C<APR::Const::ERELATIVE>
 
 =over
 
@@ -711,7 +711,7 @@ Something is not implemented
 
 
 
-=head3 C<APR::ESPIPE>
+=head3 C<APR::Const::ESPIPE>
 
 =over
 
@@ -723,7 +723,7 @@ Something is not implemented
 
 
 
-=head3 C<APR::ESYMNOTFOUND>
+=head3 C<APR::Const::ESYMNOTFOUND>
 
 =over
 
@@ -735,7 +735,7 @@ Something is not implemented
 
 
 
-=head3 C<APR::ETIMEDOUT>
+=head3 C<APR::Const::ETIMEDOUT>
 
 =over
 
@@ -747,7 +747,7 @@ Something is not implemented
 
 
 
-=head3 C<APR::EXDEV>
+=head3 C<APR::Const::EXDEV>
 
 =over
 
@@ -768,7 +768,7 @@ The C<:fopen> group is for XXX constants.
 
 
 
-=head3 C<APR::FOPEN_BINARY>
+=head3 C<APR::Const::FOPEN_BINARY>
 
 =over
 
@@ -780,7 +780,7 @@ The C<:fopen> group is for XXX constants.
 
 
 
-=head3 C<APR::FOPEN_BUFFERED>
+=head3 C<APR::Const::FOPEN_BUFFERED>
 
 =over
 
@@ -792,7 +792,7 @@ The C<:fopen> group is for XXX constants.
 
 
 
-=head3 C<APR::FOPEN_CREATE>
+=head3 C<APR::Const::FOPEN_CREATE>
 
 =over
 
@@ -804,7 +804,7 @@ The C<:fopen> group is for XXX constants.
 
 
 
-=head3 C<APR::FOPEN_DELONCLOSE>
+=head3 C<APR::Const::FOPEN_DELONCLOSE>
 
 =over
 
@@ -816,7 +816,7 @@ The C<:fopen> group is for XXX constants.
 
 
 
-=head3 C<APR::FOPEN_EXCL>
+=head3 C<APR::Const::FOPEN_EXCL>
 
 =over
 
@@ -828,7 +828,7 @@ The C<:fopen> group is for XXX constants.
 
 
 
-=head3 C<APR::FOPEN_PEND>
+=head3 C<APR::Const::FOPEN_PEND>
 
 =over
 
@@ -840,7 +840,7 @@ The C<:fopen> group is for XXX constants.
 
 
 
-=head3 C<APR::FOPEN_READ>
+=head3 C<APR::Const::FOPEN_READ>
 
 =over
 
@@ -852,7 +852,7 @@ The C<:fopen> group is for XXX constants.
 
 
 
-=head3 C<APR::FOPEN_TRUNCATE>
+=head3 C<APR::Const::FOPEN_TRUNCATE>
 
 =over
 
@@ -864,7 +864,7 @@ The C<:fopen> group is for XXX constants.
 
 
 
-=head3 C<APR::FOPEN_WRITE>
+=head3 C<APR::Const::FOPEN_WRITE>
 
 =over
 
@@ -886,7 +886,7 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head3 C<APR::FILEPATH_ENCODING_LOCALE>
+=head3 C<APR::Const::FILEPATH_ENCODING_LOCALE>
 
 =over
 
@@ -898,7 +898,7 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head3 C<APR::FILEPATH_ENCODING_UNKNOWN>
+=head3 C<APR::Const::FILEPATH_ENCODING_UNKNOWN>
 
 =over
 
@@ -910,7 +910,7 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head3 C<APR::FILEPATH_ENCODING_UTF8>
+=head3 C<APR::Const::FILEPATH_ENCODING_UTF8>
 
 =over
 
@@ -922,7 +922,7 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head3 C<APR::FILEPATH_NATIVE>
+=head3 C<APR::Const::FILEPATH_NATIVE>
 
 =over
 
@@ -934,7 +934,7 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head3 C<APR::FILEPATH_NOTABOVEROOT>
+=head3 C<APR::Const::FILEPATH_NOTABOVEROOT>
 
 =over
 
@@ -946,7 +946,7 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head3 C<APR::FILEPATH_NOTABSOLUTE>
+=head3 C<APR::Const::FILEPATH_NOTABSOLUTE>
 
 =over
 
@@ -958,7 +958,7 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head3 C<APR::FILEPATH_NOTRELATIVE>
+=head3 C<APR::Const::FILEPATH_NOTRELATIVE>
 
 =over
 
@@ -970,7 +970,7 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head3 C<APR::FILEPATH_SECUREROOT>
+=head3 C<APR::Const::FILEPATH_SECUREROOT>
 
 =over
 
@@ -982,7 +982,7 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head3 C<APR::FILEPATH_SECUREROOTTEST>
+=head3 C<APR::Const::FILEPATH_SECUREROOTTEST>
 
 =over
 
@@ -994,7 +994,7 @@ The C<:filepath> group is for XXX constants.
 
 
 
-=head3 C<APR::FILEPATH_TRUENAME>
+=head3 C<APR::Const::FILEPATH_TRUENAME>
 
 =over
 
@@ -1016,7 +1016,7 @@ C<L<$finfo-E<gt>protection|docs::2.0::api::APR::Finfo/C_protection_>>.
 
 
 
-=head3 C<APR::FPROT_GEXECUTE>
+=head3 C<APR::Const::FPROT_GEXECUTE>
 
 Execute by group
 
@@ -1031,7 +1031,7 @@ Execute by group
 
 
 
-=head3 C<APR::FPROT_GREAD>
+=head3 C<APR::Const::FPROT_GREAD>
 
 Read by group
 
@@ -1044,7 +1044,7 @@ Read by group
 
 
 
-=head3 C<APR::FPROT_GSETID>
+=head3 C<APR::Const::FPROT_GSETID>
 
 Set group id
 
@@ -1057,7 +1057,7 @@ Set group id
 
 
 
-=head3 C<APR::FPROT_GWRITE>
+=head3 C<APR::Const::FPROT_GWRITE>
 
 Write by group
 
@@ -1070,7 +1070,7 @@ Write by group
 
 
 
-=head3 C<APR::FPROT_OS_DEFAULT>
+=head3 C<APR::Const::FPROT_OS_DEFAULT>
 
 use OS's default permissions
 
@@ -1083,7 +1083,7 @@ use OS's default permissions
 
 
 
-=head3 C<APR::FPROT_UEXECUTE>
+=head3 C<APR::Const::FPROT_UEXECUTE>
 
 Execute by user
 
@@ -1096,7 +1096,7 @@ Execute by user
 
 
 
-=head3 C<APR::FPROT_UREAD>
+=head3 C<APR::Const::FPROT_UREAD>
 
 Read by user
 
@@ -1109,7 +1109,7 @@ Read by user
 
 
 
-=head3 C<APR::FPROT_USETID>
+=head3 C<APR::Const::FPROT_USETID>
 
 Set user id
 
@@ -1122,7 +1122,7 @@ Set user id
 
 
 
-=head3 C<APR::FPROT_UWRITE>
+=head3 C<APR::Const::FPROT_UWRITE>
 
 Write by user
 
@@ -1135,7 +1135,7 @@ Write by user
 
 
 
-=head3 C<APR::FPROT_WEXECUTE>
+=head3 C<APR::Const::FPROT_WEXECUTE>
 
 Execute by others
 
@@ -1148,7 +1148,7 @@ Execute by others
 
 
 
-=head3 C<APR::FPROT_WREAD>
+=head3 C<APR::Const::FPROT_WREAD>
 
 Read by others
 
@@ -1161,7 +1161,7 @@ Read by others
 
 
 
-=head3 C<APR::FPROT_WSTICKY>
+=head3 C<APR::Const::FPROT_WSTICKY>
 
 Sticky bit
 
@@ -1174,7 +1174,7 @@ Sticky bit
 
 
 
-=head3 C<APR::FPROT_WWRITE>
+=head3 C<APR::Const::FPROT_WWRITE>
 
 Write by others
 
@@ -1203,7 +1203,7 @@ C<L<$finfo-E<gt>filetype|docs::2.0::api::APR::Finfo/C_filetype_>>.
 
 
 
-=head3 C<APR::FILETYPE_BLK>
+=head3 C<APR::Const::FILETYPE_BLK>
 
 a file is a block device
 
@@ -1218,7 +1218,7 @@ a file is a block device
 
 
 
-=head3 C<APR::FILETYPE_CHR>
+=head3 C<APR::Const::FILETYPE_CHR>
 
 a file is a character device
 
@@ -1232,7 +1232,7 @@ a file is a character device
 
 
 
-=head3 C<APR::FILETYPE_DIR>
+=head3 C<APR::Const::FILETYPE_DIR>
 
 a file is a directory
 
@@ -1246,7 +1246,7 @@ a file is a directory
 
 
 
-=head3 C<APR::FILETYPE_LNK>
+=head3 C<APR::Const::FILETYPE_LNK>
 
 a file is a symbolic link
 
@@ -1260,7 +1260,7 @@ a file is a symbolic link
 
 
 
-=head3 C<APR::FILETYPE_NOFILE>
+=head3 C<APR::Const::FILETYPE_NOFILE>
 
 the file type is undedetermined.
 
@@ -1274,7 +1274,7 @@ the file type is undedetermined.
 
 
 
-=head3 C<APR::FILETYPE_PIPE>
+=head3 C<APR::Const::FILETYPE_PIPE>
 
 a file is a FIFO or a pipe.
 
@@ -1288,7 +1288,7 @@ a file is a FIFO or a pipe.
 
 
 
-=head3 C<APR::FILETYPE_REG>
+=head3 C<APR::Const::FILETYPE_REG>
 
 a file is a regular file.
 
@@ -1302,7 +1302,7 @@ a file is a regular file.
 
 
 
-=head3 C<APR::FILETYPE_SOCK>
+=head3 C<APR::Const::FILETYPE_SOCK>
 
 a file is a [unix domain] socket.
 
@@ -1316,7 +1316,7 @@ a file is a [unix domain] socket.
 
 
 
-=head3 C<APR::FILETYPE_UNKFILE>
+=head3 C<APR::Const::FILETYPE_UNKFILE>
 
 a file is of some other unknown type or the type cannot be determined.
 
@@ -1346,7 +1346,7 @@ C<L<$finfo-E<gt>valid|docs::2.0::api::APR::Finfo/C_valid_>>.
 
 
 
-=head3 C<APR::FINFO_ATIME>
+=head3 C<APR::Const::FINFO_ATIME>
 
 Access Time
 
@@ -1360,7 +1360,7 @@ Access Time
 
 
 
-=head3 C<APR::FINFO_CSIZE>
+=head3 C<APR::Const::FINFO_CSIZE>
 
 Storage size consumed by the file
 
@@ -1374,7 +1374,7 @@ Storage size consumed by the file
 
 
 
-=head3 C<APR::FINFO_CTIME>
+=head3 C<APR::Const::FINFO_CTIME>
 
 Creation Time
 
@@ -1388,7 +1388,7 @@ Creation Time
 
 
 
-=head3 C<APR::FINFO_DEV>
+=head3 C<APR::Const::FINFO_DEV>
 
 Device
 
@@ -1402,7 +1402,7 @@ Device
 
 
 
-=head3 C<APR::FINFO_DIRENT>
+=head3 C<APR::Const::FINFO_DIRENT>
 
 an atomic unix apr_dir_read()
 
@@ -1416,7 +1416,7 @@ an atomic unix apr_dir_read()
 
 
 
-=head3 C<APR::FINFO_GPROT>
+=head3 C<APR::Const::FINFO_GPROT>
 
 Group protection bits
 
@@ -1430,7 +1430,7 @@ Group protection bits
 
 
 
-=head3 C<APR::FINFO_GROUP>
+=head3 C<APR::Const::FINFO_GROUP>
 
 Group id
 
@@ -1444,7 +1444,7 @@ Group id
 
 
 
-=head3 C<APR::FINFO_ICASE>
+=head3 C<APR::Const::FINFO_ICASE>
 
 whether device is case insensitive
 
@@ -1458,7 +1458,7 @@ whether device is case insensitive
 
 
 
-=head3 C<APR::FINFO_IDENT>
+=head3 C<APR::Const::FINFO_IDENT>
 
 device and inode
 
@@ -1472,7 +1472,7 @@ device and inode
 
 
 
-=head3 C<APR::FINFO_INODE>
+=head3 C<APR::Const::FINFO_INODE>
 
 Inode
 
@@ -1486,7 +1486,7 @@ Inode
 
 
 
-=head3 C<APR::FINFO_LINK>
+=head3 C<APR::Const::FINFO_LINK>
 
 Stat the link not the file itself if it is a link
 
@@ -1500,7 +1500,7 @@ Stat the link not the file itself if it is a link
 
 
 
-=head3 C<APR::FINFO_MIN>
+=head3 C<APR::Const::FINFO_MIN>
 
 type, mtime, ctime, atime, size
 
@@ -1514,7 +1514,7 @@ type, mtime, ctime, atime, size
 
 
 
-=head3 C<APR::FINFO_MTIME>
+=head3 C<APR::Const::FINFO_MTIME>
 
 Modification Time
 
@@ -1528,7 +1528,7 @@ Modification Time
 
 
 
-=head3 C<APR::FINFO_NAME>
+=head3 C<APR::Const::FINFO_NAME>
 
 name in proper case
 
@@ -1542,7 +1542,7 @@ name in proper case
 
 
 
-=head3 C<APR::FINFO_NLINK>
+=head3 C<APR::Const::FINFO_NLINK>
 
 Number of links
 
@@ -1556,7 +1556,7 @@ Number of links
 
 
 
-=head3 C<APR::FINFO_NORM>
+=head3 C<APR::Const::FINFO_NORM>
 
 All fields provided by an atomic unix apr_stat()
 
@@ -1570,7 +1570,7 @@ All fields provided by an atomic unix apr_stat()
 
 
 
-=head3 C<APR::FINFO_OWNER>
+=head3 C<APR::Const::FINFO_OWNER>
 
 user and group
 
@@ -1584,7 +1584,7 @@ user and group
 
 
 
-=head3 C<APR::FINFO_PROT>
+=head3 C<APR::Const::FINFO_PROT>
 
 all protections
 
@@ -1598,7 +1598,7 @@ all protections
 
 
 
-=head3 C<APR::FINFO_SIZE>
+=head3 C<APR::Const::FINFO_SIZE>
 
 Size of the file
 
@@ -1612,7 +1612,7 @@ Size of the file
 
 
 
-=head3 C<APR::FINFO_TYPE>
+=head3 C<APR::Const::FINFO_TYPE>
 
 Type
 
@@ -1626,7 +1626,7 @@ Type
 
 
 
-=head3 C<APR::FINFO_UPROT>
+=head3 C<APR::Const::FINFO_UPROT>
 
 User protection bits
 
@@ -1640,7 +1640,7 @@ User protection bits
 
 
 
-=head3 C<APR::FINFO_USER>
+=head3 C<APR::Const::FINFO_USER>
 
 User id
 
@@ -1654,7 +1654,7 @@ User id
 
 
 
-=head3 C<APR::FINFO_WPROT>
+=head3 C<APR::Const::FINFO_WPROT>
 
 World protection bits
 
@@ -1681,7 +1681,7 @@ The C<:flock> group is for XXX constants.
 
 
 
-=head3 C<APR::FLOCK_EXCLUSIVE>
+=head3 C<APR::Const::FLOCK_EXCLUSIVE>
 
 =over
 
@@ -1693,7 +1693,7 @@ The C<:flock> group is for XXX constants.
 
 
 
-=head3 C<APR::FLOCK_NONBLOCK>
+=head3 C<APR::Const::FLOCK_NONBLOCK>
 
 =over
 
@@ -1705,7 +1705,7 @@ The C<:flock> group is for XXX constants.
 
 
 
-=head3 C<APR::FLOCK_SHARED>
+=head3 C<APR::Const::FLOCK_SHARED>
 
 =over
 
@@ -1717,7 +1717,7 @@ The C<:flock> group is for XXX constants.
 
 
 
-=head3 C<APR::FLOCK_TYPEMASK>
+=head3 C<APR::Const::FLOCK_TYPEMASK>
 
 =over
 
@@ -1738,7 +1738,7 @@ The C<:hook> group is for XXX constants.
 
 
 
-=head3 C<APR::HOOK_FIRST>
+=head3 C<APR::Const::HOOK_FIRST>
 
 =over
 
@@ -1750,7 +1750,7 @@ The C<:hook> group is for XXX constants.
 
 
 
-=head3 C<APR::HOOK_LAST>
+=head3 C<APR::Const::HOOK_LAST>
 
 =over
 
@@ -1762,7 +1762,7 @@ The C<:hook> group is for XXX constants.
 
 
 
-=head3 C<APR::HOOK_MIDDLE>
+=head3 C<APR::Const::HOOK_MIDDLE>
 
 =over
 
@@ -1774,7 +1774,7 @@ The C<:hook> group is for XXX constants.
 
 
 
-=head3 C<APR::HOOK_REALLY_FIRST>
+=head3 C<APR::Const::HOOK_REALLY_FIRST>
 
 =over
 
@@ -1786,7 +1786,7 @@ The C<:hook> group is for XXX constants.
 
 
 
-=head3 C<APR::HOOK_REALLY_LAST>
+=head3 C<APR::Const::HOOK_REALLY_LAST>
 
 =over
 
@@ -1807,7 +1807,7 @@ The C<:limit> group is for XXX constants.
 
 
 
-=head3 C<APR::LIMIT_CPU>
+=head3 C<APR::Const::LIMIT_CPU>
 
 =over
 
@@ -1819,7 +1819,7 @@ The C<:limit> group is for XXX constants.
 
 
 
-=head3 C<APR::LIMIT_MEM>
+=head3 C<APR::Const::LIMIT_MEM>
 
 =over
 
@@ -1831,7 +1831,7 @@ The C<:limit> group is for XXX constants.
 
 
 
-=head3 C<APR::LIMIT_NOFILE>
+=head3 C<APR::Const::LIMIT_NOFILE>
 
 =over
 
@@ -1843,7 +1843,7 @@ The C<:limit> group is for XXX constants.
 
 
 
-=head3 C<APR::LIMIT_NPROC>
+=head3 C<APR::Const::LIMIT_NPROC>
 
 =over
 
@@ -1864,7 +1864,7 @@ The C<:lockmech> group is for XXX constants.
 
 
 
-=head3 C<APR::LOCK_DEFAULT>
+=head3 C<APR::Const::LOCK_DEFAULT>
 
 =over
 
@@ -1876,7 +1876,7 @@ The C<:lockmech> group is for XXX constants.
 
 
 
-=head3 C<APR::LOCK_FCNTL>
+=head3 C<APR::Const::LOCK_FCNTL>
 
 =over
 
@@ -1888,7 +1888,7 @@ The C<:lockmech> group is for XXX constants.
 
 
 
-=head3 C<APR::LOCK_FLOCK>
+=head3 C<APR::Const::LOCK_FLOCK>
 
 =over
 
@@ -1900,7 +1900,7 @@ The C<:lockmech> group is for XXX constants.
 
 
 
-=head3 C<APR::LOCK_POSIXSEM>
+=head3 C<APR::Const::LOCK_POSIXSEM>
 
 =over
 
@@ -1912,7 +1912,7 @@ The C<:lockmech> group is for XXX constants.
 
 
 
-=head3 C<APR::LOCK_PROC_PTHREAD>
+=head3 C<APR::Const::LOCK_PROC_PTHREAD>
 
 =over
 
@@ -1924,7 +1924,7 @@ The C<:lockmech> group is for XXX constants.
 
 
 
-=head3 C<APR::LOCK_SYSVSEM>
+=head3 C<APR::Const::LOCK_SYSVSEM>
 
 =over
 
@@ -1946,7 +1946,7 @@ C<L<poll|docs::2.0::api::APR::Socket/C_poll_>>.
 
 
 
-=head3 C<APR::POLLERR>
+=head3 C<APR::Const::POLLERR>
 
 =over
 
@@ -1959,7 +1959,7 @@ Pending error
 
 
 
-=head3 C<APR::POLLHUP>
+=head3 C<APR::Const::POLLHUP>
 
 =over
 
@@ -1972,7 +1972,7 @@ Hangup occurred
 
 
 
-=head3 C<APR::POLLIN>
+=head3 C<APR::Const::POLLIN>
 
 =over
 
@@ -1985,7 +1985,7 @@ Can read without blocking
 
 
 
-=head3 C<APR::POLLNVAL>
+=head3 C<APR::Const::POLLNVAL>
 
 =over
 
@@ -1998,7 +1998,7 @@ Descriptior invalid
 
 
 
-=head3 C<APR::POLLOUT>
+=head3 C<APR::Const::POLLOUT>
 
 =over
 
@@ -2012,7 +2012,7 @@ Can write without blocking
 
 
 
-=head3 C<APR::POLLPRI>
+=head3 C<APR::Const::POLLPRI>
 
 =over
 
@@ -2043,7 +2043,7 @@ The C<:read_type> group is for IO constants.
 
 
 
-=head3 C<APR::BLOCK_READ>
+=head3 C<APR::Const::BLOCK_READ>
 
 =over
 
@@ -2057,7 +2057,7 @@ the read function blocks
 
 
 
-=head3 C<APR::NONBLOCK_READ>
+=head3 C<APR::Const::NONBLOCK_READ>
 
 =over
 
@@ -2086,7 +2086,7 @@ The C<:shutdown_how> group is for XXX constants.
 
 
 
-=head3 C<APR::SHUTDOWN_READ>
+=head3 C<APR::Const::SHUTDOWN_READ>
 
 =over
 
@@ -2098,7 +2098,7 @@ The C<:shutdown_how> group is for XXX constants.
 
 
 
-=head3 C<APR::SHUTDOWN_READWRITE>
+=head3 C<APR::Const::SHUTDOWN_READWRITE>
 
 =over
 
@@ -2110,7 +2110,7 @@ The C<:shutdown_how> group is for XXX constants.
 
 
 
-=head3 C<APR::SHUTDOWN_WRITE>
+=head3 C<APR::Const::SHUTDOWN_WRITE>
 
 =over
 
@@ -2137,7 +2137,7 @@ constants.
 
 
 
-=head3 C<APR::SO_DEBUG>
+=head3 C<APR::Const::SO_DEBUG>
 
 Possible values:
 
@@ -2154,7 +2154,7 @@ Turns on debugging information
 
 
 
-=head3 C<APR::SO_DISCONNECTED>
+=head3 C<APR::Const::SO_DISCONNECTED>
 
 Queries the disconnected state of the socket.  (Currently only used on
 Windows)
@@ -2174,7 +2174,7 @@ XXX
 
 
 
-=head3 C<APR::SO_KEEPALIVE>
+=head3 C<APR::Const::SO_KEEPALIVE>
 
 Keeps connections active
 
@@ -2195,7 +2195,7 @@ XXX
 
 
 
-=head3 C<APR::SO_LINGER>
+=head3 C<APR::Const::SO_LINGER>
 
 Lingers on close if data is present
 
@@ -2211,7 +2211,7 @@ Lingers on close if data is present
 
 
 
-=head3 C<APR::SO_NONBLOCK>
+=head3 C<APR::Const::SO_NONBLOCK>
 
 Turns blocking IO mode on/off for socket.
 
@@ -2225,8 +2225,8 @@ For example, to set a socket to a blocking IO mode:
   use APR::Socket ();
   use APR::Const    -compile => qw(SO_NONBLOCK);
   ...
-  if ($socket->opt_get(APR::SO_NONBLOCK)) {
-      $socket->opt_set(APR::SO_NONBLOCK => 0);
+  if ($socket->opt_get(APR::Const::SO_NONBLOCK)) {
+      $socket->opt_set(APR::Const::SO_NONBLOCK => 0);
   }
 
 You don't have to query for this option, before setting it. It was
@@ -2246,7 +2246,7 @@ done for the demonstration purpose.
 
 
 
-=head3 C<APR::SO_RCVBUF>
+=head3 C<APR::Const::SO_RCVBUF>
 
 Controls the C<ReceiveBufferSize> setting
 
@@ -2267,7 +2267,7 @@ XXX
 
 
 
-=head3 C<APR::SO_REUSEADDR>
+=head3 C<APR::Const::SO_REUSEADDR>
 
 The rules used in validating addresses supplied to bind should allow
 reuse of local addresses.
@@ -2289,7 +2289,7 @@ XXX
 
 
 
-=head3 C<APR::SO_SNDBUF>
+=head3 C<APR::Const::SO_SNDBUF>
 
 Controls the C<SendBufferSize> setting
 
@@ -2320,7 +2320,7 @@ C<:status> constants.
 
 
 
-=head3 C<APR::TIMEUP>
+=head3 C<APR::Const::TIMEUP>
 
 The operation did not finish before the timeout.
 
@@ -2353,7 +2353,7 @@ See C<L<APR::Table|docs::2.0::api::APR::Table>> for details.
 
 
 
-=head3 C<APR::OVERLAP_TABLES_MERGE>
+=head3 C<APR::Const::OVERLAP_TABLES_MERGE>
 
 =over
 
@@ -2368,7 +2368,7 @@ and C<L<APR::Table::overlap|docs::2.0::api::APR::Table/C_overlap_>>.
 
 
 
-=head3 C<APR::OVERLAP_TABLES_SET>
+=head3 C<APR::Const::OVERLAP_TABLES_SET>
 
 =over
 
@@ -2392,7 +2392,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-=head3 C<APR::URI_ACAP_DEFAULT_PORT>
+=head3 C<APR::Const::URI_ACAP_DEFAULT_PORT>
 
 =over
 
@@ -2404,7 +2404,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-=head3 C<APR::URI_FTP_DEFAULT_PORT>
+=head3 C<APR::Const::URI_FTP_DEFAULT_PORT>
 
 =over
 
@@ -2416,7 +2416,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-=head3 C<APR::URI_GOPHER_DEFAULT_PORT>
+=head3 C<APR::Const::URI_GOPHER_DEFAULT_PORT>
 
 =over
 
@@ -2428,20 +2428,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-=head3 C<APR::URI_HTTPS_DEFAULT_PORT>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-
-=head3 C<APR::URI_HTTP_DEFAULT_PORT>
+=head3 C<APR::Const::URI_HTTPS_DEFAULT_PORT>
 
 =over
 
@@ -2454,19 +2441,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-=head3 C<APR::URI_IMAP_DEFAULT_PORT>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<APR::URI_LDAP_DEFAULT_PORT>
+=head3 C<APR::Const::URI_HTTP_DEFAULT_PORT>
 
 =over
 
@@ -2479,7 +2454,19 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-=head3 C<APR::URI_NFS_DEFAULT_PORT>
+=head3 C<APR::Const::URI_IMAP_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+=head3 C<APR::Const::URI_LDAP_DEFAULT_PORT>
 
 =over
 
@@ -2492,7 +2479,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-=head3 C<APR::URI_NNTP_DEFAULT_PORT>
+=head3 C<APR::Const::URI_NFS_DEFAULT_PORT>
 
 =over
 
@@ -2505,7 +2492,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-=head3 C<APR::URI_POP_DEFAULT_PORT>
+=head3 C<APR::Const::URI_NNTP_DEFAULT_PORT>
 
 =over
 
@@ -2518,7 +2505,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-=head3 C<APR::URI_PROSPERO_DEFAULT_PORT>
+=head3 C<APR::Const::URI_POP_DEFAULT_PORT>
 
 =over
 
@@ -2531,7 +2518,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-=head3 C<APR::URI_RTSP_DEFAULT_PORT>
+=head3 C<APR::Const::URI_PROSPERO_DEFAULT_PORT>
 
 =over
 
@@ -2544,8 +2531,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-
-=head3 C<APR::URI_SIP_DEFAULT_PORT>
+=head3 C<APR::Const::URI_RTSP_DEFAULT_PORT>
 
 =over
 
@@ -2559,47 +2545,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-
-
-=head3 C<APR::URI_SNEWS_DEFAULT_PORT>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<APR::URI_SSH_DEFAULT_PORT>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-=head3 C<APR::URI_TELNET_DEFAULT_PORT>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-
-
-=head3 C<APR::URI_TIP_DEFAULT_PORT>
+=head3 C<APR::Const::URI_SIP_DEFAULT_PORT>
 
 =over
 
@@ -2614,7 +2560,8 @@ The C<:uri> group of constants is for manipulating URIs.
 
 
 
-=head3 C<APR::URI_UNP_OMITPASSWORD>
+
+=head3 C<APR::Const::URI_SNEWS_DEFAULT_PORT>
 
 =over
 
@@ -2622,7 +2569,43 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =back
 
-See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
+
+
+
+
+=head3 C<APR::Const::URI_SSH_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+=head3 C<APR::Const::URI_TELNET_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
+
+=head3 C<APR::Const::URI_TIP_DEFAULT_PORT>
+
+=over
+
+=item since: 1.99_12
+
+=back
 
 
 
@@ -2631,7 +2614,7 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 
 
-=head3 C<APR::URI_UNP_OMITPATHINFO>
+=head3 C<APR::Const::URI_UNP_OMITPASSWORD>
 
 =over
 
@@ -2648,7 +2631,7 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 
 
-=head3 C<APR::URI_UNP_OMITQUERY>
+=head3 C<APR::Const::URI_UNP_OMITPATHINFO>
 
 =over
 
@@ -2665,7 +2648,7 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 
 
-=head3 C<APR::URI_UNP_OMITSITEPART>
+=head3 C<APR::Const::URI_UNP_OMITQUERY>
 
 =over
 
@@ -2681,36 +2664,8 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 
 
-=head3 C<APR::URI_UNP_OMITUSER>
 
-=over
-
-=item since: 1.99_12
-
-=back
-
-See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
-
-
-
-
-
-=head3 C<APR::URI_UNP_OMITUSERINFO>
-
-=over
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
-
-
-
-=head3 C<APR::URI_UNP_REVEALPASSWORD>
+=head3 C<APR::Const::URI_UNP_OMITSITEPART>
 
 =over
 
@@ -2726,7 +2681,52 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 
 
-=head3 C<APR::URI_WAIS_DEFAULT_PORT>
+=head3 C<APR::Const::URI_UNP_OMITUSER>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
+
+
+
+
+
+=head3 C<APR::Const::URI_UNP_OMITUSERINFO>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
+
+
+=head3 C<APR::Const::URI_UNP_REVEALPASSWORD>
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
+
+
+
+
+
+
+
+=head3 C<APR::Const::URI_WAIS_DEFAULT_PORT>
 
 =over
 

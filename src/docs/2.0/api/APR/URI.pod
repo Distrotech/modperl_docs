@@ -37,7 +37,7 @@ APR::URI - Perl API for URI manipulations
   
   # get the password field too (by default it's not revealed)
   use APR::Const -compile => qw(URI_UNP_REVEALPASSWORD);
-  print $parsed->unparse(APR::URI_UNP_REVEALPASSWORD);
+  print $parsed->unparse(APR::Const::URI_UNP_REVEALPASSWORD);
   
   # what the default port for the ftp protocol?
   my $ftp_port = APR::URI::port_of_scheme("ftp");
@@ -447,11 +447,11 @@ Unparse the URI components back into a URI string
 =item opt arg1: C<$flags> ( L<the APR::Const :uri
 constants|docs::2.0::api::APR::Const/C__uri_> )
 
-By default the constant C<APR::URI_UNP_OMITPASSWORD> is passed.
+By default the constant C<APR::Const::URI_UNP_OMITPASSWORD> is passed.
 
 If you need to pass more than one flag use unary C<|>, e.g.:
 
-  $flags = APR::URI_UNP_OMITUSER|APR::URI_UNP_OMITPASSWORD;
+  $flags = APR::Const::URI_UNP_OMITUSER|APR::Const::URI_UNP_OMITPASSWORD;
 
 The valid C<flags> constants are listed next
 
@@ -476,31 +476,31 @@ And the available constants are:
 
 =over 4
 
-=item C<APR::URI_UNP_OMITSITEPART>
+=item C<APR::Const::URI_UNP_OMITSITEPART>
 
 Don't show C<L<scheme|/C_scheme_>>, C<L<user|/C_user_>>,
 C<L<password|/C_password_>>, C<L<hostname|/C_hostname_>> and
 C<L<port|/C_port_>> components (i.e. if you want only the relative
 URI)
 
-=item C<APR::URI_UNP_OMITUSER>
+=item C<APR::Const::URI_UNP_OMITUSER>
 
 Hide the C<L<user|/C_user_>> component
 
-=item C<APR::URI_UNP_OMITPASSWORD>
+=item C<APR::Const::URI_UNP_OMITPASSWORD>
 
 Hide the C<L<password|/C_password_>> component (the default)
 
-=item C<APR::URI_UNP_REVEALPASSWORD>
+=item C<APR::Const::URI_UNP_REVEALPASSWORD>
 
 Reveal the C<L<password|/C_password_>> component
 
-=item C<APR::URI_UNP_OMITPATHINFO>
+=item C<APR::Const::URI_UNP_OMITPATHINFO>
 
 Don't show C<L<path|/C_path_>>, C<L<query|/C_query_>> and
 C<L<fragment|/C_fragment_>> components
 
-=item C<APR::URI_UNP_OMITQUERY>
+=item C<APR::Const::URI_UNP_OMITQUERY>
 
 Don't show C<L<query|/C_query_>> and C<L<fragment|/C_fragment_>>
 components
@@ -510,7 +510,7 @@ components
 Notice that some flags overlap.
 
 If the optional C<$flags> argument is passed and contains no
-C<APR::URI_UNP_OMITPASSWORD> and no C<APR::URI_UNP_REVEALPASSWORD> --
+C<APR::Const::URI_UNP_OMITPASSWORD> and no C<APR::Const::URI_UNP_REVEALPASSWORD> --
 the C<L<password|/C_password_>> part will be rendered as a literal
 C<"XXXXXXXX"> string.
 
@@ -552,7 +552,7 @@ C<http://>.
 Include the C<L<password|/C_password_>> field (by default it's not revealed)
 
   use APR::Const -compile => qw(URI_UNP_REVEALPASSWORD);
-  print $parsed->unparse(APR::URI_UNP_REVEALPASSWORD);
+  print $parsed->unparse(APR::Const::URI_UNP_REVEALPASSWORD);
 
 Prints:
 
@@ -564,9 +564,9 @@ Show all fields but the last three, C<L<path|/C_path_>>,
 C<L<query|/C_query_>> and C<L<fragment|/C_fragment_>>:
 
   use APR::Const -compile => qw(URI_UNP_REVEALPASSWORD
-                                APR::URI_UNP_OMITPATHINFO);
+                                APR::Const::URI_UNP_OMITPATHINFO);
   print $parsed->unparse(
-      APR::URI_UNP_REVEALPASSWORD|URI_UNP_OMITPATHINFO);
+      APR::Const::URI_UNP_REVEALPASSWORD|URI_UNP_OMITPATHINFO);
 
 Prints:
 

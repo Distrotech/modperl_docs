@@ -24,9 +24,9 @@ APR::Table - Perl API for manipulating APR opaque string-content tables
   
   use APR::Const -compile qw(:table);
   $table_overlay = $table_base->overlay($table_overlay, $pool);
-  $table_overlay->compress(APR::OVERLAP_TABLES_MERGE);
+  $table_overlay->compress(APR::Const::OVERLAP_TABLES_MERGE);
   
-  $table_a->overlap($table_b, APR::OVERLAP_TABLES_SET);
+  $table_a->overlap($table_b, APR::Const::OVERLAP_TABLES_SET);
   
   $table->do(sub {print "key $_[0], value $_[1]\n"}, @valid_keys);
   
@@ -160,8 +160,8 @@ The table to compress.
 =item arg1: C<$flags>
 (C<L<APR::Const constant|docs::2.0::api::APR::Const>>)
 
-  APR::OVERLAP_TABLES_MERGE -- to merge
-  APR::OVERLAP_TABLES_SET   -- to overwrite
+  APR::Const::OVERLAP_TABLES_MERGE -- to merge
+  APR::Const::OVERLAP_TABLES_SET   -- to overwrite
 
 =item ret: no return value
 
@@ -174,12 +174,12 @@ function takes duplicate table entries and flattens them into a single
 entry.  The flattening behavior is controlled by the (mandatory)
 C<$flags> argument.
 
-When C<$flags> == C<APR::OVERLAP_TABLES_SET>, each key will be set to
+When C<$flags> == C<APR::Const::OVERLAP_TABLES_SET>, each key will be set to
 the last value seen for that key.  For example, given key/value pairs
 'foo =E<gt> bar' and 'foo =E<gt> baz', 'foo' would have a final value
 of 'baz' after compression -- the 'bar' value would be lost.
 
-When C<$flags> == C<APR::OVERLAP_TABLES_MERGE>, multiple values for
+When C<$flags> == C<APR::Const::OVERLAP_TABLES_MERGE>, multiple values for
 the same key are flattened into a comma-separated list.  Given
 key/value pairs 'foo =E<gt> bar' and 'foo =E<gt> baz', 'foo' would
 have a final value of 'bar, baz' after compression.
@@ -199,7 +199,7 @@ Examples:
 
 =over
 
-=item * C<APR::OVERLAP_TABLES_SET>
+=item * C<APR::Const::OVERLAP_TABLES_SET>
 
 Start with table C<$table>:
 
@@ -218,9 +218,9 @@ which is done by:
   $table->add(foo => 'two');
   $table->add(foo => 'three');
 
-Now compress it using C<APR::OVERLAP_TABLES_SET>:
+Now compress it using C<APR::Const::OVERLAP_TABLES_SET>:
 
-  $table->compress(APR::OVERLAP_TABLES_SET);
+  $table->compress(APR::Const::OVERLAP_TABLES_SET);
 
 Now table C<$table> contains:
 
@@ -233,7 +233,7 @@ the other values.
 
 
 
-=item * C<APR::OVERLAP_TABLES_MERGE>
+=item * C<APR::Const::OVERLAP_TABLES_MERGE>
 
 Start with table C<$table>:
 
@@ -243,9 +243,9 @@ Start with table C<$table>:
   bar => "beer"
 
 as in the previous example, now compress it using
-C<APR::OVERLAP_TABLES_MERGE>:
+C<APR::Const::OVERLAP_TABLES_MERGE>:
 
-  $table->compress(APR::OVERLAP_TABLES_MERGE);
+  $table->compress(APR::Const::OVERLAP_TABLES_MERGE);
 
 Now table C<$table> contains:
 
@@ -571,10 +571,10 @@ The table to iterate over, adding its data to table C<$table_a>
 
 How to add the table to table C<$table_a>.
 
-When C<$flags> == C<APR::OVERLAP_TABLES_SET>, if another element
+When C<$flags> == C<APR::Const::OVERLAP_TABLES_SET>, if another element
 already exists with the same key, this will over-write the old data.
 
-When C<$flags> == C<APR::OVERLAP_TABLES_MERGE>, the key/value pair
+When C<$flags> == C<APR::Const::OVERLAP_TABLES_MERGE>, the key/value pair
 from C<$table_b> is added, regardless of whether there is another
 element with the same key in C<$table_a>.
 
@@ -622,7 +622,7 @@ Examples:
 
 =over
 
-=item * C<APR::OVERLAP_TABLES_SET>
+=item * C<APR::Const::OVERLAP_TABLES_SET>
 
 Start with table C<$base>:
 
@@ -646,9 +646,9 @@ which is done by:
   
   $add->set(foo => 'three');
 
-Now overlap using C<APR::OVERLAP_TABLES_SET>:
+Now overlap using C<APR::Const::OVERLAP_TABLES_SET>:
 
-  $base->overlap($add, APR::OVERLAP_TABLES_SET);
+  $base->overlap($add, APR::Const::OVERLAP_TABLES_SET);
 
 Now table C<$add> is unmodified and table C<$base> contains:
 
@@ -658,10 +658,10 @@ Now table C<$add> is unmodified and table C<$base> contains:
 The value from table C<add> has overwritten all previous values for
 the same key both had (I<foo>).  This is the same as doing
 C<L<overlay()|/C_overlay_>> followed by C<L<compress()|/C_compress_>>
-with C<APR::OVERLAP_TABLES_SET>.
+with C<APR::Const::OVERLAP_TABLES_SET>.
 
 
-=item * C<APR::OVERLAP_TABLES_MERGE>
+=item * C<APR::Const::OVERLAP_TABLES_MERGE>
 
 Start with table C<$base>:
 
@@ -685,9 +685,9 @@ which is done by:
   $add->set(foo => 'three');
   $add->set(bar => 'beer');
 
-Now overlap using C<APR::OVERLAP_TABLES_MERGE>:
+Now overlap using C<APR::Const::OVERLAP_TABLES_MERGE>:
 
-  $base->overlap($add, APR::OVERLAP_TABLES_MERGE);
+  $base->overlap($add, APR::Const::OVERLAP_TABLES_MERGE);
 
 Now table C<$add> is unmodified and table C<$base> contains:
 
@@ -696,7 +696,7 @@ Now table C<$add> is unmodified and table C<$base> contains:
 
 Values from both tables for the same key were merged into one
 value. This is the same as doing C<L<overlay()|/C_overlay_>> followed
-by C<L<compress()|/C_compress_>> with C<APR::OVERLAP_TABLES_MERGE>.
+by C<L<compress()|/C_compress_>> with C<APR::Const::OVERLAP_TABLES_MERGE>.
 
 =back
 
@@ -766,9 +766,9 @@ which is done by:
   
   $add->set(foo => 'three');
 
-Now overlay using C<APR::OVERLAP_TABLES_SET>:
+Now overlay using C<APR::Const::OVERLAP_TABLES_SET>:
 
-  my $overlay = $base->overlay($add, APR::OVERLAP_TABLES_SET);
+  my $overlay = $base->overlay($add, APR::Const::OVERLAP_TABLES_SET);
 
 That resulted in a new table C<$overlay> (tables C<add> and C<$base>
 are unmodified) which contains:

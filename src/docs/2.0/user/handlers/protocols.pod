@@ -166,7 +166,7 @@ connection record object. Here is a simplified handler skeleton:
   sub handler {
       my ($c) = @_;
       my $sock = $c->client_socket;
-      $sock->opt_set(APR::SO_NONBLOCK, 0);
+      $sock->opt_set(APR::Const::SO_NONBLOCK, 0);
       # ...
       return Apache2::Const::OK;
   }
@@ -245,7 +245,7 @@ Here is the code:
       my $sock = $c->client_socket;
   
       # set the socket to the blocking mode
-      $sock->opt_set(APR::SO_NONBLOCK => 0);
+      $sock->opt_set(APR::Const::SO_NONBLOCK => 0);
   
       while ($sock->recv(my $buff, BUFF_LEN)) {
           last if $buff =~ /^[\r\n]+$/;
@@ -264,7 +264,7 @@ C<conn_rec> blessed into the C<Apache2::Connection> class.  We have
 direct access to the client socket via C<Apache2::Connection>'s
 I<client_socket> method.  This returns an object, blessed into the
 C<APR::Socket> class. Before using the socket, we make sure that it's
-set to perform blocking IO, by using the C<APR::SO_NONBLOCK> constant,
+set to perform blocking IO, by using the C<APR::Const::SO_NONBLOCK> constant,
 compiled earlier.
 
 Inside the recv/send loop, the handler attempts to read C<BUFF_LEN>
@@ -343,7 +343,7 @@ handlers.
   sub handler {
       my $c = shift;
   
-      $c->client_socket->opt_set(APR::SO_NONBLOCK => 0);
+      $c->client_socket->opt_set(APR::Const::SO_NONBLOCK => 0);
   
       my $bb_in  = APR::Brigade->new($c->pool, $c->bucket_alloc);
       my $bb_out = APR::Brigade->new($c->pool, $c->bucket_alloc);
@@ -352,8 +352,8 @@ handlers.
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb_in,
                                                   Apache2::Const::MODE_GETLINE);
-          last if $rc == APR::EOF;
-          die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
+          last if $rc == APR::Const::EOF;
+          die APR::Error::strerror($rc) unless $rc == APR::Const::SUCCESS;
   
           while (!$bb_in->is_empty) {
               my $b = $bb_in->first;
@@ -441,7 +441,7 @@ with just one line:
 
 If you look at the complete handler, the loop is terminated when one
 of the following conditions occurs: an error happens, the end of
-stream status code (C<APR::EOF>) has been received (no more input at
+stream status code (C<APR::Const::EOF>) has been received (no more input at
 the connection) or when the received data contains nothing but new
 line characters which we used to to tell the server to terminate the
 connection.
@@ -453,15 +453,15 @@ using a single bucket brigade. Here is the modified code:
   sub handler {
       my $c = shift;
   
-      $c->client_socket->opt_set(APR::SO_NONBLOCK, 0);
+      $c->client_socket->opt_set(APR::Const::SO_NONBLOCK, 0);
   
       my $bb = APR::Brigade->new($c->pool, $c->bucket_alloc);
   
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
                                                   Apache2::Const::MODE_GETLINE);
-          last if $rc == APR::EOF;
-          die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
+          last if $rc == APR::Const::EOF;
+          die APR::Error::strerror($rc) unless $rc == APR::Const::SUCCESS;
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
   
@@ -517,15 +517,15 @@ attempt to do any transformation, but simply passes the data though:
   sub handler {
       my $c = shift;
   
-      $c->client_socket->opt_set(APR::SO_NONBLOCK => 0);
+      $c->client_socket->opt_set(APR::Const::SO_NONBLOCK => 0);
   
       my $bb = APR::Brigade->new($c->pool, $c->bucket_alloc);
   
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
                                                   Apache2::Const::MODE_GETLINE);
-          last if $rc == APR::EOF;
-          die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
+          last if $rc == APR::Const::EOF;
+          die APR::Error::strerror($rc) unless $rc == APR::Const::SUCCESS;
   
           $c->output_filters->fflush($bb);
       }
@@ -560,15 +560,15 @@ the buckets in the brigade. The handler now becomes:
   sub handler {
       my $c = shift;
   
-      $c->client_socket->opt_set(APR::SO_NONBLOCK => 0);
+      $c->client_socket->opt_set(APR::Const::SO_NONBLOCK => 0);
   
       my $bb = APR::Brigade->new($c->pool, $c->bucket_alloc);
   
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
                                                   Apache2::Const::MODE_GETLINE);
-          last if $rc == APR::EOF;
-          die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
+          last if $rc == APR::Const::EOF;
+          die APR::Error::strerror($rc) unless $rc == APR::Const::SUCCESS;
   
           next unless $bb->flatten(my $data);
           $bb->cleanup;

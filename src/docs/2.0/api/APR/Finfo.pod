@@ -7,7 +7,7 @@ APR::Finfo - Perl API for APR fileinfo structure
 
   use APR::Finfo ();
   use APR::Const -compile => qw(FINFO_NORM);
-  my $finfo = APR::Finfo::stat("/tmp/test", APR::FINFO_NORM, $pool);
+  my $finfo = APR::Finfo::stat("/tmp/test", APR::Const::FINFO_NORM, $pool);
   
   $device = $finfo->device;     # (stat $file)[0]
   $inode  = $finfo->inode;      # (stat $file)[1]
@@ -204,12 +204,12 @@ For example:
   use APR::Finfo;
   use APR::Const -compile => qw(FILETYPE_DIR FILETYPE_REG FINFO_NORM);
   my $pool  = APR::Pool->new();
-  my $finfo = APR::Finfo::stat("/tmp", APR::FINFO_NORM, $pool);
+  my $finfo = APR::Finfo::stat("/tmp", APR::Const::FINFO_NORM, $pool);
   my $finfo = $finfo->filetype;
-  if ($finfo == APR::FILETYPE_REG) {
+  if ($finfo == APR::Const::FILETYPE_REG) {
       print "regular file";
   }
-  elsif ($finfo == APR::FILETYPE_REG) {
+  elsif ($finfo == APR::Const::FILETYPE_REG) {
       print "directory";
   }
   else {
@@ -467,11 +467,11 @@ C<L<APR::FINFO_*|docs::2.0::api::APR::Const/C__finfo_>> constants.
 
 Notice that you can also use the constants that already combine
 several elements in one. For example
-C<L<APR::FINFO_PROT|docs::2.0::api::APR::Const/C_APR__FINFO_PROT_>>
+C<L<APR::Const::FINFO_PROT|docs::2.0::api::APR::Const/C_APR__FINFO_PROT_>>
 asks for all protection bits,
-C<L<APR::FINFO_MIN|docs::2.0::api::APR::Const/C_APR__FINFO_MIN_>> asks
+C<L<APR::Const::FINFO_MIN|docs::2.0::api::APR::Const/C_APR__FINFO_MIN_>> asks
 for the following fields: type, mtime, ctime, atime, size and
-C<L<APR::FINFO_NORM|docs::2.0::api::APR::Const/C_APR__FINFO_NORM_>>
+C<L<APR::Const::FINFO_NORM|docs::2.0::api::APR::Const/C_APR__FINFO_NORM_>>
 asks for all atomic unix C<apr_stat()> fields (similar to perl's
 C<stat()>).
 
@@ -492,7 +492,7 @@ For example, here is how to get most of the C<stat> fields:
   use APR::Finfo ();
   use APR::Const -compile => qw(FINFO_NORM);
   my $pool = APR::Pool->new();
-  my $finfo = APR::Finfo::stat("/tmp/test", APR::FINFO_NORM, $pool);
+  my $finfo = APR::Finfo::stat("/tmp/test", APR::Const::FINFO_NORM, $pool);
 
 
 

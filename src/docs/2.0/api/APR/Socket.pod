@@ -12,8 +12,8 @@ APR::Socket - Perl API for APR sockets
   ### set the socket to the blocking mode if it isn't already
   ### and read in the loop and echo it back
   use APR::Const -compile => qw(SO_NONBLOCK);
-  if ($sock->opt_get(APR::SO_NONBLOCK)) {
-      $sock->opt_set(APR::SO_NONBLOCK => 0);
+  if ($sock->opt_get(APR::Const::SO_NONBLOCK)) {
+      $sock->opt_set(APR::Const::SO_NONBLOCK => 0);
   }
   # read from/write to the socket (w/o handling possible failures)
   my $wanted = 1024;
@@ -32,7 +32,7 @@ APR::Socket - Perl API for APR sockets
   my $wanted = 1024;
   my $buff;
   my $rlen = eval { $sock->recv($buff, $wanted) };
-  if ($@ && ref $@ && $@ == APR::TIMEUP) {
+  if ($@ && ref $@ && $@ == APR::Const::TIMEUP) {
       # timeout, do something, e.g.
       warn "timed out, will try again later";
   }
@@ -42,9 +42,9 @@ APR::Socket - Perl API for APR sockets
   }
 
   # non-blocking io poll
-  $sock->opt_set(APR::SO_NONBLOCK => 1);
-  my $rc = $sock->poll($c->pool, 1_000_000, APR::POLLIN);
-  if ($rc == APR::SUCCESS) {
+  $sock->opt_set(APR::Const::SO_NONBLOCK => 1);
+  my $rc = $sock->poll($c->pool, 1_000_000, APR::Const::POLLIN);
+  if ($rc == APR::Const::SUCCESS) {
       # read the data
   }
   else {
@@ -180,17 +180,17 @@ constants|docs::2.0::api::APR::Const/C__poll_>> )
 The events for which to wait.
 
 For example use
-C<L<APR::POLLIN|docs::2.0::api::APR::Const/C_APR__POLLIN_>> to wait
+C<L<APR::Const::POLLIN|docs::2.0::api::APR::Const/C_APR__POLLIN_>> to wait
 for incoming data to be available,
-C<L<APR::POLLOUT|docs::2.0::api::APR::Const/C_APR__POLLOUT_>> to wait
+C<L<APR::Const::POLLOUT|docs::2.0::api::APR::Const/C_APR__POLLOUT_>> to wait
 until it's possible to write data to the socket and
-C<L<APR::POLLPRI|docs::2.0::api::APR::Const/C_APR__POLLPRI_>> to wait
+C<L<APR::Const::POLLPRI|docs::2.0::api::APR::Const/C_APR__POLLPRI_>> to wait
 for priority data to become available.
 
 =item ret: C<$rc>
 ( C<L<APR::Const constant|docs::2.0::api::APR::Const>> )
 
-If C<APR::SUCCESS> is received than the polling was successful. If not
+If C<APR::Const::SUCCESS> is received than the polling was successful. If not
 -- the error code is returned, which can be converted to the error
 string with help of
 C<L<APR::Error::strerror|docs::2.0::api::APR::Error/C_strerror_>>.
@@ -208,14 +208,14 @@ data from the client:
   
   use APR::Const -compile => qw(SO_NONBLOCK POLLIN SUCCESS TIMEUP);
   
-  $sock->opt_set(APR::SO_NONBLOCK => 1);
+  $sock->opt_set(APR::Const::SO_NONBLOCK => 1);
   
-  my $rc = $sock->poll($c->pool, 1_000_000, APR::POLLIN);
-  if ($rc == APR::SUCCESS) {
+  my $rc = $sock->poll($c->pool, 1_000_000, APR::Const::POLLIN);
+  if ($rc == APR::Const::SUCCESS) {
       # Data is waiting on the socket to be read.
       # $sock->recv(my $buf, BUFF_LEN)
   }
-  elsif ($rc == APR::TIMEUP) {
+  elsif ($rc == APR::Const::TIMEUP) {
       # One second elapsed and still there is no data waiting to be
       # read. for example could try again.
   }
@@ -263,18 +263,18 @@ contain an empty string if there was nothing to read.
 
 If you get the C<'(11) Resource temporarily unavailable'> error
 (exception
-C<L<APR::EAGAIN|docs::2.0::api::APR::Const/C_APR__EAGAIN_>>), then you
+C<L<APR::Const::EAGAIN|docs::2.0::api::APR::Const/C_APR__EAGAIN_>>), then you
 didn't ensure that the socket is in L<a blocking IO mode|/C_opt_set_>
 before using it.
 
 If timeout was set via C<timeout_set|/C_timeout_set_>, you may need to
-catch the C<L<APR::TIMEUP|docs::2.0::api::APR::Const/C_APR__TIMEUP_>>
+catch the C<L<APR::Const::TIMEUP|docs::2.0::api::APR::Const/C_APR__TIMEUP_>>
 exception. For example:
 
   use APR::Const -compile => qw(TIMEUP);
   my $buffer;
   eval { $sock->recv($buffer, $wanted) };
-  if ($@ && $@ == APR::TIMEUP) {
+  if ($@ && $@ == APR::Const::TIMEUP) {
       # timeout, do something, e.g.
   }
 
@@ -289,7 +289,7 @@ client aborts the connection.
   use APR::Const -compile => qw(ECONNABORTED);
   my $buffer;
   eval { $sock->recv($buffer, $wanted) };
-  if ($@ == APR::ECONNABORTED) {
+  if ($@ == APR::Const::ECONNABORTED) {
       # ignore it or deal with it
   }
 
@@ -304,8 +304,8 @@ Here is the quick prototype example, which doesn't handle any errors
   
   # set the socket to the blocking mode if it isn't already
   use APR::Const -compile => qw(SO_NONBLOCK);
-  if ($sock->opt_get(APR::SO_NONBLOCK)) {
-      $sock->opt_set(APR::SO_NONBLOCK => 0);
+  if ($sock->opt_get(APR::Const::SO_NONBLOCK)) {
+      $sock->opt_set(APR::Const::SO_NONBLOCK => 0);
   }
   # read from/write to the socket (w/o handling possible failures)
   my $wanted = 1024;
@@ -323,7 +323,7 @@ If you want to handle errors by yourself, the loop may look like:
       if ($@) {
           # handle the error, e.g. to ignore aborted connections but
           # rethrow any other errors:
-          if ($@ == APR::ECONNABORTED) {
+          if ($@ == APR::Const::ECONNABORTED) {
               # ignore
               last;
           }
@@ -456,7 +456,7 @@ The possible values are:
 =item t E<gt> 0
 
 C<L<send()|/C__send_>> and C<L<recv()|/C__recv_)>> throw
-(C<L<APR::TIMEUP|docs::2.0::api::APR::Const/C__APR__TIMEUP_>>
+(C<L<APR::Const::TIMEUP|docs::2.0::api::APR::Const/C__APR__TIMEUP_>>
 exception) if specified time elapses with no data sent or received.
 
 Notice that the positive value is in micro seconds. So if you want to
