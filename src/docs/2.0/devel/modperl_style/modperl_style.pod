@@ -99,20 +99,19 @@ the comma is missing and this isn't noticed, there will be an error.
 Do:
 
   my @list = (
-              "item1",
-              "item2",
-              "item3",
-             );
+      "item1",
+      "item2",
+      "item3",
+  );
 
 
 Don't:
 
   my @list = (
-              "item1",
-              "item2",
-              "item3"
-             );
-
+      "item1",
+      "item2",
+      "item3"
+  );
 
 =item Last Statement in the Block
 
@@ -123,17 +122,17 @@ statement you don't have to remember to add C<;> on a previous line.
 Do:0
 
   sub foo {
-    statement1;
-    statement2;
-    statement3;
+      statement1;
+      statement2;
+      statement3;
   }
 
 Don't
 
   sub foo {
-    statement1;
-    statement2;
-    statement3
+      statement1;
+      statement2;
+      statement3
   }
 
 =back
@@ -203,12 +202,12 @@ Avoid too much exporting/importing (glob aliases eat up memory)
 When you do wish to import from a module try to use an explicit list or
 tag whenever possible, e.g.:
 
-   use POSIX qw(strftime);
+  use POSIX qw(strftime);
 
 When you do not wish to import from a module, always use an empty list
 to avoid any import, e.g.:
 
-   use IO::File ();
+  use IO::File ();
 
 (explain how to use Apache::Status to find imported/exported
 functions)
@@ -226,11 +225,11 @@ Avoid indirect method calls, e.g.
 
 Do:
 
- CGI::Cookie->new
+  CGI::Cookie->new
 
 Don't:
 
- new CGI::Cookie
+  new CGI::Cookie
 
 =back
 
@@ -287,9 +286,9 @@ Do:
 Don't:
 
    for (1..100) {
-      ....more than a few statements...
-      foo();
-      ....
+       ....more than a few statements...
+       foo();
+       ....
    }
 
 Because foo() might change C<$_> if foo()'s author didn't localize C<$_>.
@@ -297,9 +296,9 @@ Because foo() might change C<$_> if foo()'s author didn't localize C<$_>.
 This is OK:
 
    for (1..100) {
-      .... a few statements with no subs called
-	# do something with $_
-      ....
+       .... a few statements with no subs called
+       # do something with $_
+       ....
    }
 
 
