@@ -14,9 +14,8 @@
 </div>
 </td>
 <td align="right">
-<div class="navbarlocal">
 [% INCLUDE prev_next_link %]
-</div></td>
+</td>
 </tr></table>
 
 
