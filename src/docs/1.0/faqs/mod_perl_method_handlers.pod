@@ -1,4 +1,3 @@
-
 =head1 NAME 
 
 mod_perl_method_handlers - How to use mod_perl's MethodHandlers 

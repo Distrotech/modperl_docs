@@ -2,7 +2,7 @@
 
 Popular Perl Complaints and Myths
 
-=head2 Abbreviations
+=head1 Abbreviations
 
 =over 4
 
