@@ -177,7 +177,7 @@ Do the following:
   % make test TEST_VERBOSE=1 \
     TEST_FILES="compat/apache_util.t modperl/pnotes.t"
 
-or use an altenative way:
+or use an alternative way:
 
   % cd modperl-1.99_xx
   % t/TEST -clean
