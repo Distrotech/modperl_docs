@@ -1118,6 +1118,7 @@ the request's I<args> and I<content> as strings:
   
   use Apache::RequestRec ();
   use Apache::RequestIO ();
+  use Apache::Filter ();
   use APR::Brigade ();
   use APR::Bucket ();
   
