@@ -16,6 +16,13 @@ Basic Layout:
   strange. shoulf we remove those completly, if there is no UP or use
   really-empty images as placeholders?
 
+DocSet:
+-------
+
+- The path must be either ./foo or ../../foo and never leading ./
+  followed by ../, since the later doesn't work in IE on Mac.
+
+
 Menu: 
 -----
 
