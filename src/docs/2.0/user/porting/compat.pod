@@ -729,6 +729,16 @@ including those where C<$r> simply doesn't exist.
 C<L<Apache::compat|docs::2.0::api::Apache::compat>> implements
 C<$r-E<gt>current_callback> for backwards compatibility.
 
+=head2 C<$r-E<gt>cleanup_for_exec>
+
+C<$r-E<gt>cleanup_for_exec> wasn't a part of the mp1 core API, but
+lived in a 3rd party module C<Apache::SubProcess>. That module's
+functionality is now a part of mod_perl 2.0 API. But Apache 2.0
+doesn't need this function any longer.
+
+C<L<Apache::compat|docs::2.0::api::Apache::compat>> implements
+C<$r-E<gt>cleanup_for_exec> for backwards compatibility as a NOOP.
+
 =head2 C<$r-E<gt>get_remote_host>
 
 C<get_remote_host()> is now invoked on the C<L<connection
@@ -1020,8 +1030,10 @@ See the next item.
 =head2 C<$r-E<gt>kill_timeout>
 
 The functions C<$r-E<gt>hard_timeout>, C<$r-E<gt>reset_timeout>,
-C<$r-E<gt>soft_timeout> and C<$r-E<gt>kill_timeout> aren't needed
-in mod_perl 2.0.
+C<$r-E<gt>soft_timeout> and C<$r-E<gt>kill_timeout> aren't needed in
+mod_perl 2.0.  C<L<Apache::compat|docs::2.0::api::Apache::compat>>
+implements these functions for backwards compatibility as NOOPs.
+
 
 =head2 C<$r-E<gt>set_byterange>
 
