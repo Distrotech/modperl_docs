@@ -84,7 +84,7 @@ mod_perl installed:
       APACHE_PREFIX=/home/httpd DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
   % make && make test
   % su
-  panic# make install
+  # make install
 
 That's all!
 
@@ -228,12 +228,12 @@ be used if the appropriate options were set on the C<perl Makefile.PL>
 command line.  To become I<root>, use the I<su> command.
 
   % su
-  panic# make install
+  # make install
 
 If you have the proper permission, you might also chain all three
 I<make> commands into a single command line:
 
-  panic# make && make test && make install
+  # make && make test && make install
 
 C<&&> in shell program is similar to Perl's C<&&>. Each section of
 the statement will be executed left to right, untill all sections will
@@ -257,8 +257,8 @@ S<make install> to create the Apache directory tree and install
 Apache's header files (I<*.h>), default configuration files
 (I<*.conf>), the I<httpd> executable, and a few other programs.
 
-  panic# cd ../apache_x.x.x
-  panic# make install
+  # cd ../apache_x.x.x
+  # make install
 
 Note that, as with a plain Apache installation, any configuration
 files left from a previous installation will not be overwritten by
@@ -305,11 +305,11 @@ When the configuration file has been edited, it is time to start the
 server.  One of the ways to start and stop the server is to use the
 C<apachectl> utility. This can be used to start the server with:
 
-  panic# /usr/local/apache/bin/apachectl start
+  # /usr/local/apache/bin/apachectl start
 
 And stop it with:
 
-  panic# /usr/local/apache/bin/apachectl stop
+  # /usr/local/apache/bin/apachectl stop
 
 Note that if the server is going to listen on port C<80> or another
 privileged port (Any port with a number less than 1024 can be accessed
@@ -501,7 +501,7 @@ permissions to C<rwxr-xr-x> or C<0755> for your files and directories,
 which is insecure since other users on the same machine can read your
 files.
 
-  panic# chmod 0755  /home/stas/modperl
+  # chmod 0755  /home/stas/modperl
 
 If you aren't running the server with your username, you have to set
 these permissions for all the files created under this directory, so
@@ -547,7 +547,7 @@ as can be seen here:
 Now make the script executable and readable by the server, as
 explained in the previous section.
 
-  panic# chmod 0700   /home/stas/modperl/mod_perl_rules1.pl
+  # chmod 0700   /home/stas/modperl/mod_perl_rules1.pl
 
 The I<mod_perl_rules1.pl> script can be tested from the command line,
 since it is essentially a regular Perl script.
