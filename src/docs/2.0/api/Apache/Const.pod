@@ -1365,7 +1365,8 @@ See C<L<Apache::Log|docs::2.0::api::Apache::Log/C_Apache__LOG_WARNING_>>.
 
   use Apache::Const -compile => qw(:methods);
 
-The C<:methods> group is for XXX constants.
+The C<:methods> constants group is used in conjunction with
+C<L<$r-E<gt>method_number|docs::2.0::api::Apache::RequestRec/C_method_number_>>.
 
 
 
@@ -1462,6 +1463,7 @@ The C<:methods> group is for XXX constants.
 
 =back
 
+corresponds to the HTTP C<GET> method
 
 
 
@@ -1594,7 +1596,7 @@ The C<:methods> group is for XXX constants.
 
 =back
 
-
+corresponds to the HTTP C<POST> method
 
 
 
@@ -1630,7 +1632,7 @@ The C<:methods> group is for XXX constants.
 
 =back
 
-
+corresponds to the HTTP C<PUT> method
 
 
 

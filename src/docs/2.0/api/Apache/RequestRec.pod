@@ -905,18 +905,25 @@ C<L<$r-E<gt>is_initial_req|docs::2.0::api::Apache::RequestUtil/C_is_initial_req_
 
 =head2 C<method>
 
-Get the current request method (e.g. C<GET>, C<HEAD>, C<POST>, etc.):
+Get/set the current request method (e.g. C<GET>, C<HEAD>, C<POST>, etc.):
 
-  $method = $r->method();
+  $method     = $r->method();
+  $pre_method = $r->method($new_method);
 
 =over 4
 
 =item obj: C<$r>
 ( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
+=item opt arg1: C<$new_method> ( string )
+
+a new value
+
 =item ret: C<$method> ( string )
 
 The current method as a string
+
+if C<$new_method> was passed the previous value is returned.
 
 =item since: 1.99_15
 
@@ -929,23 +936,36 @@ The current method as a string
 
 =head2 C<method_number>
 
-What's HTTP method was issued by the client (C<Apache::M_GET>,
+Get/set the HTTP method, issued by the client (C<Apache::M_GET>,
 C<Apache::M_POST>, etc.)
 
-  $methnum = $r->method_number();
+  $methnum      = $r->method_number();
+  $prev_methnum = $r->method_number($new_methnum);
 
 =over 4
 
 =item obj: C<$r>
 ( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
-=item ret: C<$methnum> (integer)
+=item opt arg1: C<$new_methnum> ( C<L<Apache::Const :methods
+constant|docs::2.0::api::Apache::Const/C__methods_>> )
+
+a new value
+
+=item ret: C<$methnum> ( C<L<Apache::Const :methods
+constant|docs::2.0::api::Apache::Const/C__methods_>> )
+
+The current method as a number
+
+if C<$new_methnum> was passed the previous value is returned.
 
 =item since: 1.99_15
 
 =back
 
 See the C<L<$r-E<gt>allowed|/C_allowed_>> entry for examples.
+
+
 
 
 
