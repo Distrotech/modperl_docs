@@ -1,14 +1,14 @@
 =head1 NAME
 
-Apache::ServerUtil - Perl API for Apache server record utils
+Apache2::ServerUtil - Perl API for Apache server record utils
 
 
 
 
 =head1 Synopsis
 
-  use Apache::ServerUtil ();
-  $s = Apache->server;
+  use Apache2::ServerUtil ();
+  $s = Apache2->server;
   
   # push config
   $s->add_config(['ServerTokens off']);
@@ -21,20 +21,20 @@ Apache::ServerUtil - Perl API for Apache server record utils
   
   # check command line defines
   print "this is mp2"
-      if Apache::ServerUtil::exists_config_define('MODPERL2');
+      if Apache2::ServerUtil::exists_config_define('MODPERL2');
   
   # get PerlChildExitHandler configured handlers
   @handlers = @{ $s->get_handlers('PerlChildExitHandler') || []};
   
   # server build and version info:
-  $when_built = Apache::ServerUtil::get_server_built();
-  $version = Apache::ServerUtil::get_server_version();
+  $when_built = Apache2::ServerUtil::get_server_built();
+  $version = Apache2::ServerUtil::get_server_version();
   
   # ServerRoot value
-  $server_root = Apache::ServerUtil::server_root();
+  $server_root = Apache2::ServerUtil::server_root();
   
   # get 'conf/' dir path (avoid using this function!)
-  my $dir = Apache::ServerUtil::server_root_relative($r->pool, 'conf');
+  my $dir = Apache2::ServerUtil::server_root_relative($r->pool, 'conf');
   
   # set child_exit handlers
   $r->set_handlers(PerlChildExitHandler => \&handler);
@@ -47,10 +47,10 @@ Apache::ServerUtil - Perl API for Apache server record utils
   $s->method_register('NEWGET');
   
   # register server shutdown callback
-  Apache::ServerUtil::server_shutdown_register_cleanup(sub { Apache::OK });
+  Apache2::ServerUtil::server_shutdown_register_cleanup(sub { Apache2::OK });
   
   # do something only when the server restarts
-  my $cnt = Apache::ServerUtil::restart_count();
+  my $cnt = Apache2::ServerUtil::restart_count();
   do_something_once() if $cnt > 1;
 
 
@@ -59,15 +59,15 @@ Apache::ServerUtil - Perl API for Apache server record utils
 
 =head1 Description
 
-C<Apache::ServerUtil> provides the L<Apache server
-object|docs::2.0::api::Apache::ServerRec> utilities API.
+C<Apache2::ServerUtil> provides the L<Apache server
+object|docs::2.0::api::Apache2::ServerRec> utilities API.
 
 
 
 
 =head1 Methods API
 
-C<Apache::ServerUtil> provides the following functions and/or methods:
+C<Apache2::ServerUtil> provides the following functions and/or methods:
 
 
 
@@ -82,7 +82,7 @@ Dynamically add Apache configuration:
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item arg1: C<$lines> ( ARRAY ref )
 
@@ -96,22 +96,22 @@ the new line terminators.
 =back
 
 See also:
-C<L<$r-E<gt>add_config|docs::2.0::api::Apache::RequestUtil/C_add_config_>>
+C<L<$r-E<gt>add_config|docs::2.0::api::Apache2::RequestUtil/C_add_config_>>
 
 For example:
 
 Add a configuration section at the server startup (e.g. from
 I<startup.pl>):
 
-  use Apache::ServerUtil ();
+  use Apache2::ServerUtil ();
   my $conf = <<'EOC';
-  PerlModule Apache::MyExample
+  PerlModule Apache2::MyExample
   <Location /perl>
     SetHandler perl-script
-    PerlResponseHandler Apache::MyExample
+    PerlResponseHandler Apache2::MyExample
   </Location>
   EOC
-  Apache->server->add_config([split /\n/, $conf]);
+  Apache2->server->add_config([split /\n/, $conf]);
 
 
 
@@ -128,7 +128,7 @@ Add a component to the version string
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item arg1: C<$component> ( string )
 
@@ -154,16 +154,16 @@ appear first.
 For example let's add a component I<"Hikers, Inc/0.99999"> to the
 server string at the server startup:
 
-  use Apache::ServerUtil ();
-  use Apache::Const -compile => 'OK';
+  use Apache2::ServerUtil ();
+  use Apache2::Const -compile => 'OK';
   
-  Apache->server->push_handlers(
+  Apache2->server->push_handlers(
       PerlPostConfigHandler => \&add_my_version);
   
   sub add_my_version {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
       $s->add_version_component("Hikers, Inc/0.99999");
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 or of course you could register the
@@ -191,7 +191,7 @@ whether the component information is displayed or not.
 
 Register server shutdown cleanup callback:
 
-  Apache::ServerUtil::server_shutdown_cleanup_register($sub);
+  Apache2::ServerUtil::server_shutdown_cleanup_register($sub);
 
 =over 4
 
@@ -214,7 +214,7 @@ For example in order to arrange the function C<do_my_cleanups()> to be
 run every time the server shuts down (or restarts), run the following
 code at the server startup:
 
-  Apache::ServerUtil::server_shutdown_cleanup_register(\&do_my_cleanups);
+  Apache2::ServerUtil::server_shutdown_cleanup_register(\&do_my_cleanups);
 
 It's necessary to run this code at the server startup (normally
 F<startup.pl>. The function will croak if run after the
@@ -241,7 +241,7 @@ C<L<APR::Table|docs::2.0::api::APR::Table>> methods.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item opt arg2: C<$key> ( string )
 
@@ -308,7 +308,7 @@ deleted.
 Check for a definition from the server startup command line
 (e.g. C<-DMODPERL2>)
 
-  $result = Apache::ServerUtil::exists_config_define($name);
+  $result = Apache2::ServerUtil::exists_config_define($name);
 
 =over 4
 
@@ -327,7 +327,7 @@ true if defined, false otherwise
 For example:
 
   print "this is mp2"
-      if Apache::ServerUtil::exists_config_define('MODPERL2');
+      if Apache2::ServerUtil::exists_config_define('MODPERL2');
 
 
 
@@ -346,7 +346,7 @@ a given phase.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item arg1: C<$hook_name> ( string )
 
@@ -361,7 +361,7 @@ a list of references to the handler subroutines
 =back
 
 See also:
-C<L<$r-E<gt>add_config|docs::2.0::api::Apache::RequestUtil/C_get_handlers_>>
+C<L<$r-E<gt>add_config|docs::2.0::api::Apache2::RequestUtil/C_get_handlers_>>
 
 For example:
 
@@ -379,7 +379,7 @@ A list of handlers configured to run at the I<child_exit> phase:
 
 Get the date and time that the server was built
 
-  $when_built = Apache::ServerUtil::get_server_built();
+  $when_built = Apache2::ServerUtil::get_server_built();
 
 =over 4
 
@@ -401,7 +401,7 @@ The server build time string
 
 Get the server version string
 
-  $version = Apache::ServerUtil::get_server_version();
+  $version = Apache2::ServerUtil::get_server_version();
 
 =over 4
 
@@ -428,7 +428,7 @@ check whether a server level C<PerlOptions> flag is enabled or not.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item arg1: C<$flag> ( string )
 
@@ -448,7 +448,7 @@ handlers to run if enabled:
 See also:
 L<PerlOptions|docs::2.0::user::config::config/C_PerlOptions_> and
 L<the equivalent function for directory level PerlOptions
-flags|docs::2.0::api::Apache::RequestUtil/C_is_perl_option_enabled_>.
+flags|docs::2.0::api::Apache2::RequestUtil/C_is_perl_option_enabled_>.
 
 
 
@@ -468,7 +468,7 @@ associated with that method.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item arg1: C<$methname> ( string )
 
@@ -487,7 +487,7 @@ ignore it.
 This method allows you to extend the HTTP protocol to support new
 methods, which fit the HTTP paradigm.  Of course you will need to
 write a client that understands that protocol extension.  For a good
-example, refer to the C<MyApache::SendEmail> example presented in
+example, refer to the C<MyApache2::SendEmail> example presented in
 C<L<the PerlHeaderParserHandler
 section|docs::2.0::user::handlers::http/PerlHeaderParserHandler>>,
 which demonstrates how a new method C<EMAIL> is registered and used.
@@ -509,7 +509,7 @@ given phase.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item arg1: C<$hook_name> ( string )
 
@@ -532,7 +532,7 @@ returns a true value on success, otherwise a false value
 =back
 
 See also:
-C<L<$r-E<gt>add_config|docs::2.0::api::Apache::RequestUtil/C_push_handlers_>>
+C<L<$r-E<gt>add_config|docs::2.0::api::Apache2::RequestUtil/C_push_handlers_>>
 
 Examples:
 
@@ -546,7 +546,7 @@ Multiple handlers:
 
 Anonymous functions:
 
-  $s->push_handlers(PerlLogHandler => sub { return Apache::OK });
+  $s->push_handlers(PerlLogHandler => sub { return Apache2::OK });
 
 
 
@@ -558,7 +558,7 @@ Anonymous functions:
 
 How many times the server was restarted.
 
-  $restart_count = Apache::ServerUtil::restart_count();
+  $restart_count = Apache2::ServerUtil::restart_count();
 
 =over 4
 
@@ -572,8 +572,8 @@ The following demonstration should make it clear what values to expect
 from this function. Let's add the following code to F<startup.pl>, so
 it's run every time F<httpd.conf> is parsed:
 
-  use Apache::ServerUtil ();
-  my $cnt = Apache::ServerUtil::restart_count();
+  use Apache2::ServerUtil ();
+  my $cnt = Apache2::ServerUtil::restart_count();
   open my $fh, ">>/tmp/out" or die "$!";
   print $fh "cnt: $cnt\n";
   close $fh;
@@ -610,7 +610,7 @@ What conclusions can be drawn from this demonstration:
 
 =item *
 
-C<Apache::ServerUtil::restart_count()> returns 1 every time some C<-k>
+C<Apache2::ServerUtil::restart_count()> returns 1 every time some C<-k>
 command is passed to Apache (or C<kill -USR1> or some alternative
 signal is received).
 
@@ -624,14 +624,14 @@ graceful restart the count will be 3 or higher.
 For example if you want to run something every time C<httpd -k> is run
 you just need to check whether C<restart_count()> returns 1:
 
-  my $cnt = Apache::ServerUtil::restart_count();
+  my $cnt = Apache2::ServerUtil::restart_count();
   do_something() if $cnt == 1;
 
 To do something only when server restarts (C<httpd -k start> or
 C<httpd -k graceful)>, check whether C<restart_count()> is bigger than
 1:
 
-  my $cnt = Apache::ServerUtil::restart_count();
+  my $cnt = Apache2::ServerUtil::restart_count();
   do_something() if $cnt > 1;
 
 
@@ -644,14 +644,14 @@ C<httpd -k graceful)>, check whether C<restart_count()> is bigger than
 
 Get the main server's object
 
-  $main_s = Apache->server();
+  $main_s = Apache2->server();
 
 =over 4
 
-=item obj: C<Apache> (class name)
+=item obj: C<Apache2> (class name)
 
 =item ret: C<$main_s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item since: 1.99_10
 
@@ -667,7 +667,7 @@ Get the main server's object
 
 returns the value set by the top-level C<ServerRoot> directive.
 
-  $server_root = Apache::ServerUtil::server_root();
+  $server_root = Apache2::ServerUtil::server_root();
 
 =over 4
 
@@ -689,7 +689,7 @@ returns the value set by the top-level C<ServerRoot> directive.
 Returns the canonical form of the filename made absolute to
 C<ServerRoot>:
 
-  $path = Apache::ServerUtil::server_root_relative($pool, $fname);
+  $path = Apache2::ServerUtil::server_root_relative($pool, $fname);
 
 =over 4
 
@@ -716,17 +716,17 @@ value).
 C<$fname> is appended to the value of C<ServerRoot> and returned. For
 example:
 
-  my $dir = Apache::ServerUtil::server_root_relative($r->pool, 'logs');
+  my $dir = Apache2::ServerUtil::server_root_relative($r->pool, 'logs');
 
 You must be extra-careful when using this function. If you aren't sure
 what you are doing don't use it.
 
 It's much safer to build the path by yourself using use
-C<L<Apache::ServerUtil::server_root()|/C_Apache__server_root_>>, For
+C<L<Apache2::ServerUtil::server_root()|/C_Apache2__server_root_>>, For
 example:
 
   use File::Spec::Functions qw(catfile);
-  my $path = catfile Apache::ServerUtil::server_root, qw(t logs);
+  my $path = catfile Apache2::ServerUtil::server_root, qw(t logs);
 
 In this example, no memory allocation happens on the Apache-side and
 you aren't risking to get a memory leak.
@@ -743,20 +743,20 @@ the server is shutdown. Therefore if you need to build a relative to
 the root server path for the duration of the request, use the request
 pool:
 
-  use Apache::RequestRec ();
-  Apache::ServerUtil::server_root_relative($r->pool, $fname);
+  use Apache2::RequestRec ();
+  Apache2::ServerUtil::server_root_relative($r->pool, $fname);
 
 If you need to have the path for the duration of a connection
 (e.g. inside a protocol handler), you should use:
 
-  use Apache::Connection ();
-  Apache::ServerUtil::server_root_relative($c->pool, $fname);
+  use Apache2::Connection ();
+  Apache2::ServerUtil::server_root_relative($c->pool, $fname);
 
 And if you want it for the scope of the server file:
 
-  use Apache::Process ();
-  use Apache::ServerUtil ();
-  Apache::ServerUtil::server_root_relative($s->process->pool, $fname);
+  use Apache2::Process ();
+  use Apache2::ServerUtil ();
+  Apache2::ServerUtil::server_root_relative($s->process->pool, $fname);
 
 Moreover, you could have encountered the opposite problem, where you
 have used a short-lived pool object to construct the path, but tried
@@ -785,7 +785,7 @@ set handlers are forgotten.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item arg1: C<$hook_name> ( string )
 
@@ -811,7 +811,7 @@ returns a true value on success, otherwise a false value
 =back
 
 See also:
-C<L<$r-E<gt>add_config|docs::2.0::api::Apache::RequestUtil/C_set_handlers_>>
+C<L<$r-E<gt>add_config|docs::2.0::api::Apache2::RequestUtil/C_set_handlers_>>
 
 Examples:
 
@@ -825,7 +825,7 @@ Multiple handlers:
 
 Anonymous functions:
 
-  $r->set_handlers(PerlLogHandler => sub { return Apache::OK });
+  $r->set_handlers(PerlLogHandler => sub { return Apache2::OK });
 
 Reset any previously set handlers:
 
@@ -840,7 +840,7 @@ or
 
 =head1 Unsupported API
 
-C<Apache::ServerUtil> also provides auto-generated Perl interface for
+C<Apache2::ServerUtil> also provides auto-generated Perl interface for
 a few other methods which aren't tested at the moment and therefore
 their API is a subject to change. These methods will be finalized
 later as a need arises. If you want to rely on any of the following
@@ -858,7 +858,7 @@ Start sending STDERR to the error_log file
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 The current server
 
