@@ -1,5 +1,15 @@
 2.0 docs todo:
 
+---
+
+mp2 Utilities need to be documented (a separate document?):
+
+mp2bug - (should also be mentioned in user/help/help.pod)
+
+mp2doc - replacement for perldoc for modules that get installed into Apache2/
+
+---
+
 *** Areas that would be nice to document first ***
 
 - Automatic API docs generator from .h files
