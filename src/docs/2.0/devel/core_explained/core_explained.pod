@@ -301,6 +301,7 @@ In addition it creates a number of files in the I<xs/> directory:
 
 =head1 mpxs_ vs MPXS_
 
+<SCRATCH THAT>
 If you look at the source code there are functions starting with
 I<mpxs_> and those with I<MPXS_>.
 
@@ -310,7 +311,324 @@ the function has to have a prototype C<...> (which stands for
 I<items>, I<MARK> and I<SP> arguments) or prefixed with I<MPXS_>,
 which are hooked directly into newXS().
 
+</SCRATCH THAT>
+
+=head1 Gluing Existing APIs
+
+If you have an API that you simply want to provide the Perl interface
+without writing any code... 
+
 META: complete
+
+WrapXS allows you to adjust some arguments and supply default values
+for function arguments without writing any code
+
+META: complete
+
+
+=head1 Adding Wrappers for existing APIs and Creating New APIs
+
+In certain cases the existing APIs need to be adjusted. There are a
+few reasons for doing this.
+
+First, is to make the given C API more Perlish. For example C
+functions cannot return more than one value, and the pass by reference
+technique is used. This is not Perlish. Perl has no problem returning
+a list of value, and passing by reference is used only when an array
+or a hash in addition to any other variables need to be passes or
+returned from the function. Therefore we may want to adjust the C API
+to return a list rather than passing a reference to a return value,
+which is not intuitive for Perl programmers.
+
+Second, is to adjust the functionality, i.e. we still use the C API
+but may want to adjust its arguments before calling the original
+function, or do something with return values. And of course optionally
+adding some new code.
+
+Third, is to create completely new APIs. It's quite possible that we
+need more functionality built on top of the existing API. In that case
+we simply create new APIs.
+
+The following sections discuss various techniques for retrieving
+function arguments and returning values to the caller. They range from
+using usual C argument passing and returning to more complex Perl
+arguments' stack manipulation. Once you know how to retrieve the
+arguments in various situations and how to put the return values on
+the stack, the rest is usually normal C programming potentially
+involving using Perl APIs.
+
+Let's look at various ways we can declare functions and what options
+various declarions provide to us:
+
+=head2 Functions Returning a Single Value (or Nothing)
+
+If its know deterministically what the function returns and there is
+only a single return value (or nothing is returned == I<void>), we are
+on the C playground and we don't need to manipulate the returning
+stack.  However if the function may return a single value or nothing
+at all, depending on the inputs and the code, we have to manually
+manipulate the stack and therefore this section doesn't apply.
+
+Let's look at various requirements and implement these using simple
+examples. The following testing code exercises the interfaces we are
+about to develop, so refer to this code to see how the functions are
+invoked from Perl and what is returned:
+
+  file:t/response/TestApache/scoreboard.pm
+  ----------------------------------------
+  package TestApache::scoreboard;
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use Apache::Const -compile => 'OK';
+  
+  use Apache::Test;
+  use Apache::TestUtil;
+  
+  use Apache::Scoreboard;
+  
+  sub handler {
+      my $r = shift;
+  
+      plan $r, tests => 7;
+  
+      my $a = 7;
+      my $b = 3;
+      my ($add, $subst);
+  
+      $add = Apache::Scoreboard::print($a, $b);
+      t_debug "print";
+      ok !$add;
+  
+      $add = Apache::Scoreboard::add($a, $b);
+      ok t_cmp($a + $b, $add, "add");
+  
+      $add = Apache::Scoreboard::add_sv($a, $b);
+      ok t_cmp($a + $b, $add, "add: return sv");
+  
+      $add = Apache::Scoreboard::add_sv_sv($a, $b);
+      ok t_cmp($a + $b, $add, "add: pass/return svs");
+  
+      ($add, $subst) = @{ Apache::Scoreboard::add_subst($a, $b) };
+      ok t_cmp($a + $b, $add,   "add_subst: add");
+      ok t_cmp($a - $b, $subst, "add_subst: subst");
+  
+      $subst = Apache::Scoreboard::subst_sp($a, $b);
+      ok t_cmp($a - $b, $subst, "subst via SP");
+  
+      Apache::OK;
+  }
+  
+  1;
+
+The first case is the simplest: pass two integer arguments, print
+these to the STDERR stream and return nothing:
+
+  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  ----------------------------------------------
+  static MP_INLINE
+  void mpxs_Apache__Scoreboard_print(int a, int b)
+  {
+      fprintf(stderr, "%d, %d\n", a, b);
+  }
+
+  file:xs/maps/modperl_functions.map
+  ----------------------------------
+  MODULE=Apache::Scoreboard
+   mpxs_Apache__Scoreboard_print
+
+Now let's say that the I<b> argument is optional and in case it wasn't
+provided, we want to use a default value, e.g. 0. In that case we
+don't need to change the code, but simply adjust the map file to be:
+
+  file:xs/maps/modperl_functions.map
+  ----------------------------------
+  MODULE=Apache::Scoreboard
+   mpxs_Apache__Scoreboard_print | | a, b=0
+
+In the previous example, we didn't list the arguments in the map file
+since they were automatically retrieved from the source code. In this
+example we tell WrapXS to assign a value of C<0> to the argument b, if
+it wasn't supplied by the caller. All the arguments must be listed and
+in the same order as they are defined in the function.
+
+You may add an extra test that test teh default value assignment:
+
+      $add = Apache::Scoreboard::add($a);
+      ok t_cmp($a + 0, $add, "add (b=0 default)");
+
+The second case: pass two integer arguments and return their sum:
+
+  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  ----------------------------------------------
+  static MP_INLINE
+  int mpxs_Apache__Scoreboard_add(int a, int b)
+  {
+      return a + b;
+  }
+
+  file:xs/maps/modperl_functions.map
+  ----------------------------------
+  MODULE=Apache::Scoreboard
+   mpxs_Apache__Scoreboard_add
+
+The third case is similar to the previous one, but we return the sum
+as as a Perl scalar. Though in C we say SV*, in the Perl space we will
+get a normal scalar:
+
+  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  ----------------------------------------------
+  static MP_INLINE
+  SV *mpxs_Apache__Scoreboard_add_sv(pTHX_ int a, int b)
+  {
+      return newSViv(a + b);
+  }
+
+  file:xs/maps/modperl_functions.map
+  ----------------------------------
+  MODULE=Apache::Scoreboard
+   mpxs_Apache__Scoreboard_add_sv
+
+In the second example the XSUB function was converting the returned
+I<int> value to a Perl scalar behind the scenes. In this example we
+return the scalar ourselves. This is of course to demonstrate that you
+can return a Perl scalar, which can be a reference to a complex Perl
+datastructure, which we will see in the fifth example.
+
+The forth case demonstrates that you can pass Perl variables to your
+functions without needing XSUB to do the conversion. In all previous
+examples XSUB was automatically converting Perl scalars in the
+argument list to the corresponding C variables, using the typemap
+definitions.
+
+  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  ----------------------------------------------
+  static MP_INLINE
+  SV *mpxs_Apache__Scoreboard_add_sv_sv(pTHX_ SV *a_sv, SV *b_sv)
+  {
+      int a = (int)SvIV(a_sv);
+      int b = (int)SvIV(b_sv);
+      
+      return newSViv(a + b);
+  }
+
+  file:xs/maps/modperl_functions.map
+  ----------------------------------
+  MODULE=Apache::Scoreboard
+   mpxs_Apache__Scoreboard_add_sv_sv
+
+So this example is the same simple case of addition, though we
+manually convert the Perl variables to C variables, perform the
+addition operation, convert the result to a Perl Scalar of kind I<IV>
+(Integer Value) and return it directly to the caller.
+
+In case where more than one value needs to be returned, we can still
+implement this without directly manipulating the stack before a
+function returns. The fifth case demonstrates a function that returns
+the result of addition and substruction operations on its arguments:
+
+  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  ----------------------------------------------
+  static MP_INLINE
+  SV *mpxs_Apache__Scoreboard_add_subst(pTHX_ int a, int b)
+  {
+      AV *av = newAV();
+  
+      av_push(av, newSViv(a + b));
+      av_push(av, newSViv(a - b));
+  
+      return newRV_noinc((SV*)av);   
+  }
+
+  file:xs/maps/modperl_functions.map
+  ----------------------------------
+  MODULE=Apache::Scoreboard
+   mpxs_Apache__Scoreboard_add_subst
+
+If you look at the corresponding testing code:
+
+      ($add, $subst) = @{ Apache::Scoreboard::add_subst($a, $b) };
+      ok t_cmp($a + $b, $add,   "add_subst: add");
+      ok t_cmp($a - $b, $subst, "add_subst: subst");
+
+you can see that this technique comes at a price of needing to
+dereference the return value to turn it into a list. The actual code
+is very similar to the C<Apache::Scoreboard::add_sv> function which
+was doing only the addition operation and returning a Perl
+scalar. Here we perform the addition and the substraction operation
+and push the two results into a previously created I<AV*> data
+structure, which represents an array. Since only the I<SV>
+datastructures are allowed to be put on stack, we take a reference
+I<RV> (which is of an I<SV> kind) to the existing I<AV> and return it.
+
+The sixth case demonstrates a situation where the number of arguments
+or their types may vary and aren't known at compile time. Though
+notice that we still know that we are returning at compile time (zero
+or one arguments), I<int> in this example:
+
+  file:xs/Apache/Scoreboard/Apache__Scoreboard.h
+  ----------------------------------------------
+  static MP_INLINE
+  int mpxs_Apache__Scoreboard_subst_sp(pTHX_ I32 items, SV **MARK, SV **SP)
+  {
+      int a, b;
+  
+      if (items != 2) {
+          Perl_croak(aTHX_ "usage: ...");
+      }
+      
+      a = mp_xs_sv2_int(*MARK);
+      b = mp_xs_sv2_int(*(MARK+1));
+      
+      return a - b;
+  }
+
+  file:xs/maps/modperl_functions.map
+  ----------------------------------
+  MODULE=Apache::Scoreboard
+   mpxs_Apache__Scoreboard_subst_sp | | ...
+
+In the map file we use a special token C<...> which tells the XSUB
+constructor to pass C<items>, C<MARK> and C<SP> arguments to the
+function. The macro C<MARK> points to the first argument passed by the
+caller in the Perl namespace. For example to access the second
+argument to retrieve the value of C<b> we use C<*(MARK+1)>, which if
+you remember represented as an I<SV> variable, which nees to be
+converted to the corresponding C type.
+
+In this example we use the macro I<mp_xs_sv2_int>, automatically
+generated based on the data from the I<xs/typemap> and
+I<xs/maps/*_types.map> files, and placed into the
+I<xs/modperl_xs_sv_convert.h> file. In the case of I<int> C type the
+macro is:
+
+  #define mp_xs_sv2_int(sv) (int)SvIV(sv)
+
+which simply converts the I<SV> variable on the stack and generates an
+I<int> value.
+
+While in this example you have an access to the stack, you cannot
+manipulate the return values, because the XSUB wrapper expects a
+single return value of type I<int>, so even if you put something on
+the stack it will be ignored.
+
+
+=head2 Functions Returning Variable Number of Values
+
+We saw earlier that if we want to return an array one of the ways to
+go is to return a reference to an array as a single return value,
+which fits the C paradigm. So we simply declare the return value as
+C<SV*>.
+
+This section talks about cases where it's unknown at compile time how
+many return values will be or it's known that there will be more than
+one return value--something that C cannot handle via return mechanism.
+
+META: ...
+
+
+=head2 Mapping Macro's to XS subs
 
 
 =head1 MP_INLINE vs C Macros vs Normal Functions
