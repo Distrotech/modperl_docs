@@ -29,14 +29,14 @@ want to mix the two you will have to use something like the following:
 
   #include ap_mmn.h
   /* ... */
-  #if AP_MODULE_MAGIC_AT_LEAST(20020329,1)
+  #if AP_MODULE_MAGIC_AT_LEAST(20020903,3)
       /* 2.0 code */
   #else
       /* 1.0 code */
   #endif
 
 The C<20020329.1> is the value of the magic version number matching
-Apache 2.0.36, the earliest Apache version supported by mod_perl 2.0.
+Apache 2.0.46, the earliest Apache version supported by mod_perl 2.0.
 
 =head1 Thread Safety
 
