@@ -1855,6 +1855,58 @@ This completely covers the third scenario. When you use different
 module names in package declarations, as explained above, you cover
 the first two as well.
 
+=item A Hack
+
+The following solution should be used only as a short term
+bandaid. You can force reloading of the modules by either fiddling
+with C<%INC> or replacing use() and require() calls with do().
+
+If you delete the module entry from the C<%INC> hash, before calling
+require() or use() the module will be loaded and compiled again. For
+example:
+
+  ./project/runA.pl
+  -----------------
+  BEGIN {
+      delete $INC{"MyConfig.pm"};
+  }
+  use lib qw(.);
+  use MyConfig;
+  print "Content-type: text/plain\n\n";
+  print "Script A\n";
+  print "Inside project: ", project_name();
+
+Apply the same fix to I<runB.pl>.
+
+Another alternative is to force module reload via do():
+
+  ./project/runA.pl
+  -----------------
+  use lib qw(.);
+  do "MyConfig.pm";
+  print "Content-type: text/plain\n\n";
+  print "Script B\n";
+  print "Inside project: ", project_name();
+
+Apply the same fix to I<runB.pl>.
+
+If you needed to import() something from the loaded module, call the
+import() method explicitly. For example if you had:
+
+  use MyConfig qw(foo bar);
+
+now the code will look as:
+
+  do "MyConfig.pm";
+  MyConfig->import(qw(foo bar));
+
+Both presented solutions are ineffective, since the modules in
+question will be reloaded on each request, slowing down the response
+times. Therefore use these only when a very quick fix is needed and
+provide one of the more robust solutions discussed in the previous
+sections.
+
+
 =back
 
 See also the C<perlmodlib> and C<perlmod> manpages.
