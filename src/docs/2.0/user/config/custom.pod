@@ -815,7 +815,7 @@ custom directives into Apache.
   package MyApache::CustomDirectives;
   
   use strict;
-  use warnings FATAL => 'all', NONFATAL => 'redefine';
+  use warnings FATAL => 'all';
   
   use Apache::CmdParms ();
   use Apache::Module ();
@@ -1005,7 +1005,7 @@ things identically, while others differently. So here it the handler:
   package MyApache::CustomDirectivesTest;
   
   use strict;
-  use warnings FATAL => 'all', NONFATAL => 'redefine';
+  use warnings FATAL => 'all';
   
   use Apache::RequestRec ();
   use Apache::RequestIO ();

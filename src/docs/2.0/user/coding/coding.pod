@@ -109,6 +109,9 @@ Perl 5.8.0 allows to do all this in one line:
 
   use warnings FATAL => 'all', NONFATAL => 'redefine';
 
+but if your code may be used with older perl versions, you probably
+don't want to use this new functionality.
+
 Refer to the I<perllexwarn> manpage for more information.
 
 =head1 Perl Specifics in mod_perl Environment
