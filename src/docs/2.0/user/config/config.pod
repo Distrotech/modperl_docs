@@ -1186,11 +1186,11 @@ the previous example:
   </IfDefine>
 
 If you need to access any of the startup defines in the Perl code you
-use C<Apache::exists_config_define>. For example in a startup file you
+use C<Apache::Server::exists_config_define>. For example in a startup file you
 can say:
 
   use Apache::ServerUtil ();
-  if (Apache::exists_config_define("PERLDB")) {
+  if (Apache::Server::exists_config_define("PERLDB")) {
       require Apache::DB;
       Apache::DB->init;
   }
@@ -1198,7 +1198,7 @@ can say:
 For example to check whether the server has been started in a single
 mode use:
 
-  if (Apache::exists_config_define("ONE_PROCESS")) {
+  if (Apache::Server::exists_config_define("ONE_PROCESS")) {
       print "Running in a single mode";
   }
 
@@ -1218,9 +1218,9 @@ running under mod_perl 1.0 or 2.0:
   </IfDefine>
 
 From within Perl code this can be tested with
-C<Apache::exists_config_define()>, for example:
+C<Apache::Server::exists_config_define()>, for example:
 
-  if (Apache::exists_config_define("MODPERL2")) {
+  if (Apache::Server::exists_config_define("MODPERL2")) {
       # some 2.0 specific code
   }
 

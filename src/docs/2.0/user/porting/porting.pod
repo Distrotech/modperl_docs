@@ -1297,14 +1297,14 @@ had been started with C<-DMODPERL2>.
   </IfDefine>
 
 From within Perl code this can be tested with
-C<Apache::exists_config_define()>. For example, we can use this method
+C<Apache::Server::exists_config_define()>. For example, we can use this method
 to decide whether or not to call C<$r-E<gt>send_http_header()>, which
 no longer exists in mod_perl 2.0:
 
   sub handler {
       my $r = shift;
       $r->content_type('text/html');
-      $r->send_http_header() unless Apache::exists_config_define("MODPERL2");
+      $r->send_http_header() unless Apache::Server::exists_config_define("MODPERL2");
       ...
   }
 

@@ -79,7 +79,7 @@ The string to add
 
 Check for a definition from the server command line
 
-  $result = Apache::exists_config_define($name);
+  $result = Apache::Server::exists_config_define($name);
 
 =over 4
 
@@ -95,7 +95,7 @@ true if defined, false otherwise
 
 For example:
 
-  print "this is mp2" if Apache::exists_config_define('MODPERL2');
+  print "this is mp2" if Apache::Server::exists_config_define('MODPERL2');
 
 
 

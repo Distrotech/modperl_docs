@@ -521,7 +521,7 @@ C<Apache-E<gt>request> available in the calls made from it:
 =head2 C<Apache-E<gt>define>
 
 C<Apache-E<gt>define> has been replaced with
-C<Apache::exists_config_define()> residing inside
+C<Apache::Server::exists_config_define()> residing inside
 C<Apache::ServerUtil>.
 
 See the
