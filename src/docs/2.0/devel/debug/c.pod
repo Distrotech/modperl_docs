@@ -738,7 +738,7 @@ the expansion process.
 
 The mod_perl I<Makefile>'s include a rule for macro expansions which
 you can find by looking for the C<c.i.> rule. To expand all macros in
-a certain C file, you should run C<make filename.c>, which will create
+a certain C file, you should run C<make filename.i>, which will create
 I<filename.i> with all macros expanded in it. For example to create
 I<apr_perlio.i> with all macros used in I<apr_perlio.c>:
 
