@@ -41,24 +41,39 @@ mod_perl functions will return a filehandle which is internally hooked
 to APR. But you can use APR Perl IO directly if you want.
 
 
+=head1 Prerequisites
 
-
-
-=head1 Constants
-
-
-
-=head2 APR::PerlIO::PERLIO_LAYERS_ARE_ENABLED
+Not every Perl will have full C<APR::PerlIO> functionality available.
 
 Before using the Perl IO APR layer one has to check whether it's
-supported by the used APR/Perl build.
+supported by the used APR/Perl build. Perl 5.8.x or higher with perlio
+enabled is required. You can check whether your Perl fits the bill by
+running:
 
+  % perl -V:useperlio
+  useperlio='define';
+
+It should say I<define>.
+
+If you need to do the checking in the code, there is a special
+constant provided by C<APR::PerlIO>, which can be used as follows:
+
+  use APR::PerlIO ();
   die "This Perl build doesn't support PerlIO layers"
       unless APR::PerlIO::PERLIO_LAYERS_ARE_ENABLED;
 
 Notice that loading C<APR::PerlIO> won't fail when Perl IO layers
 aren't available since C<APR::PerlIO> provides functionality for Perl
 builds not supporting Perl IO layers.
+
+
+=head1 Constants
+
+
+
+=head2 C<APR::PerlIO::PERLIO_LAYERS_ARE_ENABLED>
+
+See L<Prerequisites|/Prerequisites>.
 
 
 
