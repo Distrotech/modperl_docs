@@ -20,7 +20,7 @@ sections discuss what happens to mod_perl during this period.
 
 =head2 The Link Between mod_perl and httpd
 
-I<mod_perl.c> defines a special structure:
+I<mod_perl.c> includes a special data structure:
 
   module AP_MODULE_DECLARE_DATA perl_module = {
       STANDARD20_MODULE_STUFF, 
@@ -161,7 +161,7 @@ C<modperl_config_srv_create()>:
       modperl_trace_level_set(s, NULL);
   }
 
-=head1 The pre_config stage
+=head1 The C<pre_config> Phase
 
 After Apache processes its command line arguments, creates various
 pools and reads the configuration file in, it runs the registered
@@ -214,6 +214,37 @@ directive is encountered. In addition C<modperl_config_dir_create> is
 called for every section and subsection that includes mod_perl
 directives (META: or inherits from such a section even though
 specifies no mod_perl directives in it?).
+
+=head2 Virtual Hosts Fixup
+
+After the configuration tree is processed, C<ap_fixup_virtual_hosts()>
+is called. One of the responsibilities of this function is to merge
+the virtual hosts configuration objects with the base server's object.
+If there are virtual hosts, C<merge_server_configs()> calls
+C<modperl_config_srv_merge()> and C<modperl_config_dir_merge()> for
+each virtual host, to perform this merge for mod_perl configuration
+objects.
+
+META: is that's the place where everything restarts? it doesn't
+restart under debugger since we run with NODETACH I believe.
+
+=head2 The I<open_logs> Phase
+
+After Apache processes the configuration it's time for the
+I<open_logs> phase, executed by C<ap_run_open_logs()>. mod_perl has
+registered the C<modperl_hook_init()> hook to be called for this phase.
+
+META: complete what happens at this stage in mod_perl
+
+META: why is it called modperl_hook_init and not open_logs? is it
+because it can be called from other functions?
+
+=head2 The I<post_config> Phase
+
+Immediately after I<open_logs>, the I<post_config> phase follows. Here
+C<ap_run_post_config()> calls C<modperl_hook_post_config()>
+
+
 
 =head1 Request Processing
 

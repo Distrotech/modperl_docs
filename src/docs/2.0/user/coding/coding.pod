@@ -155,15 +155,16 @@ You can still call C<CORE::exit> to kill the interpreter, again if you
 know what you are doing.
 
 
-=head1 Threads Coding Issues under mod_perl
+=head1 Threads Coding Issues Under mod_perl
 
 The following sections discuss threading issues when running mod_perl
 under a threaded MPM.
 
 =head2 Thread-environment Issues
 
-The only thing you have to worry about your code is that it's
-thread-safe and that you don't use functions that affect all threads.
+The "only" thing you have to worry about your code is that it's
+thread-safe and that you don't use functions that affect all threads
+in the same process.
 
 Perl 5.8.0 itself is a thread-safe. That means that operations like
 C<push()>, C<map()>, C<chomp()>, C<=>, C</>, C<+=>, etc. are
@@ -172,8 +173,8 @@ thread-safe. It all depends on whether the underlying C libraries used
 by the perl functions are thread-safe.
 
 For example the function C<localtime()> is not thread-safe when the
-implementation of asctime(3) is not thread-safe. Other usually
-problematic functions include readdir(), srand(), etc.
+implementation of C<asctime(3)> is not thread-safe. Other usually
+problematic functions include C<readdir()>, C<srand()>, etc.
 
 Another important issue that shouldn't be missed is what some people
 refer to as I<thread-locality>. Certain functions executed in a single
@@ -183,7 +184,12 @@ thread, all other thread now see the current working directory of that
 thread that C<chdir()>'ed to that directory. Other functions with
 similar effects include C<umask()>, C<chroot()>, etc. Currently there
 is no cure for this problem. You have to find these functions in your
-code and replace them with different workarounds.
+code and replace them with alternative solutions which don't incur
+this problem.
+
+For more information refer to the I<perlthrtut>
+(I<http://perldoc.com/perl5.8.0/pod/perlthrtut.html>) manpage.
+
 
 =head2 Deploying Threads
 
@@ -194,13 +200,26 @@ under threaded MPM mod_perl.
 
 If you want to spawn your own threads, first of all study how the new
 ithreads Perl model works, by reading the I<perlthrtut>, I<threads>
-and I<threads::shared> manpages.
+(I<http://search.cpan.org/search?query=threads>) and
+I<threads::shared>
+(I<http://search.cpan.org/search?query=threads%3A%3Ashared>) manpages.
 
 Artur Bergman wrote an article which explains how to port pure Perl
-modules to work properly with Perl ithreads. Issues with chdir() and
-other functions that rely on shared process' datastructures are
-discussed.  http://www.perl.com/lpt/a/2002/06/11/threads.html
+modules to work properly with Perl ithreads. Issues with C<chdir()>
+and other functions that rely on shared process' datastructures are
+discussed.  I<http://www.perl.com/lpt/a/2002/06/11/threads.html>.
 
+
+=head2 Shared Variables
+
+Global variables are only global to the interpreter in which they are
+created. Other interpreters from other threads can't access that
+variable. Though it's possible to make existing variables shared
+between several threads running in the same process by using the
+function C<threads::shared::share()>. New variables can be shared by
+using the I<shared> attribute when creating them. This feature is
+documented in the I<threads::shared>
+(I<http://search.cpan.org/search?query=threads%3A%3Ashared>) manpage.
 
 =head1 Maintainers
 

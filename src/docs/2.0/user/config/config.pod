@@ -1032,16 +1032,10 @@ C<Apache::exists_config_define()>, for example:
 
 =head1 Perl Interface to the Apache Configuration Tree
 
-META:
+META: any volunteers to write this section? see
+t/response/TestApache/conftree.pm for examples of using the api.
 
-Apache::Directive
-
-t/response/TestApache/conftree.pm
-
-
-
-
-
+L<Apache::Directive|docs::2.0::api::modperl_2.0::Apache::Directive>.
 
 
 

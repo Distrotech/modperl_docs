@@ -9,14 +9,17 @@ with mod_perl 2.0. For most people it's sufficient to get going.
 
 =head1 Installation
 
-First of all check that you have the L<mod_perl 2.0
+If you are a Win32 user, please refer to the L<Win32 installation
+document|docs::2.0::os::win32::install>.
+
+First, L<download|download::index> the mod_perl 2.0 source.
+
+Before installing mod_perl, you need check that you have the
+L<mod_perl 2.0
 prerequisites|docs::2.0::user::install::install/Prerequisites>.
 
 In this chapter we assume that httpd was installed under
 I<$HOME/httpd/prefork>.
-
-Next, download the mod_perl 2.0 source from:
-I<http://perl.apache.org/download/>.
 
 Now, configure mod_perl:
 
@@ -41,6 +44,9 @@ instructions|docs::2.0::user::install::install/Installing_mod_perl_from_Source>.
 
 
 =head1 Configuration
+
+If you are a Win32 user, please refer to the L<Win32 configuration
+document|docs::2.0::os::win32::config>.
 
 Enable mod_perl built as DSO, by adding to I<httpd.conf>:
 
@@ -76,11 +82,9 @@ and shut down with:
 Check I<$HOME/httpd/prefork/logs/error_log> to see that the server has
 started and it's a right one. It should say something similar to:
 
-  [Tue Sep 03 12:34:57 2002] [notice] Apache/2.0.41-dev (Unix) 
-  mod_perl/1.99_05-dev Perl/v5.8.0 mod_ssl/2.0.41-dev OpenSSL/0.9.6d 
+  [Tue Sep 03 12:34:57 2002] [notice] Apache/2.0.44 (Unix) 
+  mod_perl/1.99_07 Perl/v5.8.0 mod_ssl/2.0.44 OpenSSL/0.9.6g
   DAV/2 configured -- resuming normal operations
-
-
 
 
 
@@ -118,7 +122,10 @@ I<http://localhost/perl/rock.pl> and you should get the response:
 
 If that didn't work check the I<error_log> file.
 
-
+For more information on the registry scripts refer to the
+C<L<ModPerl::Registry|docs::2.0::api::ModPerl-Registry::ModPerl::Registry>>
+manapage. (XXX: on day there will a tutorial on registry, should port
+it from 1.0's docs).
 
 
 =head1 Handler Modules
@@ -127,6 +134,8 @@ Finally check that you can run mod_perl handlers. Let's write a
 response handler similar to the registry script from the previous
 section:
 
+  #file:MyApache/Rocks.pm
+  #----------------------
   package MyApache::Rocks;
   
   use strict;
@@ -179,9 +188,13 @@ If that didn't work check the I<error_log> file.
 
 =head1 Troubleshooting
 
-If after reading the complete installation and configuration chapters
-you are still having problems, please L<report
-them|docs::2.0::user::help::help/Reporting_Problems>.
+If after reading the complete
+L<installation|docs::2.0::user::install::install> and L<configuration
+chapters|docs::2.0::user::config::config> you are still having
+problems, take a look at the L<troubleshooting
+sections|docs::2.0::user::troubleshooting::troubleshooting>. If the problem
+persist, please report them using the L<following
+guidelines|docs::2.0::user::help::help/Reporting_Problems>.
 
 
 
