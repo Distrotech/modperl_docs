@@ -1,0 +1,77 @@
+=head1 NAME
+
+Apache::RequestUtil -- Methods for work with Apache::Request object
+
+=head1 SYNOPSIS
+
+  use Apache::RequestUtil;
+
+=head1 DESCRIPTION
+
+C<Apache::RequestUtil> provides the Perl API for Apache request object.
+
+META: complete
+
+=head1 API
+
+Function arguments (if any) and return values are shown in the
+function's synopsis.
+
+=head2 FUNCTIONS
+
+=over
+
+=item * Apache-E<gt>request()
+
+=back
+
+
+=head2 METHODS
+
+=over
+
+=item * new()
+
+=item * server_name()
+
+=item * server_port()
+
+=item * dir_config()
+
+=item * get_status_line()
+
+=item * is_initial_req()
+
+=item * method_register()
+
+=item * add_config()
+
+=item * location()
+
+=item * location_merge()
+
+=item * no_cache()
+
+=item * pnotes()
+
+=item * set_basic_credentials()
+
+=item * as_string()
+
+=item * push_handlers()
+
+  $r->push_handlers(PerlResponseHandler => \&handler);
+  $r->push_handlers(PerlResponseHandler => [\&handler, \&handler2]);
+
+  # XXX: not implemented yet
+  $r->push_handlers(PerlResponseHandler => sub {...});
+
+=item * add_handlers()
+
+=item * get_handlers()
+
+
+=back
+
+
+=cut

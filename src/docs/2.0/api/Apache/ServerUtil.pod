@@ -118,6 +118,12 @@ deleted.
 
 =item * push_handlers()
 
+  $s->push_handlers(PerlResponseHandler => \&handler);
+  $s->push_handlers(PerlResponseHandler => [\&handler, \&handler2]);
+
+  # XXX: not implemented yet
+  $s->push_handlers(PerlResponseHandler => sub {...});
+
 =item * add_handlers()
 
 =item * get_handlers()
