@@ -72,7 +72,7 @@ The brigade to cleanup
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 1.99_15
 
 =back
 
