@@ -28,6 +28,14 @@ First of all:
 So if you aren't using Apache 2.x with mod_perl 2.0 please do not send
 any bug reports.
 
+=head2 Before Posting a Report
+
+Before you post the report, make sure that you've checked the
+I<error_log> file (t/logs/error_log in case of the failing test
+suite). Usually the errors are self-descriptive and if you remember to
+always check this file whenever you have a problem, chances are that
+you won't need to ask for help.
+
 =head2 Use a Proper Subject
 
 Make sure to include a good subject like explaining the problem in a
@@ -68,6 +76,9 @@ name.
 Also remember to include the relevant part of I<httpd.conf> and of
 I<startup.pl> if applicable. Don't include whole files, only the parts
 that should aid to understand and reproduce the problem.
+
+Finally don't forget to copy-n-paste (not type!) the B<relevant> part
+of the I<error_log> file (not the whole file!).
 
 =head2 Resolving Segmentation Faults
 
