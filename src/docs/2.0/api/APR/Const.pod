@@ -565,7 +565,8 @@ The C<:socket> group is for XXX constants.
 
   use APR::Const -compile qw(:table);
 
-The C<:table> group is for XXX constants.
+The C<:table> group is for C<overlap()> and C<compress()> constants.
+See C<L<APR::Table|docs::2.0::api::APR::Table>> for details.
 
 =head3 C<APR::OVERLAP_TABLES_MERGE>
 
