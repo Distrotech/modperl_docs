@@ -266,6 +266,56 @@ This attribute is optional. If not supplied, the default value of will
 be a string based on the directive's I<L<name|/C_name_>> and
 I<L<args_how|/C_args_how_>> attributes.
 
+=head3 C<cmd_data>
+
+Sometimes it is useful to pass information back to the directive
+handler callback.  For instance, if you use the I<func> parameter
+to specify the same callback for two different directives you 
+might want to know which directive is being called currently.
+To do this, you can use the I<cmd_data> parameter, which allows
+you to store arbitrary strings for later retrieval from your
+directive handler.  For instance.
+
+  our @APACHE_MODULE_COMMANDS = (
+      {
+       name         => '<Location',
+       # func defaults to Redirect()
+       req_override => Apache::RSRC_CONF,
+       args_how     => Apache::RAW_ARGS,
+      },
+      {
+       name         => '<LocationMatch',
+       func         => Redirect,
+       req_override => Apache::RSRC_CONF,
+       args_how     => Apache::RAW_ARGS,
+       cmd_data     => '1',
+      },
+  );
+
+Here, we are using the C<Location()> function to process both
+the C<Location> and C<LocationMatch> directives.  In the
+C<Location()> callback we can check the data in the I<cmd_data> slot
+to see whether the directive being processed is C<LocationMatch>
+and alter our logic accordingly.  How? Through the 
+C<info()> method exposed by the C<Apache::CmdParms> class.
+
+  use Apache::CmdParms ();
+
+  ...
+
+  sub Location {
+                                                                                                    
+    my ($cfg, $parms, $data) = @_;
+                                                                                                    
+    # see if we were called via LocationMatch
+    my $regex = $parms->info;
+
+    ...
+  }
+
+In case you are wondering, C<Location> and C<LocationMatch> were
+chosen for a reason - this is exactly how httpd core handles these
+two directives.
 
 =head2 Directive Scope Definition Constants
 
