@@ -2,7 +2,7 @@
 
 Warnings and Errors Troubleshooting Index
 
-=head1 General Advice 
+=head1 General Advice
 
 Perl's warnings mode is immensely helpful in detecting possible
 problems.  Make sure you always turn on warnings while you are
@@ -20,7 +20,7 @@ pragma|debug/diagnostics_pragma> for more information.
 
 
 
-=head1 Building and Installation 
+=head1 Building and Installation
 
 See L<make Troubleshooting|install/make_Troubleshooting> and
 L<make test Troubleshooting|install/make_test_Troubleshooting>
@@ -718,7 +718,7 @@ L<Server Stopping and Restarting|control/Server_Stopping_and_Restarting>
 =head1 Windows OS specific notes
 
 
-=head2 Apache::DBI 
+=head2 Apache::DBI
 
 C<Apache::DBI> causes the server to exit when it starts up, with:
 

@@ -326,7 +326,7 @@ update the read-only copies of the dbm file are recreated. Use this
 wrapper in situations where reads may be very lengthy and therefore
 write starvation problem may occur. On the other hand if you have big
 dbm files, it may create a big load on the system if the updates are
-quite frequent.  L<More information|dbm/mod_perl_and_dbm_files_>.
+quite frequent.  L<More information|dbm/mod_perl_and_dbm>.
 
 =item *
 
@@ -350,7 +350,7 @@ more information.
 
 =item *
 
-L<C<DB_File::Lock2>|dbm/mod_perl_and_dbm_files_> -- does the same thing as
+L<C<DB_File::Lock2>|dbm/mod_perl_and_dbm> -- does the same thing as
 C<DB_File::Lock>, but has a slightly different implementation.  I
 wrote it before David Harris released his C<DB_File::Lock> and I
 didn't want to kill mine, so I'll keep it here for a while :).

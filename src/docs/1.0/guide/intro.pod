@@ -261,7 +261,7 @@ IMDB: Internet Movie Database
 
 1.25 million page views/day Mar-1998
 
-http://www.imdb.com
+http://www.imdb.com/
 
 * They are now an Amazon.com company
 
@@ -273,8 +273,7 @@ Flash.net: Internet Service Provider
 
 1,603,000 unique visitors/month Aug-1999
 
-http://www.flash.net
-http://www.mediametrix.com/
+http://www.flash.net/
 
 Apache/1.2.4 mod_perl/1.00 on Solaris
 
@@ -284,8 +283,8 @@ At Hand Network Yellow Pages
 
 917,000 unique visitors/month Aug-1999
 
-http://www.athand.com
-http://www.mediametrix.com/TopRankings/TopRankings.html
+http://www.athand.com/
+http://www.mediametrix.com/
 
 Stronghold/2.3 Apache/1.2.6 (Unix) mod_perl/1.15 on Solaris
 
