@@ -25,22 +25,22 @@ file /usr/bin/perl
 # use warnings;
 #
 # BEGIN {
-# use Inline Config =>
-#     #FORCE_BUILD => 1,
-#     CLEAN_AFTER_BUILD => 0;
-#
-# use Inline C => Config =>
-#     OPTIMIZE => '-g';
-#
-# use Inline C => <<END;
-# void my_bp() {
-#     dTHX;
-#     Perl_warn(aTHX_ "starting debug\n");
-# }
-# END
-#
-# Inline->init;
-#
+#     use Inline Config =>
+#         #FORCE_BUILD => 1,
+#         CLEAN_AFTER_BUILD => 0;
+# 
+#     use Inline C => Config =>
+#         OPTIMIZE => '-g';
+# 
+#     use Inline C => <<EOI;
+#     void my_bp() {
+#         dTHX;
+#         Perl_warn(aTHX_ "starting debug\n");
+#     }
+# EOI
+# 
+#     Inline->init;
+# 
 # }
 #
 # my_bp();
