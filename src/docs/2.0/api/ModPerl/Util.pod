@@ -69,8 +69,8 @@ Returns the currently running callback, like 'PerlResponseHandler'.
 
 =head2 C<exit>
 
-Used internally to replace C<CORE::exit> and terminate the request,
-not the current process.
+Terminate the request, but not the current process (with threaded
+Perls not the current Perl interpreter).
 
   ModPerl::Util::exit($status);
 
@@ -78,13 +78,21 @@ not the current process.
 
 =item opt arg1: C<$status> (integer)
 
-The exit status, similar to C<CORE::exit>. If not passed, the default
-value of 0 is used.
+The exit status, which as of this writing is ignored.
 
 =item ret: no return value
 
+=item since: 1.99_10
+
 =back
 
+Normally you will use the plain C<exit()> in your code. You don't need
+to use C<ModPerl::Util::exit> explicitly, since mod_perl overrides
+C<exit()> by setting C<CORE::GLOBAL::exit> to
+C<ModPerl::Util::exit>. Only if you redefine C<CORE::GLOBAL::exit>
+once mod_perl is running, you may want to use this function.
+
+The original C<exit()> is still available via C<CORE::exit()>.
 
 
 

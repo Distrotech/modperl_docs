@@ -628,15 +628,14 @@ manpage.
 C<Apache-E<gt>httpd_conf> is avalable via
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
+
+
 =head2 C<Apache::exit()>
 
-C<Apache::exit()> has been replaced with C<ModPerl::Util::exit()>,
-which is a function (not a method) and accepts a single optional
-argument: status, whose default is 0 (== do nothing).
+C<Apache::exit()> has been replaced with
+C<L<ModPerl::Util::exit()|docs::2.0::api::ModPerl::Util/C_exit_>>.
 
-See the
-C<L<ModPerl::Util|docs::2.0::api::ModPerl::Util>>
-manpage.
+
 
 =head2 C<Apache::gensym()>
 
