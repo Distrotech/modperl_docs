@@ -238,7 +238,7 @@ C<$r-E<gt>custom_response>. It looks something like this:
    
   return FORBIDDEN if $suspended;
 
-=head1 Apache:Auth* modules
+=head1 Apache::Auth* modules
 
 =over 
 
