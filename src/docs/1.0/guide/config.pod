@@ -1290,6 +1290,8 @@ Let's look at a real world startup file:
     AutoCommit => 1, # commit executes immediately
    }
   );
+  
+  1;
 
 Now we'll review the code explaining why each line is used.
 
@@ -1373,12 +1375,18 @@ functionality. As with all modules we preload in the startup file, we
 don't import symbols from them as they will be lost when they go out
 of the file's scope.
 
-Note that starting with C<$CGI::VERSION> 2.46, the recommended method
+Note that starting with C<CGI.pm> version 2.46, the recommended method
 to precompile the code in C<CGI.pm> is:
 
   use CGI qw(-compile :all);
 
 But the old method is still available for backward compatibility.
+
+  1;
+
+As I<startup.pl> is run through Perl's C<require()>, it has to return
+a true value so that Perl can make sure it has been successfully
+loaded. Don't forget this (it's very easy to forget it).
 
 See also the 'L<Apache::Status -- Embedded interpreter status
 information|guide::debug/Apache__Status____Embedded_Interpreter_Status_Information>' 
