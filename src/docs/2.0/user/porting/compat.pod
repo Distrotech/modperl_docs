@@ -986,16 +986,20 @@ argument is the I<pool> object. For example:
   # during startup
   my $conf_dir = Apache::server_root_relative($s->pool, 'conf');
 
-The old way:
+Alternatively:
 
-  my $conf_dir = Apache::server_root_relative('Apache', 'conf');
+  # during request
+  my $conf_dir = $r->server_root_relative('conf');
+  # during startup
+  my $conf_dir = $c->server_root_relative('conf');
 
-will work as well, but you shouldn't use it, because it'll internally
-use a global pool, which is a bit slower, but the worst drawback is
-that every time you use this way the allocated from this pool memory
-won't be cleaned up, till the server quits so there will be a memory
-leak. When you are inside a request and use C<$r-E<gt>pool>, this pool
-is freed at the end of each request.
+Note that the old form
+
+  my $conf_dir = Apache->server_root_relative('conf');
+
+is no longer valid - C<Apache::server_root_relative> must be called
+from either one of C<$r>, C<$s>, or C<$c>, or be explicitly
+passed a pool.
 
 
 See the L<Apache::ServerUtil> manpage.
