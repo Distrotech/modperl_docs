@@ -680,6 +680,7 @@ for C<Apache::gensym()> function, since now it can be done with:
 Though the C function C<modperl_perl_gensym()> is available for XS/C
 extensions writers.
 
+
 =head2 C<Apache::log_error()>
 
 C<Apache::log_error()> is not available in mod_perl 2.0 API. You can

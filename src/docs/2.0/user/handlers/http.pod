@@ -444,6 +444,8 @@ and here is the C<MyApache::SendEmail> handler:
   use Apache::RequestRec ();
   use Apache::RequestIO ();
   use Apache::RequestUtil ();
+  use Apache::Server ();
+  use Apache::Process ();
   use APR::Table ();
   
   use Apache::Const -compile => qw(DECLINED OK);
@@ -456,7 +458,8 @@ and here is the C<MyApache::SendEmail> handler:
   
       return Apache::DECLINED unless $r->method eq METHOD;
   
-      Apache::method_register($r->pool, METHOD);
+      Apache::RequestUtil::method_register($r->server->process->pconf,
+                                           METHOD);
       $r->handler("perl-script");
       $r->push_handlers(PerlResponseHandler => \&send_email_handler);
   
@@ -531,12 +534,19 @@ constant):
       return Apache::DECLINED unless $r->method eq METHOD;
 
 Next it tells Apache that this new method is a valid one and that the
-C<perl-script> handler will do the processing. Finally it pushes the
-function C<send_email_handler()> to the C<PerlResponseHandler> list of
-handlers:
+C<perl-script> handler will do the processing.
 
-      Apache::Server::method_register($r->pool, METHOD);
+      Apache::RequestUtil::method_register($r->server->process->pconf,
+                                           METHOD);
       $r->handler("perl-script");
+
+Notice that we use the C<pconf> pool which persists through the server
+life, and not C<$r-E<gt>pool> whose life span will end at the end of
+the request.
+
+Finally it pushes the function C<send_email_handler()> to the
+C<PerlResponseHandler> list of handlers:
+
       $r->push_handlers(PerlResponseHandler => \&send_email_handler);
 
 The function terminates the header_parser phase by:
