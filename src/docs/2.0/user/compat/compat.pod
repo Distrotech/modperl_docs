@@ -163,7 +163,7 @@ mod_perl specific constants
 =back
 
 See the manpages of the respective modules to figure out which
-constants they provide. (XXX: the manpages don't exist)
+constants they provide. (XXX: not all manpages exist yet.)
 
 META: add the info how to perform the transition. XXX: may be write a
 script, which can tell you how to port the constants to 2.0? Currently
@@ -175,13 +175,34 @@ C<Apache::compat> doesn't provide a complete back compatibility layer.
 
 
 
-=head1 C<Apache::>
+=head1 C<Apache::> Methods
+
+=head2 C<Apache-E<gt>request>
+
+C<Apache-E<gt>request> is deprecated.  It's error-prone and hurts
+performance when using threaded MPMs, since it has to use thread local
+storage.
+
+For any location that uses C<Apache-E<gt>request> and uses
+C<"modperl"> handler, you need to configure:
+
+  <Location ...>
+      SetHandler modperl
+      PerlOptions +GlobalRequest
+      ...
+  </Location>
+
+It's already enabled for:
+
+  <Location ...>
+      SetHandler perl-script
+      ...
+  </Location>
 
 
+=head2 C<Apache-E<gt>define>
 
-=head2 C<Apache-E<gt>define()>
-
-C<Apache-E<gt>define()> has been replaced with
+C<Apache-E<gt>define> has been replaced with
 C<Apache::exists_config_define()> residing inside
 C<Apache::ServerUtil>.
 
@@ -195,21 +216,51 @@ argument: status, whose default is 0 (== do nothing).
 
 See the C<L<ModPerl::Util>> manpage.
 
-=head2 C<gensym()>
+=head2 C<Apache::gensym()>
 
 Since Perl 5.6.1 filehandlers are autovivified and there is no need
 for C<Apache::gensym()> function, since now it can be done with:
 
   open my $fh, "foo" or die $!;
 
-Though the C function modperl_perl_gensym() is available for XS/C
+Though the C function C<modperl_perl_gensym()> is available for XS/C
 extensions writers.
 
-=head2 C<module()>
+=head2 C<Apache::module()>
 
-C<Apache::module> has been replaced with the function
+C<Apache::module()> has been replaced with the function
 C<Apache::Module::loaded()>, which now accepts a single argument: the
 module name.
+
+=head2 C<Apache::log_error()>
+
+C<Apache::log_error()> is not available in mod_perl 2.0 API. You can
+use:
+
+  Apache->server->log_error
+
+instead. See the C<L<Apache::Log>> manpage.
+
+
+
+
+
+=head1 Server Object Methods
+
+=head2 C<$s-E<gt>register_cleanup>
+
+C<$s-E<gt>register_cleanup> has been replaced with
+C<APR::Pool::cleanup_register()> which accepts the pool object as the
+first argument instead of the server object. e.g.:
+
+  sub cleanup_callback { my $data = shift; ... }
+  $s->pool->cleanup_register(\&cleanup_callback, $data);
+
+where the last argument C<$data> is optional, and if supplied will be
+passed as the first argument to the callback function.
+
+See the C<L<APR::Pool>> manpage.
+
 
 
 
@@ -218,22 +269,30 @@ module name.
 =head1 Request Object Methods
 
 
-=head2 C<$r-E<gt>lookup_file>, C<$r-E<gt>lookup_uri>, 
+=head2 C<$r-E<gt>lookup_file>
 
-These functions have moved but didn't change their functionality. In
-order to use them load the module they belong to in mod_perl 2.0:
+See the next item
 
-  $r->lookup_file          Apache::SubRequest
-  $r->lookup_uri           Apache::SubRequest
+=head2 C<$r-E<gt>lookup_uri>
+
+C<$r-E<gt>lookup_file> and C<$r-E<gt>lookup_uri> didn't change their
+functionality but moved into C<L<Apache::SubRequest>>. Before using
+them, add:
+
+  use Apache::SubRequest;
 
 
-=head2 C<$r-E<gt>content()> and C<$r-E<gt>args()> in an Array Context
+=head2 C<$r-E<gt>content>
 
-C<$r-E<gt>args()> in 2.0 returns the query string without parsing and
+See the next item.
+
+=head2 C<$r-E<gt>args> in an Array Context
+
+C<$r-E<gt>args> in 2.0 returns the query string without parsing and
 splitting it into an array. You can also set the query string by
 passing a string to this method.
 
-C<$r-E<gt>content()> and C<$r-E<gt>args()> in an array context were
+C<$r-E<gt>content> and C<$r-E<gt>args> in an array context were
 mistakes that never should have been part of the mod_perl 1.0
 API. There multiple reason for that, among others:
 
@@ -270,30 +329,31 @@ C<$r-E<gt>read($buf, $r-E<gt>headers_in-E<gt>{'content-length'}>)
 
 =back
 
-Instead you should use C<Apache::Request>'s params() and similar
-methods to do the parsing for you. See the L<Apache::Request> manpage.
+Instead you should use C<Apache::Request>'s C<params()> and similar
+methods to do the parsing for you. See the C<L<Apache::Request>>
+manpage.
 
 XXX: ...when Apache::Request will be ported to 2.0. For now you can
 use the code in C<Apache::compat> that implements these methods in
 Perl.
 
-=head2  C<chdir_file()>
+=head2  C<$r-E<gt>chdir_file>
 
-C<chdir()> is not a thread-safe function, therefore C<chdir_file()> is
-gone from the API.
+C<chdir()> is not a thread-safe function, therefore
+C<$r-E<gt>chdir_file> is gone from the API.
 
 =head2 C<$r-E<gt>connection-E<gt>user>
 
-This method is deprecated in 1.0 and C<$r-E<gt>user> should be used
-instead for both versions of mod_perl. C<Apache::user()> method is
-available since mod_perl version 1.24_01.
+This method is deprecated in mod_perl 1.0 and C<$r-E<gt>user> should
+be used instead, for both versions of mod_perl. C<$r-E<gt>user()>
+method is available since mod_perl version 1.24_01.
 
-=head2 C<$r-E<gt>is_main()>
+=head2 C<$r-E<gt>is_main>
 
-C<$r-E<gt>is_main()> is not part of the mod_perl 2.0 API. Use
-C<!$r-E<gt>main()> instead.
+C<$r-E<gt>is_main> is not part of the mod_perl 2.0 API. Use
+C<!$r-E<gt>main> instead.
 
-=head2 C<$r-E<gt>finfo()>
+=head2 C<$r-E<gt>finfo>
 
 XXX: not implemented yet. To be implemented. C<Apache::compat> handles
 that for now with:
@@ -304,7 +364,15 @@ that for now with:
       \*_;
   }
 
-=head2 C<$r-E<gt>header_in()>, C<$r-E<gt>header_out()> and C<$r-E<gt>err_header_out()>
+=head2 C<$r-E<gt>header_in>
+
+See the next item.
+
+=head2 C<$r-E<gt>header_out>
+
+See the next item.
+
+=head2 C<$r-E<gt>err_header_out>
 
 C<header_in()>, C<header_out()> and C<err_header_out()> are not
 available in 2.0. Use C<headers_in()>, C<headers_out()> and
@@ -320,56 +388,42 @@ with:
 See the L<Apache::RequestRec> manpage.
 
 
+=head2 C<$r-E<gt>log_reason>
+
+C<$r-E<gt>log_reason> is not available in mod_perl 2.0 API. Use the
+other standard logging functions provided by the C<L<Apache::Log>>
+module. For example:
+
+  $r->log_error("it works!");
+
+See the C<L<Apache::Log>> manpage.
 
 
-=head2 C<$r-E<gt>log_reason()>
+=head2 C<$r-E<gt>register_cleanup>
 
-C<log_reason()> has been replaced with a set of dedicated functions:
-C<Apache::RequestRec::log_error()>, C<Apache::ServerRec::log_error()>,
-C<Apache::Log::info()> and others.
-
-See the L<Apache::RequestRec>, L<Apache::Server> and L<Apache::Log>
-manpages.
-
-
-=head2 C<$r-E<gt>register_cleanup()>
-
-register_cleanup() has been replaced with
+C<$r-E<gt>register_cleanup> has been replaced with
 C<APR::Pool::cleanup_register()> which accepts the pool object as the
 first argument instead of the request object. e.g.:
 
-  $r->pool->cleanup_register(\&cleanup, $data);
+  sub cleanup_callback { my $data = shift; ... }
+  $r->pool->cleanup_register(\&cleanup_callback, $data);
 
-where the last argument C<$data> is optional.
+where the last argument C<$data> is optional, and if supplied will be
+passed as the first argument to the callback function.
 
 See the L<APR::Pool> manpage.
 
 
-=head2 C<$r-E<gt>request()>
+=head2 C<$r-E<gt>request>
 
-Use C<Apache::request()>.
+Use C<Apache-E<gt>request>.
 
-Notice that C<Apache-E<gt>request> is deprecated.  It's error-prone
-and hurts performance when using threaded MPMs, since it has to use
-thread local storage.
 
-For any location that uses C<Apache-E<gt>request> and uses
-C<"modperl"> handler, you need to configure:
+=head2 C<$r-E<gt>send_fd>
 
-  <Location ...>
-      SetHandler modperl
-      PerlOptions +GlobalRequest
-      ...
-  </Location>
+See the next item.
 
-It's already enabled for:
-
-  <Location ...>
-      SetHandler perl-script
-      ...
-  </Location>
-
-=head2 C<$r-E<gt>send_fd()> and C<$r-E<gt>send_fd_length()>
+=head2 C<$r-E<gt>send_fd_length>
 
 currently available only in the 1.0 compatibility layer. The problem
 is that Apache has changed the API and the its functionality. See the
@@ -385,10 +439,22 @@ C<Apache::server_root_relative> is a function in 2.0.
 
 See the L<Apache::ServerUtil> manpage.
 
-=head2 C<$r-E<gt>hard_timeout()>, C<$r-E<gt>reset_timeout()>, C<$r-E<gt>soft_timeout()> and C<$r-E<gt>kill_timeout()>
+=head2 C<$r-E<gt>hard_timeout>
 
-The functions C<$r-E<gt>hard_timeout()>, C<$r-E<gt>reset_timeout()>,
-C<$r-E<gt>soft_timeout()> and C<$r-E<gt>kill_timeout()> aren't needed
+See the next item.
+
+=head2 C<$r-E<gt>reset_timeout>
+
+See the next item.
+
+=head2 C<$r-E<gt>soft_timeout>
+
+See the next item.
+
+=head2 C<$r-E<gt>kill_timeout>
+
+The functions C<$r-E<gt>hard_timeout>, C<$r-E<gt>reset_timeout>,
+C<$r-E<gt>soft_timeout> and C<$r-E<gt>kill_timeout> aren't needed
 in mod_perl 2.0.
 
 
@@ -397,8 +463,8 @@ in mod_perl 2.0.
 
 =head1 Apache::File
 
-The methods from module C<Apache::File> have been either moved to
-other packages or removed.
+The methods from mod_perl 1.0's module C<Apache::File> have been
+either moved to other packages or removed.
 
 =head2 C<open()> and C<close()>
 
@@ -417,9 +483,29 @@ anymore.
 mtime() now belongs to the module L<Apache::RequestRec>.
 
 
-=head2 C<discard_request_body()>, C<meets_conditions()>, C<set_content_length()>, C<set_etag()>, C<set_last_modified()> and C<update_mtime()>
+=head2 C<discard_request_body()>
 
-These functions now belong to the module L<Apache::Response>.
+This function now belongs to the module C<L<Apache::Response>>.
+
+=head2 C<meets_conditions()>
+
+This function now belongs to the module C<L<Apache::Response>>.
+
+=head2 C<set_content_length()>
+
+This function now belongs to the module C<L<Apache::Response>>.
+
+=head2 C<set_etag()>
+
+This function now belongs to the module C<L<Apache::Response>>.
+
+=head2 C<set_last_modified()>
+
+This function now belongs to the module C<L<Apache::Response>>.
+
+=head2 C<update_mtime()>
+
+This function now belongs to the module C<L<Apache::Response>>.
 
 
 
@@ -430,11 +516,11 @@ These functions now belong to the module L<Apache::Response>.
 
 A few C<Apache::Util> functions have changed their interface.
 
-=head2 C<Apache::Util::size_string>
+=head2 C<Apache::Util::size_string()>
 
-C<Apache::Util::size_string> has been replaced with
-C<APR::String::format_size>, which returns formatted strings of only 4
-characters long. See the C<L<APR::String>> manpage.
+C<Apache::Util::size_string()> has been replaced with
+C<APR::String::format_size()>, which returns formatted strings of only
+4 characters long. See the C<L<APR::String>> manpage.
 
 =head2 C<Apache::Util::unescape_uri()>
 
@@ -480,11 +566,17 @@ place of subroutine prototypes:
 
 See the I<attributes> manpage.
 
-mod_perl 2.0 doesn't support the C<($$)> prototypes, mainly because
-several callbacks in 2.0 have more arguments than C<$r>, so the
-C<($$)> prototype doesn't make sense anymore. Therefore if you want
-your code to work with both mod_perl generations, you should use the
-subroutine attributes.
+mod_perl 2.0 doesn't handles callbacks with C<($$)> prototypes
+differently than other callbacks (as it did in mod_perl 1.0), mainly
+because several callbacks in 2.0 have more arguments than just C<$r>,
+so the C<($$)> prototype doesn't make sense anymore. Therefore if you
+want your code to work with both mod_perl generations and you can
+allow the luxury of:
+
+  require 5.6.0;
+
+you should use the subroutine attributes. The subroutine attributes
+are supported in Perl only since version 5.6.0.
 
 
 
