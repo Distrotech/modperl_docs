@@ -1,0 +1,100 @@
+=head1 NAME
+
+Apache::Filter -- A Perl API for Apache 2.0 Filtering
+
+=head1 Synopsis
+
+  use Apache::Filter;
+
+=head1 Description
+
+C<Apache::Filter> provides the Perl API for Apache 2.0 filtering
+framework
+
+=head1 API
+
+Function arguments (if any) and return values are shown in the
+function's synopsis.
+
+=head2 ...
+
+=head1 Attributes
+
+To use attributes the package they are defined in, has to subclass
+C<Apache::Filter>:
+
+  use base qw(Apache::Filter);
+
+Attributes are parsed during the code compilation.
+
+=head2 C<FilterRequestHandler>
+
+=head2 C<FilterConnectionHandler>
+
+=head2 C<FilterInitHandler>
+
+  sub init : FilterInitHandler {
+      my $filter = shift;
+      #...
+      return Apache::OK;
+  }
+
+The attribute C<FilterInitHandler> marks the function suitable to be
+used as a filter initialization callback, which is called immediately
+after a filter is inserted to the filter chain and "long" before it's
+actually called.
+
+For example you may decide to remove the filter before it had a chance
+to run.
+
+  sub init : FilterInitHandler {
+      my $filter = shift;
+      $filter->remove() if should_remove_filter();
+      return Apache::OK;
+  }
+
+In order to hook this filter callback, the real filter has to assign
+this callback using the
+C<L<FilterHasInitHandler|/C_FilterHasInitHandler_>> which accepts a
+reference to the callback function.
+
+=head2 C<FilterHasInitHandler>
+
+If a filter wants to run an initialization callback it can register
+such using the C<FilterHasInitHandler> attribute. Similar to
+C<push_handlers> the callback reference is expected, rather than a
+callback name. The used callback function has to have the
+C<L<FilterInitHandler|/C_FilterInitHandler_>> attribute. For example:
+
+  package MyFilter;
+  use base qw(Apache::Filter);
+  sub init   : FilterInitHandler { ... }
+  sub filter : FilterRequestHandler FilterHasInitHandler(\&init) {
+      my ($filter, $bb) = @_;
+      # ...
+      return Apache::OK;
+  }
+
+While attributes are parsed during the code compilation (it's really a
+sort of source filter), the argument to the C<FilterHasInitHandler()>
+attribute is compiled at a later stage once the module is compiled.
+
+The argument to C<FilterHasInitHandler()> can be any perl code which
+when C<eval()>'ed returns a reference to a function. For example:
+
+  package MyFilter;
+  sub get_pre_handler { \&MyOtherfilter::init }
+  sub filter : FilterHasInitHandler(get_pre_handler()) { ... }
+
+Notice that the argument to C<FilterHasInitHandler()> is always
+C<eval()>'ed in the package of the real filter handler (not the init
+handler). So the above code leads to the following evaluation:
+
+  $init_handler_sub = eval "package MyFilter; get_pre_handler()";
+
+though, this is done in C.
+
+META: currently only one callback can be registered per filter, if the
+need to register more than one arises it should be very easy to do.
+
+=cut
