@@ -1,15 +1,15 @@
 =head1 NAME
 
-Introduction. Incentives.
+Introduction and Incentives
 
 =head1 Description
 
 An introduction to what mod_perl is all about, its different features,
-and some explanations of C<Apache::Registry>, C<Apache::PerlRun> and
-the Apache/Perl API.
+and some explanations of the C API, C<Apache::Registry>,
+C<Apache::PerlRun> and the Apache/Perl API.
 
 
-=head1 What is mod_perl
+=head1 What is mod_perl?
 
 The Apache/Perl integration project brings together the full power of
 the Perl programming language and the Apache HTTP server. With
@@ -43,6 +43,9 @@ You can configure your httpd server and handlers in Perl (using
 C<PerlSetVar>, and E<lt>PerlE<gt> sections). You can even define your
 own configuration directives.
 
+For examples on how you use mod_perl, see our L<What is
+mod_perl?|start::index> section.
+
 Many people ask "How much of a performance improvement does mod_perl
 give?" Well, it all depends on what you are doing with mod_perl and
 possibly who you ask. Developers report speed boosts from 200% to
@@ -67,21 +70,165 @@ mod_perl and C<Apache::Registry> you would use a configuration like:
   <Location /perl>
     SetHandler perl-script
     PerlHandler Apache::Registry
-    Options ExecCGI
+    Options +ExecCGI
     PerlSendHeader On
   </Location>
 
 =head2 C API
 
-META: complete
+The Apache C API has been present for a long time, and has been the
+usual way to program extensions to Apache, such as mod_perl. When you
+write C extension modules, you write C code that is not independent,
+but will be linked into the Apache I<httpd> executable either at build
+time (if the module is statically linked), or at runtime (if it is
+compiled as a Dynamic Shared Object, or DSO). Either way, you do as
+with any C library: you write functions that receive a certain number
+of arguments and make use of external API functions, provided by
+Apache or by other libraries.
+
+The difference is that with Apache extension modules, these functions
+are I<registered> inside a module record: you tell Apache already at
+compile-time for which phases you wish to run any functions. Of
+course, you probably won't be handling all the phases. Here is an
+example of a module handling only the content generation phase:
+
+  /* Dispatch list of content handlers */
+  static const handler_rec hello_handlers[] = {
+      { "hello", hello_handler },
+      { NULL, NULL }
+  };
+  
+  /* Dispatch list for API hooks */
+  module MODULE_VAR_EXPORT hello_module = {
+      STANDARD_MODULE_STUFF,
+      NULL,                  /* module initializer                  */
+      NULL,                  /* create per-dir    config structures */
+      NULL,                  /* merge  per-dir    config structures */
+      NULL,                  /* create per-server config structures */
+      NULL,                  /* merge  per-server config structures */
+      NULL,                  /* table of config file commands       */
+      hello_handlers,        /* [#8] MIME-typed-dispatched handlers */
+      NULL,                  /* [#1] URI to filename translation    */
+      NULL,                  /* [#4] validate user id from request  */
+      NULL,                  /* [#5] check if the user is ok _here_ */
+      NULL,                  /* [#3] check access by host address   */
+      NULL,                  /* [#6] determine MIME type            */
+      NULL,                  /* [#7] pre-run fixups                 */
+      NULL,                  /* [#9] log a transaction              */
+      NULL,                  /* [#2] header parser                  */
+      NULL,                  /* child_init                          */
+      NULL,                  /* child_exit                          */
+      NULL                   /* [#0] post read-request              */
+  };
+
+Using this configuration (and a correctly built C<hello_handler()>
+function), you'd then be able to use the following configuration to
+allow your module to handle the requests for the I</hello> URI.
+
+  <Location /hello>
+    SetHandler hello
+  </Location>
+
+When Apache sees a request for the I</hello> URI, it will then figure
+out what the "hello" handler corresponds to by looking it up in the
+handler record, and match that to the C<hello_handler> function
+pointer, which will execute the C<hello_handler> function of your
+module with a C<request_rec *r> as an argument. From that point, your
+handler is free to do whatever it wants, returning content, declining
+the request, or doing other bizarre things based on user input.
+
+It is not the object of this guide to explain how to program C
+handlers. However, this example lets you in on some of the secrets of
+the Apache core, which you will probably understand anyway by using
+mod_perl. If you want more information on writing C modules, you
+should read the Apache API documentation at
+http://httpd.apache.org/docs/misc/API.html and more importantly
+I<Writing Apache Modules with Perl and C>, which will teach you about
+I<both> mod_perl and C modules!
 
 =head2 Perl API
 
-META: complete
+After a while, C modules were found hard to write and difficult to
+maintain, mostly because code had to be recompiled or just because of
+the low-level nature of the C language, and because these modules were
+so intricately linked with Apache that a small bug could put at risk
+your whole server environment. In comes mod_perl. Programmed in C and
+using all the techniques described above and more, it allows Perl
+modules, written in good Perl style, to access the (almost) complete
+API provided to the conventional C extensions.
+
+However, the structure used for Perl Apache modules is a little
+different. If you've programmed normal Perl modules (like those found
+on CPAN) before, you'll be happy to know that programming for mod_perl
+using the Apache API doesn't involve anything else than writing a Perl
+module that defines a C<handler> subroutine (that is the
+convention--we'll see that that doesn't necessarily have to be the
+name). This subroutine accepts an argument, C<$r>, which is the Perl
+API equivalent of the C API C<request_rec *r>.
+
+C<$r> is your entry point to the whole Perl Apache API. Through it you
+access methods in good object-oriented fashion, which makes it
+slightly easier than with C, and looks a lot more familiar to Perl
+programmers.
+
+Furthermore, Perl Apache modules do not define handler records like C
+modules. You only need to create your handler subroutine(s), and then
+control which requests they should handle solely with mod_perl
+configuration directives inside your Apache configuration.
+
+Let's look at a sample handler that returns a greeting and the current
+local time.
+
+  file:My/Greeting.pm
+  -------------------
+  package My::Greeting;
+  use strict;
+  
+  use Apache::Constants qw(OK);
+  
+  sub handler {
+      my $r = shift;
+      my $now = scalar localtime;
+      my $server_name = $r->server->server_hostname;
+  
+      $r->send_http_header('text/plain');
+  
+      print <<EOT;
+  Thanks for visiting $server_name.
+  The local time is $now.
+  EOT
+  
+      return OK;
+  }
+  1; # modules must return true
+
+As you can see, we're mixing Perl standard functions (like
+C<localtime()>) with Apache functions
+(C<$r-E<gt>send_http_header()>). To return the above greeting when
+accessing the I</hello> URI, you would configure Apache like this:
+
+  <Location /hello>
+      SetHandler perl-script
+      PerlHandler My::Greeting
+  </Location>
+
+When it sees this configuration, mod_perl loads the C<My::Greeting>
+module, finds the C<handler()> subroutine, and calls it to allow it to
+return the appropriate content. There are equivalent C<Perl*Handler>
+directives for the different phases we saw were available to C
+handlers.
+
+The Perl API gives you an incredible number of possibilities, which
+you can then use to be more productive or creative. mod_perl is an
+enabling technology; it won't make you smarter or more creative, but
+it will do its best to make you lose less time because of
+I<"accidental difficulties"> of programming, and let you concentrate
+more on the important parts.
+
 
 =head2 Apache::Registry
 
-From the viewpoint of the Perl API, C<Apache::Registry> is simply
+From the viewpoint of the Perl API, L<Apache::Registry> is simply
 another handler that's not conceptually different from any other
 handler. C<Apache::Registry> reads in the script file, compiles,
 executes it and stores into the cache.  Since the perl interpreter
@@ -158,13 +305,34 @@ The C<sub handler> subroutine is wrapped around your code. By default
 your code's URI is called, mod_perl will seek to execute the URI's
 associated C<handler> subroutine.
 
-META: Complete
+C<Apache::Registry> is usually configured in this way:
+
+  Alias /perl/ /usr/local/apache/bin/
+  <Location /perl>
+    SetHandler perl-script
+    PerlHandler Apache::Registry
+  </Location>
+
+In short, we see that C<Apache::Registry> is just another mod_perl
+handler, which is executed when requests are made for the I</perl>
+directory, and then does some special handling of the Perl scripts in
+that directory to turn I<them> into Apache handlers.
+
 
 =head2 Apache::PerlRun
 
-META: Complete
+L<Apache::PerlRun> is very similar to C<Apache::Registry>. It uses the
+same basic concepts, i.e. it runs CGI scripts under mod_perl for
+additional speed. However, unlike C<Apache::Registry>,
+C<Apache::PerlRun> will not cache scripts. The reason for this is that
+it's designed for use with CGI scripts that may have been "dirty",
+which might cause problems when run persistently under mod_perl. Apart
+from that, the configuration is the same. We discuss
+C<Apache::PerlRun> in L<Apache::PerlRun, a closer
+look|guide::porting/Apache__PerlRun__a_closer_look>.
 
-=head1 What will you learn
+
+=head1 What you will learn
 
 This document was written in an effort to help you start using
 Apache's mod_perl extension as quickly and easily as possible. It
@@ -173,12 +341,12 @@ Perl and the Apache web server and delves deeply into the issues of
 writing and porting existing Perl scripts to run under mod_perl. Note
 that it does not attempt to enter the big world of using the Perl API
 or C API.  You will find pointers to coverage of these topics in the
-L<Getting Help and Further Learning|guide::help/> section of this
-document. This guide tries to cover the most of the
-C<Apache::Registry> and C<Apache::PerlRun> modules. Along with
-mod_perl related topics, there are many more issues related to
-administering Apache servers, debugging scripts, using databases,
-mod_perl related Perl, code snippets and more.
+L<Offsite resources|docs::offsite::index> section of this site. This
+guide tries to cover the most of the C<Apache::Registry> and
+C<Apache::PerlRun> modules. Along with mod_perl related topics, there
+are many more issues related to administering Apache servers,
+debugging scripts, using databases, mod_perl related Perl, code
+snippets and more.
 
 It is assumed that you know at least the basics of building and
 installing Perl and Apache. (If you do not, just read the INSTALL
@@ -188,28 +356,25 @@ installation and configuration notes, which will help you successfully
 complete the mod_perl installation and get the server running in a
 short time.
 
-If after reading this guide and the other documents listed in
-L<Getting Help and Further Learning|guide::help/> you feel that your
-questions remain unanswered, you could try asking the apache/mod_perl
-mailing list to help you.  But first try to browse the mailing list
-archive (located at http://mathforum.org/epigone/modperl ). Often you
-will find the answer to your question by searching the mailing list
-archive, since most questions have already been asked and answered
-already!  If you ignore this advice, do not be surprised if your
-question goes unanswered - it bores people when they're asked to
-answer the same question repeatedly - especially if the answer can be
-found in the archive or in the documentation.  This does not mean that
-you should avoid asking questions, just do not abuse the available
-help and B<RTFM> before you call for B<HELP>. (You have certainly
-heard the infamous fable of the shepherd boy and the wolves...) And if
-you do ask questions on the mailing list I<please> make your subject
-line descriptive of the problem, not just "Help" - you're far more
-likely to get replies if people can see the issue you are talking
-about straight away.
+If after reading this guide and the L<other documentation|docs::index>
+you feel that your questions remain unanswered, you could try asking
+the apache/mod_perl mailing list to help you.  But first try to browse
+the L<mailing list
+archive|maillist::modperl/Searchable_Archives>. Often you will find
+the answer to your question by searching the mailing list archive,
+since most questions have already been asked and answered already!  If
+you ignore this advice, do not be surprised if your question goes
+unanswered - it bores people when they're asked to answer the same
+question repeatedly - especially if the answer can be found in the
+archive or in the documentation.  This does not mean that you should
+avoid asking questions, just do not abuse the available help and
+B<RTFM> before you call for B<HELP>. When asking your question, be
+sure to have read the L<email-etiquette|maillist::email-etiquette> and
+L<How to report problems|guide::help>
 
-If you find incorrect details or mistakes in my grammar, or you want 
-to contribute to this document please feel free to send me an email at
-stas@stason.org .
+If you find errors in these documents, please contact the maintainer,
+after having read about L<how to submit documentation
+patches|download::docs/Submitting_documentation_patches>.
 
 =head1 Maintainers
 
