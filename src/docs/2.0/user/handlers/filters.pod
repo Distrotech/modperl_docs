@@ -184,9 +184,10 @@ functionality:
 
 the C<unset()> call will be made only on the first filter call for
 each request. Of course you can store any kind of a Perl data
-structure in C<$f-E<gt>ctx> and retrieve it later in subsequent filter
-invocations of the same request. We will show plenty of examples using
-this method in the following sections.
+structure in C<L<$f-E<gt>ctx|docs::2.0::api::Apache::Filter/C_ctx_>>
+and retrieve it later in subsequent filter invocations of the same
+request. We will show plenty of examples using this method in the
+following sections.
 
 Of course the C<MyApache::FilterObfuscate> filter logic should take
 into account situations where removing new line characters will break
@@ -380,9 +381,10 @@ of the request.
           $f->ctx(1);
       }
 
-When the filter is invoked for the first time C<$f-E<gt>ctx>
-returns C<undef> and the custom function init() is called. This
-function could, for example, retrieve some configuration data, set in
+When the filter is invoked for the first time
+C<L<$f-E<gt>ctx|docs::2.0::api::Apache::Filter/C_ctx_>> returns
+C<undef> and the custom function init() is called. This function
+could, for example, retrieve some configuration data, set in
 I<httpd.conf> or initialize some datastructure to its default value.
 
 To make sure that init() won't be called on the following invocations,
@@ -1558,10 +1560,11 @@ in the next example we will see the first technique.
 Our filter has to perform the substitution of only one HTTP header
 (which normally resides in one bucket), so we have to make sure that
 no other data gets mangled (e.g. there could be POSTED data and it may
-match C</^GET/> in one of the buckets). We use C<$f-E<gt>ctx> as
-a flag here. When it's undefined the filter knows that it hasn't done
-the required substitution, though once it completes the job it sets
-the context to 1.
+match C</^GET/> in one of the buckets). We use
+C<L<$f-E<gt>ctx|docs::2.0::api::Apache::Filter/C_ctx_>> as a flag
+here. When it's undefined the filter knows that it hasn't done the
+required substitution, though once it completes the job it sets the
+context to 1.
 
 To optimize the speed, the filter immediately returns
 C<Apache::DECLINED> when it's invoked after the substitution job has
@@ -2454,6 +2457,119 @@ modify it.
 =head1 Writing Well-Behaving Filters
 
 Filter writers must follow the following rules:
+
+=head2 Connection Filters over KeepAlive Connections
+
+Whenever a new HTTP request is processed, request filters get their
+context (C<L<$f-E<gt>ctx|docs::2.0::api::Apache::Filter/C_ctx_>>)
+reset. This is also true for connection filters context, as long as
+the connection is not
+C<L<keepalive|docs::2.0::api::Apache::Connection/C_keepalive_>>). When
+the connection is kept alive, there could be many requests processed
+during a single connection and the same filter context will persist
+through all of them, until the maximum number of KeepAlive requests
+over the same connection is reached or the client breaks the
+connection.
+
+Sometimes it's desirable to reset the whole context or parts of it
+before a HTTP request is processed. For example
+C<Apache::Filter::HTTPHeadersFixup> needs to know when it should start
+and stop processing HTTP headers. It keeps the state in the filter's
+context. The problem is that whenever a new HTTP request is coming in,
+it needs to be able to reset the state machine. If it doesn't, it'll
+process the HTTP headers of the first request and miss the rest of the
+requests.
+
+So let's say we have a hypothetical module
+C<MyApache::Filter::StateMachine> which implements an input connection
+filter, which processes incoming data as long as the I<state> flag is
+down. Once that flag goes up the filter switches to the
+pass-through-unmodified mode. Here is a skeleton of the module:
+
+  #file:MyApache/Filter/StateMachine.pm
+  #------------------------------------
+  package MyApache::Filter::StateMachine;
+  
+  use base qw(Apache::Filter);
+  use Apache::Connection ();
+  
+  use Apache::Const -compile => qw(OK DECLINED CONN_KEEPALIVE);
+  
+  sub handler : FilterConnectionHandler {
+      my($f, $bb, $mode, $block, $readbytes) = @_;
+  
+      my $ctx = context($f);
+  
+      # pass through unmodified
+      return Apache::DECLINED if $ctx->{state};
+  
+      # get data, do some processing, send it out
+      process(); # your code comes here
+  
+      # change the state if some condition is reached
+      $ctx->{state}++ if $done_condition;
+  
+      return Apache::OK;
+  }
+  
+  sub context {
+      my ($f) = shift;
+  
+      my $ctx = $f->ctx;
+      unless ($ctx) {
+          $ctx = {
+              state => 0,
+          };
+  
+          $f->ctx($ctx);
+      }
+  
+      return $ctx;
+  }
+
+In order to make this module work properly over KeepAlive connections,
+we want to reset the I<state> flag at the very beginning of the new
+request. To accomplish that all we need to do is to change the
+C<context> wrapper to be:
+
+  sub context {
+      my ($f) = shift;
+  
+      my $ctx = $f->ctx;
+      unless ($ctx) {
+          $ctx = {
+              state       => 0,
+              keepalives  => $f->c->keepalives,
+          };
+  
+          $f->ctx($ctx);
+          return $ctx;
+      }
+  
+      my $c = $f->c;
+      if ($c->keepalive == Apache::CONN_KEEPALIVE &&
+          $ctx->{state} && $c->keepalives > $ctx->{keepalives}) {
+  
+          $ctx->{state}      = 0;
+          $ctx->{keepalives} = $c->keepalives;
+      }
+  
+      return $ctx;
+  }
+
+The only difference from the previous implementation is that we
+maintain one more state, which stores the number of requests, served
+over the current connection. When Apache reports more served requests
+than we have in the context that means that we have a new request
+coming in. So we reset the I<state> flag and store the new value of
+the served connections.
+
+For a concrete implementation examples see:
+http://search.cpan.org/dist/Apache-Filter-HTTPHeadersFixup/
+
+
+
+
 
 =head2 Adjusting HTTP Headers
 
