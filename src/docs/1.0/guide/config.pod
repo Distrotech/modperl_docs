@@ -1099,7 +1099,7 @@ To reload C<PerlRequire>, C<PerlModule> and other C<use()>'d modules,
 and to flush the C<Apache::Registry> cache on server restart, add to 
 I<httpd.conf>:
 
-  PerlFreshRestart On
+  PerlFreshRestart Off
 
 Make sure you read L<Evil things might happen when using
 PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_using_PerlFreshRestart>.
