@@ -203,17 +203,10 @@ When you are done with tests, stop the server with:
 When the server is started you can modify I<.t> files and rerun the
 tests without restarting the server. However if you modify response
 handlers, you must restart the server for changes to take an
-effect. If C<Apache::Reload> is used and configured to automatically
-reload the handlers when they change you don't have to restart the
-server. For example to automatically reload all C<TestDirective::*>
-modules when they change on the disk, add to I<t/conf/extra.conf.in>:
-
-  PerlModule Apache::Reload
-  PerlInitHandler Apache::Reload
-  PerlSetVar ReloadAll Off
-  PerlSetVar ReloadModules "TestDirective::*"
-
-and restart the server.
+effect. However the changes are done in the perl code only, it's
+possible to orrange for Apache::Test to L<handle the code reload
+without restarting the
+server|/Using_Apache__Test_to_Speed_up_Project_Development>.
 
 The I<-start-httpd> option always stops the server first if any is
 running.
@@ -769,7 +762,9 @@ testing environment:
 
   % rm test.pl
 
-We want our package to reside under the I<lib> directory:
+We want our package to reside under the I<lib> directory, so later we
+will be able to do live testing, without rerunning C<make> every time
+we change the code:
 
   % mkdir lib
   % mkdir lib/Apache
@@ -923,19 +918,6 @@ use:
       SetHandler perl-script
 
 which also works for mod_perl 2.0.
-
-As mentioned before you can use C<Apache::Reload> to automatically
-reload the modules under development when they change. The setup for
-this module goes into I<t/conf/extra.conf.in> as well.
-
-  #file:t/conf/extra.conf.in
-  #-------------------------
-  PerlModule Apache::Reload
-  PerlPostReadRequestHandler Apache::Reload
-  PerlSetVar ReloadAll Off
-  PerlSetVar ReloadModules "Apache::Amazing"
-
-For more information about C<Apache::Reload> refer to its manpage.
 
 Now we can create a simple test:
 
@@ -2981,6 +2963,82 @@ Beware that I<t/logs/strace.log> is going to be very big.
 
 META: can we provide strace(1) opts if we want to see only certain
 syscalls?
+
+
+
+
+=head1 Using Apache::Test to Speed up Project Development
+
+When developing a project, as the code is written or modified it is
+desirable to test it at the same time. If you write tests as you code,
+or even before you code, Apache::Test can speed up the modify-test
+code development cycle. The idea is to start the server once and then
+run the tests without restarting it, and make the server reload the
+modified modules behind the scenes. This of course works only if you
+modify plain perl modules. If you develop XS/C components, you have no
+choice but to restart the server before you want to test the modified
+code.
+
+First of all, your perl modules need to reside under the I<lib>
+directory, the same way they reside in I<blib/lib>. In the section
+L<Basic Testing
+Environment|/Basic_Testing_Environment> we've already arranged for that.
+If I<Amazing.pm> resides in the top-level directory, it's not possible
+to perform C<'require Apache::Amazing'>. Only after running C<make>,
+the file will be moved to I<blib/lib/Apache/Amazing.pm>, which is when
+we can load it. But you don't want to run C<make> every time you
+change the file. It's both annoying and error-prone, since at times
+you'd do some change, try to verify it and it will appear to be wrong,
+and you will try to understand why, whereas in reality you just forgot
+to run C<make> and the server was testing against the old unmodified
+version in C<blib/lib>. Of you course if you always run C<make test>
+it'll always do the right thing, but it's not the most effecient way
+to undertake when you want to test a specific test and you do it every
+few seconds.
+
+The following scenario will make you a much happier Perl developer.
+
+First, we need to instruct Apache::Test to modify C<@INC>, which we
+could do in I<t/conf/modperl_extra.pl> or I<t/conf/extra.conf.in>, but
+the problem is that you may not want to keep that change in the
+released package. There is a better way, if the environment variable
+C<APACHE_TEST_LIVE_DEV> is set to a true value, C<Apache::Test> will
+automatically add the I<lib/> directory if it exists. Executing:
+
+ % APACHE_TEST_LIVE_DEV=1 t/TEST -configure
+
+will add code to add I</path/to/Apache-Amazing/lib> to C<@INC> in
+I<t/conf/modperl_inc.pl>. This technique is convenient since you don't
+need to modify your code to include that directory.
+
+Second, we need to configure mod_perl to use C<Apache::Reload> to
+automatically reload the module when it's changed, by adding following
+configuration directives to I<t/conf/extra.conf.in>:
+
+  PerlModule Apache::Reload
+  PerlInitHandler Apache::Reload
+  PerlSetVar ReloadAll Off
+  PerlSetVar ReloadModules "Apache::Amazing"
+
+(For more information about C<Apache::Reload>, depending on the used
+mod_perl generation, refer to L<the mod_perl 1.0
+documentation|docs::1.0::guide::porting/Using_Apache__Reload> or
+L<the C<Apache::Reload> manpage for mod_perl
+2.0|docs::2.0::api::Apache::Reload>.)
+
+now we execute:
+
+  % APACHE_TEST_LIVE_DEV=1 t/TEST -configure
+
+which will generate I<t/conf/extra.conf> and start the server:
+
+  % t/TEST -start
+
+from now on, we can modify I<Apache/Amazing.pm> and repeatedly run:
+
+  % t/TEST -run basic
+
+without restarting the server.
 
 
 
