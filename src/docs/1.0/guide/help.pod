@@ -286,12 +286,12 @@ http://www.heise.de/ix/artikel/2000/01/156/
 
 The Apache/Perl mailing list I<is available for mod_perl users and
 developers to share ideas, solve problems and discuss things related
-to mod_perl and the Apache::* modules.>  To subscribe to this list,
-send email to modperl-subscribe@apache.org .  To unsubscribe send
-email to modperl-unsubscribe@apache.org . 
+to mod_perl and the Apache::* modules.> To subscribe to this list,
+send email to modperl-subscribe@perl.apache.org .  To unsubscribe send
+email to modperl-unsubscribe@perl.apache.org .
 
 To subscribe to the digest list send email to
-modperl-digest-subscribe@apache.org .
+modperl-digest-subscribe@perl.apache.org .
 
 Searchable mailing list archives are available:
 
@@ -393,9 +393,9 @@ want to know about the latest changes in the mod_perl core before
 everyone else, this is a list to be on.
 
 To subscribe to this list, send email to
-modperl-cvs-subscribe@apache.org .  To unsubscribe send email to
-modperl-cvs-unsubscribe@apache.org .  Send email to
-modperl-cvs@apache.org to post to the list.
+modperl-cvs-subscribe@perl.apache.org .  To unsubscribe send email to
+modperl-cvs-unsubscribe@perl.apache.org .  Send email to
+modperl-cvs@perl.apache.org to post to the list.
 
 No archives available.
 
