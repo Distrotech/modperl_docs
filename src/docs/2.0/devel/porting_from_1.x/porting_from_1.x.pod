@@ -144,8 +144,35 @@ Framework|devel::testing::testing>.
 Most of documentation dedicated for migration to Apache 2.0 can be
 found at: http://httpd.apache.org/docs-2.0/developer/
 
-The 2.0 API documentation is now resides in the C header files, which
-can be conveniently browsed via http://docx.webperf.org/.
+The Apache 2.0 API documentation now resides in the C header files,
+which can be conveniently browsed via http://docx.webperf.org/.
+
+The APR API can be found here http://apr.apache.org/.
+
+The new Apache and APR APIs include many new functions. Though certain
+functions have been preserved, either as is or with a changed
+prototype (for example to work with pools), others have been
+renamed. So if you are porting your code and the function that you've
+used doesn't seem to exist in Apache 2.0, first refer to the "compat"
+header files, such as: I<include/ap_compat.h>,
+I<srclib/apr/include/apr_compat.h>, and
+I<srclib/apr-util/include/apu_compat.h>, which list functions whose
+names have changed but which are otherwise the same. If failed,
+proceed to look in the other headers files in directories:
+
+=over
+
+=item *
+
+ap_ functions in I<include/>
+
+=item *
+
+apr_ function in I<srclib/apr/include/> and
+I<srclib/apr-util/include/>
+
+=back
+
 
 =head2 ap_soft_timeout(), ap_reset_timeout(), ap_hard_timeout() and ap_kill_timeout()
 
