@@ -25,7 +25,7 @@ in there.  anything else belongs in a src/modules/perl/foo.c public api.
 
 =head1 Maintainers
 
-Maintainer is the person(s) you should contact with updates and
+Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
 Stas Bekman E<lt>stas@stason.orgE<gt>

@@ -1081,7 +1081,7 @@ by Perrin Harkins
 
 =head1 Maintainers
 
-Maintainer is the person(s) you should contact with updates and
+Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
 Perrin Harkins E<lt>perrin@elem.comE<gt>.
