@@ -315,6 +315,47 @@ http://rt.perl.org:80/rt3/Ticket/Display.html?id=24660
 
 
 
+=head2 Registry scripts fail to load with: Unrecognized character \xEF at ...
+
+Certain editors (in particular on win32) may add a UTF-8 Byte Order
+Marker (BOM: http://www.unicode.org/faq/utf_bom.html#BOM) at the
+beginning of the file. Since
+C<L<ModPerl::RegistryCooker|docs::2.0::api::ModPerl::RegistryCooker>>
+adds extra code in front of the original script, before compiling it,
+it creates a situation where BOM appears past the beginning of the
+file, which is why the error:
+
+  Unrecognized character \xEF at ...
+
+is thrown by Perl.
+
+The simplest solution is to configure your editor to not add BOMs (or
+switch to another editor which allows you to do that).
+
+You could also subclass
+C<L<ModPerl::RegistryCooker|docs::2.0::api::ModPerl::RegistryCooker>>
+or its existing subclasses to try to remove BOM in
+ModPerl::RegistryCooker::read_script():
+
+    # remove BOM
+    ${$self->{CODE}} =~ s/^(?:
+        \xef\xbb\xbf     |
+        \xfe\xff         |
+        \xff\xfe         |
+        \x00\x00\xfe\xff |
+        \xff\xfe\x00\x00
+    )//x;
+
+but do you really want to add an overhead of this operation multiple
+times, when you could just change the source file once? Probably
+not. It was also reported that on win32 the above s/// doesn't work.
+
+
+
+
+
+
+
 
 
 =head1 Runtime
