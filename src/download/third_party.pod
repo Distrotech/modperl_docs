@@ -46,10 +46,6 @@ Squid Linux 2.x Redhat RPMs : http://home.earthlink.net/~intrep/linux/
 
 http://www.acme.com/software/thttpd/
 
-=head1 mod_throttle_access 
-
-http://www.fremen.org/apache/mod_throttle_access.html
-
 =head1 mod_proxy_add_forward
 
 Ask Bjoern Hansen has written the C<mod_proxy_add_forward.c> module

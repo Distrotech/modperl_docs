@@ -181,19 +181,8 @@ Figgins. http://www.onlamp.com/pub/a/apache/2000/03/17/modperl.html
 
 =item *
 
-C<LinuxWorld.com>: I<Netscape Navigator's roaming profiles>, by Nicholas
-Petreley.
-http://www.linuxworld.com/linuxworld/lw-1999-06/lw-06-penguin_3.html
-
-=item *
-
 C<Ariadne>, Issue 21: I<What is mod_perl?>, by Ian
 Peacock. http://www.ariadne.ac.uk/issue21/unix/
-
-=item *
-
-What's mod_perl (in Russian)
-http://www.host.ru/documentation/pro/0003.html
 
 =item * 
 
@@ -222,18 +211,13 @@ here, and additions are always welcome. Please contact L<the docs-dev
 mailing
 list|maillist::docs-dev> with patches or additions.
 
-If it doesn't fit into the documentation, Take23 (
-http://www.take23.org ), the mod_perl news site, always welcomes new
-articles. We suggest that you submit your article there, as it is the
-main place for mod_perl-specific activity.
-
 For the content, we advocate reuse. If you're writing installation
 instructions, you are free to get as much inspiration as you want from
 the documentation on this site, especially the user guides. You should
 always try and re-write it a little to add your own touch or more
 user-friendliness, but you may keep the same steps and
 information. After all, there's only one way to install it, and it's
-pretty weel-documented already! This is true for all other aspects
+pretty well documented already! This is true for all other aspects
 covered here too. Of course, if you feel like you have created
 something useful for everyone, feel free to send it back to us so that
 we can re-enter it into our documentation base.

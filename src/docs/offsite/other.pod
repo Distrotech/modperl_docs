@@ -223,10 +223,6 @@ http://docs.freebsd.org/44doc/papers/jail/jail.html
 FreeBSD Developers' Handbook: The Jail Subsystem
 http://www.freebsd.org/doc/en_US.ISO8859-1/books/developers-handbook/jail.html
 
-=item * mod_throttle_access
-
-mod_throttle_access is available at http://www.fremen.org/apache/
-
 =back
 
 =head1 DBI and SQL
