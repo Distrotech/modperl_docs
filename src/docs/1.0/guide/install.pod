@@ -64,7 +64,9 @@ the fine tuning for the best performance as well.
 
 In this chapter we will talk extensively about the prepackaged
 versions, and ways to prepare your own packages for reuse on many
-machines.
+machines. Win32 users should consult the
+L<Win32 documentation|docs::1.0::os::win32::install> for details on
+that platform.
 
 =head1 The Gory Details
 

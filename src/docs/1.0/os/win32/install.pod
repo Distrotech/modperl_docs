@@ -73,9 +73,10 @@ to compile your Perl binary; for ActivePerl, this means using VC++ 6.
 
 =back
 
-Obtain the mod_perl sources (F<mod_perl-1.xx.tar.gz>) from CPAN
-under L<http://www.cpan.org/authors/id/D/DO/DOUGM/>.
-When unpacked, using Winzip or similar tools, a subdirectory
+First obtain the 
+L<mod_perl 1.0 sources|download::source/Stable_Source_Distribution>
+as a C<tar.gz> file -
+when unpacked, using Winzip or similar tools, a subdirectory
 F<mod_perl-1.xx> will be created.
 
 There are two ways to build mod_perl - with MS Developer Studio,
@@ -204,15 +205,11 @@ Apache and mod_perl header files, which can then be accessed
 through the Apache::src module.
 
 If this build fails, you may want to try the sources obtained
-from cvs (you may also want to use the Apache cvs sources). 
-To do this, first obtain a Win32 cvs client from, for example,
-L<http://www.cvshome.org/>. The cvs sources may be obtained as
-
-  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
-  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apache-1.3
-  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl
-
-The build then proceeds as above. Be aware, though,
+from cvs you may want to try the sources obtained
+from cvs - see the discussion on the
+L<Development Source Distribution|download::source/Development_Source_Distribution>
+for details.
+Be aware, though,
 that as well as providing bug fixes, there may be new features being
 added and tested in the cvs versions, so at any given time there are
 no guarantees that these packages will build and test successfully.
@@ -238,19 +235,22 @@ that included with the packages for installation instructions. Both of
 these also include an ActiveState-compatible C<ppm> (Perl Package
 Manager) utility for adding and upgrading modules.
 
-For the adventuresome who want a taste of things to come, a 
-mod_perl-2.0/Apache-2.0 binary distribution based on cvs 
-sources is available - see the discussion of
+For the adventuresome who want a taste of things to come, 
+or for those who want to avoid the 
+L<multithreading limitations of mod_perl
+1.0|docs::1.0::os::win32::multithread>, a 
+mod_perl-2.0/Apache-2.0 binary distribution
+is available - see the discussion of
 L<modperl-2 on Win32|docs::2.0::os::win32::install>
-for details. Be aware though that, being a pre-release version,
-bugs are most likely present.
+for details. Be aware though that mod_perl 2.0 is
+still in a development phase.
 
 =head2 PPM Packages
 
 For users of ActivePerl builds 6xx I<only>, obtainable from
 L<http://www.activestate.com/>,
 there are also C<PPM> mod_perl packages available (as discussed
-in the introduction, no C<ppm> mod_perl-1 ppm packages for
+in the introduction, no C<ppm> mod_perl 1.0 ppm packages for
 ActivePerl builds 8xx are presently available). For this, if you
 don't already have it, get and install the latest Win32 Apache binary
 from L<http://httpd.apache.org/>.

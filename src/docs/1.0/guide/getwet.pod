@@ -369,18 +369,25 @@ module C<Apache::Registry>.
 =head1 Installing mod_perl for Windows
 
 Apache runs on many flavors of Unix and Unix-like operating systems.
-Version 1.3 introduced a port to the Windows familiy of operating
+Version 1.3 introduced a port to the Windows family of operating
 systems, often named C<Win32> after the name of the common API.
 Because of many deep differences between Unix and Windows, the Win32
 port of Apache is still branded as beta quality, because it hasn't yet
 reached the stability and performance of the native Unix counterpart.
 
-Another hindrance to using mod_perl on Windows is that current
+Another hindrance to using mod_perl 1.0 on Windows is that current
 versions of Perl are not thread-safe on Win32. As a consequence,
 mod_perl calls to the embedded Perl interpreter must be serialized,
-i.e. executed one at a time. For these reasons, we recommend that
-mod_perl on Windows be used only for testing purposes, not in
-production.
+i.e. executed one at a time. See the discussion on
+L<multithreading on Win32 
+mod_perl 1.xx|docs::1.0::os::win32::multithread>
+for details. This situation changes with Apache/mod_perl 2.0, 
+which is based on a
+multi-process/multi-thread approach using a native Win32 threads
+implementation - see the L<mod_perl 2
+overview|docs::2.0::user::intro::overview> for more details,
+and the discussion of L<modperl 2.0 in Win32|docs::2.0::os::win32::install>
+on getting modperl-2 for Win32 in particular.
 
 Building mod_perl from source on Windows is a bit of a challenge.
 Development tools such as a C compiler are not bundled with the
@@ -388,80 +395,23 @@ operating system, and most users expect a point-and-click installation
 as with most Windows software.  Additionally, all software packages
 need to be built with the same compiler and compile options. This
 means building Perl, Apache, and mod_perl from source, quite a
-daunting task.
+daunting task. For details on building mod_perl on Windows,
+see the documentation 
+for L<modperl 1.0 in Win32|docs::1.0::os::win32::install>
+or L<modperl 2.0 in Win32|docs::2.0::os::win32::install>.
 
-Fortunately, Randy Kobes maintains a Windows distribution of mod_perl
-which includes all the necessary tools, including Perl, Apache, and a
-host of useful CPAN modules. Using this distribution provides an
-out-of-the-box Apache+mod_perl combo in minutes.
-
-The distribution comes with extensive documentation. Take the time to
-read it, particularly if you wish to install the software in a
-location different from the default. In the following installation
-we'll use the default locations and options.
-
-=head2 Download the Windows distribution
-
-Download C<perl-win32-bin-x.x.exe> from the L<binary distributions
-page|download::binaries>. This is a self-extracting archive, yielding
-four directories:
-
-  Apache
-  Perl
-  openssl
-  readmes
-
-
-=head2 Install the software
-
-Move the C<Apache> and C<Perl> directories to C<C:\>.  Edit
-C<C:\AUTOEXEC.BAT> to install the Perl executable directories in your
-system's search path:
-
-  SET PATH=C:\Perl\5.6.1\bin;C:\Perl\5.6.1\bin\MSWin32-x86;"%PATH%"
-
-Then restart Windows for this change to take effect.
-
-
-=head2 Test the Perl installation
-
-Open a DOS prompt window and verify that Perl is installed correctly
-and learn the version number:
-
-  C:\> perl -v
-  
-  This is perl, v5.6.1 built for MSWin32-x86
-  
-  Copyright 1987-2000, Larry Wall
-
-
-=head2 Start Apache
-
-The distribution comes with a ready-made configuration file for
-mod_perl which we'll use to start Apache. From the C<C:\Apache>
-directory, start Apache:
-
-  C:\Apache> apache.exe
-
-Now issuing a request for I<http://localhost/> displays the usual
-Apache C<It Worked> page.
-
-=head2 Test mod_perl
-
-The distribution comes with a pre-configured mod_perl handler and
-C<Apache::Registry> directory. We can test our mod_perl enabled server
-by issuing the following requests:
-
-  http://localhost/hello
-  http://localhost/mod_perl/printenv
-
-We now have a fully-functional mod_perl server. The example scripts
-described in the rest of this chapter can be used with minor
-modifications to file paths and URIs. In particular, change all
-instances of I</home/stas> with C<C:\Apache\>, and change all
-instances of I<http://localhost/perl> with
-I<http://localhost/mod_perl>.
-
+For those who prefer binary distributions, there are a
+number of alternatives. For mod_perl 1.0, one can obtain either
+L<mod_perl 1.0 PPM packages|docs::1.0::os::win32::install/PPM_Packages>,
+suitable for use with ActivePerl's C<ppm> utility,
+or else L<mod_perl 1.0 all-in-one 
+packages|docs::1.0::os::win32::install/All_in_one_packages>
+containing binaries of Perl and Apache, including mod_perl.
+For mod_perl 2.0, similar
+L<mod_perl 2.0 PPM packages|docs::2.0::os::win32::install/PPM_Packages>
+and L<mod_perl 2.0 all-in-one 
+packages|docs::2.0::os::win32::install/All_in_one_packages>
+are available.
 
 =head1 Preparing the Scripts Directory
 

@@ -1,6 +1,6 @@
 =head1 NAME
 
-Discussion of multithreading on Win32 mod_perl-1.xx
+Discussion of multithreading on Win32 mod_perl 1.xx
 
 =head1 Description
 
@@ -20,7 +20,7 @@ long-running requests.
 
 This situation changes with Apache/mod_perl 2.0, which is based on a
 multi-process/multi-thread approach using a native Win32 threads
-implementation See the L<mod_perl 2
+implementation. See the L<mod_perl 2
 overview|docs::2.0::user::intro::overview> for more details,
 and the discussion of L<modperl-2 in Win32|docs::2.0::os::win32::install>
 on getting modperl-2 for Win32 in particular.

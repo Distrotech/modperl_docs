@@ -18,9 +18,9 @@ addressed in the multi-thread/multi-process approach of mod_perl
 
 Note that there are some threading issues in perl-5.6
 (upon which ActivePerl builds 6xx are based) which may cause
-problems with mod_perl-2. Because of this, it is (I<strongly>)
+problems with mod_perl 2.0. Because of this, it is (I<strongly>)
 recommended
-that perl-5.8 (ActivePerl builds 8xx) be used with mod_perl-2
+that perl-5.8 (ActivePerl builds 8xx) be used with mod_perl 2.0
 on Win32.
 
 =head1 Installing
@@ -40,11 +40,11 @@ binary from L<http://www.activestate.com/>.
 The Apache sources and binaries are available at
 L<http://httpd.apache.org/>.
 
-As of this writing, mod_perl-2 is known to compile and work
+As of this writing, mod_perl 2.0 is known to compile and work
 with an ActivePerl-compatible Perl, both for builds 6xx, based
 on perl-5.6.1, and builds 8xx, based on perl-5.8.0. However,
 because of improved threading support, perl-5.8 is recommended 
-for Win32 mod_perl-2. See the section on Apache/mod_perl binaries 
+for Win32 mod_perl 2.0. See the section on Apache/mod_perl binaries 
 below for details on a suitable repository containing mod_perl
 ppm packages, and also how to obtain other Win32 binary packages.
 
@@ -53,7 +53,7 @@ in using path names that have spaces in them - you may, for example,
 have to specify F<C:\Program Files\> by the DOS 8.3 path name 
 F<C:\Progra~1\> in certain Apache directives. If you want to avoid
 this, install, if possible, these packages to locations without spaces
-in their names (eg, F<C:\Perl> for Perl and F<C:\Apache2> for Apache2).
+in their names (eg, F<C:\Perl> for Perl and F<C:\Apache2> for Apache 2.0).
 
 In the following, it may be necessary to invoke certain commands 
 through a DOS prompt. A DOS window may be opened either through
@@ -69,15 +69,17 @@ contain at the top-level a Visual Studio project file. Choose the
 C<InstallBin - Win32 Release> target to build and install Apache 2.0,
 which by default will be placed in F</Apache2>.
 
-Having built and installed Apache 2.0, next obtain the mod_perl 2.0
-sources (F<mod_perl-1.99_xx>)
-from L<http://www.cpan.org/authors/id/D/DO/DOUGM/>.  After
-unpacking, run the command
+Having built and installed Apache 2.0, 
+next obtain the mod_perl 2.0
+First obtain the 
+L<mod_perl 2.0 sources|download::source/2_0_Development_Source_Distribution>
+as a C<tar.gz> file -
+when unpacked, using Winzip or similar tools, a subdirectory
+F<mod_perl-x.xx> will be created. Next, run the command
 
     C:\modperl_src> perl Makefile.PL MP_AP_PREFIX=\Path\to\Apache2
 
-where F<\Path\to\Apache2> is the path to the Apache 2.0 package you
-earlier built. Then
+Then
 
     C:\modperl_src> nmake
     C:\modperl_src> nmake test
@@ -90,8 +92,8 @@ The final command,
     C:\modperl_src> nmake install
 
 will install the necessary mod_perl 2.0 files into your Perl directory
-tree (you will also need to copy F<src/modules/perl/mod_perl.so> into
-your F</Path/to/Apache2/modules/> directory). If you are installing
+tree, and also copy F<src/modules/perl/mod_perl.so> into
+your F</Path/to/Apache2/modules/> directory. If you are installing
 mod_perl 2.0 on a system that also contains mod_perl 1.0, then some
 mod_perl 1.0 files will be overwritten by this procedure. This can be
 avoided by preparing the build as
@@ -105,26 +107,14 @@ or else a C<PerlModule Apache2> directive in Apache's F<httpd.conf>.
 
 If this build fails, or you want features not present in the
 official releases, you may want to try the sources obtained
-from cvs (it is a good idea to also use the cvs httpd-2.0 sources).
-To do this, first obtain a Win32 cvs client from, for example,
-L<http://www.cvshome.org/>. The cvs sources may be obtained as
-
-  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
-  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co httpd-2.0
-  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
-
-The build then proceeds as above. Be aware, though,
+from cvs - see the discussion on the
+L<2.0 Development Source Distribution|download::source/2_0_Development_Source_Distribution>
+for details. Be aware, though,
 that as well as providing bug fixes, there may be new features being
 added and tested in the cvs versions, so at any given time there are
 no guarantees that these packages will build and test successfully.
 
-=head2 Binary packages
-
-There are two ways of obtaining a binary mod_perl 2.0 package.
-
-=over 3
-
-=item PPM
+=head2 PPM Packages
 
 The first, for ActivePerl users, is through C<PPM> - this assumes you
 already have ActivePerl (build 8xx is recommended) from 
@@ -220,15 +210,13 @@ variable, or try adding the Apache directive
 
 before loading F<mod_perl.so>. If all else fails, a reboot may help.
 
-=item Apache/mod_perl binary
+=head2 All in one packages
 
 At L<ftp://theoryx5.uwinnipeg.ca/pub/other/> there is a self-extracting
 archive F<Perl-5.8-win32-bin.exe> containing a binary version
 of perl-5.8 (compatible with ActivePerl 8xx), together with Apache 2.0
 and mod_perl 2.0. See the file F<Perl-5.8-win32-bin.readme> for
 a description.
-
-=back 
 
 =head1 See Also
 
