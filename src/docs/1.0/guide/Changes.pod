@@ -16,6 +16,12 @@ The most recent changes are listed first.
   o add a new section presenting a hackish solution for libraries
     collision, via do() or %INC mangling.
 
+  o bring the warnings section up to date with perl 5.6 (Rafael
+    Garcia-Suarez)
+
+  o cover the 5.6's CHECK block in addition to INIT (Rafael
+    Garcia-Suarez)
+
 * guide::troubleshooting
 
   o solution to the 'readdir()/opendir() not working' problem (Louis

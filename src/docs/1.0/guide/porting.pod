@@ -2697,19 +2697,21 @@ restart you can use  C<$r-E<gt>register_cleanup()> in the I<startup.pl>.
 This is usually useful when some server wide cleanup should be
 performed when the server is stopped or restarted.
 
-=head1 CHECK Blocks
+=head1 CHECK And INIT Blocks
 
--- available since perl5.6.0
+These blocks run when compilation is complete, but before the program
+starts. B<CHECK> can mean "checkpoint" or "double-check" or even just
+"stop". B<INIT> stands for "initialization". The difference is subtle;
+B<CHECK> blocks are run just after the compilation ends, B<INIT> just
+before the runtime begins. (Hence the C<-c> command-line flag to perl
+runs B<CHECK> blocks but not B<INIT> blocks.)
 
-This block runs when compilation is complete, but before the program
-starts. B<CHECK> can mean "checkpoint" or "double-check" or even jus
-"stop").
-
-Perl only calls B<CHECK> blocks during perl_parse(), which mod_perl
-calls once at startup time.  Therefore B<CHECK> blocks don't work for
-the same reason this doesn't:
+Perl only calls these blocks during perl_parse(), which mod_perl calls
+once at startup time.  Therefore B<CHECK> and B<INIT> blocks don't work
+for the same reason these don't:
 
   % perl -e 'eval qq(CHECK { print "ok\n" })'
+  % perl -e 'eval qq(INIT  { print "ok\n" })'
 
 =head1 Command Line Switches (-w, -T, etc)
 
@@ -2740,50 +2742,50 @@ Setting:
 in C<httpd.conf> will turn warnings B<On> in any script.
 
 You can then fine tune your code, turning warnings B<Off> and B<On> by
-setting the C<$^W> variable in your scripts.
+using the C<warnings> pragma in your scripts (or by setting the C<$^W>
+variable, if you prefer to be compatible with older, pre-5.6, perls).
 
 =item * Locally to a script
 
   #!/usr/bin/perl -w
 
 will turn warnings B<On> for the scope of the script.  You can turn
-them B<Off> and B<On> in the script by setting the C<$^W> variable as
-noted above.
+them B<Off> and B<On> in the script with C<no warnings;> and C<use
+warnings;> as noted above.
 
 =item * Locally to a block
 
 This code turns warnings mode B<On> for the scope of the block.
 
   {
-    local $^W = 1;
+    use warnings;
     # some code
   }
-  # $^W assumes its previous value here
+  # back to the previous mode here
 
 This turns it B<Off>:
 
   {
-    local $^W = 0;
+    no warnings;
     # some code
   }
-  # $^W assumes its previous value here
+  # back to the previous mode here
 
-Note, that if you forget the C<local> operator this code will affect the
-child processing the current request, and all the subsequent requests
-processed by that child.  Thus
+This turns B<Off> only the warnings from the listed categories :
+(warnings categories are explicited in the C<perldiag> manpage.)
 
-  $^W = 0;
+  {
+    no warnings qw(uninitialized unopened);
+    # some code
+  }
+  # back to the previous mode here
 
-will turn the warnings I<Off>, no matter what.
+If you want to turn warnings I<On> for the scope of the whole file,
+you can do this by adding:
 
-If you want to turn warnings I<On> for the scope of the whole file, as
-in the previous item, you can do this by adding:
+  use warnings;
 
-  local $^W = 1;
-
-at the beginning of the file. Since a file is effectively a block,
-file scope behaves like a block's curly braces C<{ }> and C<local $^W>
-at the start of the file will be effective for the whole file.
+at the beginning of the file.
 
 =back
 
