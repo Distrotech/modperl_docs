@@ -21,14 +21,14 @@ Date: Fri, 6 Mar 1998 13:01:58 -0500
 
 =back
 
-          At my former employer (Aaaahh . . . Sorry, just feels good
-  to say that :), I rewrote a commercial interface to a defect tracking
-  system.  The original product was a bunch of Bourne shell scripts
-  that all sourced one humoungus configuration script.  It took on the
-  order of 10-12 seconds to return some pages (and some of those weren't
-  even excuting any queries against the defect database) on a mostly
-  idle SS20.  Under mod_perl, that dropped to approximately 2-4 seconds
-  for everything but really large queries (i.e. everything in the db).
+         At my former employer (Aaaahh . . . Sorry, just feels good
+ to say that :), I rewrote a commercial interface to a defect tracking
+ system.  The original product was a bunch of Bourne shell scripts
+ that all sourced one humoungus configuration script.  It took on the
+ order of 10-12 seconds to return some pages (and some of those weren't
+ even excuting any queries against the defect database) on a mostly
+ idle SS20.  Under mod_perl, that dropped to approximately 2-4 seconds
+ for everything but really large queries (i.e. everything in the db).
 
 
 =cut

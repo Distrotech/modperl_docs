@@ -71,8 +71,9 @@ sub process {
     # cleanup for pod
     _encode(\%data);
 
-    # keep the body as is
-    $body =~ s/^/  /mg;
+    # keep the body as is (though break the paras or ps2pdf chokes on
+    # huge <pre> sections within a table cell)
+    $body =~ s/^(.?)/$1 ? " $1" : " \n"/emg;
     $data{body} = $body;
 
     return \%data;

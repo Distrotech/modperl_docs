@@ -21,14 +21,15 @@ Date: Fri, 14 May 1999 10:06:24 +0200
 
 =back
 
-  http://www.afp-direct.com hosts the Agence France-Presse's online
-  database of news stories and photographs. Agence France-Presse is the
-  world's third largest news agency. The online database, available
-  through subscription, contains over 6.5 million stories and
-  photographs in a full-text searchable database. The web site makes the
-  most of mod_perl and its array of modules such as persistent
-  connections to back-end servers and custom authentication.
-  
+ http://www.afp-direct.com hosts the Agence France-Presse's online
+ database of news stories and photographs. Agence France-Presse is the
+ world's third largest news agency. The online database, available
+ through subscription, contains over 6.5 million stories and
+ photographs in a full-text searchable database. The web site makes the
+ most of mod_perl and its array of modules such as persistent
+ connections to back-end servers and custom authentication.
+ 
+
 
 
 =cut

@@ -21,34 +21,40 @@ Date: Fri, 6 Mar 1998 21:35:40 +0000
 
 =back
 
-  On Fri, 6 Mar 1998, Lincoln Stein wrote:
-  
-  > Hi All,
-  >
-  > I'm looking for more mod_perl success stories like the one that Jeff
-  > posted the other day.  They will be used for vignettes in an
-  > introductory chapter of the book that Doug and I are writing.  If you
-  > have a story you'd like to share (particularly one in which mod_perl
-  > "defeats" one of its competitors) could you mail it to me or post it
-  > to the list?  For the vignettes we need some sort of identifying
-  > information, either along the lines of "a major Southwestern
-  > University" or "Kulturbox company of Berlin, Germany".
-  
-  We use mod_perl for just about everything and then some too; serving
-  around 1.25 million pageviews per day. All database lookups are handled
-  inside Apache via mod_perl. Each request also goes through several
-  mod_perl handlers and is then reformated on the fly with mod_perl SSI
-  to embed advertising banners and give different views of the site depending
-  on the hostname used.
-  
-  --
-  Rob Hartill                              Internet Movie Database (Ltd)
-  http://www.moviedatabase.com/   .. a site for sore eyes.
-  
-  The Internet Movie Database (as we all know, a mod_perl driven site) won a
-  1997 Webby as the best Film site on the web.
-  
-  
+ On Fri, 6 Mar 1998, Lincoln Stein wrote:
+ 
+
+ > Hi All,
+ >
+ > I'm looking for more mod_perl success stories like the one that Jeff
+ > posted the other day.  They will be used for vignettes in an
+ > introductory chapter of the book that Doug and I are writing.  If you
+ > have a story you'd like to share (particularly one in which mod_perl
+ > "defeats" one of its competitors) could you mail it to me or post it
+ > to the list?  For the vignettes we need some sort of identifying
+ > information, either along the lines of "a major Southwestern
+ > University" or "Kulturbox company of Berlin, Germany".
+ 
+
+ We use mod_perl for just about everything and then some too; serving
+ around 1.25 million pageviews per day. All database lookups are handled
+ inside Apache via mod_perl. Each request also goes through several
+ mod_perl handlers and is then reformated on the fly with mod_perl SSI
+ to embed advertising banners and give different views of the site depending
+ on the hostname used.
+ 
+
+ --
+ Rob Hartill                              Internet Movie Database (Ltd)
+ http://www.moviedatabase.com/   .. a site for sore eyes.
+ 
+
+ The Internet Movie Database (as we all know, a mod_perl driven site) won a
+ 1997 Webby as the best Film site on the web.
+ 
+
+ 
+
 
 
 =cut

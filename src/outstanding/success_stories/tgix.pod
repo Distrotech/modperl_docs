@@ -21,36 +21,45 @@ Date: Fri, 6 Mar 1998 12:14:49 -0500
 
 =back
 
-  I have 2 success stories to share:
-  
-  1. I'm finishing a web-based mod_perl/javascript (client side) contact
-  management system with heavy Apache::DBI and Registry use. This system
-  is for a "fortune-500 pharmaceudical (sp?) giant". It is replacing an
-  unmanageable (their description) Lotus Domino application.
-  
-  2. It production, a mod_perl server for gathering web traffic statistics
-  for an up and coming web traffic reporting company. The mod_perl
-  enhanced server gathers data from thousands of client and server based
-  proxies around the world. Data is stored in Oracle using Apache::DBI.
-  This replaced a poorly designed PHP server (poor choice using php in
-  this scenario imho).
-  
-  
-  Rick
-  
-  
-  
-  --
-  _______________________________________________________________
-  
-  Rick Mangi                                  Tel: (212) 972-2030
-  Thaumaturgix, Inc.                          Fax: (212) 972-2003
-  317 Madison Avenue, Suite 1615              rmangi@tgix.com
-  New York, NY 10017                          http://www.tgix.com
-            thau'ma-tur-gy, n. the working of miracles
-    "Perl is a state of mind as much as it is a language grammar"
-  _______________________________________________________________
-  
+ I have 2 success stories to share:
+ 
+
+ 1. I'm finishing a web-based mod_perl/javascript (client side) contact
+ management system with heavy Apache::DBI and Registry use. This system
+ is for a "fortune-500 pharmaceudical (sp?) giant". It is replacing an
+ unmanageable (their description) Lotus Domino application.
+ 
+
+ 2. It production, a mod_perl server for gathering web traffic statistics
+ for an up and coming web traffic reporting company. The mod_perl
+ enhanced server gathers data from thousands of client and server based
+ proxies around the world. Data is stored in Oracle using Apache::DBI.
+ This replaced a poorly designed PHP server (poor choice using php in
+ this scenario imho).
+ 
+
+ 
+
+ Rick
+ 
+
+ 
+
+ 
+
+ --
+ _______________________________________________________________
+ 
+
+ Rick Mangi                                  Tel: (212) 972-2030
+ Thaumaturgix, Inc.                          Fax: (212) 972-2003
+ 317 Madison Avenue, Suite 1615              rmangi@tgix.com
+ New York, NY 10017                          http://www.tgix.com
+           thau'ma-tur-gy, n. the working of miracles
+   "Perl is a state of mind as much as it is a language grammar"
+ _______________________________________________________________
+ 
+
 
 
 =cut

@@ -21,29 +21,33 @@ Date: Tue, 3 Mar 1998 21:13:06 -0600
 
 =back
 
-  I'd like to share my recent success story.  Over the last four days,
-  students living on campus here at Texas A&M University have had to go
-  through what is called "contract renewal," where they indicate whether
-  or not they will continue to live on campus in the coming academic
-  year.  In the past, this has all been done very tedioulsy with
-  scantron forms and human-eye error correction.  This year, the system
-  was moved to the web.  The code was user-proofed to prevent the usual
-  mistakes, with the addition of some fancy authentication and session
-  tracking mechanisms. 
-  
-  The system was originally written using ActiveWare PerlScript on IIS
-  4.0, but when I was done, it was glaringly obvious that it was far too
-  slow.  In only 14 days, we ported the code to Apache and mod_perl,
-  with the same NT platform underneath.  The performance
-  (transactions/sec) was more than 60 times better!!!
-  
-  The system went online Friday night, and in the course of its 4-day run,
-  it served 400,000 documents, the bulk of which were generated on the
-  fly. Ten thousand people used the system, and all went without a hitch.
-  
-  Here's to mod_perl!
-  Jeffrey
-  
+ I'd like to share my recent success story.  Over the last four days,
+ students living on campus here at Texas A&M University have had to go
+ through what is called "contract renewal," where they indicate whether
+ or not they will continue to live on campus in the coming academic
+ year.  In the past, this has all been done very tedioulsy with
+ scantron forms and human-eye error correction.  This year, the system
+ was moved to the web.  The code was user-proofed to prevent the usual
+ mistakes, with the addition of some fancy authentication and session
+ tracking mechanisms. 
+ 
+
+ The system was originally written using ActiveWare PerlScript on IIS
+ 4.0, but when I was done, it was glaringly obvious that it was far too
+ slow.  In only 14 days, we ported the code to Apache and mod_perl,
+ with the same NT platform underneath.  The performance
+ (transactions/sec) was more than 60 times better!!!
+ 
+
+ The system went online Friday night, and in the course of its 4-day run,
+ it served 400,000 documents, the bulk of which were generated on the
+ fly. Ten thousand people used the system, and all went without a hitch.
+ 
+
+ Here's to mod_perl!
+ Jeffrey
+ 
+
 
 
 =cut
