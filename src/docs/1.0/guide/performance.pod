@@ -3421,9 +3421,10 @@ where you have a virtual host that serves only dynamically generated
 documents, you can override the default C<PerlTransHandler> with this
 one:
 
+  PerlModule Apache::Constants
   <VirtualHost 10.10.10.10:80>
     ...
-    PerlTransHandler  Apache::OK
+    PerlTransHandler  Apache::Constants::OK
     ...
   </VirtualHost>
 
@@ -3510,7 +3511,8 @@ Wow, we've got only one stat call left!
 
 Let's remove the last C<Alias> setting and use:
 
-    PerlTransHandler  Apache::OK
+    PerlModule Apache::Constants
+    PerlTransHandler  Apache::Constants::OK
 
 as explained above. When we issue the request, we see no stat()
 calls. But this is possible only if you serve only dynamically
@@ -3522,7 +3524,8 @@ filesystem if the URI starts with I</foo>, but will use the default
 I<PerlTransHandler> otherwise:
 
   PerlTransHandler 'sub { return shift->uri() =~ m|^/foo| \
-                        ? Apache::OK : Apache::DECLINED;}'
+                        ? Apache::Constants::OK \
+                        : Apache::Constants::DECLINED; }'
 
 Let's see the same configuration using the C<E<lt>PerlE<gt>> section and a
 dedicated package:
