@@ -46,6 +46,15 @@ views.  bOP provides a full-suite of services including dynamic
 tracing, configuration, logging, class loading, type hierarchy, unit
 testing, and acceptance testing.
 
+=head1 Bricolage
+
+C<Bricolage> (http://bricolage.thepirtgroup.com/) is a full-featured,
+open-source, enterprise-class content management system. It offers a
+browser-based interface for ease-of use, a full-fledged templating
+system with complete programming language support for flexibility, and
+many other features. It operates in an Apache/mod_perl environment,
+and uses the PostgreSQL RDBMS for its repository.
+
 =head1 Embperl
 
 C<Embperl> (http://perl.apache.org/embperl/) is a system for building
