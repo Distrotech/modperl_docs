@@ -1,8 +1,13 @@
 =head1 NAME
 
-Running and Developing Tests with the C<Apache::Test> Framework
+Running and Developing Tests with the Apache::Test Framework
 
-=head1 Introduction
+=head1 DESCRIPTION
+
+The C<Apache::Test> framework was designed for creating test suits for
+products running on Apache httpd webserver (not necessarily
+mod_perl). Originally designed for the mod_perl Apache module, it was
+extended to be used for any Apache module.
 
 This chapter is talking about the C<Apache::Test> framework, and in
 particular explains how to:
@@ -19,12 +24,7 @@ particular explains how to:
 
 But first let's introduce the C<Apache::Test> framework.
 
-The C<Apache::Test> framework is designed for easy writing of tests
-that has to be run under Apache webserver (not necessarily
-mod_perl). Originally designed for the mod_perl Apache module, it was
-extended to be used for any Apache module.
-
-The tests themselves are written in Perl, and the framework will provide an
+The tests themselves are written in Perl. The framework provides an
 extensive functionality which makes the tests writing a simple and
 therefore enjoyable process.
 
@@ -408,7 +408,7 @@ detected problem.
 
 =back
 
-=head3 Apache::TestSmoke Solution
+=head3 C<Apache::TestSmoke> Solution
 
 C<Apache::TestSmoke> attempts to solve both problems. When it's run,
 at the end of each iteration it reports the minimal sequence of tests
