@@ -1,0 +1,32 @@
+URL: http://www.mailchannels.com/opensource/
+Date: Mon, 6 Dec 2004 14:15:25 -0800
+Subject: Running email through mod_perl 2.0
+From: Ken Simpson <ksimpson@ghpbjymdczr.mailchannels.com>
+Traffic: Low (in development)
+Success Story: 
+
+We have been using mod_perl successfully for several months now as a
+flexible email proxy -- we just wrapped Net::Server::Mail and with a
+few additional hacks and it worked. Matt Sergeant did the same thing
+with qpsmtpd and I have heard that the performance results were
+initially very promising
+(http://msgs.securepoint.com/cgi-bin/get/qmail0411/120/1/1/1.html).
+
+More details of our hack (patches etc.) are at
+http://www.mailchannels.com/opensource and
+http://search.cpan.org/dist/Apache-SMTP/lib/Apache/SMTP.pm.
+
+IMHO, using mod_perl as a general application server is a great
+idea. For us there really was no other viable alternative. We looked
+at POE, Sendmail's filter API, Net::Server and of course qpsmtpd but
+the reliability, portability, and scalability of Apache was what
+caused us to go through the effort of making our bits work on
+mod_perl.
+
+To configure a mail server, it's just a matter of adding a VirtualHost
+section to the Apache configuration et voila. And as packages such as
+mod_throttle move over to Apache 2, we will gain the wonderment of a
+solid resource management tool for mail traffic. Joy!
+
+Regards,
+Ken
