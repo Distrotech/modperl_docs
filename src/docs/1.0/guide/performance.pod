@@ -3594,6 +3594,17 @@ Of course you can move the code in the module into an external file,
 
 in the normal way (no C<E<lt>PerlE<gt>> section required).
 
+
+
+
+
+
+
+
+
+
+
+
 =head1 TMTOWTDI: Convenience and Habit vs. Performance
 
 TMTOWTDI (sometimes pronounced I<"tim toady">), or I<"There's More
@@ -3611,6 +3622,11 @@ So this section is about performance trade-offs.  For almost each
 comparison we will provide the theoretical difference and then run
 benchmarks to support the theory, since however good the theory its
 the numbers we get in practice that matter.
+
+"Premature optimizations are evil", the saying goes. I believe that
+knowing how to write an efficient code in first place, where it
+doesn't make the quality and clarity suffer saves time in the long
+run. That's what this section is mostly about.
 
 In the following benchmarks, unless told different the following
 Apache configuration has been used:
@@ -4665,6 +4681,24 @@ or the more efficient:
   print "$filename was modified $mod_time seconds before startup\n";
 
 Two stat() calls were saved!
+
+=head2 Optimizing Code
+
+Here are some other resources that explain how to optimize your code,
+which are usually applied when you profile your code and need to
+optimize it but in many cases are useful to know when you develop the
+code.
+
+=over
+
+=item *
+
+Interesting C code optimization notes, most applying to Perl code as
+well: http://www.utsc.utoronto.ca/~harper/cscb09/lecture11.html#code
+
+=back
+
+[ReaderMETA]: please send me similar resources if you know of such.
 
 =head1 Apache::Registry and Derivatives Specific Notes
 
