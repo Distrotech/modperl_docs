@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache::HookRun - Perl API for Invoking Apache HTTP phases
+Apache2::HookRun - Perl API for Invoking Apache HTTP phases
 
 
 
@@ -8,74 +8,74 @@ Apache::HookRun - Perl API for Invoking Apache HTTP phases
 =head1 Synopsis
 
   # httpd.conf
-  PerlProcessConnectionHandler MyApache::PseudoHTTP::handler
+  PerlProcessConnectionHandler MyApache2::PseudoHTTP::handler
 
-  #file:MyApache/PseudoHTTP.pm
+  #file:MyApache2/PseudoHTTP.pm
   #---------------------------
-  package MyApache::PseudoHTTP;
+  package MyApache2::PseudoHTTP;
   
-  use Apache::HookRun ();
-  use Apache::RequestUtil ();
-  use Apache::RequestRec ();
+  use Apache2::HookRun ();
+  use Apache2::RequestUtil ();
+  use Apache2::RequestRec ();
   
-  use Apache::Const -compile => qw(OK DECLINED DONE SERVER_ERROR);
+  use Apache2::Const -compile => qw(OK DECLINED DONE SERVER_ERROR);
   
   # implement the HTTP protocol cycle in protocol handler
   sub handler {
       my $c = shift;
-      my $r = Apache::RequestRec->new($c);
+      my $r = Apache2::RequestRec->new($c);
   
       # register any custom callbacks here, e.g.:
       # $r->push_handlers(PerlAccessHandler => \&my_access);
   
       $rc = $r->run_post_read_request();
-      return $rc unless $rc == Apache::OK or $rc == Apache::DECLINED;
+      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
   
       $rc = $r->run_translate_name;
-      return $rc unless $rc == Apache::OK or $rc == Apache::DECLINED;
+      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
   
       $rc = $r->run_map_to_storage;
-      return $rc unless $rc == Apache::OK or $rc == Apache::DECLINED;
+      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
   
       # this must be run all a big havoc will happen in the following
       # phases
       $r->location_merge($path);
   
       $rc = $r->run_header_parser;
-      return $rc unless $rc == Apache::OK or $rc == Apache::DECLINED;
+      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
   
       my $args = $r->args || '';
       if ($args eq 'die') {
-          $r->die(Apache::SERVER_ERROR);
-          return Apache::DONE;
+          $r->die(Apache2::SERVER_ERROR);
+          return Apache2::DONE;
       }
   
       $rc = $r->run_access_checker;
-      return $rc unless $rc == Apache::OK or $rc == Apache::DECLINED;
+      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
   
       $rc = $r->run_auth_checker;
-      return $rc unless $rc == Apache::OK or $rc == Apache::DECLINED;
+      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
   
       $rc = $r->run_check_user_id;
-      return $rc unless $rc == Apache::OK or $rc == Apache::DECLINED;
+      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
   
       $rc = $r->run_type_checker;
-      return $rc unless $rc == Apache::OK or $rc == Apache::DECLINED;
+      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
   
       $rc = $r->run_fixups;
-      return $rc unless $rc == Apache::OK or $rc == Apache::DECLINED;
+      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
   
       # $r->run_handler is called internally by $r->invoke_handler,
       # invoke_handler sets all kind of filters, and does a few other
       # things but it's possible to call $r->run_handler, bypassing
       # invoke_handler
       $rc = $r->invoke_handler;
-      return $rc unless $rc == Apache::OK or $rc == Apache::DECLINED;
+      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
   
       $rc = $r->run_log_transaction;
-      return $rc unless $rc == Apache::OK or $rc == Apache::DECLINED;
+      return $rc unless $rc == Apache2::OK or $rc == Apache2::DECLINED;
   
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 
@@ -84,7 +84,7 @@ Apache::HookRun - Perl API for Invoking Apache HTTP phases
 
 =head1 Description
 
-C<Apache::HookRun> exposes parts of the Apache HTTP protocol
+C<Apache2::HookRun> exposes parts of the Apache HTTP protocol
 implementation, responsible for invoking callbacks for each L<HTTP
 Request cycle
 phase|docs::2.0::user::handlers::http/HTTP_Request_Cycle_Phases>.
@@ -113,7 +113,7 @@ crashes, from which mod_perl can't protect you.
 
 =head1 API
 
-C<Apache::HookRun> provides the following functions and/or methods:
+C<Apache2::HookRun> provides the following functions and/or methods:
 
 
 
@@ -131,7 +131,7 @@ Kill the current request
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -164,14 +164,14 @@ L<response|docs::2.0::user::handlers::http/PerlResponseHandler> phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache::OK>,
-C<Apache::HTTP_...>
+The status of the current phase run: C<Apache2::OK>,
+C<Apache2::HTTP_...>
 
 =item since: 1.99_12
 
@@ -201,14 +201,14 @@ control|docs::2.0::user::handlers::http/PerlAccessHandler> phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 the current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache::OK>,
-C<Apache::DECLINED>, C<Apache::HTTP_...>.
+The status of the current phase run: C<Apache2::OK>,
+C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -235,14 +235,14 @@ phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 the current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache::OK>,
-C<Apache::DECLINED>, C<Apache::HTTP_...>.
+The status of the current phase run: C<Apache2::OK>,
+C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -276,14 +276,14 @@ phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache::OK>,
-C<Apache::DECLINED>, C<Apache::HTTP_...>.
+The status of the current phase run: C<Apache2::OK>,
+C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -317,14 +317,14 @@ phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache::OK>,
-C<Apache::DECLINED>, C<Apache::HTTP_...>.
+The status of the current phase run: C<Apache2::OK>,
+C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -349,14 +349,14 @@ L<response|docs::2.0::user::handlers::http/PerlResponseHandler> phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The request_rec
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache::OK>,
-C<Apache::DECLINED>, C<Apache::HTTP_...>.
+The status of the current phase run: C<Apache2::OK>,
+C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -384,13 +384,13 @@ parser|docs::2.0::user::handlers::http/PerlHeaderParserHandler> phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
 =item ret: C<$rc> ( integer )
 
-C<Apache::OK> or C<Apache::DECLINED>.
+C<Apache2::OK> or C<Apache2::DECLINED>.
 
 =item since: 1.99_12
 
@@ -410,14 +410,14 @@ phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache::OK>,
-C<Apache::DECLINED>, C<Apache::HTTP_...>
+The status of the current phase run: C<Apache2::OK>,
+C<Apache2::DECLINED>, C<Apache2::HTTP_...>
 
 =item since: 1.99_12
 
@@ -442,16 +442,16 @@ phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
 =item ret: C<$rc> ( integer )
 
-C<Apache::DONE> (or C<Apache::HTTP_*>) if this contextless request was
-just fulfilled (such as C<TRACE>), C<Apache::OK> if this is not a
-file, and C<Apache::DECLINED> if this is a file.  The core
-map_to_storage (C<Apache::HOOK_RUN_LAST>) will C<directory_walk()> and
+C<Apache2::DONE> (or C<Apache2::HTTP_*>) if this contextless request was
+just fulfilled (such as C<TRACE>), C<Apache2::OK> if this is not a
+file, and C<Apache2::DECLINED> if this is a file.  The core
+map_to_storage (C<Apache2::HOOK_RUN_LAST>) will C<directory_walk()> and
 C<file_walk()> the C<$r-E<gt>filename> (all internal C functions).
 
 =item since: 1.99_12
@@ -480,14 +480,14 @@ phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache::OK> or
-C<Apache::DECLINED>.
+The status of the current phase run: C<Apache2::OK> or
+C<Apache2::DECLINED>.
 
 =item since: 1.99_12
 
@@ -513,14 +513,14 @@ phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache::OK>,
-C<Apache::DECLINED>, C<Apache::HTTP_...>.
+The status of the current phase run: C<Apache2::OK>,
+C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
@@ -544,14 +544,14 @@ L<type_checker|docs::2.0::user::handlers::http/PerlTypeHandler> phase.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 the current request
 
 =item ret: C<$rc> ( integer )
 
-The status of the current phase run: C<Apache::OK>,
-C<Apache::DECLINED>, C<Apache::HTTP_...>.
+The status of the current phase run: C<Apache2::OK>,
+C<Apache2::DECLINED>, C<Apache2::HTTP_...>.
 
 =item since: 1.99_12
 
