@@ -15,6 +15,8 @@ The most recent changes are listed first.
 
   o added a section on overriding functions to trace their failure.
 
+  o inlined Mike Guy's news article about closures
+
 * correct headers.pod
 
   o rewrite the headers of this chapter (Per Einar Ellefsen)
