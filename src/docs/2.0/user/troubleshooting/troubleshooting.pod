@@ -38,25 +38,6 @@ library and it's properly symlinked.
 
 
 
-=head2 make: don't know how to make dynamic. Stop
-
-  make: don't know how to make dynamic. Stop
-  make: stopped in xs/APR/aprext
-
-That's a MakeMaker bug on FreeBSD, OpenBSD and NetBSD (an may be other
-platforms). See: http://rt.cpan.org/NoAuth/Bug.html?id=7417
-
-It was reported that using C<gmake> instead of C<make> solves the
-problem.
-
-Another workaround, which allows continuing using C<make>, is to
-change F<xs/APR/aprext/Makefile.PL>:
-
-  -my @skip = qw(dynamic test);
-  +my @skip = qw(test);
-   push @skip, q{static}
-       unless (Apache::Build::BUILD_APREXT);
-
 
 
 
