@@ -4,6 +4,7 @@
    # rel_doc_root - relative docs path (only for chapters!)
 -%]
 [%- SET buttons = [
+    [ "${doc.dir.abs_doc_root}/maillist/modperl.html#Subscription_Information", 'Maillist Subscription'],
     [ "${doc.dir.abs_doc_root}/maillist/modperl.html#Searchable_Archives", 'Maillist Archives'],
     ["${doc.dir.abs_doc_root}/docs/1.0/guide/index.html", 'The 1.0 guide'],
     ["${doc.dir.abs_doc_root}/download/source.html#Stable_Source_Distribution", 'The 1.0 source'],
