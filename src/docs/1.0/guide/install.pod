@@ -1394,7 +1394,7 @@ Add or remove parameters if appropriate.
 
 =item 1
 
-  % make certificate 
+  % make certificate
 
 with whatever option is suitable to your configuration.
 
@@ -1454,7 +1454,7 @@ Now edit the I<src/Configuration> file if needed and then configure:
 Build, test and install:
 
   % make && make test && make install
-  % cd ../apache_1.3.xx
+  % cd ../apache_1.3.xx/src
   % make certificate
   % make install
 
