@@ -22,7 +22,7 @@ that has to be run under Apache webserver (not necessarily
 mod_perl). Originally designed for the mod_perl Apache module, it was
 extended to be used for any Apache module.
 
-You can write tests in Perl and C, and the framework will provide an
+The tests themselves are written in Perl, and the framework will provide an
 extensive functionality which makes the tests writing a simple and
 therefore enjoyable process.
 
@@ -39,7 +39,7 @@ directory. When executed a typical test prints the following:
 Every C<ok> or C<not ok> is followed by the number which tells which
 sub-test has succeeded or failed.
 
-C<t/TEST> uses a C<Test::Harness> module which intercepts the
+C<t/TEST> uses the C<Test::Harness> module which intercepts the
 C<STDOUT> stream, parses it and at the end of the tests print the
 results of the tests running: how many tests and sub-tests were run,
 how many succeeded, skipped or failed.
@@ -54,8 +54,8 @@ critical for the usefulness of the test. Once you test that you cannot
 proceed with the tests and it's not a must pass test, you just skip
 it.
 
-It's important to know, that there is a special verbose mode, enabled
-with I<-v> option, in which everything printed by the test goes to
+It's important to know that there is a special verbose mode, enabled
+with the I<-v> option, in which everything printed by the test goes to
 C<STDOUT>. So for example if your test does this:
 
   print "testing : feature foo\n";
@@ -177,7 +177,7 @@ that we have mentioned before.
 You can run all the tests in a single directory by just passing this
 directory as an argument. You can pass more than one test or directory
 name at the same time. Thefore assuming that the directory
-I<t/protocol> includes only two files: I<echo.t> and <eliza.t>--the
+I<t/protocol> includes only two files: I<echo.t> and I<eliza.t>--the
 following two commands are equivalent:
 
   % t/TEST protocol/echo protocol/eliza
@@ -465,9 +465,9 @@ with:
   ----------------
   WriteMakefile(
                ...
-      dist         => {
-                       PREOP => 'pod2text lib/Apache/Amazing.pm > README',
-                      },
+      dist  => {
+                PREOP => 'pod2text lib/Apache/Amazing.pm > $(DISTVNAME)/README',
+               },
                ...
                );
 
@@ -524,8 +524,6 @@ users.
 In the previous section we have written a basic test, which doesn't do
 much. In the following sections we will explain how to write more
 elaborate tests.
-
-The tests can be written in Perl and C.
 
 When you write the test for Apache, unless you want to test some
 static resource, like fetching a file, usually you have to write a
