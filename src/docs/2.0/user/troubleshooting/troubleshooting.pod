@@ -343,6 +343,13 @@ not. It was also reported that on win32 the above s/// doesn't work.
 
 
 
+=head2 error_log is Full of Escaped \n, \t, etc.
+
+It's an Apache "feature", see
+C<L<-DAP_UNSAFE_ERROR_LOG_UNESCAPED|docs::2.0::user::install::install/Apache>>.
+
+
+
 
 =head2 Problems with Catching Signals
 
