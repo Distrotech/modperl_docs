@@ -25,6 +25,17 @@ define myrun
     continue
 end
 
+define sharedap
+    sharedlibrary apr
+    sharedlibrary aprutil
+    #sharedlibrary mod_ssl.so
+    continue
+end
+
+define sharedperl
+    sharedlibrary libperl
+end
+
 define gopoll
     b apr_poll
     continue
@@ -45,3 +56,8 @@ myrun
 gopoll
 mybp
 
+# ADJUST: uncomment if you need to step through the code in apr libs
+#sharedap
+
+# ADJUST: uncomment if you need to step through the code in perlib
+#sharedperl
