@@ -1,9 +1,0 @@
-Name: Eric Bartley
-Email: bartley@pdn.cc.purdue.edu
-Summary: Method handlers, API, AIX fixes and Apache::AuthCookie.
-
-Eric had a big hand in implementing and testing method handlers.  He
-also contributed to some of the Apache/Perl API, along with making
-sense of some AIX mysteries for us.  And, his
-<tt>Apache::AuthCookie</tt> module is an inspiration to us all.
-

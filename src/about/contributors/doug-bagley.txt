@@ -1,9 +1,0 @@
-Name: Doug Bagley
-Email: doug@dejanews.com
-URL: http://www.bagley.org/~doug/
-Summary: Bug spotting, modules.
-
-Doug Bagley has pinpointed some of the nastiest mod_perl bugs while
-claiming to know nothing about xs.  He's also made improvements to the
-<tt>Apache::SIG</tt> module along with writing the valuable
-<tt>Apache::SizeLimit</tt> module.
