@@ -26,6 +26,10 @@ The mod_perl 2.0 prerequisites are:
 
 Apache 2.0 is required. mod_perl 2.0 B<does not> work with Apache 1.3.
 
+L<Dynamic|/MP_USE_DSO> (DSO) mod_perl build requires Apache 2.0.47 or
+higher. L<Static|/MP_USE_STATIC> build requires Apache 2.0.51 or
+higher.
+
 =item * Perl
 
 =over

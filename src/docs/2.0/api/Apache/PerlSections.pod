@@ -309,8 +309,8 @@ is a good place to look for a practical example.
 
 =head2 E<lt>PerlE<gt> directive missing closing 'E<gt>'
 
-httpd-2.0.47 and earlier had a bug in the configuration parser which
-caused the startup failure with the following error:
+httpd-2.0.47 had a bug in the configuration parser which caused the
+startup failure with the following error:
 
   Starting httpd:
   Syntax error on line ... of /etc/httpd/conf/httpd.conf:
