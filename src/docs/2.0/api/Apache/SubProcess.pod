@@ -167,6 +167,7 @@ and the F</path/to/detach_script.pl> contents are:
   
   use POSIX 'setsid';
   
+  chdir '/'                or die "Can't chdir to /: $!";
   open STDIN, '/dev/null'  or die "Can't read /dev/null: $!";
   open STDOUT, '+>>', '/path/to/apache/error_log'
       or die "Can't write to /dev/null: $!";
@@ -177,7 +178,8 @@ and the F</path/to/detach_script.pl> contents are:
 
 reopening (or closing) the STD streams and called C<setsid()> makes
 sure that the process is now fully detached from Apache and has a life
-of its own.
+of its own. C<chdir()> ensures that no partition is tied, in case you
+need to remount it.
 
 
 
