@@ -1,6 +1,6 @@
 body {
     font-family: helvetica, arial, verdana, sans-serif; 
-    font-size: 0.8em;
+    font-size: 1.0em;
     color: #000000; 
 }
 
@@ -16,7 +16,7 @@ body {
     margin-right:0px;  /* 100% width span for NS4 */
     font-weight: bold; /* fixup for NS4, because of margin-right */
 }
-  
+
 h1, h2, h3, h4 {
     color: #525D76;
     font-size:1.2em;
@@ -57,14 +57,14 @@ div.logo {
     padding: 5px;  /* 0px works in NS4 */
     border: 1px;
     border-style: none;
-       /* background-color: #ffffff; */
+    /* background-color: #ffffff; */
 }
 
 div.menumain {
     border: 1px;
     padding: 5px;
     border-style: none;
-       /* background-color: #ffffff; */
+    /* background-color: #ffffff; */
 }
 
 div.menulinks {
@@ -78,7 +78,7 @@ div.ad {
     border: 1px;
     padding: 5px;
     border-style: none;
-       /* background-color: #ffffff;*/
+   /* background-color: #ffffff; */
 }
 
 div.ad a:link    {text-decoration: none; color: #525d76;}
@@ -87,7 +87,7 @@ div.ad a:active  {text-decoration: none; color: #525d76;}
 div.ad a:hover   {text-decoration: none; color: #525d76;}
 
 div.adtext {
-    font-size: x-small;
+    font-size: 0.7em;
     text-align:center;
 }
 
@@ -168,12 +168,44 @@ div.tail {
 }
 
 div.toc {
-    font-size: small;
+    font-size: 0.9em;
 }
 
 div.toc a {text-decoration: none; color: #0000ff;}
 
 
 div.download {
-    font-size: x-small;
+    font-size: 0.8em;
 }
+
+td.gray, td.white {
+    background-color: #eeeeee;
+}
+
+td.gray a, td.gray a:link, td.gray a:visited, td.gray a:active, td.gray a:hover{
+    font-family: verdana, helvetica, sans-serif;
+    font-size: 12px;
+    color: #525D76;
+    text-decoration: none;
+}
+
+
+td.white, td.white a, td.white a:link, td.white a:visited, td.white a:active {
+    font-family: verdana, helvetica, sans-serif;
+    font-size: 12px;
+    color: #525D76;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+td.white a:hover {
+		color: #666666
+}
+
+.smallbr {
+	font-family: helvetica, arial, verdana, sans-serif;
+	font-size: 1px;
+	line-height: 1px;
+}
+
+
