@@ -164,7 +164,7 @@ of the response to pass the data out.
 For example if the handler needs to perform a relatively long-running
 operation (e.g. a slow db lookup) and the client may timeout if it
 receives nothing right away, you may want to start the handler by
-setting the I<Content-Length> header, following by an immediate
+setting the I<Content-Type> header, following by an immediate
 flushing:
 
   sub handler {
