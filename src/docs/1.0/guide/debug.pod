@@ -2339,6 +2339,11 @@ contains a C<'b'> indicating that we have set a breakpoint at this
 line.  The breakable lines of code include a C<`:'> immediately after
 the line number.
 
+Please notice that this demonstration was done before perl 5.8 was
+released, which redefined some of the letters to have a different
+meaning. For example C<w> was replaced with C<v>. Please see the
+C<perldebug> manpage.
+
 Now, let's take a look at the value of the C<$stuff> variable with the
 trusty old C<print> command:
 
