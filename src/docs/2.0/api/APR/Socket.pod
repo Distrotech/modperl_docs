@@ -172,13 +172,15 @@ an empty string if there is nothing to read.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-If you get the C<'Resource temporarily unavailable'> error, then you
-didn't ensure that the socket is in L<a blocking mode|/C_opt_set_>
+If you get the C<'(11) Resource temporarily unavailable'> error
+(exception
+C<L<APR::EAGAIN|docs::2.0::api::APR::Const/C_APR__EAGAIN_>>), then you
+didn't ensure that the socket is in L<a blocking IO mode|/C_opt_set_>
 before using it.
 
 If timeout was set via C<timeout_set|/C_timeout_set_>, you may need to
-catch C<L<APR::TIMEUP|docs::2.0::api::APR::Const/C_APR__TIMEUP_>>
-exceptions. For example:
+catch the C<L<APR::TIMEUP|docs::2.0::api::APR::Const/C_APR__TIMEUP_>>
+exception. For example:
 
   use APR::Const -compile => qw(TIMEUP);
   my $buff = eval { $sock->recv($wanted) };

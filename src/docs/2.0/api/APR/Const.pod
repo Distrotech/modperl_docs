@@ -85,7 +85,8 @@ The C<:error> group is for XXX constants.
 
 =back
 
-
+The error I<Resource temporarily unavailable>, may be returned by many
+different system calls, especially IO calls.
 
 
 
