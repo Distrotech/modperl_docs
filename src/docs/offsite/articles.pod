@@ -33,12 +33,9 @@ http://www.byte.com/art/9803/sec7/art1.htm .
 =item *
 
 C<The Linux Journal>, I<At the Forge: Combining Apache and Perl>, by
-I<Reuven M. Lerner>.
-
-=item *
-
-C<The Linux Journal>, I<At the Forge: Speeding Up Database Access With
-mod_perl>, by I<Reuven M. Lerner>.
+I<Reuven M. Lerner> (among others). I<At the Forge> has a website at
+http://www.lerner.co.il/atf/ where you can read all the back issues and
+get the source code. Many articles involve mod_perl.
 
 =item *
 
@@ -101,9 +98,55 @@ http://www.stonehenge.com/merlyn/WebTechniques/ ,
 http://www.stonehenge.com/merlyn/UnixReview/ ,
 http://www.stonehenge.com/merlyn/LinuxMag/ .
 
+=item * 
+
+I<Scaling mod_perl>: http://www.lifespree.com/modperl/
+
+=item *
+
+I<Web Developer's Virtual Library> have introductions to mod_perl. See
+http://www.wdvl.com/Authoring/Languages/Perl/PerlfortheWeb/index12.html
+and
+http://www.wdvl.com/Authoring/Languages/Perl/PerlfortheWeb/index13.html .
+
 =back
 
- META: more articles are welcome 
+ META: more articles are welcome
+
+=head1 mod_perl Talks
+
+Over the years, mod_perl talks have been held at several conferences about
+Perl, Apache or Open Source. Many of those giving talks put some
+information online, and you can learn a lot from that.
+
+=over
+
+=item *
+
+I<Industrial Strength Publishing>, by Ian Callen, Salon.com.
+http://www.salonmag.com/contact/staff/idk/print.html . Talk held at the
+O'Reilly Open Source Software Convention in Monterery, California on
+07/20/2000.
+
+=item *
+
+I<Introduction to mod_perl> by Nathan Torkington.
+http://prometheus.frii.com/~gnat/mod_perl/mod_perl.pdf (PDF format).
+
+=item *
+
+Stas Bekman has put all his talks online: http://www.stason.org/talks/
+
+=item *
+
+I<Real World Performance Tuning for mod_perl> by Ask Bjørn Hansen.
+http://develooper.com/modperl/  (held at The Perl Conference 5, San
+Diego, July 2001).
+
+=back
+
+ META: Move this to Conferences part if we make one. Would be nice to be
+ able to have a standard presentation format to put them all online.
 
 =head1 Are You Interested in Publishing Your Own mod_perl Article?
 
