@@ -92,6 +92,13 @@ Linux Magazin (german), I<Bis in den roten Bereich> - Examples on
 performance test scripts to see the modperl benefits:
 http://www.linux-magazin.de/Artikel/ausgabe/1998/08/Pounder/pounder.html .
 
+=item *
+
+C<Linux & C.> (italian magazine), March-July 2002, I<Apache/mod_perl: an
+appplication server open source>, by I<Enrico Sorcinelli>. Five mod_perl
+tutorial articles available at:
+http://www.perl.it/documenti/articoli/mod_perl1/tutorial/ .
+
 =back
 
 =head1 Online Zines
