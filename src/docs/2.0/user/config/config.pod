@@ -63,121 +63,16 @@ just after mod_perl has been enabled. This can be accomplished with:
 
   use Apache2 ();
 
-in the startup file. Only if you don't use a startup file you can add:
+in the
+L<startup|docs::2.0::user::handlers::server/Startup_specific_Coding>
+file.
+
+Only if you don't use a startup file you can add:
 
   PerlModule Apache2
 
 to I<httpd.conf>, due to the order the C<PerlRequire> and
 C<PerlModule> directives are processed.
-
-
-=head1 Startup Process
-
-As explained in the L<Server Life
-Cycle|docs::2.0::user::handlers::server> chapter, normally Apache
-runs the server configuration phase, followed by
-C<L<PerlOpenLogsHandler|docs::2.0::user::handlers::server/C_PerlOpenLogsHandler_>>
-and
-C<L<PerlPostConfigHandler|docs::2.0::user::handlers::server/C_PerlPostConfigHandler_>>
-phases, then immediately restarts itself. Therefore everything running
-at the server startup is executed twice. During the restart, Perl is
-completely destroyed and started again.
-
-If Apache is started as C<'httpd -t'> (equivalent to C<'apachectl
-configtest'>) or as C<'httpd -S'>, it will run only the configuration
-phase and exit. mod_perl 2.0 postpones the startup of Perl until after
-the configuration phase is over, to allow the usage of the
-C<L<PerlSwitches|/C_PerlSwitches_>> directive, which can't be used
-after Perl is started.  mod_perl starts Perl and runs any registered
-C<L<PerlRequire|/C_PerlRequire_>> and C<L<PerlModule|/C_PerlModule_>>
-entries as the very first thing during the
-C<L<PerlOpenLogsHandler|docs::2.0::user::handlers::server/C_PerlOpenLogsHandler_>>
-phase, which is not invoked during the C<'apachectl configtest'>
-execution.
-
-There are two cases when mod_perl 2.0 is forced to start early (during
-the configuration phase). First, is when
-C<L<PerlLoadModule|/C_PerlLoadModule_>> is used and second is when a
-C<L<E<lt>PerlE<gt> section|docs::2.0::api::Apache::PerlSections>> is
-encountered, both requiring a running Perl, and therefore triggering
-an early server startup.
-
-Therefore at the moment, if you want to trigger an early Perl startup,
-just add an empty C<L<E<lt>PerlE<gt>
-section|docs::2.0::api::Apache::PerlSections>> in F<httpd.conf>:
-
-  <Perl>
-  # trigger an early Perl startup
-  </Perl>
-
-right after loading the mod_perl module, if you are using DSO, or just
-before your mod_perl configuration section, if you're using a static
-mod_perl build.
-
-
-
-
-
-
-=head1 Startup File
-
-A startup file with Perl code to be executed at the server startup can
-be loaded using C<L<PerlRequire|/C_PerlRequire_>>. For example:
-
-  PerlRequire /home/httpd/perl/lib/startup.pl
-
-It's used to adjust Perl modules search paths in C<@INC>, pre-load
-commonly used modules, pre-compile constants, etc. Here is a typical
-I<startup.pl> for mod_perl 2.0:
-
-  file:startup.pl
-  ---------------
-  use Apache2 ();
-  
-  use lib qw(/home/httpd/perl);
-  
-  # enable if the mod_perl 1.0 compatibility is needed
-  # use Apache::compat ();
-  
-  # preload all mp2 modules
-  # use ModPerl::MethodLookup;
-  # ModPerl::MethodLookup::preload_all_modules();
-  
-  use ModPerl::Util (); #for CORE::GLOBAL::exit
-  
-  use Apache::RequestRec ();
-  use Apache::RequestIO ();
-  use Apache::RequestUtil ();
-  
-  use Apache::ServerRec ();
-  use Apache::ServerUtil ();
-  use Apache::Connection ();
-  use Apache::Log ();
-  
-  use APR::Table ();
-  
-  use ModPerl::Registry ();
-  
-  use Apache::Const -compile => ':common';
-  use APR::Const -compile => ':common';
-  
-  1;
-
-In this file the C<Apache2> modules is loaded, so L<the 2.0 modules
-will be found|/Accessing_the_mod_perl_2_0_Modules>. Afterwards C<@INC>
-in adjusted to include non-standard directories with Perl modules:
-
-  use lib qw(/home/httpd/perl);
-
-If you need to use the backwards compatibility layer load:
-
-  use Apache::compat ();
-
-Next we preload the commonly used mod_perl 2.0 modules and precompile
-common constants.
-
-Finally as usual the I<startup.pl> file must be terminated with C<1;>.
-
 
 
 
@@ -254,7 +149,7 @@ C<=over> requires a corresponding C<=back>.
 
 =head2 C<PerlAddVar>
 
-  META: to be written
+META: to be written
 
 
 
@@ -264,21 +159,23 @@ C<=over> requires a corresponding C<=back>.
 
 =head2 C<PerlConfigRequire>
 
-  PerlConfigRequire Foo/Bar.pm
+C<PerlConfigRequire> does the same thing as
+C<L<PerlPostConfigRequire|/C_PerlPostConfigRequire_>>, but it is
+executed as soon as it is encountered, i.e. during the configuration
+phase.
 
-is equivalent to Perl's:
+You should be using this directive to load only files that introduce
+new configuration directives, used later in the configuration
+file. For any other purposes (like preloading modules) use
+C<L<PerlPostConfigRequire|/C_PerlPostConfigRequire_>>.
 
-  require "Foo/Bar.pm";
-
-C<PerlConfigRequire> is used to load files with Perl code.
-
-It is very similar to C<L<PerlRequire|/C_PerlRequire_>>
-with the only difference being that Perl startup is not
-L<delayed|/Startup_Process> and will be immediately started
-upon encountering this directive.
-
-META: need to expand on this with examples and suggested usages
-
+One of the reasons for avoding using the C<PerlConfigRequire>
+directive, is that the C<STDERR> stream is not available during the
+restart phase, therefore the errors will be not reported. It is not a
+bug in mod_perl but an Apache limitation. Use
+C<L<PerlPostConfigRequire|/C_PerlPostConfigRequire_>> if you can, and
+there you have the C<STDERR> stream sent to the error_log file (by
+default).
 
 
 
@@ -290,12 +187,12 @@ META: need to expand on this with examples and suggested usages
 
 The C<PerlLoadModule> directive is similar to
 C<L<PerlModule|/C_PerlModule_>>, in a sense that it loads a
-module. The difference is that it's used to triggers
-L<an early Perl startup|/Startup_Process>. This can be usefull
-for modules that need to be loaded early, as is the case for
-modules that implement
-L<new Apache directives|docs::2.0::user::config::custom>,
-which are needed during the configuration phase.
+module. The difference is that it's used to triggers L<an early Perl
+startup|docs::2.0::user::handlers::server/mod_perl_Startup>. This can
+be usefull for modules that need to be loaded early, as is the case
+for modules that implement L<new Apache
+directives|docs::2.0::user::config::custom>, which are needed during
+the configuration phase.
 
 
 
@@ -316,8 +213,9 @@ You can pass one or more module names as arguments to C<PerlModule>:
 
     PerlModule Apache::DBI CGI DBD::Mysql
 
-Notice, that normally, the Perl startup is L<delayed|/Startup_Process>
-until after the configuration phase.
+Notice, that normally, the Perl startup is
+L<delayed|docs::2.0::user::handlers::server/mod_perl_Startup> until
+after the configuration phase.
 
 See also: C<L<PerlRequire|/C_PerlRequire_>>.
 
@@ -674,25 +572,40 @@ Notice that we have got the value of the environment variable I<TEST>.
 
 =head2 C<PerlPostConfigRequire>
 
-  PerlPostConfigRequire Foo/Bar.pm
+  PerlPostConfigRequire /home/httpd/perl/lib/startup.pl
 
 is equivalent to Perl's:
 
-  require "Foo/Bar.pm";
+  require "/home/httpd/perl/lib/startup.pl";
 
-C<PerlPostConfigRequire> is used to load files with Perl code
-as late as possible during server startup.
+A C<PerlRequire> filename argument can be absolute or relative to
+C<ServerRoot> or a filepath in Perl's C<@INC>.
 
-It is very similar to C<L<PerlRequire|/C_PerlRequire_>> and 
+You can pass one or more filenames as arguments to
+C<PerlPostConfigRequire>:
+
+    PerlPostConfigRequire path1/startup.pl path2/startup.pl
+
+C<PerlPostConfigRequire> is used to load files with Perl code to be
+run at the server startup. It's not executed as soon as it is
+encountered, but L<as late as
+possible|docs::2.0::user::handlers::server/When_Does_perl_Start_To_Run>
+during the server startup.
+
+Most of the time you should be using this directive. For example to
+preload some modules or run things at the server startup). Only if you
+need to load modules that introduce new configuration directives, used
+later in the configuration file you should use
 C<L<PerlConfigRequire|/C_PerlConfigRequire_>>.
 
-C<PerlPostConfigRequire> delays loading of the file until
-the last possible moment before the server is starting, in
-the post_config phase.
+As with any file with Perl code that gets C<use()>'d or
+C<require()>'d, it must return a I<true> value.  To ensure that this
+happens don't forget to add C<1;> at the end of
+F<L<startup.pl|docs::2.0::user::handlers::server/Startup_File>>.
 
-META: need to expand on this with examples and suggested usages
 
-
+See also: C<L<PerlModule|/C_PerlModule_>> and
+C<L<PerlLoadModule|/C_PerlLoadModule_>>.
 
 
 
@@ -701,37 +614,15 @@ META: need to expand on this with examples and suggested usages
 
 =head2 C<PerlRequire>
 
-  PerlRequire Foo/Bar.pm
-
-is equivalent to Perl's:
-
-  require "Foo/Bar.pm";
-
-C<PerlRequire> is used to load files with Perl code.
-
-Most commonly C<PerlRequire> is used to load
-F<L<startup.pl|/Startup_File>>, containing Perl code to be run at the
-server startup. For example:
-
-    PerlRequire  /home/httpd/perl/lib/startup.pl
-
-A C<PerlRequire> filename argument can be absolute or relative to
-C<ServerRoot> or a filepath in Perl's C<@INC>.
-
-As with any file with Perl code that gets C<use()>'d or
-C<require()>'d, it must return a I<true> value.  To ensure that this
-happens don't forget to add C<1;> at the end of
-F<L<startup.pl|/Startup_File>>.
-
-You can pass one or more filenames as arguments to C<PerlRequire>:
-
-    PerlRequire path1/startup.pl path2/startup.pl
-
-Notice that normally, the Perl startup is L<delayed|/Startup_Process>
-until after the configuration phase.
-
-See also: C<L<PerlModule|/C_PerlModule_>>.
-
+C<PerlRequire> does the same thing as
+C<L<PerlPostConfigRequire|/C_PerlPostConfigRequire_>>, but you have
+almost no control of L<when this code is going to be
+executed|docs::2.0::user::handlers::server/When_Does_perl_Start_To_Run>.
+Therefore you should be using either
+C<L<PerlConfigRequire|/C_PerlConfigRequire_>> (executes immediately)
+or C<L<PerlPostConfigRequire|/C_PerlPostConfigRequire_>> (executes
+just before the end of the server startup) instead. Most of the time
+you want to use the latter.
 
 
 
@@ -1544,8 +1435,8 @@ starts. There are several ways to do that.
 
 =item * I<startup.pl>
 
-In L<the startup file|/Startup_File> you can use the C<lib> pragma
-like so:
+In L<the startup file|docs::2.0::user::handlers::server/Startup_File>
+you can use the C<lib> pragma like so:
 
   use lib qw(/home/httpd/project1/lib /tmp/lib);
   use lib qw(/home/httpd/project2/lib);

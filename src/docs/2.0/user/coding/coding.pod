@@ -71,7 +71,7 @@ handler registered on
 C<L<server_shutdown_cleanup_register()|docs::2.0::api::Apache::ServerUtil/C_server_shutdown_cleanup_register_>>
 in F<startup.pl>:
 
-  #PerlRequire startup.pl
+  #PerlPostConfigRequire startup.pl
   use Apache::ServerUtil ();
   use APR::Pool ();
   

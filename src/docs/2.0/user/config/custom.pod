@@ -57,13 +57,13 @@ Finally, modules can be configured in pure Perl using
 C<L<E<lt>PerlE<gt>
 Sections|docs::2.0::user::config::config/C_E_lt_PerlE_gt___Sections>>
 or L<a startup
-file|docs::2.0::user::config::config/Startup_File>, by simply modifying 
-the global variables in the module's package. This approach could be
-undesirable because it requires a use of globals, which we all try to
-reduce. A bigger problem with this approach is that you can't have
-different settings for different sections of the site (since there is
-only one version of a global variable), something that the previous
-two approaches easily achieve.
+file|docs::2.0::user::handlers::server/Startup_File>, by simply
+modifying the global variables in the module's package. This approach
+could be undesirable because it requires a use of globals, which we
+all try to reduce. A bigger problem with this approach is that you
+can't have different settings for different sections of the site
+(since there is only one version of a global variable), something that
+the previous two approaches easily achieve.
 
 =head1 Creating and Using Custom Configuration Directives
 

@@ -432,8 +432,7 @@ I<httpd.conf>:
 
 
 
-
-=head1 Startup Apache Commands
+=head1 Apache Command-line Commands
 
 Some notes on how Apache start/restart Apache commands affect
 mod_perl.
@@ -486,6 +485,175 @@ Similarly to C<httpd -k restart> you may encounter all kind of issues
 here, due to the C<SIGTERM> signal.
 
 =back
+
+
+
+
+
+
+=head1 mod_perl Startup
+
+The following sections discuss the specifics of the mod_perl startup.
+
+
+
+=head2 Start Immediately Restarts
+
+As explained in the L<Server Life Cycle
+section|docs::2.0::user::handlers::server>, on start Apache normally
+runs the server configuration phase, followed by
+C<L<PerlOpenLogsHandler|docs::2.0::user::handlers::server/C_PerlOpenLogsHandler_>>
+and
+C<L<PerlPostConfigHandler|docs::2.0::user::handlers::server/C_PerlPostConfigHandler_>>
+phases, then immediately restarts itself. Therefore everything running
+at the server startup is executed twice. During the restart, Perl is
+completely destroyed and started again.
+
+
+
+
+
+=head2 When Does perl Start To Run
+
+If Apache is started as C<'httpd -t'> (equivalent to C<'apachectl
+configtest'>) or as C<'httpd -S'>, it will run only the configuration
+phase and exit. Depending on your configuration file, it may or may
+not start perl. See the details below.
+
+During the normal startup, mod_perl 2.0 postpones the startup of perl
+until after the configuration phase is over, to allow the usage of the
+C<L<PerlSwitches|docs::2.0::user::config::config/C_PerlSwitches_>>
+directive, which can't be used after Perl is started.
+
+After the configuration phase is over, as the very first thing during
+the C<L<post_config
+phase|docs::2.0::user::handlers::server/C_PerlOpenLogsHandler_>>,
+mod_perl starts perl and runs any registered
+C<L<PerlRequire|docs::2.0::user::config::config/C_PerlRequire_>> and
+C<L<PerlModule|docs::2.0::user::config::config/C_PerlModule_>>
+entries.
+
+At the very end of the C<L<post_config
+phase|docs::2.0::user::handlers::server/C_PerlPostConfigHandler_>> any
+registrered
+C<L<PerlPostConfigRequire|docs::2.0::user::config::config/C_PerlPostConfigRequire_>>
+entries are run.
+
+When any of the following configuration directives is encountered
+(during the configuration phase) mod_perl 2.0 is forced to start as
+soon as they are encountered (as these options require a running
+perl):
+
+=over
+
+=item *
+
+C<L<PerlLoadModule|docs::2.0::user::config::config/C_PerlLoadModule_>>
+
+=item *
+
+C<L<E<lt>PerlE<gt> section|docs::2.0::api::Apache::PerlSections>>
+
+=item *
+
+C<L<PerlConfigRequire|docs::2.0::user::config::config/C_PerlConfigRequire_>>
+
+=back
+
+Therefore if you want to trigger an early Perl startup, you could add
+an empty C<L<E<lt>PerlE<gt>
+section|docs::2.0::api::Apache::PerlSections>> in F<httpd.conf>:
+
+  <Perl>
+  # trigger an early Perl startup
+  </Perl>
+
+right after loading the mod_perl module, if you are using DSO, or just
+before your mod_perl configuration section, if you're using a static
+mod_perl build. But most likely you want to use the
+C<L<PerlConfigRequire|docs::2.0::user::config::config/C_PerlConfigRequire_>>
+instead.
+
+
+
+
+=head2 Startup File
+
+A startup file with Perl code to be executed at the server startup can
+be loaded using
+C<L<PerlPostConfigRequire|docs::2.0::user::config::config/C_PerlPostConfigRequire_>>. For
+example:
+
+  PerlPostConfigRequire /home/httpd/perl/lib/startup.pl
+
+It's used to adjust Perl modules search paths in C<@INC>, pre-load
+commonly used modules, pre-compile constants, etc. Here is a typical
+I<startup.pl> for mod_perl 2.0:
+
+  file:startup.pl
+  ---------------
+  use Apache2 ();
+  
+  use lib qw(/home/httpd/perl);
+  
+  # enable if the mod_perl 1.0 compatibility is needed
+  # use Apache::compat ();
+  
+  # preload all mp2 modules
+  # use ModPerl::MethodLookup;
+  # ModPerl::MethodLookup::preload_all_modules();
+  
+  use ModPerl::Util (); #for CORE::GLOBAL::exit
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  use Apache::RequestUtil ();
+  
+  use Apache::ServerRec ();
+  use Apache::ServerUtil ();
+  use Apache::Connection ();
+  use Apache::Log ();
+  
+  use APR::Table ();
+  
+  use ModPerl::Registry ();
+  
+  use Apache::Const -compile => ':common';
+  use APR::Const -compile => ':common';
+  
+  1;
+
+In this file the C<Apache2> modules is loaded, so L<the 2.0 modules
+will be
+found|docs::2.0::user::config::config/Accessing_the_mod_perl_2_0_Modules>. Afterwards
+C<@INC> in adjusted to include non-standard directories with Perl
+modules:
+
+  use lib qw(/home/httpd/perl);
+
+If you need to use the backwards compatibility layer load:
+
+  use Apache::compat ();
+
+Next we preload the commonly used mod_perl 2.0 modules and precompile
+common constants.
+
+Finally as usual the I<startup.pl> file must be terminated with C<1;>.
+
+
+
+
+
+
+
+=head2 Dealing with Restarts
+
+META: to be written, talk about Apache::ServerUtil::restart_count();
+see t/conf/post_config_startup.pl
+
+
+
+
 
 
 
