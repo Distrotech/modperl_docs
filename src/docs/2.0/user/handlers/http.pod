@@ -238,16 +238,14 @@ host.
 
 =head2 PerlTransHandler
 
-The I<translate> phase is used to perform the translation of a
-request's URI into an corresponding filename. If no custom handler is
-provided, the server's standard translation rules (e.g., C<Alias>
-directives, mod_rewrite, etc.) will continue to be used. A
-C<PerlTransHandler> handler can alter the default translation
-mechanism or completely override it.
-
-In addition to doing the translation, this stage can be used to modify
-the URI itself and the request method. This is also a good place to
-register new handlers for the following phases based on the URI.
+The I<translate> phase is used to perform the manipulation of a
+request's URI. If no custom handler is provided, the server's standard
+translation rules (e.g., C<Alias> directives, mod_rewrite, etc.) will
+be used. A C<PerlTransHandler> handler can alter the default
+translation mechanism or completely override it. This is also a good
+place to register new handlers for the following phases based on the
+URI. C<L<PerlMapToStorageHandler|/PerlMapToStorageHandler>> is to be
+used to override the URI to filename translation.
 
 This phase is of type
 C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
@@ -316,17 +314,11 @@ To configure this module simply add to I<httpd.conf>:
 =head2 PerlMapToStorageHandler
 
 The I<map_to_storage> phase is used to perform the translation of a
-
-
-
-
 request's URI into an corresponding filename. If no custom handler is
-provided, the server's standard translation rules (e.g., C<Alias>
-directives, mod_rewrite, etc.) will continue to be used. A
-C<PerlTransHandler> handler can alter the default translation
-mechanism or completely override it.
-
-META: add something here
+provided, the server will try to walk the filesystem trying to find
+what file or directory corresponds to the request's URI. Since usually
+mod_perl handler don't have corresponding files on the filesystem, you
+will want to shortcut this phase and save quite a few CPU cycles.
 
 This phase is of type
 C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
@@ -335,6 +327,61 @@ The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because at this
 phase the request has not yet been associated with a particular
 filename or directory.
+
+For example if you don't want Apache to try to attempt to translate
+URI into a filename, just add a handler:
+
+  PerlMapToStorageHandler MyApache::NoTranslation
+
+using the following code:
+
+  file:MyApache/NoTranslation.pm
+  ------------------------------
+  package MyApache::NoTranslation;
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use Apache::Const -compile => qw(OK);
+  
+  sub handler {
+      my $r = shift;
+  
+      # skip ap_directory_walk stat() calls
+      return Apache::OK;
+  }
+  1;
+
+Apache also uses this phase to handle C<TRACE> requests. So if you
+shortcut it, C<TRACE> calls will be not handled. In case you need to
+handle such, you may rewrite it as:
+
+  file:MyApache/NoTranslation2.pm
+  -------------------------------
+  package MyApache::NoTranslation2;
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use Apache::RequestRec ();
+
+  use Apache::Const -compile => qw(DECLINED OK M_TRACE);
+  
+  sub handler {
+      my $r = shift;
+  
+      return Apache::DECLINED if $r->method_number == Apache::M_TRACE;
+  
+      # skip ap_directory_walk stat() calls
+      return Apache::OK;
+  }
+  1;
+
+Another way to prevent the core translation is to set
+C<$r-E<gt>filename()> to some value, which can also be done in the
+C<L<PerlTransHandler|/PerlTransHandler>>, if you are already using it.
+
+
 
 
 
