@@ -8,7 +8,7 @@ Apache::Module - Perl API for creating and working with Apache modules
 =head1 Synopsis
 
   use Apache::Module ();
-
+  
   # iterate over the whole module list
   for (my $modp = Apache::Module->top_module; $modp; $modp = $modp->next) {
       my $name = $modp->name;
@@ -95,10 +95,12 @@ that describes all of the directives this module defines.
 
 =head2 C<get_config>
 
-Retrieves a module's configuration. Used by configuration directives.
+Retrieve a module's configuration. Used by configuration directives.
 
-  $cfg = Apache::Module->get_config($class, $server, [$dir_config]);
-  $cfg = $self->get_config($server, [$dir_config]);
+  $cfg = Apache::Module->get_config($class, $server, $dir_config);
+  $cfg = Apache::Module->get_config($class, $server);
+  $cfg =          $self->get_config($server, $dir_config);
+  $cfg =          $self->get_config($server);
 
 =over 4
 
@@ -107,14 +109,14 @@ Retrieves a module's configuration. Used by configuration directives.
 
 =item arg1: C<$class> ( string )
 
-The perl package this configuration is for
+The Perl package this configuration is for
 
-=item arg1: C<$server> 
+=item arg2: C<$server>
 ( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 The current server, typically C<$r-E<gt>server> or C<$parms-E<gt>server>
 
-=item opt arg1: C<$dir_config>
+=item opt arg3: C<$dir_config>
 ( C<L<Apache::ConfVector object|docs::2.0::api::Apache::ConfVector>> )
 
 By default, the configuration returned is the server level one. To retrieve
