@@ -52,9 +52,11 @@ sub process {
     my $title = delete $headers{Subject};
     die "error: no Subject: in $file" unless $title;
 
+    my $author = delete $headers{From};
+    die "error: no From: in $file" unless $author;
+
     # antispam
-    $headers{Author} = delete $headers{From};
-    $headers{Author} =~ s/\@/ (at) /;
+    $author =~ s/\@/ (at) /;
 
 #    print Dumper \%headers;
 #    print "headers:\n$headers\n";
@@ -62,6 +64,7 @@ sub process {
 
     my %data = (
                 title   => $title,
+                author  => $author,
                 headers => \%headers,
                );
 
