@@ -418,6 +418,102 @@ yet.
 
 
 
+=head2 C<:context>
+
+  use Apache::Const -compile => qw(:context);
+
+The C<:context> group is for constants that allow directive
+handlers to check what kind of context (Location/Directory/Server/etc)
+they are in. For more information, see L<Apache::CmdParms>
+
+=head3 C<Apache::NOT_IN_VIRTUALHOST>
+
+=over
+
+=item since: 1.99_16
+
+=back
+
+
+
+=head3 C<Apache::NOT_IN_LIMIT>
+
+=over
+
+=item since: 1.99_16
+
+=back
+
+
+
+
+
+
+=head3 C<Apache::NOT_IN_DIRECTORY>
+
+=over
+
+=item since: 1.99_16
+
+=back
+
+
+
+
+
+
+=head3 C<Apache::NOT_IN_LOCATION>
+
+=over
+
+=item since: 1.99_16
+
+=back
+
+
+
+
+
+
+=head3 C<Apache::NOT_IN_FILES>
+
+=over
+
+=item since: 1.99_16
+
+=back
+
+
+
+
+
+
+
+=head3 C<Apache::NOT_IN_DIR_LOC_FILE>
+
+=over
+
+=item since: 1.99_16
+
+=back
+
+
+
+
+
+
+=head3 C<Apache::GLOBAL_ONLY>
+
+=over
+
+=item since: 1.99_16
+
+=back
+
+
+
+
+
 
 =head2 C<:filter_type>
 
