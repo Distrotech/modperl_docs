@@ -157,13 +157,49 @@ know what you are doing.
 
 =head1 Threads Coding Issues under mod_perl
 
-Of course first of all study how the new ithreads Perl model works, by
-reading the I<perlthrtut>, I<threads> and I<threads::shared> manpages.
+The following sections discuss threading issues when running mod_perl
+under a threaded MPM.
 
-Artur Bergman explains how to port pure Perl modules to work properly
-with Perl ithreads. Issues with chdir() and other functions that rely
-on shared process' datastructures are discussed.
-http://www.perl.com/lpt/a/2002/06/11/threads.html
+=head2 Thread-environment Issues
+
+The only thing you have to worry about your code is that it's
+thread-safe and that you don't use functions that affect all threads.
+
+Perl 5.8.0 itself is a thread-safe. That means that operations like
+C<push()>, C<map()>, C<chomp()>, C<=>, C</>, C<+=>, etc. are
+thread-safe. Operations that involve system calls, may or may not be
+thread-safe. It all depends on whether the underlying C libraries used
+by the perl functions are thread-safe.
+
+For example the function C<localtime()> is not thread-safe when the
+implementation of asctime(3) is not thread-safe. Other usually
+problematic functions include readdir(), srand(), etc.
+
+Another important issue that shouldn't be missed is what some people
+refer to as I<thread-locality>. Certain functions executed in a single
+thread affect the whole process and therefore all other threads
+running inside that process. For example if you C<chdir()> in one
+thread, all other thread now see the current working directory of that
+thread that C<chdir()>'ed to that directory. Other functions with
+similar effects include C<umask()>, C<chroot()>, etc. Currently there
+is no cure for this problem. You have to find these functions in your
+code and replace them with different workarounds.
+
+=head2 Deploying Threads
+
+This is actually quite unrelated to mod_perl 2.0. You don't have to
+know much about Perl threads, other than L<Thread-environment
+Issues|/Thread_environment_Issues>, to have your code properly work 
+under threaded MPM mod_perl.
+
+If you want to spawn your own threads, first of all study how the new
+ithreads Perl model works, by reading the I<perlthrtut>, I<threads>
+and I<threads::shared> manpages.
+
+Artur Bergman wrote an article which explains how to port pure Perl
+modules to work properly with Perl ithreads. Issues with chdir() and
+other functions that rely on shared process' datastructures are
+discussed.  http://www.perl.com/lpt/a/2002/06/11/threads.html
 
 
 =head1 Maintainers
