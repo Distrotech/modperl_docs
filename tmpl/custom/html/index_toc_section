@@ -5,7 +5,7 @@
 %]
     [% FOREACH sec = subs %]
         <dl>
-        <dt><a href="[% sec.link %]"><img src="[% doc.dir.abs_doc_root %]/images/index_bullet.gif" alt="-" align="middle" border="0" height="18" width="18">[% sec.title %]</a>
+        <dt><a href="[% sec.link %]"><img src="[% doc.dir.abs_doc_root %]/images/arrow_right.gif" alt="-" align="middle" border="0" height="18" width="18">[% sec.title %]</a>
 	[% IF sec.abstract %]
         <dd>[% sec.abstract %]
  	[% END %]
