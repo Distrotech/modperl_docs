@@ -34,7 +34,8 @@ For example:
   $r->send_http_header;
   $r->print("mod_perl rules!");
 
-XXX: STOPPED here
+XXX: STOPPED here. Below is the old Apache::Registry document which I
+haven't worked through yet.
 
 META: document that for now we don't chdir() into the script's dir,
 because it affects the whole process under threads.
@@ -44,7 +45,7 @@ This module emulates the CGI environment, allowing programmers to
 write scripts that run under CGI or mod_perl without change.  Existing
 CGI scripts may require some changes, simply because a CGI script has
 a very short lifetime of one HTTP request, allowing you to get away
-with "quick and dirty" scripting.  Using mod_perl and Apache::Registry
+with "quick and dirty" scripting.  Using mod_perl and ModPerl::Registry
 requires you to be more careful, but it also gives new meaning to the
 word "quick"!
 
@@ -63,7 +64,7 @@ human eye.
 
 =head1 Security
 
-Apache::Registry::handler will preform the same checks as mod_cgi
+ModPerl::Registry::handler will preform the same checks as mod_cgi
 before running the script.
 
 =head1 Environment
@@ -77,7 +78,7 @@ The environment variable B<GATEWAY_INTERFACE> is set to C<CGI-Perl/1.1>.
 Normally when a Perl script is run from the command line or under CGI,
 arguments on the `#!' line are passed to the perl interpreter for processing.
 
-C<Apache::Registry> currently only honors the B<-w> switch and will
+C<ModPerl::Registry> currently only honors the B<-w> switch and will
 enable the C<warnings> pragma in such case.
 
 Another common switch used with CGI scripts is B<-T> to turn on taint
@@ -87,20 +88,20 @@ configuration directive:
  PerlSwitches -T
 
 However, if taint checking is not enabled, but the B<-T> switch is
-seen, C<Apache::Registry> will write a warning to the I<error_log>
+seen, C<ModPerl::Registry> will write a warning to the I<error_log>
 file.
 
 =head1 Debugging
 
-You may set the debug level with the $Apache::Registry::Debug bitmask
+You may set the debug level with the $ModPerl::Registry::Debug bitmask
 
  1 => log recompile in errorlog
- 2 => Apache::Debug::dump in case of $@
+ 2 => ModPerl::Debug::dump in case of $@
  4 => trace pedantically
 
 =head1 Caveats
 
-Apache::Registry makes things look just the CGI environment, however, you
+ModPerl::Registry makes things look just the CGI environment, however, you
 must understand that this *is not CGI*.  Each httpd child will compile
 your script into memory and keep it there, whereas CGI will run it once,
 cleaning out the entire process space.  Many times you have heard
