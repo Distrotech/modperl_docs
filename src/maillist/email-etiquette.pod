@@ -2,13 +2,7 @@
 
 The mod_perl Mailing List Guidelines
 
-=head1 Introduction
-
-=for html <!--
-email-etiquette: This version dated 21 October 2001.
-Please make changes to the .pod source and use pod2html to
-create the .html file, thanks.  ged@jubileegroup.co.uk
--->
+=head1 Description
 
 Ninety percent of the questions asked on the List have already been
 asked before, and answers will be found at one of the links below.
@@ -69,7 +63,7 @@ a response from the mail server with instructions to proceed.
 Secondly you have to do what it says in the instructions.  After you
 are subscribed you will receive a messsage with lots of useful
 information about the List.  Read it.  Print it, even.  Save a copy of
-it.  You *can* get another copy of it, but then you'll feel silly.
+it.  You B<can> get another copy of it, but then you'll feel silly.
 
 Traffic on the mod_perl list can be high at times, several hundred
 posts per week, so you might want to consider subscribing to the
@@ -202,7 +196,7 @@ greater that your message will not be read.
 Remember that thousands of people may read your messages.  To save
 time and to keep badwidth usage to a minimum, please keep posts
 reasonably short, but please make it clear precisely what you are
-asking.  If you can, send a *small* example of a script or
+asking.  If you can, send a B<small> example of a script or
 configuration which reproduces your problem.  Please do not send long
 scripts which cannot easily be understood.  Please do not send large
 attachments of many kilobytes, if they are needed then put them on the
@@ -357,7 +351,7 @@ thing.  Don't get involved.
 
 =head1 The mod_perl Guide
 
-You absolutely *must* read the mod_perl Guide.
+You absolutely B<must> read the mod_perl Guide.
 
 It is a large document, you probably will want to download it and read
 it off-line.  If you get the source (see below, L<Corrections and
@@ -374,6 +368,8 @@ or `mc' to search the .pod source directly.
 
 =head2 Finding the Guide
 
+META: when we get links to work, we need to change the links here
+
 The URL of the Guide is:
 
 http://perl.apache.org/guide/
@@ -384,6 +380,8 @@ http://www.cpan.org/authors/id/S/ST/STAS/
 
 
 =head2 Corrections and Contributions
+
+META: this needs to be corrected when the new site is released!
 
 Corrections and additions to the Guide are welcome.  The original is
 kept in .pod format, and it is converted to other formats by Perl
@@ -396,14 +394,4 @@ http://stason.org/guide-snapshots
 and make your changes to the .pod source only.  In the first instance,
 post your changes to the mod_perl List for comment.
 
-
-=begin html <br><hr><br><!--
-11 Jun 2000  Initial publication for comment
-18 Dec 2000  Minor corrections and additions
-21 Oct 2001  Minor corrections, converted to .POD format
--->
-
-=end html
-
-email-etiquette: This version dated 17 October 2001.
-
+=cut

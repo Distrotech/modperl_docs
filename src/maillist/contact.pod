@@ -2,6 +2,10 @@
 
 Contact Info
 
+=head1 Description
+
+Contact information for questions not suited for the lists.
+
 =head1 Contact Info
 
 If you have a comment or question about mod_perl that you
