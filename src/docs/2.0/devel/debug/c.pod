@@ -247,14 +247,9 @@ mpxs_Apache__Filter_print() which is when the breakpoint is reached.
 =back
 
 
-=head1 Obtaining Core Files
+=head1 Analyzing Dumped Core Files
 
 META: need to review (unfinished)
-
-=head2 ...
-
-
-=head1 Analyzing Dumped Core Files
 
 When your application dies with the I<Segmentation fault> error (which
 generates a C<SIGSEGV> signal) and optionally generates a I<core> file
@@ -316,6 +311,9 @@ contains debugging symbols:
 Now the software is ready for a proper debug.
 
 =head2 Creating a Faulty Package
+
+META: no longer need to create the package, use C<Debug::DumpCore>
+from CPAN. Need to adjust the rest of the document to use it.
 
 Next stage is to create a package that aborts abnormally with the
 I<Segmentation fault> error. We will write faulty code on purpose,
