@@ -17,8 +17,8 @@ The I<httpd.conf> setup:
 
   NameVirtualHost 192.168.0.1:80
   <Perl>
-      open HOSTS, '/etc/apache/vhosts.txt'
-          or die "Failed to open vhosts.txt: $!";
+      my $config = "/etc/apache/vhosts.txt";
+      open HOSTS, $config or die "Failed to open $config: $!";
   
       while (<HOSTS>) {
           my %config;
