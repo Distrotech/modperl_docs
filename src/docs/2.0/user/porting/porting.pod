@@ -1619,7 +1619,7 @@ mod_perl, you want to have a custom-compiled perl tuned for your
 needs: http://modperlbook.org/html/ch15_04.html
 
 
-=head2 Documentation and Manpages
+=head3 Documentation and Manpages
 
 If mp2 installs its F<.pm> files under F<Apache2/> C<perldoc> won't
 find those. The alternative solution is to use C<mp2doc> provided by
@@ -1632,6 +1632,27 @@ same C library installed, but you will have only one set of manpages).
 So use C<mp2doc> or the online docs:
 http://perl.apache.org/docs/2.0/api/ which you can also L<build
 locally|download::docs>.
+
+
+
+
+=head3 CPAN Shells
+
+In case you have mp1 and mp2 under the same perl and mp2 is installed
+under the F<Apache2/> subdirectory, in order for CPAN shell to find
+you mp2 modules you need to invoke it as:
+
+ % perl -MApache2 -MCPAN -eshell
+
+For CPANPLUS:
+
+ % perl -MApache2 -MCPANPLUS -eshell
+
+If you have only mp2 and you didn't ask to install it under the
+F<Apache2/> subdirectory, no special invocation technique is required.
+
+
+
 
 
 =head2 CPAN Index
@@ -1733,8 +1754,6 @@ If you use C<CPAN> shell, you can use the C<'d'> command:
 shells, if you know how please let me know.)
 
 
-
-
 =item Q. Why not Put Several Generation in the Same Distro
 
 A. 1) That doesn't fix the indexing problem.
@@ -1769,24 +1788,6 @@ It will also force including new not well tested changes in one
 generation, when the other needs to be released.
 
 =back
-
-
-
-
-=head2 CPAN Shells
-
-In case you have mp1 and mp2 under the same perl and mp2 is installed
-under the F<Apache2/> subdirectory, in order for CPAN shell to find
-you mp2 modules you need to invoke it as:
-
- % perl -MApache2 -MCPAN -eshell
-
-For CPANPLUS:
-
- % perl -MApache2 -MCPANPLUS -eshell
-
-If you have only mp2 and you didn't ask to install it under the
-F<Apache2/> subdirectory, no special invocation technique is required.
 
 
 
