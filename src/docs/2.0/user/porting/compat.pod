@@ -1,11 +1,15 @@
 =head1 NAME
 
-Migrating from mod_perl 1.0 to mod_perl 2.0
+A Reference to mod_perl 1.0 to mod_perl 2.0 Migration.
 
 =head1 Description
 
-This chapter explains how to port code and configuration files from
-mod_perl 1.0 to mod_perl 2.0.
+This chapter is a reference for porting code and configuration files
+from mod_perl 1.0 to mod_perl 2.0.
+
+To learn about the porting process you should first read about
+L<porting Perl modules|docs::2.0::user::porting::porting> (and may be
+about L<porting XS modules|docs::2.0::devel::porting::porting>).
 
 As will be explained in details later loading C<Apache::compat> at the
 server startup, should make the code running properly under 1.0 work
@@ -22,10 +26,6 @@ need to find out those packages and load them.
 You should be able to find the destiny of the functions that you
 cannot find any more or which behave differently now under the package
 names the functions belong in mod_perl 1.0.
-
-See also L<additional porting
-notes|docs::2.0::devel::porting::porting>, mainly oriented for the 3rd
-party module and core developers.
 
 =head1 Configuration Files Porting
 

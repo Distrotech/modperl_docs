@@ -27,7 +27,7 @@ mod_perl 1.0.
 However, remember, that it's implemented in pure Perl and not C,
 therefore its functionality is not optimized and it's the best to try
 to L<port your
-code|docs::2.0::devel::porting::porting> not to use deprecated
+code|docs::2.0::user::porting::porting> not to use deprecated
 functions and stop using the compatibility layer.
 
 =head1 Use in CPAN Modules
@@ -50,7 +50,8 @@ should be users' choice whether to load this module or not and not to
 be enforced by CPAN modules.
 
 If you port your CPAN modules to work with mod_perl 2.0, you should
-follow the L<porting guidelines|docs::2.0::devel::porting::porting>.
+follow the porting L<Perl|docs::2.0::user::porting::porting> and
+L<XS|docs::2.0::devel::porting::porting> module guidelines.
 
 Users that are stuck with CPAN modules preloading C<Apache::compat>,
 can prevent this from happening by adding
