@@ -19,6 +19,32 @@ the methods in question. The module
 C<L<ModPerl::MethodLookup|docs::2.0::api::ModPerl::MethodLookup>> can
 be used to find out which modules need to be used.
 
+
+=head1 Method Handlers
+
+In mod_perl 2.0 method handlers are declared using the C<method>
+attribute:
+
+  package Bird;
+  @ISA = qw(Eagle);
+  
+  sub handler : method {
+      my($class, $r) = @_;
+      ...;
+  }
+
+See the I<attributes> manpage.
+
+If C<Class-E<gt>method> syntax is used for a C<Perl*Handler>, the
+C<:method> attribute is not required.
+
+META: need to port the method handlers document from mp1 guide, may be
+keep it as a separate document. Meanwhile refer to L<that
+document|docs::1.0::guide::method_handlers>, though L<replace the C<$$> 
+prototype with the C<:method> attribute
+|docs::2.0::user::porting::compat/Method_Handlers>.
+
+
 =head1 Goodies Toolkit
 
 =head2 Environment Variables
