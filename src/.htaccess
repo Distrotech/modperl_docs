@@ -33,7 +33,7 @@ Redirect permanent /sites.html http://perl.apache.org/outstanding/sites.html
 
 # Stories
 Redirect permanent /stories/index.html http://perl.apache.org/outstanding/success_stories/index.html
-Redirect permanent /stories/ColbyChem.html html http://perl.apache.org/outstanding/success_stories/colbychem.html
+Redirect permanent /stories/ColbyChem.html http://perl.apache.org/outstanding/success_stories/colbychem.html
 Redirect permanent /stories/France-Presse.html http://perl.apache.org/outstanding/success_stories/www.afp-direct.com.html
 Redirect permanent /stories/adultad.html http://perl.apache.org/outstanding/success_stories/adultad.html
 Redirect permanent /stories/bsat.html http://perl.apache.org/outstanding/success_stories/bsat.html
