@@ -164,17 +164,17 @@ read back in via C<eval>.
 For example:
 
   <Perl>
-
+  
   $Port = 8529;
-
+  
   $Location{"/perl"} = {
      SetHandler => "perl-script",
      PerlHandler => "Apache::Registry",
      Options => "ExecCGI",
   };
-
+  
   @DirectoryIndex = qw(index.htm index.html);
-
+  
   $VirtualHost{"www.foo.com"} = {
      DocumentRoot => "/tmp/docs",
      ErrorLog => "/dev/null",
@@ -187,26 +187,26 @@ For example:
        },
      },
   };
-
+  
   print Apache::PerlSections->dump;
-
+  
   </Perl>
 
 This will print something like this:
 
   $Port = 8529;
-
+  
   @DirectoryIndex = (
     'index.htm',
     'index.html'
   );
-
+  
   $Location{'/perl'} = (
       PerlHandler => 'Apache::Registry',
       SetHandler => 'perl-script',
       Options => 'ExecCGI'
   );
-
+  
   $VirtualHost{'www.foo.com'} = (
       Location => {
         '/' => {
@@ -219,7 +219,7 @@ This will print something like this:
       DocumentRoot => '/tmp/docs',
       ErrorLog => '/dev/null'
   );
-
+  
   1;
   __END__
 
