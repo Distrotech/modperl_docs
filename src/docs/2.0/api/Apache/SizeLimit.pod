@@ -118,7 +118,7 @@ process churn rate.
 
 =head1 Caveats
 
-This module is platform dependent, since finding the size of a process
+This module is platform-dependent, since finding the size of a process
 is pretty different from OS to OS, and some platforms may not be
 supported.  In particular, the limits on minimum shared memory and
 maximum shared memory are currently only supported on Linux and BSD.
@@ -161,14 +161,17 @@ sure if the shared memory calculations will work or not.  AIX users?
 
 =item Win32
 
-Uses C<Win32::API> to access process memory information.
-C<Win32::API> can be installed under ActiveState perl using the
-supplied ppm utility.
+Under mod_perl 1, SizeLimit provided basic functionality by using 
+C<Win32::API> to access process memory information.  This worked 
+because there was only one mod_perl thread.  With mod_perl 2, Win32 
+runs a true threaded MPM, which unfortunately means that we can't 
+tell the size of each interpreter.  Win32 support is disabled until 
+a solution for this can be found.
 
 =back
 
-If your platform is not supported, and if you can tell me how to check
-for the size of a process under your OS (in KB), then I will add it to
+If your platform is not supported, and if you can tell us how to check
+for the size of a process under your OS (in KB), then we will add it to
 the list.  The more portable/efficient the solution, the better, of
 course.
 
