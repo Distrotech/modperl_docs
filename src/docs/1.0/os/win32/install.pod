@@ -211,7 +211,7 @@ Unix-oriented documentation to choose installation directories that do
 not have spaces in their names (eg, F<C:\Perl> and F<C:\Apache>).
 
 After installing Perl and Apache, you can then install mod_perl via
-the PPM utility. ActiveState does not maintain mod_perl in the ppm
+the PPM utility. ActiveState does not maintain mod_perl in their ppm
 repository, so you must get it from a different location other than
 ActiveState's site. One way is simply as (broken over two lines for
 readability)
@@ -235,11 +235,17 @@ lines for readability):
 The C<set save> command saves the C<theoryx5> repository to your PPM
 configuration file, so that future PPM sessions will search this
 repository, as well as ActiveState's, for requested packages.
+If you are running mod_ssl under Apache, then you should
+obtain the C<mod_perl-eapi.ppd> package instead.
 
 The mod_perl PPM package also includes the necessary Apache DLL
 C<mod_perl.so>; a post-installation script should be run which will
 offer to copy this file to your Apache modules directory (eg,
-I<C:\Apache\modules>).
+I<C:\Apache\modules>). This might not occur with C<ppm3>, in
+which case you can grab F<mod_perl.tar.gz> from
+http://theoryx5.uwinnipeg.ca/ppmpackages/x86/; when
+unpacked, this will contain F<mod_perl.so> in the top-level
+directory.
 
 Note that the mod_perl package available from this site will always
 use the latest mod_perl sources compiled against the latest official
