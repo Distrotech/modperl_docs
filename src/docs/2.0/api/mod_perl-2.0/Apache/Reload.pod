@@ -152,11 +152,22 @@ reloaded, are actually getting reloaded, turn the debug mode on:
 
   PerlSetVar ReloadDebug On
 
+=head1 Problems With Reloading Modules Which Do Not Declare Their Package Name
+
+If you modify modules which don't declare their C<package> and rely on
+C<Apache::Reload> to reload them you may encounter problems: i.e.,
+it'll appear as if the module wasn't reloaded when in fact it
+was. This happens because when C<Apache::Reload> C<require()>s such a
+module all the global symbols end up in the C<Apache::Reload>
+namespace!  So the module does get reloaded and you see the compile
+time errors if there are any, but the symbols don't get imported to
+the right namespace. Therefore the old version of the code is running.
+
 =head1 Threaded MPM and Multiple Perl Interpreters
 
 If you use C<Apache::Reload> with a threaded MPM and multiple Perl
 interpreters, the modules will be reloaded by each interpreter as they
-are used, not every interpreters at once.  Similar to mod_perl 1.x
+are used, not every interpreters at once.  Similar to mod_perl 1.0
 where each child has its own Perl interpreter, the modules are
 reloaded as each child is hit with a request.
 
@@ -171,7 +182,7 @@ reloaded subroutines.
 =head1 Pseudo-hashes
 
 The short summary of this is: Don't use pseudo-hashes. They are
-deprecated since Perl 5.8 and will be removed in 5.10
+deprecated since Perl 5.8 and are removed in 5.9.
 
 Use an array with constant indexes. Its faster in the general case,
 its more guaranteed, and generally, it works.
