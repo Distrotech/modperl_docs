@@ -1230,10 +1230,13 @@ Configure, build and install openssl:
   % ./config
   % make && make test && make install
 
-Configure:
+Configure mod_ssl:
 
   % cd mod_ssl-x.x.x-x.x.x
   % ./configure --with-apache=../apache_x.x.x
+
+Configure mod_perl:
+
   % cd ../mod_perl-x.xx
   % perl Makefile.PL USE_APACI=1 EVERYTHING=1 \
         DO_HTTPD=1 SSL_BASE=/usr/local/ssl \
