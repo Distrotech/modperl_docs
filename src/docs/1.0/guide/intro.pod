@@ -253,11 +253,6 @@ C<Apache::Registry> overrides C<CORE::exit()> with C<Apache::exit()>,
 so CGI scripts that use C<exit()> will run correctly. We will talk
 about all these details in depth later.
 
-The last thing C<Apache::Registry> does, is emulation of mod_cgi's
-environment variables, like C<$ENV{SERVER_NAME}>, C<$ENV{REMOTE_USER}>
-and so on. B<PerlSetupEnv Off> disables this feature which saves some
-memory and CPU cycles.
-
 From the viewpoint of the programmer, there is almost no difference
 between running a script as a plain CGI script under mod_cgi and
 running it under mod_perl.  There is however a great speed
