@@ -477,10 +477,17 @@ section|/Directive_Syntax_Definition_Constants>.
 The following values of the I<L<args_how|/C_args_how_>> attribute
 define how many arguments and what kind of arguments directives can
 accept. These values are constants that can be imported from the
-C<L<Apache::Const|docs::2.0::api::Apache::Const>>
-package. For example:
+C<L<Apache::Const|docs::2.0::api::Apache::Const>> package
+(C<L<:cmd_how constants
+group|docs::2.0::api::Apache::Const/C__cmd_how_>>).
+
+For example:
 
   use Apache::Const -compile => qw(TAKE1 TAKE23);
+
+
+
+
 
 =head3 C<Apache::NO_ARGS>
 
@@ -488,9 +495,13 @@ The directive takes no arguments.  The callback will be invoked once
 each time the directive is encountered.  For example:
 
   sub MyParameter {
-       my($self, $parms) = @_;
-       $self->{MyParameter}++;
+      my($self, $parms) = @_;
+      $self->{MyParameter}++;
   }
+
+
+
+
 
 =head3 C<Apache::TAKE1>
 
@@ -499,9 +510,13 @@ once each time the directive is encountered, and its argument will be
 passed as the third argument. For example:
 
   sub MyParameter {
-     my($self, $parms, $arg) = @_;
-     $self->{MyParameter} = $arg;
+      my($self, $parms, $arg) = @_;
+      $self->{MyParameter} = $arg;
   }
+
+
+
+
 
 =head3 C<Apache::TAKE2>
 
@@ -509,9 +524,13 @@ The directive takes two arguments.  They are passed to the callback as
 the third and fourth arguments. For example:
 
   sub MyParameter {
-     my($self, $parms, $arg1, $arg2) = @_;
-     $self->{MyParameter} = {$arg1 => $arg2};
+      my($self, $parms, $arg1, $arg2) = @_;
+      $self->{MyParameter} = {$arg1 => $arg2};
   }
+
+
+
+
 
 =head3 C<Apache::TAKE3>
 
@@ -520,9 +539,13 @@ C<L<Apache::TAKE2|/C_Apache__TAKE2_>>, but the directive takes three
 mandatory arguments. For example:
 
   sub MyParameter {
-     my($self, $parms, @args) = @_;
-     $self->{MyParameter} = \@args;
+      my($self, $parms, @args) = @_;
+      $self->{MyParameter} = \@args;
   }
+
+
+
+
 
 =head3 C<Apache::TAKE12>
 
@@ -531,9 +554,13 @@ one.  This can be used when the second argument has a default value
 that the user may want to override.  For example:
 
   sub MyParameter {
-    my($self, $parms, $arg1, $arg2) = @_;
-    $self->{MyParameter} = {$arg1 => $arg2||'default'};
+      my($self, $parms, $arg1, $arg2) = @_;
+      $self->{MyParameter} = {$arg1 => $arg2||'default'};
   }
+
+
+
+
 
 =head3 C<Apache::TAKE23>
 
@@ -541,11 +568,20 @@ C<L<Apache::TAKE23|/C_Apache__TAKE23_>> is just like
 C<L<Apache::TAKE12|/C_Apache__TAKE12_>>, except now there are two
 mandatory arguments and an optional third one.
 
+
+
+
+
 =head3 C<Apache::TAKE123>
 
 In the C<Apache::TAKE123> variant, the first argument is mandatory and
 the other two are optional.  This is useful for providing defaults for
 two arguments.
+
+
+
+
+
 
 =head3 C<Apache::ITERATE>
 
@@ -556,9 +592,13 @@ interoperability with the C API, which doesn't have the flexible
 argument passing that Perl provides. For example:
 
   sub MyParameter {
-     my($self, $parms, $args) = @_;
-     push @{ $self->{MyParameter} }, $arg;
+      my($self, $parms, $args) = @_;
+      push @{ $self->{MyParameter} }, $arg;
   }
+
+
+
+
 
 
 =head3 C<Apache::ITERATE2>
@@ -580,9 +620,12 @@ routine will be run a total of four times.
 For example:
 
   sub MyParameter {
-     my($self, $parms, $key, $val) = @_;
-     push @{ $self->{MyParameter}{$key} }, $val;
+      my($self, $parms, $key, $val) = @_;
+      push @{ $self->{MyParameter}{$key} }, $val;
   }
+
+
+
 
 
 =head3 C<Apache::RAW_ARGS>
@@ -599,8 +642,8 @@ C<L<Apache::TAKE1|/C_Apache__TAKE1_>>), the third of which is a
 string-valued scalar containing the text following the directive.
 
   sub MyParameter {
-     my($self, $parms, $val) = @_;
-     # process $val
+      my($self, $parms, $val) = @_;
+      # process $val
   }
 
 If this mode is used to implement a custom "container" directive, the
@@ -649,6 +692,9 @@ server will not start, complaining with this error message:
   Syntax error on line 54 of httpd.conf:
   </MyContainer> outside a <MyContainer> container
 
+
+
+
 =head3 C<Apache::FLAG>
 
 When C<Apache::FLAG> is used, Apache will only allow the argument to
@@ -666,6 +712,12 @@ For example:
       my($self, $parms, $arg) = @_;
       $self->{MyFlag} = $arg; # 1 or 0
   }
+
+
+
+
+
+
 
 
 
