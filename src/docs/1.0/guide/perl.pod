@@ -1524,7 +1524,7 @@ their fully qualified names.
 
 With perl5.6 you can use the C<our> operator instead:
 
-  our ($scalar %hash @array);
+  our($scalar, %hash, @array);
 
 If you want to share package global variables between packages, here
 is what you can do.
