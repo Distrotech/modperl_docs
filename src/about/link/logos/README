@@ -1,0 +1,30 @@
+These logos are the "official" ones, derived from the official logo,
+by Michael Demers (mike (at) inteo.com).
+
+The SVG files were created by Matt Sergeant matt (at)
+sergeant.org. One of them has an animated cogs effect, which is pretty
+neat.
+
+To create an animated banner, I used the ImageMagick perl
+library. Included code is in animate.pl. Just run it as:
+
+  % perl animate.pl
+
+(disregard any errors, I usually get some warning about missing
+delegate files etc, but it works anyhow).
+
+It uses banner1.png, banner2.png, banner3.png, and mp_banner.png to
+create banner_animated.gif as an animated gif. You may edit those
+files, or add new ones, but make sure to keep them all at 468x60px.
+
+Make sure to not name anything banner.* verbatim. It gave problems on
+my ad-removing proxy. I guess these are ads anyway, so it doesn't
+matter that much, but the other names weren't a problem. That's why
+it's mp_banner.png and not banner.png.
+
+GIF versions are supposed to be the "official" ones, because PNG still
+crashes old browsers. PNG versions should still be supplied as
+"source" versions and for the people wanting to use them.
+
+Thanks to Jonathan M. Hollin for running the button/logo contest, if
+it wasn't for him we wouldn't have all these graphics!
