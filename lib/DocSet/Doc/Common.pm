@@ -142,7 +142,21 @@ sub pod_pom_html_anchor {
     $anchor =~ s/^\s*|\s*$//g; # strip leading and closing spaces
     $anchor =~ s/\W/_/g;
     my $link = $title->present($self);
-    return qq{<a name="$anchor" href="#toc_$anchor">$link</a>};
+
+    # assuming that the object lives only while a single doc is
+    # rendered we can use this seen techniques, by storing the seen
+    # anchors within the object itself. unfortunately currently there
+    # is no way to dump the context (where the problem is) and
+    # workaround is to run with -v, so the error will happen right
+    # after reporting the file that was rendered
+
+    # die on duplicated anchors
+    my $render_obj = get_render_obj();
+    $render_obj->{__seen_anchors}{$anchor}++;
+    $render_obj->croak("a duplicated anchor: '$anchor'\nfor title: '$title'\n")
+        if $render_obj->{__seen_anchors}{$anchor} > 1;
+
+    return qq{<a name="$anchor"></a><a href="#toc_$anchor">$link</a>};
 }
 
 

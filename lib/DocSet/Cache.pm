@@ -189,15 +189,14 @@ sub index_node {
     my($self) = shift;
 
     if (@_) {
+        my %args = @_;
+        my %required = map { $_ => 1} qw(id title stitle);
+
+        for (keys %required) {
+            croak "must specify the index_node's $_" unless exists $args{$_};
+        }
         # set
-        my($id, $stitle, $title, $abstract) = @_;
-        croak "must specify the index_node's id"     unless defined $id;
-        croak "must specify the index_node's stitle" unless defined $stitle;
-        croak "must specify the index_node's title"  unless defined $title;
-        $self->{cache}{_index}{id}       = $id;
-        $self->{cache}{_index}{stitle}   = $stitle;
-        $self->{cache}{_index}{title}    = $title;
-        $self->{cache}{_index}{abstract} = $abstract;
+        $self->{cache}{_index} = \%args;
     }
     else {
         # get
@@ -215,8 +214,10 @@ sub parent_node {
     if (@_) {
         # set
         my($cache_path, $id, $rel_path) = @_;
-        croak "must specify a path to the parent cache"  unless defined $cache_path;
-        croak "must specify a relative to parent path"  unless defined $rel_path;
+        croak "must specify a path to the parent cache"
+            unless defined $cache_path;
+        croak "must specify a path relative to parent docset"
+            unless defined $rel_path;
         croak "must specify a parent id"  unless defined $id;
         $self->{cache}{_parent}{cache_path} = $cache_path;
         $self->{cache}{_parent}{id}         = $id;
@@ -299,7 +300,13 @@ C<DocSet::Cache> - Maintain a Non-Volatile Cache of DocSet's Data
   my @ids = $cache->ordered_ids;
   my $total_ids = $cache->total_ids;
 
-  $cache->index_node($id, $stitle, $title, $abstract);
+  $cache->index_node(
+      id       => $id,
+      stitle   => $stitle,
+      title    => $title,
+      abstract => $abstract,
+      #...
+  );
   my %index_node = $cache->index_node();
 
   $cache->parent_node($cache_path, $id, $rel_path);

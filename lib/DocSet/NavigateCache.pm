@@ -91,6 +91,11 @@ sub prev {
     }
 }
 
+# get the object by its id (string) within the current cache
+sub by_id {
+    my($self, $id) = @_;
+    return defined $id ? $self->new($self->[CUR_PATH], $id) : undef;
+}
 
 
 # get the object of the first item on the same level
@@ -181,6 +186,7 @@ sub node_groups {
 sub id {
     shift->[ID];
 }
+
 
 sub get_cache {
     my($cache_path) = @_;

@@ -16,6 +16,8 @@ use vars qw(@ISA @EXPORT %opts);
 @ISA    = qw(Exporter);
 @EXPORT = qw(get_opts find_src_doc set_render_obj get_render_obj unset_render_obj);
 
+my %registers = ();
+
 my @search_paths = ();
 my %src_docs = ();
 my %exts     = ();
@@ -26,6 +28,17 @@ my $render_obj;
 #                         'devel/core_explained/core_explained.pod' => 1,
 #                        },
 #         );
+
+sub registers_reset {
+    %registers = ();
+}
+
+sub register {
+    my($register, $key, $val) = @_;
+    push @{$registers{$register}{$key}}, $val;
+    return @{ $registers{$register}{$key} || []};
+}
+
 
 sub set_opt {
     my(%args) = ();
@@ -186,6 +199,7 @@ sub unset_render_obj {
     undef $render_obj;
 }
 
+
 1;
 __END__
 
@@ -232,6 +246,37 @@ META: To be completed, see SYNOPSIS
 Only get_opts() method is exported by default.
 
 =over
+
+=item * registers_reset()
+
+This function resets various run-time registers, used for validations.
+
+If the runtime is run more than once remember to always run first this
+function and even better always run it before using the runtime. e.g.:
+
+  DocSet::RunTime::registers_reset();
+  my $docset = DocSet::DocSet::HTML->new($config_file);
+  $docset->set_dir(abs_root => ".");
+  $docset->scan;
+  $docset->render;
+
+=item * register
+
+  my @entries = register($register_name, $key, $val);
+
+Push into the register for a given key the supplied value.
+
+Return an array of the given register's key.
+
+For example used to track duplicated docset ids with:
+
+    my @entries = DocSet::RunTime::register('unique_docset_id', $id,
+                                           $self->{config_file});
+    die if @entries > 1;
+
+because if the register returns two value for the same key, someone
+has already registered that key before. The values in C<@entries>
+include the config files in this example.
 
 =item * set_opt(\%args)
 

@@ -35,15 +35,16 @@ sub init {
     # we assume that the docset was not modified since the last run.
     # if at least one source doc/config file was modified, the docset
     # is considered modified as well and should be rebuild. It's the
-    # responsibility of the modified object to make its parent docset
-    # as modified.
+    # responsibility of the modified object to set its parent docset
+    # status to 'modified'.
     $self->modified(0);
 
-    # currently there are 5 reasons why the docset is considered
-    # 'modified', if at least one of these is 'modified':
-    # 1. the included docset
-    # 2. the included chapter
-    # 3. the included 'copy as-is' files
+    # currently a given docset is considered to be in the 'modified' state,
+    # if any of these conditions is true:
+    #
+    # 1. the included docset is 'modified':
+    # 2. the included chapter is 'modified':
+    # 3. the included 'copy as-is' files are 'modified':
     # 4. config.cfg is newer than corresponding index.html
     # 5. the cache file is missing
 
@@ -76,11 +77,15 @@ sub scan {
     $cache->invalidate if get_opts('rebuild_all');
 
     # cache the index node meta data
-    $cache->index_node($self->get('id'),
-                       $self->get('stitle'),
-                       $self->get('title'),
-                       $self->get('abstract')
+    $cache->index_node(id       => $self->get('id'),
+                       stitle   => $self->get('stitle'),
+                       title    => $self->get('title'),
+                       abstract => $self->get('abstract'),
+                       extra    => $self->get('extra'),
                       );
+
+    # croaks if the docset id is duplicated
+    $self->check_duplicated_docset_ids();
 
     # cache the location of the parent node cache
     if (my $parent_o = $self->get('parent_o')) {
@@ -155,7 +160,8 @@ sub scan {
 
     $cache->node_groups($self->node_groups);
 
-    # compare whether the config file is newer than the index.html
+    # compare whether the config file is newer than the corresponding
+    # index.html
     my $dst_root = $self->get_dir('dst_root');
     my $config_file = $self->{config_file};
 
@@ -265,14 +271,15 @@ sub chapter_scan_n_cache {
     $rel_dst_path =~ s|^\./||; # strip the leading './'
     my $dst_path  = "$dst_root/$rel_dst_path";
 
-    my $rel_doc_root = join '/', ("..") x ($rel_dst_path =~ tr|/|/|);
-    $rel_doc_root = "." unless $rel_doc_root;
+    my $rel_doc_root = $rel_dst_path =~ m|/|
+        ? join('/', ("..") x ($rel_dst_path =~ tr|/|/|))
+        : '.';
 
     # push to the list of final chapter paths e.g. used by PS/PDF
     # build, which needs all the non-hidden chapters
     $self->trg_chapters($rel_dst_path) unless $hidden;
 
-    ### to rebuild or not to rebuild
+    ### to rebuild or not
     my($should_update, $reason) = $self->should_update($src_path, $dst_path);
     if (!$should_update) {
         note "--- $src_file: skipping ($reason)";

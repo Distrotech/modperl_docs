@@ -3,8 +3,6 @@ package DocSet::Config;
 use strict;
 use warnings;
 
-use Carp;
-
 use File::Basename ();
 use File::Spec::Functions;
 
@@ -46,18 +44,23 @@ sub ext2mime {
 sub conv_class {
     my($self, $src_mime, $dst_mime) = @_;
     # convert
-    die "src_mime is not defined" unless defined $src_mime;
-    die "dst_mime is not defined" unless defined $dst_mime;
-    my $conv_class = $conv_class{$src_mime}{$dst_mime}
-        or die "unknown input/output MIME mapping: $src_mime => $dst_mime";
-    return $conv_class;
+    $self->croak("src_mime is not defined") unless defined $src_mime;
+    $self->croak("dst_mime is not defined") unless defined $dst_mime;
+    $self->croak("unknown input/output MIME mapping: $src_mime => $dst_mime")
+        unless exists $conv_class{$src_mime}{$dst_mime};
+    return $conv_class{$src_mime}{$dst_mime};
 }
 
 
-my %attr = map {$_ => 1} qw(chapters docsets links sitemap);
+my %node_attr   = map {$_ => 1} qw(chapters docsets links sitemap);
+my %hidden_attr = map {$_ => 1} qw(chapters docsets);
+# the rest of the valid attributes in addition to 'hidden', 'changes'
+# and %node_attr
+my %other_attr  = map {$_ => 1} qw(id stitle title abstract body
+                                   copy_glob copy_skip dir file);
 sub read_config {
     my($self, $config_file) = @_;
-    die "Configuration file is not specified" unless $config_file;
+    die "Configuration file is not specified" unless defined $config_file;
 
     $self->{config_file} = $config_file;
 
@@ -70,7 +73,7 @@ sub read_config {
     eval join '',
         "package $package;",
         $content, ";1;";
-    die "failed to eval config file at $config_file:\n$@" if $@;
+    $self->croak("failed to eval config file:\n$@") if $@;
 
     # parse the attributes of the docset's config file
     no strict 'refs';
@@ -79,12 +82,14 @@ sub read_config {
 
 #dumper \@c;
 
-    my @groups = ();
     my $current_group = '';
     my $group_size;
+    my $non_grouped_node_seen = 0;
     for ( my $i=0; $i < @c; $i +=2 ) {
         my($key, $val) = @c[$i, $i+1];
         if ($key eq 'group') {
+            $self->croak("grouped and non-grouped chapters cannot be mixed")
+                if $non_grouped_node_seen;
             # close the previous group by storing the key of its last node
             if ($current_group) {
                 push @{ $self->{node_groups} }, $current_group, $group_size;
@@ -94,22 +99,36 @@ sub read_config {
             $group_size = 0;
         }
         elsif ($key eq 'hidden') {
-            die "hidden's value must be an ARRAY reference" 
+            $self->croak("hidden attribute's value must be an ARRAY reference")
                 unless ref $val eq 'ARRAY';
             my @h = @$val;
             for ( my $j=0; $j < @h; $j +=2 ) {
                 my($key1, $val1) = @h[$j, $j+1];
-                die "hidden's can include only 'chapters' and 'docsets', " .
-                    "$key1 is invalid" unless $key1 =~ /^(docsets|chapters)$/;
+                $self->croak("the 'hidden' attribute can include only: ",
+                             join(", ", keys %hidden_attr),
+                             "attributes, $key1 is invalid")
+                    unless exists $hidden_attr{$key1};
                 $self->add_node($key1, $val1, 1);
             }
         }
-        elsif (exists $attr{$key}) {
+        elsif ($key eq 'changes') {
+            # add as a hidden chapter
+            $self->add_node('chapters', $val, 1);
+            # by this id we can reach this hidden object from the
+            # docset object
+            $self->{extra}{$key} = $val;
+        }
+        elsif (exists $node_attr{$key}) {
+            $non_grouped_node_seen = 1 unless $current_group;
             $group_size += $self->add_node($key, $val, 0);
         }
-        else {
+        elsif (exists $other_attr{$key}) {
             $self->{$key} = $val;
             #dumper [$key => $val];
+        }
+        else {
+            #dumper [$key => $val];
+            $self->croak("unknown attribute: $key");
         }
     }
     if ($current_group) {
@@ -120,7 +139,7 @@ sub read_config {
     # - alias one to another if only one was specified
     $self->{title}  = $self->{stitle} unless exists $self->{title};
     $self->{stitle} = $self->{title}  unless exists $self->{stitle};
-    die "Either 'title' or 'stitle' must appear in $config_file"
+    $self->croak("Either 'title' or 'stitle' must appear in $config_file")
         unless $self->{title};
 
     # merge_config will adjust this value, for nested docsets
@@ -179,8 +198,10 @@ sub merge_config {
         # set path to the abs_doc_root 
         # META: hardcoded paths! (but in this case it doesn't matter,
         # as long as it's set in the config file
-        $self->{dir}{abs_doc_root} = 
-            join '/', ("..") x ($self->{dir}{dst_html} =~ tr|/|/|);
+        $self->{dir}{abs_doc_root} =
+            $self->{dir}{dst_html} =~ m|/|
+                ? join('/', ("..") x ($self->{dir}{dst_html} =~ tr|/|/|))
+                : '.';
     }
 
 }
@@ -204,7 +225,7 @@ sub modified {
         # is marked as dirty, but somewhere later a logic mistake
         # resets this value to 0, (non-dirty).
         if (exists $self->{modified} && !$status) {
-            Carp::croak("Cannot reset the 'modified' status");
+            $self->croak("Cannot reset the 'modified' status");
         }
         $self->{modified} = $status;
     }
@@ -226,7 +247,7 @@ sub rebuild {
         # is marked to rebuild the docset, but somewhere later a logic mistake
         # resets this value to 0, (non-dirty).
         if (exists $self->{rebuild} && !$status) {
-            Carp::croak("Cannot reset the 'rebuild' status");
+            $self->croak("Cannot reset the 'rebuild' status");
         }
         $self->{rebuild} = $status;
     }
@@ -254,6 +275,18 @@ sub add_node {
     return scalar @values;
 }
 
+# register the new docset id and verify that it wasn't registered
+# before that. Croak if it was registered already.
+sub check_duplicated_docset_ids {
+    my $self = shift;
+    my $id = $self->get('id');
+    my @entries = DocSet::RunTime::register('unique_docset_id', $id,
+                                           $self->{config_file});
+    # should be enough to report only the first returned value, since
+    # there can be only one duplicate before this will croak
+    $self->croak("Duplicated docset id: '$id'\n",
+                 "Used already by $entries[0]") if @entries > 1;
+}
 
 # return a list of files potentially to be copied
 #
@@ -340,7 +373,7 @@ sub get_dir {
             push @values, $self->{dir}{$_}
         }
         else {
-            cluck "no entry for dir: $_";
+            $self->cluck("no entry for dir: $_");
             push @values, '';
         }
     }
@@ -416,7 +449,7 @@ sub path2package {
 
 sub object_store {
     my($self, $object) = @_;
-    croak "no object passed" unless defined $object and ref $object;
+    $self->croak("no object passed") unless defined $object and ref $object;
     push @{ $self->{_objects_store} }, $object;
 }
 
@@ -425,7 +458,20 @@ sub stored_objects {
     return @{ $self->{_objects_store}||[] };
 }
 
-
+# extended error diagnosis
+{
+    require Carp;
+    no strict 'refs';
+    for my $sub (qw(carp cluck croak confess)) {
+        undef &$sub if \&$sub; # overload Carp's functions
+        *$sub = sub {
+            my($self, @msg) = @_;
+            &{"Carp::$sub"}("[scan $sub] ", @msg, "\n",
+                         "[config file: " . $self->{config_file} . "]\n"
+                        );
+        };
+    }
+}
 
 #sub chapter_data {
 #   my $self = shift;
@@ -449,32 +495,34 @@ C<DocSet::Config> - A superclass that handles object's configuration and data
 =head1 SYNOPSIS
 
   use DocSet::Config ();
-
+  
   my $mime = $self->ext2mime($ext);
   my $class = $self->conv_class($src_mime, $dst_mime);
-
+  
   $self->read_config($config_file);
   $self->merge_config($src_rel_dir);
-
+  $self->check_duplicated_docset_ids();
+  
+  $self->files_to_scan_copy();
   my @files = $self->files_to_copy(files_to_copy);
   my @files = $self->expand_dir();
-
+  
   $self->set($key => $val);
   $self->set_dir($dir_name => $val);
   $val = $self->get($key);
   $self->get_file($key);
   $self->get_dir($dir_name);
-
+  
 #XXX  my @docsets = $self->docsets();
 #XXX  my @links = $self->links();
 #XXX  my @chapters = $self->src_chapters();
   my @chapters = $self->trg_chapters();
-
+  
   my $sitemap = $self->sitemap();
-
+  
   $self->cache($cache); 
   my $cache = $self->cache(); 
-
+  
   $package = $self->path2package($path);
   $self->object_store($object);
   my @objects = $self->stored_objects();
@@ -700,6 +748,37 @@ course if you desire to link to the sitemap in a different way, you
 can always define it in the I<hidden> container, as it'll be explained
 later.
 
+=item * changes
+
+  changes => 'Changes.pod',
+
+The I<changes> attribute accepts a single element which is a source
+chapter for the changes file. The only difference from the I<hidden>
+chapter is that it's possible to access directly to its navigation
+object from within the index templates, via:
+
+  [%
+    changes_id = doc.nav.index_node.extra.changes;
+    IF changes_id;
+       changes_nav = doc.nav.by_id(changes_id);
+  -%]
+
+Now C<changes_nav> points to the changes chapter, similar to
+C<doc.nav>. So for example you can retrieve a link to it as:
+
+  changes_nav.meta.link
+
+or the title as:
+
+  changes_nav.meta.title
+
+This element was added as an improvement over the inclusion of the
+I<Changes.pod> chapter or alike along with all other chapters because
+usually people don't want to see changes and when the docset pdf is
+created huge changes files can be an unwanted burden, so now if this
+attribute is included, the pdf for the docset won't include this file
+in it.
+
 =back
 
 This is an example:
@@ -719,6 +798,8 @@ This is an example:
      ],
   
      chapters => 'foo/bar/zed.pod',
+  
+     changes => 'Changes.pod',
   
      links => [
          {
@@ -747,7 +828,7 @@ generated as:
   part II: Troubleshooting
   * Debugging
   * Errors
-  * Help Links
+  * ASF
   * Offline Help
 
 This happens only if this feature is used, otherwise a plain flat toc
@@ -759,7 +840,14 @@ of a new group using the I<group> attribute:
 
   group => 'Troubleshooting',
   chapters => [qw(debug.pod errors.pod)],
-  links    => [{put link data here}],
+  links    => [
+         {
+          id       => 'asf',
+          link     => 'http://apache.org/foundation/projects.html',
+          title    => 'The ASF Projects',
+          abstract => "There many other ASF Projects",
+         },
+  ],
   chapters => ['offline_help.pod'],
 
 

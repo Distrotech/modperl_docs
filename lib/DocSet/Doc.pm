@@ -44,7 +44,8 @@ sub render {
     my $rel_doc_root  = $self->{rel_doc_root};
     my $abs_doc_root  = $self->{abs_doc_root};
     $abs_doc_root .= "/$rel_doc_root"
-        if defined $rel_doc_root and $rel_doc_root ne '.';
+        if defined $rel_doc_root &&
+           length($rel_doc_root) && $rel_doc_root ne '.';
 
     $abs_doc_root =~ s|^./||; # IE/Mac can't handle path ./../foo
 
@@ -140,6 +141,14 @@ sub transform_src_doc {
     return undef;
 }
 
+require Carp;
+sub croak {
+    my($self, @msg) = @_;
+    Carp::croak("[render croak] ", @msg, "\n",
+                "[src path] $self->{src_path}\n"
+               );
+
+}
 
 # abstract methods
 #sub src_filter {}
