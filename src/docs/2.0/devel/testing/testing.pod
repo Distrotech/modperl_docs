@@ -2618,7 +2618,20 @@ this code into a test.
 
 =back
 
+=head1 Other Webserver Regression Testing Frameworks
 
+=over
+
+=item * Puffin
+
+Puffin is a web application regression testing system. It allows you
+to test any web application from end to end based application as if it
+were a "black box" accepting inputs and returning outputs.
+
+It's available from http://puffin.sourceforge.net/
+
+
+=back
 
 
 =head1 References
