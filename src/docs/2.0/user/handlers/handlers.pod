@@ -1302,7 +1302,8 @@ checker handler, which may still block the access based on a different
 rule.
 
 To enable the handler simply add it to the container that needs to be
-protected. For example to protect an access to the registry scripts:
+protected. For example to protect an access to the registry scripts
+executed from the base location I</perl> add:
 
   <Location /perl/>
       SetHandler perl-script
@@ -1333,6 +1334,91 @@ This phase is of type C<L<RUN_FIRST|/item_RUN_FIRST>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
+The following handler authenticates users by asking for a username and
+a password and lets them in only if the length of a string made from
+the supplied username and password and a single space equals to the
+secret length, specified by the constant C<SECRET_LENGTH>.
+
+  file:MyApache/SecretLengthAuth.pm
+  ---------------------------------
+  package MyApache::SecretLengthAuth;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::Const -compile => qw(OK DECLINED AUTH_REQUIRED);
+  
+  use constant SECRET_LENGTH => 14;
+  
+  sub handler {
+      my $r = shift;
+  
+      my ($status, $password) = $r->get_basic_auth_pw;
+      return $status unless $status == Apache::OK;
+  
+      return Apache::OK 
+          if SECRET_LENGTH == length join " ", $r->user, $password;
+  
+      $r->note_basic_auth_failure;
+      return Apache::AUTH_REQUIRED;
+  }
+  
+  1;
+
+First the handler retrieves the status of the authentication and the
+password in plain text. The status will be set to C<Apache::OK> only
+when the user has supplied the username and the password
+credentials. If the status is different, we just let Apache handle
+this situation for us, which will usually challenge the client so
+it'll supply the credentials.
+
+Once we know that we have the username and the password supplied by
+the client, we can proceed with the authentication. Our authentication
+algorithm is unusual. Instead of validating the username/password pair
+against a password file, we simply check that the string built from
+these two items plus a single space is C<SECRET_LENGTH> long (14 in
+our example). So for example the pair I<mod_perl/rules> autheniticates
+correctly, whereas I<secret/password> does not, because the latter
+pair will make a string of 15 characters. Of course this is not a
+strong authentication scheme and you shouldn't use it for serious
+things, but it's fun to play with. Most authentication validations
+simply verify the username/password against a database of valid pairs,
+usually this requires the password to be encrypted first, since
+storing passwords in clear is a bad idea.
+
+Finally if our authentication fails the handler calls
+note_basic_auth_failure() and returns C<Apache::AUTH_REQUIRED>, which
+sets the proper HTTP response headers that tell the client that its
+user that the authentication has failed and the credentials should be
+supplied again.
+
+It's not enough to enable this handler for the authentication to
+work. You have to tell Apache what authentication scheme to use
+(C<Basic> or C<Digest>), which is specified by the C<AuthType>
+directive, and you should also supply the C<AuthName> -- the
+authentication realm, which is really just a string that the client
+usually uses as a title in the pop-up box, where the username and the
+password are inserted. Finally the C<Require> directive is needed to
+specify which usernames are allowed to authenticate. If you set it to
+C<valid-user> any username will do.
+
+Here is the whole configuration section that requires users to
+authenticate before they are allowed to run the registry scripts from
+I</perl/>:
+
+  <Location /perl/>
+      SetHandler perl-script
+      PerlResponseHandler ModPerl::Registry
+      PerlAuthenHandler MyApache::SecretLengthAuth
+      Options +ExecCGI
+  
+      AuthType Basic
+      AuthName "The Gate"
+      Require valid-user
+  </Location>
+
+
+
 =head2 PerlAuthzHandler
 
 The I<auth_checker> (I<authz>) phase is used for authorization
@@ -1343,17 +1429,94 @@ whether a user is authorized to access the requested resource.
 As this phase is tightly connected to the authentication phase, the
 handlers registered for this phase are only called when the requested
 resource is password protected, similar to the auth phase. The handler
-is expected to return C<DECLINED> to defer the decision, C<OK> to
-indicate its acceptance of the user's authorization, or
-C<AUTH_REQUIRED> to indicate that the user is not authorized to access
-the requested document.
+is expected to return C<Apache::DECLINED> to defer the decision,
+C<Apache::OK> to indicate its acceptance of the user's authorization,
+or C<Apache::AUTH_REQUIRED> to indicate that the user is not
+authorized to access the requested document.
 
 This phase is of type C<L<RUN_FIRST|/item_RUN_FIRST>>.
 
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
-Example:
+Here is the C<MyApache::SecretResourceAuthz> handler which allows an
+access to certain resources only to certain users who have already
+properly authenticated:
+
+  file:MyApache/SecretResourceAuthz.pm
+  ------------------------------------
+  package MyApache::SecretResourceAuthz;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::Const -compile => qw(OK AUTH_REQUIRED);
+  
+  use constant SECRET_LENGTH => 14;
+  
+  my %protected = (
+      'admin'  => ['stas'],
+      'report' => [qw(stas boss)],
+  );
+  
+  sub handler {
+      my $r = shift;
+  
+      my $user = $r->user;
+      if ($user) {
+          my($section) = $r->uri =~ m|^/company/(\w+)/|;
+          if (my $users = $protected{$section}) {
+              return Apache::OK if grep { $_ eq $user } @$users;
+          }
+          else {
+              return Apache::OK;
+          }
+      }
+  
+      $r->note_basic_auth_failure;
+      return Apache::AUTH_REQUIRED;
+  }
+  
+  1;
+
+This authorization handler is very similar to the authentication
+handler L<from the previous section|/PerlAuthenHandler>. Here we rely
+on the previous phase to get users authenticated, and now as we have
+the username we can make decisions whether to let the user access the
+resource it has asked for or not. In our example we have a simple hash
+which maps which users are allowed to access what resources. So for
+example anything under I</company/admin/> can be accessed only by the
+user I<stas>, I</company/report/> can be accessed by users I<stas> and
+I<boss>, whereas any other resources under I</company/> can be
+accessed by everybody who has reached so far. If for some reason we
+don't get the username, we or the user is not authorized to access the
+resource the handler does the same thing as it does when the
+authentication fails, i.e, calls:
+
+      $r->note_basic_auth_failure;
+      return Apache::AUTH_REQUIRED;
+
+The configuration is similar to the one in L<the previous
+section|/PerlAuthenHandler>, this time we just add the 
+C<PerlAuthzHandler> setting. The rest doesn't change.
+
+  Alias /company/ /home/httpd/httpd-2.0/perl/
+  <Location /company/>
+      SetHandler perl-script
+      PerlResponseHandler ModPerl::Registry
+      PerlAuthenHandler MyApache::SecretPhraseAuth
+      PerlAuthzHandler  MyApache::SecretResourceAuthz
+      Options +ExecCGI
+  
+      AuthType Basic
+      AuthName "The Secret Gate"
+      Require valid-user
+  </Location>
+
+
+
+
+
 
 
 =head2 PerlTypeHandler
