@@ -49,10 +49,10 @@ to be published in 2002 by O'Reilly & Associates.
 Ideas, suggestions and comments are welcome. Please send them to
 E<lt>info {at} modperlbook.comE<gt>.
 
-=head2 mod_perl Quick Reference Card
+=head2 mod_perl Pocket Reference
 
-I<mod_perl Pocket Reference> by Andrew Ford was published by O'Reilly
-and Associates http://www.oreilly.com/catalog/modperlpr/
+The I<mod_perl Pocket Reference> by Andrew Ford was published by
+O'Reilly and Associates http://www.oreilly.com/catalog/modperlpr/
 
   Apache Pocket Reference
   By Andrew Ford
@@ -64,8 +64,27 @@ You should probably get also the I<Apache Pocket Reference> by the
 same author and the same publisher:
 http://www.oreilly.com/catalog/apachepr/
 
-See also Andrew's collection of reference card for Apache and other
-programs: http://www.refcards.com.
+See also Andrew's collection of reference cards for Apache and other
+programs at http://www.refcards.com.
+
+=head2 Embedding Perl in HTML with Mason
+
+While not dealing with mod_perl exclusively, I<Embedding Perl in HTML
+with Mason> discusses Mason, a toolkit for web programming that runs
+under mod_perl, and is therefore very relevant to mod_perl
+programmers.
+
+  Embedding Perl in HTML with Mason
+  By Dave Rolsky, Ken Williams
+  October 2002
+  0-596-00225-4, Order Number: 2254
+  318 pages, $34.95 US $54.95 CA £24.95 UK
+
+You can see the books home page at http://www.masonbook.com/, where
+the content will apparently be made available for free (but do buy the
+book as well!), as well as example code and errata. You might also
+want to check out O'Reilly's catalog page for the book:
+http://www.oreilly.com/catalog/perlhtmlmason/
 
 =head1 Books talking about mod_perl
 
