@@ -212,7 +212,6 @@ sub merge_config {
         # as long as it's set in the config file
         $self->{dir}{abs_doc_root} = 
             join '/', ("..") x ($self->{dir}{dst_html} =~ tr|/|/|);
-
     }
 
 }

@@ -39,7 +39,8 @@ sub render {
 
     my $rel_doc_root  = $self->{rel_doc_root};
     my $abs_doc_root  = $self->{abs_doc_root};
-    $abs_doc_root .= "/$rel_doc_root" if defined $rel_doc_root;
+    $abs_doc_root .= "/$rel_doc_root"
+        if defined $rel_doc_root and $rel_doc_root ne '.';
 
     $self->{dir} = {
         abs_doc_root => $abs_doc_root,

@@ -209,15 +209,15 @@ sub chapter_scan_n_cache {
 
     # destination paths
     my $rel_dst_path = "$basename.$trg_ext";
-    my $rel_doc_root = "./";
     $rel_dst_path =~ s|^\./||; # strip the leading './'
-    $rel_doc_root .= join '/', ("..") x ($rel_dst_path =~ tr|/|/|);
-    $rel_doc_root =~ s|/$||; # remove the last '/'
     my $dst_path  = "$dst_root/$rel_dst_path";
 
-    # push to the list of final chapter paths
-    # e.g. used by PS/PDF build, which needs all the chapters
-    $self->trg_chapters($rel_dst_path);
+    my $rel_doc_root = join '/', ("..") x ($rel_dst_path =~ tr|/|/|);
+    $rel_doc_root = "." unless $rel_doc_root;
+
+    # push to the list of final chapter paths e.g. used by PS/PDF
+    # build, which needs all the non-hidden chapters
+    $self->trg_chapters($rel_dst_path) unless $hidden;
 
     ### to rebuild or not to rebuild
     my($should_update, $reason) = should_update($src_path, $dst_path);
