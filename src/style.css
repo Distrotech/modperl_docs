@@ -38,6 +38,17 @@ a.more {
     text-decoration: none;
 }
 
+a.pdfsrc-links {
+    font-size: 0.9em;
+    color: #525d76;
+    text-decoration: none;
+}
+
+a.pdfsrc-links a:hover {
+    text-decoration: underline;
+}
+
+
 
 /* light blue bg-color for menu-titles */
 td.menu-title-bg { background-color: #828da6; }
@@ -189,14 +200,16 @@ p.copyright {
 }
 
 div.headline {
-    background-color: #525d76;
+    background-color: #ffffff;
     font-family: verdana, arial, helvetica, sans-serif;
     font-weight: bold;
-    color: #ffffff;
+    color: #000000;
     font-size: 1.2em;
     padding: 3px;
     margin-right: 0px;
 }
+
+
 
 /* Search Results */
 div.searchform { font-size: 1.0em; }
@@ -212,7 +225,13 @@ select {
 td.searchtitle {
     font-size: 12px;
 }
-    
+
+li.search-list {
+    list-style: none;
+}
+
+
+
 
 
 td.searchheader {

@@ -17,11 +17,11 @@ For example, here's an existing CGI script called <tt>hello.cgi</tt>.
     #!/usr/local/bin/perl -w
     use strict;
     use CGI;
-    my $q = CGI->new;
-    print $q->header,
-          $q->start_html,
-          $q->h1('Hello World!'),
-          $q->end_html;
+    my $q = CGI-&gt;new;
+    print $q-&gt;header,
+          $q-&gt;start_html,
+          $q-&gt;h1('Hello World!'),
+          $q-&gt;end_html;
 </pre>
 
 This script can now be run as-is under Apache::Registry by using the
@@ -40,6 +40,10 @@ That's basically it.  Your scripts do need to be well coded, but there's even th
 Apache::PerlRun module to help with those "less clean" programs.
 <p>
 For more information on running CGI scripts under mod_perl please see <a href="../../docs/1.0/faqs/index.html">mod_perl FAQs</a>.
+
+<p>
+<a class="more" href="../index.html#registry">&#171&nbsp;back</a>
+</p>
 
 
 </body>

@@ -23,6 +23,13 @@ Menu:
 style.css:
 ----------
 
+- Section headings that are links back to the page's TOC fade to gray on
+  hover.  
+
+- TOC links are blue w/o underline, and links in page have underline.
+  Need to coordinate links better.
+
+
 Templates:
 ----------
 
@@ -72,6 +79,9 @@ Search:
   make sure that this won't create js errors, on pages without
   document.forms[0]
   STATUS: on hold
+
+- switch for 10 results per page, and add option to select number
+  of results per page.
 
 ====================================================================
 *** Updating process tuning ***

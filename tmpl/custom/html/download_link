@@ -1,25 +1,37 @@
-[%- # link to the pdf, source and other variants of the doc 
-    # src block
-    flag = 0;
-    IF doc.src_doc.link && doc.meta.link != 'search/searchresults.html';
-        INCLUDE src_doc;
-    ELSE;
-        flag = flag + 1;
-    END;
-    # pdf block
-    IF doc.pdf_doc.link && doc.meta.link != 'search/searchresults.html';
-        INCLUDE pdf_doc;
-    ELSE;
-        flag = flag + 1;
+[% IF doc.meta.link == 'search/searchresults.html' %]
+    <br>
+    [% RETURN %]
+[% END %]
+
+[%- # link to the pdf, source and other variants of the doc
+
+    links = [];
+
+
+    IF doc.pdf_doc.link;
+        pdf = PROCESS pdf_doc;
+        links.push( pdf );
     END;
 
-    IF flag == 2;
+
+    IF doc.src_doc.link;
+        src = PROCESS src_doc;
+        links.push( src );
+    END;
+
+
+    IF links.join;
+        links.join(' | ');
+    ELSE;
         "<br>";
-    END;    
+    END;
+    
 -%]
+
 [%- BLOCK src_doc -%]
-<a href="[%- doc.src_doc.link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_src.gif" width="48" height="20" border="0" alt="Source version of the document ([%- doc.src_doc.size -%])"></a>
+<a class="pdfsrc-links" href="[%- doc.src_doc.link -%]">src</a>
 [%- END -%]
+
 [%- BLOCK pdf_doc -%]
-<a href="[%- doc.pdf_doc.link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_pdf.gif" width="48" height="20" border="0" alt="PDF version of the document ([%- doc.pdf_doc.size -%])"></a>
+<a class="pdfsrc-links" href="[%- doc.pdf_doc.link -%]">pdf</a>
 [%- END -%]

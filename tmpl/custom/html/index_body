@@ -1,9 +1,9 @@
 [%-
-    INCLUDE title;
-
     INCLUDE navbar_local_top
         nav=doc.nav.up
         rel_doc_root=doc.dir.rel_doc_root;
+
+    INCLUDE title;
 -%]
 
 

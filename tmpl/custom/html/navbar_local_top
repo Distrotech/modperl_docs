@@ -6,16 +6,13 @@
 
     <!-- download and local navigation begin -->
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-            <td colspan="2" height="6"><br class="smallbr"></td>
-        </tr>
         <tr valign="middle">
             [% IF 0 %]<td align="left" valign="top" nowrap>[%- INCLUDE search_field -%]</td>[% END %]
-            <td align="left" valign="top" nowrap>[%- INCLUDE download_link -%]</td>
+            [% IF 0 %]<td align="left" valign="top" nowrap>[%- INCLUDE download_link -%]</td>[% END %]
             <td align="right" valign="top" nowrap>[%- INCLUDE prev_next_link -%]</td>
         </tr>
         <tr>
-            <td colspan="2" height="6"><br class="smallbr"></td>
+            <td colspan="1" height="6"><br class="smallbr"></td>
         </tr>
     </table>
     <!-- download and local navigation end -->
