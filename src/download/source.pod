@@ -89,7 +89,7 @@ http://www.cpan.org/modules/by-module/Apache/DOUGM/
 
 =head2 Development mod_perl 2.0 Source Distribution
 
-=over 
+=over
 
 =item * The latest CVS snapshot
 
@@ -102,12 +102,15 @@ Using anoncvs (password is "anoncvs"):
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
 
-To get the cutting edge Apache/APR projects:
+To get the cutting edge Apache 2.0 and APR 0.9 projects:
 
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co httpd-2.0
+  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
+    -r APACHE_2_0_BRANCH -d httpd-2.0 httpd-2.0
   % cd httpd-2.0/srclib
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apr
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apr-util
+  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
+    -r APR_0_9_BRANCH -d apr apr
+  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
+    -r APU_0_9_BRANCH -d apr-util apr-util
 
 For more information on using CVS see L<the CVS
 Howto|contribute::cvs_howto>
