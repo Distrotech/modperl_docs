@@ -139,7 +139,7 @@ sub write_index_file {
     DocSet::Util::write_file($dst_file, $content);
 }
 
-# search for a pdf version in the parallel tree and copy/gzip it to
+# search for a pdf version in the parallel tree and copy it to
 # the same dir as the html version (we link to it from the html)
 sub pdf_doc {
     my $self = shift;
@@ -153,12 +153,16 @@ sub pdf_doc {
     my %pdf = ();
     if (-e $src_path) {
         copy_file($src_path, $dst_path);
-        gzip_file($dst_path);
-        my $gzip_path = "$dst_path.gz";
         %pdf = (
-            size => format_bytes(-s $gzip_path),
-            link => filename($gzip_path),
+            size => format_bytes(-s $dst_path),
+            link => filename($dst_path),
         );
+#        gzip_file($dst_path);
+#        my $gzip_path = "$dst_path.gz";
+#        %pdf = (
+#            size => format_bytes(-s $gzip_path),
+#            link => filename($gzip_path),
+#        );
     }
 #dumper \%pdf;
 

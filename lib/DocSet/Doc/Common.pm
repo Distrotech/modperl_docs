@@ -52,12 +52,16 @@ sub fetch_pdf_doc_ver {
     my %pdf = ();
     if (-e $pdf_path) {
         copy_file($pdf_path, $dst_path);
-        gzip_file($dst_path);
-        my $gzip_path = "$dst_path.gz";
         %pdf = (
-            size => format_bytes(-s $gzip_path),
-            link => filename($gzip_path),
+            size => format_bytes(-s $dst_path),
+            link => filename($dst_path),
         );
+#        gzip_file($dst_path);
+#        my $gzip_path = "$dst_path.gz";
+#        %pdf = (
+#            size => format_bytes(-s $gzip_path),
+#            link => filename($gzip_path),
+#        );
     }
 #dumper \%pdf;
 
@@ -81,12 +85,16 @@ sub fetch_src_doc_ver {
         # it's ok if the source file has the same name as the dest,
         # because the final dest file wasn't created yet.
         copy_file($src_path, $dst_path);
-        gzip_file($dst_path);
-        my $gzip_path = "$dst_path.gz";
         %src = (
-            size => format_bytes(-s $gzip_path),
-            link => filename($gzip_path),
+            size => format_bytes(-s $dst_path),
+            link => filename($dst_path),
         );
+#        gzip_file($dst_path);
+#        my $gzip_path = "$dst_path.gz";
+#        %src = (
+#            size => format_bytes(-s $gzip_path),
+#            link => filename($gzip_path),
+#        );
     }
 #dumper \%src;
 
