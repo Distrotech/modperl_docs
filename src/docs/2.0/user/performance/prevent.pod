@@ -31,11 +31,11 @@ Therefore always use the pool of the shortest possible life if you
 can. Never use server pools during request, when you can use a request
 pool. For example inside an HTTP handler, don't call:
 
-  my $conf_dir = Apache::Server::server_root_relative($s->pool, 'conf');
+  my $dir = Apache::ServerUtil::server_root_relative($s->process->pool, 'conf');
 
-when you can call:
+when you should call:
 
-  my $conf_dir = Apache::Server::server_root_relative($r->pool, 'conf');
+  my $dir = Apache::ServerUtil::server_root_relative($r->pool, 'conf');
 
 Of course on special occasions, you may want to have something
 allocated off the server pool if you want the allocated memory to

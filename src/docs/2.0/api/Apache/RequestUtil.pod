@@ -64,6 +64,9 @@ Apache::RequestUtil - Perl API for Apache request record utils
   # share perl objects like $r->notes
   $r->pnotes($key => [$obj1, $obj2]);
   
+  # get HTML signature
+  $sig = $r->psignature($prefix);
+  
   # get the global request object (requires PerlOptions +GlobalRequest)
   $r = Apache->request;
   
@@ -767,6 +770,38 @@ C<undef>. If you really want to completely remove it, use the hash
 interface:
 
   delete $r->pnotes->{foo};
+
+
+
+
+
+
+
+
+=head2 C<psignature>
+
+Get HTML describing the address and (optionally) admin of the server.
+
+  $sig = $r->psignature($prefix);
+
+=over 4
+
+=item obj: C<$r>
+( C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> )
+
+=item arg1: C<$prefix> ( string )
+
+Text which is prepended to the return value
+
+=item ret: C<$sig> ( string )
+
+HTML text describing the server. Note that depending on the value of
+the C<ServerSignature> directive, the function may return the address,
+including the admin information or nothing at all.
+
+=item since: 1.99_15
+
+=back
 
 
 

@@ -168,7 +168,7 @@ Now, let's look at an example. Consider the following registry script:
   my $r = shift;
   $r->content_type('text/plain');
   
-  my $conf_file = catfile $r->server_root_relative,
+  my $conf_file = catfile Apache::ServerUtil::server_root,
       "conf", "httpd.conf";
   
   printf "$conf_file is %0.2f minutes old\n", 60*24*(-M $conf_file);
@@ -1278,7 +1278,9 @@ URI path component. Here is the log handler that does that:
   
   use Apache::RequestRec ();
   use Apache::Connection ();
+  
   use Fcntl qw(:flock);
+  use File::Spec::Functions qw(catfile);
   
   use Apache::Const -compile => qw(OK DECLINED);
   
@@ -1292,7 +1294,7 @@ URI path component. Here is the log handler that does that:
           $r->connection->remote_ip, scalar(localtime),
           $r->uri, $r->status, $r->bytes_sent;
   
-      my $log_path = join '/', $r->server_root_relative,
+      my $log_path = catfile Apache::ServerUtil::server_root,
           "logs", "$username.log";
       open my $fh, ">>$log_path" or die "can't open $log_path: $!";
       flock $fh, LOCK_EX;
