@@ -11,22 +11,22 @@
 
 [% story.title %]
 
-=head1 Info
+=head1 The Story
 
 [% IF story.headers -%]
 =over
 [% FOREACH key = story.headers.keys.sort -%]
 [% IF story.headers.$key -%]
 
-=item * [% key %]: [% story.headers.$key -%]
+=item * 
+
+[% key %]: [% story.headers.$key -%]
 
 [% END -%]
 [% END -%]
 
 =back
 [% END -%]
-
-=head1 The Story
 
 [% story.body -%]
 
