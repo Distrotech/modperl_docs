@@ -128,8 +128,39 @@ This phase is of type C<RUN_ALL>.
 
 The handler's configuration scope is C<SRV>.
 
-Example:
+For example here is the C<Apache::OpenLogs> handler that opens a
+custom log file:
 
+  file:Apache/OpenLogs.pm
+  -----------------------
+  package Apache::OpenLogs;
+  
+  use strict;
+  
+  use File::Spec::Functions;
+  
+  my $log_file = catfile "logs", "mylog";
+  
+  sub handler {
+      my ($conf_pool, $log_pool, $temp_pool, $s) = @_;
+      my $log_path = Apache::server_root_relative($conf_pool, $log_file);
+      $s->warn("opening the log file: $log_path");
+      open my $log, ">>$log_path" or die "can't open $log_path: $!";
+      return Apache::OK;
+  }
+  1;
+
+The I<open_logs> phase handlers accept four arguments: the
+configuration pool, the logging streams pool, the temporary pool and
+the server object. In our example the handler uses the function
+C<Apache::server_root_relative()> to set the full path to the log
+file, which is then opened. Of course in the real world handlers the
+module needs to be extended to provide an accessor that can write to
+this log file.
+
+To configure this handler add to I<httpd.conf>:
+
+  PerlOpenLogsHandler Apache::OpenLogs
 
 
 
@@ -157,6 +188,8 @@ Example:
 
 =head2 PerlChildInitHandler
 
+META: PerlChildExitHandler?
+
 The I<child_init> phase happens immediately after the child process is
 spawned. Each child process will run the hooks of this phase only once
 in their life-time.
@@ -179,7 +212,11 @@ Example:
 
 =head1 Command (Protocol) Phases
 
-META: blurb
+Since Apache 2.0 makes it possible to implement other than HTTP
+protocols, the connection phases were added. The standard HTTP
+handlers normally don't need need these phases, since HTTP is already
+handled by the request phases. Therefore these phases are used mostly
+for the implementation of non-HTTP protocol implementations.
 
 =head2 PerlPreConnectionHandler
 
@@ -196,7 +233,14 @@ yet which resource the request will be mapped to.
 
 Example:
 
+A I<pre_connection> handler accepts connection record and socket
+objects as its arguments:
 
+  sub handler {
+      my ($c, $socket) = @_;
+      # ...
+      return Apache::OK;
+  }
 
 =head2 PerlProcessConnectionHandler
 
@@ -204,7 +248,7 @@ The I<process_connection> phase is used to actually process the
 connection that was received.  Only protocol modules should assign
 handlers for this phase, as it gives them an opportunity to replace
 the standard HTTP processing with processing for some other protocols
-(e.g., POP3, FTP, etc).
+(e.g., POP3, FTP, etc.).
 
 This phase is of type C<RUN_FIRST>.
 
@@ -216,12 +260,22 @@ Example:
 
 META: echo example comes here
 
+A I<process_connection> handler accepts a connection record object as
+its only argument, a socket object can be retrieved from the
+connection record object.
+
+  sub handler {
+      my ($c) = @_;
+      my $socket = $c->client_socket;
+      # ...
+      return Apache::OK;
+  }
 
 
 
 =head1 Request Phases
 
-Each HTTP request is processes by XXX phases, executed in the
+Each HTTP request is processes by 11 phases at most, executed in the
 following order:
 
 =over
@@ -232,18 +286,21 @@ following order:
 
 =item 3 PerlHeaderParserHandler (PerlInitHandler)
 
-=item 4 
+=item 4 PerlAccessHandler
 
-=item 5 
+=item 5 PerlAuthenHandler
 
-=item 6 
+=item 6 PerlAuthzHandler
 
-=item 7 
+=item 7 PerlTypeHandler
 
-=item 8 
+=item 8 PerlFixupHandler
 
-=item 9 
+=item 9 PerlResponseHandler
 
+=item 10 PerlLogHandler
+
+=item 11 PerlCleanupHandler
 
 =back
 
@@ -468,38 +525,92 @@ The handler's configuration scope is C<XXX>.
 
 =head1 Filtering Phases
 
-mod_perl provides two interfaces to filtering: a direct mapping to
-buckets and bucket brigades and a simpler, stream-oriented interface.
+Apache 2.0 considers all incoming and outgoing data as chunks of
+information, disregarding their kind and source or storage
+methods. These data chunks are stored in I<buckets>, which form
+I<bucket brigades>. Both input and output filters work on these bucket
+brigades and modify them if necessary.
+
+As of this writing mod_perl provides two interfaces to filtering: a
+direct mapping to buckets and bucket brigades and a simpler,
+stream-oriented interface (currently available only for the output
+filtering). The following examples will help to understand the
+difference between the two.  The filters can do connection and request
+filtering. Apache distinguish between more types, and mod_perl will
+support those in the future if there will be a demand. mod_perl
+handlers specify the type of the filter using the method
+attributes. For example a request filter handler is declared using the
+C<FilterRequestHandler> attribute:
+
+  package Apache::InputRequestFilterFoo;
+  sub handler : FilterRequestHandler {
+      my($filter, $bb, $mode, $block, $readbytes) = @_;
+      #...
+  }
+  1;
+
+and is usually configured in the C<E<lt>LocationE<gt>> or equivalent
+sections:
+
+  <Location /input_filter>
+      SetHandler modperl
+      PerlResponseHandler    Apache::NiceResponse
+      PerlInputFilterHandler Apache::InputRequestFilterFoo
+  </Location>
+
+And as you can guess a connection handler uses the
+C<FilterConnectionHandler> attribute (this time we use the output
+filter as an example):
+
+  package Apache::OutputConnectionFilterBar;
+  sub handler : FilterConnectionHandler {
+      my($filter, $bb, $mode, $block, $readbytes) = @_;
+      #...
+  }
+  1;
+
+and configured outside the C<E<lt>LocationE<gt>> or equivalent
+sections, usually within the C<E<lt>VirtualHostE<gt>> or equivalent
+sections:
+
+  Listen 8005
+  <VirtualHost _default_:8005>
+      ServerName localhost.localdomain:8005
+   
+      PerlOutputFilterHandler Apache::OutputConnectionFilterBar
+      <Location />
+          SetHandler modperl
+          PerlResponseHandler Apache::NiceResponse
+      </Location>
+   
+  </VirtualHost>
+
+Now let's look at the input and output filters in details.
 
 =head2 PerlInputFilterHandler
 
-META: not implemented yet
 
-This handler inserts
-
-This phase is of type C<VOID>.
-
-The handler's configuration scope is C<DIR>.
 
 =head2 PerlOutputFilterHandler
 
-This handler registers and configures a stream-orientered output
-filter (i.e. it works with the response stream).
+The C<PerlOutputFilterHandler> handler registers and configures output
+filters.
 
 This handler is of type C<VOID>.
 
 The handler's configuration scope is C<DIR>.
 
-The output filter in the following example reverses every line of the
-response, preserving the new line characters in their places:
+The stream-orientered output filter in the following example reverses
+every line of the response, preserving the new line characters in
+their places:
 
   file:httpd.conf
   ---------------
   PerlModule Apache::ReverseFilter
   <Location /reverse>
       SetHandler modperl
-      PerlOutputFilterHandler Apache::ReverseFilter::output_filter
       PerlResponseHandler     Apache::ReverseFilter::response
+      PerlOutputFilterHandler Apache::ReverseFilter::output_filter
   </Location>
 
   file:Apache/ReverseFilter.pm
@@ -515,21 +626,17 @@ response, preserving the new line characters in their places:
   
   use Apache::Const -compile => qw(OK);
   
-  my $clrf = qr/[\r\n]+/;
+  use constant BUFF_LEN => 1024;
   
   sub output_filter {
       my $filter = shift;
   
-      my $left_over = '';
-      while ($filter->read(my $buffer, 2)) {
-          $buffer = $left_over . $buffer;
-          $left_over = '';
-          while ($buffer =~ /([^\r\n]*)([\r\n]*)/g) {
-              $left_over = $1, last unless $2;
-              $filter->print(scalar(reverse $1), $2);
+      while ($filter->read(my $buffer, BUFF_LEN)) {
+          for (split "\n", $buffer) {
+              $filter->print(scalar reverse $_);
+              $filter->print("\n");
           }
       }
-      $filter->print(scalar reverse $left_over) if length $left_over;
   
       Apache::OK;
   }
@@ -560,17 +667,36 @@ client gets:
   zyxwvutsrqponmlkjihgfedcba
 
 The reversing filter is quite simple: it reads from the output stream
-in chunks of 1024 characters, and then prints all lines reversed
-preserving the new line control characters at the end of each
-line. The special handling of new lines is needed for cases where an
-input line is longer than the buffer size, (1024 in our example), when
-this happens we store the reminder of the string in C<$left_over> and
-prepend it to the buffer when the next chunk is read. At the end we
-print out the reminder of the input when there is no more data left on
-the stream.
+in the I<readline()> mode in chunks up to the buffer length (1024 in
+our example), and then prints each line reversed while preserving the
+new line control characters at the end of each line. In order not to
+distract the reader from the purpose of the example the used code is
+oversimplified and won't handle correctly input lines which are longer
+than 1024 characters and possibly using a different line termination
+pattern. So here is an example of a more complete handler, which does
+takes care of these issues:
 
+  sub output_filter {
+      my $filter = shift;
+  
+      my $left_over = '';
+      while ($filter->read(my $buffer, BUFF_LEN)) {
+          $buffer = $left_over . $buffer;
+          $left_over = '';
+          while ($buffer =~ /([^\r\n]*)([\r\n]*)/g) {
+              $left_over = $1, last unless $2;
+              $filter->print(scalar(reverse $1), $2);
+          }
+      }
+      $filter->print(scalar reverse $left_over) if length $left_over;
+  
+      Apache::OK;
+  }
 
-
+In this handler the lines longer than the buffer's length are buffered
+up in C<$left_over> and processed only when the whole line is read in,
+or if there is no more input the buffered up text is flushed before
+the end of the handler.
 
 
 
