@@ -140,7 +140,7 @@ sub pod_pom_html_anchor {
     $anchor =~ s/^\s*|\s*$//g; # strip leading and closing spaces
     $anchor =~ s/\W/_/g;
     my $link = $title->present($self);
-    return qq{<a name="$anchor"></a><a href="#toc_$anchor">$link</a>};
+    return qq{<a name="$anchor" href="#toc_$anchor">$link</a>};
 }
 
 # we want the pre sections look different from normal text. So we use
