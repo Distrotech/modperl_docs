@@ -1,0 +1,34 @@
+=head1 NAME
+
+Apache::Filter -- A Perl API for Apache 2.0 Filter Records
+
+=head1 Synopsis
+
+  use Apache::FilterRec;
+  # ...
+  sub filter {
+      my $f = shift;
+      my $next_f = $f->next;
+      my $name = $f->name;
+      # ...
+  }
+
+=head1 Description
+
+C<Apache::FilterRec> provides the Perl API for Apache 2.0 filter
+records.
+
+=head1 API
+
+Function arguments (if any) and return values are shown in the
+function's synopsis.
+
+=head2 C<name>
+
+META: to be written
+
+=head2 C<next>
+
+META: to be written
+
+=cut
