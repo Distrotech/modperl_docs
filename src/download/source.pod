@@ -19,7 +19,7 @@ Be sure to read the I<README> and I<INSTALL> documents (in the
 distribution package) and the longer L<the installation
 guide|docs::1.0::guide::install>.
 
-=head2 Stable Source Distribution
+=head2 Stable mod_perl 1.0 Source Distribution
 
 =over
 
@@ -33,7 +33,7 @@ http://www.cpan.org/modules/by-module/Apache/
 
 =back
 
-=head2 Development Source Distribution
+=head2 Development mod_perl 1.0 Source Distribution
 
 =over
 
@@ -59,22 +59,41 @@ Be sure to read the I<README> and I<INSTALL> documents (in the
 distribution package) and the longer mod_perl 2.0 L<installation
 guide|docs::2.0::user::install::install>.
 
-=head2 2.0 Development Source Distribution
+=head2 Stable(-tobe) mod_perl 2.0 Source Distribution
+
+=over
+
+=item * Master Source distribution
+
+Release http://perl.apache.org/dist/
+
+=item * CPAN
+
+Currently the released versions include C<_> in them (e.g.,
+mod_perl-1.99_08.tar.gz), so they are invisible via C<CPAN.pm> or
+http://search.cpan.org/. But they are available from Doug's CPAN dir:
+
+http://www.cpan.org/modules/by-module/Apache/DOUGM/
+
+=back
+
+=head2 Development mod_perl 2.0 Source Distribution
 
 =over 
 
-=item * tarballs
+=item * The latest CVS snapshot
 
-Download the httpd-2.0 (http://www.apache.org/dist/httpd/) and
-modperl-2.0 tarballs (http://perl.apache.org/dist/), and extract them
-in the same directory.
+http://cvs.apache.org/snapshots/modperl-2.0/
 
-=item * cvs
+=item * Access to the CVS repository
 
 Using anoncvs (password is "anoncvs"):
 
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
+
+To get the cutting edge Apache/APR projects:
+
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co httpd-2.0
   % cd httpd-2.0/srclib
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apr
