@@ -5,36 +5,185 @@ Getting Your Feet Wet with mod_perl
 =head1 Description
 
 This chapter gives you the bare minimum information to get you started
-with mod_perl.
+with mod_perl 2.0. For most people it's sufficient to get going.
 
-=head1 A Quick Guide to Getting Started with mod_perl
+=head1 Installation
 
-META: to be written
+First of all check that you have the L<mod_perl 2.0
+prerequisites|docs::2.0::user::install::install/Prerequisites>.
 
-But for now you have to go through the following steps to get mod_perl
-2.0 running:
+In this chapter we assume that httpd was installed under
+I<$HOME/httpd/prefork>.
 
-=over
+Next, download the mod_perl 2.0 source from:
+I<http://perl.apache.org/download/>.
 
-=item 1
+Now, configure mod_perl:
 
-L<Install mod_perl 2.0|docs::2.0::user::install::install>
+  % tar -xvzf mod_perl-2.x.xx.tar.gz
+  % cd modperl-2.0
+  % perl Makefile.PL MP_AP_PREFIX=$HOME/httpd/prefork \
+    MP_INST_APACHE2=1
 
-=item 2
+where C<MP_AP_PREFIX> is an Apache installation prefix, under which
+the I<include/> directory with Apache C header files can be found.
 
-L<Configure mod_perl 2.0|docs::2.0::user::config::config>
+Finally, build, test and install mod_perl:
 
-=item 3
+  % make && make test && make install
 
-If you want to run mod_perl 1.0 code on mod_perl 2.0 server L<enable
-the compatibility layer|docs::2.0::user::compat::compat>.
+Become I<root> before doing C<make install> if installing system-wide.
 
-=item 4
+If something goes wrong or you need to enable optional features please
+refer to L<the complete installation
+instructions|docs::2.0::user::install::install/Installing_mod_perl_from_Source>.
 
-If you have problems L<report
+
+
+=head1 Configuration
+
+Enable mod_perl built as DSO, by adding to I<httpd.conf>:
+
+  LoadModule perl_module modules/mod_perl.so
+
+Next, tell Perl where to find mod_perl2 libraries:
+
+  PerlModule Apache2
+
+There are many other configuration options which you can find in the
+L<configuration manual|docs::2.0::user::config::config>.
+
+If you want to run mod_perl 1.0 code on mod_perl 2.0 server enable the
+compatibility layer:
+
+  PerlModule Apache::compat
+
+For more information see: L<Migrating from mod_perl 1.0 to mod_perl
+2.0|docs::2.0::user::compat::compat>.
+
+
+
+=head1 Server Launch and Shutdown
+
+Apache is normally launched with C<apachectl>:
+
+  % $HOME/httpd/prefork/bin/apachectl start
+
+and shut down with:
+
+  % $HOME/httpd/prefork/bin/apachectl stop
+
+Check I<$HOME/httpd/prefork/logs/error_log> to see that the server has
+started and it's a right one. It should say something similar to:
+
+  [Tue Sep 03 12:34:57 2002] [notice] Apache/2.0.41-dev (Unix) 
+  mod_perl/1.99_05-dev Perl/v5.8.0 mod_ssl/2.0.41-dev OpenSSL/0.9.6d 
+  DAV/2 configured -- resuming normal operations
+
+
+
+
+
+=head1 Registry Scripts
+
+To enable registry scripts add to I<httpd.conf>:
+
+  Alias /perl/ /home/httpd/httpd-2.0/perl/
+  <Location /perl/>
+      SetHandler perl-script
+      PerlResponseHandler ModPerl::Registry
+      PerlOptions +ParseHeaders
+      Options +ExecCGI
+  </Location>
+
+and now assuming that we have the following script:
+
+  #!/usr/bin/perl
+  print "Content-type: text/plain\n\n";
+  print "mod_perl 2.0 rocks!\n";
+
+saved in I</home/httpd/httpd-2.0/perl/rock.pl>. Make the script
+executable and readable by everybody:
+
+  % chmod a+rx /home/httpd/httpd-2.0/perl/rock.pl
+
+Of course the path to the script should be readable by the server too.
+In the real world you probably want to have a tighter permissions, but
+for the purpose of testing that things are working this is just fine.
+
+Now restart the server and issue a request to
+I<http://localhost/perl/rock.pl> and you should get the response:
+
+  mod_perl 2.0 rocks!
+
+If that didn't work check the I<error_log> file.
+
+
+
+
+=head1 Handler Modules
+
+Finally check that you can run mod_perl handlers. Let's write a
+response handler similar to the registry script from the previous
+section:
+
+  package MyApache::Rocks;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  
+  use Apache::Const -compile => qw(OK);
+  
+  sub handler {
+      my $r = shift;
+  
+      $r->content_type('text/plain');
+      print "mod_perl 2.0 rocks!\n";
+  
+      return Apache::OK;
+  }
+  1;
+
+Save the code in the file I<MyApache/Rocks.pm>, somewhere where
+mod_perl can find it. For example let's put it under
+I</home/httpd/httpd-2.0/perl/MyApache/Rocks.pm>, and we tell mod_perl
+that I</home/httpd/httpd-2.0/perl/> is in C<@INC>, via a startup file
+which includes just:
+
+  use lib qw(/home/httpd/httpd-2.0/perl);
+
+and loaded from I<httpd.conf>:
+
+  PerlRequire /home/httpd/httpd-2.0/perl/startup.pl
+
+Now we can configure our module in I<httpd.conf>:
+
+  <Location /rocks>
+      SetHandler perl-script
+      PerlResponseHandler  MyApache::Rocks
+  </Location>
+
+Now restart the server and issue a request to
+I<http://localhost/rocks> and you should get the response:
+
+  mod_perl 2.0 rocks!
+
+If that didn't work check the I<error_log> file.
+
+
+
+
+
+=head1 Troubleshooting
+
+If after reading the complete installation and configuration chapters
+you are still having problems, please L<report
 them|docs::2.0::user::help::help/Reporting_Problems>.
 
-=back
+
 
 
 =head1 Maintainers
@@ -46,6 +195,8 @@ corrections and patches.
 
 =item *
 
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
 =back
 
 
@@ -54,6 +205,8 @@ corrections and patches.
 =over
 
 =item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
 
