@@ -190,7 +190,8 @@ whereas C<-I> does not.
 =head2 C<SetHandler>
 
 mod_perl 2.0 provides two types of C<SetHandler> handlers: C<modperl>
-and C<perl-script>.
+and C<perl-script>. The C<SetHandler> directive is only relevant for
+the response phase handlers.
 
 =head3 C<modperl>
 
