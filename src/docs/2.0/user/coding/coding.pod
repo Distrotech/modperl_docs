@@ -464,6 +464,56 @@ CPU timeout handling is another example. It can be accomplished by
 modifying the computation logic to explicitly check for the timeout at
 intervals.
 
+Talking about C<alarm()> under prefork mpm, POSIX signals seem to
+work, but require Perl 5.8.x+. For example:
+
+  use POSIX qw(SIGALRM);
+  my $mask      = POSIX::SigSet->new( SIGALRM );
+  my $action    = POSIX::SigAction->new(sub { die "alarm" }, $mask);
+  my $oldaction = POSIX::SigAction->new();
+  POSIX::sigaction(SIGALRM, $action, $oldaction );
+  eval {
+      alarm 2;
+      sleep 10 # some real code should be here
+      alarm 0;
+  };
+  POSIX::sigaction(SIGALRM, $oldaction); # restore original
+  warn "got alarm" if $@ and $@ =~ /alarm/;
+
+For more details see:
+http://search.cpan.org/dist/perl/ext/POSIX/POSIX.pod#POSIX::SigAction.
+
+One could use the C<$SIG{ALRM}> technique, working for 5.6.x+, but it
+works B<only> under DSO modperl build. Moreover starting from 5.8.0
+Perl delays signal delivery, making signals safe. This change may
+break previously working code.  For more information please see:
+http://search.cpan.org/dist/perl/pod/perl58delta.pod#Safe_Signals and
+http://search.cpan.org/dist/perl/pod/perlipc.pod#Deferred_Signals_%28Safe_Signals%29.
+
+For example if you had the alarm code:
+
+  eval {
+      local $SIG{ALRM} = sub { die "alarm" };
+      alarm 3;
+      sleep 10; # in reality some real code should be here
+      alarm 0;
+  };
+  die "the operation was aborted" if $@ and $@ =~ /alarm/;
+
+It may not work anymore. Starting from 5.8.1 it's possible to
+circumvent the safeness of signals, by setting:
+
+  $ENV{PERL_SIGNALS} = "unsafe";
+
+as soon as you start your program (e.g. in the case of mod_perl in
+startup.pl).
+
+For more information please refer to:
+http://search.cpan.org/dist/perl/pod/perl581delta.pod#Unsafe_signals_again_available
+and http://search.cpan.org/dist/perl/pod/perlrun.pod#PERL_SIGNALS.
+
+Though if you use perl 5.8.x+ it's preferrable to use the POSIX
+API technique explained earlier in this section.
 
 
 
