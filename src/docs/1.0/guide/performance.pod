@@ -3297,35 +3297,35 @@ do:
 C<PerlSetupEnv Off> is another optimization you might consider. This
 directive requires mod_perl 1.25 or later.
 
-I<mod_perl> fiddles with the environment to make it appear as if the
-script were being called under the CGI protocol.  For example, the
-C<$ENV{QUERY_STRING}> environment variable is initialized with the
-contents of I<Apache::args()>, and the value returned by
-I<Apache::server_hostname()> is put into C<$ENV{SERVER_NAME}>.
+When this option is enabled, I<mod_perl> fiddles with the environment
+to make it appear as if the code is called under the mod_cgi handler.
+For example, the C<$ENV{QUERY_STRING}> environment variable is
+initialized with the contents of I<Apache::args()>, and the value
+returned by I<Apache::server_hostname()> is put into
+C<$ENV{SERVER_NAME}>.
 
 But C<%ENV> population is expensive.  Those who have moved to the Perl
-Apache API no longer need this extra C<%ENV> population, and can gain by
-turning it B<Off>. Scripts using the C<CGI.pm> module require
+Apache API no longer need this extra C<%ENV> population, and can gain
+by turning it C<Off>. Scripts using the C<CGI.pm> module require
 C<PerlSetupEnv On> because that module relies on a properly populated
 CGI environment table.
 
-By default it is On.
+By default it is turned C<On>.
 
-Note that you can still set environment variables.  For example when
-you use the following configuration:
+Note that you can still set enviroment variables when C<PerlSetupEnv>
+is turned C<Off>.  For example when you use the following
+configuration:
 
   PerlSetupEnv Off
   PerlModule Apache::RegistryNG
   <Location /perl>
-    PerlSetupEnv On
     PerlSetEnv TEST hi
     SetHandler perl-script
     PerlHandler Apache::RegistryNG
     Options +ExecCGI
   </Location>
 
-and you issue a request (for example
-http://localhost/perl/setupenvoff.pl) for this script:
+and you issue a request for this script:
 
   setupenvoff.pl
   --------------
@@ -3343,7 +3343,8 @@ you should see something like this:
             'TEST' => 'hi'
           };
 
-Notice that we have got the value of the environment variable I<TEST>.
+Note that we got the value of the I<TEST> environment variable we set
+in I<httpd.conf>.
 
 =head2 Reducing the Number of stat() Calls Made by Apache
 
