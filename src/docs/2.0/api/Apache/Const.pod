@@ -2224,8 +2224,11 @@ F<*.conf> inside C<E<lt>DirectoryE<gt>> or C<E<lt>LocationE<gt>>
 
 =head3 C<Apache::OR_ALL>
 
-C<Apache::OR_LIMIT | Apache::OR_OPTIONS | Apache::OR_FILEINFO |
-Apache::OR_AUTHCFG | Apache::OR_INDEXES>
+C<L<Apache::OR_LIMIT|/C_Apache__OR_LIMIT_>> | 
+C<L<Apache::OR_OPTIONS|/C_Apache__OR_OPTIONS_>> | 
+C<L<Apache::OR_FILEINFO|/C_Apache__OR_FILEINFO_>> | 
+C<L<Apache::OR_AUTHCFG|/C_Apache__OR_AUTHCFG_>> | 
+C<L<Apache::OR_INDEXES|/C_Apache__OR_INDEXES_>>
 
 =over
 
