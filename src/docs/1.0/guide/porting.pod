@@ -2800,7 +2800,8 @@ file will eat up all of your disk space and your system will die.
 Perl's C<-T> switch enables I<Taint> mode. (META: Link to security
 chapter). If you aren't forcing all your scripts to run under C<Taint>
 mode you are looking for trouble from malicious users. (See the
-I<perlsec> manpage for more information)
+I<perlsec> manpage for more information. Also read the I<re> pragma's
+manpage.)
 
 If you have some scripts that won't run under Taint mode, run only the
 ones that run under mod_perl with Taint mode enabled and the rest on
