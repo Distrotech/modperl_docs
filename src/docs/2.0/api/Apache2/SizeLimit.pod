@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache::SizeLimit - Because size does matter.
+Apache2::SizeLimit - Because size does matter.
 
 
 
@@ -11,14 +11,14 @@ too large.  You can choose to set up the process size limiter to check
 the process size on every request:
 
   # in your startup.pl, or a <Perl> section:
-  use Apache::SizeLimit;
+  use Apache2::SizeLimit;
   # sizes are in KB
-  $Apache::SizeLimit::MAX_PROCESS_SIZE  = 12000; # 12MB
-  $Apache::SizeLimit::MIN_SHARE_SIZE    = 6000;  # 6MB
-  $Apache::SizeLimit::MAX_UNSHARED_SIZE = 5000;  # 5MB
+  $Apache2::SizeLimit::MAX_PROCESS_SIZE  = 12000; # 12MB
+  $Apache2::SizeLimit::MIN_SHARE_SIZE    = 6000;  # 6MB
+  $Apache2::SizeLimit::MAX_UNSHARED_SIZE = 5000;  # 5MB
 
   # in your httpd.conf:
-  PerlCleanupHandler Apache::SizeLimit
+  PerlCleanupHandler Apache2::SizeLimit
 
 Or you can just check those requests that are likely to get big, such
 as CGI requests.  This way of checking is also easier for those who
@@ -26,30 +26,30 @@ are mostly just running CGI scripts under
 C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>>:
 
   # in your script:
-  use Apache::SizeLimit;
+  use Apache2::SizeLimit;
   # sizes are in KB
-  Apache::SizeLimit::setmax(12000);
-  Apache::SizeLimit::setmin(6000);
-  Apache::SizeLimit::setmax_unshared(5000);
+  Apache2::SizeLimit::setmax(12000);
+  Apache2::SizeLimit::setmin(6000);
+  Apache2::SizeLimit::setmax_unshared(5000);
 
 This will work in places where you are using C<L<SetHandler
 perl-script|docs::2.0::user::config::config/C_perl_script_>> or
 anywhere you enable C<L<PerlOptions
 +GlobalRequest|docs::2.0::user::config::config/C_GlobalRequest_>>.  If
 you want to avoid turning on C<GlobalRequest>, you can pass an
-C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> object as
+C<L<Apache2::RequestRec|docs::2.0::api::Apache2::RequestRec>> object as
 the second argument in these subs:
 
   my $r = shift; # if you don't have $r already
-  Apache::SizeLimit::setmax(12000, $r);
-  Apache::SizeLimit::setmin(6000, $r);
-  Apache::SizeLimit::setmax_unshared(5000, $r);
+  Apache2::SizeLimit::setmax(12000, $r);
+  Apache2::SizeLimit::setmin(6000, $r);
+  Apache2::SizeLimit::setmax_unshared(5000, $r);
 
 Since checking the process size can take a few system calls on some
 platforms (e.g. linux), you may want to only check the process size
 every N times.  To do so, put this in your startup.pl or CGI:
 
-  $Apache::SizeLimit::CHECK_EVERY_N_REQUESTS = 2;
+  $Apache2::SizeLimit::CHECK_EVERY_N_REQUESTS = 2;
 
 This will only check the process size every other time the process
 size checker is called.
@@ -76,7 +76,7 @@ over time.
 
 This module will not really help you with the first problem.  For that
 you should probably look into
-C<L<Apache::Resource|docs::2.0::api::Apache::Resource>> or some other
+C<L<Apache2::Resource|docs::2.0::api::Apache2::Resource>> or some other
 means of setting a limit on the data size of your program.  BSD-ish
 systems have C<setrlimit()> which will croak your memory gobbling
 processes.  However it is a little violent, terminating your process
@@ -180,7 +180,7 @@ course.
 
 =head2 Supported MPMs
 
-At this time, C<Apache::SizeLimit> does not support use under threaded
+At this time, C<Apache2::SizeLimit> does not support use under threaded
 MPMs.  This is because there is no efficient way to get the memory
 usage of a thread, or make a thread exit cleanly.  Suggestions and
 patches are welcome on L<the mod_perl dev mailing
