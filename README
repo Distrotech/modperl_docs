@@ -5,6 +5,9 @@ placed into modperl-2.0/docs when you check out mod_perl-2.0. So you
 can get the repository in one of these ways:
 
  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+
+password: anoncvs
+
  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
 
 and then look in modperl-2.0/docs or:
