@@ -53,6 +53,24 @@ views.  bOP provides a full-suite of services including dynamic
 tracing, configuration, logging, class loading, type hierarchy, unit
 testing, and acceptance testing.
 
+
+=head1 C<CGI::Application>
+
+C<CGI::Application> is intended to make it easier to create
+sophisticated, reusable web-based applications. This module implements
+a methodology which, if followed, will make your web software easier
+to design, easier to document, easier to write, and easier to evolve.
+
+C<CGI::Application> builds on standard, non-proprietary technologies
+and techniques, such as the Common Gateway Interface and Lincoln
+D. Stein's excellent C<CGI.pm> module. C<CGI::Application> judiciously
+avoids employing technologies and techniques which would bind a
+developer to any one set of tools, operating system or web server.
+
+There's a good article on perl.com about this framework
+I<http://www.perl.com/pub/a/2001/06/05/cgi.html>.
+
+
 =head1 DataBreeze Web Database Platform
 
 DataBreeze is written entirely in Perl and utilizes mod_perl within
