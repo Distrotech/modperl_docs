@@ -62,7 +62,8 @@ First of all:
   Apache 2.0 doesn't work with mod_perl 1.0.
   Apache 1.0 doesn't work with mod_perl 2.0.
 
-XXX: For Win32 specific installation doc here.
+For Win32 specific details, see the documentation on
+L<Win32 installation|docs::2.0::os::win32::install>.
 
 Download the httpd-2.0 and modperl-2.0 tarballs, and extract them in the
 same directory.
@@ -356,8 +357,8 @@ options. Simply chdir(1) to the mod_perl source directory and run:
 
 As of this writing only the binaries for the Win32 platform are
 available, kindly prepared and maintained by Randy Kobes.
-
-XXX: link to Win32 download doc.
+See the documentation on L<Win32 binaries|docs::2.0::os::win32::install>
+for details.
 
 =head1 Maintainers
 
