@@ -66,7 +66,7 @@ phases:
   
   sub open_logs {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
-      my $log_path = Apache::server_root_relative($conf_pool, $log_file);
+      my $log_path = Apache::Server::server_root_relative($conf_pool, $log_file);
   
       $s->warn("opening the log file: $log_path");
       open $log_fh, ">>$log_path" or die "can't open $log_path: $!";
@@ -201,7 +201,7 @@ the server object:
 
   sub open_logs {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
-      my $log_path = Apache::server_root_relative($conf_pool, $log_file);
+      my $log_path = Apache::Server::server_root_relative($conf_pool, $log_file);
   
       $s->warn("opening the log file: $log_path");
       open $log_fh, ">>$log_path" or die "can't open $log_path: $!";
@@ -212,7 +212,7 @@ the server object:
   }
 
 In our example the handler uses the function
-C<Apache::server_root_relative()> to set the full path to the log
+C<Apache::Server::server_root_relative()> to set the full path to the log
 file, which is then opened for appending and set to unbuffered
 mode. Finally it logs the fact that it's running in the parent
 process.

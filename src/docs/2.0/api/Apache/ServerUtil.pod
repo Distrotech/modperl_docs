@@ -162,7 +162,7 @@ C<ServerRoot>:
 C<$fname> is appended to the value of C<ServerRoot> and returned. For
 example:
 
-  my $log_dir = Apache::server_root_relative($r->pool, 'logs');
+  my $log_dir = Apache::Server::server_root_relative($r->pool, 'logs');
 
 If C<$fname> is not specified, the value of C<ServerRoot> is returned
 with a trailing C</>. (it's the same as using C<''> as C<$fname>'s

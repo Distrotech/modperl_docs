@@ -978,13 +978,13 @@ need to set the I<Content-type> via C<$r-E<gt>content_type($type)>.
 
 =head2 C<$r-E<gt>server_root_relative>
 
-C<Apache::server_root_relative> is a function in 2.0 and its first
+C<Apache::Server::server_root_relative> is a function in 2.0 and its first
 argument is the I<pool> object. For example:
 
   # during request
-  my $conf_dir = Apache::server_root_relative($r->pool, 'conf');
+  my $conf_dir = Apache::Server::server_root_relative($r->pool, 'conf');
   # during startup
-  my $conf_dir = Apache::server_root_relative($s->pool, 'conf');
+  my $conf_dir = Apache::Server::server_root_relative($s->pool, 'conf');
 
 Alternatively:
 
@@ -997,7 +997,7 @@ Note that the old form
 
   my $conf_dir = Apache->server_root_relative('conf');
 
-is no longer valid - C<Apache::server_root_relative> must be called
+is no longer valid - C<Apache::Server::server_root_relative> must be called
 from either one of C<$r>, C<$s>, or C<$c>, or be explicitly
 passed a pool.
 

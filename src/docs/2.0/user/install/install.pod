@@ -441,8 +441,8 @@ in I<httpd.conf> or:
   use Apache::ServerUtil ();
   use Apache::Process ();
   my $pool = Apache->server->process->pool;
-  push @INC, Apache::server_root_relative($pool, "");
-  push @INC, Apache::server_root_relative($pool, "lib/perl");
+  push @INC, Apache::Server::server_root_relative($pool, "");
+  push @INC, Apache::Server::server_root_relative($pool, "lib/perl");
 
 in I<startup.pl>.
 

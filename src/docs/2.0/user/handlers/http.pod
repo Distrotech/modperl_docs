@@ -149,7 +149,7 @@ Now, let's look at an example. Consider the following registry script:
   my $r = shift;
   $r->content_type('text/plain');
   
-  my $conf_file = catfile Apache::server_root_relative($r->pool, 'conf'),
+  my $conf_file = catfile Apache::Server::server_root_relative($r->pool, 'conf'),
       "httpd.conf";
   
   printf "$conf_file is %0.2f minutes old", 60*24*(-M $conf_file);
@@ -1189,7 +1189,7 @@ URI path component. Here is the log handler that does that:
           $r->connection->remote_ip, scalar(localtime),
           $r->uri, $r->status, $r->bytes_sent;
   
-      my $log_path = Apache::server_root_relative($r->pool, 
+      my $log_path = Apache::Server::server_root_relative($r->pool, 
           "logs/$username.log");
       open my $fh, ">>$log_path" or die "can't open $log_path: $!";
       flock $fh, LOCK_EX;

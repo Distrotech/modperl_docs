@@ -21,7 +21,7 @@ ModPerl::RegistryLoader - Compile ModPerl::RegistryCooker scripts at server star
   sub trans {
       my $uri = shift; 
       $uri =~ s|^/registry/|cgi-bin/|;
-      return Apache::server_root_relative(APR::Pool->new, $uri);
+      return Apache::Server::server_root_relative(APR::Pool->new, $uri);
   }
   my $rl = ModPerl::RegistryLoader->new(
       package => 'ModPerl::Registry',
@@ -135,12 +135,12 @@ the I<cgi-bin> directory relative to C<ServerRoot>.
   
       my $pool = APR::Pool->new;
 
-      my $dir = Apache::server_root_relative($pool, "cgi-bin");
+      my $dir = Apache::Server::server_root_relative($pool, "cgi-bin");
   
       sub trans {
           my $uri = shift; 
           $uri =~ s|^/registry/|cgi-bin/|;
-          return Apache::server_root_relative($pool, $uri);
+          return Apache::Server::server_root_relative($pool, $uri);
       }
   
       my $rl = ModPerl::RegistryLoader->new(
