@@ -776,6 +776,18 @@ C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 C<$Apache::Server::AddPerlVersion> is deprecated and exists only in
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
+
+
+
+=head2 C<$Apache::Server::Starting> and C<$Apache::Server::ReStarting>
+
+C<$Apache::Server::Starting> and C<$Apache::Server::ReStarting> were
+replaced by
+C<L<Apache::ServerUtil::restart_count()|docs::2.0::api::Apache::ServerUtil/C_restart_count_>>.
+Though both exist in C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
+
+
+
 =head2 C<Apache::Server-E<gt>warn>
 
 C<Apache::Server-E<gt>warn> has been removed and exists only in
