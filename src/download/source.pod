@@ -45,7 +45,7 @@ by Vladimir Ivaschenko: http://www.hazard.maks.net/apache/
 
 =item *
 
-The latest CVS snapshot: http://cvs.apache.org/snapshots/
+The latest CVS snapshot: http://cvs.apache.org/snapshots/modperl/
 
 For more information about using the cvs distribution refer to the
 L<mod_perl_cvs|faqs::mod_perl_cvs> document.
