@@ -17,7 +17,7 @@ Apache::Directive - Perl API for manipulating the Apache configuration tree
   my $servername = $vhost->{'ServerName'};
   
   use Data::Dumper;
-  print Dumper($tree->as_hash);
+  print Dumper $tree->as_hash;
   
   my $node = $tree;
   while ($node) {
@@ -32,7 +32,7 @@ Apache::Directive - Perl API for manipulating the Apache configuration tree
   
       if (my $kid = $node->first_child) {
           $node = $kid;
-      } 
+      }
       elsif (my $next = $node->next) {
           $node = $next;
       }
@@ -67,12 +67,11 @@ C<Apache::Directive> provides the following functions and/or methods:
 
 
 
-=head2 C<args> 
+=head2 C<args>
 
-The arguments for the current directive, stored as a space separated
-list
+Get the arguments for the current directive:
 
-  $args      = $node->args();
+  $args = $node->args();
 
 =over 4
 
@@ -81,15 +80,20 @@ list
 
 =item ret: C<$args> ( string )
 
+Arguments are separated by a whitespace in the string.
+
 =item since: 1.99_12
 
 =back
 
 
 
+
+
+
 =head2 C<as_hash>
 
-Returns a hash representation of the configuration tree, in a format
+Get a hash representation of the configuration tree, in a format
 suitable for inclusion in E<lt>PerlE<gt> sections.
 
    $config_hash = $conftree->as_hash();
@@ -101,7 +105,7 @@ suitable for inclusion in E<lt>PerlE<gt> sections.
 
 The config tree to stringify
 
-=item ret: C<$config_hash> (HASH)
+=item ret: C<$config_hash> ( HASH reference )
 
 =item since: 1.99_12
 
@@ -112,9 +116,10 @@ The config tree to stringify
 
 
 
+
 =head2 C<as_string>
 
-Returns a string representation of the configuration node, in
+Get a string representation of the configuration node, in
 F<httpd.conf> format. This does not traverse down to sub-trees.
 
    $string = $node->as_string();
@@ -134,17 +139,23 @@ The config tree to stringify
 
 
 
+
+
+
+
+
 =head2 C<conftree>
 
-Returns the root of the configuration tree.
+Get the root of the configuration tree:
 
-  $tree = Apache::Directive->conftree();
+  $conftree = Apache::Directive->conftree();
 
 =over 4
 
-=item obj: C<Apache::Directive> (class name)
+=item obj: C<Apache::Directive> ( class name )
 
-=item ret: C<$tree> ( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+=item ret: C<$conftree>
+( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
 
 =item since: 1.99_12
 
@@ -154,9 +165,11 @@ Returns the root of the configuration tree.
 
 
 
+
+
 =head2 C<directive>
 
-Returns the name of the directive in C<$node>.
+Get the name of the directive in C<$node>:
 
   $name = $node->directive();
 
@@ -165,7 +178,7 @@ Returns the name of the directive in C<$node>.
 =item obj: C<$node>
 ( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
 
-=item ret: C<$directive> ( string )
+=item ret: C<$name> ( string )
 
 =item since: 1.99_12
 
@@ -175,9 +188,11 @@ Returns the name of the directive in C<$node>.
 
 
 
+
+
 =head2 C<filename>
 
-Returns the filename the configuration node was created from
+Get the F<filename> the configuration node was created from:
 
   $filename = $node->filename();
 
@@ -196,11 +211,13 @@ Returns the filename the configuration node was created from
 
 
 
+
+
 =head2 C<first_child>
 
-The first child node of this directive
+Get the first child node of this directive:
 
-  $subtree = $node->first_child;
+  $child_node = $node->first_child;
 
 =over 4
 
@@ -219,9 +236,13 @@ Returns the first child node of C<$node>, C<undef> if there is none
 
 
 
+
+
+
+
 =head2 C<line_num>
 
-Returns the line number in C<filename> this node was created from
+Get the line number in a F<filename> this node was created at:
 
   $lineno = $node->line_num();
 
@@ -239,9 +260,13 @@ Returns the line number in C<filename> this node was created from
 
 
 
+
+
+
+
 =head2 C<lookup>
 
-Returns node(s) matching a certain value.
+Get the node(s) matching a certain value.
 
   $node  = $conftree->lookup($directive, $args);
   @nodes = $conftree->lookup($directive, $args);
@@ -261,41 +286,27 @@ The name of the directive to search for
 
 Optional args to the directive to filter for
 
-=item ret: C<$string> ( string / ARRAY of HASHES )
+=item ret: C<$string> ( string / ARRAY of HASH refs )
 
-In list context, it will return all matching nodes.
+In LIST context, it returns all matching nodes.
 
-In scalar context, it will return only the first matching node.
+In SCALAR context, it returns only the first matching node.
 
-If called with only C<$directive> value, this will return all nodes
+If called with only C<$directive> value, this method returns all nodes
 from that directive. For example:
 
   @Alias = $conftree->lookup('Alias');
 
-would return all nodes for Alias directives.
+returns all nodes for C<Alias> directives.
 
-If called with an extra C<$args> argument, this will return only nodes
-where both the directive and the args matched. For example:
+If called with an extra C<$args> argument, it returns only nodes where
+both the directive and the args matched. For example:
 
   $VHost = $tree->lookup('VirtualHost', '_default_:8000');
 
 =item since: 1.99_12
 
 =back
-
-If called with only one C<$directive> value, this will return all
-nodes from that directive:
-
-  @Alias = $tree->lookup('Alias');
-
-Would return all nodes for Alias directives.
-
-If called with an extra C<$args> argument, this will return only nodes
-where both the directive and the args matched:
-
-  $VHost = $tree->lookup('VirtualHosts', '_default_:8000');
-
-
 
 
 
@@ -308,7 +319,7 @@ where both the directive and the args matched:
 
 =head2 C<next>
 
-The next directive node in the tree
+Get the next directive node in the tree:
 
   $next_node = $node->next();
 
@@ -333,13 +344,14 @@ Returns the next sibling of C<$node>, C<undef> if there is none
 
 =head2 C<parent>
 
-The parent node of this directive
+Get the parent node of this directive:
 
   $parent_node = $node->parent();
 
 =over 4
 
-=item obj: C<$node> ( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
+=item obj: C<$node>
+( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
 
 =item ret: C<parent_node>
 ( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
@@ -349,6 +361,7 @@ Returns the parent of C<$node>, C<undef> if this node is the root node
 =item since: 1.99_12
 
 =back
+
 
 
 
