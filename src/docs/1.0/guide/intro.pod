@@ -362,7 +362,7 @@ the apache/mod_perl mailing list to help you.  But first try to browse
 the L<mailing list
 archive|maillist::modperl/Searchable_Archives>. Often you will find
 the answer to your question by searching the mailing list archive,
-since most questions have already been asked and answered already!  If
+since most questions have been asked and answered already!  If
 you ignore this advice, do not be surprised if your question goes
 unanswered - it bores people when they're asked to answer the same
 question repeatedly - especially if the answer can be found in the
