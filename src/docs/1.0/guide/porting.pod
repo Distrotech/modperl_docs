@@ -2719,7 +2719,7 @@ for the same reason these don't:
 Normally when you run perl from the command line, you have the shell
 invoke it with C<#!/bin/perl> (sometimes referred to as the shebang
 line).  In scripts running under mod_cgi, you may use perl execution
-switch arguments as described in the C<perlrun> manpage, such as
+switch arguments as described in the C<PerlRun> manpage, such as
 C<-w>, C<-T> or C<-d>. Since scripts running under mod_perl don't need
 the shebang line, all switches except C<-w> are ignored by mod_perl.
 This feature was added for a backward compatibility with CGI scripts.
