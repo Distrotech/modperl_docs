@@ -18,6 +18,12 @@ L<users|maillist::modperl> mailing list.
 
 =item *
 
+Geoffrey Young gives several wonderful tutorials every year, if you
+haven't been to his talks you definitely should. He has put his
+materials online at: http://www.modperlcookbook.org/~geoff/slides/
+
+=item *
+
 I<Industrial Strength Publishing>, by Ian Callen, Salon.com.
 http://www.salonmag.com/contact/staff/idk/print.html. Talk held at the
 O'Reilly Open Source Software Convention in Monterery, California on
