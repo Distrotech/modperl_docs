@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache::Log - Perl API for Apache Logging Methods
+Apache2::Log - Perl API for Apache Logging Methods
 
 
 
@@ -9,21 +9,21 @@ Apache::Log - Perl API for Apache Logging Methods
 
   # in startup.pl
   #--------------
-  use Apache::Log;
+  use Apache2::Log;
   
-  use Apache::Const -compile => qw(OK :log);
+  use Apache2::Const -compile => qw(OK :log);
   use APR::Const    -compile => qw(:error SUCCESS);
   
-  my $s = Apache->server;
+  my $s = Apache2->server;
   
   $s->log_error("server: log_error");
-  $s->log_serror(__FILE__, __LINE__, Apache::LOG_ERR,
+  $s->log_serror(__FILE__, __LINE__, Apache2::LOG_ERR,
                  APR::SUCCESS, "log_serror logging at err level");
-  $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_DEBUG,
+  $s->log_serror(Apache2::Log::LOG_MARK, Apache2::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
-  Apache::ServerRec->log_error("routine warning");
+  Apache2::ServerRec->log_error("routine warning");
   
-  Apache::ServerRec::warn("routine warning");
+  Apache2::ServerRec::warn("routine warning");
 
   # in a handler
   #-------------
@@ -32,9 +32,9 @@ Apache::Log - Perl API for Apache Logging Methods
   use strict;
   use warnings FATAL => 'all';
   
-  use Apache::Log;
+  use Apache2::Log;
   
-  use Apache::Const -compile => qw(OK :log);
+  use Apache2::Const -compile => qw(OK :log);
   use APR::Const    -compile => qw(:error SUCCESS);
   
   sub handler {
@@ -51,33 +51,33 @@ Apache::Log - Perl API for Apache Logging Methods
       my $s = $r->server;
       $s->log_error("server: log_error");
   
-      $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_DEBUG,
+      $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::LOG_DEBUG,
                      APR::ENOTIME, "in debug");
   
-      $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_INFO,
+      $s->log_serror(Apache2::Log::LOG_MARK, Apache2::LOG_INFO,
                      APR::SUCCESS, "server info");
   
-      $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
+      $s->log_serror(Apache2::Log::LOG_MARK, Apache2::LOG_ERR,
                      APR::ENOTIME, "fatal error");
   
       $r->log_reason("fatal error");
       $r->warn('routine request warning');
       $s->warn('routine server warning');
   
-      return Apache::OK;
+      return Apache2::OK;
   }
   1;
 
   # in a registry script
   # httpd.conf: PerlOptions +GlobalRequest
-  use Apache::ServerRec qw(warn); # override warn locally
+  use Apache2::ServerRec qw(warn); # override warn locally
   print "Content-type: text/plain\n\n";
   warn "my warning";
 
 
 =head1 Description
 
-C<Apache::Log> provides the Perl API for Apache logging methods.
+C<Apache2::Log> provides the Perl API for Apache logging methods.
 
 Depending on the the current C<LogLevel> setting, only logging with
 the same log level or higher will be loaded. For example if the
@@ -85,28 +85,28 @@ current C<LogLevel> is set to I<warning>, only messages with log level
 of the level I<warning> or higher (I<err>, I<crit>, I<elert> and
 I<emerg>) will be logged. Therefore this:
 
-  $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_WARNING,
+  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::LOG_WARNING,
                  APR::ENOTIME, "warning!");
 
 will log the message, but this one won't:
 
-  $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_INFO,
+  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::LOG_INFO,
                  APR::ENOTIME, "just an info");
 
 It will be logged only if the server log level is set to I<info> or
 I<debug>. C<LogLevel> is set in the configuration file, but can be
 changed using the
-C<L<$s-E<gt>loglevel()|docs::2.0::api::Apache::ServerRec/C_loglevel_>>
+C<L<$s-E<gt>loglevel()|docs::2.0::api::Apache2::ServerRec/C_loglevel_>>
 method.
 
 The filename and the line number of the caller are logged only if
-C<Apache::LOG_DEBUG> is used (because that's how Apache 2.0 logging
+C<Apache2::LOG_DEBUG> is used (because that's how Apache 2.0 logging
 mechanism works).
 
 Note: On Win32 Apache attempts to lock all writes to a file whenever
 it's opened for append (which is the case with logging functions), as
 Unix has this behavior built-in, while Win32 does not. Therefore
-C<Apache::Log> functions could be slower than Perl's print()/warn().
+C<Apache2::Log> functions could be slower than Perl's print()/warn().
 
 
 
@@ -116,11 +116,11 @@ C<Apache::Log> functions could be slower than Perl's print()/warn().
 
 Log level constants can be compiled all at once:
 
-  use Apache::Const -compile => qw(:log);
+  use Apache2::Const -compile => qw(:log);
 
 or individually:
 
-  use Apache::Const -compile => qw(LOG_DEBUG LOG_INFO);
+  use Apache2::Const -compile => qw(LOG_DEBUG LOG_INFO);
 
 
 
@@ -131,21 +131,21 @@ The following constants (sorted from the most severe level to the
 least severe) are used in logging methods to specify the log level at
 which the message should be logged:
 
-=head3 C<Apache::LOG_EMERG>
+=head3 C<Apache2::LOG_EMERG>
 
-=head3 C<Apache::LOG_ALERT>
+=head3 C<Apache2::LOG_ALERT>
 
-=head3 C<Apache::LOG_CRIT>
+=head3 C<Apache2::LOG_CRIT>
 
-=head3 C<Apache::LOG_ERR>
+=head3 C<Apache2::LOG_ERR>
 
-=head3 C<Apache::LOG_WARNING>
+=head3 C<Apache2::LOG_WARNING>
 
-=head3 C<Apache::LOG_NOTICE>
+=head3 C<Apache2::LOG_NOTICE>
 
-=head3 C<Apache::LOG_INFO>
+=head3 C<Apache2::LOG_INFO>
 
-=head3 C<Apache::LOG_DEBUG>
+=head3 C<Apache2::LOG_DEBUG>
 
 
 
@@ -161,7 +161,7 @@ constants do:
 Here is the rest of the logging related constants:
 
 
-=head3 C<Apache::LOG_LEVELMASK>
+=head3 C<Apache2::LOG_LEVELMASK>
 
 used to mask off the level value, to make sure that the log level's
 value is within the proper bits range. e.g.:
@@ -172,23 +172,23 @@ value is within the proper bits range. e.g.:
 
 
 
-=head3 C<Apache::LOG_TOCLIENT>
+=head3 C<Apache2::LOG_TOCLIENT>
 
 used to give content handlers the option of including the error text
 in the C<ErrorDocument> sent back to the client. When
-C<Apache::LOG_TOCLIENT> is passed to C<log_rerror()> the error message
+C<Apache2::LOG_TOCLIENT> is passed to C<log_rerror()> the error message
 will be saved in the C<$r>'s notes table, keyed to the string
 I<"error-notes">, if and only if the severity level of the message is
-C<Apache::LOG_WARNING> or greater and there are no other
+C<Apache2::LOG_WARNING> or greater and there are no other
 I<"error-notes"> entry already set in the request record's notes
 table. Once the I<"error-notes"> entry is set, it is up to the error
 handler to determine whether this text should be sent back to the
 client.  For example:
 
-  use Apache::Const -compile => qw(:log);
+  use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(ENOTIME);
-  $r->log_rerror(Apache::Log::LOG_MARK,
-                 Apache::LOG_ERR|Apache::LOG_TOCLIENT,
+  $r->log_rerror(Apache2::Log::LOG_MARK,
+                 Apache2::LOG_ERR|Apache2::LOG_TOCLIENT,
                  APR::ENOTIME,
                  "request log_rerror");
 
@@ -203,15 +203,15 @@ B<MUST> be escaped to prevent CSS attacks.
 
 
 
-=head3 C<Apache::LOG_STARTUP>
+=head3 C<Apache2::LOG_STARTUP>
 
 is useful for startup message where no timestamps, logging level is
 wanted. For example:
 
-  use Apache::Const -compile => qw(:log);
+  use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(SUCCESS);
-  $s->log_serror(Apache::Log::LOG_MARK,
-                 Apache::LOG_INFO,
+  $s->log_serror(Apache2::Log::LOG_MARK,
+                 Apache2::LOG_INFO,
                  APR::SUCCESS,
                  "This log message comes with a header");
 
@@ -219,12 +219,12 @@ will print:
 
   [Wed May 14 16:47:09 2003] [info] This log message comes with a header
 
-whereas, when C<Apache::LOG_STARTUP> is binary ORed as in:
+whereas, when C<Apache2::LOG_STARTUP> is binary ORed as in:
 
-  use Apache::Const -compile => qw(:log);
+  use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(SUCCESS);
-  $s->log_serror(Apache::Log::LOG_MARK,
-                 Apache::LOG_INFO|Apache::LOG_STARTUP,
+  $s->log_serror(Apache2::Log::LOG_MARK,
+                 Apache2::LOG_INFO|Apache2::LOG_STARTUP,
                  APR::SUCCESS,
                  "This log message comes with no header");
 
@@ -248,11 +248,11 @@ levels|/LogLevel_Methods>.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
-=item ret: C<$slog> ( C<Apache::Log::Server> object )
+=item ret: C<$slog> ( C<Apache2::Log::Server> object )
 
-C<Apache::Log::Server> object to be used with L<LogLevel
+C<Apache2::Log::Server> object to be used with L<LogLevel
 methods|/LogLevel_Methods>.
 
 =item since: 1.99_12
@@ -273,7 +273,7 @@ just logs the supplied message to I<error_log>
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item arg1: C<@message> ( strings ARRAY )
 
@@ -303,7 +303,7 @@ gives an access to built-in status codes.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item arg1: C<$file> ( string )
 
@@ -314,7 +314,7 @@ The file in which this function is called
 The line number on which this function is called
 
 =item arg3: C<$level>
-( C<L<Apache::LOG_* constant|/LogLevel_Constants>> )
+( C<L<Apache2::LOG_* constant|/LogLevel_Constants>> )
 
 The level of this error message
 
@@ -337,12 +337,12 @@ The log message(s)
 
 For example:
 
-  use Apache::Const -compile => qw(:log);
+  use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(ENOTIME SUCCESS);
-  $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
+  $s->log_serror(Apache2::Log::LOG_MARK, Apache2::LOG_ERR,
                  APR::SUCCESS, "log_serror logging at err level");
   
-  $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_DEBUG,
+  $s->log_serror(Apache2::Log::LOG_MARK, Apache2::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
 
 
@@ -357,13 +357,13 @@ For example:
 
 is the same as:
 
-  $s->log_error(Apache::Log::LOG_MARK, Apache::LOG_WARNING,
+  $s->log_error(Apache2::Log::LOG_MARK, Apache2::LOG_WARNING,
                 APR::SUCCESS, @warnings)
 
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item arg1: C<@warnings> ( strings ARRAY )
 
@@ -401,11 +401,11 @@ levels|/LogLevel_Methods>.
 =over 4
 
 =item obj: C<$r> 
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
-=item ret: C<$rlog> ( C<Apache::Log::Request> object )
+=item ret: C<$rlog> ( C<Apache2::Log::Request> object )
 
-C<Apache::Log::Request> object to be used with L<LogLevel
+C<Apache2::Log::Request> object to be used with L<LogLevel
 methods|/LogLevel_Methods>.
 
 =item since: 1.99_12
@@ -427,7 +427,7 @@ C<L<$s-E<gt>log_error|/C__s_E_gt_log_error_>> ).
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<@message> ( strings ARRAY )
 
@@ -460,7 +460,7 @@ preformatted way:
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<$message> ( string )
 
@@ -509,12 +509,12 @@ C<L<$s-E<gt>log_serror|/C__s_E_gt_log_serror_>>.
 
 For example:
 
-  use Apache::Const -compile => qw(:log);
+  use Apache2::Const -compile => qw(:log);
   use APR::Const    -compile => qw(ENOTIME SUCCESS);
-  $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
+  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::LOG_ERR,
                  APR::SUCCESS, "log_rerror logging at err level");
   
-  $r->log_rerror(Apache::Log::LOG_MARK, Apache::LOG_DEBUG,
+  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
 
 
@@ -527,13 +527,13 @@ For example:
 
 is the same as:
 
-  $r->log_error(Apache::Log::LOG_MARK, Apache::LOG_WARNING,
+  $r->log_error(Apache2::Log::LOG_MARK, Apache2::LOG_WARNING,
                 APR::SUCCESS, @warnings)
 
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<@warnings> ( strings ARRAY )
 
@@ -666,7 +666,7 @@ Though looking like a constant, this is a function, which returns a
 list of two items: C<(__FILE__, __LINE__)>, i.e. the file and the line
 where the function was called from.
 
-  my($file, $line) = Apache::Log::LOG_MARK();
+  my($file, $line) = Apache2::Log::LOG_MARK();
 
 =over 4
 
@@ -706,35 +706,35 @@ Let's say that we start with the following code:
 First, we need to use mod_perl's logging function, instead of
 C<CORE::warn>
 
-Either replace C<warn> with C<Apache::ServerRec::warn>:
+Either replace C<warn> with C<Apache2::ServerRec::warn>:
 
-  use Apache::Log ();
-  Apache::ServerRec::warn("the code is smoking");
+  use Apache2::Log ();
+  Apache2::ServerRec::warn("the code is smoking");
 
 or import it into your code:
 
-  use Apache::ServerRec qw(warn); # override warn locally
+  use Apache2::ServerRec qw(warn); # override warn locally
   warn "the code is smoking";
 
 or override C<CORE::warn>:
 
-  use Apache::Log ();
-  *CORE::GLOBAL::warn = \&Apache::ServerRec::warn;
+  use Apache2::Log ();
+  *CORE::GLOBAL::warn = \&Apache2::ServerRec::warn;
   warn "the code is smoking";
 
 Avoid using the latter suggestion, since it'll affect all the code
 running on the server, which may break things. Of course you can
 localize that as well:
 
-  use Apache::Log ();
-  local *CORE::GLOBAL::warn = \&Apache::ServerRec::warn;
+  use Apache2::Log ();
+  local *CORE::GLOBAL::warn = \&Apache2::ServerRec::warn;
   warn "the code is smoking";
 
 Chances are that you need to make the internal Perl warnings go into
 the vhost's F<error_log> file as well. Here is how to do that:
 
-  use Apache::Log ();
-  local $SIG{__WARN__} = \&Apache::ServerRec::warn;
+  use Apache2::Log ();
+  local $SIG{__WARN__} = \&Apache2::ServerRec::warn;
   eval q[my $x = "aaa" + 1;]; # this issues a warning
 
 Notice that it'll override any previous setting you may have had,
@@ -746,22 +746,22 @@ Next we need to figure out how to get hold of the vhost's server
 object.
 
 Inside HTTP request handlers this is possible via
-C<Apache-E<gt>request|docs::2.0::api::Apache::RequestUtil/C_request_>. Which
+C<Apache2-E<gt>request|docs::2.0::api::Apache2::RequestUtil/C_request_>. Which
 requires either C<L<PerlOptions
 +GlobalRequest|docs::2.0::user::config::config/C_GlobalRequest_>>
 setting or can be also done at runtime if C<$r> is available:
 
-  use Apache::RequestUtil ();
+  use Apache2::RequestUtil ();
   sub handler {
       my $r = shift;
-      Apache->request($r);
+      Apache2->request($r);
       ...
 
 Outside HTTP handlers at the moment it is not possible, to get hold of
 the vhost's F<error_log> file. This shouldn't be a problem for the
 code that runs only under mod_perl, since the always available C<$s>
 object can invoke a plethora of methods supplied by
-C<Apache::Log>. This is only a problem for modules, which are supposed
+C<Apache2::Log>. This is only a problem for modules, which are supposed
 to run outside mod_perl as well.
 
 META: To solve this we think to introduce 'PerlOptions +GlobalServer',
@@ -779,7 +779,7 @@ modperl_hook_pre_connection.
 
 =head1 Unsupported API
 
-C<Apache::Log> also provides auto-generated Perl interface for a few
+C<Apache2::Log> also provides auto-generated Perl interface for a few
 other methods which aren't tested at the moment and therefore their
 API is a subject to change. These methods will be finalized later as a
 need arises. If you want to rely on any of the following methods
@@ -796,7 +796,7 @@ static variables, it probably shouldn't be in the Apache public API.
 
 Log the current pid
 
-  Apache::Log::log_pid($pool, $fname);
+  Apache2::Log::log_pid($pool, $fname);
 
 =over 4
 
