@@ -639,7 +639,7 @@ like this:
 
   my $config   = Apache::Test::config();
   my $hostport = Apache::TestRequest::hostport($config) || '';
-  print "# connecting to $hostport\n";
+  t_debug("connecting to $hostport");
 
   my $received = $config->http_raw_get("/TestApache::cool", undef);
   my $expected = "COOL";
@@ -817,8 +817,9 @@ will generate the hooks and stuff.
 All the communications between tests and C<Test::Harness> which
 executes them is done via STDOUT. I.e. whatever tests want to report
 they do by printing something to STDOUT. If a test wants to print some
-debug comment it should do it on a separate line starting with
-C<#>.
+debug comment it should do it starting on a separate line, and each
+debug line should start with C<#>. The t_debug() function from the
+C<Apache::TestUtil> package should be used for that purpose.
 
 
 
@@ -1022,9 +1023,10 @@ sequential number, since now you don't need them at all. For example
 this test snippet:
 
   use Apache::Test;
+  use Apache::TestUtil;
   plan tests => 3;
   ok "success";
-  print "# expecting to fail next test\n"
+  t_debug("expecting to fail next test");
   ok "";
   ok 0;
 
@@ -1221,13 +1223,14 @@ is a good example of debug friendly sub-test:
   debug_comments.t
   ----------------
   use Apache::Test;
+  use Apache::TestUtil;
   plan tests => 1;
   
-  print "# testing feature foo\n";
+  t_debug("testing feature foo");
   $expected = "a good value";
   $received = "a bad value";
-  print "# expected: $expected\n";
-  print "# received: $received\n";
+  t_debug("expected: $expected");
+  t_debug("received: $received");
   ok defined $received && $received eq $expected;
 
 If in this example C<$received> gets assigned I<a bad value> string,
