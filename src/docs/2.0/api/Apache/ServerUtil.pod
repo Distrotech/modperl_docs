@@ -45,6 +45,14 @@ Apache::ServerUtil - Perl API for Apache server record utils
   
   # extend HTTP to support a new method
   $s->method_register('NEWGET');
+  
+  # register server shutdown callback
+  $base_server_pool = Apache::ServerUtil::base_server_pool();
+  $base_server_pool->cleanup_register(sub { Apache::OK });
+  
+  # do something only when the server restarts
+  my $cnt = Apache::ServerUtil::restart_count();
+  do_something_once() if $cnt > 1;
 
 
 
@@ -173,6 +181,44 @@ Also remember that the C<ServerTokens> directive value controls
 whether the component information is displayed or not.
 
 
+
+
+
+
+
+
+
+=head2 C<base_server_pool>
+
+Get the base server pool object:
+
+  $base_server_pool = Apache::ServerUtil::base_server_pool();
+
+=over 4
+
+=item ret: C<base_server_pool>
+( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
+
+=item since: 1.99_18
+
+=back
+
+This pool can be used to register a callback to be run once at the
+server shutdown (compared to
+C<L<PerlChildExitHandler|docs::2.0::user::handlers::server/C_PerlChildExitHandler_>>
+which will execute the callback for each exiting child process).
+
+For example in order to arrange the function C<do_my_cleanups()> to be
+run every time the server shuts down (or restarts), run the following
+code at the server startup:
+
+  $base_server_pool = Apache::ServerUtil::base_server_pool();
+  $base_server_pool->cleanup_register(do_my_cleanups());
+
+It's necessary to run this code at the server startup (normally
+F<startup.pl>. Cleanup handlers registered after the
+C<L<PerlPostConfigHandler|docs::2.0::user::handlers::server/C_PerlPostConfigHandler_>>
+phase will be silently ignored.
 
 
 
@@ -500,6 +546,92 @@ Multiple handlers:
 Anonymous functions:
 
   $s->push_handlers(PerlLogHandler => sub { return Apache::OK });
+
+
+
+
+
+
+
+=head2 C<restart_count>
+
+How many times the server was restarted.
+
+  $restart_count = Apache::ServerUtil::restart_count();
+
+=over 4
+
+=item ret: C<restart_count> ( number )
+
+=item since: 1.99_18
+
+=back
+
+The following demonstration should make it clear what values to expect
+from this function. Let's add the following code to F<startup.pl>, so
+it's run every time F<httpd.conf> is parsed:
+
+  use Apache::ServerUtil ();
+  my $cnt = Apache::ServerUtil::restart_count();
+  open my $fh, ">>/tmp/out" or die "$!";
+  print $fh "cnt: $cnt\n";
+  close $fh;
+
+Now let's run a series of server starts and restarts and look at what
+is logged into F</tmp/out>:
+
+  % httpd -k start
+  cnt: 1
+  cnt: 2
+  
+  % httpd -k graceful
+  cnt: 1
+  cnt: 3
+  
+  % httpd -k graceful
+  cnt: 1
+  cnt: 4
+  
+  % httpd -k stop
+  cnt: 1
+
+Remembering that L<Apache restarts itself immediately after
+starting|docs::2.0::user::handlers::server/Server_Life_Cycle>, we can
+see that the C<restart_count> goes from 1 to 2 during the server
+start. Moreover we can see that every operation forces the parsing of
+F<httpd.conf> and therefore reinitialization of mod_perl (and running
+all the code found in F<httpd.conf>). This happens even when the
+server is shutdown via C<httpd -k stop>.
+
+What conclusions can be drawn from this demonstration:
+
+=over
+
+=item *
+
+C<Apache::ServerUtil::restart_count()> returns 1 every time some C<-k>
+command is passed to Apache (or C<kill -USR1> or some alternative
+signal is received).
+
+=item *
+
+At all other times the count will be 2 or higher. So for example on
+graceful restart the count will be 3 or higher.
+
+=back
+
+For example if you want to run something every time C<httpd -k> is run
+you just need to check whether C<restart_count()> returns 1:
+
+  my $cnt = Apache::ServerUtil::restart_count();
+  do_something() if $cnt == 1;
+
+To do something only when server restarts (C<httpd -k start> or
+C<httpd -k graceful)>, check whether C<restart_count()> is bigger than
+1:
+
+  my $cnt = Apache::ServerUtil::restart_count();
+  do_something() if $cnt > 1;
 
 
 
