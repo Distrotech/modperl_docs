@@ -516,6 +516,25 @@ The C<:override> group is for XXX constants.
 
 
 
+=head2 C<:platform>
+
+  use Apache::Const -compile => qw(:platform);
+
+The C<:platform> group is for constants that may
+differ from OS to OS.
+
+=head3 C<Apache::CRLF>
+
+
+=head3 C<Apache::CR>
+
+
+=head3 C<Apache::LF>
+
+
+
+
+
 =head2 C<:remotehost>
 
   use Apache::Const -compile => qw(:remotehost);
