@@ -158,6 +158,10 @@ a module.
 
   Apache::Reload->unregister_module('Some::Module');
 
+But be carefull, since unregistering a module in this way will only
+do so for the current interpreter. This feature should be used with
+care.
+
 =head1 Performance Issues
 
 This modules is perfectly suited for a development environment. Though
