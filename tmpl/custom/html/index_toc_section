@@ -9,9 +9,9 @@
         <dl>
             <dt><a href="[%- sec.link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/arrow_right.gif" alt="-" align="bottom" border="0" height="10" width="18">[%- sec.title -%]</a></dt>
 
-[%- IF sec.abstract -%]
+    [%- IF sec.abstract -%]
             <dd>[%- sec.abstract -%]</dd>
 
-[%- END -%]
+    [%- END -%]
         </dl>
 [%- END -%]

@@ -8,17 +8,17 @@
 
 [%- IF toc.size  -%]
     <div class="toc">
-[%- IF toc.0.group_title.defined;
-       SET counter = 0;
-       FOREACH group = toc;
-            "<h3>Part ${numbers.$counter}: ${group.group_title}</h3>";
-            INCLUDE index_toc_section subs=group.subs;
-            counter = counter + 1;
-       END;
-    ELSE;
-       INCLUDE index_toc_section subs=toc;
-    END;
--%]
+    [%- IF toc.0.group_title.defined;
+            SET counter = 0;
+            FOREACH group = toc;
+                "<b>Part ${numbers.$counter}: ${group.group_title}</b>";
+                PROCESS index_toc_section subs=group.subs;
+                counter = counter + 1;
+            END;
+        ELSE;
+            INCLUDE index_toc_section subs=toc;
+        END;
+    -%]
 
     </div>
 
