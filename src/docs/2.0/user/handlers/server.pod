@@ -429,6 +429,10 @@ I<httpd.conf>:
 
 
 
+
+
+
+
 =head1 Startup Apache Commands
 
 Some notes on how Apache start/restart Apache commands affect
@@ -437,7 +441,7 @@ mod_perl.
 META: not sure this is the best place for this section, but start some
 notes here.
 
-Apache reparses F<httpd.conf> at least once for B<each> of the
+Apache re-parses F<httpd.conf> at least once for B<each> of the
 following commands (and will run any mod_perl code found in it).
 
 
@@ -478,10 +482,13 @@ HTTPD_PID>.
 
 =item httpd -k stop
 
-Similarly to C<httpd -k restart> you may encounter all kind of issue
+Similarly to C<httpd -k restart> you may encounter all kind of issues
 here, due to the C<SIGTERM> signal.
 
 =back
+
+
+
 
 
 
