@@ -13,7 +13,7 @@
        ];  
 -%]
 [%- WRAPPER wrap_box 
-        title = 'sister sites'
+        title = 'Sister Sites'
 -%]
 
 [%- FOREACH but = buttons -%]
