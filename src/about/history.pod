@@ -249,7 +249,7 @@ valuable resource to everyone.
   - conferences w/ mod_perl present
   - when Doug and Stas funded? Stas: August 2001; end 2002
   - digest started?
-
+  - when PMC started
 
 
 =head1 The arrival of 2.0
