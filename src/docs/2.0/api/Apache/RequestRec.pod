@@ -25,9 +25,16 @@ META: to be completed
 =head1 Description
 
 
-C<Apache::RequestRec> provides the Perl API for Apache request object.
+C<Apache::RequestRec> provides the Perl API for Apache request_rec
+object.
 
 
+The following packages extend C<Apache::RequestRec> functionality:
+
+        Apache/RequestIO.pod
+        Apache/RequestRec.pod
+        Apache/RequestUtil.pod
+        ... complete ...
 
 
 =head1 API
