@@ -83,27 +83,21 @@ whereby the script would be called as
 
    http://localhost/perl/name_of_script
 
-The C<PerlOptions +ParseHeaders> directive is needed when
-the script sends the header (in mod_perl-1, this was given
-as C<PerlSendHeader ON)>. Note that if you use the C<CGI.pm>
-module in your script, then the directive
+The C<PerlOptions +ParseHeaders> directive is needed when the script
+sends the header (in mod_perl-1, this was given as C<PerlSendHeader
+ON)>.
 
-     PerlOptions +GlobalRequest
-
-should be added within the relevant C<Location> block. 
-
-As an illustration of how mod_perl-2 addresses the issues
-raised in the discussion of issues in
-L<multithread win32|docs::1.0::os::win32::multithread>
-concerning the threading limitations
-of mod_perl-1 on Win32, consider the C<printenv> script above
-with the C<sleep(10)> line uncommented. Using the Apache
+As an illustration of how mod_perl-2 addresses the issues raised in
+the discussion of issues in L<multithread
+win32|docs::1.0::os::win32::multithread> concerning the threading
+limitations of mod_perl-1 on Win32, consider the C<printenv> script
+above with the C<sleep(10)> line uncommented. Using the Apache
 benchmarking tool C<ab> of the Apache-2 Win32 distribution:
 
    C:\Apache2\bin> ab -n 5 -c 5 http://localhost/perl/printenv
 
-to make 5 concurrent requests, we find the following results.
-For mod_perl-1/Apache-1:
+to make 5 concurrent requests, we find the following results.  For
+mod_perl-1/Apache-1:
 
   Server Software:        Apache/1.3.23
   Concurrency Level:      5
