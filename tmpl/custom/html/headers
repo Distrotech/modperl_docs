@@ -3,7 +3,7 @@
         meta => {
                 name => {
                         author => 'docs-dev (at) perl.apache.org',
-                        keywords => 'mod_perl modperl perl cgi apache webserver speed fast guide mod_perl asf parent apache guide help info faq mod_perl installation cgi troubleshooting help no sex speedup child rules free open source OSS mod_perl speed suck apache guide manual troubleshoot cgi fast apache sexy',
+                        keywords => 'mod_perl modperl perl cgi apache webserver speed fast guide mod_perl asf parent apache guide help info faq mod_perl installation cgi troubleshooting help no speedup child process rules free open source OSS mod_perl speed apache guide manual troubleshoot cgi fast apache',
                         classification => 'information',
                 },
                 'http-equiv' => {
