@@ -1756,14 +1756,14 @@ whereas C<$r-E<gt>unparsed_uri> returns:
 The path portion of the URI
 
   $uri         = $r->uri();
-  my $prec_uri = $r->uri($uri);
+  my $prec_uri = $r->uri($new_uri);
 
 =over 4
 
 =item obj: C<$r>
 ( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
-=item opt arg1: C<$uri> ( string )
+=item opt arg1: C<$new_uri> ( string )
 
 =item ret: C<$uri> ( string )
 
