@@ -41,15 +41,12 @@ The Apache sources and binaries are available at
    http://httpd.apache.org/
 
 As of this writing, mod_perl-2 is known to compile and work
-with an ActivePerl-compatable Perl (builds 6xx), based on
-perl-5.6.1. It also works with perl-5.8 compiled with the default compile-time 
-flags in the Win32 F<Makefile>. Because of improved threading support,
-it is expected sometime in the future that perl-5.8 will be the 
-recommended Perl for Win32 mod_perl-2. ActiveState currently has
-a beta perl-5.8 Win32 binary ready for testing; see the section
-on Apache/mod_perl binaries below for details on a suitable
-repository containing mod_perl, and also how to obtain another perl-5.8
-Win32 binary package.
+with an ActivePerl-compatible Perl, both for builds 6xx, based
+on perl-5.6.1, and builds 8xx, based on perl-5.8.0. However,
+because of improved threading support, perl-5.8 is recommended 
+for Win32 mod_perl-2. See the section on Apache/mod_perl binaries 
+below for details on a suitable repository containing mod_perl
+ppm packages, and also how to obtain other Win32 binary packages.
 
 When installing Perl or other related binaries, subtleties may arise
 in using path names that have spaces in them - you may, for example, 
@@ -129,10 +126,10 @@ There are two ways of obtaining a binary mod_perl 2.0 package.
 =item PPM
 
 The first, for ActivePerl users, is through C<PPM> - this assumes you
-already have ActivePerl (build 6xx) from http://www.activestate.com/
-and a Win32 Apache 2.0 binary from http://httpd.apache.org/. In
-installing this, you may find it convenient when transcribing any
-Unix-oriented documentation to choose installation directories that do
+already have ActivePerl (build 8xx is recommended) from 
+http://www.activestate.com/ and a Win32 Apache 2.0 binary from 
+http://httpd.apache.org/. In installing this, you might avoid
+some future problems by choosing installation directories that do
 not have spaces in their names (eg, F<C:/Apache2>).
 
 After installing Perl and Apache 2.0, you can then install mod_perl
@@ -144,21 +141,40 @@ lines for readability)
   C:\> ppm install
        http://theoryx5.uwinnipeg.ca/ppmpackages/mod_perl-2.ppd
 
-Another way, which will be useful if you plan on installing additional
-Apache modules, is to set the repository within the C<ppm> shell
-utility as (broken over 2 lines for readability)
+for ActivePerl 6xx builds, and
 
-   PPM> set repository theoryx5 
-         http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer
+  C:\> ppm install
+       http://theoryx5.uwinnipeg.ca/ppms/mod_perl.ppd
 
-or, for C<ppm3>,
+for ActivePerl 8xx builds (at present, this latter repository does not
+contain a mod_perl-1 package). Another way, which will be useful if you 
+plan on installing additional Apache modules, is to set the repository
+within the C<ppm> shell utility to
 
-   PPM> rep add theoryx5 
-         http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer
+   http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer
 
-mod_perl 2.0 can then be installed as
+for ActivePerl 6xx builds, and to
 
-   PPM> install mod_perl-2
+   http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer58
+
+for ActivePerl 8xx builds. The repository may be set using
+
+   ppm> set repository NAME LOCATION
+
+for C<ppm2> and by
+
+   ppm> rep add NAME LOCATION
+
+for C<ppm3> - see the help utility within the C<ppm> shell for
+details. mod_perl 2.0 can then be installed as
+
+   ppm> install mod_perl-2
+
+for builds 6xx and as
+
+   ppm> install mod_perl
+
+for builds 8xx.
 
 This will install the necessary modules under an F<Apache2>
 subdirectory in your Perl tree, so as not to disturb an existing
@@ -169,10 +185,18 @@ searching for modules.
 The mod_perl PPM package also includes the necessary Apache DLL
 F<mod_perl.so>; a post-installation script should be run which will
 offer to copy this file to your Apache2 modules directory (eg,
-F<C:/Apache2/modules/>). If this is not done, you can get the file
+F<C:/Apache2/modules/>). If this is not done, get either
 F<mod_perl-2.tar.gz> from
-http://theoryx5.uwinnipeg.ca/ppmpackages/x86/ which, when unpacked,
+http://theoryx5.uwinnipeg.ca/ppmpackages/x86/, for builds 6xx, or
+F<mod_perl.tar.gz> from
+http://theoryx5.uwinnipeg.ca/ppms/x86/, for builds 8xx; 
+when unpacked, this file
 contains F<mod_perl.so> in the top-level directory.
+
+Note that, because of binary incompatibilities, one should
+I<not> install packages for ActivePerl 8xx from a repository
+containing packages for ActivePerl 6xx, and vice-versa, particularly
+if these packages contain XS-based modules.
 
 Note that the mod_perl package available from this site will always
 use the latest mod_perl sources compiled against the latest official
@@ -187,41 +211,6 @@ variable, or try adding the Apache directive
   LoadFile "C:/Path/to/your/Perl/bin/perlxx.dll"
 
 before loading F<mod_perl.so>. If all else fails, a reboot may help.
-
-For users of ActivePerl beta 8xx, based on perl-5.8, a 
-similar repository is available. At present this contains
-mod_perl-2, which can be installed as
-
-  C:\> ppm install
-       http://theoryx5.uwinnipeg.ca/ppms/mod_perl.ppd
-
-You can also set the repository within the C<ppm> shell
-utility as (broken over 2 lines for readability)
-
-   PPM> rep add theoryx5 
-         http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer58
-
-or, for C<ppm2>,
-
-   PPM> set repository theoryx5 
-         http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer58
-
-mod_perl 2.0 can then be installed as
-
-   PPM> install mod_perl
-
-This procedure should run a post-install script to copy
-F<mod_perl.so> to your Apache2 modules directory (eg,
-F<C:/Apache2/modules/>). If this is not done, you can get the file
-F<mod_perl.tar.gz> from
-http://theoryx5.uwinnipeg.ca/ppms/x86/ which, when unpacked,
-contains F<mod_perl.so> in the top-level directory.
-
-Currently this repository does not contain a mod_perl-1 package.
-Note that, because of binary incompatibilities, one should
-I<not> install packages for ActivePerl 8xx from a repository
-containing packages for ActivePerl 6xx, and vice-versa, particularly
-if these packages contain XS-based modules.
 
 =item Apache/mod_perl binary
 
