@@ -28,6 +28,8 @@ define modperl_init
 end
 
 define sharedap
+    # ADJUST: uncomment next line to debug threaded mpms
+    #sharedlibrary libpthread
     sharedlibrary apr
     sharedlibrary aprutil
     #sharedlibrary mod_ssl.so

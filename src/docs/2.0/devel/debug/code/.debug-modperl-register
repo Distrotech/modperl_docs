@@ -77,6 +77,9 @@ continue
 #b modperl_cmd_load_module
 #modperl_config_apply_PerlModule
 
+# ADJUST: uncomment next line to debug threaded mpms
+#sharedlibrary libpthread
+
 # ADJUST: uncomment if you need to step through the code in apr libs
 #sharedap
 
