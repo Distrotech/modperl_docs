@@ -167,6 +167,11 @@ The bit mask representing the overrides this command is allowed in
 
 =back
 
+For example:
+
+  use Apache::Const -compile => qw(:override);
+  $cmd->req_override() & Apache::OR_AUTHCFG;
+  $cmd->req_override() & Apache::OR_LIMIT;
 
 
 
