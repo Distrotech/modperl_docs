@@ -1,4 +1,3 @@
-
 =head1 NAME
 
 Apache::Reload - Reload Perl Modules when Changed on Disk
