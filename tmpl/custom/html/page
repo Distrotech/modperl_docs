@@ -51,7 +51,11 @@
             nav=doc.nav
             rel_doc_root=doc.dir.rel_doc_root;
 %]
-    [%- INCLUDE tail -%]
+
+[%- INCLUDE tail
+        nav=doc.nav
+        docset_rel_root=doc.dir.rel_doc_root;
+-%]
 
 </body>
 </html>

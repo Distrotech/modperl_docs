@@ -1,4 +1,7 @@
-
+[%-# tail
+   # nav             - cache navigator object
+   # docset_rel_root - relative docs path
+-%]
         <div class="footer">
             <hr noshade size="1">
             <!-- footer (tail )-->
