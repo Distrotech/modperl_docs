@@ -438,6 +438,61 @@ The C<:methods> group is for XXX constants.
 
 
 
+=head2 C<:mpmq>
+
+  use Apache::Const -compile => qw(:mpmq);
+
+The C<:mpmq> group is for querying MPM properties.
+
+=head3 C<Apache::MPMQ_NOT_SUPPORTED>
+
+
+=head3 C<Apache::MPMQ_STATIC>
+
+
+=head3 C<Apache::MPMQ_DYNAMIC>
+
+
+=head3 C<Apache::MPMQ_MAX_DAEMON_USED>
+
+
+=head3 C<Apache::MPMQ_IS_THREADED>
+
+
+=head3 C<Apache::MPMQ_IS_FORKED>
+
+
+=head3 C<Apache::MPMQ_HARD_LIMIT_DAEMONS>
+
+
+=head3 C<Apache::MPMQ_HARD_LIMIT_THREADS>
+
+
+=head3 C<Apache::MPMQ_MAX_THREADS>
+
+
+=head3 C<Apache::MPMQ_MIN_SPARE_DAEMONS>
+
+
+=head3 C<Apache::MPMQ_MIN_SPARE_THREADS>
+
+
+=head3 C<Apache::MPMQ_MAX_SPARE_DAEMONS>
+
+
+=head3 C<Apache::MPMQ_MAX_SPARE_THREADS>
+
+
+=head3 C<Apache::MPMQ_MAX_REQUESTS_DAEMON>
+
+
+=head3 C<Apache::MPMQ_MAX_DAEMONS>
+
+
+
+
+
+
 =head2 C<:options>
 
   use Apache::Const -compile => qw(:options);

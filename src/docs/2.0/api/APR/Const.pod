@@ -294,6 +294,42 @@ The C<:fileperms> group is for XXX constants.
 
 
 
+=head2 C<:filetype>
+
+  use APR::Const -compile => qw(:filetype);
+
+The C<:filetype> group is for XXX constants.
+
+=head3 C<APR::NOFILE>
+
+
+=head3 C<APR::REG>
+
+
+=head3 C<APR::DIR>
+
+
+=head3 C<APR::CHR>
+
+
+=head3 C<APR::BLK>
+
+
+=head3 C<APR::PIPE>
+
+
+=head3 C<APR::LNK>
+
+
+=head3 C<APR::SOCK>
+
+
+=head3 C<APR::UNKFILE>
+
+
+
+
+
 =head2 C<:finfo>
 
   use APR::Const -compile => qw(:finfo);

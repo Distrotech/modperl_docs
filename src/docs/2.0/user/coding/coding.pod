@@ -75,10 +75,11 @@ Any of these environment variables can be accessed via C<%ENV>.
 
 If the code needs to behave differently depending on whether it's
 running under one of the threaded MPMs, or not, the
-C<Apache::MPM_IS_THREADED> constant can be used. For example:
+C<Apache::MPM-E<gt>is_threaded> method can be used. For example:
 
+  use Apache::MPM ();
   use APR::OS ();
-  if (Apache::MPM_IS_THREADED) {
+  if (Apache::MPM->is_threaded) {
       my $id = APR::OS::thread_current();
       print "current thread id: $id";
   }

@@ -1345,8 +1345,9 @@ really has to use this code to create unique, but predictable, file
 names across threads and processes:
 
   sub unique_id {
+      require Apache::MPM;
       require APR::OS;
-      return Apache::MPM_IS_THREADED 
+      return Apache::MPM->is_threaded
           ? "$$." . ${ APR::OS::thread_current() }
           : $$;
   }
