@@ -66,6 +66,9 @@ Redirect permanent /jobs.html http://perl.apache.org/jobs/jobs.html
 # Stats
 Redirect permanent /netcraft/index.html http://perl.apache.org/outstanding/stats/netcraft.html
 
+# Old logos
+Redirect permanent /logos/index.html http://perl.apache.org/about/link/linktous.html
+
 # embperl
 Redirect permanent /Embperl/ http://perl.apache.org/embperl/
 Redirect permanent /perl/Embperl/ http://perl.apache.org/embperl/
