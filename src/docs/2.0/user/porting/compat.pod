@@ -679,7 +679,33 @@ passed as the first argument to the callback function.
 See the C<L<APR::Pool|docs::2.0::api::APR::Pool>> manpage.
 
 
+=head2 C<$s-E<gt>uid>
 
+See the next entry.
+
+=head2 C<$s-E<gt>gid>
+
+apache-1.3 had server_rec records for server_uid and
+server_gid. httpd-2.0 doesn't have them, because in httpd-2.0 the
+directives User and Group are platform specific. And only UNIX
+supports it: http://httpd.apache.org/docs-2.0/mod/mpm_common.html#user
+
+It's possible to emulate mod_perl 1.0 API doing:
+
+  sub Apache::Server::uid { $< }
+  sub Apache::Server::gid { $( }
+
+but the problem is that if the server is started as I<root>, but its
+child processes are run under a different username, e.g. I<nobody>, at
+the startup the above function will report the C<uid> and C<gid>
+values of I<root> and not I<nobody>, i.e. at startup it won't be
+possible to know what the User and Group settings are in I<httpd.conf>.
+
+META: though we can probably access the parsed config tree and try to
+fish these values from there. The real problem is that these values
+won't be available on all platforms and therefore we should probably
+not support them and let developers figure out how to code around it
+(e.g. by using C<$E<lt>> and C<$(>).
 
 
 =head1 Request Object Methods
