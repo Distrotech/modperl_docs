@@ -205,7 +205,7 @@ anything but the preforked MPM, the main reason why
 C<ModPerl::Registry> doesn't C<chdir()>.
 
 Eventually this issue will get resolved, but so far nobody has done
-anything about it, besides Arhtur Bergman who started working on
+anything about it, besides Arthur Bergman who started working on
 C<ex::threads::cwd>. See:
 http://www.perl.com/pub/a/2002/06/11/threads.html?page=2 Someone
 should pick up and complete this module to make it really useful.
