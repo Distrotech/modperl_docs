@@ -24,7 +24,8 @@ should avoid asking questions, but you should not abuse the available
 help and you should I<RTFM> before you call for I<HELP>.  (Remember the
 fable of the shepherd boy and the wolves).
 
-For more information See L<Get help with mod_perl|guide::help/Get_help_with_mod_perl>.
+For more information See L<Get help with
+mod_perl|guide::help/Get_help_with_mod_perl>.
 
 =head1 How to Report Problems
 
