@@ -1429,7 +1429,7 @@ the I<readline()> mode in chunks up to the buffer length (1024 in our
 example), and then prints each line reversed while preserving the new
 line control characters at the end of each line.  Behind the scenes
 C<$filter-E<gt>read()> retrieves the incoming brigade and gets the
-data from it, and C<<$filter-E<gt>print()> appends to the new brigade
+data from it, and C<$filter-E<gt>print()> appends to the new brigade
 which is then sent to the next filter in the stack. C<read()> breaks
 the I<while> loop, when the brigade is emptied or the end of stream is
 received.
