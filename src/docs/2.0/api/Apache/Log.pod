@@ -60,6 +60,7 @@ Apache::Log - Perl API for Apache Logging Methods
       $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
                      APR::ENOTIME, "fatal error");
   
+      $r->log_reason("fatal error");
       $r->warn('routine request warning');
       $s->warn('routine server warning');
   
@@ -447,6 +448,39 @@ For example:
 
 
 
+
+=head2 C<$r-E<gt>log_reason>
+
+This function provides a convenient way to log of errors in a
+preformatted way
+
+  $r->log_reason($message);
+  $r->log_reason($message, $filename);
+  
+=over 4
+
+=item obj: C<$r>
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+
+=item arg1: C<$message> ( string )
+
+what to log
+
+=item opt arg2: C<$filename> ( string )
+
+where to report the error as coming from
+
+=item ret: no return value
+
+A sample log entry would look like:
+
+  [Fri Sep 24 11:58:36 2004] [error] access to /someuri failed for 127.0.0.1, reason: $message
+
+
+
+
+
+  
 
 =head2 C<$r-E<gt>log_rerror>
 

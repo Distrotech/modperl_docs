@@ -1024,19 +1024,6 @@ with:
 See the L<Apache::RequestRec> manpage.
 
 
-=head2 C<$r-E<gt>log_reason>
-
-C<$r-E<gt>log_reason> is not available in mod_perl 2.0 API. Use the
-other standard logging functions provided by the
-C<L<Apache::Log|docs::2.0::api::Apache::Log>>
-module. For example:
-
-  $r->log_error("it works!");
-
-See the C<L<Apache::Log|docs::2.0::api::Apache::Log>>
-manpage.
-
-
 =head2 C<$r-E<gt>register_cleanup>
 
 C<$r-E<gt>register_cleanup> has been replaced with
