@@ -519,6 +519,24 @@ or
 
   % t/TEST -httpd /home/stas/httpd/prefork/bin/httpd
 
+
+
+
+=head4 MP_AP_DESTDIR
+
+This option exists to make the lives of package maintainers easier. If
+you aren't a package manager you should not need to use this option.
+
+Apache installation destination directory.  This path will be prefixed
+to the installation paths for all Apache-specific files during C<make
+install>.  For instance, if Apache modules are normally installed into
+I</path/to/httpd-2.0/modules/> and C<MP_AP_DESTDIR> is set to
+I</tmp/foo>, the I<mod_perl.so> will be installed in:
+
+  /tmp/foo/path/to/httpd-2.0/modules/mod_perl.so
+
+
+
 =head4 MP_APR_CONFIG
 
 If APR wasn't installed under the same file tree as httpd, you may
