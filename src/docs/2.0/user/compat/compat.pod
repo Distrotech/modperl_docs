@@ -320,13 +320,6 @@ However to check the version it's better to use C<$mod_perl::VERSION>:
 
 =head1 C<Apache::> Methods
 
-=head2 C<Apache-E<gt>server>
-
-C<Apache-E<gt>server> now resides in C<Apache::ServerUtil>. To use it
-add:
-
-  use Apache::ServerUtil ();
-
 =head2 C<Apache-E<gt>request>
 
 C<Apache-E<gt>request> is deprecated.  It's error-prone and hurts
@@ -334,7 +327,7 @@ performance when using threaded MPMs, since it has to use thread local
 storage.
 
 For any location that uses C<Apache-E<gt>request> and uses
-C<"modperl"> handler, you need to configure:
+C<SetHandler modperl>, you need to configure:
 
   <Location ...>
       SetHandler modperl
@@ -372,8 +365,7 @@ backward compatible with mod_perl 1.0 implementation.
 
 =head2 C<Apache-E<gt>get_handlers>
 
-Avalable via C<Apache::compat>. To get handlers for the server level,
-mod_perl 2.0 code should use:
+To get handlers for the server level, mod_perl 2.0 code should use:
 
   $s->get_handlers(...);
 
@@ -381,10 +373,12 @@ or:
 
   Apache->server->get_handlers(...);
 
+C<Apache-E<gt>get_handlers> is avalable via
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
+
 =head2 C<Apache-E<gt>push_handlers>
 
-Avalable via C<Apache::compat>. To push handlers at the server level,
-mod_perl 2.0 code should use:
+To push handlers at the server level, mod_perl 2.0 code should use:
 
   $s->push_handlers(...);
 
@@ -392,16 +386,21 @@ or:
 
   Apache->server->push_handlers(...);
 
+C<Apache-E<gt>push_handlers> is avalable via
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
+
 =head2 C<Apache-E<gt>set_handlers>
 
-Avalable via C<Apache::compat>. To set handlers at the server level,
-mod_perl 2.0 code should use:
+To set handlers at the server level, mod_perl 2.0 code should use:
 
   $s->set_handlers(...);
 
 or:
 
   Apache->server->set_handlers(...);
+
+C<Apache-E<gt>set_handlers> is avalable via
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 =head2 C<Apache::exit()>
 
@@ -445,12 +444,12 @@ C<L<Apache::Log|docs::2.0::api::Apache::Log>> manpage.
 =head2 C<$Apache::Server::CWD>
 
 C<$Apache::Server::CWD> is deprecated and exists only in
-C<Apache::compat>.
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 =head2 C<$Apache::Server::AddPerlVersion>
 
 C<$Apache::Server::AddPerlVersion> is deprecated and exists only in
-C<Apache::compat>.
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 
 
@@ -482,29 +481,20 @@ See the C<L<APR::Pool|docs::2.0::api::APR::Pool>> manpage.
 
 C<$r-E<gt>current_callback> is now simply a
 C<Apache::current_callback> and can be called for any of the phases,
-including those where C<$r> simply doesn't exist. C<Apache::compat>
-implements C<$r-E<gt>current_callback> for backwards compatibility.
-
-=head2 C<$r-E<gt>lookup_file>
-
-See the next item
-
-=head2 C<$r-E<gt>lookup_uri>
-
-C<$r-E<gt>lookup_file> and C<$r-E<gt>lookup_uri> didn't change their
-functionality but moved into
-C<L<Apache::SubRequest|docs::2.0::api::Apache::SubRequest>>.
-Before using them, add:
-
-  use Apache::SubRequest;
+including those where C<$r> simply doesn't
+exist. C<L<Apache::compat|docs::2.0::api::Apache::compat>> implements
+C<$r-E<gt>current_callback> for backwards compatibility.
 
 =head2 C<$r-E<gt>get_remote_host>
 
-C<$r-E<gt>get_remote_host> has been renamed and moved into the package
-C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>:
+C<get_remote_host()> is now invoked on the C<L<connection
+object|docs::2.0::api::Apache::Connection>>:
 
   use Apache::Connection;
   $r->connection->get_remote_host();
+
+C<$r-E<gt>get_remote_host> is available through
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 =head2 C<$r-E<gt>content>
 
@@ -553,29 +543,36 @@ C<$r-E<gt>read($buf, $r-E<gt>headers_in-E<gt>{'content-length'}>)
 
 =back
 
-Instead you should use C<Apache::Request>'s C<params()> and similar
-methods to do the parsing for you. See the C<L<Apache::Request|docs::2.0::api::Apache::Request>>
-manpage.
+For now you can use C<CGI.pm> or the code in
+C<L<Apache::compat|docs::2.0::api::Apache::compat>> (it's slower).
 
-XXX: ...when Apache::Request will be ported to 2.0. For now you can
-use the code in C<Apache::compat> that implements these methods in
-Perl.
+META: when C<Apache::Request> will be ported to mod_perl 2.0, you will
+have the fast C implementation of these functions.
 
 =head2  C<$r-E<gt>chdir_file>
 
-C<chdir()> is not a thread-safe function, therefore
-C<$r-E<gt>chdir_file> is gone from the API.
+C<chdir()> cannot be used in the threaded environment, therefore
+C<$r-E<gt>chdir_file> is not in the mod_perl 2.0 API.
 
+For more information refer to: L<Threads Coding Issues Under
+mod_perl|docs::2.0::user::coding::coding/Threads_Coding_Issues_Under_mod_perl>.
 
 =head2 C<$r-E<gt>is_main>
 
 C<$r-E<gt>is_main> is not part of the mod_perl 2.0 API. Use
 C<!$r-E<gt>main> instead.
 
+Refer to the
+C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec/main__>>
+manpage.
+
 =head2 C<$r-E<gt>finfo>
 
-XXX: not implemented yet. To be implemented. C<Apache::compat> handles
-that for now with:
+Probably won't be implemented, because Apache 2.0's finfo
+datastructure can't be mapped into the Perl finfo datastructure.
+
+C<L<Apache::compat|docs::2.0::api::Apache::compat>> handles that for
+now with:
 
   sub finfo {
       my $r = shift;
@@ -645,8 +642,7 @@ See the L<APR::Pool> manpage.
 
 =head2 C<$r-E<gt>request>
 
-Use C<Apache-E<gt>request>.
-
+Use C<L<Apache-E<gt>request|/__Apache___gt_request_>>.
 
 =head2 C<$r-E<gt>send_fd>
 
@@ -655,16 +651,16 @@ See the next item.
 =head2 C<$r-E<gt>send_fd_length>
 
 currently available only in the 1.0 compatibility layer. The problem
-is that Apache has changed the API and the its functionality. See the
-implementation in C<Apache::compat>.
+is that Apache has changed the API and its functionality. See the
+implementation in C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 XXX: needs a better resolution
 
 =head2 C<$r-E<gt>send_http_header>
 
 This method is not needed in 2.0, though available in
-C<Apache::compat>. 2.0 handlers only need to set the I<Content-type>
-via C<$r-E<gt>content_type($type)>.
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>. 2.0 handlers only
+need to set the I<Content-type> via C<$r-E<gt>content_type($type)>.
 
 =head2 C<$r-E<gt>server_root_relative>
 
@@ -735,9 +731,10 @@ The record I<auth_type> doesn't exist in the Apache 2.0's connection
 struct. It exists only in the request record struct. The new accessor
 in 2.0 API is C<$r-E<gt>ap_auth_type>.
 
-C<Apache::compat> provides a back compatibility method, though it
-relies on the availability of the global C<Apache-E<gt>request>, which
-requires the configuration to have:
+C<L<Apache::compat|docs::2.0::api::Apache::compat>> provides a back
+compatibility method, though it relies on the availability of the
+global C<Apache-E<gt>request>, which requires the configuration to
+have:
 
   PerlOptions +GlobalRequest
 
@@ -757,7 +754,8 @@ either moved to other packages or removed.
 =head2 C<open()> and C<close()>
 
 The methods C<open()> and C<close()> were removed. See the back
-compatibility implementation in the module C<Apache::compat>.
+compatibility implementation in the module
+C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 =head2 C<tmpfile()>
 
@@ -765,50 +763,13 @@ The method C<tmpfile()> was removed since Apache 2.0 doesn't have the
 API for this method anymore.
 
 See C<File::Temp>, or the back compatibility implementation in the
-module C<Apache::compat>.
+module C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 With Perl v5.8.0 you can create anonymous temporary files:
 
    open $fh, "+>", undef or die $!;
 
 That is a literal C<undef>, not an undefined value.
-
-=head2 C<mtime()>
-
-mtime() now belongs to the module L<Apache::RequestRec>.
-
-
-=head2 C<discard_request_body()>
-
-This function now belongs to the module
-C<L<Apache::Response|docs::2.0::api::Apache::Response>>.
-
-=head2 C<meets_conditions()>
-
-This function now belongs to the module
-C<L<Apache::Response|docs::2.0::api::Apache::Response>>.
-
-=head2 C<set_content_length()>
-
-This function now belongs to the module
-C<L<Apache::Response|docs::2.0::api::Apache::Response>>.
-
-=head2 C<set_etag()>
-
-This function now belongs to the module
-C<L<Apache::Response|docs::2.0::api::Apache::Response>>.
-
-=head2 C<set_last_modified()>
-
-This function now belongs to the module
-C<L<Apache::Response|docs::2.0::api::Apache::Response>>.
-
-=head2 C<update_mtime()>
-
-This function now belongs to the module
-C<L<Apache::Response|docs::2.0::api::Apache::Response>>.
-
-
 
 
 
@@ -840,8 +801,8 @@ C<Apache::unescape_url()>.
 =head2 C<Apache::Util::escape_html()>
 
 C<Apache::Util::escape_html> currently is available only via
-C<Apache::compat> until I<ap_escape_html> is reworked to not require a
-pool.
+C<L<Apache::compat|docs::2.0::api::Apache::compat>> until
+I<ap_escape_html> is reworked to not require a pool.
 
 =head2 C<Apache::Util::parsedate()>
 
@@ -1007,7 +968,8 @@ C<Apache::Table> has been renamed to C<APR::Table>.
 
 =head1 C<Apache::SIG>
 
-C<Apache::SIG> currently exists only C<Apache::compat> and it does
+C<Apache::SIG> currently exists only
+C<L<Apache::compat|docs::2.0::api::Apache::compat>> and it does
 nothing.
 
 
