@@ -9,7 +9,7 @@ use lib qw( modules );  ### This may need to be adjusted!
                         ### It should point to the location of the
                         ### associated script modules directory
 
-
+my $DEFAULT_CONFIG_FILE = '.swishcgi.conf';
 
 ###################################################################################
 #
@@ -18,7 +18,7 @@ use lib qw( modules );  ### This may need to be adjusted!
 #
 #    To display documentation for this program type "perldoc swish.cgi"
 #
-#    swish.cgi $Revision: 1.8 $ Copyright (C) 2001 Bill Moseley swishscript@hank.org
+#    swish.cgi $Revision: 1.9 $ Copyright (C) 2001 Bill Moseley swishscript@hank.org
 #    Example CGI program for searching with SWISH-E
 #
 #    This example program will only run under an OS that supports fork().
@@ -37,7 +37,7 @@ use lib qw( modules );  ### This may need to be adjusted!
 #
 #    The above lines must remain at the top of this program
 #
-#    $Id: swish.cgi,v 1.8 2002/06/30 22:32:17 moseley Exp $
+#    $Id: swish.cgi,v 1.9 2002/07/01 05:08:43 moseley Exp $
 #
 ####################################################################################
 
@@ -142,7 +142,7 @@ sub default_config {
 
         # By default, this script tries to read a config file.  You should probably
         # comment this out if not used save a disk stat
-        config_file     => '.swishcgi.conf',    # Default config file
+        config_file     => $DEFAULT_CONFIG_FILE,    # Default config file
 
 
         # The location of your index file.  Typically, this would not be in
@@ -531,20 +531,22 @@ sub merge_read_config {
 
     return $config unless $config->{config_file};
 
-    unless ( -e $config->{config_file} ) {
-        # If any debugging messages set report this -- there's a default normally set
-        # so don't want to always report, although would be nice to avoid the stat()
-        log_msg("Config file '$config->{config_file}': $!")
-            if $config->{debug};
-        return $config;
-    }
-
-    my $return = do $config->{config_file};
+    my $return = do $config->{config_file};  # load the config file
 
     unless ( ref $return eq 'HASH' ) {
-        log_msg("Config file '$config->{config_file}': $! $@" );
-        return $config;
+
+        # First, let's check for file not found for the default config, which we can ignore
+
+        my $error = $@ || $!;
+
+        if ( $config->{config_file} eq $DEFAULT_CONFIG_FILE && !-e $config->{config_file} ) {
+            warn "Config file '$config->{config_file}': $!" if $config->{debug};
+            return $config;
+        }
+
+        die "Config file '$config->{config_file}': $error";
     }
+
 
 
     if ( $config->{debug} || $return->{debug} ) {
@@ -561,11 +563,6 @@ sub merge_read_config {
     return { %$config, %$return };
 }
 
-#--------------------------------------------------------------------------------------------------
-sub log_msg {
-    my $time = scalar localtime;
-    warn "$time\t", @_;
-}
 
 #--------------------------------------------------------------------------------------------------
 sub set_default_debug_flags {
@@ -700,7 +697,7 @@ sub process_request {
 
     eval { require $file };
     if ( $@ ) {
-        log_msg( "$0 $@");
+        warn "$0 $@";
         print <<EOF;
 Content-Type: text/html
 
@@ -873,7 +870,7 @@ sub run_query {
     };
 
     if ( $@ ) {
-        log_msg("$0 $@"); # if $conf->{debug};
+        warn "$0 $@"; # if $conf->{debug};
         $self->errstr( "Service currently unavailable" );
         return $self;
     }
@@ -1405,7 +1402,7 @@ sub run_swish {
                     eval { require "$package.pm" };
                     if ( $@ ) {
                         $self->errstr( "Failed to load Highlighting Module - check error log" );
-                        log_msg("$0: $@");
+                        warn "$0: $@";
                         $highlight = '';
                         next;
                     } else {
@@ -1483,7 +1480,7 @@ sub real_fork {
 
 
         unless ( exec $self->{prog},  $self->swish_command ) {
-            log_msg("Child process Failed to exec '$self->{prog}' Error: $!");
+            warn "Child process Failed to exec '$self->{prog}' Error: $!";
             print "Failed to exec Swish";  # send this message to parent.
             exit;
         }
@@ -2536,7 +2533,7 @@ Please do not contact the author or any of the swish-e developers directly.
 
 =head1 LICENSE
 
-swish.cgi $Revision: 1.8 $ Copyright (C) 2001 Bill Moseley search@hank.org
+swish.cgi $Revision: 1.9 $ Copyright (C) 2001 Bill Moseley search@hank.org
 Example CGI program for searching with SWISH-E
 
 
