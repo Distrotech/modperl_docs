@@ -1,0 +1,36 @@
+# This gdb startup script brings you to the modperl_hook_init()
+# function, useful if you need to debug things at the modperl init
+# stage. invoke as:
+# gdb -command=.debug-modperl-init
+#
+# see ADJUST notes for things that may need to be adjusted
+
+# ADJUST: the path to the httpd executable if needed
+file ~/httpd/worker/bin/httpd
+handle SIGPIPE nostop
+handle SIGPIPE pass
+
+define myrun
+    tbreak main
+    break ap_run_pre_config
+    #  ADJUST: the httpd.conf file's path if needed
+    #  ADJUST: add -DPERL_USEITHREADS to debug threaded mpms
+    run -d `pwd`/t -f `pwd`/t/conf/httpd.conf -DONE_PROCESS -DAPACHE2
+    set auto-solib-add 0
+    continue
+end
+
+define modperl_init
+    sharedlibrary modperl
+    b modperl_hook_init
+    continue
+end
+
+# start the server and run till modperl_hook_init on start
+myrun
+modperl_init
+
+# uncomment to reach modperl_hook_init on restart
+#continue
+#continue
+
