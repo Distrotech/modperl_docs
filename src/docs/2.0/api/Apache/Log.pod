@@ -70,6 +70,7 @@ Apache::Log - Perl API for Apache Logging Methods
   # in a registry script
   # httpd.conf: PerlOptions +GlobalRequest
   use Apache::ServerRec qw(warn); # override warn locally
+  print "Content-type: text/plain\n\n";
   warn "my warning";
 
 
