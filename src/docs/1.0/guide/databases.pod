@@ -75,10 +75,13 @@ connect() you will save the connection time for every connect()
 request from your C<DBI> module. This can be a huge benefit for a
 server with a high volume of database traffic.
 
-You must B<not> use this module if you are opening a special connection
-for each of your users.  Each connection will stay persistent and in a
-short time the number of connections will be so big that your machine
-will scream in agony and die.
+You must B<not> use this module if you are opening a special
+connection for each of your users (meaning that the login arguments
+are different for each user).  Each connection will stay persistent
+and in after a certain time the number of opened connections will
+reach the allowed limit (configured by the database server) and new
+connection opening requests wouldn't be granted, rendering your
+service unusable for some of your users.
 
 If you want to use C<Apache::DBI> but you have both situations on one
 machine, at the time of writing the only solution is to run two
