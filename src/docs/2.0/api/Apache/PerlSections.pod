@@ -44,8 +44,9 @@ are represented in a C<%Location> hash, e.g.:
     AuthName       => 'test',
     DirectoryIndex => [qw(index.html index.htm)],
     Limit          => {
-        METHODS => 'GET POST',
-        require => 'user dougm',
+        "GET POST"    => {
+            require => 'user dougm',
+        }
     },
   };
   </Perl>
