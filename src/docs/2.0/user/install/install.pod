@@ -271,39 +271,48 @@ installed. mod_perl B<cannot> be built before that.
 Like any other Perl module, mod_perl is configured via the
 I<Makefile.PL> file, but requires one or more configuration options:
 
+  % cd modperl-1.99_xx
   % perl Makefile.PL <options>
 
-where I<options> is an optional list of (key,value) pairs.  Usually
-you need to use only the C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option to
-complete the build. This and other options are discussed in the
-following sections.
+where I<options> is an optional list of (key,value) pairs.
 
-If all Apache 2.0 files were installed under the same directory,
-mod_perl 2.0's build only needs to know the path to that directory,
-passed via the C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option:
+The following sections give the details about all the available
+options, but let's mention first the most important ones.
 
-  % cd modperl-2.0
-  % perl Makefile.PL MP_AP_PREFIX=$HOME/httpd/prefork \
-    MP_INST_APACHE2=1
+If you want to have mod_perl 1.0 and 2.0 installed under the same perl
+tree you need to enable C<L<MP_INST_APACHE2|/MP_INST_APACHE2>>:
 
-XXX: MP_INST_APACHE2=1 should become the default, but for now add it
-too.
+  % perl Makefile.PL MP_INST_APACHE2=1 <other options>
 
-However if the Apache 2.0 files are spread under different locations,
-which is the case on many distributions that provide the binary Apache
-2.0 package, other options may need to be provided. For example RedHat
-Linux system installs the httpd binary, the apxs and apr-config
-scripts all in different locations, therefore they configure mod_perl
-2.0 as:
+It seems that most users use pre-packaged Apache installation, most of
+which tend to spread the Apache files across many directories
+(i.e. not using --enable-layout=Apache, which puts all the files under
+the same directory). If Apache 2.0 files are spread under different
+directories, you need to use at least the C<L<MP_APXS|/MP_APXS>>
+option, which should be set to a full path to the C<apxs>
+executable. For example:
 
-  % perl Makefile.PL MP_APXS=/path/to/apxs \
+  % perl Makefile.PL MP_INST_APACHE2=1 MP_APXS=/path/to/apxs
+
+For example RedHat Linux system installs the C<httpd> binary, the
+C<apxs> and C<apr-config> scripts (the latter two are needed to build
+mod_perl) all in different locations, therefore they configure
+mod_perl 2.0 as:
+
+  % perl Makefile.PL MP_INST_APACHE2=1 MP_APXS=/path/to/apxs \
     MP_APR_CONFIG=/another/path/to/apr-config <other options>
 
-In this case there is no need to specify the
-C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option, since paths to the scripts
-specified by C<L<MP_APXS|/MP_APXS>> and
-C<L<MP_APR_CONFIG|/MP_APR_CONFIG>> can be used to retrieve the rest of
-the information.
+However a correctly built Apache shouldn't require the
+C<L<MP_APR_CONFIG|/MP_APR_CONFIG>> option, since
+C<L<MP_APXS|/MP_APXS>> should provide the location of this script.
+
+If however all Apache 2.0 files were installed under the same
+directory, mod_perl 2.0's build only needs to know the path to that
+directory, passed via the C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option:
+
+  % perl Makefile.PL MP_INST_APACHE2=1 MP_AP_PREFIX=$HOME/httpd/prefork
+
+These and other options are discussed in the following sections.
 
 =head3 Boolean Build Options
 

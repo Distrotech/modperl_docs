@@ -30,8 +30,7 @@ Now, configure mod_perl:
 
   % tar -xvzf mod_perl-2.x.xx.tar.gz
   % cd modperl-2.0
-  % perl Makefile.PL MP_AP_PREFIX=$HOME/httpd/prefork \
-    MP_INST_APACHE2=1
+  % perl Makefile.PL MP_APXS=$HOME/httpd/prefork/bin/apxs MP_INST_APACHE2=1
 
 where C<MP_AP_PREFIX> is an Apache installation prefix, under which
 the I<include/> directory with Apache C header files can be found.
