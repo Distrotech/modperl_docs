@@ -87,6 +87,7 @@
             name    => 'query',
             size    => 40,
             maxlength => 200,
+            class   => "search-text"
             } ) %]
 
         [% CGI.submit('submit','Search') %]<br><br>

@@ -73,6 +73,7 @@
                 name    => 'query',
                 size    => 12,
                 maxlength => 200,
+                class	=> 'inp-text',
             } )
         [% etag %]
 
@@ -84,6 +85,7 @@
                 Name    => 'sbm',
                 Values  => search_areas,
                 Labels  => search_labels,
+                class	=> 'inp-select',
                 })
         [% etag %]
 

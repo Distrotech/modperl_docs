@@ -291,6 +291,14 @@ div.search-form {
     color: #000000;
 }
 
+.search-text{
+    font-size: 12px;
+    font-family: helvetica, arial, verdana, sans-serif;
+/*    width: 80px; */
+/*     margin: 0px 0px 2px 0px; */
+}
+
+
 /* List of site sections in search.tt */
 li.search-list {
     list-style: none;
