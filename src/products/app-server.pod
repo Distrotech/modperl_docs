@@ -12,6 +12,8 @@ You probably want to look at L<Choosing a Templating
 system|docs::tutorials::tmpl::comparison::comparison> for more
 information and in-depth analysis of some of the ones listed here.
 
+The following frameworks are sorted alphabetically.
+
 =head1 Apache::ASP
 
 C<Apache::ASP> (http://www.apache-asp.org/) provides an Active Server
@@ -50,6 +52,26 @@ qualified names to URLs, strings, fonts, colors, icons, files, and
 views.  bOP provides a full-suite of services including dynamic
 tracing, configuration, logging, class loading, type hierarchy, unit
 testing, and acceptance testing.
+
+=head1 DataBreeze Web Database Platform
+
+DataBreeze is written entirely in Perl and utilizes mod_perl within
+Apache to speed performance. Feedback from the Perl/mod_perl/Apache
+community is important. You may download the software for evaluation
+at http://www.databreeze.com or simply logon and try DataBreeze
+directly online.
+
+DataBreeze is very different from typical development tools because it
+utilizes a pre-built application framework that requires no
+programming.  DataBreeze provides a template environment for building
+database applications that list, search, explore and edit relational
+data. The system includes integrated menus, forms, tree-views,
+security, session/state management and more, all in a Web
+Browser. DataBreeze can also be extended through the use of Event
+programs using Perl.
+
+This is not free software but nothing is hidden, the complete Perl
+source code is included so that you may explore how it works.
 
 =head1 Embperl
 
@@ -99,25 +121,6 @@ and dynamic web content. The C<Apache::Template> module provides an
 Apache/mod_perl interface to the Template Toolkit, providing a quick
 and simple way to integrate its processing power into your web site.
 
-=head1 DataBreeze Web Database Platform
-
-DataBreeze is written entirely in Perl and utilizes mod_perl within
-Apache to speed performance. Feedback from the Perl/mod_perl/Apache
-community is important. You may download the software for evaluation
-at http://www.databreeze.com or simply logon and try DataBreeze
-directly online.
-
-DataBreeze is very different from typical development tools because it
-utilizes a pre-built application framework that requires no
-programming.  DataBreeze provides a template environment for building
-database applications that list, search, explore and edit relational
-data. The system includes integrated menus, forms, tree-views,
-security, session/state management and more, all in a Web
-Browser. DataBreeze can also be extended through the use of Event
-programs using Perl.
-
-This is not free software but nothing is hidden, the complete Perl
-source code is included so that you may explore how it works.
 
 =head1 Uttu
 
