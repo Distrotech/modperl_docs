@@ -12,15 +12,15 @@ discussed here.
 
 If, after reading this guide, the L<general docs|docs::general::index>
 and the L<other documents|docs::offsite::index> listed on this site,
-you still don't have the answers/information needed, please ask for
-help on the L<mod_perl users mailing list|maillist::modperl>.
-But please, first try to browse the L<mailing list
+you still don't have the answers, please ask for help on the
+L<mod_perl users mailing list|maillist::modperl>.  But please, first
+try to browse the L<mailing list
 archive|maillist::modperl/Searchable_Archives>.  Most of the time
-you will find the answer to your questions by searching the archive,
+you will find the answers to your questions by searching the archive,
 since it is very likely that someone else has already encountered the
 same problem and found a solution for it.  If you ignore this advice,
-you should not be surprised if your question is left unanswered - it
-bores people to answer the same question more than once.  This does
+you should not be surprised if your question is left unanswered -- it
+bores people to answer the same question again and again.  This does
 not mean that you should avoid asking questions, but you should not
 abuse the available help and you should I<RTFM> before you call for
 I<HELP>.  (Remember the fable of the shepherd boy and the wolves).
@@ -28,6 +28,21 @@ I<HELP>.  (Remember the fable of the shepherd boy and the wolves).
 Another possibilty is to look in the general L<Getting
 Help|help::index> section of this site for a commercial training or
 consulting company.
+
+=head2 Please Ask Only Questions Related to mod_perl
+
+If you have general Apache questions, please refer to:
+http://httpd.apache.org/lists.html.
+
+If you have general Perl questions, please refer to:
+http://lists.perl.org/.
+
+For other remotely related to mod_perl questions see the references to
+L<other documentation|docs::offisite::other>.
+
+Finally if before posting to the list for the first time, please refer
+to the mod_perl mailing list's
+L<Guidelines|maillist::email-etiquette>.
 
 =head1 How to Report Problems
 
