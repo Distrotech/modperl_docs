@@ -109,9 +109,6 @@ unrelated processes.
 
 =item *
 
-L<Vivek Khera's mod_perl performance tuning guide|faqs::mod_perl_tuning>
-
-=item *
 
 L<Stas Bekman's Performance Guide|guide::performance>
 
