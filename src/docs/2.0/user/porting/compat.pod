@@ -1275,7 +1275,7 @@ For example:
 =head2 C<Apache::Util::validate_password()>
 
 C<Apache::Util::validate_password()> has been replaced with
-C<APR::password_validate()>. For example:
+C<APR::Util::password_validate()>. For example:
 
    my $ok = Apache::Util::password_validate("stas", "ZeO.RAc3iYvpA");
 
