@@ -32,7 +32,7 @@
            "<li>";
            INCLUDE print_item;
            '<ul class="toc">';
-           INCLUDE print_node c=c.down prefix="$prefix/${c.meta.rel_path}";
+           INCLUDE print_node c=c.down.first prefix="$prefix/${c.meta.rel_path}";
            c = c.next;
            "</ul>";
            "</li>";
