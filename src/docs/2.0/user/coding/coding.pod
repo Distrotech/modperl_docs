@@ -144,7 +144,46 @@ don't want to use this new functionality.
 
 Refer to the I<perllexwarn> manpage for more information.
 
-=head1 Perl Specifics in mod_perl Environment
+=head1 Integration with Apache Issues
+
+In the following sections we discuss the specifics of Apache behavior
+relevant to mod_perl developers.
+
+=head2 Sending HTTP Response Headers
+
+Apache 2.0 doesn't provide a method to force HTTP response headers
+sending (what used to be done by C<send_http_header()> in Apache
+1.3). HTTP response headers are sent as soon as the first bits of the
+response body are seen by the special core output filter that
+generates these headers. When the response handler send the first
+chunks of body it may be cached by the mod_perl internal buffer or
+even by some of the output filters. The response handler needs to
+flush in order to tell all the components participating in the sending
+of the response to pass the data out.
+
+For example if the handler needs to perform a relatively long-running
+operation (e.g. a slow db lookup) and the client may timeout if it
+receives nothing right away, you may want to start the handler by
+setting the I<Content-Length> header, following by an immediate
+flushing:
+
+  sub handler {
+      my $r = shift;
+      $r->content_type('text/html');
+      $r->rflush; # send the headers out
+  
+      $r->print(long_operation());
+      return Apache::OK;
+  }
+
+If this doesn't work, check whether you have configured any
+third-party output filters for the resource in question. Improperly
+written filter may ignore the orders to flush the data.
+
+META: add a link to the notes on how to write well-behaved filters
+at handlers/filters
+
+=head1 Perl Specifics in the mod_perl Environment
 
 In the following sections we discuss the specifics of Perl behavior
 under mod_perl.
