@@ -1,0 +1,33 @@
+=head1 NAME
+
+Debugging mod_perl Perl Internals
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=head1 Authors
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=cut
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=head1 Authors
+
+=over
+
+=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=cut

@@ -1,0 +1,660 @@
+=head1 NAME
+
+Debugging mod_perl C Internals
+
+=head1 Debug notes
+
+META: needs more organization
+
+=head2 Setting gdb breakpoints with mod_perl built as DSO
+
+If mod_perl is built as a DSO module, you cannot set the breakpoint in
+the mod_perl source files when the I<httpd> program gets loaded into
+the debugger. The reason is simple: At this moment I<httpd> has no
+idea about mod_perl module yet. After the configuration file is
+processed and the mod_perl DSO module is loaded then the breakpoints
+in the source of mod_perl itself can be set.
+
+The trick is to break at I<apr_dso_load>, let it load
+I<libmodperl.so>, then you can set breakpoints anywhere in the modperl
+code:
+
+  % gdb httpd
+  (gdb) b apr_dso_load
+  (gdb) run -DONE_PROCESS
+  [New Thread 1024 (LWP 1600)]
+  [Switching to Thread 1024 (LWP 1600)]
+
+  Breakpoint 1, apr_dso_load (res_handle=0xbfffb48c, path=0x811adcc
+    "/home/stas/apache.org/modperl-perlmodule/src/modules/perl/libmodperl.so",
+    pool=0x80e1a3c) at dso.c:138
+  141         void *os_handle = dlopen(path, RTLD_NOW | RTLD_GLOBAL);
+  (gdb) finish
+  ...
+  Value returned is $1 = 0
+  (gdb) b modperl_hook_init
+  (gdb) continue
+
+This example shows how to set a breakpoint at I<modperl_hook_init>.
+
+To automate things you can put those in the I<.gdb-jump-to-init> file:
+
+  b apr_dso_load
+  run -DONE_PROCESS -d /home/stas/apache.org/modperl-perlmodule/t \
+  -f /home/stas/apache.org/modperl-perlmodule/t/conf/httpd.conf
+  finish
+  b modperl_hook_init
+  continue
+
+and then start the debugger with:
+
+  % gdb /home/stas/httpd-2.0/bin/httpd -command \
+  /home/stas/apache.org/modperl-perlmodule/t/.gdb-jump-to-init
+
+=head2 Starting the Server Fast under gdb
+
+When the server is started under gdb, it first loads the symbol tables
+of the dynamic libraries that it sees going to be used. Some versions
+of gdb may take ages to complete this task, which makes the debugging
+very irritating if you have to restart the server all the time and it
+doesn't happen immediately.
+
+The trick is to set the C<auto-solib-add> flag to 0:
+
+  set auto-solib-add 0
+
+in I<~/.gdbinit> file.
+
+With this setting in effect, you can load only the needed dynamic
+libraries with I<sharedlibrary> command. Remember that in order to set
+a breakpoint and step through the code inside a certain dynamic
+library you have to load it first. For example consider this gdb
+commands file:
+
+  .gdb-commands
+  ------------
+  file ~/httpd/prefork/bin/httpd
+  handle SIGPIPE pass
+  handle SIGPIPE nostop
+  set auto-solib-add 0
+  b ap_run_pre_config
+  run -DONE_PROCESS -d `pwd`/t -f `pwd`/t/conf/httpd.conf \
+  -DAPACHE2 -DPERL_USEITHREADS
+  sharedlibrary modperl
+  b modperl_hook_init
+  # start: modperl_hook_init
+  continue
+  # restart: ap_run_pre_config
+  continue
+  # restart: modperl_hook_init
+  continue
+  b apr_poll
+  continue
+  
+  # load APR/PerlIO/PerlIO.so
+  sharedlibrary PerlIO
+  b PerlIOAPR_open
+
+which can be used as:
+
+  % gdb -command=.gdb-commands
+
+This script stops in I<modperl_hook_init()>, so you can step through
+the mod_perl startup. We had to use the I<ap_run_pre_config> so we can
+load the I<libmodperl.so> library as explained earlier. Since httpd
+restarts on the start, we have to I<continue> until we hit
+I<modperl_hook_init> second time, where we can set the breakpoint at
+I<apr_poll>, the very point where httpd polls for new request and run
+again I<continue> so it'll stop at I<apr_poll>.
+
+When gdb stops at the function I<apr_poll> it's a time to start the
+client:
+
+  % t/TEST -run
+
+But before that if we want to debug the server response we need to set
+breakpoints in the libraries we want to debug. For example if we want
+to debug the function C<PerlIOAPR_open> which resides in
+I<APR/PerlIO/PerlIO.so> we first load it and then we can set a
+breakpoint in it. Notice that gdb may not be able to load a library if
+it wasn't referenced by any of the code. In this case we have to
+require this library at the server startup. In our example we load:
+
+  PerlModule APR::PerlIO
+
+in I<httpd.conf>. To check which libraries' symbol tables can be
+loaded in gdb, run (when the server has been started):
+
+  gdb> info sharedlibrary
+
+which will also show which libraries were loaded already.
+
+Also notice that you don't have to type the full path of the library
+when trying to load them, even a partial name will suffice. In our
+commands file example we have used C<sharedlibrary modperl> instead of
+saying C<sharedlibrary libmodperl.so>.
+
+If you want to set breakpoints and step through the code in the Perl
+and APR core libraries you should load their appropriate libraries:
+
+  gdb> sharedlibrary libperl
+  gdb> sharedlibrary libapr
+  gdb> sharedlibrary libaprutil
+
+Setting I<auto-solib-add> to 0 makes the debugging process unusual,
+since originally gdb was loading the dynamic libraries automatically,
+whereas now it doesn't. This is the price one has to pay to get the
+debugger starting the program very fast. Hopefully the future versions
+of gdb will improve.
+
+Just remember that if you try to I<step-in> and debugger doesn't do
+anything, that means that the library the function is located in
+wasn't loaded. The solution is to create a commands file as explained
+in the beginning of this section and craft the startup script the way
+you need to avoid extra typing and mistakes when repeating the same
+debugging process again and again.
+
+
+
+
+=head1 Obtaining Core Files
+
+META: need to review (unfinished)
+
+=head2
+
+
+=head1 Analyzing Dumped Core Files
+
+When your application dies with the I<Segmentation fault> error (which
+generates a C<SIGSEGV> signal) and optionally generates a I<core> file
+you can use C<gdb> or a similar debugger to find out what caused the
+I<Segmentation fault> (or I<segfault> as we often call it).
+
+=head2 Getting Ready to Debug
+
+In order to debug the I<core> file we may need to recompile Perl and
+mod_perl with debugging symbols inside. Usually you have to recompile
+only mod_perl, but if the I<core> dump happens in the I<libmodperl.so>
+library and you want to see the whole backtrace, you probably want to
+recompile Perl as well.
+
+Recompile Perl with I<-DDEBUGGING> during the ./Configure stage (or
+even better with I<-Doptimize="-g"> which in addition to adding the
+C<-DDEBUGGING> option, adds the I<-g> options which allows you to
+debug the Perl interpreter itself).
+
+After recompiling Perl, recompile mod_perl with C<MP_DEBUG=1> during
+the I<Makefile.PL> stage.
+
+Building mod_perl with C<PERL_DEBUG=1> will:
+
+=over
+
+=item 1 
+
+add `-g' to EXTRA_CFLAGS
+
+=item 1 
+
+turn on MP_TRACE (tracing)
+
+=item 1 
+
+Set PERL_DESTRUCT_LEVEL=2
+
+=item 1 
+
+Link against C<libperld> if -e $Config{archlibexp}/CORE/libperld$Config{lib_ext}
+
+=back
+
+If you build a static mod_perl, remember that during I<make install>
+Apache strips all the debugging symbols.  To prevent this you should
+use the Apache I<--without-execstrip> C<./configure> option. So if you
+configure Apache via mod_perl, you should do:
+
+  panic% perl Makefile.PL USE_APACI=1 \
+    APACI_ARGS='--without-execstrip' [other options]
+
+Alternatively you can copy the unstripped binary manually. For example
+we did this to give us an Apache binary called C<httpd_perl> which
+contains debugging symbols:
+
+  panic# cp httpd-2.x/httpd /home/httpd/httpd_perl/bin/httpd_perl
+
+Now the software is ready for a proper debug.
+
+=head2 Creating a Faulty Package
+
+Next stage is to create a package that aborts abnormally with the
+I<Segmentation fault> error. We will write faulty code on purpose,
+so you will be able to reproduce the problem and exercise the
+debugging technique explained here. Of course in a real case you
+will have some real bug to debug, so in that case you may want to
+skip this stage of writing a program with a deliberate bug.
+
+We will use the C<Inline.pm> module to embed some code written in C
+into our Perl script. The faulty function that we will add is this:
+
+  void segv() {
+      int *p;
+      p = NULL;
+      printf("%d", *p); /* cause a segfault */
+  }
+
+For those of you not familiar with C programming, I<p> is a pointer to
+a segment of memory.  Setting it to C<NULL> ensures that we try to
+read from a segment of memory to which the operating system does not
+allow us access, so of course dereferencing C<NULL> pointer causes a
+segmentation fault.  And that's what we want.
+
+So let's create the C<Bad::Segv> package. The name I<Segv> comes from
+the C<SIGSEGV> (segmentation violation signal) that is generated when
+the I<Segmentation fault> occurs.
+
+First we create the installation sources:
+
+  panic% h2xs -n Bad::Segv -A -O -X
+  Writing Bad/Segv/Segv.pm
+  Writing Bad/Segv/Makefile.PL
+  Writing Bad/Segv/test.pl
+  Writing Bad/Segv/Changes
+  Writing Bad/Segv/MANIFEST
+
+Now we modify the I<Segv.pm> file to include the C code. Afterwards
+it looks like this:
+
+  package Bad::Segv;
+  
+  use strict;
+  BEGIN {
+      $Bad::Segv::VERSION = '0.01';
+  }
+  
+  use Inline C => <<'END_OF_C_CODE';
+    void segv() {
+        int *p;
+        p = NULL;
+        printf("%d", *p); /* cause a segfault */
+    }
+  
+  END_OF_C_CODE
+  
+  1;
+
+Finally we modify I<test.pl>:
+
+  use Inline SITE_INSTALL;
+  
+  BEGIN { $| = 1; print "1..1\n"; }
+  END {print "not ok 1\n" unless $loaded;}
+  use Bad::Segv;
+  
+  $loaded = 1;
+  print "ok 1\n";
+
+Note that we don't test Bad::Segv::segv() in I<test.pl>, since this
+will abort the I<make test> stage abnormally, and we don't want this.
+
+Now we build and install the package:
+
+  panic% perl Makefile.PL
+  panic% make && make test
+  panic% su
+  panic# make install
+
+Running I<make test> is essential for C<Inline.pm> to prepare the binary
+object for the installation during I<make install>.
+
+
+META: stopped here!
+
+Now we can test the package:
+
+  panic% ulimit -c unlimited
+  panic% perl -MBad::Segv -e 'Bad::Segv::segv()'
+  Segmentation fault (core dumped)
+  panic% ls -l core
+  -rw-------  1  stas stas 1359872  Feb 6  14:08 core
+
+Indeed, we can see that the I<core> file was dumped, which will be used
+to present the debug techniques.
+
+=head2 Getting the core File Dumped
+
+Now let's get the I<core> file dumped from within the mod_perl
+server. Sometimes the program aborts abnormally via the SIGSEGV signal
+(I<Segmentation Fault>), but no I<core> file is dumped. And without
+the I<core> file it's hard to find the cause of the problem, unless
+you run the program inside C<gdb> or another debugger in first
+place. In order to get the I<core> file, the application has to:
+
+=over
+
+=item *
+
+have the effective UID the same as real UID (the same goes for
+GID). Which is the case of mod_perl unless you modify these settings
+in the program.
+
+=item *
+
+be running from a directory which at the moment of the
+I<Segmentation fault> is writable by the process. Notice that the
+program might change its current directory during its run, so it's
+possible that the I<core> file will need to be dumped in a different
+directory from the one the program was started from. For example when
+mod_perl runs an C<Apache::Registry> script it changes its directory
+to the one in which the script source is located.
+
+=item *
+
+be started from a shell process with sufficient resource allocations
+for the I<core> file to be dumped. You can override the default
+setting from within a shell script if the process is not started
+manually. In addition you can use C<BSD::Resource> to manipulate the
+setting from within the code as well.
+
+You can use C<ulimit> for C<bash> and C<limit> for C<csh> to check and
+adjust the resource allocation. For example inside C<bash>, you may
+set the core file size to unlimited:
+
+  panic% ulimit -c unlimited
+
+or for C<csh>:
+
+  panic% limit coredumpsize unlimited
+
+For example you can set an upper limit on the I<core> file size to 8MB
+with:
+
+  panic% ulimit -c 8388608
+
+So if the core file is bigger than 8MB it will be not created.
+
+=item *
+
+Of course you have to make sure that you have enough disk space to
+create a big core file (mod_perl I<core> files tend to be of a few
+MB in size).
+
+=back
+
+Note that when you are running the program under a debugger like
+C<gdb>, which traps the C<SIGSEGV> signal, the I<core> file will not
+be dumped. Instead it allows you to examine the program stack and
+other things without having the I<core> file.
+
+So let's write a simple script that uses C<Bad::Segv>:
+
+  core_dump.pl
+  ------------
+  use strict;
+  use Bad::Segv ();
+  use Cwd()
+  
+  my $r = shift;
+  $r->content_type('text/plain');
+  
+  my $dir = getcwd;
+  $r->print("The core should be found at $dir/core\n");
+  Bad::Segv::segv();
+
+In this script we load the C<Bad::Segv> and C<Cwd> modules. After
+that we acquire the request object and send the HTTP header. Now we
+come to the real part--we get the current working directory, print out
+the location of the I<core> file that we are about to dump and finally
+we call Bad::Segv::segv() which dumps the I<core> file.
+
+Before we run the script we make sure that the shell sets the I<core>
+file size to be unlimited, start the server in single server mode as a
+non-root user and generate a request to the script:
+
+  panic% cd /home/httpd/httpd_perl/bin
+  panic% limit coredumpsize unlimited
+  panic% ./httpd_perl -X
+      # issue a request here
+  Segmentation fault (core dumped)
+
+Our browser prints out:
+
+  The core should be found at /home/httpd/perl/core
+
+And indeed the core file appears where we were told it will (remember
+that C<Apache::Registry> scripts change their directory to the
+location of the script source):
+
+  panic% ls -l /home/httpd/perl/core
+  -rw------- 1 stas httpd 3227648 Feb 7 18:53 /home/httpd/perl/core
+
+As you can see it's a 3MB I<core> file. Notice that mod_perl was
+started as user I<stas>, which had write permission for directory
+I</home/httpd/perl>.
+
+
+=head2 Analyzing the core File
+
+First we start C<gdb>:
+
+  panic% gdb /home/httpd/httpd_perl/bin/httpd_perl /home/httpd/perl/core
+
+with the location of the mod_perl executable and the core file as the
+arguments.
+
+To see the backtrace you run the I<where> or the I<bt> command:
+
+  (gdb) where
+  #0  0x4025ea08 in XS_Apache__Segv_segv ()
+     from /usr/lib/perl5/site_perl/5.6.0/i386-linux/auto/Bad/Segv_C_0_01_e6b5959d800f515de36a7e7eeab28b39/Segv_C_0_01_e6b5959d800f515de36a7e7eeab28b39.so
+  #1  0x40136528 in PL_curcopdb ()
+     from /usr/lib/perl5/5.6.0/i386-linux/CORE/libperl.so
+
+Well, you can see the last commands, but our perl and mod_perl are
+probably without the debug symbols. So we recompile Perl and mod_perl
+with debug symbols as explained earlier in this chapter.
+
+Now when we repeat the process of starting the server, issuing a
+request and getting the core file, after which we run C<gdb> again
+against the executable and the dumped I<core> file.
+
+  panic% gdb /home/httpd/httpd_perl/bin/httpd_perl /home/httpd/perl/core
+
+Now we can see the whole backtrace:
+
+  (gdb) bt
+  #0  0x40323a30 in segv () at Segv_C_0_01_e6b5959d800f515de36a7e7eeab28b39.xs:9
+  #1  0x40323af8 in XS_Apache__Segv_segv (cv=0x85f2b28)
+      at Segv_C_0_01_e6b5959d800f515de36a7e7eeab28b39.xs:24
+  #2  0x400fcbda in Perl_pp_entersub () at pp_hot.c:2615
+  #3  0x400f2c56 in Perl_runops_debug () at run.c:53
+  #4  0x4008b088 in S_call_body (myop=0xbffff788, is_eval=0) at perl.c:1796
+  #5  0x4008ac4f in perl_call_sv (sv=0x82fc2e4, flags=4) at perl.c:1714
+  #6  0x807350e in perl_call_handler ()
+  #7  0x80729cd in perl_run_stacked_handlers ()
+  #8  0x80701b4 in perl_handler ()
+  #9  0x809f409 in ap_invoke_handler ()
+  #10 0x80b3e8f in ap_some_auth_required ()
+  #11 0x80b3efa in ap_process_request ()
+  #12 0x80aae60 in ap_child_terminate ()
+  #13 0x80ab021 in ap_child_terminate ()
+  #14 0x80ab19c in ap_child_terminate ()
+  #15 0x80ab80c in ap_child_terminate ()
+  #16 0x80ac03c in main ()
+  #17 0x401b8cbe in __libc_start_main () from /lib/libc.so.6
+
+Reading the trace from bottom to top, we can see that it starts with Apache
+calls, followed by Perl syscalls. At the top we can see the segv()
+call which was the one that caused the Segmentation fault, we can also
+see that the faulty code was at line 9 of I<Segv.xs> file (with MD5
+signature of the code in the name of the file, because of the way
+C<Inline.pm> works). It's a little bit tricky with C<Inline.pm> since
+we have never created any I<.xs> files ourselves, (C<Inline.pm> does
+it behind the scenes). The solution in this case is to tell
+C<Inline.pm> not to cleanup the build directory, so we can see the
+created I<.xs> file.
+
+We go back to the directory with the source of C<Bad::Segv> and
+force the recompilation, while telling C<Inline.pm> not to cleanup
+after the build and to print a lot of other useful info:
+
+  panic# cd Bad/Segv
+  panic# perl -MInline=FORCE,NOCLEAN,INFO Segv.pm
+  Information about the processing of your Inline C code:
+  
+  Your module is already compiled. It is located at:
+  /home/httpd/perl/Bad/Segv/_Inline/lib/auto/Bad/Segv_C_0_01_e6b5959d800f515de36a7e7eeab28b39/Segv_C_0_01_e6b5959d800f515de36a7e7eeab28b39.so
+  
+  But the FORCE_BUILD option is set, so your code will be recompiled.
+  I'll use this build directory:
+  /home/httpd/perl/Bad/Segv/_Inline/build/Bad/Segv_C_0_01_e6b5959d800f515de36a7e7eeab28b39/
+  
+  and I'll install the executable as:
+  /home/httpd/perl/Bad/Segv/_Inline/lib/auto/Bad/Segv_C_0_01_e6b5959d800f515de36a7e7eeab28b39/Segv_C_0_01_e6b5959d800f515de36a7e7eeab28b39.so
+  
+  The following Inline C function(s) have been successfully bound to Perl:
+    void segv()
+
+It tells us that the code was already compiled, but since we have
+forced it to recompile we can look at the files after the build. So we
+go into the build directory reported by C<Inline.pm> and find the
+I<.xs> file there, where on line 9 we indeed find the faulty code:
+
+  9: printf("%d",*p); // cause a segfault
+
+Notice that in our example we knew what script has caused the
+Segmentation fault. In a real world the chances are that you will find 
+the I<core> file without any clue to which of handler or script has
+triggered it. The special I<curinfo> C<gdb> macro comes to help:
+
+  panic% gdb /home/httpd/httpd_perl/bin/httpd_perl /home/httpd/perl/core
+  (gdb) source mod_perl-x.xx/.gdbinit
+  (gdb) curinfo
+  9:/home/httpd/perl/core_dump.pl
+
+We start the C<gdb> debugger as before.  I<.gdbinit>, the file with
+various useful C<gdb> macros is located in the source tree of
+mod_perl. We use the C<gdb> source() function to load these macros,
+and when we run the I<curinfo> macro we learn that the core was dumped
+when I</home/httpd/perl/core_dump.pl> was executing the code at line
+9.
+
+These are the bits of information that are important in order to
+reproduce and resolve a problem: the filename and line where the
+faulty function was called (the faulty function is Bad::Segv::segv()
+in our case) and the actual line where the Segementation fault occured
+(the printf("%d",*p) call in XS code). The former is important for
+problem reproducing, it's possible that if the same function was
+called from a different script the problem won't show up (not the case
+in our example, where the using of a value dereferenced from the NULL
+pointer will always cause the Segmentation fault).
+
+
+=head2 Obtaining core Files under Solaris
+
+On Solaris the following method can be used to generate a core file.
+
+=over
+
+=item 1
+
+Use truss(1) as I<root> to stop a process on a segfault:
+
+  panic% truss -f -l -t \!all -s \!SIGALRM -S SIGSEGV -p <pid>
+
+or, to monitor all httpd processes (from bash):
+
+  panic% for pid in `ps -eaf -o pid,comm | fgrep httpd | cut -d'/' -f1`;
+  do truss -f -l -t \!all -s \!SIGALRM -S SIGSEGV -p $pid 2>&1 &
+  done
+
+The used truss(1) options are:
+
+=over
+
+=item *
+
+C<-f> - follow forks.
+
+=item *
+
+C<-l> - (that's an el) includes the thread-id and the pid (the pid is
+what we want).
+
+=item *
+
+C<-t> - specifies the syscalls to trace,
+
+=item *
+
+!all - turns off the tracing of syscalls specified by C<-t>
+
+=item *
+
+C<-s> - specifies signals to trace and the C<!SIGALRM> turns off the
+numerous alarms Apache creates.
+
+=item *
+
+C<-S> - specifies signals that stop the process.
+
+=item *
+
+C<-p> - is used to specify the pid.
+
+=back
+
+Instead of attaching to the process, you can start it under truss(1):
+
+  panic% truss -f -l -t \!all -s \!SIGALRM -S SIGSEGV \
+         /usr/local/bin/httpd -f httpd.conf 2>&1 &
+
+=item 1
+
+Watch the I<error_log> file for reaped processes, as when they get
+SISSEGV signals. When the process is reaped it's stopped but not
+killed.
+
+=item 1
+
+Use gcore(1) to get a I<core> of stopped process or attach to it with
+gdb(1).  For example if the process id is 662:
+
+  %panic gcore 662
+  gcore: core.662 dumped
+
+Now you can load this I<core> file in gdb(1).
+
+=item 1
+
+C<kill -9> the stopped process. Kill the truss(1) processes as well,
+if you don't need to trap other segfaults.
+
+=back
+
+Obviously, this isn't great to be doing on a production system since
+truss(1) stops the process after it dumps core and prevents Apache
+from reaping it.  So, you could hit the clients/threads limit if you
+segfault a lot.
+
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=head1 Authors
+
+=over
+
+=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=item * Kyle Oppenheim E<lt>kyleo (at) tellme.comE<gt>
+
+=back
+
+
+=cut
+
