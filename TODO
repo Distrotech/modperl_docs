@@ -3,10 +3,18 @@
 Basic Layout:
 -------------
 
-- NS4, cannot make bg-image to render
-
 - NS4, if PRE is long the page is scrolled to the right! See
   dst_html/docs/2.0/devel/debug_c/debug_c.html#Analyzing_the_core_File
+
+- in Mozilla, there are no borders around the NavBar tables, whereas with IE
+  and Opera, there are. which way is correct/better?
+
+- with Opera and IE, there is too little spacing between the ads. Maybe add
+  a br or &nbsp; may be not?
+
+- there are empty prev/up/next boxes on the main page, looking sort of
+  strange. shoulf we remove those completly, if there is no UP or use
+  really-empty images as placeholders?
 
 Menu: 
 -----
