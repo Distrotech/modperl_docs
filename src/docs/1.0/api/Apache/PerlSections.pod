@@ -19,7 +19,7 @@ help you with such a task.
 =item dump
 
 This method will dump out all the configuration variables mod_perl
-will be feeding the the apache config gears.  The output is suitable
+will be feeding to the apache config gears.  The output is suitable
 to read back in via C<eval>.
 
 Example:
