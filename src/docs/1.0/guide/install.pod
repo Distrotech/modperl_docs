@@ -2886,6 +2886,14 @@ To see the server version only.
 Specify the port number if your server is listening to a port other
 than port 80. For example: C<http://www.example.com:8080>.
 
+This technique works only if C<ServerTokens> directive is set to
+C<Full> or not specified in F<httpd.conf>. That's because this
+directive controls whether the components information is displayed or
+not.
+
+
+
+
 =head1 General Notes
 
 =head2 Is it possible to run mod_perl enabled Apache as suExec?
