@@ -2,7 +2,7 @@ Name: Stas Bekman
 Email: stas@stason.org
 URL: http://www.stason.org/
 Image: stas-bekman.jpg
-Summary: Documentation, modules, mod_perl 2.0, book, articles
+Summary: Documentation, modules, mod_perl 2.0 contributions, book, articles
 
 Stas has started contributing to mod_perl in 1998 by creating the mini
 mod_perl guide, simply to reduce the rate of broken record questions
