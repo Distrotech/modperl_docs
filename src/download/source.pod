@@ -95,27 +95,58 @@ http://search.cpan.org/dist/mod_perl/
 
 http://cvs.apache.org/snapshots/modperl-2.0/
 
-=item * Access to the CVS repository
+=item * SVN Access
 
-Using anoncvs (password is "anoncvs"):
+To download the svn version of mod_perl-2.0 execute the following
+commands:
 
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
+  % svn checkout https://svn.apache.org/repos/asf/perl/modperl/trunk/ mod_perl-2.0
 
-To get the cutting edge Apache 2.0 and APR 0.9 projects:
+Developers: In order to commit for the first time you will need to
+update your password.  To do that, log in to svn.apache.org and run
+the command C<svnpasswd>:
 
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
-    -r APACHE_2_0_BRANCH -d httpd-2.0 httpd-2.0
+  % ssh svn.apache.org
+  % svnpasswd
+
+
+
+
+=item * Apache/APR SVN
+
+To download the svn version of httpd-2.0 and bring it to the same
+state of the distribution package, execute the following commands:
+
+For httpd 2.0 (the stable Apache 2.0 branch):
+
+  % svn checkout http://svn.apache.org/repos/asf/httpd/httpd/branches/2.0.x/ httpd-2.0
   % cd httpd-2.0/srclib
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
-    -r APR_0_9_BRANCH -d apr apr
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
-    -r APU_0_9_BRANCH -d apr-util apr-util
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
-    -r APU_0_9_BRANCH -d apr-iconv apr-iconv
+  % svn checkout http://svn.apache.org/repos/asf/apr/apr/branches/0.9.x/ apr
+  % svn checkout http://svn.apache.org/repos/asf/apr/apr-util/branches/0.9.x/ apr-util
+  % cd ..
+  % ./buildconf
 
-For more information on using CVS see L<the CVS
-Howto|contribute::cvs_howto>
+Once extracted, whenever you want to sync with the latest httpd-2.0
+version and rebuild, run:
+
+  % cd httpd-2.0
+  % svn update
+  % make distclean && ./buildconf
+
+For httpd 2.1 (the development Apache 2.0 branch) use this instead:
+
+  % svn checkout https://svn.apache.org/repos/asf/httpd/httpd/trunk/ httpd-2.1
+  % cd srclib
+  % svn checkout http://svn.apache.org/repos/asf/apr/apr/trunk/ apr
+  % svn checkout http://svn.apache.org/repos/asf/apr/apr-util/trunk/ apr-util
+
+
+
+
+
+
+
+
 
 =item * RPMs
 

@@ -126,7 +126,7 @@ the real version number.
 
 
 
-=head2 Getting Bleeding Edge CVS Sources
+=head2 Getting Bleeding Edge Sources
 
 If you really know what you are doing you can use the cvs/svn versions of
 the components. Chances are that you don't want to them on a
@@ -158,33 +158,8 @@ For more details on bleadperl, see I<http://dev.perl.org/perl5/source.html>.
 
 =item Apache
 
-NOTE: as of November 17, 2004 httpd has moved to subversion.
-
-To download the svn version of httpd-2.0 and bring it to the same
-state of the distribution package, execute the following commands:
-
-For httpd 2.0 (the stable Apache 2.0 branch)
-
-  $ svn checkout http://svn.apache.org/repos/asf/httpd/httpd/branches/2.0.x/ httpd-2.0
-  $ cd httpd-2.0/srclib
-  $ svn checkout http://svn.apache.org/repos/asf/apr/apr/branches/0.9.x/ apr
-  $ svn checkout http://svn.apache.org/repos/asf/apr/apr-util/branches/0.9.x/ apr-util
-  $ cd ..
-  $ ./buildconf
-
-Once extracted, whenever you want to sync with the latest httpd-2.0
-version and rebuild, run:
-
-  $ cd httpd-2.0
-  $ svn update
-  $ make distclean && ./buildconf
-
-For httpd 2.1 (the development Apache 2.0 branch) use this instead
-
-  $ svn checkout https://svn.apache.org/repos/asf/httpd/httpd/trunk/ httpd-2.1
-  $ cd srclib
-  $ svn checkout http://svn.apache.org/repos/asf/apr/apr/trunk/ apr
-  $ svn checkout http://svn.apache.org/repos/asf/apr/apr-util/trunk/ apr-util
+See L<Development mod_perl 2.0 Source
+Distribution|download::source/Development_mod_perl_2_0_Source_Distribution>.
 
 =back
 
@@ -283,30 +258,10 @@ Open the package with:
 
 or an equivalent command.
 
-=item SVN Bleeding-Edge Version
+=item Development Version
 
-NOTE: as of November 17, 2004 mod_perl 2.0 has moved to subversion.
-
-To download the svn version of mod_perl-2.0 execute the following
-commands:
-
-  $ svn checkout http://svn.apache.org/repos/asf/perl/modperl/trunk/ mod_perl-2.0
-
-Current mod_perl developers with commit access will need to use https instead:
-
-  $ svn checkout https://svn.apache.org/repos/asf/perl/modperl/trunk/ mod_perl-2.0
-
-META: missing Apache-Test information
-
-In order to commit for the first time you will need to update your
-password.  To do that, log in to svn.apache.org and run the command "svnpasswd":
-
-  $ ssh svn.apache.org
-  $ svnpasswd
-
-You can also try the latest cvs snapshot:
-
-http://cvs.apache.org/snapshots/modperl-2.0/
+See L<Development mod_perl 2.0 Source
+Distribution|download::source/Development_mod_perl_2_0_Source_Distribution>.
 
 =back
 
