@@ -1,0 +1,761 @@
+=head1 NAME
+
+Apache Server Configuration Customization in Perl
+
+=head1 Description
+
+This chapter explains how to create custom Apache configuration
+directives in Perl.
+
+WARNING: This doc is under construction
+
+=head1 Incentives
+
+mod_perl provides several ways to pass custom configuration
+information to the modules.
+
+The simplest way to pass custom information from the configuration
+file to the Perl module is to use the
+C<L<PerlSetVar|docs::2.0::user::config::config/C_PerlSetVar_>> and
+C<L<PerlAddVar|docs::2.0::user::config::config/C_PerlAddVar_>>
+directives. For example:
+
+  PerlSetVar Secret "Matrix is us"
+
+and in the mod_perl code this value can be retrieved as:
+
+  my $secret = $r->dir_config("Secret");
+
+Another alternative is to add custom configuration directives. There
+are several reasons for choosing this approach:
+
+=over
+
+=item *
+
+When the expected value is not a simple argument, but must be supplied
+using a certain syntax, Apache can verify at startup time that this
+syntax is valid and abort the server start up if the syntax is
+invalid.
+
+=item *
+
+Custom configuration directives are faster because their values are
+parsed at the startup time, whereas C<PerlSetVar> and C<PerlAddVar>
+values are parsed at the request time.
+
+=item *
+
+It's possible that some other modules have accidentally chosen to use
+the same key names but for absolutely different needs. So the two now
+can't be used together. Of course this collision can be avoided if a
+unique to your module prefix is used in the key names. For example:
+
+    PerlSetVar ApacheFooSecret "Matrix is us"
+
+=back
+
+Finally, modules can be configured in pure Perl using
+C<L<E<lt>PerlE<gt>
+Sections|docs::2.0::user::config::config/C_E_lt_PerlE_gt___Sections>>
+or L<a startup
+file|docs::2.0::user::config::config/Startup_File>, by simply modifying 
+the global variables in the module's package. This approach could be
+undesirable because it requires a use of globals, which we all try to
+reduce. A bigger problem with this approach is that you can't have
+different settings for different sections of the site (since there is
+only one version of a global variable), something that the previous
+two approaches easily achieve.
+
+=head1 Creating and Using Custom Configuration Directives
+
+In mod_perl 2.0, adding new configuration directives is a piece of
+cake, because it requires no XS code and I<Makefile.PL>, needed in
+case of mod_perl 1.0. In mod_perl 2.0, custom directives are
+implemented in pure Perl.
+
+Here is a very basic module that declares two new configuration
+directives: C<MyParameter>, which accepts one or more arguments, and
+C<MyOtherParameter> which accepts a single argument.
+
+  #file:MyApache/MyParameters.pm
+  #-----------------------------
+  package MyApache::MyParameters;
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use Apache::Test;
+  use Apache::TestUtil;
+  
+  use Apache::Const -compile => qw(OR_ALL ITERATE);
+  
+  use Apache::CmdParms ();
+  use Apache::Module ();
+  
+  our @APACHE_MODULE_COMMANDS = (
+      {
+       name         => 'MyParameter',
+       func         => __PACKAGE__ . '::MyParameter',
+       req_override => Apache::OR_ALL,
+       args_how     => Apache::ITERATE,
+       errmsg       => 'MyParameter Entry1 [Entry2 ... [EntryN]]',
+      },
+      {
+       name         => 'MyOtherParameter',
+      },
+  );
+  
+  sub MyParameter {
+      my($self, $parms, @args) = @_;
+      $self->{MyParameter} = \@args;
+  }
+  1;
+
+And here is how to use it in I<httpd.conf>:
+
+  # first load the module so Apache will recognize the new directives
+  PerlLoadModule MyApache::MyParameters
+  
+  MyParameter one two three
+  MyOtherParameter Foo
+  <Location /perl>
+    MyParameter eleven twenty
+    MyOtherParameter Bar
+  </Location>
+
+The following sections discuss this and more advanced modules in
+detail.
+
+A minimal configuration module is comprised of two groups of elements:
+
+=over
+
+=item * A global array C<@APACHE_MODULE_COMMANDS> for declaring the
+new directives and their behavior.
+
+=item * A subroutine per each new directive, which is called when the
+directive is seen
+
+=back
+
+
+
+=head2 C<@APACHE_MODULE_COMMANDS>
+
+C<@APACHE_MODULE_COMMANDS> is a global array of hash references. Each
+hash represents a separate new configuration directive. In our example
+we had:
+
+  our @APACHE_MODULE_COMMANDS = (
+      {
+       name         => 'MyParameter',
+       func         => __PACKAGE__ . '::MyParameter',
+       req_override => Apache::OR_ALL,
+       args_how     => Apache::ITERATE,
+       errmsg       => 'MyParameter Entry1 [Entry2 ... [EntryN]]',
+      },
+      {
+       name         => 'MyOtherParameter',
+      },
+  );
+
+This structure declares two new directives: C<MyParameter> and
+C<MyOtherParameter>. You have to declare at least the name of the new
+directive, which is how we have declared the C<MyOtherParameter>
+directive. mod_perl will fill in the rest of the configuration using
+the defaults described next.
+
+These are the attributes that can be used to define the directives
+behavior:
+
+=over
+
+=item * name
+
+This is the only required attribute. And it declares the name of the
+new directive as it'll be used in I<httpd.conf>.
+
+=item * func
+
+The I<func> attribute expects a reference to a function or a function
+name. This function is called by httpd every time it encounters the
+directive that is described by this entry while parsing the
+configuration file. Therefore it's invoked once for every instance of
+the directive at the server startup, and once per request per instance
+in the I<.htaccess> file.
+
+This function accepts two or more arguments, L<depending on the
+I<args_how> attribute's value|/Directive_Syntax_Definition_Constants>.
+
+This attribute is optional. If not supplied, mod_perl will try to use
+a function in the current package whose name is the same as of the
+directive in question. In our example with C<MyOtherParameter>,
+mod_perl will use:
+
+  __PACKAGE__ . '::MyOtherParameter'
+
+as a name of a subroutine and it anticipates that it exists in that
+package.
+
+=item * req_override
+
+The I<> attribute defines the valid scope in which this directive can
+appear. There are L<several
+constants|/Directive_Scope_Definition_Constants> which map onto the
+corresponding Apache macros. These constants should be imported from
+the C<Apache::Const> package.
+
+For example, to use the C<OR_ALL> constant, which allows directives to
+be defined anywhere, first, it needs to be imported:
+
+  use Apache::Const -compile => qw(OR_ALL);
+
+and then assigned to the I<req_override> attribute:
+
+  req_override => Apache::OR_ALL,
+
+It's possible to combine several options using the unary
+operators. For example, the following setting:
+
+  req_override => Apache::RSRC_CONF | Apache::ACCESS_CONF
+
+will allow the directive to appear anywhere in I<httpd.conf>, but
+forbid it from ever being used in I<.htaccess> files:
+
+This attribute is optional. If not supplied, the default value of
+C<Apache::OR_ALL> is used.
+
+=item * args_how
+
+Directives can receive zero, one or many arguments. In order to help
+Apache validate that the number of arguments is valid, the I<args_how>
+attribute should be set to the desired value. Similar to the
+I<req_override> attribute, the C<Apache::Const> package provides
+special constants which map to the corresponding Apache macros.  There
+are L<several constants|/Directive_Syntax_Definition_Constants> to
+choose from.
+
+In our example, the directive C<MyParameter> accepts one or more
+arguments, therefore we have the C<Apache::ITERATE> constant:
+
+       args_how => Apache::ITERATE,
+
+This attribute is optional. If not supplied, the default value of
+C<Apache::TAKE1> is used.
+
+META: the default may change to use a constant corresponding to the
+I<func> prototype.
+
+
+=item * errmsg
+
+The I<errmsg> attribute provides a short but succinct usage statement
+that summarizes the arguments that the directive takes. It's used by
+Apache to generate a descriptive error message, when the directive is
+configured with a wrong number of arguments.
+
+In our example, the directive C<MyParameter> accepts one or more
+arguments, therefore we have chosen the following usage string:
+
+       errmsg => 'MyParameter Entry1 [Entry2 ... [EntryN]]',
+
+This attribute is optional. If not supplied, the default value of will
+be a string based on the directive's I<name> and I<args_how>
+attributes.
+
+=back
+
+=head2 Directive Scope Definition Constants
+
+The I<req_override> attribute specifies the configuration scope in
+which it's valid to use a given configuration directive. This
+attribute's value can be any of or a combination of the following
+constants:
+
+(these constants are declared in I<httpd-2.0/include/http_config.h>.)
+
+=head3 C<Apache::OR_NONE>
+
+The directive cannot be overriden by any of the C<AllowOverride>
+options.
+
+=head3 C<Apache::OR_LIMIT>
+
+The directive can appear within directory sections, but not outside
+them.  It is also allowed within I<.htaccess> files, provided that
+C<AllowOverride Limit> is set for the current directory.
+
+=head3 C<Apache::OR_OPTIONS>
+
+The directive can appear anywhere within I<httpd.conf>, as well as
+within I<.htaccess> files provided that C<AllowOverride Options> is
+set for the current directory.
+
+=head3 C<Apache::OR_FILEINFO>
+
+The directive can appear anywhere within I<httpd.conf>, as well as
+within I<.htaccess> files provided that C<AllowOverride FileInfo> is
+set for the current directory.
+
+=head3 C<Apache::OR_AUTHCFG>
+
+The directive can appear within directory sections, but not outside
+them.  It is also allowed within I<.htaccess> files, provided that
+C<AllowOverride AuthConfig> is set for the current directory.
+
+=head3 C<Apache::OR_INDEXES>
+
+The directive can appear anywhere within I<httpd.conf>, as well as
+within I<.htaccess> files provided that C<AllowOverride Indexes> is
+set for the current directory.
+
+=head3 C<Apache::OR_UNSET>
+
+META: details? "unset a directive (in Allow)"
+
+=head3 C<Apache::ACCESS_CONF>
+
+The directive can appear within directory sections.  The directive is
+not allowed in I<.htaccess> files.
+
+=head3 C<Apache::RSRC_CONF>
+
+The directive can appear in I<httpd.conf> outside a directory section
+(C<E<lt>DirectoryE<gt>>, C<E<lt>LocationE<gt>> or C<E<lt>FilesE<gt>>;
+also C<E<lt>FilesMatchE<gt>> and kin).  The directive is not allowed
+in I<.htaccess> files.
+
+=head3 C<Apache::OR_EXEC_ON_READ>
+
+Force directive to execute a command which would modify the
+configuration (like including another file, or C<IFModule>).
+
+META: details???
+
+=head3 C<Apache::OR_ALL>
+
+The directive can appear anywhere.  It is not limited in any way.
+
+
+
+
+=head2 Directive Callback Subroutine
+
+Depending on the value of the I<args_how> attribute the callback
+subroutine, specified with the I<func> attribute, will be called with
+two or more arguments. The first two arguments are always C<$self> and
+C<$parms>. A typical callback function which expects a single value
+(C<Apache::TAKE1>) might look like the following:
+
+  sub MyParam {
+      my($self, $parms, $arg) = @_;
+      $self->{MyParam} = $arg;
+  }
+
+In this function we store the passed single value in the configuration
+object, using the directive's name (assuming that it was C<MyParam>)
+as the key.
+
+Let's look at the subroutine arguments in detail:
+
+=over
+
+=item 1
+
+C<$self> is the current container's configuration object.
+
+This configuration object is a reference to a hash, in which you can
+store arbitrary key/value pairs. When the directive callback function
+is invoked it may already include several key/value pairs inserted by
+other directive callbacks or during the
+C<L<SERVER_CREATE|/C_SERVER_CREATE_>> and
+C<L<DIR_CREATE|/C_DIR_CREATE_>> functions, which will be explained
+later.
+
+Usually the callback function stores the passed argument(s), which
+later will be read by C<L<SERVER_MERGE|/C_SERVER_MERGE_>> and
+C<L<DIR_MERGE|/C_DIR_MERGE_>>, which will be explained later, and of
+course at request time.
+
+The convention is use the name of the directive as the hash key, where
+the received values are stored. The value can be a simple scalar, or a
+reference to a more complex structure. So for example you can store a
+reference to an array, if there is more than one value to store.
+
+This object can be later retrieved at request time via:
+
+  my $dir_cfg = $self->get_config($s, $r->per_dir_config);
+
+You can retrieve the server configuration object via:
+
+  my $srv_cfg = $self->get_config($s);
+
+if invoked inside the virtual host, the virtual host's configuration
+object will be returned.
+
+=item 2
+
+C<$parms> is an I<Apache::CmdParms> object from which you can retrieve
+various other information about the configuration. For example to
+retrieve the server object:
+
+  my $s = $parms->server;
+
+See
+C<L<Apache::CmdParms|docs::2.0::api::mod_perl-2.0::Apache::CmdParms>>
+for more information.
+
+=item 3
+
+The rest of the arguments whose number depends on the I<args_how>'s
+value are covered in L<the next
+section|/Directive_Syntax_Definition_Constants>.
+
+=back
+
+
+
+=head2 Directive Syntax Definition Constants
+
+The following values of the I<args_how> attribute define how many
+arguments and what kind of arguments directives can accept. These
+values are constants that can be imported from the C<Apache::Const>
+package. For example:
+
+  use Apache::Const -compile => qw(TAKE1 TAKE23);
+
+=head3 C<Apache::NO_ARGS>
+
+The directive takes no arguments.  The callback will be invoked once
+each time the directive is encountered.  For example:
+
+  sub MyParameter {
+       my($self, $parms) = @_;
+       $self->{MyParameter}++;
+  }
+
+=head3 C<Apache::TAKE1>
+
+The directive takes a single argument.  The callback will be invoked
+once each time the directive is encountered, and its argument will be
+passed as the third argument. For example:
+
+  sub MyParameter {
+     my($self, $parms, $arg) = @_;
+     $self->{MyParameter} = $arg;
+  }
+
+=head3 C<Apache::TAKE2>
+
+The directive takes two arguments.  They are passed to the callback as
+the third and fourth arguments. For example:
+
+  sub MyParameter {
+     my($self, $parms, $arg1, $arg2) = @_;
+     $self->{MyParameter} = {$arg1 => $arg2};
+  }
+
+=head3 C<Apache::TAKE3>
+
+This is like C<Apache::TAKE1> and C<Apache::TAKE2>, but the directive
+takes three mandatory arguments. For example:
+
+  sub MyParameter {
+     my($self, $parms, @args) = @_;
+     $self->{MyParameter} = \@args;
+  }
+
+=head3 C<Apache::TAKE12>
+
+This directive takes one mandatory argument, and a second optional
+one.  This can be used when the second argument has a default value
+that the user may want to override.  For example:
+
+  sub MyParameter {
+    my($self, $parms, $arg1, $arg2) = @_;
+    $self->{MyParameter} = {$arg1 => $arg2||'default'};
+  }
+
+=head3 C<Apache::TAKE23>
+
+C<Apache::TAKE23> is just like C<Apache::TAKE12>, except now there are
+two mandatory arguments and an optional third one.
+
+=head3 C<Apache::TAKE123>
+
+In the C<Apache::TAKE123> variant, the first argument is mandatory and
+the other two are optional.  This is useful for providing defaults for
+two arguments.
+
+=head3 C<Apache::ITERATE>
+
+C<Apache::ITERATE> is used when a directive can take an unlimited
+number of arguments.  The callback is invoked repeatedly with a single
+argument, once for each argument in the list.  It's done this way for
+interoperability with the C API, which doesn't have the flexible
+argument passing that Perl provides. For example:
+
+  sub MyParameter {
+     my($self, $parms, $args) = @_;
+     push @{ $self->{MyParameter} }, $arg;
+  }
+
+
+=head3 C<Apache::ITERATE2>
+
+C<Apache::ITERATE2> is used for directives that take a mandatory first
+argument followed by a list of arguments to be applied to the first.
+A familiar example is the C<AddType> directive, in which a series of
+file extensions are applied to a single MIME type:
+
+  AddType image/jpeg JPG JPEG JFIF jfif
+
+Apache will invoke your callback once for each item in the list.  Each
+time Apache runs your callback, it passes the routine the constant
+first argument (I<"image/jpeg"> in the example above), and the current
+item in the list (I<"JPG"> the first time around, I<"JPEG"> the second
+time, and so on).  In the example above, the configuration processing
+routine will be run a total of four times.
+
+For example:
+
+  sub MyParameter {
+     my($self, $parms, $key, $val) = @_;
+     push @{ $self->{MyParameter}{$key} }, $val;
+  }
+
+
+=head3 C<Apache::RAW_ARGS>
+
+An I<args_how> of C<Apache::RAW_ARGS> instructs Apache to turn off
+parsing altogether.  Instead it simply passes your callback function
+the line of text following the directive.  Leading and trailing
+whitespace is stripped from the text, but it is not otherwise
+processed.  Your callback can then do whatever processing it wishes to
+perform.
+
+This callback receives three arguments (similar to C<Apache::TAKE1>),
+the third of which is a string-valued scalar containing the text
+following the directive.
+
+  sub MyParameter {
+     my($self, $parms, $val) = @_;
+     # process $val
+  }
+
+If this mode is used to implement a custom "container" directive, the
+attribute I<req_override> needs to OR C<Apache::EXEC_ON_READ>. e.g.:
+
+  req_override => Apache::OR_ALL | Apache::EXEC_ON_READ,
+
+META: complete the details, which are new to 2.0.
+
+There is one other trick to making configuration containers work.  In
+order to be recogized as a valid directive, the I<name> attribute must
+contain the leading C<E<lt>>.  This token will be stripped by the code
+that handes the custom directive callbacks to Apache. For example:
+
+  name     => '<MyContainer',
+
+One other trick that is not required, but can provide some more user
+friendliness is to provide a handler for the container end token.  In
+our example, the Apache configuration gears will never see the
+C<E<lt>/MyContainerE<gt>> token, as our C<Apache::RAW_ARGS> handler
+will read in that line and stop reading when it is seen.  However in
+order to catch cases in which the C<E<lt>/MyContainerE<gt>> text
+appears without a preceding C<E<lt>MyContainerE<gt>> opening section,
+we need to turn the end token into a directive that simply reports an
+error and exits. For example:
+
+  {
+    name         => '</MyContainer>',
+    func         => __PACKAGE__ . "::MyContainer_END",
+    errmsg       => 'end of MyContainer without beginning?',
+    args_how     => Apache::NO_ARGS,
+    req_override => Apache::OR_ALL,
+  },
+  ...
+  my $EndToken = "</MyContainer>";
+  sub MyContainer_END {
+      die "$EndToken outside a <MyContainer> container\n";
+  }
+
+Now, should the server admin misplace the container end token, the
+server will not start, complaining with this error message:
+
+  Syntax error on line 54 of httpd.conf:
+  </MyContainer> outside a <MyContainer> container
+
+=head3 C<Apache::FLAG>
+
+When C<Apache::FLAG> is used, Apache will only allow the argument to
+be one of two values, C<On> or C<Off>.  This string value will be
+converted into an integer, C<1> if the flag is C<On>, C<0> if it is
+C<Off>.  If the configuration argument is anything other than C<On> or
+C<Off>, Apache will complain:
+
+  Syntax error on line 73 of httpd.conf:
+  MyFlag must be On or Off
+
+For example:
+
+  sub MyFlag {
+      my($self, $parms, $arg) = @_;
+      $self->{MyFlag} = $arg; # 1 or 0
+  }
+
+
+
+
+=head2 Enabling the New Configuration Directives
+
+As seen in the first example, the module needs to be loaded before the
+new directives can be used. A special directive C<PerlLoadModule> is
+used for this purpose. For example:
+
+  PerlLoadModule MyApache::MyParameters
+
+This directive is similar to C<PerlModule>, but it require()'s the
+Perl module immediately, causing an early mod_perl startup. After
+loading the module it let's Apache know of the new directives and
+installs the callbacks to be called when the corresponding directives
+are encountered.
+
+=head2 Creating and Merging Configuration Objects
+
+By default mod_perl creates a simple hash to store each container's
+configuration values, which are populated by directive callbacks,
+invoked when the I<httpd.conf> and the I<.htaccess> files are parsed
+and the corresponding directive are encountered. It's possible to
+prepopulate the hash entries when the data structure is created, e.g.,
+to provide reasonable default values for cases where they weren't set
+in the configuration file. To accomplish that the optional
+C<L<SERVER_CREATE|/C_SERVER_CREATE_>> and
+C<L<DIR_CREATE|/C_DIR_CREATE_>> functions can be supplied.
+
+When a request is mapped to a container, Apache checks if that
+container has any ancestor containers. If that's the case, it allows
+mod_perl to call special merging functions, which decide whether
+configurations in the parent containers should be inherited, appended
+or overriden in the child container. The custom configuration module
+can supply custom merging functions
+C<L<SERVER_MERGE|/C_SERVER_MERGE_>> and C<L<DIR_MERGE|/C_DIR_MERGE_>>,
+which can override the default behavior. If these functions are not
+supplied the following default behavior takes place: The child
+container inherits its parent configuration, unless it specifies its
+own and then it overrides its parent configuration.
+
+=head3 C<SERVER_CREATE>
+
+C<SERVER_CREATE> is called once for the main server, and once more for
+each virtual host defined in I<httpd.conf>. It's called with two
+arguments: C<$class>, the package name it was created in and C<$parms>
+the already familiar C<Apache::CmdParms> object. The object is
+expected to return a reference to a blessed hash, which will be used
+by configuration directive callbacks to set the values passed by the
+user in the configuration file. But it's possible to preset some
+values here:
+
+For example:
+
+  package MyApache::MyParameters;
+  ...
+  our @APACHE_MODULE_COMMANDS = (...);
+  ...
+  sub SERVER_CREATE {
+      my($class, $parms) = @_;
+      #warn "$class->SERVER_CREATE\n";
+      return bless {
+  	  name => __PACKAGE__,
+      }, $class;
+  }
+
+To retrieve that value later, you can use:
+
+  my $srv_cfg = $self->get_config($s);
+  print $srv_cfg->{name}
+
+=head3 C<SERVER_MERGE>
+
+During the configuration parsing virtual hosts are given a chance to
+inherit the configuration from the main host, append to or override
+it. The C<SERVER_MERGE> subroutine can be supplied to override the
+default behavior, which simply overrides the main server's
+configuration.
+
+The custom subroutine accepts two arguments: C<$base>, the reference
+to the main server configuration object, and C<$add>, the reference to
+a virtual host configuration object. It's expected to return a similar
+object after performing the merge of the two objects it has received.
+
+The following example implements different merging rules for different
+keys. 
+
+  package MyApache::MyParametersMath;
+  ...
+  our @APACHE_MODULE_COMMANDS = (...);
+  ...
+  sub SERVER_MERGE {
+      my($base, $add) = @_;
+      #warn "$class->SERVER_CREATE\n";
+      my %mrg = %$base;
+      for my $key (keys %$add) {
+          if ($key eq 'Plus') {
+              $mrg{$key} = $base->{$key}||0 + $add->{$key};
+          }
+          else ($key eq 'Minus') {
+              $mrg{$key} = $base->{$key}||0 - $add->{$key};
+          }
+          else {
+              $mrg{$key} = $add->{$key}; # override
+          }
+          $mrg{$_} = $_ eq 'Append' ? 
+      }
+      for (keys %$base, keys
+      return 
+      return bless {
+  	  name => __PACKAGE__,
+      }, $class;
+  }
+
+=head3 C<DIR_CREATE>
+
+=head3 C<DIR_MERGE>
+
+
+  NotifyError [On Off]
+  NotifyErrorEmail email_address
+
+
+
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+=cut
+
+
