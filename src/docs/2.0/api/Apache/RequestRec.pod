@@ -604,8 +604,6 @@ C<$new_filename> argument was passed
 =item since: 1.99_12
 
 =back
-after map-to-storage runs (such as from a
-PerlFixupHandler).
 
 Note that if you change the filename after the
 C<L<PerlMapToStorageHandler|docs::2.0::user::handlers::http/PerlMapToStorageHandler>>
