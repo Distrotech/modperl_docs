@@ -147,7 +147,7 @@ version and rebuild, run:
 
 
 
-=head2 Condiguring and Installing Prerequisites
+=head2 Configuring and Installing Prerequisites
 
 If you don't have the prerequisites installed yet, install them now.
 
