@@ -34,10 +34,18 @@ you want the sources to stay in:
 
 (use the password "anoncvs")
 
+Next you need to checkout the cvs module you want. e.g. one of
+C<modperl-2.0>, C<modperl-docs> or C<modperl>. For example C<modperl>:
+
   % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" co modperl
 
 After cvs has finished downloading the files you will find a new
-directory called I<modperl> in the current working directory.
+directory called I<modperl> in the current working directory. Now you
+need to chdir into that directory:
+
+  % cd modperl
+
+before you can start changing things.
 
 =head2 keeping your copy up to date
 
