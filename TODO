@@ -7,6 +7,9 @@ Basic Layout:
   dst_html/docs/2.0/devel/debug_c/debug_c.html#Analyzing_the_core_File
   STATUS: currently we try to live with that
 
+- TOC's stylesheet needs fixing, so the visited links will show as
+  such (they aren't now)
+
 DocSet:
 -------
 
