@@ -138,7 +138,7 @@ Next we configure Apache to apply the C<MyApache::FilterObfuscate>
 filter to all requests that get mapped to files with an I<".html">
 extension:
 
-  <Files ~ "\.html$">
+  <Files ~ "\.html">
       PerlOutputFilterHandler MyApache::FilterObfuscate
   </Files>
 
