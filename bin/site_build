@@ -1,0 +1,58 @@
+#!/usr/bin/perl -w
+
+my $src = "/home/perlwww/apache.org/modperl-docs";
+my $rel = "$src/dst_html";
+my $dst = "/www/perl.apache.org";
+
+umask 0002;
+
+my $HOME = $ENV{HOME};
+$ENV{PATH} = "/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/local/bin:/usr/X11R6/bin:$HOME";
+
+$ENV{PERL5LIB} = "$HOME/lib/perl5/5.00503:$HOME/lib/perl5/site_perl/5.005:$HOME/lib/perl5/site_perl:$HOME/lib/perl5";
+
+chdir $src;
+# Do different things depending on our name
+($name) = $0 =~ m|([^/]+)$|;
+
+update($name);
+
+# we must not try to sync the files when the filesystem is full, or
+# the whole online version may get rendered broken, since some files
+# will be simply truncated to 0
+die "online fs is full, cannot sync the online site" if fs_is_full();
+
+online_sync();
+
+sub update {
+    my($name) = shift;
+
+    my $reindex = $name =~ /index/ ? 1 : 0;
+
+    my $flags = '';
+    $flags .= 'f' if $name =~ /force/;
+    $flags .= 'd' if $name =~ /pdf/;
+    $flags = $flags ? "-$flags" : "";
+
+    qx{ cvs up -dP >/dev/null 2>&1 };
+
+    qx{ bin/build $flags };
+
+    qx{ bin/makeindex } if $reindex;
+
+
+}
+
+sub online_sync {
+    qx{ cp -r $rel/ $dst/ };
+    qx{ find $dst -type d -exec chmod g+rwx {} \; >/dev/null 2>&1 };
+    qx{ find $dst -type d -exec chmod g+wr {} \;  >/dev/null 2>&1 };
+}
+
+sub fs_is_full {
+    my $x = qx{ df | grep /x2 };
+    my ($s) = ($x =~ /(\d+)\%/);
+    # when size(fs)>=95 we most likely will fail to create files 
+    return $s > 94 ? 1 : 0;
+
+}
