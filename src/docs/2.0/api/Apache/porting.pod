@@ -61,7 +61,9 @@ e.g. C<PerlPostConfigHandler>:
 
   Apache->server->push_handlers(PerlPostConfigHandler => \&porting_autoload);
 
-
+META: Though there is a better solution at work, which assigns
+AUTOLOAD for each class separately, instead of using UNIVERSAL. See
+the discussion on the dev list (hint: search the archive for EazyLife)
 
 
 =head1 See Also

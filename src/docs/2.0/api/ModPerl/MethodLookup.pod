@@ -1,6 +1,6 @@
 =head1 NAME
 
-ModPerl::MethodLookup -- Map mod_perl 2.0 modules, objects and methods
+ModPerl::MethodLookup -- Lookup mod_perl modules, objects and methods
 
 =head1 Synopsis
 
@@ -42,49 +42,65 @@ ModPerl::MethodLookup -- Map mod_perl 2.0 modules, objects and methods
   % perl -MApache2 -MModPerl::MethodLookup -e print_method read
   % perl -MApache2 -MModPerl::MethodLookup -e print_method read APR::Bucket
 
+
+
+
 =head1 Description
 
 mod_perl 2.0 provides many methods, which reside in various
 modules. One has to load each of the modules before using the desired
 methods. C<ModPerl::MethodLookup> provides the Perl API for finding
 module names which contain methods in question and other helper
-functions, like figuring out what methods defined by some module, or
-what methods can be called on a given object.
+functions, to find out out what methods defined by some module, what
+methods can be called on a given object, etc.
+
+
+
 
 =head1 API
 
+
+
+
 =head2 C<lookup_method()>
 
-  my($hint, @modules) =
-      ModPerl::MethodLookup::lookup_method($method_name);
+Find modules (packages) containing a certain method
 
-The C<lookup_method()> function accepts the method name as the first
-argument.
+  ($hint, @modules) = lookup_method($method_name);
+  ($hint, @modules) = lookup_method($method_name, $object);
+  ($hint, @modules) = lookup_method($method_name, $class));
 
-The first returned value is a string returning a human readable lookup
-result. Normally suggesting which modules should be loaded, ready for
-copy-n-paste or explaining the failure if the lookup didn't succeed.
+=over 4
 
-The second returned value is an array of modules which have matched
-the query, i.e. the names of the modules which contain the requested
-method.
+=item arg1: C<$method_name> ( string )
 
-  my($hint, @modules) = 
-      ModPerl::MethodLookup::lookup_method($method_name, $object);
+the method name to look up
 
-or:
+=item opt arg2: C<$object> or C<$class>
 
-  my($hint, @modules) = 
-      ModPerl::MethodLookup::lookup_method($method_name, ref($object));
+a blessed object or the name of the class it's blessed into. If there
+is more than one match, this extra information is used to return only
+modules containing methods operating on the objects of the same kind.
 
-The C<lookup_method()> function accepts a second optional argument,
-which is a blessed object or the class it's blessed into. If there is
-more than one matches this extra information is used to return only
-modules of those methods which operate on the objects of the same
-kind. If the second argument is a sub-classed object it'll be handled
-correctly, by checking its super-class.  This usage is useful when the
-C<L<AUTOLOAD|/C_AUTOLOAD_>> is used to find yet-unloaded modules which
-include called methods.
+If a sub-classed object is passed it'll be handled correctly, by
+checking its super-class(es).  This usage is useful when the
+C<L<AUTOLOAD|/C_AUTOLOAD_>> is used to find a not yet loaded module
+which include the called method.
+
+=item ret1: C<$hint>
+
+a string containing a human readable lookup result, suggesting which
+modules should be loaded, ready for copy-n-paste or explaining the
+failure if the lookup didn't succeed.
+
+=item ret2: C<@modules>
+
+an array of modules which have matched the query, i.e. the names of
+the modules which contain the requested method.
+
+=item since: 1.99_12
+
+=back
 
 Examples:
 
@@ -106,20 +122,38 @@ or:
       ModPerl::MethodLookup::lookup_method('print', 'Apache::Filter');
 
 
+
+
+
+
+
+
 =head2 C<lookup_module()>
 
-  my($hint, @methods) =
-      ModPerl::MethodLookup::lookup_module($module_name);
+Find methods contained in a certain module (package)
 
-The C<lookup_module()> function accepts the module name as an
-argument.
+  ($hint, @methods) = lookup_module($module_name);
 
-The first returned value is a string returning a human readable lookup
-result. Normally suggesting, which methods the given module
-implements, or explaining the failure if the lookup didn't succeed.
+=over 4
 
-The second returned value is an array of methods which have matched the
-query, i.e. the names of the methods defined in the requested module.
+=item arg1: C<$module_name> ( string )
+
+the module name
+
+=item ret1: C<$hint>
+
+a string containing a human readable lookup result, suggesting, which
+methods the module C<$module_name> implements, or explaining the
+failure if the lookup failed.
+
+=item ret2: C<@methods>
+
+an array of methods which have matched the query, i.e. the names of
+the methods defined in the requested module.
+
+=item since: 1.99_12
+
+=back
 
 Example:
 
@@ -128,30 +162,44 @@ What XS methods defined by module C<Apache::Filter>:
   my($hint, @methods) =
       ModPerl::MethodLookup::lookup_module('Apache::Filter');
 
+
+
+
+
+
+
 =head2 C<lookup_object()>
 
-  my($hint, @methods) =
-      ModPerl::MethodLookup::lookup_object($object);
+  ($hint, @methods) = lookup_object($object);
+  ($hint, @methods) = lookup_object($class);
 
-or:
+=over 4
 
-  my($hint, @methods) =
-      ModPerl::MethodLookup::lookup_object(
-          $the_class_object_is_blessed_into);
+=item arg1: C<$object> or C<$class>
 
-The C<lookup_object()> function accepts the object or the class name
-the object is blessed into as an argument.
+an object or a name of a class an object is blessed into
 
-The first returned value is a string returning a human readable lookup
-result. Normally suggesting, which methods the given object can invoke
-(including module names that need to be loaded to use those methods),
-or explaining the failure if the lookup didn't succeed.
+If a sub-classed object is passed it'll be handled correctly, by
+including methods provided by its super-class(es).
 
-The second returned value is an array of methods which have matched
-the query, i.e. the names of the methods that can be invoked on the
-given object (or its class name).
+=item ret1: C<$hint>
 
-META: As of this writing this method may miss some of the
+a string containing a human readable lookup result, suggesting, which
+methods the given object can invoke (including module names that need
+to be loaded to use those methods), or explaining the failure if the
+lookup failed.
+
+=item ret2: C<@methods>
+
+an array of methods which have matched the query, i.e. the names of
+the methods that can be invoked on the given object (or its class
+name).
+
+=item since: 1.99_12
+
+=back
+
+META: As of this writing this function may miss some of the
 functions/methods that can be invoked on the given object. Currently
 we can't programmatically deduct the objects they are invoked on,
 because these methods are written in pure XS and manipulate the
@@ -170,6 +218,35 @@ or C<$r>'s class -- C<Apache::RequestRec>:
 
   my($hint, @methods) =
       ModPerl::MethodLookup::lookup_object('Apache::RequestRec');
+
+
+
+
+
+=head2 C<preload_all_modules()>
+
+The function C<preload_all_modules()> preloads all mod_perl 2.0
+modules, which implement their API in XS. This is similar to the
+mod_perl 1.0 behavior which has most of its methods loaded at the
+startup.
+
+CPAN modules developers should make sure their distribution loads each
+of the used mod_perl 2.0 modules explicitly, and not use this
+function, as it takes the fine control away from the users. One should
+avoid doing this the production server (unless all modules are used
+indeed) in order to save memory.
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+
 
 =head2 C<print_method()>
 
@@ -195,6 +272,15 @@ C<request> you can do:
 
 The function C<print_method()> is exported by default.
 
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 =head2 C<print_module()>
 
 C<print_module()> is a convenience wrapper for
@@ -207,6 +293,16 @@ module C<Apache::Filter> you can run:
     Apache::RequestRec Apache::Filter
 
 The function C<print_module()> is exported by default.
+
+=over
+
+=item since: 1.99_12
+
+=back
+
+
+
+
 
 =head2 C<print_object()>
 
@@ -223,23 +319,23 @@ class can be passed to this function.
 
 The function C<print_object()> is exported by default.
 
-=head2 C<preload_all_modules()>
+=over
 
-The function C<preload_all_modules()> preloads all mod_perl 2.0
-modules, which implement their API in XS. This is similar to the
-mod_perl 1.0 behavior which has most of its methods loaded at the
-startup.
+=item since: 1.99_12
 
-CPAN modules developers should make sure their distribution loads each
-of the used mod_perl 2.0 modules explicitly, and not use this
-function, as it takes the fine control away from the users. One should
-avoid doing this the production server (unless all modules are used
-indeed) in order to save memory.
+=back
 
 
-=cut
+
+
+
+
 
 =head1 Applications
+
+
+
+
 
 =head2 C<AUTOLOAD>
 
@@ -286,23 +382,23 @@ the child process starts.
   startup.pl:
   -----------
   {
-    package ModPerl::MethodLookupAuto;
-    use ModPerl::MethodLookup;
-  
-    use Carp;
-    sub handler {
-  
-        *UNIVERSAL::AUTOLOAD = sub {
-            my $method = $AUTOLOAD;
-            return if $method =~ /DESTROY/; # exclude DESTROY resolving
-
-            my ($hint, @modules) =
-                ModPerl::MethodLookup::lookup_method($method, @_);
-            $hint ||= "Can't find method $AUTOLOAD";
-            croak $hint;
-        };
-        return 0;
-    }
+      package ModPerl::MethodLookupAuto;
+      use ModPerl::MethodLookup;
+    
+      use Carp;
+      sub handler {
+    
+          *UNIVERSAL::AUTOLOAD = sub {
+              my $method = $AUTOLOAD;
+              return if $method =~ /DESTROY/; # exclude DESTROY resolving
+    
+              my ($hint, @modules) =
+                  ModPerl::MethodLookup::lookup_method($method, @_);
+              $hint ||= "Can't find method $AUTOLOAD";
+              croak $hint;
+          };
+          return 0;
+      }
   }
 
 This example doesn't load the modules for you. It'll print to STDERR
@@ -311,6 +407,15 @@ module is called.
 
 A similar technique is used by
 C<L<Apache::porting|docs::2.0::api::Apache::porting>>.
+
+
+META: there is a better version of AUTOLOAD discussed on the dev
+list. Replace the current one with it. (search the archive for
+EazyLife)
+
+
+
+
 
 =head2 Command Line Lookups
 
@@ -353,6 +458,10 @@ Similar aliases can be provided for
 C<L<print_object()|/C_print_object___>> and
 C<L<print_module()|/C_print_module___>>.
 
+
+
+
+
 =head1 Todo
 
 These methods aren't yet picked by this module (the extract from the
@@ -362,9 +471,17 @@ map file):
  modperl_spawn_proc_prog       | spawn_proc_prog
  apr_ipsubnet_create           | new
 
-Please report if you find any other missing methods. But remember that
-as of this moment the module reports only XS function. In the future
+Please report to L<the mod_perl development mailing
+list|maillist::dev> if you find any other missing methods. But remember that
+as of this moment the module reports only XS functions. In the future
 we may add support for pure perl functions/methods as well.
+
+
+
+
+
+
+
 
 =head1 See Also
 
@@ -393,9 +510,17 @@ C<L<Apache::porting|docs::2.0::api::Apache::porting>>
 
 
 
+=head1 Copyright
 
-=head1 Author
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
 
-Stas Bekman
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
 
 =cut
