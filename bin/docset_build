@@ -141,6 +141,7 @@ DocSet::RunTime::set_opt(\%options);
 ### Create the PS/PDF DocSet
 ######################################
 if (DocSet::RunTime::get_opts('generate_ps')) {
+    DocSet::RunTime::registers_reset();
     my $docset = DocSet::DocSet::PSPDF->new($config_file);
     $docset->set_dir(abs_root => ".");
     $docset->scan;
@@ -153,15 +154,16 @@ if (DocSet::RunTime::get_opts('generate_ps')) {
 ######################################
 ### Create the HTML DocSet
 ######################################
-# scan for available configs (books/chapters)
-my $docset = DocSet::DocSet::HTML->new($config_file);
-
-# must be a relative path to be able to move the generated code from
-# location to location, without adjusting the links
-$docset->set_dir(abs_root => ".");
-$docset->scan;
-$docset->render;
-
+{
+    # scan for available configs (books/chapters)
+    DocSet::RunTime::registers_reset();
+    my $docset = DocSet::DocSet::HTML->new($config_file);
+    # must be a relative path to be able to move the generated code from
+    # location to location, without adjusting the links
+    $docset->set_dir(abs_root => ".");
+    $docset->scan;
+    $docset->render;
+}
 
 
   # go back to where you have from
