@@ -1,9 +1,9 @@
 [%-
 #--------------------------------------------------------------------------------------
-# *** Automatically generated file.  Do not edit.  Modify ./make.pl instead! ***
+# *** Automatically generated file.  Do not edit.  Modify make.pl instead! ***
 #    File: 'search_options'
 #     Use: generating the sidebar select options for searching
-# Created: Mon Jul  1 01:14:17 2002
+# Created: Thu Nov 18 00:22:59 2004
 #--------------------------------------------------------------------------------------
 
     search_areas = [
@@ -57,27 +57,27 @@
     }
 
     search_path_map = [
-        { path => "^docs/tutorials", section => "SecO" } 
-        { path => "^docs/2.0/devel", section => "SecL" } 
         { path => "^docs/1.0/guide", section => "SecF" } 
+        { path => "^docs/2.0/devel", section => "SecL" } 
+        { path => "^docs/tutorials", section => "SecO" } 
         { path => "^docs/2.0/user", section => "SecJ" } 
-        { path => "^docs/2.0/api", section => "SecM" } 
-        { path => "^docs/offsite", section => "SecP" } 
         { path => "^docs/1.0/api", section => "SecH" } 
+        { path => "^docs/2.0/api", section => "SecM" } 
         { path => "^docs/general", section => "SecN" } 
-        { path => "^docs/1.0/os", section => "SecG" } 
+        { path => "^docs/offsite", section => "SecP" } 
         { path => "^outstanding", section => "SecB" } 
+        { path => "^docs/1.0/os", section => "SecG" } 
         { path => "^docs/2.0/os", section => "SecK" } 
         { path => "^contribute", section => "SecT" } 
-        { path => "^products", section => "SecS" } 
         { path => "^download", section => "SecC" } 
         { path => "^docs/1.0", section => "SecE" } 
         { path => "^docs/2.0", section => "SecI" } 
         { path => "^maillist", section => "SecR" } 
+        { path => "^products", section => "SecS" } 
         { path => "^start", section => "SecA" } 
         { path => "^about", section => "SecU" } 
-        { path => "^help", section => "SecQ" } 
         { path => "^docs", section => "SecD" } 
+        { path => "^help", section => "SecQ" } 
     ]
 -%]
     
