@@ -254,9 +254,10 @@ return: A new table containing all of the data from the two passed in
 
   compress($table, $flag);
 
-Compress the data in C<$table>.  This function takes duplicate
-table entries and flattens them into a single entry.  The
-flattening behavior is controlled by the flag.
+Converts multi-valued keys in C<$table> to single-valued keys.  
+This function takes duplicate table entries and flattens them 
+into a single entry.  The flattening behavior is controlled by 
+the (mandatory) flag.
 
 param C<$table>: The table to add the data to.
 
