@@ -13,8 +13,12 @@ Add this line to F<C:/Apache2/conf/httpd.conf>:
  LoadModule perl_module modules/mod_perl.so
 
 Be sure that the path to your Perl binary (eg, F<C:/Perl/bin>) is in
-your C<PATH> environment variable. You may also want to use a start-up
-script to load commonly used modules; this can be done with a
+your C<PATH> environment variable. You could also add the directive
+
+ LoadFile "/Path/to/your/Perl/bin/perl5x.dll"
+
+to F<httpd.conf> to load your Perl dll. You may also want to use a
+start-up script to load commonly used modules; this can be done with a
 directive as, eg,
 
  PerlRequire "C:/Apache2/conf/extra.pl"
