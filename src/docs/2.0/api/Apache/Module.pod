@@ -93,7 +93,7 @@ that describes all of the directives this module defines.
 =head2 C<get_config>
 
 Retrieves a module's configuration. Used by configuration directives.
-  
+
   $cfg = Apache::Module->get_config($class, $server, [$dir_config]);
   $cfg = $self->get_config($server, [$dir_config]);
 
