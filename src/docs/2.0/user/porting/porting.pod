@@ -939,7 +939,7 @@ For the second issue I'll have to refer to the L<the mod_perl 1.0
 backward compatibility document|docs::2.0::user::porting::compat>.
 
 But the first issue can be easily worked out using
-C<L<ModPerl::MethodLookup|docs::2.0::user::api::ModPerl::MethodLookup>>.
+C<L<ModPerl::MethodLookup|docs::2.0::api::ModPerl::MethodLookup>>.
 As explained in the section L<Using C<ModPerl::MethodLookup>
 Programmatically|/Using_C_ModPerl__MethodLookup__Programmatically>
 I've added the
@@ -1022,8 +1022,8 @@ and I also had to adjust the constants, since what used to be C<OK>,
 now has to be C<Apache::OK>, mainly because in mod_perl 2.0 there is
 an enormous amount of constants (coming from Apache and APR) and most
 of them are grouped in C<Apache::> or C<APR::> namespaces. The
-C<L<Apache::Const|docs::2.0::user::api::Apache::Const>> and
-C<L<APR::Const|docs::2.0::user::api::APR::Const>> manpage provide more
+C<L<Apache::Const|docs::2.0::api::Apache::Const>> and
+C<L<APR::Const|docs::2.0::api::APR::Const>> manpage provide more
 information on available constants.
 
 This search and replace accomplished the job:
