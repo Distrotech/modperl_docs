@@ -17,7 +17,7 @@ relational database.
   ------------------------
   package My::Notify;
   use strict;
-  use Apache::Constants(':common');
+  use Apache::Constants qw(:common);
 
   use Mail::Send;
 
