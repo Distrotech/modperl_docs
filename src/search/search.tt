@@ -87,7 +87,7 @@
     [% search.stopwords_removed %]
     <table cellpadding=0 cellspacing=0 border=0 width="100%">
         <tr>
-            <td height=20 class="searchheader">
+            <td class="searchheader">
                 &nbsp;Results for <b>[% search.query_simple | html %]</b>
                 &nbsp; [% search.navigation('from') %] to [% search.navigation('to') %] of [% search.navigation('hits') %] results.
             </td>
@@ -107,7 +107,7 @@
                     <a href="[% search.query_href %]&amp;start=[% search.navigation('prev') %]">
                     Previous [% search.navigation('prev_count') %]</a>
                 [% END %]
-        
+    
                 [% IF search.navigation('next_count') %]
                     <a href="[% search.query_href %]&amp;start=[% search.navigation('next') %]">
                     Next [% search.navigation('next_count') %]</a>
@@ -134,13 +134,17 @@
                 <small>-- rank: <b>[% item.swishrank %]</b></small>
             </dt>
 
-            <dd class="searchsummary">
-                [% item.swishdescription %]
+            <dd>
+                <div class="searchsummary">
+                    [% item.swishdescription %]
+                </div>
             </dd>
-            <dd class="searchprops">
-                [% item.swishdocpath %]<br>
-                [% item.swishdocsize %] bytes
-                [% item.swishlastmodified %]
+            <dd>
+                <div class="searchprops">
+                    [% item.swishdocpath %]<br>
+                    [% item.swishdocsize %] bytes
+                    [% item.swishlastmodified %]
+                </div>
             </dd>
             
         </dl>
