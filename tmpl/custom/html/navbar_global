@@ -66,10 +66,10 @@
                     </tr>
                     <!-- topline begin -->
                     <tr valign="top">
-                        <td height="1" bgcolor="#BFCFE7"><br class="smallbr"></td>
+                        <td height="1" class="camel-line-top"><br class="smallbr"></td>
                     </tr>
                     <tr valign="top">
-                        <td height="1" bgcolor="#525d76"><br class="smallbr"></td>
+                        <td height="1" class="camel-line-bottom"><br class="smallbr"></td>
                     </tr>
                     <!-- topline end -->
                     <tr valign="top">

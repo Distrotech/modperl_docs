@@ -85,7 +85,7 @@
 [% BLOCK nav_bar %]
 
     [% search.stopwords_removed %]
-    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <table cellpadding="1" cellspacing="0" border="0" width="100%">
         <tr>
             <td class="searchheader">
                 &nbsp;Results for <b>[% search.query_simple | html %]</b>
@@ -153,5 +153,3 @@
     [% END %]
 
 [% END %]
-
-

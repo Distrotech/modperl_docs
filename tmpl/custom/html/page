@@ -3,11 +3,12 @@
     title   = "mod_perl: $paget"
     content = ''
 -%]
+
 <!-- Swishcommand noindex -->
 
 <!-- logobox begin -->
 <div class="logobox">
-    <table border="0" cellspacing="0" cellpadding="0" width="100%" align="center">
+    <table border="0" cellspacing="0" cellpadding="0" width="100%">
         <tr valign="top">
 
             [%- INCLUDE logo -%]

@@ -5,11 +5,7 @@
 -%]
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-            <td align="left" width="50%" nowrap>
-                [%- INCLUDE top_link -%]
-            </td>
-            <td align="right" width="50%" nowrap>
-                [%- INCLUDE prev_next_link -%]
-            </td>
+            <td align="left" width="50%" nowrap>[%- INCLUDE top_link -%]</td>
+            <td align="right" width="50%" nowrap>[%- INCLUDE prev_next_link -%]</td>
         </tr>
     </table>

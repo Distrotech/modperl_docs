@@ -59,6 +59,7 @@
             <td class="menu-border"><br></td>
         </tr>
 [%- END -%]
+
         <tr>
             <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
         </tr>

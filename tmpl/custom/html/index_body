@@ -11,21 +11,22 @@
 
 [%-
     IF doc.body.top;
-        "${doc.body.top}";
+        "${doc.body.top}\n";
     END;
 
     IF doc.meta.abstract;
-        "<p>${doc.meta.abstract}</p>";
+        "<p>${doc.meta.abstract}</p>\n";
     END;
 
     PROCESS index_toc toc=doc.toc;
 
     IF doc.body.bot;
-        "${doc.body.bot}";
+        "${doc.body.bot}\n";
     END;
 
 -%]
     <br>
+    
 [%-
     INCLUDE navbar_local_bottom
         nav=doc.nav.up

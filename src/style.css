@@ -28,7 +28,7 @@ td.menu-title-bg { background-color: #828DA6; }
 td.non-sel-bg { background-color: #eeeeee; }
 
 /* dark blue bg-color for selected menu-items */
-td.sel-bg { background-color: #525D76; }
+td.sel-bg { background-color: #525d76; }
 
 div.nonselectedmenuitem {
     padding: 3px;
@@ -157,7 +157,7 @@ div.tail {
 }
 
 div.headline {
-    background-color: #525a76;
+    background-color: #525d76;
     font-family: verdana, arial, helvetica, sans-serif;
     font-weight: bold;
     color: #ffffff;
@@ -167,12 +167,10 @@ div.headline {
 }
 
 /* Search Results */
-div.searchform {
-    font-size: 1.0em;
-}
+div.searchform { font-size: 1.0em; }
 
 td.searchheader {
-    background-color: #525a73;
+    background-color: #525d76;
     font-family: verdana, arial, helvetica, sans-serif;
     color: #ffffff;
     font-size: 0.9em;
@@ -180,7 +178,7 @@ td.searchheader {
 }
 
 td.searchtimes {
-    background-color: #525a76;
+    background-color: #525d76;
     font-family: verdana, arial, helvetica, sans-serif;
     color: #ffffff;
     font-size: 0.7em;
@@ -220,18 +218,21 @@ div.searchsummary {
 div.searchprops {
     margin-top: 0.4em;
     font-size: 0.80em;
-    color: green;
+    color: #009999;
 /*    font-size: 0.6em; */
 }
 
-span.searchhighlight {
-    background-color: #ffff99;
-}
+span.searchhighlight { background-color: #ffff99; }
 
 code { font-family: courier new, courier, monospace; }
+pre {
+    font-family: helvetica, arial, verdana, sans-serif;
+	font-size: 1.0em;
+    color: #000000;
+}
 
 /* lists */
-dl, ul {
+dl, ul, ol {
     color: #000000;
     font-size: 1.0em;
     font-family: helvetica, arial, verdana, sans-serif;
@@ -258,10 +259,14 @@ dl a:hover {
 .img-border { color: #000000; }
 
 /* dark-blue bg-color */
-td.blue-bg { background-color: #525D76; }
+td.blue-bg { background-color: #525d76; }
 
 /* light gray/white bg-color for ad-sec */
 td.ad-bg { background-color: #eeeeee; }
+
+/* lines for camel */
+td.camel-line-top { background-color: #bfcfe7; }
+td.camel-line-bottom { background-color: #525d76; }
 
 /* instead of using space.gif */
 .smallbr {
