@@ -1,2 +1,14 @@
-<input type="text" name="query" size="15" maxlength="200" class="input-fld">
-<input type="submit" name="submit" value="Search!" class="submit-but">
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="menu-border" colspan="4" height="1"><br class="smallbr"></td>
+                </tr>
+                <tr>
+                    <td class="menu-border" width="1"><br class="smallbr"></td>
+                    <td class="search" width="60" align="center">Search</td>
+                    <td class="menu-border"><input type="text" name="query" size="15" maxlength="200" class="input-fld" value="Press enter"></td>
+                    <td class="menu-border" width="1"><br class="smallbr"></td>
+                </tr>
+                <tr>
+                    <td class="menu-border" colspan="4" height="1"><br class="smallbr"></td>
+                </tr>
+            </table>
