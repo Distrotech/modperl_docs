@@ -419,5 +419,4 @@ to subscribe). There are lots of people there that can help. Also,
 check the web pages http://perl.apache.org/ and http://www.apache.org/
 for explanations of the configuration options.
 
-$Revision: 1.1 $
-$Date: 2002/01/05 19:20:01 $
+

@@ -1,6 +1,6 @@
 =head1 NAME
 
-Mod_perl_cgi - running CGI scripts under mod_perl ($Date: 2002/01/05 19:20:01 $)
+Mod_perl_cgi - running CGI scripts under mod_perl
 
 =head1 DESCRIPTION
 
