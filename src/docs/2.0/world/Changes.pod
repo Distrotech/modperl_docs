@@ -1,6 +1,6 @@
 =head1 NAME
 
-CHANGES
+Changes
 
 =head1 Description
 
@@ -9,23 +9,16 @@ documents, since you've read these last time.
 
 The most recent changes are listed first.
 
+=head1 Thu Apr 18 09:04:00 CET 2002
+
+* templates::choosing: fixed the table "Matrix", which wasn't
+  displayed because of bug in Pod::POM. (Per Einar Ellefsen
+  E<lt>per.einar (at) skynet.beE<gt>)
+
 =head1 Sat Sep 15 19:45:41 SGT 2001
 
 * templates::choosing, the initial version added (Perrin Harkins
   E<lt>perrin@elem.comE<gt>)
-
-  o E<lt>perrin@elem.comE<gt>)
-
-  o E<lt>perrin@elem.comE<gt>)
-
-templates::choosing, the initial version added (Perrin Harkins
-
-* templates::choosing, the initial version added (Perrin Harkins
-  E<lt>perrin@elem.comE<gt>)
-  E<lt>perrin@elem.comE<gt>)
-  E<lt>perrin@elem.comE<gt>)
-templates::choosing, the initial version added (Perrin Harkins
-
 
 
 =cut

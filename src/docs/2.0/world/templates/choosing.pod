@@ -918,8 +918,7 @@ method as seen in the documentation and real world use.  You should
 not eliminate options based on this chart without reading the more
 detailed explanations above.
 
-=begin pod2html
-
+=for html
   <TABLE BORDER=1>
     <TR>
       <TH>
@@ -1075,7 +1074,6 @@ detailed explanations above.
     </TR>
   </TABLE>
 
-=end pod2html
 
 =head1 Updates
 
