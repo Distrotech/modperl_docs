@@ -94,6 +94,27 @@ access an Apache parsed configuration tree's values.
 META: add L<> to the config tree access when it'll be written.
 
 
+=head2 C<@INC> Manipulation
+
+=over
+
+=item * Directories Added Automatically to C<@INC>
+
+Only if mod_perl was built with C<MP_COMPAT_1X=1>, two directories:
+I<$ServerRoot> and I<$ServerRoot/lib/perl> are pushed onto
+C<@INC>. I<$ServerRoot> is as defined by the C<ServerRoot> directive
+in I<httpd.conf>.
+
+=item * C<PERL5LIB> and C<PERLLIB> Environment Variables
+
+mod_perl 2.0 doesn't do anything special about C<PERL5LIB> and
+C<PERLLIB> Environment Variables. If C<-T> is in effect these
+variables are ignored by Perl. There are L<several other
+ways|docs::2.0::user::config::config/Adjusting_C__INC_> to adjust
+C<@INC>.
+
+
+=back
 
 
 =head1 Code Porting
