@@ -3037,7 +3037,7 @@ server is down.  It is easy to detect this situation, attempt to
 resolve it and notify the administrator using a simple crontab
 watchdog that requests some very light script periodically.  (See
 L<Monitoring the Server. A
-watchdog.|general::control/Monitoring_the_Server___A_watchdog_>)
+watchdog.|general::control::control/Monitoring_the_Server___A_watchdog_>)
 
 In the watchdog you set a timeout appropriate for your service, which
 may be anything from a few seconds to a few minutes.  If the server

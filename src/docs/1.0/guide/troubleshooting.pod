@@ -153,12 +153,12 @@ try adding this to I<httpd.conf>:
 =head2 Value of $x will not stay shared at - line 5
 
 L<my() Scoped Variable in Nested 
-Subroutines|general::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>.
+Subroutines|general::perl_reference::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>.
 
 =head2 Value of $x may be unavailable at - line 5.
 
 L<my() Scoped Variable in Nested 
-Subroutines|general::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>.
+Subroutines|general::perl_reference::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>.
 
 =head2 Can't locate loadable object for module XXX
 
@@ -246,8 +246,8 @@ Therefore C<$0> is set to I</dev/null> and that's what you see.
 =head2 Preventing mod_perl Processes From Going Wild
 
 See the sections "L<Non-Scheduled Emergency Log
-Rotation|general::control/Non_Scheduled_Emergency_Log_Rotation>" and "L<All RAM
-Consumed|general::control/All_RAM_Consumed>"
+Rotation|general::control::control/Non_Scheduled_Emergency_Log_Rotation>" and "L<All RAM
+Consumed|general::control::control/All_RAM_Consumed>"
 
 =head2 Segfaults when using XML::Parser
 
@@ -595,13 +595,13 @@ process is hanging in perl_destruct() while trying to cleanup.  This
 cleanup normally isn't a requirement, you can disable it by setting
 the PERL_DESTRUCT_LEVEL environment variable to -1.  See the section
 "L<Speeding up the Apache Termination and
-Restart|general::control/Speeding_up_the_Apache_Termination_and_Restart>" for 
+Restart|general::control::control/Speeding_up_the_Apache_Termination_and_Restart>" for 
 more information.
 
 =head2 httpd keeps on growing after each restart
 
 See the I<HUP Signal> explanation at the section:
-L<Server Stopping and Restarting|general::control/Server_Stopping_and_Restarting>
+L<Server Stopping and Restarting|general::control::control/Server_Stopping_and_Restarting>
 
 =head1 Windows OS specific notes
 

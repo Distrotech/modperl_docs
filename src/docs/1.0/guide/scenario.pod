@@ -704,7 +704,7 @@ in parallel.  Squid could serve the second request.
 
 But this is only possible if you set the headers correctly. Refer to
 the chapter L<Correct Headers - A quick guide for mod_perl
-users|general::correct_headers/> to learn more about generating the proper
+users|general::correct_headers::correct_headers/> to learn more about generating the proper
 caching headers under mod_perl. In case where only the scripts under
 I</perl/caching-unfriendly> are not I<caching friendly> fix the above
 setting to be:
@@ -715,7 +715,7 @@ setting to be:
 But if you are lazy, or just have too many things to deal with, you
 can leave the above directives the way we described.  Just keep in
 mind that one day you will want to reread this section and L<the
-headers generation tutorial|general::correct_headers/> to squeeze even more
+headers generation tutorial|general::correct_headers::correct_headers/> to squeeze even more
 power from your servers without investing money in more memory and
 better hardware.
 

@@ -123,7 +123,7 @@ error occurred) to I<error_log>.  If you want to redirect this
 information to the client instead of to I<error_log> you have to take
 the responsibility yourself, by writing your own exception handler to
 implement this behaviour.  See the section "L<Exception Handling for
-mod_perl|general::perl_reference/Exception_Handling_for_mod_perl>" for more information.
+mod_perl|general::perl_reference::perl_reference/Exception_Handling_for_mod_perl>" for more information.
 
 The code examples below can be useful with your own exception handlers 
 as well as with the default handlers.

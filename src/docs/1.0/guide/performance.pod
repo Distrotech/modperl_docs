@@ -77,7 +77,7 @@ time investment as possible.
 =head2 Software Requirements
 
 Covered in the section "L<Choosing an Operating
-System|general::hardware/Choosing_an_Operating_System>".
+System|general::hardware::hardware/Choosing_an_Operating_System>".
 
 =head2 Hardware Requirements
 
@@ -134,7 +134,7 @@ a very high hit rate, the resource requirements don't grow linearly
 but exponentially!
 
 More coverage is provided in the section "L<Choosing
-Hardware|general::hardware/Choosing_Hardware>".
+Hardware|general::hardware::hardware/Choosing_Hardware>".
 
 =head1 Essential Tools
 
@@ -4758,7 +4758,7 @@ If you test it in the normal mode--it's possible that some child
 processes would show only one entry or none at all, since they might
 not serve the same requests as the others.  For more hints see the
 section "L<Run the server in single
-mode|general::control/Running_a_Server_in_Single_Process_Mode>".
+mode|general::control::control/Running_a_Server_in_Single_Process_Mode>".
 
 =head1 Improving Performance by Prevention
 

@@ -838,7 +838,7 @@ international audience, must run non-stop 24x7. But at the same time
 new scripts may need to be added, old ones removed, and the server
 software will need upgrades and security fixes. And if the server goes
 down, fast recovery is essential. These issues are considered in
-the L<Controlling your server chapter|docs::general::control>.
+the L<Controlling your server chapter|docs::general::control::control>.
 
 Finally, the most important aspect of mod_perl is the Apache Perl API,
 which allows intervention at any or every stage of request
