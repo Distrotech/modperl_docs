@@ -1772,7 +1772,8 @@ generation, when the other needs to be released.
 
 
 
-=head2 The CPAN Shell
+
+=head2 CPAN Shells
 
 In case you have mp1 and mp2 under the same perl and mp2 is installed
 under the F<Apache2/> subdirectory, in order for CPAN shell to find
@@ -1780,8 +1781,13 @@ you mp2 modules you need to invoke it as:
 
  % perl -MApache2 -MCPAN -eshell
 
+For CPANPLUS:
+
+ % perl -MApache2 -MCPANPLUS -eshell
+
 If you have only mp2 and you didn't ask to install it under the
 F<Apache2/> subdirectory, no special invocation technique is required.
+
 
 
 
