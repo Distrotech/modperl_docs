@@ -1,6 +1,7 @@
 Name: Per Einar Ellefsen
-Email: per.einar@skynet.be
+Email: pereinar@oslo.online.no
 Summary: Documentation, site help.
+Location: Oslo, Norway
 
 Per Einar has helped out with this website, for the most part through
 various documentation patches and additions, reviewing of documents,
