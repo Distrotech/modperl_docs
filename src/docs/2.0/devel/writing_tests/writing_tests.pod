@@ -1768,11 +1768,6 @@ shot. Internally it calls Apache::Test::test_pm_refresh() to make sure
 plan(), ok() and other functions() will work correctly more than one
 test is running under the same interpreter.
 
-
-
-
-
-
 =head2 Auto Configuration
 
 If the test is comprised only from the request part, you have to
@@ -1920,6 +1915,36 @@ I<my-extra.conf> will be created, it'll look like:
 The valid tokens are defined in C<%Apache::TestConfig::Usage> and also
 can be seen in the output of C<t/TEST -help>'s I<configuration
 options> section. The tokens are case insensitive.
+
+=head2 Special Configuration Files
+
+Some of the files in the I<t/conf> directory have a special meaning,
+since the C<Apache::Test> framework uses them for the minimal
+configuration setup. But they can be overriden:
+
+=over
+
+=item *
+
+if the file I<t/conf/httpd.conf.in> exists, it will be used instead of
+the default template (in I<Apache/TestConfig.pm>).
+
+=item *
+
+if the file I<t/conf/extra.conf.in> exists, it will be used to
+generate I<t/conf/extra.conf> with C<@variable@> substitutions.
+
+=item *
+
+if the file I<t/conf/extra.conf> exists, it will be included by
+I<httpd.conf>.
+
+=item *
+
+if the file I<t/conf/modperl_extra.pl> exists, it will be included by
+I<httpd.conf> as a mod_perl file (PerlRequire)
+
+=back
 
 =head2 Threaded versus Non-threaded Perl Test's Compatibility
 
