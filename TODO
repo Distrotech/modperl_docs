@@ -15,10 +15,6 @@ Basic Layout:
 DocSet:
 -------
 
-- CacheNavigator has an edge case bug with hidden chapters. If there
-  are only hidden elements, it'll return the first hidden element
-  instead of undef.
-
 - need to be able to copy elements from the <head> section of the
   source html into the target file. Since this may cause collisions
   with preset headers, need to override the preset header's elements
