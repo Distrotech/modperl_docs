@@ -8,8 +8,7 @@
                 <div class="adtext">
                     The mod_perl Developer's Cookbook<br><br>
                     <a href="http://www.modperlcookbook.org/">
-                        <img src="[% doc.dir.abs_doc_root %]/images/ads/modperlcookbook.jpg" border="1" align="middle" width="113" height="140" class="img-border" alt="The mod_perl Developer's Cookbook">
-                    </a>
+                        <img src="[% doc.dir.abs_doc_root %]/images/ads/modperlcookbook.jpg" border="1" align="middle" width="113" height="140" class="img-border" alt="The mod_perl Developer's Cookbook"></a>
                     <br><br>
                     <em>By Geoffrey Young, Paul Lindner, Randy Kobes</em>
                 </div>
@@ -27,8 +26,7 @@
                 <div class="adtext">
                     mod_perl Pocket Reference<br><br>
                     <a href="http://www.oreilly.com/catalog/modperlpr/">
-                        <img src="[% doc.dir.abs_doc_root %]/images/ads/modperlpr.jpg" border="1" align="middle" width="85" height="140" class="img-border" alt="mod_perl Pocket Reference">
-                    </a>
+                        <img src="[% doc.dir.abs_doc_root %]/images/ads/modperlpr.jpg" border="1" align="middle" width="85" height="140" class="img-border" alt="mod_perl Pocket Reference"></a>
                         <br><br>
                         <em>By Andrew Ford</em>
                 </div>
@@ -46,8 +44,7 @@
                 <div class="adtext">
                 <br>Writing Apache Modules with Perl and C<br><br>
                     <a href="http://www.modperl.com/">
-                        <img src="[% doc.dir.abs_doc_root %]/images/ads/wrapmod.jpg" border="1" align="middle" width="107" height="140" class="img-border" alt="Writing Apache Modules with Perl and C">
-                    </a>
+                        <img src="[% doc.dir.abs_doc_root %]/images/ads/wrapmod.jpg" border="1" align="middle" width="107" height="140" class="img-border" alt="Writing Apache Modules with Perl and C"></a>
                     <br><br>
                     <em>By Lincoln Stein, Doug MacEachern</em>
                 </div>
