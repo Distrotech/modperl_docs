@@ -3157,6 +3157,57 @@ other methods?
 
 =back
 
+=head1 Preventing Apache::Constants Stringification
+
+In mod_perl, you are going to use a certain number of constants in
+your code, mainly exported from C<Apache::Constants>. However, in some
+cases, Perl will not understand that the constant you're trying to
+call is really a constant, but interprets it as a string. This is the
+case with the hash notation C<=E<gt>>, which automatically stringifies
+the key.
+
+For example:
+
+  $r->custom_response(FORBIDDEN => "File size exceeds quota.");
+
+This will not set a custom response for C<FORBIDDEN>, but for the
+string C<"FORBIDDEN">, which clearly isn't what is expected. You'll
+get an error like this:
+
+  [Tue Apr 23 19:46:14 2002] null: Argument "FORBIDDEN" isn't numeric
+                             in subroutine entry at ...
+
+Therefore, you can avoid this by not using the hash notation for
+things that don't require it.
+
+  $r->custom_response(FORBIDDEN,  "File size exceeds quota.");
+
+There are other workarounds, which you should avoid using unless you
+really have to use hash notation:
+
+  my %hash = (
+      FORBIDDEN()    => 'this is forbidden',
+      +AUTH_REQUIRED => "You aren't authorized to enter!",
+  );
+
+Another important note is that you should be using the correct
+constants defined here, and not direct HTTP codes. For example:
+
+  sub handler {
+      return 200;
+  }
+
+Is not correct. The correct use is:
+
+  use Apache::Constants qw(OK);
+  
+  sub handler {
+      return OK;
+  }
+
+Also remember that C<OK != HTTP_OK>.
+
+
 =head1 Transitioning from Apache::Registry to Apache handlers
 
 Even if you are a CGI script die-hard at some point you might want to

@@ -17,6 +17,9 @@ The most recent changes are listed first.
 
 * guide::porting
 
+  o add a new section "Preventing Apache::Constants Stringification"
+    [Per Einar]
+
   o add a new section presenting a hackish solution for libraries
     collision, via do() or %INC mangling.
 
