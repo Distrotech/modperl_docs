@@ -414,7 +414,7 @@ equivalent:
 
   % perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
     DO_HTTPD=1 USE_APACI=1 EVERYTHING=1 \
-    APACHE_PREFIX=/usr/local/httpd_perl'
+    APACHE_PREFIX=/usr/local/httpd_perl
   % make && make test && make install
 
 Now you can pick your favorite installation method.
