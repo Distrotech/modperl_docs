@@ -19,7 +19,7 @@ ModPerl::Util - Helper mod_perl Functions
   ModPerl::Util::untaint($string);
   
   # removes a module as best as it can
-  ModPerl::Util::unload_module($module);
+  ModPerl::Util::unload_package($module);
 
 
 
@@ -161,12 +161,12 @@ how to properly untaint variables refer to the I<perlsec> manpage.
 
 
 
-=head2 C<unload_module>
+=head2 C<unload_package>
 
 Unloads a stash from the current Perl interpreter in the safest way
 possible.
 
-  ModPerl::Util::unload_module($stash);
+  ModPerl::Util::unload_package($stash);
 
 =over 4
 
@@ -190,9 +190,9 @@ taken from outside the unloaded module will still be valid.
 This function may wipe off things loaded by other modules, if the
 latter have inserted things into the C<$stash> it was told to unload.
 
-C<unload_module()> takes care not to delete sub-stashes when deleting
+C<unload_package()> takes care not to delete sub-stashes when deleting
 the requested stash. So for example if C<CGI> and C<CGI::Carp> are
-loaded, calling C<unload_module('CGI')> won't affect C<CGI::Carp>.
+loaded, calling C<unload_package('CGI')> won't affect C<CGI::Carp>.
 
 If the module's stash had a corresponding XS shared object loaded it
 will be unloaded as well.
