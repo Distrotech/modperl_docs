@@ -8,10 +8,11 @@
 
 use FindBin qw($Bin);
 
-# currently we call 
-use lib qw($Bin/../lib);
+# use the local lib for testing + any env vars
+my $perl5lib = $ENV{PERL5LIB} || $ENV{PERLLIB};
+my $lib = join ":", grep defined($_), "$Bin/../lib", $perl5lib;
 
 # forward the @ARGV
-my $command = "docset_build @ARGV $Bin/.. src/config.cfg";
+my $command = "env PERL5LIB=$lib $Bin/docset_build @ARGV $Bin/.. src/config.cfg";
 #print $command;
 system $command;
