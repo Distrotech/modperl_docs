@@ -370,8 +370,9 @@ module iteration.
 
 =head2 C<version>
 
-Get the API version, B<not> module version; check that module is
-compatible with this version of the server.
+Get the httpd API version this module was build against, B<not>
+the module's version; Used to check that module is compatible
+with this version of the server before loading it.
 
   $version = $module->version();
 
