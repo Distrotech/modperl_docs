@@ -836,18 +836,50 @@ C<APR::password_validate()>. For example:
 
 =head2 C<Apache::URI-E<gt>parse($r, [$uri])>
 
-C<Apache::URI-E<gt>parse()> has been replaced with
-C<APR::URI-E<gt>parse()>, which is invoked as:
+C<parse()> and its associate methods have moved into the C<APR::URI>
+package. For example:
 
   my $curl = $r->construct_url;
   APR::URI->parse($r->pool, $curl);
 
-See the L<APR::URI> manpage.
+See the C<L<APR::URI|docs::2.0::api::APR::URI>> manpage.
 
+=head2 C<unparse()>
 
+Other than moving to the C<APR::URI> package, C<unparse> is now
+protocol-agnostic. Apache won't use I<http> as the default protocol if
+I<hostname> was set, but I<scheme> wasn't not. So the following code:
 
+  # request http://localhost.localdomain:8529/TestAPI::uri
+  my $parsed = $r->parsed_uri;
+  $parsed->hostname($r->get_server_name);
+  $parsed->port($r->get_server_port);
+  print $parsed->unparse;
 
+prints:
 
+  //localhost.localdomain:8529/TestAPI::uri
+
+forcing you to make sure that the scheme is explicitly set. This will
+do the right thing:
+
+  # request http://localhost.localdomain:8529/TestAPI::uri
+  my $parsed = $r->parsed_uri;
+  $parsed->hostname($r->get_server_name);
+  $parsed->port($r->get_server_port);
+  $parsed->scheme('http');
+  print $parsed->unparse;
+
+prints:
+
+  http://localhost.localdomain:8529/TestAPI::uri
+
+Notice that if C<L<Apache::compat|docs::2.0::api::Apache::compat>> is
+loaded, C<unparse()> will transparently set I<scheme> to I<http> to
+preserve the backwards compatibility with mod_perl 1.0.
+
+See the C<L<APR::URI|docs::2.0::api::APR::URI>> manpage for more
+information.
 
 
 
