@@ -916,6 +916,12 @@ returns a true value on success, otherwise a false value
 See also:
 C<L<$s-E<gt>add_config|docs::2.0::api::Apache::ServerUtil/C_push_handlers_>>
 
+Note that to push input/output filters you have to use
+C<L<Apache::Filter|docs::2.0::api::Apache::Filter>> methods:
+C<L<add_input_filter|docs::2.0::api::Apache::Filter/C_add_input_filter_>>
+and
+C<L<add_output_filter|docs::2.0::api::Apache::Filter/C_add_output_filter_>>.
+
 =back
 
 Examples:
