@@ -332,6 +332,13 @@ instead. See the
 C<L<Apache::Log|docs::2.0::api::mod_perl-2.0::Apache::Log>> manpage.
 
 
+=head1 C<Apache::Server::> Methods and Variables
+
+=head C<$Apache::Server::CWD>
+
+C<$Apache::Server::CWD> is deprecated and exists only in
+C<Apache::compat>.
+
 
 
 
@@ -350,7 +357,6 @@ where the last argument C<$data> is optional, and if supplied will be
 passed as the first argument to the callback function.
 
 See the C<L<APR::Pool|docs::2.0::api::mod_perl-2.0::APR::Pool>> manpage.
-
 
 
 
