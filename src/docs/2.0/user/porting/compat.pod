@@ -686,7 +686,7 @@ passing a string to this method.
 
 C<$r-E<gt>content> and C<$r-E<gt>args> in an array context were
 mistakes that never should have been part of the mod_perl 1.0
-API. There multiple reason for that, among others:
+API. There are multiple reason for that, among others:
 
 =over
 
