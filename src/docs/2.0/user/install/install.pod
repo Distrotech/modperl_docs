@@ -4,7 +4,7 @@ Installing mod_perl
 
 =head1 Description
 
-This chapter provides an indepth mod_perl 2.0 installation coverage.
+This chapter provides an in-depth mod_perl 2.0 installation coverage.
 
 =head1 Prerequisites
 

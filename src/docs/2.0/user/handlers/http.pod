@@ -1,0 +1,1162 @@
+=head1 NAME
+
+HTTP Handlers
+
+=head1 Description
+
+This chapter explains how to implement the HTTP protocol handlers in
+mod_perl.
+
+
+=head1 HTTP Request Cycle Phases
+
+Those familiar with mod_perl 1.0 will find the HTTP request cycle in
+mod_perl 2.0 to be almost identical to the mod_perl 1.0's model. The
+only difference is in the I<response> phase which now includes
+filtering. Also the C<PerlHandler> directive has been renamed to
+C<PerlResponseHandler> to better match the corresponding Apache phase
+name (I<response>).
+
+The following diagram depicts the HTTP request life cycle and
+highlights which handlers are available to mod_perl 2.0:
+
+=for html
+<img src="http_cycle.gif" width="600" height="560" 
+ align="center" valign="middle" alt="HTTP cycle"><br><br>
+
+From the diagram it can be seen that an HTTP request is processes by
+11 phases, executed in the following order:
+
+=over
+
+=item 1 PerlPostReadRequestHandler (PerlInitHandler)
+
+=item 2 PerlTransHandler
+
+=item 3 PerlHeaderParserHandler (PerlInitHandler)
+
+=item 4 PerlAccessHandler
+
+=item 5 PerlAuthenHandler
+
+=item 6 PerlAuthzHandler
+
+=item 7 PerlTypeHandler
+
+=item 8 PerlFixupHandler
+
+=item 9 PerlResponseHandler
+
+=item 10 PerlLogHandler
+
+=item 11 PerlCleanupHandler
+
+=back
+
+It's possible that the cycle will not be completed if any of the
+phases terminates it, usually when an error happens.
+
+Notice that when the response handler is reading the input data it can
+be filtered through request input filters, which are preceded by
+connection input filters if any. Similarly the generated response is
+first run through request output filters and eventually through
+connection output filters before it's sent to the client. We will talk
+about filters in detail later in this chapter.
+
+Now let's discuss each of the mentioned handlers in detail.
+
+=head2 PerlPostReadRequestHandler
+
+The I<post_read_request> phase is the first request phase and happens
+immediately after the request has been read and HTTP headers were
+parsed.
+
+This phase is usually used to do processing that must happen once per
+request. For example C<Apache::Reload> is usually invoked at this
+phase to reload modified Perl modules.
+
+This phase is of type
+C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
+
+The handler's configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because at this
+phase the request has not yet been associated with a particular
+filename or directory.
+
+Now, let's look at an example. Consider the following registry script:
+
+  touch.pl
+  --------
+  use strict;
+  use warnings;
+  
+  use Apache::ServerUtil ();
+  use File::Spec::Functions qw(catfile);
+  
+  my $r = shift;
+  $r->content_type('text/plain');
+  
+  my $conf_file = catfile Apache::server_root_relative($r->pool, 'conf'),
+      "httpd.conf";
+  
+  printf "$conf_file is %0.2f minutes old", 60*24*(-M $conf_file);
+
+This registry script is supposed to print when the last time
+I<httpd.conf> has been modified, compared to the start of the request
+process time. If you run this script several times you might be
+surprised that it reports the same value all the time. Unless the
+request happens to be served by a recently started child process which
+will then report a different value. But most of the time the value
+won't be reported correctly.
+
+This happens because the C<-M> operator reports the difference between
+file's modification time and the value of a special Perl variable
+C<$^T>. When we run scripts from the command line, this variable is
+always set to the time when the script gets invoked. Under mod_perl
+this variable is getting preset once when the child process starts and
+doesn't change since then, so all requests see the same time, when
+operators like C<-M>, C<-C> and C<-A> are used.
+
+Armed with this knowledge, in order to make our code behave similarly
+to the command line programs we need to reset C<$^T> to the request's
+start time, before C<-M> is used. We can change the script itself, but
+what if we need to do the same change for several other scripts and
+handlers? A simple C<PerlPostReadRequestHandler> handler, which will
+be executed as the very first thing of each requests, comes handy
+here:
+
+  file:MyApache/TimeReset.pm
+  --------------------------
+  package MyApache::TimeReset;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::RequestRec ();
+  
+  use Apache::Const -compile => 'OK';
+  
+  sub handler {
+      my $r = shift;
+      $^T = $r->request_time;
+      return Apache::OK;
+  }
+  1;
+
+We could do:
+
+  $^T = time();
+
+But to make things more efficient we use C<$r-E<gt>request_time> since
+the request object C<$r> already stores the request's start time, so
+we get it without performing an additional system call.
+
+To enable it just add to I<httpd.conf>:
+
+  PerlPostReadRequestHandler MyApache::TimeReset
+
+either to the global section, or to the C<E<lt>VirtualHostE<gt>>
+section if you want this handler to be run only for a specific virtual
+host.
+
+
+
+
+
+
+=head2 PerlTransHandler
+
+The I<translate> phase is used to perform the translation of a
+request's URI into an corresponding filename. If no custom handler is
+provided, the server's standard translation rules (e.g., C<Alias>
+directives, mod_rewrite, etc.) will continue to be used. A
+C<PerlTransHandler> handler can alter the default translation
+mechanism or completely override it.
+
+In addition to doing the translation, this stage can be used to modify
+the URI itself and the request method. This is also a good place to
+register new handlers for the following phases based on the URI.
+
+This phase is of type
+C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
+
+The handler's configuration scope is
+C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because at this
+phase the request has not yet been associated with a particular
+filename or directory.
+
+There are many useful things that can be performed at this
+stage. Let's look at the example handler that rewrites request URIs,
+similar to what mod_rewrite does. For example, if your web-site was
+originally made of static pages, and now you have moved to a dynamic
+page generation chances are that you don't want to change the old
+URIs, because you don't want to break links for those who link to your
+site. If the URI:
+
+  http://example.com/news/20021031/09/index.html
+
+is now handled by:
+
+  http://example.com/perl/news.pl?date=20021031&id=09&page=index.html
+
+the following handler can do the rewriting work transparent to
+I<news.pl>, so you can still use the former URI mapping:
+
+  file:MyApache/RewriteURI.pm
+  ---------------------------
+  package MyApache::RewriteURI;
+  
+  use strict;
+  use warnings;
+
+  use Apache::RequestRec ();
+  
+  use Apache::Const -compile => qw(DECLINED);
+  
+  sub handler {
+      my $r = shift;
+  
+      my ($date, $id, $page) = $r->uri =~ m|^/news/(\d+)/(\d+)/(.*)|;
+      $r->uri("/perl/news.pl");
+      $r->args("date=$date&id=$id&page=$page");
+  
+      return Apache::DECLINED;
+  }
+  1;
+
+The handler matches the URI and assigns a new URI via C<$r-E<gt>uri()>
+and the query string via C<$r-E<gt>args()>. It then returns
+C<Apache::DECLINED>, so the next translation handler will get invoked,
+if more rewrites and translations are needed.
+
+Of course if you need to do a more complicated rewriting, this handler
+can be easily adjusted to do so.
+
+To configure this module simply add to I<httpd.conf>:
+
+  PerlTransHandler +MyApache::RewriteURI
+
+
+
+
+
+
+=head2 PerlHeaderParserHandler
+
+The I<header_parser> phase is the first phase to happen after the
+request has been mapped to its C<E<lt>LocationE<gt>> (or an equivalent
+container). At this phase the handler can examine the request headers
+and to take a special action based on these. For example this phase
+can be used to block evil clients targeting certain resources, while
+little resources were wasted so far.
+
+This phase is of type
+C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
+
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+This phase is very similar to
+C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>>, with the
+only difference that it's run after the request has been mapped to the
+resource. Both phases are useful for doing something once per request,
+as early as possible. And usually you can take any
+C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>> and turn
+it into C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> by
+simply changing the directive name in I<httpd.conf> and moving it
+inside the container where it should be executed. Moreover, because
+of this similarity mod_perl provides a special directive
+C<L<PerlInitHandler|/PerlInitHandler>> which if found outside resource
+containers behaves as
+C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>>,
+otherwise as C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>>.
+
+You already know that Apache handles the C<HEAD>, C<GET>, C<POST> and
+several other HTTP methods. But did you know that you can invent your
+own HTTP method as long as there is a client that supports it. If you
+think of emails, they are very similar to HTTP messages: they have a
+set of headers and a body, sometimes a multi-part body. Therefore we
+can develop a handler that extends HTTP by adding a support for the
+C<EMAIL> method.  We can enable this protocol extension during and
+push the real content handler during the
+C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> phase:
+
+  <Location /email>
+      PerlHeaderParserHandler MyApache::SendEmail
+  </Location>
+
+and here is the C<MyApache::SendEmail> handler:
+
+  file:MyApache/SendEmail.pm
+  --------------------------
+  package MyApache::SendEmail;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  use Apache::RequestUtil ();
+  
+  use Apache::Const -compile => qw(DECLINED OK);
+  
+  use constant METHOD        => 'EMAIL';
+  use constant SMTP_HOSTNAME => "localhost";
+  
+  sub handler {
+      my $r = shift;
+  
+      return Apache::DECLINED unless $r->method eq METHOD;
+  
+      Apache::method_register($r->pool, METHOD);
+      $r->handler("perl-script");
+      $r->push_handlers(PerlHandler => \&send_email_handler);
+  
+      return Apache::OK;
+  }
+  
+  sub send_email_handler {
+      my $r = shift;
+  
+      my %headers = map {$_ => $r->headers_in->get($_)} qw(To From Subject);
+      my $content = $r->content;
+  
+      my $status = send_email(\%headers, \$content);
+  
+      $r->content_type('text/plain');
+      $r->print($status ? "ACK" : "NACK");
+      return Apache::OK;
+  }
+  
+  sub content {
+      my $r = shift;
+  
+      $r->setup_client_block;
+      return '' unless $r->should_client_block;
+      my $len = $r->headers_in->get('content-length');
+      my $buf;
+      $r->get_client_block($buf, $len);
+  
+      return $buf;
+  }
+  
+  sub send_email {
+      my($rh_headers, $r_body) = @_;
+  
+      require MIME::Lite;
+      MIME::Lite->send("smtp", SMTP_HOSTNAME, Timeout => 60);
+  
+      my $msg = MIME::Lite->new(%$rh_headers, Data => $$r_body);
+      #warn $msg->as_string;
+      $msg->send;
+  }
+  
+  1;
+
+Let's get the less interesting code out of the way. The function
+content() grabs the request body. The function send_email() sends the
+email over SMTP. You should adjust the constant C<SMTP_HOSTNAME> to
+point to your outgoing SMTP server. You can replace this function with
+your own if you prefer to use a different method to send email.
+
+Now to the more interesting functions. The function C<handler()>
+returns immediately and passes the control to the next handler if the
+request method is not equal to C<EMAIL> (set in the C<METHOD>
+constant):
+
+      return Apache::DECLINED unless $r->method eq METHOD;
+
+Next it tells Apache that this new method is a valid one and that the
+C<perl-script> handler will do the processing. Finally it pushes the
+function C<send_email_handler()> to the C<PerlResponseHandler> list of
+handlers:
+
+      Apache::method_register($r->pool, METHOD);
+      $r->handler("perl-script");
+      $r->push_handlers(PerlResponseHandler => \&send_email_handler);
+
+The function terminates the header_parser phase by:
+
+    return Apache::OK;
+
+All other phases run as usual, so you can reuse any HTTP protocol
+hooks, such as authentication and fixup phases. 
+
+When the response phase starts C<send_email_handler()> is invoked,
+assuming that no other response handlers were inserted before it.  The
+response handler consists of three parts. Retrieve the email headers
+C<To>, C<From> and C<Subject>, and the body of the message:
+
+      my %headers = map {$_ => $r->headers_in->get($_)} qw(To From Subject);
+      my $content = $r->content;
+
+Then send the email:
+
+      my $status = send_email(\%headers, \$content);
+
+Finally return to the client a simple response acknowledging that
+email has been sent and finish the response phase by returning
+C<Apache::OK>:
+
+      $r->content_type('text/plain');
+      $r->print($status ? "ACK" : "NACK");
+      return Apache::OK;
+
+Of course you will want to add extra validations if you want to use
+this code in production. This is just a proof of concept
+implementation.
+
+As already mentioned when you extend an HTTP protocol you need to have
+a client that knows how to use the extension. So here is a simple
+client that uses C<LWP::UserAgent> to issue an C<EMAIL> method request
+over HTTP protocol:
+
+  file:send_http_email.pl
+  -----------------------
+  #!/usr/bin/perl
+  
+  use strict;
+  use warnings;
+  
+  require LWP::UserAgent;
+  
+  my $url = "http://localhost:8000/email/";
+  
+  my %headers = (
+      From    => 'example@example.com',
+      To      => 'example@example.com',
+      Subject => '3 weeks in Tibet',
+  );
+  
+  my $content = <<EOI;
+  I didn't have an email software,
+  but could use HTTP so I'm sending it over HTTP
+  EOI
+  
+  my $headers = HTTP::Headers->new(%headers);
+  my $req = HTTP::Request->new("EMAIL", $url, $headers, $content);
+  my $res = LWP::UserAgent->new->request($req);
+  print $res->is_success ? $res->content : "failed";
+
+most of the code is just a custom data. The code that does something
+consists of four lines at the very end. Create C<HTTP::Headers> and
+C<HTTP::Request> object. Issue the request and get the
+response. Finally print the response's content if it was successful or
+just I<"failed"> if not.
+
+Now save the client code in the file I<send_http_email.pl>, adjust the
+I<To> field, make the file executable and execute it, after you have
+restarted the server. You should receive an email shortly to the
+address set in the I<To> field.
+
+
+
+=head2 PerlInitHandler
+
+When configured inside any container directive, except
+C<E<lt>VirtualHostE<gt>>, this handler is an alias for
+C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> described
+later.  Otherwise it acts as an alias for
+C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>> described
+earlier.
+
+It is the first handler to be invoked when serving a request.
+
+This phase is of type
+C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
+
+The best example here would be to use
+C<L<Apache::Reload|docs::2.0::api::mod_perl-2.0::Apache::Reload>>
+which takes the benefit of this directive. Usually
+C<L<Apache::Reload|docs::2.0::api::mod_perl-2.0::Apache::Reload>> is
+configured as:
+
+  PerlInitHandler Apache::Reload
+  PerlSetVar ReloadAll Off
+  PerlSetVar ReloadModules "MyApache::*"
+
+which will monitor and reload all C<MyApache::*> modules that have
+been modified since the last request. However if we move the global
+configuration into a C<E<lt>LocationE<gt>> container:
+
+  <Location /devel>
+      PerlInitHandler Apache::Reload
+      PerlSetVar ReloadAll Off
+      PerlSetVar ReloadModules "MyApache::*"
+      SetHandler perl-script
+      PerlHandler ModPerl::Registry
+      Options +ExecCGI
+  </Location>
+
+C<L<Apache::Reload|docs::2.0::api::mod_perl-2.0::Apache::Reload>> will
+reload the modified modules, only when a request to the I</devel>
+namespace is issued, because C<L<PerlInitHandler|/PerlInitHandler>>
+plays the role of
+C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> here.
+
+
+
+=head2 PerlAccessHandler
+
+The I<access_checker> phase is the first of three handlers that are
+involved in what's known as AAA: Authentication and Authorization, and
+Access control.
+
+This phase can be used to restrict access from a certain IP address,
+time of the day or any other rule not connected to the user's
+identity.
+
+This phase is of type
+C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
+
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+The concept behind access checker handler is very simple, return
+C<Apache::FORBIDDEN> if the access is not allowed, otherwise return
+C<Apache::OK>.
+
+The following example handler blocks requests made from IPs on the
+blacklist.
+
+  file:MyApache/BlockByIP.pm
+  --------------------------
+  package MyApache::BlockByIP;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::RequestRec ();
+  use Apache::Connection ();
+  
+  use Apache::Const -compile => qw(FORBIDDEN OK);
+  
+  my %bad_ips = map {$_ => 1} qw(127.0.0.1 10.0.0.4);
+  
+  sub handler {
+      my $r = shift;
+  
+      return exists $bad_ips{$r->connection->remote_ip}
+          ? Apache::FORBIDDEN
+          : Apache::OK;
+  }
+  
+  1;
+
+The handler retrieves the connection's IP address, looks it up in the
+hash of blacklisted IPs and forbids the access if found. If the IP is
+not blacklisted, the handler returns control to the next access
+checker handler, which may still block the access based on a different
+rule.
+
+To enable the handler simply add it to the container that needs to be
+protected. For example to protect an access to the registry scripts
+executed from the base location I</perl> add:
+
+  <Location /perl/>
+      SetHandler perl-script
+      PerlResponseHandler ModPerl::Registry
+      PerlAccessHandler MyApache::BlockByIP
+      Options +ExecCGI
+  </Location>
+
+
+
+=head2 PerlAuthenHandler
+
+The I<check_user_id> (I<authen>) phase is called whenever the
+requested file or directory is password protected.  This, in turn,
+requires that the directory be associated with C<AuthName>,
+C<AuthType> and at least one C<require> directive.
+
+This phase is usually used to verify a user's identification
+credentials. If the credentials are verified to be correct, the
+handler should return C<OK>.  Otherwise the handler returns
+C<AUTH_REQUIRED> to indicate that the user has not authenticated
+successfully.  When Apache sends the HTTP header with this code, the
+browser will normally pop up a dialog box that prompts the user for
+login information.
+
+This phase is of type
+C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
+
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+The following handler authenticates users by asking for a username and
+a password and lets them in only if the length of a string made from
+the supplied username and password and a single space equals to the
+secret length, specified by the constant C<SECRET_LENGTH>.
+
+  file:MyApache/SecretLengthAuth.pm
+  ---------------------------------
+  package MyApache::SecretLengthAuth;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::Const -compile => qw(OK DECLINED AUTH_REQUIRED);
+  
+  use constant SECRET_LENGTH => 14;
+  
+  sub handler {
+      my $r = shift;
+  
+      my ($status, $password) = $r->get_basic_auth_pw;
+      return $status unless $status == Apache::OK;
+  
+      return Apache::OK 
+          if SECRET_LENGTH == length join " ", $r->user, $password;
+  
+      $r->note_basic_auth_failure;
+      return Apache::AUTH_REQUIRED;
+  }
+  
+  1;
+
+First the handler retrieves the status of the authentication and the
+password in plain text. The status will be set to C<Apache::OK> only
+when the user has supplied the username and the password
+credentials. If the status is different, we just let Apache handle
+this situation for us, which will usually challenge the client so
+it'll supply the credentials.
+
+Once we know that we have the username and the password supplied by
+the client, we can proceed with the authentication. Our authentication
+algorithm is unusual. Instead of validating the username/password pair
+against a password file, we simply check that the string built from
+these two items plus a single space is C<SECRET_LENGTH> long (14 in
+our example). So for example the pair I<mod_perl/rules> authenticates
+correctly, whereas I<secret/password> does not, because the latter
+pair will make a string of 15 characters. Of course this is not a
+strong authentication scheme and you shouldn't use it for serious
+things, but it's fun to play with. Most authentication validations
+simply verify the username/password against a database of valid pairs,
+usually this requires the password to be encrypted first, since
+storing passwords in clear is a bad idea.
+
+Finally if our authentication fails the handler calls
+note_basic_auth_failure() and returns C<Apache::AUTH_REQUIRED>, which
+sets the proper HTTP response headers that tell the client that its
+user that the authentication has failed and the credentials should be
+supplied again.
+
+It's not enough to enable this handler for the authentication to
+work. You have to tell Apache what authentication scheme to use
+(C<Basic> or C<Digest>), which is specified by the C<AuthType>
+directive, and you should also supply the C<AuthName> -- the
+authentication realm, which is really just a string that the client
+usually uses as a title in the pop-up box, where the username and the
+password are inserted. Finally the C<Require> directive is needed to
+specify which usernames are allowed to authenticate. If you set it to
+C<valid-user> any username will do.
+
+Here is the whole configuration section that requires users to
+authenticate before they are allowed to run the registry scripts from
+I</perl/>:
+
+  <Location /perl/>
+      SetHandler perl-script
+      PerlResponseHandler ModPerl::Registry
+      PerlAuthenHandler MyApache::SecretLengthAuth
+      Options +ExecCGI
+  
+      AuthType Basic
+      AuthName "The Gate"
+      Require valid-user
+  </Location>
+
+
+
+=head2 PerlAuthzHandler
+
+The I<auth_checker> (I<authz>) phase is used for authorization
+control. This phase requires a successful authentication from the
+previous phase, because a username is needed in order to decide
+whether a user is authorized to access the requested resource.
+
+As this phase is tightly connected to the authentication phase, the
+handlers registered for this phase are only called when the requested
+resource is password protected, similar to the auth phase. The handler
+is expected to return C<Apache::DECLINED> to defer the decision,
+C<Apache::OK> to indicate its acceptance of the user's authorization,
+or C<Apache::AUTH_REQUIRED> to indicate that the user is not
+authorized to access the requested document.
+
+This phase is of type
+C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
+
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+Here is the C<MyApache::SecretResourceAuthz> handler which allows an
+access to certain resources only to certain users who have already
+properly authenticated:
+
+  file:MyApache/SecretResourceAuthz.pm
+  ------------------------------------
+  package MyApache::SecretResourceAuthz;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::Const -compile => qw(OK AUTH_REQUIRED);
+  
+  use constant SECRET_LENGTH => 14;
+  
+  my %protected = (
+      'admin'  => ['stas'],
+      'report' => [qw(stas boss)],
+  );
+  
+  sub handler {
+      my $r = shift;
+  
+      my $user = $r->user;
+      if ($user) {
+          my($section) = $r->uri =~ m|^/company/(\w+)/|;
+          if (my $users = $protected{$section}) {
+              return Apache::OK if grep { $_ eq $user } @$users;
+          }
+          else {
+              return Apache::OK;
+          }
+      }
+  
+      $r->note_basic_auth_failure;
+      return Apache::AUTH_REQUIRED;
+  }
+  
+  1;
+
+This authorization handler is very similar to the authentication
+handler L<from the previous section|/PerlAuthenHandler>. Here we rely
+on the previous phase to get users authenticated, and now as we have
+the username we can make decisions whether to let the user access the
+resource it has asked for or not. In our example we have a simple hash
+which maps which users are allowed to access what resources. So for
+example anything under I</company/admin/> can be accessed only by the
+user I<stas>, I</company/report/> can be accessed by users I<stas> and
+I<boss>, whereas any other resources under I</company/> can be
+accessed by everybody who has reached so far. If for some reason we
+don't get the username, we or the user is not authorized to access the
+resource the handler does the same thing as it does when the
+authentication fails, i.e, calls:
+
+      $r->note_basic_auth_failure;
+      return Apache::AUTH_REQUIRED;
+
+The configuration is similar to the one in L<the previous
+section|/PerlAuthenHandler>, this time we just add the 
+C<PerlAuthzHandler> setting. The rest doesn't change.
+
+  Alias /company/ /home/httpd/httpd-2.0/perl/
+  <Location /company/>
+      SetHandler perl-script
+      PerlResponseHandler ModPerl::Registry
+      PerlAuthenHandler MyApache::SecretPhraseAuth
+      PerlAuthzHandler  MyApache::SecretResourceAuthz
+      Options +ExecCGI
+  
+      AuthType Basic
+      AuthName "The Secret Gate"
+      Require valid-user
+  </Location>
+
+
+
+
+
+
+
+=head2 PerlTypeHandler
+
+The I<type_checker> phase is used to set the response MIME type
+(C<Content-type>) and sometimes other bits of document type
+information like the document language.
+
+For example C<mod_autoindex>, which performs automatic directory
+indexing, uses this phase to map the filename extensions to the
+corresponding icons which will be later used in the listing of files.
+
+Of course later phases may override the mime type set in this phase.
+
+This phase is of type
+C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
+
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+The most important thing to remember when overriding the default
+I<type_checker> handler, which is usually the mod_mime handler, is
+that you have to set the handler that will take care of the response
+phase and the response callback function or the code won't
+work. mod_mime does that based on C<SetHandler> and C<AddHandler>
+directives, and file extensions. So if you want the content handler to
+be run by mod_perl, set either:
+
+  $r->handler('perl-script');
+  $r->set_handlers(PerlResponseHandler => \&handler);
+
+or:
+
+  $r->handler('modperl');
+  $r->set_handlers(PerlResponseHandler => \&handler);
+
+depending on which type of response handler is wanted.
+
+Writing a C<PerlTypeHandler> handler which sets the content-type value
+and returns C<Apache::DECLINED> so that the default handler will do
+the rest of the work, is not a good idea, because mod_mime will
+probably override this and other settings.
+
+Therefore it's the easiest to leave this stage alone and do any
+desired settings in the I<fixups> phase.
+
+
+
+
+=head2 PerlFixupHandler
+
+The I<fixups> phase is happening just before the content handling
+phase. It gives the last chance to do things before the response is
+generated. For example in this phase C<mod_env> populates the
+environment with variables configured with I<SetEnv> and I<PassEnv>
+directives.
+
+This phase is of type
+C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
+
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+The following fixup handler example tells Apache at run time which
+handler and callback should be used to process the request based on
+the file extension of the request's URI.
+
+  file:MyApache/FileExtDispatch.pm
+  --------------------------------
+  package MyApache::FileExtDispatch;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::Const -compile => 'OK';
+  
+  use constant HANDLER  => 0;
+  use constant CALLBACK => 1;
+  
+  my %exts = (
+      cgi => ['perl-script',     \&cgi_handler],
+      pl  => ['modperl',         \&pl_handler ],
+      tt  => ['perl-script',     \&tt_handler ],
+      txt => ['default-handler', undef        ],
+  );
+  
+  sub handler {
+      my $r = shift;
+  
+      my ($ext) = $r->uri =~ /\.(\w+)$/;
+      $ext = 'txt' unless defined $ext and exists $exts{$ext};
+  
+      $r->handler($exts{$ext}->[HANDLER]);
+  
+      if (defined $exts{$ext}->[CALLBACK]) {
+          $r->set_handlers(PerlHandler => $exts{$ext}->[CALLBACK]);
+      }
+  
+      return Apache::OK;
+  }
+  
+  sub cgi_handler { content_handler($_[0], 'cgi') }
+  sub pl_handler  { content_handler($_[0], 'pl')  }
+  sub tt_handler  { content_handler($_[0], 'tt')  }
+  
+  sub content_handler {
+      my($r, $type) = @_;
+  
+      $r->content_type('text/plain');
+      $r->print("A handler of type '$type' was called");
+  
+      return Apache::OK;
+  }
+  
+  1;
+
+In the example we have used the following mapping.
+
+  my %exts = (
+      cgi => ['perl-script',     \&cgi_handler],
+      pl  => ['modperl',         \&pl_handler ],
+      tt  => ['perl-script',     \&tt_handler ],
+      txt => ['default-handler', undef        ],
+  );
+
+So that I<.cgi> requests will be handled by the C<perl-script> handler
+and the C<cgi_handler()> callback, I<.pl> requests by C<modperl> and
+C<pl_handler()>, I<.tt> (template toolkit) by C<perl-script> and the
+C<tt_handler()>, finally I<.txt> request by the C<default-handler>
+handler, which requires no callback.
+
+Moreover the handler assumes that if the request's URI has no file
+extension or it does, but it's not in its mapping, the
+C<default-handler> will be used, as if the I<txt> extension was used.
+
+After doing the mapping, the handler assigns the handler:
+
+      $r->handler($exts{$ext}->[HANDLER]);
+
+and the callback if needed:
+
+      if (defined $exts{$ext}->[CALLBACK]) {
+          $r->set_handlers(PerlHandler => $exts{$ext}->[CALLBACK]);
+      }
+
+In this simple example the callback functions don't do much but
+calling the same content handler which simply prints the name of the
+extension if handled by mod_perl, otherwise Apache will serve the
+other files using the default handler. In real world you will use
+callbacks to real content handlers that do real things.
+
+Here is how this handler is configured:
+
+  Alias /dispatch/ /home/httpd/dispatch/
+  <Location /dispatch/>
+      PerlFixupHandler MyApache::FileExtDispatch
+  </Location>
+
+Notice that there is no need to specify anything, but the fixup
+handler. It applies the rest of the settings dynamically at run-time.
+
+
+
+
+=head2 PerlResponseHandler
+
+The I<handler> (I<response>) phase is used for generating the
+response. This is probably the most important phase and most of the
+existing Apache modules do most of their work at this phase.
+
+This is the only phase that requires two directives under
+mod_perl. For example:
+
+  <Location /perl>
+     SetHandler perl-script
+     PerlResponseHandler Apache::Registry
+  </Location>
+
+C<SetHandler> set to
+L<C<perl-script>|docs::2.0::user::config::config/perl_script> or
+L<C<modperl>|docs::2.0::user::config::config/modperl> tells Apache
+that mod_perl is going to handle the response
+generation. C<PerlResponseHandler> tells mod_perl which callback is
+going to do the job.
+
+This phase is of type
+C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
+
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+Most of the C<Apache::> modules on CPAN are dealing with this
+phase. In fact most of the developers spend the majority of their time
+working on handlers that generate response content.
+
+Let's write a simple response handler, that just generates some
+content. This time let's do something more interesting than printing
+I<"Hello world">. Let's write a handler that prints itself:
+
+  file:MyApache/Deparse.pm
+  ------------------------
+  package MyApache::Deparse;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  use B::Deparse ();
+  
+  use Apache::Const -compile => 'OK';
+  
+  sub handler {
+      my $r = shift;
+  
+      $r->content_type('text/plain');
+      $r->print('sub handler ', B::Deparse->new->coderef2text(\&handler));
+  
+      return Apache::OK;
+  }
+  1;
+
+To enable this handler add to I<httpd.conf>:
+
+  <Location /deparse>
+      SetHandler modperl
+      PerlResponseHandler MyApache::Deparse
+  </Location>
+
+Now when the server is restarted and we issue a request to
+I<http://localhost/deparse> we get the following response:
+
+  sub handler {
+      package MyApache::Deparse;
+      my $r = shift @_;
+      $r->content_type('text/plain');
+      $r->print('sub handler ', 'B::Deparse'->new->coderef2text(\&handler));
+      return 0;
+  }
+
+if you compare it to the source code, it's pretty much the
+same. C<B::Deparse> is fun to play with!
+
+
+
+=head2 PerlLogHandler
+
+The I<log_transaction> phase happens no matter how the previous phases
+have ended up. If one of the earlier phases has aborted a request,
+e.g., failed authentication or 404 (file not found) errors, the rest of
+the phases up to and including the response phases are skipped. But
+this phase is always executed.
+
+By this phase all the information about the request and the response
+is known, therefore the logging handlers usually record this
+information in various ways (e.g., logging to a flat file or a
+database).
+
+This phase is of type
+C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
+
+The handler's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+Imagine a situation where you have to log requests into individual
+files, one per user. Assuming that all requests start with
+I</users/username/>, so it's easy to categorize requests by the second
+URI path component. Here is the log handler that does that:
+
+  file:MyApache/LogPerUser.pm
+  ---------------------------
+  package MyApache::LogPerUser;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::RequestRec ();
+  use Apache::Connection ();
+  use Fcntl qw(:flock);
+  
+  use Apache::Const -compile => qw(OK DECLINED);
+  
+  sub handler {
+      my $r = shift;
+  
+      my($username) = $r->uri =~ m|^/users/([^/]+)|;
+      return Apache::DECLINED unless defined $username;
+  
+      my $entry = sprintf qq(%s [%s] "%s" %d %d\n),
+          $r->connection->remote_ip, scalar(localtime),
+          $r->uri, $r->status, $r->bytes_sent;
+  
+      my $log_path = Apache::server_root_relative($r->pool, 
+          "logs/$username.log");
+      open my $fh, ">>$log_path" or die "can't open $log_path: $!";
+      flock $fh, LOCK_EX;
+      print $fh $entry;
+      close $fh;
+  
+      return Apache::OK;
+  }
+  1;
+
+First the handler tries to figure out what username the request is
+issued for, if it fails to match the URI, it simply returns
+C<Apache::DECLINED>, letting other log handlers to do the
+logging. Though it could return C<Apache::OK> since all other log
+handlers will be run anyway.
+
+Next it builds the log entry, similar to the default I<access_log>
+entry. It's comprised of remote IP, the current time, the uri, the
+return status and how many bytes were sent to the client as a response
+body.
+
+Finally the handler appends this entry to the log file for the user
+the request was issued for. Usually it's safe to append short strings
+to the file without being afraid of messing up the file, when two
+files attempt to write at the same time, but just to be on the safe
+side the handler exclusively locks the file before performing the
+writing.
+
+To configure the handler simply enable the module with the
+C<PerlLogHandler> directive, inside the wanted section, which was
+I</users/> in our example:
+
+  <Location /users/>
+      SetHandler perl-script
+      PerlResponseHandler ModPerl::Registry
+      PerlLogHandler MyApache::LogPerUser
+      Options +ExecCGI
+  </Location>
+
+After restarting the server and issuing requests to the following
+URIs:
+
+  http://localhost/users/stas/test.pl
+  http://localhost/users/eric/test.pl
+  http://localhost/users/stas/date.pl
+
+The C<MyApache::LogPerUser> handler will append to I<logs/stas.log>:
+
+  127.0.0.1 [Sat Aug 31 01:50:38 2002] "/users/stas/test.pl" 200 8
+  127.0.0.1 [Sat Aug 31 01:50:40 2002] "/users/stas/date.pl" 200 44
+
+and to I<logs/eric.log>:
+
+  127.0.0.1 [Sat Aug 31 01:50:39 2002] "/users/eric/test.pl" 200 8
+
+
+=head2 PerlCleanupHandler
+
+META: not implemented yet
+
+This phase is of type C<XXX>.
+
+The handler's configuration scope is C<XXX>.
+
+
+
+
+
+
+
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+
+
+=cut
+

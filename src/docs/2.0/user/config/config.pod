@@ -673,7 +673,7 @@ Handler assignment directives:
 
   PerlPreConnectionHandler     ITERATE    SRV
   PerlProcessConnectionHandler ITERATE    SRV
-
+  
   PerlPostReadRequestHandler   ITERATE    SRV
   PerlTransHandler             ITERATE    SRV
   PerlInitHandler              ITERATE    DIR
@@ -686,7 +686,7 @@ Handler assignment directives:
   PerlResponseHandler          ITERATE    DIR
   PerlLogHandler               ITERATE    DIR
   PerlCleanupHandler           ITERATE    DIR
-
+  
   PerlInputFilterHandler       ITERATE    DIR
   PerlOutputFilterHandler      ITERATE    DIR
 
@@ -756,9 +756,9 @@ code.
 =item DIR
 
 C<E<lt>DirectoryE<gt>>, C<E<lt>LocationE<gt>>, C<E<lt>FilesE<gt>> and
-all their regular expression variants (mnemonic: I<DIRectory>). These directives
-can also appear in I<.htaccess> files.  These directives are defined
-as C<OR_ALL> in the source code.
+all their regular expression variants (mnemonic: I<DIRectory>). These
+directives can also appear in I<.htaccess> files.  These directives
+are defined as C<OR_ALL> in the source code.
 
 These directives can also appear in the global server configuration
 and C<E<lt>VirtualHostE<gt>>.
@@ -769,8 +769,8 @@ Apache specifies other allowed location types which are currently not
 used by the core mod_perl directives and their definition can be found
 in I<include/httpd_config.h> (hint: search for C<RSRC_CONF>).
 
-Also see L<Perl*Handler
-Types|docs::2.0::user::handlers::handlers/Perl_Handler_Types>.
+Also see L<Single Phase's Multiple Handlers
+Behavior|docs::2.0::user::handlers::intro/Single_Phase_s_Multiple_Handlers_Behavior>.
 
 
 
