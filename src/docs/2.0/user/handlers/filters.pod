@@ -653,9 +653,10 @@ because the C<DEFLATE> filter is of type C<AP_FTYPE_CONTENT_SET> (20),
 whereas the C<INCLUDES> filter is of type C<AP_FTYPE_RESOURCE> (10).
 
 As of this writing mod_perl provides two kind of filters with fixed
-priority type:
+priority type (the type is defined by L<the filter handler's
+attribute|/HTTP_Request_vs__Connection_Filters>):
 
-  Handler                  Priority           Value
+  Handler's Attribute      Priority           Value
   -------------------------------------------------
   FilterRequestHandler     AP_FTYPE_RESOURCE    10
   FilterConnectionHandler  AP_FTYPE_PROTOCOL    30
@@ -680,6 +681,18 @@ C<L<VOID|docs::2.0::user::handlers::intro/item_VOID>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
+C<PerlInputFilterHandler> handlers are automatically
+C<L<AutoLoad|docs::2.0::user::config::config/C_AutoLoad_>>ed, since
+they need to be compiled before L<the filter
+attributes|/HTTP_Request_vs__Connection_Filters> can be accessed.
+Therefore if the filter handler subroutine is not called C<handler>,
+you must preload the module containing the filter subroutine at the
+server startup. A filter handler can be configured not to be
+C<L<AutoLoad|docs::2.0::user::config::config/C_AutoLoad_>>ed, using
+the C<-> prefix. For example:
+
+  PerlInputFilterHandler -MyApache::FilterTest::lc
+
 The following sections include several examples that use the
 C<PerlInputFilterHandler> handler.
 
@@ -698,7 +711,9 @@ C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 The following sections include several examples that use the
 C<PerlOutputFilterHandler> handler.
 
-
+Similar to C<L<PerlInputFilterHandler|/C_PerlInputFilterHandler_>>
+C<PerlOutputFilterHandler> handlers are automatically
+C<L<AutoLoad|docs::2.0::user::config::config/C_AutoLoad_>>ed.
 
 
 =head2 C<PerlSetInputFilter>
