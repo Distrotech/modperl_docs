@@ -111,7 +111,7 @@ articles at take23.org: http://take23.org/articles/
 
 =item *
 
-mod_perl series at ApacheToday
+mod_perl series at ApacheToday (now WWW.ServerWatch.com)
 http://apachetoday.com/search.php3?author=Stas:Bekman
 
 =item *
@@ -188,6 +188,12 @@ Peacock. http://www.ariadne.ac.uk/issue21/unix/
 
 What's mod_perl (in Russian)
 http://www.host.ru/documentation/pro/0003.html
+
+=item * 
+
+Several of Stas' mod_perl articles translated to Russian by Inga
+Zaharova: http://www.providerz.ru/articles/perl/why_mod_perl.html
+http://www.providerz.ru/articles/perl/mod_perl_in_30_minutes_1.html
 
 =item *
 
