@@ -262,7 +262,9 @@ use the latest mod_perl sources compiled against the latest official
 Apache release; depending on changes made in Apache, you may or may
 not be able to use an earlier Apache binary. However, in the Apache
 Win32 world it is particularly a good idea to use the latest version,
-for bug and security fixes.
+for bug and security fixes. If you encounter problems in loading
+F<mod_perl.so>, ensure that the version of the mod_perl binary
+matches that of Apache; if all else fails, a reboot may help.
 
 =head1 See Also
 
