@@ -402,8 +402,8 @@ I<http://localhost/print_env1>.
 
 The directive C<PerlOptions> provides fine-grained configuration for
 what were compile-time only options in the first mod_perl generation.
-It also provides control over what class of C<PerlInterpreter> is used
-for a C<E<lt>VirtualHostE<gt>> or location configured with
+It also provides control over what class of Perl interpreter pool is
+used for a C<E<lt>VirtualHostE<gt>> or location configured with
 C<E<lt>LocationE<gt>>, C<E<lt>DirectoryE<gt>>, etc.
 
 L<$r-E<gt>is_perl_option_enabled($option)|docs::2.0::api::Apache::RequestUtil/C_is_perl_option_enabled_>
