@@ -65,9 +65,7 @@ a.more {
 
 a.pdfsrc {
     font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 0.9em;
-    font-weight: bold;
-    color: #525d76;
+    font-size: 0.8em;
 }
 a.pdfsrc:link, 
 a.pdfsrc:visited, 
@@ -266,27 +264,54 @@ td.menu-border {
 }
 
 
-
-
-
-/*** swish-e search stuff ***/
+/* Wrapped around each section of content */
 div.index-section {
     font-family: helvetica, arial, verdana, sans-serif;
     font-size: 1.0em;
     color: #000000;
 }
 
-/* font specs for search box */
-.radio-font {
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 0.9em;
-    color: #000000;
-}
 
-div.searchform { 
+
+
+/*** swish-e search stuff ***/
+
+/***********
+Not currently used, but in source or templates:
+
+    span.search-text in tmpl/custom/html/search
+
+    in tmpl/custom/html/search_field
+    td.search-title {
+        font-size: 12px;
+    }
+
+    /* font specs for search box */
+    .radio-font {
+        font-family: verdana, arial, helvetica, sans-serif;
+        font-size: 0.9em;
+        color: #000000;
+    }
+
+    in search.tt for displaying the title
+    td.search-heading
+
+**************/
+
+
+/* Wrapped around the entire search form in src/search/search.tt */
+div.search-form { 
     font-size: 1.0em; 
 }
 
+/* List of site sections in search.tt */
+li.search-list {
+    list-style: none;
+}
+
+
+
+/* Search form styles */
 input {
     font-size: 12px;
 }
@@ -295,65 +320,54 @@ select {
     font-size: 12px;
 }
 
-td.searchtitle {
-    font-size: 12px;
-}
-
-li.search-list {
-    list-style: none;
-}
 
 
-td.searchheader {
+/* "Results for" line in search results search.tt */
+td.search-header {
     background-color: #525d76;
     font-family: verdana, arial, helvetica, sans-serif;
     color: #ffffff;
     font-size: 0.9em;
 }
 
-td.searchtimes {
+/* Shows search time */
+td.search-times {
     background-color: #525d76;
     font-family: verdana, arial, helvetica, sans-serif;
     color: #ffffff;
     font-size: 0.7em;
 }
 
-
-td.searchnav {
+/* Prev|Next page in search results */
+td.search-nav {
     background-color: #eeeeee;
     font-family: verdana, arial, helvetica, sans-serif;
     color: #000000;
     font-size: 0.8em;
 }
 
-td.limits {
+
+/* title line for a search result */
+span.search-result-title {
     font-family: helvetica, arial, verdana, sans-serif;
     color: #000000;
     font-size: 1.0em;
 }
 
-span.base-result {
-    font-family: helvetica, arial, verdana, sans-serif;
-    color: #000000;
-    font-size: 1.0em;
-}
 
-span.searchrank {
-    font-family: helvetica, arial, verdana, sans-serif;
-    color: #000000;
-    font-size: 0.9em;
-}
-
-div.searchsummary {
+/* context in search result */
+div.search-summary {
     font-size: 0.8em;
 }
 
-div.searchprops {
+/* a search result's properties */
+div.search-props {
     margin-top: 0.4em;
     font-size: 0.80em;
     color: #009999;
 }
 
+/* swish.cgi */
 span.searchhighlight { 
     background-color: #ffff99;
 }

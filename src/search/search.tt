@@ -81,7 +81,7 @@
 
 [% BLOCK search_form %]
 
-    <div class="searchform">
+    <div class="search-form">
     [% CGI.start_form( '-action' => CGI.script_name, '-method' => 'GET' ) %]
         [% CGI.textfield( {
             name    => 'query',
@@ -108,11 +108,11 @@
     [% search.stopwords_removed %]
     <table cellpadding="1" cellspacing="0" border="0" width="100%">
         <tr>
-            <td class="searchheader">
+            <td class="search-header">
                 &nbsp;Results for <b>[% search.query_simple | html %]</b>
                 &nbsp; [% search.navigation('from') %] to [% search.navigation('to') %] of [% search.navigation('hits') %] results.
             </td>
-            <td align="right" class="searchtimes">
+            <td align="right" class="search-times">
                 [% search.navigation('search_time') %]
             </td>
         </tr>
@@ -120,7 +120,7 @@
         [% IF search.navigation('pages') %]
 
         <tr>
-            <td class="searchnav">
+            <td class="search-nav">
                 &nbsp;Page:
                 [% search.navigation('pages') %]
 
@@ -134,8 +134,8 @@
                     Next [% search.navigation('next_count') %]</a>
                 [% END %]
             </td>
-            <td align="right" class="searchnav">
-                <a href="#search_form"><span class="advanced-search">Advanced Search</span></a>
+            <td align="right" class="search-nav">
+                <a href="#search_form">Advanced Search</a>
             </td>
             
         </tr>
@@ -151,7 +151,7 @@
     [% FOREACH item = search.results %]
         <dl>
             <dt>
-                <span class="base-result">
+                <span class="search-result-title">
                     [% item.swishreccount %]
                      <a href="[% item.swishdocpath_href %]">
                     [% ( item.swishtitle || item.swishdocpath )  %]
@@ -160,12 +160,12 @@
             </dt>
 
             <dd>
-                <div class="searchsummary">
+                <div class="search-summary">
                     [% item.swishdescription %]
                 </div>
             </dd>
             <dd>
-                <div class="searchprops">
+                <div class="search-props">
                     [% item.swishdocpath | replace('#.+', '') %]<br>
                     Rank: [% item.swishrank %] |
                     Page: [% item.pagelen / 1000 | format('%2.1f') %]k,

@@ -109,7 +109,7 @@
         [% IF 0 %]
             [% stag %] IF search.results [% etag %]
                 <br>
-                <a href="#search_form"><span class="searchtext">Advanced</span></a>
+                <a href="#search_form"><span class="search-text">Advanced</span></a>
             [% stag %] END [% etag %]
         [% END %]
 
