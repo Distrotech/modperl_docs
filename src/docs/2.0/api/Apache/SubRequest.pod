@@ -21,8 +21,6 @@ Apache::SubRequest - Perl API for Apache subrequests
   $subr = $r->lookup_uri("/foo", $r->output_filters);
   # now run them
   my $rc = $subr->run;
-  # optional
-  $subr->DESTROY;
 
 
 
@@ -51,9 +49,9 @@ C<Apache::SubRequest> provides the following functions and/or methods:
 
 =head2 C<DESTROY>
 
-Free the memory associated with a sub request
+Free the memory associated with a sub request:
 
-  $subr->DESTROY();
+  undef $subr; # but normally don't do that
 
 =over 4
 
@@ -68,10 +66,16 @@ The sub request to finish
 
 =back
 
-This method will be called automatically when C<$subr> goes out of
-scope, so there is no need to call it explicitly, unless you want to
-free the memory earlier than that (for example if you run several
-subrequests).
+C<DESTROY> is called automatically when C<$subr> goes out of scope.
+
+If you want to free the memory earlier than that (for example if you
+run several subrequests), you can C<undef> the object as:
+
+  undef $subr;
+
+but never call C<DESTROY> explicitly, since it'll result in
+C<ap_destroy_sub_req> being called more than once, resulting in
+multiple brain injuries and certain hair loss.
 
 
 
