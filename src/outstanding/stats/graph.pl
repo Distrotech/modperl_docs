@@ -153,6 +153,9 @@ sub read_data_from_csv
         while (<ZZZ>)
         {
                 chomp;
+
+                next if /^#/;
+
                 # you might want Text::CSV here
                 my @row = split /\t/;
 
