@@ -210,7 +210,29 @@ The string passed in C<cmd_data>
 
 =back
 
+For example here is how to pass arbitrary information to a directive
+subroutine:
 
+  our @APACHE_MODULE_COMMANDS = (
+    {
+      name => 'MyDirective1',
+      func => \&MyDirective,
+      cmd_data => 'One',
+    },
+    {
+      name => 'MyDirective2',
+      func => \&MyDirective,
+      cmd_data => 'Two',
+    },
+  );
+  
+  sub MyDirective {
+    my($self, $parms, $args) = @_;
+    my $info = $parms->info;
+  }
+
+In this example C<$info> will either be 'One' or 'Two' depending on 
+wether the directive was called as I<MyDirective1> or I<MyDirective2>
 
 
 
