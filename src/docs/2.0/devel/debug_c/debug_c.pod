@@ -77,8 +77,8 @@ commands file:
   handle SIGPIPE nostop
   set auto-solib-add 0
   b ap_run_pre_config
-  run -DONE_PROCESS -d `pwd`/t -f `pwd`/t/conf/httpd.conf \
-  -DAPACHE2 -DPERL_USEITHREADS
+  run -d `pwd`/t -f `pwd`/t/conf/httpd.conf \
+  -DONE_PROCESS -DAPACHE2 -DPERL_USEITHREADS
   sharedlibrary modperl
   b modperl_hook_init
   # start: modperl_hook_init
@@ -104,20 +104,30 @@ load the I<libmodperl.so> library as explained earlier. Since httpd
 restarts on the start, we have to I<continue> until we hit
 I<modperl_hook_init> second time, where we can set the breakpoint at
 I<apr_poll>, the very point where httpd polls for new request and run
-again I<continue> so it'll stop at I<apr_poll>.
+again I<continue> so it'll stop at I<apr_poll>. This particular script
+passes over modperl_hook_init(), since we run the C<continue> command
+a few times to reach the I<apr_poll> breakpoint. See the L<Precooked
+gdb Startup Scripts|/Precooked_gdb_Startup_Scripts> section for
+standalone script examples.
 
 When gdb stops at the function I<apr_poll> it's a time to start the
-client:
+client, that will issue a request that will exercise the server
+execution path we want to debug. For example to debug the
+implementation of C<APR::Pool> we may run:
 
-  % t/TEST -run
+  % t/TEST -run apr/pool
+
+which will trigger the run of a handler in
+I<t/response/TestAPR/pool.pm> which in turn tests the C<APR::Pool>
+code.
 
 But before that if we want to debug the server response we need to set
 breakpoints in the libraries we want to debug. For example if we want
 to debug the function C<PerlIOAPR_open> which resides in
 I<APR/PerlIO/PerlIO.so> we first load it and then we can set a
 breakpoint in it. Notice that gdb may not be able to load a library if
-it wasn't referenced by any of the code. In this case we have to
-require this library at the server startup. In our example we load:
+it wasn't referenced by any of the code. In this case we have to load
+this library at the server startup. In our example we load:
 
   PerlModule APR::PerlIO
 
@@ -126,7 +136,7 @@ loaded in gdb, run (when the server has been started):
 
   gdb> info sharedlibrary
 
-which will also show which libraries were loaded already.
+which also shows which libraries are loaded already.
 
 Also notice that you don't have to type the full path of the library
 when trying to load them, even a partial name will suffice. In our
@@ -153,7 +163,56 @@ in the beginning of this section and craft the startup script the way
 you need to avoid extra typing and mistakes when repeating the same
 debugging process again and again.
 
+Another important thing is that whenever you want to be able to see
+the source code for the code you are stepping through, the library or
+the executable you are in must have the debug symbols present. That
+means that the code has to be compiled with I<-g> option for the gcc
+compiler. For example if I want to set a breakpoint in /lib/libc.so, I
+can do that by loading:
 
+ gdb> sharedlibrary /lib/libc.so
+
+But most likely that this library has the debug symbols stripped off,
+so while gdb will be able to break at the breakpoint set inside this
+library, you won't be able to step through the code. In order to do
+so, recompile the library to add the debug symbols.
+
+If debug code in response handler you usually start the client after
+the server was started, when doing this a lot you may find it annoying
+to need to wait before the client can be started. Therefore you can
+use a few tricks to do it in one command. If the server starts fast
+you can use sleep():
+
+  % ddd b-command=.debug-modperl-init & ; \
+  sleep 2 ; t/TEST -verbose -run apr/pool
+
+or to use the C<Apache::Test> framework's C<-ping=block> option:
+
+  % ddd -command=.debug-modperl-init & ; \
+  t/TEST -verbose -run -ping=block apr/pool
+
+=head2 Precooked gdb Startup Scripts
+
+Here are a few startup scripts you can use with gdb to accomplish one
+of the common debugging tasks. To execute the startup script, simply run:
+
+ % gdb -command=.debug-script-filename
+
+They can be run under gdb and any of the gdb front-ends. For example
+to run the scripts under C<ddd> substitute C<gdb> with C<ddd>:
+
+ % ddd -command=.debug-script-filename
+
+=over
+
+=item Debugging mod_perl Initialization
+
+The F<code/.debug-modperl-init> startup script breaks at the
+modperl_hook_init() function, which is useful for debugging code at
+the modperl's initialization phase.
+
+
+=back
 
 
 =head1 Obtaining Core Files

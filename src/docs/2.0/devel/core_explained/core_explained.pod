@@ -301,7 +301,7 @@ In addition it creates a number of files in the I<xs/> directory:
 
 =head1 mpxs_ vs MPXS_
 
-<SCRATCH THAT>
+[SCRATCH THAT]
 If you look at the source code there are functions starting with
 I<mpxs_> and those with I<MPXS_>.
 
@@ -311,7 +311,7 @@ the function has to have a prototype C<...> (which stands for
 I<items>, I<MARK> and I<SP> arguments) or prefixed with I<MPXS_>,
 which are hooked directly into newXS().
 
-</SCRATCH THAT>
+[/SCRATCH THAT]
 
 =head1 Gluing Existing APIs
 
