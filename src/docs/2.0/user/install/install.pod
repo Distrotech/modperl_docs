@@ -505,9 +505,8 @@ I</home/httpd/httpd-2.0/bin/apxs>.
 =head4 MP_AP_PREFIX
 
 Apache installation prefix, under which the I<include/> directory with
-Apache C header files can be found. For example if you've have
-installed Apache 2.0 in directory I<\Apache2> on Win32, you should
-use:
+Apache C header files can be found. For example if you've installed
+Apache 2.0 in directory I<\Apache2> on Win32, you should use:
 
   MP_AP_PREFIX=\Apache2
 
