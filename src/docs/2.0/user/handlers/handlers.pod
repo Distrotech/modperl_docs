@@ -747,7 +747,9 @@ skeleton:
 
 If the attribute is not specified, the default C<FilterRequestHandler>
 attribute is assumed.  Filters specifying subroutine attributes must
-subclass C<Apache::Filter>.
+subclass C<Apache::Filter>, others only need to:
+
+  use Apache::Filter ();
 
 The request filters are usually configured in the
 C<E<lt>LocationE<gt>> or equivalent sections:
@@ -836,6 +838,9 @@ This handler is of type C<VOID>.
 
 The handler's configuration scope is C<DIR>.
 
+The following sections include several examples of the
+C<PerlInputFilterHandler> handler.
+
 =head2 PerlOutputFilterHandler
 
 The C<PerlOutputFilterHandler> handler registers and configures output
@@ -845,16 +850,20 @@ This handler is of type C<VOID>.
 
 The handler's configuration scope is C<DIR>.
 
-=head2 Filters All-in-One
+The following sections include several examples of the
+C<PerlOutputFilterHandler> handler.
+
+
+=head2 All-in-One Filter
 
 Before we delve into the details of how to write filters that do
-something, lets first write a simple filter that does nothing but
-snooping on the data that goes through it. We are going to develop the
-C<MyApache::FilterSnoop> handler which can snoop on request and
-connection filters, in input and output modes.
+something with the data, lets first write a simple filter that does
+nothing but snooping on the data that goes through it. We are going to
+develop the C<MyApache::FilterSnoop> handler which can snoop on
+request and connection filters, in input and output modes.
 
 But first let's develop a simple response handler that simply dumps
-the request's I<args> and I<content> strings:
+the request's I<args> and I<content> as strings:
 
   file:MyApache/Dump.pm
   ---------------------
@@ -917,8 +926,7 @@ the response will be:
   content:
   mod_perl rules
 
-As you can see it has simply dumped the query string and the posted
-data.
+As you can see it simply dumped the query string and the posted data.
 
 Now let's write the snooping filter:
 
@@ -1015,8 +1023,8 @@ right away. After that we pass the brigade to the next filter.
 Finally we dump to STDERR the information about the type of the
 current mode, and the content of the bucket bridage.
 
-Let's snoop on connection and request levels in both directions, by
-applying the following configuration:
+Let's snoop on connection and request filter levels in both
+directions by applying the following configuration:
 
   Listen 8008
   <VirtualHost _default_:8008>
@@ -1030,6 +1038,7 @@ applying the following configuration:
       <Location /dump>
           SetHandler modperl
           PerlResponseHandler MyApache::Dump
+          # Request filters
           PerlInputFilterHandler  MyApache::FilterSnoop::request
           PerlOutputFilterHandler MyApache::FilterSnoop::request
       </Location>
@@ -1137,7 +1146,8 @@ don't see it):
       HEAP:
           HTTP/1.1 200 OK
           Date: Tue, 13 Aug 2002 12:36:52 GMT
-          Server: Apache/2.0.40-dev (Unix) mod_perl/1.99_05-dev Perl/v5.8.0 mod_ssl/2.0.40-dev OpenSSL/0.9.6d DAV/2
+          Server: Apache/2.0.40-dev (Unix) mod_perl/1.99_05-dev 
+          Perl/v5.8.0 mod_ssl/2.0.40-dev OpenSSL/0.9.6d DAV/2
           Content-Length: 43
           Connection: close
           Content-Type: text/plain; charset=ISO-8859-1
@@ -1171,37 +1181,64 @@ only if there is some POSTed data to read, if you run the same request
 without POSTing any data or simply running a GET request, the request
 input filter won't be called.
 
-=head2 XXX
 
-The stream-orientered output filter in the following example reverses
-every line of the response, preserving the new line characters in
-their places:
 
-  file:httpd.conf
-  ---------------
-  PerlModule Apache::ReverseFilter
-  <Location /reverse>
-      SetHandler modperl
-      PerlResponseHandler     Apache::ReverseFilter::response
-      PerlOutputFilterHandler Apache::ReverseFilter::output_filter
-  </Location>
+=head2 Bucket Brigades and Stream-Oriented Request Output Filters
 
-  file:Apache/ReverseFilter.pm
-  ----------------------------
-  package Apache::ReverseFilter;
+As mentioned earlier output filters can be written using the bucket
+brigades manipulation or the simplified stream-oriented interface.
+
+First let's develop a response handler that send two lines of output:
+numerals 0-9 and the English alphabet:
+
+  file:MyApache/SendAlphaNum.pm
+  -------------------------------
+  package MyApache::SendAlphaNum;
   
   use strict;
-  use warnings FATAL => 'all';
+  use warnings;
   
   use Apache::RequestRec ();
   use Apache::RequestIO ();
+  
+  use Apache::Const -compile => qw(OK);
+  
+  sub handler {
+      my $r = shift;
+  
+      $r->content_type('text/plain');
+  
+      $r->print(0..9, "0\n");
+      $r->print('a'..'z', "\n");
+  
+      Apache::OK;
+  }
+  1;
+
+The purpose of our request output filter is to reverse every line of
+the response, preserving the new line characters in their places.
+
+
+
+=head3 Stream-oriented Output Filter
+
+The first filter that we are going to implement is using the
+stream-oriented interface:
+
+  file:MyApache/FilterReverse1.pm
+  ----------------------------
+  package MyApache::FilterReverse1;
+  
+  use strict;
+  use warnings;
+  
   use Apache::Filter ();
   
   use Apache::Const -compile => qw(OK);
   
   use constant BUFF_LEN => 1024;
   
-  sub output_filter {
+  sub handler {
       my $filter = shift;
   
       while ($filter->read(my $buffer, BUFF_LEN)) {
@@ -1213,43 +1250,51 @@ their places:
   
       Apache::OK;
   }
-  
-  sub response {
-      my $r = shift;
-  
-      $r->content_type('text/plain');
-      $r->puts(1..9, "0\n");
-      $r->puts('a'..'z', "\n");
-  
-      Apache::OK;
-  }
   1;
 
+Next, we add the following configuration to I<httpd.conf>:
 
-In this example when a request to I</reverse> is made, the response
-handler C<Apache::ReverseFilter::response()> sends:
+  PerlModule MyApache::FilterReverse1
+  PerlModule MyApache::SendAlphaNum
+  <Location /reverse1>
+      SetHandler modperl
+      PerlResponseHandler     MyApache::SendAlphaNum
+      PerlOutputFilterHandler MyApache::FilterReverse1
+  </Location>
+
+Now when a request to I</reverse1> is made, the response handler
+C<MyApache::SendAlphaNum::handler()> sends:
 
   1234567890
   abcdefghijklmnopqrstuvwxyz
 
 as a response and the output filter handler
-C<Apache::ReverseFilter::output_filter> reverses the lines, so the
-client gets:
+C<MyApache::FilterReverse1::handler> reverses the lines, so the client
+gets:
 
   0987654321
   zyxwvutsrqponmlkjihgfedcba
 
-The reversing filter is quite simple: it reads from the output stream
-in the I<readline()> mode in chunks up to the buffer length (1024 in
-our example), and then prints each line reversed while preserving the
-new line control characters at the end of each line. In order not to
-distract the reader from the purpose of the example the used code is
-oversimplified and won't handle correctly input lines which are longer
-than 1024 characters and possibly using a different line termination
-pattern. So here is an example of a more complete handler, which does
-takes care of these issues:
+The C<Apache::Filter> module loads the C<read()> and C<print()>
+methods which encapsulate the stream-oriented filtering interface.
 
-  sub output_filter {
+The reversing filter is quite simple: in the loop it reads the data in
+the I<readline()> mode in chunks up to the buffer length (1024 in our
+example), and then prints each line reversed while preserving the new
+line control characters at the end of each line.  Behind the scenes
+C<$filter-E<gt>read()> retrieves the incoming brigade and gets the
+data from it, whereas C<$filter-E<gt>print()> appends to the new
+brigade which is then sent to the next filter in the stack. C<read()>
+breaks the while loop, when the brigade is emptied or the end of
+stream is received.
+
+In order not to distract the reader from the purpose of the example
+the used code is oversimplified and won't handle correctly input lines
+which are longer than 1024 characters and possibly using a different
+line termination pattern. So here is an example of a more complete
+handler, which does takes care of these issues:
+
+  sub handler {
       my $filter = shift;
   
       my $left_over = '';
@@ -1273,9 +1318,92 @@ the end of the handler.
 
 
 
+=head3 Bucket Brigades Output Filter
 
+The second filter that we are going to implement is using the bucket
+brigades interface to accomplish exactly the same task as the first
+filter.
 
+  package MyApache::FilterReverse2;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::Filter;
+  
+  use APR::Brigade ();
+  use APR::Bucket ();
+  
+  use Apache::Const -compile => 'OK';
+  use APR::Const -compile => ':common';
+  
+  sub handler  {
+      my($filter, $bb) = @_;
+  
+      my $c = $filter->c;
+      my $new_bb = APR::Brigade->new($c->pool, $c->bucket_alloc);
+  
+      while (!$bb->empty) {
+          my $bucket = $bb->first;
+  
+          $bucket->remove;
+  
+          if ($bucket->is_eos) {
+              $new_bb->insert_tail($bucket);
+              last;
+          }
+  
+          my $data;
+          my $status = $bucket->read($data);
+          return $status unless $status == APR::SUCCESS;
+  
+          if ($data) {
+              $data = join "",
+                  map {scalar(reverse $_), "\n"} split "\n", $data;
+              $bucket = APR::Bucket->new($data);
+          }
+  
+          $new_bb->insert_tail($bucket);
+      }
+  
+      my $rv = $filter->next->pass_brigade($new_bb);
+      return $rv unless $rv == APR::SUCCESS;
+  
+      Apache::OK;
+  }
+  1;
 
+and the corresponding configuration:
+
+  PerlModule MyApache::FilterReverse2
+  PerlModule MyApache::SendAlphaNum
+  <Location /reverse2>
+      SetHandler modperl
+      PerlResponseHandler     MyApache::SendAlphaNum
+      PerlOutputFilterHandler MyApache::FilterReverse2
+  </Location>
+
+Now when a request to I</reverse2> is made, the client gets:
+
+  0987654321
+  zyxwvutsrqponmlkjihgfedcba
+
+as expected.
+
+The bucket brigades output filter version is just a bit more
+complicated than the stream-oriented one. The handler receives the
+incoming bucket brigade C<$bb> as its second argument. Since when the
+handler is completed it must pass a brigade to the next filter in the
+stack, we create a new bucket brigade into which we are going to put
+the modified buckets and which eventually we pass to the next filter.
+
+The core of the handler is in removing buckets from the head of the
+bucket brigade C<$bb> while there are some, reading the data from the
+buckets, reversing and putting it into a newly created bucket which is
+inserted to the end of the new bucket brigade. If we see a bucket
+which designates the end of stream, we insert that bucket to the tail
+of the new bucket brigade and break the loop. Finally we pass the
+created brigade with modified data to the next filter and return.
 
 
 =head1 Handler (Hook) Types
