@@ -154,6 +154,18 @@ what you are doing.
 You can still call C<CORE::exit> to kill the interpreter, again if you
 know what you are doing.
 
+
+=head1 Threads Coding Issues under mod_perl
+
+Of course first of all study how the new ithreads Perl model works, by
+reading the I<perlthrtut>, I<threads> and I<threads::shared> manpages.
+
+Artur Bergman explains how to port pure Perl modules to work properly
+with Perl ithreads. Issues with chdir() and other functions that rely
+on shared process' datastructures are discussed.
+http://www.perl.com/lpt/a/2002/06/11/threads.html
+
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
