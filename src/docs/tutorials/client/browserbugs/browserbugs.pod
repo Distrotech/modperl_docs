@@ -9,6 +9,32 @@ sometimes we have to deal with them; refer to this chapter for some
 known bugs and how you can work around them.
 
 
+=head1 Same Browser Requests Serialization
+
+The following feature/bug mostly affects developers.
+
+Certain browsers will serialize requests to the same URL if accessed
+from different windows. For example if you have a CGI script that
+does:
+
+  for (1..100) {
+      print "$$: $_\n";
+      warn  "$$: $_\n";
+      sleep 1;
+  }
+
+And two concurrent requests are issued from different windows of the
+same browser (for those browsers that have this bug/feature), the
+browser will actually issue only one request and won't run the second
+request till the first one is finished. The debug printing to the
+error_log file helps to understand the serialization issue.
+
+Solution? Find a UA that doesn't have this feature, especially if a
+command line UA will do (LWP comes to mind). As of this writing, opera
+6, mozilla 1.0 on linux have this problem, whereas konqueror 3 and
+lynx don't.
+
+
 =head1 Preventing QUERY_STRING from getting corrupted because of &entity key names
 
 In a URL which contains a query string, if the string has multiple
