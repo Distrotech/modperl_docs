@@ -136,6 +136,9 @@ production site. You have been warned!
 
 =item Perl
 
+CVS Perl (aka bleadperl or bleedperl) is only generally available
+through an rsync repository maintained by ActiveState:
+
   # (--delete to ensure a clean state)
   % rsync -acvz --delete --force \
     rsync://ftp.linux.activestate.com/perl-current/ perl-current
@@ -151,6 +154,7 @@ mod_perl. You can install LWP with C<CPAN.pm> shell:
 
   % perl -MCPAN -e 'install("LWP")'
 
+For more details on bleadperl, see I<http://dev.perl.org/perl5/source.html>.
 
 =item Apache
 
