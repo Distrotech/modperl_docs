@@ -1963,15 +1963,27 @@ tests whether mod_cgi or mod_cgid is available.
 
 =item * have_apache()
 
-tests for a specific version of httpd. For example:
+tests for a specific generation of httpd. For example:
 
   plan tests => 2, have_apache 2;
 
-will skip the test if not run under httpd-2.x.
+will skip the test if not run under the 2nd Apache generation
+(httpd-2.x.xx).
 
   plan tests => 2, have_apache 1;
 
-will run the test only if run under Apache version 1.x.
+will skip the test if not run under the 1st Apache generation
+(apache-1.3.xx).
+
+=item * have_min_apache_version
+
+Used to require a minimum version of Apache. For example:
+
+  plan tests => 5, have_min_apache_version("2.0.40");
+
+Requires Apache 2.0.40 or higher.
+
+
 
 =back
 
