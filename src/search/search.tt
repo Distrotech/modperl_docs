@@ -29,15 +29,13 @@
 [% END %]
 
 
-[% BLOCK title %]
-
-    [% IF ! search.results %]
-        [% search.errstr || search.config('title') || "Search page" %]
-    [% ELSE %]
-        [% search.navigation('hits') %] Results for [[% search.query_simple | html %]]
-    [% END %]
-
-[% END %]
+[%- BLOCK title - %]
+    [%- IF ! search.results -%]
+        [%- search.errstr || search.config('title') || "Search page" -%]
+    [%- ELSE -%]
+        [%- search.navigation('hits') %] Results for [[% search.query_simple | html %]]
+    [%- END -%]
+[%- END -%]
 
 
 [% BLOCK swish_header %]    
