@@ -49,7 +49,7 @@ mailto:asp-help@perl.apache.org
 
 =item * gossamer-threads.com
 
-http://www.gossamer-threads.com/archive/mod_perl_C1/asp_F3/ 
+http://gossamer-threads.com/lists/modperl/asp/ 
 
 =item * mail-archive.com
 

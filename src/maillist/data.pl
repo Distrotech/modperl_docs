@@ -34,7 +34,7 @@ DESC
                    },
                    {
                     title   => 'gossamer-threads.com',
-                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/modperl_F7/',
+                    link    => 'http://gossamer-threads.com/lists/modperl/modperl/',
                     comment => '',
                    },
                    {
@@ -105,11 +105,6 @@ DESC
                     comment => '',
                    },
                    {
-                    title   => 'gossamer-threads.com',
-                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/docs-dev_F5/',
-                    comment => '',
-                   },
-                   {
                     title   => 'Mbox file',
                     link    => 'http://perl.apache.org/mail/docs-dev/',
                     comment => '',
@@ -169,7 +164,7 @@ DESC
                    },
                    {
                     title   => 'gossamer-threads.com',
-                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/dev_F4/',
+                    link    => 'http://gossamer-threads.com/lists/modperl/dev/',
                     comment => '',
                    },
                    {
@@ -214,6 +209,11 @@ DESC
                    {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-cvs&r=1&w=2#apache-modperl-cvs',
+                    comment => '',
+                   },
+                   {
+                    title   => 'gossamer-threads.com',
+                    link    => 'http://gossamer-threads.com/lists/modperl/modperl-cvs/',
                     comment => '',
                    },
                    {
@@ -316,7 +316,7 @@ DESC
                    },
                    {
                     title   => 'gossamer-threads.com',
-                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/advocacy_F1/',
+                    link    => 'http://gossamer-threads.com/lists/modperl/advocacy/',
                     comment => '',
                    },
                    {
@@ -349,7 +349,7 @@ DESC
       archives => [
                    {
                     title   => 'gossamer-threads.com',
-                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/announce_F2/',
+                    link    => 'http://gossamer-threads.com/lists/modperl/announce/',
                     comment => '',
                    },
                    {
@@ -451,7 +451,7 @@ DESC
                    },
                    {
                     title   => 'gossamer-threads.com',
-                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/embperl_F6/',
+                    link    => 'http://gossamer-threads.com/lists/modperl/embperl/',
                     comment => '',
                    },
                    {
@@ -488,7 +488,7 @@ DESC
       archives => [
                    {
                     title   => 'gossamer-threads.com',
-                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/asp_F3/',
+                    link    => 'http://gossamer-threads.com/lists/modperl/asp/',
                     comment => '',
                    },
                    {

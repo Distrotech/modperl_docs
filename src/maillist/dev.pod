@@ -58,7 +58,7 @@ http://marc.theaimsgroup.com/?l=apache-modperl-dev&r=1&w=2#apache-modperl-dev
 
 =item * gossamer-threads.com
 
-http://www.gossamer-threads.com/archive/mod_perl_C1/dev_F4/ 
+http://gossamer-threads.com/lists/modperl/dev/ 
 
 =item * www.mail-archive.com
 

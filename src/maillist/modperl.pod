@@ -63,7 +63,7 @@ http://marc.theaimsgroup.com/?l=apache-modperl&r=1&w=2#apache-modperl
 
 =item * gossamer-threads.com
 
-http://www.gossamer-threads.com/archive/mod_perl_C1/modperl_F7/ 
+http://gossamer-threads.com/lists/modperl/modperl/ 
 
 =item * msgs.securepoint.com
 

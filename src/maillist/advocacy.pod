@@ -54,7 +54,7 @@ http://www.mail-archive.com/advocacy@perl.apache.org/
 
 =item * gossamer-threads.com
 
-http://www.gossamer-threads.com/archive/mod_perl_C1/advocacy_F1/ 
+http://gossamer-threads.com/lists/modperl/advocacy/ 
 
 =item * Mbox file
 

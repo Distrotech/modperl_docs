@@ -55,7 +55,7 @@ http://www.ecos.de/~mailarc/embperl/
 
 =item * gossamer-threads.com
 
-http://www.gossamer-threads.com/archive/mod_perl_C1/embperl_F6/ 
+http://gossamer-threads.com/lists/modperl/embperl/ 
 
 =item * geocrawler.com
 

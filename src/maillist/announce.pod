@@ -50,7 +50,7 @@ mailto:announce-help@perl.apache.org
 
 =item * gossamer-threads.com
 
-http://www.gossamer-threads.com/archive/mod_perl_C1/announce_F2/ 
+http://gossamer-threads.com/lists/modperl/announce/ 
 
 =item * Mbox file
 
