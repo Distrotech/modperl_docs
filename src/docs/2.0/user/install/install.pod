@@ -525,8 +525,10 @@ everything works on your machine:
 
 If something goes wrong with the test phase and want to figure out how
 to run individual tests and pass various options to the test suite,
-refer to the L<Apache::Test
-Framework|docs::general::testing::testing/Running_Tests> manual.
+see the corresponding sections of L<the bug reporting
+guidelines|docs::2.0::user::help::help/_C_make_test___Failures> or
+the L<Apache::Test
+Framework|docs::general::testing::testing/Running_Tests> tutorial.
 
 =head2 Installing mod_perl
 

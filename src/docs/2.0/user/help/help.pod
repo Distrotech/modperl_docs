@@ -119,7 +119,7 @@ or use an altenative way:
 
   % cd modperl-1.99_xx
   % rm t/log/error_log
-  % t/TEST -v compat/apache_util.t modperl/pnotes.t
+  % t/TEST -verbose compat/apache_util.t modperl/pnotes.t
 
 If you are using the latter, remember to remove the I<error_log> file
 before running tests, so you won't have clutter from the previous
@@ -127,9 +127,16 @@ run. C<make test> always removes the old I<error_log> file for you.
 
 Also please notice that there is more than one C<make test> run. The
 first one is running at the top directory, the second inside a
-sub-directory I<ModPerl-Registry/>, so if you get failures in the
-second run, make sure to chdir() to that directory before you look at
-the I<error_log> file and re-run tests in the verbose mode.
+sub-directory I<ModPerl-Registry/>. The first logs errors to
+I<t/log/error_log>, the second to I<ModPerl-Registry/t/log/error_log>.
+Therefore if you get failures in the second run, make sure to chdir()
+to that directory before you look at the I<t/log/error_log> file and
+re-run tests in the verbose mode. For example:
+
+  % cd modperl-1.99_xx/ModPerl-Registry
+  % rm t/log/error_log
+  % t/TEST -verbose closure.t
+
 
 =head2 Resolving Segmentation Faults
 
