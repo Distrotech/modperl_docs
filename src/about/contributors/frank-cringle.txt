@@ -1,6 +1,0 @@
-Name: Frank Cringle
-Email: fdc@cliwe.ping.de
-Summary: Documentation
-
-Frank is the author of the mod_perl FAQ (now merged into the
-documentation).
