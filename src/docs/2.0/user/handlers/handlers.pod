@@ -273,7 +273,7 @@ connection record object.
 
 
 
-=head1 Request Phases
+=head1 HTTP Request Phases
 
 Each HTTP request is processes by 11 phases at most, executed in the
 following order:
