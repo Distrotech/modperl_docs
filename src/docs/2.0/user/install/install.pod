@@ -548,7 +548,18 @@ Read build options from given file. e.g.:
 
   MP_OPTIONS_FILE=~/.my_mod_perl2_opts
 
+=head4 MP_APR_LIB
 
+On Win32, in order to build the APR and APR::* modules so as to
+be independent of mod_perl.so, a static library is first built
+containing the needed functions these modules link into. The option
+
+  MP_APR_LIB=aprext
+
+specifies the name that this library has. The default used
+is C<aprext>. This option has no effect on platforms other than
+Win32, as they use a different mechanism to accomplish the
+decoupling of APR and APR::* from mod_perl.so.
 
 =head3 mod_perl-specific Compiler Options
 
