@@ -165,7 +165,7 @@ The module object if found, undef otherwise
 
 Determines if a certain module is loaded
 
-  $loaded = Apache::Module->loaded($module);
+  $loaded = Apache::Module::loaded($module);
 
 =over 4
 
