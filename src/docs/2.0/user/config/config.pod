@@ -454,8 +454,66 @@ possible to do so on a per-virtualhost basis:
 
 
 
+=head1 Server Startup Define Option Retrieval
 
+Inside I<httpd.conf> one can do conditional configuration based on the
+define options passed at the server startup. For example:
 
+  <IfDefine PERLDB>
+      <Perl>
+          use Apache::DB ();
+          Apache::DB->init;
+      </Perl>
+    
+      <Location />
+          PerlFixupHandler Apache::DB
+      </Location>
+  </IfDefine>
+
+So only when the server is started as:
+
+  % httpd C<-DPERLDB> ...
+
+The configuration inside C<IfDefine> will have an effect. If you want
+to have some configuration section to have an effect if a certain
+define wasn't defined use C<!>, for example here is the opposite of
+the previous example:
+
+  <IfDefine !PERLDB>
+      # ...
+  </IfDefine>
+
+If you need to access any of the startup defines in the Perl code you
+use C<Apache::exists_config_define>. For example in a startup file you
+can say:
+
+  use Apache::ServerUtil ();
+  if (Apache::exists_config_define("PERLDB")) {
+      require Apache::DB;
+      Apache::DB->init;
+  }
+
+=head2 MODPERL2 Define
+
+When running under mod_perl 2.0 a special configuration define
+C<MODPERL2> is enabled internally, as if the server had been started
+with C<-DMODPERL2>. For example this can be used to write a
+configuration file which needs to do something different whether it's
+running under mod_perl 1.0 or 2.0:
+
+ <IfDefine MODPERL2>
+     # 2.0 configuration
+ </IfDefine>
+ <IfDefine !MODPERL2>
+     # else
+ </IfDefine>
+
+From within Perl code this can be tested with
+C<Apache::exists_config_define()>, for example:
+
+  if (Apache::exists_config_define("MODPERL2")) {
+      # some 2.0 specific code
+  }
 
 
 =head1 Retrieving Server Startup Options
