@@ -9,13 +9,12 @@
 
 =head1 NAME
 
-Test Development CVS mailing list
+Apache-Test Development SVN mailing list
 
 =head1 Description
 
-The B<test-cvs> list is the list where cvs commits for the I<Apache
-HTTP Test> L<http://httpd.apache.org/test/> project are sent,
-including cvs commits of changes for mod_perl's sub-project
+The B<test-commits> list is the list where SVN commits for the I<Apache
+-Test> L<http://perl.apache.org/test/> project are sent.
 C<Apache::Test>.
 
 Please read the mailing list L<Guidelines|maillist::email-etiquette>
@@ -30,19 +29,19 @@ following addresses.
 
 =item * subscribe to the list
 
-mailto:test-cvs-subscribe@httpd.apache.org
+mailto:test-commits-subscribe@perl.apache.org
 
 =item * subscribe to the list's digest
 
-mailto:test-cvs-subscribe-digest@httpd.apache.org
+mailto:test-commits-subscribe-digest@perl.apache.org
 
 =item * unsubscribe from the list
 
-mailto:test-cvs-unsubscribe@httpd.apache.org
+mailto:test-commits-unsubscribe@perl.apache.org
 
 =item * get help with the list
 
-mailto:test-cvs-help@httpd.apache.org
+mailto:test-commits-help@perl.apache.org
 
 =back
 
@@ -56,7 +55,7 @@ http://marc.theaimsgroup.com/?l=apache-test-cvs
 
 =item * Mbox file
 
-http://httpd.apache.org/mail/test-cvs/ 
+http://perl.apache.org/mail/test-cvs/ 
 
 =back
 

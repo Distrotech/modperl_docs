@@ -9,14 +9,12 @@
 
 =head1 NAME
 
-Test Development mailing list
+Apache-Test Development mailing list
 
 =head1 Description
 
-The B<test-dev> mailing list is for discussing I<Apache HTTP Test>
-L<http://httpd.apache.org/test/> project. It's linked from here,
-because mod_perl's sub-project C<Apache::Test> is discussed on this
-list.
+The B<test-dev> mailing list is for discussing I<Apache-Test>
+L<http://perl.apache.org/test/> project.
 
 Please read the mailing list L<Guidelines|maillist::email-etiquette>
 before posting.
@@ -30,19 +28,19 @@ following addresses.
 
 =item * subscribe to the list
 
-mailto:test-dev-subscribe@httpd.apache.org
+mailto:test-dev-subscribe@perl.apache.org
 
 =item * subscribe to the list's digest
 
-mailto:test-dev-subscribe-digest@httpd.apache.org
+mailto:test-dev-subscribe-digest@perl.apache.org
 
 =item * unsubscribe from the list
 
-mailto:test-dev-unsubscribe@httpd.apache.org
+mailto:test-dev-unsubscribe@perl.apache.org
 
 =item * get help with the list
 
-mailto:test-dev-help@httpd.apache.org
+mailto:test-dev-help@perl.apache.org
 
 =back
 
@@ -58,13 +56,9 @@ http://www.apachelabs.org/test-dev/
 
 http://marc.theaimsgroup.com/?l=apache-test-dev 
 
-=item * gmain.com
-
-http://thread.gmane.org/gmane.comp.apache.httpd.test.devel/ 
-
 =item * Mbox file
 
-http://httpd.apache.org/mail/test-dev/ 
+http://perl.apache.org/mail/test-dev/ 
 
 =back
 

@@ -248,18 +248,16 @@ DESC
      ### 
      'test-dev' => 
      {
-      title => 'Test Development',
+      title => 'Apache-Test Development',
       desc  => <<"DESC",
-The B<test-dev> mailing list is for discussing I<Apache HTTP Test>
-L<http://httpd.apache.org/test/> project. It's linked from here,
-because mod_perl's sub-project C<Apache::Test> is discussed on this
-list.
+The B<test-dev> mailing list is for discussing I<Apache-Test>
+L<http://perl.apache.org/test/> project.
 DESC
       addr  => {
-                subscribe        => 'test-dev-subscribe@httpd.apache.org',
-                subscribe_digest => 'test-dev-subscribe-digest@httpd.apache.org',
-                unsubscribe      => 'test-dev-unsubscribe@httpd.apache.org',
-                help             => 'test-dev-help@httpd.apache.org',
+                subscribe        => 'test-dev-subscribe@perl.apache.org',
+                subscribe_digest => 'test-dev-subscribe-digest@perl.apache.org',
+                unsubscribe      => 'test-dev-unsubscribe@perl.apache.org',
+                help             => 'test-dev-help@perl.apache.org',
                },
       archives => [
                    {
@@ -273,13 +271,8 @@ DESC
                     comment => '',
                    },
                    {
-                    title   => 'gmain.com',
-                    link    => 'http://thread.gmane.org/gmane.comp.apache.httpd.test.devel/',
-                    comment => '',
-                   },
-                   {
                     title   => 'Mbox file',
-                    link    => 'http://httpd.apache.org/mail/test-dev/',
+                    link    => 'http://perl.apache.org/mail/test-dev/',
                     comment => '',
                    },
                   ],
@@ -290,18 +283,17 @@ DESC
      ### 
      'test-cvs' => 
      {
-      title => 'Test Development CVS',
+      title => 'Apache-Test Development SVN',
       desc  => <<"DESC",
-The B<test-cvs> list is the list where cvs commits for the I<Apache
-HTTP Test> L<http://httpd.apache.org/test/> project are sent,
-including cvs commits of changes for mod_perl's sub-project
+The B<test-commits> list is the list where SVN commits for the I<Apache
+-Test> L<http://perl.apache.org/test/> project are sent.
 C<Apache::Test>.
 DESC
       addr  => {
-                subscribe        => 'test-cvs-subscribe@httpd.apache.org',
-                subscribe_digest => 'test-cvs-subscribe-digest@httpd.apache.org',
-                unsubscribe      => 'test-cvs-unsubscribe@httpd.apache.org',
-                help             => 'test-cvs-help@httpd.apache.org',
+                subscribe        => 'test-commits-subscribe@perl.apache.org',
+                subscribe_digest => 'test-commits-subscribe-digest@perl.apache.org',
+                unsubscribe      => 'test-commits-unsubscribe@perl.apache.org',
+                help             => 'test-commits-help@perl.apache.org',
                },
       archives => [
                    {
@@ -311,7 +303,7 @@ DESC
                    },
                    {
                     title   => 'Mbox file',
-                    link    => 'http://httpd.apache.org/mail/test-cvs/',
+                    link    => 'http://perl.apache.org/mail/test-cvs/',
                     comment => '',
                    },
                   ],
