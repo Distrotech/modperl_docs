@@ -11,7 +11,7 @@ p {
 }
 
 h1, h2, h3, h4 {
-    color: #525D76;
+    color: #525d76;
     font-size: 1.2em;
     font-family: helvetica, arial, verdana, sans-serif;
 }  
@@ -30,13 +30,20 @@ td.non-sel-bg {
 }
 
 td.sel-bg {
-    background-color: #525D76;
+    background-color: #525d76;
 }
 
 div.nonselectedmenuitem a:link, div.nonselectedmenuitem a:visited, div.nonselectedmenuitem a:active {
     font-family: verdana, arial, helvetica, sans-serif;
     font-size: 12px;
-    color: #525D76;
+    color: #525d76;
+    text-decoration: none;
+}
+
+div.selectedmenuitem a, div.selectedmenuitem a:link, div.selectedmenuitem a:visited, div.selectedmenuitem a:active {
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 12px;
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -48,16 +55,12 @@ div.nonselectedmenuitem {
     background-color: #eeeeee;
 }
 
-div.selectedmenuitem a, div.selectedmenuitem a:link, div.selectedmenuitem a:visited, div.selectedmenuitem a:active {
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 12px;
-    color: #ffffff;
-    text-decoration: none;
-}
-
 div.selectedmenuitem {
-    background-color: #525D76;
     padding: 3px;
+    color: #000000;
+    font-family: verdana, helvetica, arial, sans-serif;
+    font-size: 12px;
+    background-color: #525d76;
 }
 
 div.nonselectedmenuitem a:hover, div.selectedmenuitem a:hover {
@@ -70,18 +73,18 @@ div.menu-title {
     font-family: verdana, helvetica, arial, sans-serif;
     font-size: 14px;
     font-weight: bold;
-    background-color: #828DA6;
+    background-color: #828da6;
     text-align: center;
 }
 
 td.menu-border {
-    background-color: #525D76;
+    background-color: #525d76;
 }
 
 /* standard html tags */
 
 td.search {
-    background-color: #525D76;
+    background-color: #525d76;
     font-family: verdana, arial, helvetica, sans-serif;
     font-size: 11px;
     color: #ffffff;
@@ -155,14 +158,14 @@ div.adtext {
 /*breacrumb*/
 td.navbarglobal {
     font-family: verdana, helvetica, sans-serif;
-    color: #828DA6;
+    color: #828da6;
     font-size: 0.85em;
 }
 
 
 td.navbarglobal a:link, td.navbarglobal a:visited, td.navbarglobal a:active {
     text-decoration: none; 
-    color: #828DA6;
+    color: #828da6;
     font-family:  verdana, sans-serif;
 }
 
@@ -261,7 +264,7 @@ td.download a:hover {
 
 /* "spacegif" substitute in menus */
 td.blue-bg {
-    background-color: #525D76;
+    background-color: #525d76;
 }
 
 td.ad-bg {
