@@ -158,115 +158,152 @@ makes it much easier to get a good overview of the different files.
 
 =head1 CVS+SSH access for mod_perl committers
 
-If you are lucky enough to have commit access to the mod_perl CVS
-repositories, you'll have to use SSH together with CVS for added
-security. We suppose that you have the user name I<user> and password
-I<pass>, whcih you will have received from the sysadmin.
+mod_perl committers need to use CVS over SSH. Normal SSH
+authentications mechanisms apply; you can use public key, password,
+etc. Refer to your ssh client's manpage.
 
-Firt, you'll need an SSH client running from the shell. For Unix, look
-to http://www.openssh.org/. For Windows, you might want to look at
-Putty, http://www.chiark.greenend.org.uk/~sgtatham/putty/, especially
-the I<plink> client which runs from the command line.
+=head2 Getting the Client
 
-=head2 Checking out
+If you don't have SSH already installed, you can get it from
+I<http://www.openssh.org/>. If your platform is not supported, this
+site provides pointers to other implementations. For example for
+Windows, you might want to look at C<Putty>,
+http://www.chiark.greenend.org.uk/~sgtatham/putty/, especially the
+C<plink> client which runs from the command line. Also see
+C<http://www.ssh.com/>.
 
-The checkout procedure is approximately the same as for anonymous
-CVS. However, some additional measures need to be taken beforehand.
+=head2 Setting Up the Environment
 
-First of all, set your C<CVS_RSH> environment variable to C<ssh> (if
-your SSH program has a different name, such as I<plink>, use that
-instead):
+Set your C<CVS_RSH> environment variable to C<ssh> (if your SSH
+program has a different name, such as I<plink>, use that instead). For
+example if you are using Bourne-style shell:
 
   % export CVS_RSH=ssh
 
-This all depends on which shell you are running under. You should add
-this your I<.bashrc> or similar file, so that it's set on startup. For
-Windows, add the line
+You should add this your I<.bashrc> or similar file, so that it's set
+on startup. For Windows, add the line
 
   set CVS_RSH=ssh
 
 to I<autoexec.bat>, or set the environment variable through the System
-section of the Control Panel on NT systems.
+section of the I<Control Panel> on NT systems.
 
-Second, your CVS Root now changes. Check out with the line:
+The CVS Root is different when using SSH. It's:
 
-  % cvs -d :ext:user@cvs.apache.org:/home/cvs co modperl
+  username@cvs.apache.org:/home/cvs
 
-Next, SSH will probably ask you if you want to allow the host
-I<cvs.apache.org>. Answer yes. Then you are asked for your password;
-type it in. Now you will get a freshly checked out copy of the
-I<modperl> repository.
+where I<username> is your username on the I<cvs.apache.org> machine.
 
 =head2 Working with CVS
 
+For example let's say you want to work with the I<modperl-docs> cvs
+repository.
+
+To check out the repository do:
+
+  % cvs -d username@cvs.apache.org:/home/cvs checkout modperl-docs
+
+or the shortcut:
+
+  % cvs -d username@cvs.apache.org:/home/cvs co modperl-docs
+
+If it's a first time you ssh to cvs.apache.org, it will ask if you
+want to allow the host I<cvs.apache.org>. Answer I<yes>. Then you are
+asked for your password; type it in. Now you will get a freshly
+checked out copy of the I<modperl-docs> repository.
+
+If you get permission problems, most likely your Unix group wasn't
+adjusted. Contact the person who gave you the cvs access.
+
+To bring your repository's copy up to date, run:
+
+  % cvs update -dP
+
+or the shortcut:
+
+  % cvs up -dP
+
+The C<-d> option builds directories (if any were added since last
+update), like checkout does. The C<-P> option prunes empty directories
+if any. You can put these and other handy options into the rc
+file. For example with C<openssh> and C<ssh> clients, this is
+I<~/.cvsrc>. Usually we have the following in this file.
+
+  cvs -z9
+  update -dP
+  diff -u
+
+The first line tells to use the best compression level when
+communicating with the server. The last line will do a unified I<diff>
+when C<cvs diff> is used.
+
+If you have done some changes, which weren't committed, it's possible
+that while trying to merge the differences the client will report
+about collisions which happens when you've happened to change
+something that was changed and committed by somebody else. You will
+have to resolve the conflicts by manual editing of the files in
+question.
+
 Normally, most changes should go through peer review first. It might
 be a good idea to discuss the intricacies of a change on the
-appropriate mailing list before commiting anything. Then, to commit:
+appropriate mailing list before committing anything. Then, to commit:
 
-  % cvs update
-  % cvs commit
+  % cvs commit filename(s)
 
-Running C<cvs update> avoids any problems with out of date versions of
-files. If you get any conflicts because of it, these must be changed
-before doing C<cvs commit>, which will incorporate any changes into
-the repository. To commit only a single file, do:
+or the shortcut:
+
+  % cvs ci filename(s)
+
+But first run C<cvs update> to avoid any problems with out of date
+versions of files. If you get any conflicts because of it, these must
+be changed before doing C<cvs commit>, which will incorporate any
+changes into the repository. To commit only a single file, do:
 
   % cvs commit path/to/file
 
-To add a file:
+If a file or a directory is not under cvs control you have to add it
+to the cvs first and then commit it:
 
   % cvs add path/to/file
+  % cvs ci path/to/file
 
-If it is a binary file, you must make sure to do:
+Usually cvs recognizes binary files by their extensions (e.g. images),
+but if you commit a file with some unusual extension tell your cvs
+client that it's a binary file with C<-kb> option:
 
   % cvs add -kb path/to/binary/file
 
 Then, to add it permanently, you will have to commit it.
 
+=head2 A Special Note to modperl-docs Committers
+
 One B<very> important note before (ab)using your powers: the mod_perl
 documentation project makes use of an automatic build system. This
-means that any changes commited will be periodically rebuilt to create
-the new site. This is great, but a side-effect of this is that if
+means that any changes committed will be periodically rebuilt to create
+the new site (so you don't have to login and do the manual
+update/rebuild). This is great, but a side-effect of this is that if
 someone commits anything that doesn't work, the build will fail, and
-might leave the site unavailable. 
+might break parts of the site.
 
 To avoid these problems, please make sure to run C<bin/build> on your
-working copy to test I<before> commiting. Also, make sure to run C<cvs
-update> to check that you have added all files to the repository, it
-can happen quickly to forget adding the files you had changed!
+working copy to test I<before> committing. Also, make sure to run C<cvs
+update> to check that you have added all files to the repository; it's 
+easy to forget adding the files you have created, and C<bin/build>
+will work fine your side, but will fail for others because of the
+missing files the build depends on.
 
-=head2 Avoiding typing in the password
+=head2 Avoiding Typing in the Password
 
-From the ssh man page:
+After awhile you will get tired of typing the password for every cvs
+operation that you do. You can avoid that using the public key
+authentication and the ssh authentication agent. Refer to your ssh
+client's manpage for more information. For example for the C<openssh>
+and C<ssh> clients, the C<ssh-add> utility can be used to enter the
+password once for your private key and then it'll do the public key
+authentication for you every time you work with cvs over ssh (as long
+as C<ssh-agent> is running). Refer to the relevant manpage for more
+info (I<ssh-agent> in this case).
 
-  As a third authentication method, ssh supports RSA based
-  authentication. The scheme is based on public-key cryptography:
-  there are cryptosystems where encryption and decryption are done
-  using separate keys, and it is not possible to derive the decryption
-  key from the encryption key. RSA is one such system. The idea is
-  that each user creates a public/private key pair for authentication
-  purposes. The server knows the public key, and only the user knows
-  the private key. The file $HOME/.ssh/authorized_keys lists the
-  public keys that are permitted for logging in. When the user logs
-  in, the ssh program tells the server which key pair it would like to
-  use for authentication. The server checks if this key is permitted,
-  and if so, sends the user (actually the ssh program running on
-  behalf of the user) a challenge, a random number, encrypted by the
-  user's public key. The challenge can only be decrypted using the
-  proper private key. The user's client then decrypts the chal- lenge
-  using the private key, proving that he/she knows the private key but
-  without disclosing it to the server.
-  
-  ssh implements the RSA authentication protocol automatically. The
-  user creates his/her RSA key pair by running ssh-keygen(1). This
-  stores the private key in $HOME/.ssh/identity and the public key in
-  $HOME/.ssh/identity.pub in the user's home directory. The user
-  should then copy the identity.pub to $HOME/.ssh/authorized_keys in
-  his/her home directory on the remote machine (the authorized_keys
-  file corresponds to the conventional $HOME/.rhosts file, and has one
-  key per line, though the lines can be very long). After this, the
-  user can log in without giving the password. RSA authentication is
-  much more secure than rhosts authentication.
 
 =head1 mod_perl and Related Projects on cvs.apache.org
 
