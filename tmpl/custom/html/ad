@@ -1,16 +1,63 @@
+[% USE date;
+   books = [
+    { title => "The mod_perl Developer's Cookbook",
+      url   => "http://www.modperlcookbook.org/", 
+      image => { uri => "/images/books/modperlcookbook.jpg",
+                 height => 140,
+                 width => 113,
+               },
+      authors => "Geoffrey Young, Paul Lindner, Randy Kobes",
+    },
+    { title => "mod_perl Pocket Reference",
+      url   => "http://www.oreilly.com/catalog/modperlpr/", 
+      image => { uri => "/images/books/modperlpr.jpg",
+                 height => 140,
+                 width => 85,
+               },
+      authors => "Andrew Ford",
+    },
+    { title => "Writing Apache Modules with Perl and C",
+      url   => "http://www.modperl.com/", 
+      image => { uri => "/images/books/wrapmod.jpg",
+                 height => 140,
+                 width => 107,
+               },
+      authors => "Lincoln Stein, Doug MacEachern",
+    },
+    { title => "Embedding Perl in HTML with Mason",
+      url   => "http://www.masonbook.com/",
+      image => { uri => "/images/books/masonbook.jpg",
+                 height => 140,
+                 width  => 107,
+               },
+      authors => "Dave Rolsky, Ken Williams",
+    },
+  ];
+  
+  max_items = 3;
+  num_items = books.size;
+  day_week = date.format(date.now, '%w'); # 0 == Sunday
+  first_book = day_week % num_items;
+-%]
+
 [%- WRAPPER wrap_box
     title = "<a href=\"${doc.dir.abs_doc_root}/docs/offsite/books.html\">Books</a>"
 -%]
-
+     
+[%- i_max = max_items - 1;
+    FOREACH i = [0..i_max];
+      cur = (i + first_book) % num_items;
+      book = books.$cur;
+%]
         <tr>
             <td class="menu-border" width="1"><br></td>
             <td class="ad-bg">
                 <div class="adtext">
-                    The mod_perl Developer's Cookbook<br><br>
-                    <a href="http://www.modperlcookbook.org/">
-                        <img src="[% doc.dir.abs_doc_root %]/images/books/modperlcookbook.jpg" border="1" align="middle" width="113" height="140" class="img-border" alt="The mod_perl Developer's Cookbook"></a>
+                    [% book.title %]<br><br>
+                    <a href="[% book.url %]">
+                        <img src="[% doc.dir.abs_doc_root %][% book.image.uri %]" border="1" align="middle" width="[% book.image.width %]" height="[% book.image.height %]" class="img-border" alt="[% book.title %]"></a>
                     <br><br>
-                    <em>By Geoffrey Young, Paul Lindner, Randy Kobes</em>
+                    <em>By [% book.authors %]</em>
                 </div>
             </td>
             <td class="menu-border" width="1"><br></td>
@@ -20,39 +67,6 @@
             <td class="menu-border" colspan="3" height="1"><small class="nbr"><small class="nbr"><br class="smallbr"></small></small></td>
         </tr>
 
-        <tr>
-            <td class="menu-border" width="1"><br></td>
-            <td class="ad-bg">
-                <div class="adtext">
-                    mod_perl Pocket Reference<br><br>
-                    <a href="http://www.oreilly.com/catalog/modperlpr/">
-                        <img src="[% doc.dir.abs_doc_root %]/images/books/modperlpr.jpg" border="1" align="middle" width="85" height="140" class="img-border" alt="mod_perl Pocket Reference"></a>
-                        <br><br>
-                        <em>By Andrew Ford</em>
-                </div>
-            </td>
-            <td class="menu-border" width="1"><br></td>
-        </tr>
+[% END %]
 
-        <tr>
-            <td class="menu-border" colspan="3" height="1"><small class="nbr"><br class="smallbr"></small></td>
-        </tr>
-
-        <tr>
-            <td class="menu-border" width="1"><br></td>
-            <td class="ad-bg">
-                <div class="adtext">
-                <br>Writing Apache Modules with Perl and C<br><br>
-                    <a href="http://www.modperl.com/">
-                        <img src="[% doc.dir.abs_doc_root %]/images/books/wrapmod.jpg" border="1" align="middle" width="107" height="140" class="img-border" alt="Writing Apache Modules with Perl and C"></a>
-                    <br><br>
-                    <em>By Lincoln Stein, Doug MacEachern</em>
-                </div>
-            </td>
-            <td class="menu-border" width="1"><br></td>
-        </tr>
-
-        <tr>
-            <td class="menu-border" colspan="3" height="1"><small class="nbr"><br class="smallbr"></small></td>
-        </tr>
 [% END %]
