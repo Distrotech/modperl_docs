@@ -19,7 +19,7 @@ Be sure to read the I<README> and I<INSTALL> documents (in the
 distribution package) and the longer L<the installation
 guide|docs::1.0::guide::install>.
 
-=head2 Stable source distribution
+=head2 Stable Source Distribution
 
 =over
 
@@ -33,7 +33,7 @@ http://www.cpan.org/modules/by-module/Apache/
 
 =back
 
-=head2 Development source distribution
+=head2 Development Source Distribution
 
 =over
 
@@ -48,7 +48,8 @@ Using anoncvs (password is "anoncvs"):
   % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" login
   % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" co modperl
 
-For more information on using CVS see L<the CVS HowTo|docs::general::cvs_howto>
+For more information on using CVS see L<the CVS
+HowTo|docs::general::cvs_howto>
 
 =back
 
@@ -58,7 +59,7 @@ Be sure to read the I<README> and I<INSTALL> documents (in the
 distribution package) and the longer mod_perl 2.x L<installation
 guide|docs::2.0::user::install::install>.
 
-=head2 2.x Development source distribution
+=head2 2.x Development Source Distribution
 
 =over 
 
@@ -79,7 +80,8 @@ Using anoncvs (password is "anoncvs"):
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apr
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apr-util
 
-For more information on using CVS see L<the CVS HowTo|docs::general::cvs_howto>
+For more information on using CVS see L<the CVS
+HowTo|docs::general::cvs_howto>
 
 =back
 
