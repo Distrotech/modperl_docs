@@ -83,6 +83,11 @@ C<DBD::Oracle> is loaded (which might happen indirectly via the C<DBI>
 module. Therefore you need to make sure that wherever that load
 happens C<%ENV> is properly set by that time.
 
+=head2 Error about not finding I<Apache.pm> with I<CGI.pm>
+
+You need to install at least version 2.87 of CGI.pm to work
+under mod_perl 2.0, as earlier CGI.pm versions aren't
+mod_perl 2.0 aware.
 
 =head1 Maintainers
 
