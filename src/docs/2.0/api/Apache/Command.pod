@@ -11,13 +11,11 @@ Apache::Command - Perl API for accessing Apache module command information
   use Apache::Command ();
   my $module = Apache::Module::find_linked_module('mod_perl.c');
   
-  my $cmd = $module->cmds();
-  while ($cmd) {
+  for (my $cmd = $module->cmds(); $cmd; $cmd = $cmd->next()) {
       $cmd->args_how();
       $cmd->errmsg();
       $cmd->name();
       $cmd->req_override();
-      $cmd = $cmd->next();
   }
 
 
