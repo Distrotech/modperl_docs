@@ -97,7 +97,7 @@ sub parse {
                 }
                 accum_h($self, qq{$val"});
             }
-            accum_h($self, qq{">});
+            accum_h($self, qq{>});
         }
 
         sub end_h {
