@@ -51,7 +51,7 @@ Content:
 
 =for html <hr>
 <p><b>
-$Id: TODO,v 1.74 2002/07/01 09:08:02 pereinar Exp $
+$Id: TODO,v 1.75 2002/07/01 11:58:42 pereinar Exp $
 </b></p>
 
 =cut
@@ -145,8 +145,6 @@ Site Migration process:
 
 - get Apache team to link to correct place at
   http://httpd.apache.org/userslist.html
-
-- set all "???" in Changes to the correct date.
 
 ====================================================================
 
