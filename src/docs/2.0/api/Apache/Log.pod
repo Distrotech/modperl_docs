@@ -12,7 +12,7 @@ Apache::Log -- Perl API for Apache Logging Methods
   my $s = Apache->server;
   
   $s->log_error("server: log_error");
-  $s->log_serror(Apache::LOG_MARK, Apache::LOG_ERR,
+  $s->log_serror(__FILE__, __LINE__, Apache::LOG_ERR,
                  0, "log_serror logging at err level");
   $s->log_serror(Apache::LOG_MARK, Apache::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
@@ -102,6 +102,10 @@ will log the message, but this one won't:
 It will be logged only if the server log level is set to I<info> or
 I<debug>. (either in the configuration file or using the
 C<$s-E<gt>loglevel()> method.)
+
+The filename and the line number of the caller are logged only if
+C<Apache::LOG_DEBUG> is used (because that's how Apache 2.0 logging
+mechanism works).
 
 Other constants:
 
@@ -261,9 +265,9 @@ For example:
 
 Though looking like a constant, this is a function, which returns a
 list of two items: C<(__FILE__, __LINE__)>, i.e. the file and the line
-where the function was called from.
-
-
+where the function was called from. It's mostly useful to be passed as
+the first argument to those logging methods, expecting the filename
+and the line number as the first arguments.
 
 
 
