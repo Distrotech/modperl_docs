@@ -214,7 +214,7 @@ This procedure should run a post-install script to copy
 F<mod_perl.so> to your Apache2 modules directory (eg,
 F<C:/Apache2/modules/>). If this is not done, you can get the file
 F<mod_perl.tar.gz> from
-http://theoryx5.uwinnipeg.ca/ppmps/x86/ which, when unpacked,
+http://theoryx5.uwinnipeg.ca/ppms/x86/ which, when unpacked,
 contains F<mod_perl.so> in the top-level directory.
 
 Currently this repository does not contain a mod_perl-1 package.
