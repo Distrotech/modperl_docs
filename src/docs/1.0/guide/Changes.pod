@@ -21,7 +21,7 @@ The most recent changes are listed first.
  o remove httpd.conf-perl which isn't in the dist [Matt Brooks
    <matthew.brooks (at) fedex.com>]
 
-* modules.pod
+* snippets.pod
 
  o Added some Apache::Cookie login page example with internal
    redirects. [Alan Bailward, <alan (at) ufies.org>]
