@@ -585,15 +585,15 @@ C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
 To reset the list of handlers, instead of doing:
 
-  $r->set_handlers( PerlAuthenHandler => [ \&OK ] );
+  $r->set_handlers(PerlAuthenHandler => [ \&OK ]);
 
 do:
 
-  $r->set_handlers(PerlCleanupHandler => []);
+  $r->set_handlers(PerlAuthenHandler => []);
 
 or
 
-  $r->set_handlers(PerlCleanupHandler => undef);
+  $r->set_handlers(PerlAuthenHandler => undef);
 
 See
 C<L<Apache::RequestUtil|docs::2.0::api::Apache::RequestUtil/C_set_handlers_>>.
