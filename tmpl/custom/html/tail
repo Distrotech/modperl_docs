@@ -2,9 +2,9 @@
     <!-- footer (tail )-->
     <div class="tail">
         <center>
-        Use of the Camel for Perl is a trademark of <a href="http://www.ora.com">O'Reilly &amp; Associates</a>, and is used by permission.
-        <br><br>
         Last modified [% doc.last_modified %]
+        <br><br>
+        <font size="-2">Use of the Camel for Perl is a trademark of <a href="http://www.ora.com">O'Reilly &amp; Associates</a>, and is used by permission.</font>
         </center>
     </div>
     <!-- end footer (tail)-->
