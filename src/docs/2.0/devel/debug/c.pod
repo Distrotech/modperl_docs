@@ -11,6 +11,9 @@ mod_perl core itself.
 
 META: needs more organization
 
+META: there is a new directive CoreDumpDirectory in 2.0.45, need to
+check whether we should mention it.
+
 =head2 Setting gdb breakpoints with mod_perl built as DSO
 
 If mod_perl is built as a DSO module, you cannot set the breakpoint in
