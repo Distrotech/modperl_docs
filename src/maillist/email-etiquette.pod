@@ -353,7 +353,7 @@ The readers of the mod_perl List aren't interested in that kind of
 thing.  Don't get involved.
 
 
-=head1 The mod_perl Guide
+=head1 The mod_perl documentation
 
 You absolutely B<must> read the L<mod_perl documentation|docs::index>.
 
