@@ -1,0 +1,189 @@
+=head1 NAME
+
+Frequently asked questions for mod_perl on Win32
+
+=head1 Description
+
+This document discusses some questions that arise often
+with mod_perl on Win32.
+
+=head1 Obtaining mod_perl
+
+=head2 Do I need Perl to use mod_perl?
+
+Yes, Perl is required. You can obtain a Win32 Perl
+binary from L<http://www.activestate.com/>. See also
+the all-in-one binary packages for both
+L<mod_perl 1.0|docs::1.0::os::win32::install/All_in_one_packages>
+and
+L<mod_perl 2.0|docs::2.0::os::win32::install/All_in_one_packages>
+which include Perl, Apache, and mod_perl.
+
+=head2 Are mod_perl ppm packages available?
+
+PPM packages for both
+L<mod_perl 1.0|docs::1.0::os::win32::install/PPM_Packages>
+and 
+L<mod_perl 2.0|docs::2.0::os::win32::install/PPM_Packages>
+are available.
+
+=head2 Should I use mod_perl 1.0 or mod_perl 2.0?
+
+L<mod_perl 1.0|docs::1.0::guide::intro>, for use with Apache 1.0, 
+is stable and well tested, while 
+L<mod_perl 2.0|docs::2.0::user::intro::overview>, for use with 
+Apache 2.0, is in a development stage. Normally, therefore, one
+would recommend mod_perl 2.0 only in a testing and development
+environment. However, on Win32 mod_perl 1.0 is subject to some serious
+L<threading limitations|docs::1.0::os::win32::multithread>
+which are overcome with mod_perl 2.0; this, coupled
+with the improved performance of Apache 2.0 on Win32, may
+make mod_perl 2.0 a better choice.
+
+=head1 Installing mod_perl
+
+=head2 I get an "unable to load mod_perl.so" error when starting
+Apache.
+
+This can be due to a number of reasons.
+
+=over 
+
+=item Verify that mod_perl.so was compiled against the same Perl and Apache
+versions that you are using.
+
+=item Check that the directory containing C<perl.exe> is in your I<PATH> environment variable.
+
+=item Try inserting a directive
+
+   LoadFile "C:/Path/to/your/Perl/bin/perlxx.dll"
+
+before the
+
+   LoadModule perl_module modules/mod_perl.so
+
+directive.
+
+=item Try a reboot.
+
+=back
+
+=head2 How do I set the PATH environment variable?
+
+This differs according to the flavour of Win32 you are using.
+Search for I<set PATH environment> within the Windows
+Help utility under the Start menu for instructions.
+
+=head1 Configuring mod_perl
+
+=head2 How do I know scripts are running under mod_perl?
+
+You can test this by using a script which prints out the
+L<environment
+variables|docs::1.0::guide::install/Testing_via_a_CGI_script>; 
+note that for mod_perl 2.0 a slightly L<different
+configuration|docs::2.0::os::win32::config/Registry_scripts>
+is required.
+
+=head2 My script gets returned as plain text.
+
+See the discussion of configuring 
+L<Apache::Registry|docs::1.0::guide::config/My_CGI_Perl_Code_Gets_Returned_as_Plain_Text_Instead_of_Being_Executed_by_the_Webserver>; for mod_perl 2.0, a
+L<different
+configuration|docs::2.0::user::compat::compat/The_C_Apache__Registry__Family>
+is required.
+
+=head2 I get a "Save-As" dialogue box when calling a script.
+
+See the discussion about 
+L<PerlSendHeader|docs::1.0::guide::config/My_Script_Works_under_mod_cgi__but_when_Called_via_mod_perl_I_Get_a__Save_As__Prompt>; note that for mod_perl 2.0, 
+there is a L<different
+syntax|docs::2.0::user::compat::compat/C_PerlSendHeader_>.
+
+=head2 My script displays a "Content-type" header in the browser.
+
+Check the setting of 
+L<PerlSendHeader|docs::1.0::guide::porting/Generating_correct_HTTP_Headers>;
+note that for mod_perl 2.0, there is a L<different
+syntax|docs::2.0::user::compat::compat/C_PerlSendHeader_>.
+
+=head1 Using mod_perl
+
+=head2 One request must finish before another is processed.
+
+You are probably running into 
+L<multithreading limitations|docs::1.0::os::win32::multithread>
+of mod_perl 1.0; if this is a major problem, you should 
+consider using
+L<mod_perl 2.0|docs::2.0::os::win32::install>.
+
+=head2 My script just hangs.
+
+You should check the setting of 
+L<PerlSendHeader|docs::1.0::guide::porting/Generating_correct_HTTP_Headers>;
+for mod_perl 2.0, there is a L<different
+syntax|docs::2.0::user::compat::compat/C_PerlSendHeader_>.
+If this setting is correct, and
+this occurs under mod_perl 2.0 and
+Perl-5.6.1, try upgrading to
+L<Perl-5.8.0|docs::2.0::os::win32::install>.
+
+=head2 How do I run ASP scripts?
+
+For a mod_perl solution, check L<http://www.apache-asp.org/>
+for a discussion of the Apache::ASP module.
+
+=head2 How do I install additional Apache modules?
+
+If these aren't available via ppm from the repositories
+for 
+L<mod_perl 1.0|docs::1.0::os::win32::install/PPM_Packages>
+or
+L<mod_perl 2.0|docs::2.0::os::win32::install/PPM_Packages>,
+you can build them using the
+L<CPAN.pm|docs::1.0::os::win32::config/Apache_modules>
+module.
+
+=head1 See Also
+
+The discussion of 
+L<frequent mod_perl problems|docs::1.0::guide::frequent>,
+the L<troubleshooting index|docs::1.0::guide::troubleshooting>,
+L<debugging mod_perl|docs::1.0::guide::debug>, and
+a L<troubleshooting guide for mod_perl 
+2.0|docs::2.0::user::troubleshooting::troubleshooting>.
+Help is also available through the archives of and subscribing to
+the L<mod_perl mailing list|maillist::modperl>; you will
+probably find the
+L<guide to getting help|docs::1.0::guide::help>
+useful reading beforehand.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * 
+
+Randy Kobes E<lt>randy@theoryx5.uwinnipeg.caE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Randy Kobes E<lt>randy@theoryx5.uwinnipeg.caE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+=cut
+

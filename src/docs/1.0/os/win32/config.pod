@@ -126,7 +126,9 @@ to somewhere in your I<PATH> environment variable).
 
 The directions for L<installing mod_perl 1.0 on
 Win32|docs::1.0::os::win32::install>, the L<mod_perl
-documentation|docs::index>, L<http://take23.org/>.
+documentation|docs::index>, L<http://take23.org/>,
+and the
+L<FAQs for mod_perl on Win32|docs::2.0::os::win32::faq>.
 Help is also available through the archives of and subscribing to
 the L<mod_perl mailing list|maillist::modperl>.
 
