@@ -40,8 +40,8 @@ http://lists.perl.org/.
 For other remotely related to mod_perl questions see the references to
 L<other documentation|docs::offisite::other>.
 
-Finally if before posting to the list for the first time, please refer
-to the mod_perl mailing list's
+Finally, if you are posting to the list for the first time, please
+refer to the mod_perl mailing lists'
 L<Guidelines|maillist::email-etiquette>.
 
 =head1 How to Report Problems
