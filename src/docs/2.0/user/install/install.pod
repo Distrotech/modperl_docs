@@ -78,15 +78,15 @@ with CPAN.pm shell:
 =head2 Create the build environment
 
    % cd modperl-2.0
-   % perl Makefile.PL MP_AP_PREFIX=/home/stas/src/httpd-2.0.xx \
+   % perl Makefile.PL MP_AP_PREFIX=/home/stas/httpd/prefork \
      MP_INST_APACHE2=1
    % make
 
 XXX: MP_INST_APACHE2=1 should become the default
 
-I<options> an optional list of (key,value) pairs.
-
-Make sure to read the explanation of C<L<MP_AP_PREFIX|/MP_AP_PREFIX>>:
+I<options> an optional list of (key,value) pairs.  Usually you need to
+use only the C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option to complete the
+build. This and other options are discussed in the following sections.
 
 =head3 Boolean Build Options
 
@@ -186,9 +186,10 @@ META: this option most likely will go away, use MP_AP_PREFIX
 
 =head4 MP_AP_PREFIX
 
-Apache installation prefix, under which the Apache I<include/>
-directory can be found. For example if you've have installed Apache
-2.0 in directory I<\Apache2> on Win32, you should use:
+Apache installation prefix, under which the I<include/> directory with
+Apache C header files can be found. For example if you've have
+installed Apache 2.0 in directory I<\Apache2> on Win32, you should
+use:
 
   MP_AP_PREFIX=\Apache2
 
@@ -197,6 +198,17 @@ directory, but only after you've built or configured Apache in it. For
 example:
 
   MP_AP_PREFIX=/home/stas/apache.org/httpd-2.0
+
+Though in this case C<make test> won't automatically find C<httpd>,
+therefore you should run C<t/TEST> instead and pass the location of
+C<apxs> or C<httpd>, e.g.:
+
+  % t/TEST -apxs /home/stas/httpd/prefork/bin/apxs
+
+or
+
+  % t/TEST -httpd /home/stas/httpd/prefork/bin/httpd
+
 
 =head4 MP_CCOPTS
 
