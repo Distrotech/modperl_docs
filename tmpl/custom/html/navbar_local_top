@@ -16,4 +16,8 @@
         </td>
     </tr>
 </table>
+    <input type="hidden" name="metaname" value="swishdefault">
+    <input type="hidden" name="sort" value="swishrank">
+    <input type="hidden" name="what" value="[% %]">
+</form>
 <!--this line break must be here for ns4-->

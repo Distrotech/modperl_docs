@@ -28,10 +28,6 @@
     <br>
     <hr noshade size="1">
     [% INCLUDE tail %]
-    <input type="hidden" name="metaname" value="swishdefault">
-    <input type="hidden" name="sort" value="swishrank">
-    <input type="hidden" name="what" value="[% %]">
-</form>
 </div>
 <!-- end right box-->
 </body>
