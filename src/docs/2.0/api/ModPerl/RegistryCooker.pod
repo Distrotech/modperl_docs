@@ -124,9 +124,9 @@ default: read_script()
 
 default: rewrite_shebang()
 
-=item * set_script_name()
+=item * get_script_name()
 
-default: set_script_name()
+default: get_script_name()
 
 =item * chdir_file()
 
