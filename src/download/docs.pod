@@ -27,7 +27,35 @@ You will now find a directory called I<modperl-docs> in the current
 working directory which contains all the sources needed to build the
 site.
 
+Another way to download the sources, if you don't want to use CVS, is
+to get the snapshots available from
+http://cvs.apache.org/snapshots/modperl-docs/ . However, it will be a
+major drag for you to keep these up to date, so you are better advised
+to use the CVS access.
+
 =head1 Build
+
+The build process is very simple, as we have developed a number of
+tools which are very helpful in this task. However, you will need a
+number of prerequisites before starting.
+
+=head2 Prerequisites
+
+DocSet: while it is included with the CVS distribution, please
+download and install the latest version of DocSet from
+http://www.apache.org/~stas/. It will install the tool C<html2ps>,
+which is used to build the PDF version, and also a number of Perl
+modules.
+
+You will also need C<Pod::POM> for DocSet to work. You can get it from
+CPAN.
+
+For the PDF version, you will also need a command-line tool called
+C<ps2pdf>, which is included with the Ghostscript distribution: see
+http://www.ghostscript.com/ . You will probably also need the
+I<netpbm> package.
+
+ META: we need specifics about netpbm
 
 =head2 Normal build process
 
@@ -41,35 +69,6 @@ This will place the site in the sub-directory I<dst_html>. You may
 open I<index.html> in there to start browsing the site.
 
 =head2 PDF version
-
-=head3 Prerequisites
-
-To build the PDF documents, you will need to have some extra tools
-installed: I<ps2pdf> (which should come with the Ghostscript
-distribution, see http://www.ghostscript.com/), and maybe the
-I<netpbm> tools too. For Windows platforms, see the file
-I<INSTALL.win32> for information.
-
-Please also note that to build the PDF version, you will have to have
-I<html2ps> installed. This tool is distributed with DocSet, the
-framework used to build the site. DocSet is available in the I<lib/>
-directory of the site repository, but you will have to download the
-DocSet distribution to get I<html2ps>: download the latest from
-http://www.apache.org/~stas/ , and then install it with the usual:
-
-  % tar -zxvf DocSet-0.xx.tar.gz
-  % cd DocSet-0.xx
-  % perl Makefile.PL
-  % make
-  % make test
-  % make install
-
-(replace C<make> with C<nmake> on Windows systems, this implies that
-you have C<nmake> installed, see the ActivePerl docs for this:
-http://aspn.activestate.com//ASPN/Reference/Products/ActivePerl/faq/Windows/ActivePerl-Winfaq9.html#Where_do_I_get_a_Win32_make
-)
-
-=head3 Building
 
 Now, you can go back to your I<modperl-docs> directory. Building the
 PDF version is as easy as with the HTML version, just do a simple:
