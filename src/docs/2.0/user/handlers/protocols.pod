@@ -73,9 +73,6 @@ The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because it's not
 known yet which resource the request will be mapped to.
 
-XXX: As of this moment C<PerlPreConnectionHandler> is not being
-executed by mod_perl. Stay tuned.
-
 Example:
 
 A I<pre_connection> handler accepts connection record and socket

@@ -9,6 +9,9 @@ Apache::Reload - Reload Perl Modules when Changed on Disk
   PerlModule Apache::Reload
   PerlInitHandler Apache::Reload
 
+  # when working with protocols and connection filters
+  # PerlPreConnectionHandler Apache::Reload
+
   # Reload groups of modules:
   # httpd.conf:
   PerlModule Apache::Reload
@@ -57,11 +60,20 @@ environment variable in I<httpd.conf>:
 
 =head2 Monitor All Modules in C<%INC>
 
-To monitor and reload all modules in C<%INC>, simply add the following
-configuration to your I<httpd.conf>:
+To monitor and reload all modules in C<%INC> at the beginning of
+request's processing, simply add the following configuration to your
+I<httpd.conf>:
 
   PerlModule Apache::Reload
   PerlInitHandler Apache::Reload
+
+When working with connection filters and protocol modules
+C<Apache::Reload> should be invoked in the pre_connection stage:
+
+  PerlPreConnectionHandler Apache::Reload
+
+See also the discussion on
+C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreConnectionHandler>>.
 
 =head2 Register Modules Implicitly
 
