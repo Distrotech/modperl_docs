@@ -1,8 +1,11 @@
 =head1 NAME
 
-ModPerl::Util -- Helper mod_perl 2.0 Functions
+ModPerl::Util - Helper mod_perl 2.0 Functions
 
-=head1 SYNOPSIS
+
+
+
+=head1 Synopsis
 
   use ModPerl::Util;
   
@@ -12,23 +15,98 @@ ModPerl::Util -- Helper mod_perl 2.0 Functions
   
   ModPerl::Util::untaint($) # secret API?
 
-=head1 DESCRIPTION
+
+
+
+=head1 Description
 
 C<ModPerl::Util> provides mod_perl 2.0 util functions.
 
+
+
+
+
 =head1 API
 
-=over
+C<ModPerl::Util> provides the following functions and/or methods:
 
-=item * current_callback
 
-Returns the currently running callback, like 'PerlResponseHandler'
 
-=item * exit
 
-Used internally to replace CORE::exit and terminate the request,
-not the current process.
+=head2 C<untaint>
+
+Untaint the variable, by turning its tainted bit off (used internally).
+
+  untaint($var);
+
+=over 4
+
+=item arg1: C<$var> (scalar)
+
+=item ret: no return value
 
 =back
 
+Do not use this function unless you know what you are doing. To learn
+how to properly untaint variables refer to the I<perlsec> manpage.
+
+
+=head2 C<current_callback>
+
+Returns the currently running callback, like 'PerlResponseHandler'.
+
+  $callback = Apache::current_callback();
+
+=over 4
+
+=item ret: C<$callback> (string)
+
+=back
+
+
+
+
+
+=head2 C<exit>
+
+Used internally to replace C<CORE::exit> and terminate the request,
+not the current process.
+
+  ModPerl::Util::exit($status);
+
+=over 4
+
+=item opt arg1: C<$status> (integer)
+
+The exit status, similar to C<CORE::exit>. If not passed, the default
+value of 0 is used.
+
+=item ret: no return value
+
+=back
+
+
+
+
+=head1 See Also
+
+L<mod_perl 2.0 documentation|docs::2.0::index>.
+
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
+
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
+
 =cut
+
