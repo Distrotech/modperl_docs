@@ -759,13 +759,18 @@ process is hanging in perl_destruct() while trying to cleanup.  This
 cleanup normally isn't a requirement, you can disable it by setting
 the PERL_DESTRUCT_LEVEL environment variable to -1.  See the section
 "L<Speeding up the Apache Termination and
-Restart|general::control::control/Speeding_up_the_Apache_Termination_and_Restart>" for 
-more information.
+Restart|general::control::control/Speeding_up_the_Apache_Termination_and_Restart>"
+for more information.
 
 =head2 httpd keeps on growing after each restart
 
 See the I<HUP Signal> explanation at the section:
 L<Server Stopping and Restarting|general::control::control/Server_Stopping_and_Restarting>
+
+Also, be aware that C<E<lt>PerlE<gt>> sections can also cause leaks
+during graceful restarts.  See the (sub)thread:
+http://aspn.activestate.com/ASPN/Mail/Message/modperl/304620 (META: we
+don't have code samples, so if you have such please let us know).
 
 =head1 OS Specific Notes
 
