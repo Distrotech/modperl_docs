@@ -11,7 +11,7 @@ APR::Const - Perl Interface for APR Constants
 
 =head2 C<:common>
 
-  use APR::Const -compile qw(:common);
+  use APR::Const -compile => qw(:common);
 
 The C<:common> group is for XXX constants.
 
@@ -23,7 +23,7 @@ The C<:common> group is for XXX constants.
 
 =head2 C<:error>
 
-  use APR::Const -compile qw(:error);
+  use APR::Const -compile => qw(:error);
 
 The C<:error> group is for XXX constants.
 
@@ -194,7 +194,7 @@ The C<:error> group is for XXX constants.
 
 =head2 C<:filemode>
 
-  use APR::Const -compile qw(:filemode);
+  use APR::Const -compile => qw(:filemode);
 
 The C<:filemode> group is for XXX constants.
 
@@ -230,7 +230,7 @@ The C<:filemode> group is for XXX constants.
 
 =head2 C<:filepath>
 
-  use APR::Const -compile qw(:filepath);
+  use APR::Const -compile => qw(:filepath);
 
 The C<:filepath> group is for XXX constants.
 
@@ -260,7 +260,7 @@ The C<:filepath> group is for XXX constants.
 
 =head2 C<:fileperms>
 
-  use APR::Const -compile qw(:fileperms);
+  use APR::Const -compile => qw(:fileperms);
 
 The C<:fileperms> group is for XXX constants.
 
@@ -296,7 +296,7 @@ The C<:fileperms> group is for XXX constants.
 
 =head2 C<:finfo>
 
-  use APR::Const -compile qw(:finfo);
+  use APR::Const -compile => qw(:finfo);
 
 The C<:finfo> group is for XXX constants.
 
@@ -374,7 +374,7 @@ The C<:finfo> group is for XXX constants.
 
 =head2 C<:flock>
 
-  use APR::Const -compile qw(:flock);
+  use APR::Const -compile => qw(:flock);
 
 The C<:flock> group is for XXX constants.
 
@@ -395,7 +395,7 @@ The C<:flock> group is for XXX constants.
 
 =head2 C<:hook>
 
-  use APR::Const -compile qw(:hook);
+  use APR::Const -compile => qw(:hook);
 
 The C<:hook> group is for XXX constants.
 
@@ -419,7 +419,7 @@ The C<:hook> group is for XXX constants.
 
 =head2 C<:limit>
 
-  use APR::Const -compile qw(:limit);
+  use APR::Const -compile => qw(:limit);
 
 The C<:limit> group is for XXX constants.
 
@@ -440,7 +440,7 @@ The C<:limit> group is for XXX constants.
 
 =head2 C<:lockmech>
 
-  use APR::Const -compile qw(:lockmech);
+  use APR::Const -compile => qw(:lockmech);
 
 The C<:lockmech> group is for XXX constants.
 
@@ -467,7 +467,7 @@ The C<:lockmech> group is for XXX constants.
 
 =head2 C<:poll>
 
-  use APR::Const -compile qw(:poll);
+  use APR::Const -compile => qw(:poll);
 
 The C<:poll> group is for XXX constants.
 
@@ -494,7 +494,7 @@ The C<:poll> group is for XXX constants.
 
 =head2 C<:read_type>
 
-  use APR::Const -compile qw(:read_type);
+  use APR::Const -compile => qw(:read_type);
 
 The C<:read_type> group is for XXX constants.
 
@@ -509,7 +509,7 @@ The C<:read_type> group is for XXX constants.
 
 =head2 C<:shutdown_how>
 
-  use APR::Const -compile qw(:shutdown_how);
+  use APR::Const -compile => qw(:shutdown_how);
 
 The C<:shutdown_how> group is for XXX constants.
 
@@ -527,7 +527,7 @@ The C<:shutdown_how> group is for XXX constants.
 
 =head2 C<:socket>
 
-  use APR::Const -compile qw(:socket);
+  use APR::Const -compile => qw(:socket);
 
 The C<:socket> group is for XXX constants.
 
@@ -563,7 +563,7 @@ The C<:socket> group is for XXX constants.
 
 =head2 C<:table>
 
-  use APR::Const -compile qw(:table);
+  use APR::Const -compile => qw(:table);
 
 The C<:table> group is for C<overlap()> and C<compress()> constants.
 See C<L<APR::Table|docs::2.0::api::APR::Table>> for details.
@@ -579,7 +579,7 @@ See C<L<APR::Table|docs::2.0::api::APR::Table>> for details.
 
 =head2 C<:uri>
 
-  use APR::Const -compile qw(:uri);
+  use APR::Const -compile => qw(:uri);
 
 The C<:uri> group is for XXX constants.
 

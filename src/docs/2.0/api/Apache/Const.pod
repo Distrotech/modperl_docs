@@ -11,7 +11,7 @@ Apache::Const - Perl Interface for Apache Constants
 
 =head2 C<:cmd_how>
 
-  use Apache::Const -compile qw(:cmd_how);
+  use Apache::Const -compile => qw(:cmd_how);
 
 The C<:cmd_how> group is for XXX constants.
 
@@ -56,7 +56,7 @@ The C<:cmd_how> group is for XXX constants.
 
 =head2 C<:common>
 
-  use Apache::Const -compile qw(:common);
+  use Apache::Const -compile => qw(:common);
 
 The C<:common> group is for XXX constants.
 
@@ -89,7 +89,7 @@ The C<:common> group is for XXX constants.
 
 =head2 C<:config>
 
-  use Apache::Const -compile qw(:config);
+  use Apache::Const -compile => qw(:config);
 
 The C<:config> group is for XXX constants.
 
@@ -101,7 +101,7 @@ The C<:config> group is for XXX constants.
 
 =head2 C<:filter_type>
 
-  use Apache::Const -compile qw(:filter_type);
+  use Apache::Const -compile => qw(:filter_type);
 
 The C<:filter_type> group is for XXX constants.
 
@@ -128,7 +128,7 @@ The C<:filter_type> group is for XXX constants.
 
 =head2 C<:http>
 
-  use Apache::Const -compile qw(:http);
+  use Apache::Const -compile => qw(:http);
 
 The C<:http> group is for XXX constants.
 
@@ -278,7 +278,7 @@ The C<:http> group is for XXX constants.
 
 =head2 C<:input_mode>
 
-  use Apache::Const -compile qw(:input_mode);
+  use Apache::Const -compile => qw(:input_mode);
 
 The C<:input_mode> group is for XXX constants.
 
@@ -305,7 +305,7 @@ The C<:input_mode> group is for XXX constants.
 
 =head2 C<:log>
 
-  use Apache::Const -compile qw(:log);
+  use Apache::Const -compile => qw(:log);
 
 The C<:log> group is for XXX constants.
 
@@ -347,7 +347,7 @@ The C<:log> group is for XXX constants.
 
 =head2 C<:methods>
 
-  use Apache::Const -compile qw(:methods);
+  use Apache::Const -compile => qw(:methods);
 
 The C<:methods> group is for XXX constants.
 
@@ -440,7 +440,7 @@ The C<:methods> group is for XXX constants.
 
 =head2 C<:options>
 
-  use Apache::Const -compile qw(:options);
+  use Apache::Const -compile => qw(:options);
 
 The C<:options> group is for XXX constants.
 
@@ -479,7 +479,7 @@ The C<:options> group is for XXX constants.
 
 =head2 C<:override>
 
-  use Apache::Const -compile qw(:override);
+  use Apache::Const -compile => qw(:override);
 
 The C<:override> group is for XXX constants.
 
@@ -518,7 +518,7 @@ The C<:override> group is for XXX constants.
 
 =head2 C<:remotehost>
 
-  use Apache::Const -compile qw(:remotehost);
+  use Apache::Const -compile => qw(:remotehost);
 
 The C<:remotehost> group is for XXX constants.
 
@@ -539,7 +539,7 @@ The C<:remotehost> group is for XXX constants.
 
 =head2 C<:satisfy>
 
-  use Apache::Const -compile qw(:satisfy);
+  use Apache::Const -compile => qw(:satisfy);
 
 The C<:satisfy> group is for XXX constants.
 
@@ -557,7 +557,7 @@ The C<:satisfy> group is for XXX constants.
 
 =head2 C<:types>
 
-  use Apache::Const -compile qw(:types);
+  use Apache::Const -compile => qw(:types);
 
 The C<:types> group is for XXX constants.
 
