@@ -310,8 +310,8 @@ I<httpd.conf> file.
 =item * Debugging mod_perl XS Extensions
 
 The F<code/.debug-modperl-xs> startup script breaks at the
-C<mpxs_Apache__Filter_print()> function implemented in
-I<xs/Apache/Filter/Apache__Filter.h>. This is an example of debugging
+C<mpxs_Apache2__Filter_print()> function implemented in
+I<xs/Apache2/Filter/Apache2__Filter.h>. This is an example of debugging
 code in XS Extensions. For this particular example the complete test
 case is:
 
@@ -319,7 +319,7 @@ case is:
   t/TEST -v -run -ping=block filter/api
 
 When I<filter/api> test is running it calls
-mpxs_Apache__Filter_print() which is when the breakpoint is reached.
+mpxs_Apache2__Filter_print() which is when the breakpoint is reached.
 
 =item * Debugging code in shared objects created by C<Inline.pm>
 
@@ -525,8 +525,8 @@ So let's write a simple script that uses C<Debug::DumpCore>:
   use strict;
   use warnings FATAL => 'all';
   
-  use Apache::RequestRec ();
-  use Apache::RequestIO ();
+  use Apache2::RequestRec ();
+  use Apache2::RequestIO ();
   use Debug::DumpCore ();
   use Cwd;
   
@@ -539,8 +539,8 @@ So let's write a simple script that uses C<Debug::DumpCore>:
   
   Debug::DumpCore::segv();
 
-In this script we load the C<Apache::RequestRec>,
-C<Apache::RequestIO>, C<Debug::DumpCore> and C<Cwd> modules, then we
+In this script we load the C<Apache2::RequestRec>,
+C<Apache2::RequestIO>, C<Debug::DumpCore> and C<Cwd> modules, then we
 acquire the Apache request object and set the HTTP response
 header. Now we come to the real part -- we get the current working
 directory, print out the location of the F<core> file that we are
