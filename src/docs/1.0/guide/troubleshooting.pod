@@ -670,6 +670,22 @@ L<Server Stopping and Restarting|general::control::control/Server_Stopping_and_R
 
 =head1 OS Specific Notes
 
+=head2 OpenBSD
+
+=head3 Issues Caused by httpd being C<chroot>'ed
+
+Since OpenBSD 3.2, the Apache C<httpd(8)> server has been
+C<chroot(2)>ed by default.
+
+A mod_perl enabled OpenBSD httpd will NOT work as is.  A proper
+C<chroot(2)> environment must be setup for the default chrooted
+behavior to work.  The C<-u> option to httpd disables the chroot
+behavior, and returns the httpd to the expanded "unsecure" behavior.
+See the OpenBSD C<httpd(8)> man page.
+
+For more information see I<section 10.16 of the OpenBSD FAQ>.
+I<http://www.openbsd.org/faq/faq10.html#httpdchroot>.
+
 =head2 Win FU
 
 =head3 Apache::DBI
