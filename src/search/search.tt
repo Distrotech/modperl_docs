@@ -19,8 +19,6 @@
         [% PROCESS results_list %]
     [% END %]
 
-    [% PROCESS swish_footer %]
-
 [% END %]
 
 
@@ -60,21 +58,6 @@
     </table>
 
 [% END %]    
-
-[% BLOCK swish_footer %]
-    <hr>
-    <small>Powered by <em>Swish-e</em> <a href="http://swish-e.org">swish-e.org</a></small>
-    [% IF search.MOD_PERL %]
-        <br><small>Response brought to you by <a href="http://perl.apache.org"><em>mod_perl</em></a></small>
-    [% END %]
-  <p>
-    <a href="http://validator.w3.org/check/referer"><img border="0"
-        src="http://www.w3.org/Icons/valid-html401"
-        alt="Valid HTML 4.01!" height="31" width="88"></a>
-  </p>
-[% END %]    
-
-
 
 [% BLOCK show_message %]
     [% IF search.errstr %]

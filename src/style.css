@@ -38,9 +38,9 @@ pre {
         background-color: #ddffff;
         padding: 6px; 
         margin: .25em;
-        border: 1px;              /* this is a must for */
-        border-color: #ffffff;    /* for <pre>          */
-        border-style: solid;      /* working in NS      */
+        border: 1px;              /* this is a must for  */
+        border-color: #ffffff;    /* the <pre></pre> tag */
+        border-style: solid;      /* working in NS       */
 }
 
 

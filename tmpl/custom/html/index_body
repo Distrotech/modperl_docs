@@ -1,11 +1,19 @@
 [%
     INCLUDE navbar_global nav=doc.nav;
-%]
+-%]
 
 <!-- content-->
 <div class="content">
 [%
     INCLUDE title;
+
+#    INCLUDE download_link;
+#    INCLUDE search;
+
+    INCLUDE navbar_local_top
+        nav=doc.nav.up
+        rel_doc_root=doc.dir.rel_doc_root;
+    "<hr>";
 
     IF doc.body.top;
         "<p>${doc.body.top}</p>";
@@ -15,17 +23,16 @@
         "<p>${doc.meta.abstract}</p>";
     END;
 
-    INCLUDE download_link;
-
-#    INCLUDE navbar_local
-#        nav=doc.nav
-#        rel_doc_root=doc.dir.rel_doc_root;
-
     PROCESS index_toc toc=doc.toc;
 
     IF doc.body.bot;
         "<p>${doc.body.bot}</p>";
     END;
+
+    INCLUDE navbar_local_bottom
+        nav=doc.nav.up
+        rel_doc_root=doc.dir.rel_doc_root;
+
 %]
 <!-- start workaround for pages with narrow content -->
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;

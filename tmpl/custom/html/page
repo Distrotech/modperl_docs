@@ -31,7 +31,7 @@
 <!-- right box-->
 <div class='rightbox'>
     [% INCLUDE page_body %]
-    <br>
+    <br><hr>
     [% INCLUDE tail %]
 </div>
 <!-- end right box-->

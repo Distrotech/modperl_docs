@@ -16,3 +16,15 @@
 
 - src/creation.html, should be completed and linked from somewhere
   (the tail?)
+
+style.css:
+
+- consider using: font-family: helvetica, arial, verdana, sans-serif;
+
+Templates:
+
+- consider passing the class name to the wrap_box template, so the
+  'content' doesn't have to wrap itself in a <div> tag. If class is
+  passed then we can use it in <td class="">
+
+
