@@ -196,7 +196,7 @@ source code.
 So what we have to do (and I haven't made it yet) is to use a
 convention for the code to be automatically extracted, e.g.:
 
-  file:/example.pl
+  file:example.pl
   ----------------
   #!/usr/bin/perl -w
   
@@ -205,17 +205,17 @@ convention for the code to be automatically extracted, e.g.:
   
   print "Hi";
 
-So as I've said before we must not forget to add indentation to empty
-lines with no code in them, so that the parser picks up the whole
-code, removes the header with the filename and separator, puts back
-the code itself, saves it to the filename written at the top, and
-places it into the same directory name the text is located in. (Well
-it can be a separate tree for the code). If there are real empty
-lines, only part of the script will be saved, which will make the
-release broken. Another approach is to add some tail (ending token),
-but it's a mess I think. I develop the text using I<cperl-mode.el> in
-xemacs which shows all spaces not followed by any text - this helps a
-lot!!!
+So as I've said before we must not forget to add 2 space characters
+indentation to empty lines with no code in them, so that the parser
+picks up the whole code, removes the header with the filename and
+separator, puts back the code itself, saves it to the filename written
+at the top, and places it into the same directory name the text is
+located in. (Well it can be a separate tree for the code). If there
+are real empty lines, only part of the script will be saved, which
+will make the release broken. Another approach is to add some tail
+(ending token), but it's a mess I think. I develop the text using
+I<cperl-mode.el> in xemacs which shows all space characters not
+followed by any text - this helps a lot!
 
 =back
 
