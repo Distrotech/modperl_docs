@@ -1,0 +1,167 @@
+=head1 NAME
+
+Apache::PerlSections - Default Handler for C<E<lt>Perl E<gt>> sections
+
+=head1 Synopsis
+
+  <Perl >
+  @PerlModule = qw(Mail::Send Devel::Peek);
+  
+  #run the server as whoever starts it
+  $User  = getpwuid(>) || >;
+  $Group = getgrgid()) || ); 
+  
+  $ServerAdmin = $User;
+  
+  </Perl>
+
+=head1 Description
+
+With C<E<lt>Perl E<gt>>...C<E<lt>/PerlE<gt>> sections, it is possible
+to configure your server entirely in Perl.
+
+C<E<lt>Perl E<gt>> sections can contain I<any> and as much Perl code as
+you wish. These sections are compiled into a special package whose
+symbol table mod_perl can then walk and grind the names and values of
+Perl variables/structures through the Apache core configuration gears.
+
+Block sections such as C<E<lt>LocationE<gt>>..C<E<lt>/LocationE<gt>>
+are represented in a C<%Location> hash, e.g.:
+
+  <Perl>
+  
+  $Location{"/~dougm/"} = {
+    AuthUserFile => '/tmp/htpasswd',
+    AuthType => 'Basic',
+    AuthName => 'test',
+    DirectoryIndex => [qw(index.html index.htm)],
+    Limit => {
+      METHODS => 'GET POST',
+      require => 'user dougm',
+    },
+  };
+  
+  </Perl>
+
+If an Apache directive can take two or three arguments you may push
+strings (the lowest number of arguments will be shifted off the
+C<@list>) or use an array reference to handle any number greater than
+the minimum for that directive:
+
+  push @Redirect, "/foo", "http://www.foo.com/";
+  
+  push @Redirect, "/imdb", "http://www.imdb.com/";
+  
+  push @Redirect, [qw(temp "/here" "http://www.there.com")];
+
+Other section counterparts include C<%VirtualHost>, C<%Directory> and
+C<%Files>.
+
+To pass all environment variables to the children with a single
+configuration directive, rather than listing each one via C<PassEnv>
+or C<PerlPassEnv>, a C<E<lt>Perl E<gt>> section could read in a file and:
+
+  push @PerlPassEnv, [$key => $val];
+
+or
+
+  Apache->httpd_conf("PerlPassEnv $key $val");
+
+These are somewhat simple examples, but they should give you the basic
+idea. You can mix in any Perl code you desire. See I<eg/httpd.conf.pl>
+and I<eg/perl_sections.txt> in the mod_perl distribution for more
+examples.
+
+Assume that you have a cluster of machines with similar configurations
+and only small distinctions between them: ideally you would want to
+maintain a single configuration file, but because the configurations
+aren't I<exactly> the same (e.g. the C<ServerName> directive) it's not
+quite that simple.
+
+C<E<lt>Perl E<gt>> sections come to rescue. Now you have a single
+configuration file and the full power of Perl to tweak the local
+configuration. For example to solve the problem of the C<ServerName>
+directive you might have this C<E<lt>Perl E<gt>> section:
+
+  <Perl>
+  $ServerName = `hostname`;
+  </Perl>
+
+For example if you want to allow personal directories on all machines
+except the ones whose names start with I<secure>:
+
+  <Perl>
+  $ServerName = `hostname`;
+  if ( $ServerName !~ /^secure/) {
+    $UserDir = "public.html";
+  } else {
+    $UserDir = "DISABLED";
+  }
+  </Perl>
+
+=head1 Configuration Variables
+
+There are a few variables that can be set to change the default behaviour of C<E<lt>Perl
+E<gt>> sections.
+
+=head2 C<$Apache::Server::SaveConfig>
+
+By default, the namespace in which C<E<lt>Perl E<gt>> sections are evaluated is cleared after
+each block closes. By setting it to a true value, the content of those namespaces will be preserved
+and will be available for inspection by modules like L<Apache::Status>
+
+=head2 C<$Apache::Server::StrictPerlSections>
+
+By default, compilation and run-time errors within C<E<lt>Perl E<gt>> sections will cause a warning
+to be printed in the error_log. By setting this variable to a true value, code in the sections will
+be evaluated as if "use strict" was in usage, and all warning and errors will cause the server to 
+abort startup and report the first error.
+
+=head1 Advanced API
+
+mod_perl 2.0 now introduces the same general concept of handlers to C<E<lt>Perl E<gt>> sections.
+Apache::PerlSections simply being the default handler for them.
+
+To specify a different handler for a given perl section, an extra handler argument must be given to
+the section:
+
+  <Perl handler="My::PerlSection::Handler" somearg="test1">
+    $foo = 1;
+    $bar = 2; 
+  </Perl>
+
+And in My/PerlSection/Handler.pm:
+
+  sub My::Handler::handler : handler {
+    my($self, $parms, $args) = @_;
+    #do your thing!
+    }
+
+So, when that given C<E<lt>Perl E<gt>> block in encountered, the code within will first be evaluated, then
+the handler routine will be invoked with 3 arguments
+
+C<$self> is self-explanatory
+
+C<$parms> is the L<Apache::CmdParms> for this Container, for example, you might want to call C<$parms>-E<gt>server() 
+to get the current server.
+
+C<$args> is a L<APR::Table> of the section arguments, the 2 guaranteed ones will be:
+
+  $args->{'handler'} = 'My::PerlSection::Handler';
+  
+  $args->{'package'} = 'Apache::ReadConfig'; 
+
+Other name="value" pairs given on the C<E<lt>Perl E<gt>> line will also be included.
+
+At this point, it's up to the handler routing to inspect the namespace of the C<$args>-E<gt>{'package'} and
+chooses what to do.
+
+The most likely thing to do is to feed configuration data back into apache. To do that, use
+Apache::Server-E<gt>add_config("directive"), for example:
+
+  $parms->server->add_config("Alias /foo /bar");
+
+Would create a new alias. The source code of L<Apache::PerlSections> is a good place to look for a practical
+example.
+
+=cut
