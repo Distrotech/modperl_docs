@@ -1,0 +1,101 @@
+=head1 Porting Modules from mod_perl 1.x to 2.x
+
+=head1 Introduction
+
+If you have released an C<Apache::Foo> module on CPAN you may wonder
+what steps you should take to make your code working under 2.x while
+still preserving 1.x compatibility. This document attempts to answer
+some of the questions related to this issue.
+
+=head1 Should the Module Name Be Changed?
+
+While you can change the name of the module, it's the best to try to
+preserve the name and use some workarounds, if your module cannot be
+ported to run under 1.x and 2.x at the same time.
+
+Most of the existing 1.x modules on CPAN should work with 2.x without
+any change. The ones that will not work are the .xs modules.
+
+Let's say that you have a module C<Apache::Foo> whose release version
+complient with mod_perl 1.x is 1.57. You keep this version on CPAN and
+release a new version 2.01 which is complient with 2.x and preserves
+the name of the module. It's possible that a user may need to have
+both versions of the module on the same machine. Since the two have
+the same name they obviously cannot live under the same tree. One
+attempt to solve that problem is to use C<MP_INST_APACHE2>
+I<Makefile.PL>'s option. If the module is configured as:
+
+  % perl Makefile.PL MP_INST_APACHE2=1
+
+it'll be installed relative to the I<Apache2/> directory. The second
+step is to change the documentation of your 2.x complient module to
+say:
+
+  use Apache2 ();
+
+in the code before the module is required or in I<startup.pl> or
+
+  PerlModule Apache2
+
+in I<httpd.conf>. This will C<@INC> to look in the I<Apache2/>
+directory first.
+
+The introduction of I<Apache2/> directory is similar to how Perl
+installs its modules in a version specific directory. For example:
+
+  lib/5.7.1
+  lib/5.7.2
+
+=head1 Requiring a specific mod_perl version.
+
+To require a module to run only under 2.x, simply add:
+
+  use mod_perl 2.0;
+
+to your module. You can also use the variable C<$mod_perl::VERSION>.
+
+=head1 Adjusting Modules to Work with 1.x and 2.x.
+
+It's possible to adjust your module to work with both 2.x and
+1.x. This is quite easy if your aren't using XS. Interfaces that are
+deprecated in 2.x can be enabled by adding:
+
+  use Apache::compat();
+
+in the code or I<startup.pl>.
+
+The variable C<$mod_perl::VERSION> should be used in conditionals to
+use the appropriate code for 1.x or 2.x.
+
+XS modules will need I<Makefile.PL>/C<#ifdef> logic to work with both
+versions.  But the applications that use them should not need to know
+the difference.
+
+META: example? probably the best to use some existing module that
+co-exists with the two versions.
+
+
+=head1 Thread Safety
+
+=head1 'make test' Suite
+
+C<Apache::Test> testing framework that comes together with mod_perl
+2.x works with 1.x and 2.x mod_perl versions. Therefore you should
+consider porting your test suite to use
+C<Apache::Test>. L<writing_tests> explains how to do that.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=head1 Authors
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
+
+=cut
+
