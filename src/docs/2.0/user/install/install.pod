@@ -60,6 +60,12 @@ built-in. That means that it should report:
 
 If that's not what you see rebuild Perl with C<-Dusethreads>.
 
+=item threads.pm
+
+If you want to run applications that take benefit of Perl's
+I<threads.pm> Perl version 5.8.1 or higher w/ithreads enabled is
+required. Perl 5.8.0's I<threads.pm> doesn't work with mod_perl 2.0.
+
 =back
 
 =back
