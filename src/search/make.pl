@@ -27,6 +27,9 @@ A template toolkit include file for defining an array of section names and a has
 maps the section names to nice descriptions.  This data is used to
 create the select box on the side bar during site generation (by running bin/build).
 
+It also creates a hash to use in a TT plugin to map the file's path while running bin/build into
+section IDs.
+
 =item checkboxes.storable
 
 A perl data structure used for use in the F<search.cgi> script to generate the nested
@@ -114,6 +117,11 @@ ITEMS
         my $spaces = ' ' x (( $_->{indent}+2 ) * 4);
         qq[$spaces"$_->{section}" => "$dots$_->{short}" ]
     } @items_flat;
+
+    my $path_map  = join "\n", map {
+        qq[        { path => "^$_->{path}", section => "$_->{section}" } ]
+    } sort { length $b->{path} <=> length $a->{path} } @items_flat;
+    
         
 
 
@@ -147,7 +155,12 @@ $array_values
         ""          => 'Whole Site'
 $hash_values        
     }
+
+    search_path_map = [
+$path_map
+    ]
 -%]
+    
 EOF
 
     close FH || warn "Failed to close '$SEARCH_OPTIONS': $!";

@@ -107,16 +107,32 @@
         <input type="text" name="query" size="12" maxlength="200" value="" class="inp-text">
     [% END %]
 
+    [%- section = PROCESS map_path_to_section path = doc.dir.path_from_base -%]
+
     [% search_options = BLOCK %]
+
 
         [% CGI.popup_menu( {
                 Name    => 'sbm',
                 Values  => search_areas,
                 Labels  => search_labels,
-                Default => doc.dir.path_from_base,
+                Default => section,
                 Class => 'inp-select',
                 })
         %]
     [% END %]
 [% END %]
+
+[%- BLOCK map_path_to_section -%]
+    [%-
+        FOR item = search_path_map;
+            IF path.search( item.path );
+                item.section;
+                RETURN;
+            END;
+        END;
+    -%]
+[%- END -%]         
+
+
 
