@@ -18,6 +18,13 @@ to help you need to provide us the information about the software
 blocks that you are using. This is especially important now that we
 support mod_perl versions 1.0 and 2.0 on the same list.
 
+Make sure to include a good subject like explaining the problem in a
+few words. Also please mention that this a problem with mod_perl 2.0
+and not mod_perl 1.0. Here is an example of a good subject:
+
+  Subject: [mp2.0] protocol module doesn't work with filters
+
+
 =head2 Please Ask Only Questions Related to mod_perl
 
 If you have general Apache questions, please refer to:

@@ -46,7 +46,14 @@ L<Guidelines|maillist::email-etiquette>.
 
 =head1 How to Report Problems
 
-Always send these details:
+Make sure to include a good subject like explaining the problem in a
+few words. Also please mention that this a problem with mod_perl 1.0
+(since now we have mod_perl 2.0 too). Here is an example of a good
+subject:
+
+  Subject: [mp1.0] response handler randomly segfaults
+
+Always send the following details:
 
 =over
 
