@@ -64,18 +64,6 @@ Content:
   STATUS: DocSet needs to support copying of other than <title>
   headers first.
 
-- how about adding a page: 'link to us', with a selection of a few
-  logos/buttons for people to reuse, including a copy-n-paste-ready
-  HTML fetching the logo. Though we probably want people to copy the
-  images rather than linking to perl.apache.org to fetch the
-  image. Could probably go into About section, which can be split into
-  a few pages, making About a DocSet.
-
-  banners:  468x60 and 150x40
-
-  STATUS: Per Einar working on it. See banners.
-          150x40 doesn't seem like a good banner size.
-
 - ask perl.com to link to perl.apache.org from 'perl sites' section.
   + also they need to add theperlreview.com
 
@@ -164,17 +152,6 @@ Later:
 - add feather in the tail
 <img src="[% doc.dir.abs_doc_root %]/images/feather_transbg.gif" width=194 height=80 alt="ASF feather"> 
 
-- should probaly move the logos from
-  http://wypug.digital-word.com/mod_perl/ to the new site.
-
-  STATUS: should be TGZed and added as link from "Link to us"
-  page. Being done now.
-
-- we definitely should include the master PNG/SVG versions of the new
-  logo on the site.
-  
-  STATUS: On "Link to Us" page, and exists in the images dir as well.
-
 - Need a good mod_perl banner. Most importantly, it must make it clear
   what mod_perl is all about:
     o related to web serving
@@ -222,6 +199,7 @@ Later:
    o http://mathforum.org/epigone/modperl/blexvarcho
 
 - mod_perl history page in About section [Per Einar]
+  "How to pronounce mod_perl"
 
 - Figure out a way to get the SecuritySpace statistics as a nice graph
   on our page, looks more impressive if it's locally hosted like the
