@@ -14,12 +14,13 @@ based on Apache 1.3 on Win32 is limited to a single thread serving a
 request at a time. This effectively prevents concurrent processing,
 which can have serious implications for busy sites. This problem is
 addressed in the multi-thread/multi-process approach of mod_perl
-2.0/Apache 2.0.
+2.0/Apache 2.0, which consequently requires a Perl built with ithreads
+enabled.
 
 There are some threading issues in perl-5.6
 (upon which ActivePerl builds 6xx are based) which cause
 problems with mod_perl 2.0 on Win32. Consequently, the minimum
-required perl version is 5.8 (ActivePerl builds 8xx) 
+required perl version is 5.8 (upon which ActivePerl builds 8xx are based)
 for use with mod_perl 2.0 on Win32.
 
 Note that, at the present time, mod_perl 2 is in a development
@@ -34,17 +35,28 @@ with directions for building contained in F<README.win32>.
 ActiveState also makes the sources available for their binary
 builds at L<ftp://ftp.activestate.com/ActivePerl/src/>,
 which may contain, in particular, Win32-specific fixes not in the
-CPAN Perl sources. As a binary, at present, an ActivePerl-compatible 
-Perl, compiled with Visual C++, is the most common one used in the Win32 
-mod_perl/Apache environment; you can obtain such a prebuilt Perl
+CPAN Perl sources. If you are building Perl from source then you must
+enable both USE_MULTI and USE_ITHREADS in the Makefile to enable
+ithreads, as required for mod_perl 2.0 on Win32. ActivePerl builds also
+enable USE_IMP_SYS, providing the implicit "host" layer which gives a
+C<fork()> emulation, but this is at the cost of disabling PERL_MALLOC
+which may have significant performance implications since Win32's system
+C<malloc()> is notably slower than Perl's in some situations. Thus, unless
+you require the C<fork()> emulation or specifically want an ActivePerl-
+compatible build then you may want to disable USE_IMP_SYS and enable
+PERL_MALLOC. (Note that you cannot currently enable PERL_MALLOC with
+USE_IMP_SYS enabled as well.) As a binary, at present, an ActivePerl-
+compatible Perl, compiled with Visual C++, is the most common one used in
+the Win32 mod_perl/Apache environment; you can obtain such a prebuilt Perl
 binary from L<http://www.activestate.com/>.
 
 The Apache sources and binaries are available at
 L<http://httpd.apache.org/>.
 
 As of this writing, mod_perl 2.0 is known to compile and work
-with an ActivePerl-compatible perl-5.8.0 (ActivePerl build 8xx). 
-See the section on Apache/mod_perl binaries 
+with both an ActivePerl-compatible perl-5.8 (ActivePerl build 8xx) and
+with an otherwise similar Perl having USE_IMP_SYS disabled and
+PERL_MALLOC enabled. See the section on Apache/mod_perl binaries 
 below for details on a suitable repository containing mod_perl
 ppm packages, and also how to obtain other Win32 binary packages.
 
