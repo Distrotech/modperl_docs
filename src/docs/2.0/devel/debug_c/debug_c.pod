@@ -188,13 +188,16 @@ to need to wait before the client can be started. Therefore you can
 use a few tricks to do it in one command. If the server starts fast
 you can use sleep():
 
-  % ddd b-command=.debug-modperl-init & ; \
+  % ddd -command=.debug-modperl-init & ; \
   sleep 2 ; t/TEST -verbose -run apr/pool
 
-or to use the C<Apache::Test> framework's C<-ping=block> option:
+or the C<Apache::Test> framework's C<-ping=block> option:
 
   % ddd -command=.debug-modperl-init & ; \
   t/TEST -verbose -run -ping=block apr/pool
+
+which will block till the server starts responding, and only then will
+try to run the test.
 
 =head2 Precooked gdb Startup Scripts
 
