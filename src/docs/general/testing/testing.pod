@@ -1896,6 +1896,13 @@ Also it checks for Perl extensions. For example:
 
 tests whether C<PerlIO> is available.
 
+=item * have_threads()
+
+have_threads checks whether whether threads are supported by both
+Apache and Perl.
+
+  plan tests => 2, have_threads;
+
 =item * have_lwp()
 
 Tests whether the Perl module LWP is installed.
