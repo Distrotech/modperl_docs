@@ -8,9 +8,12 @@ Apache::compat -- 1.x backward compatibility functions deprecated in 2.x
 
 =head1 DESCRIPTION
 
-C<Apache::compat> includes all the functions that are deprecated in
-mod_perl 2.x. If you code uses any of these functions you should just
-include this module in your code and everything should work.
+C<Apache::compat> provides mod_perl 1.x compatibility layer.
+
+It includes most of the functions that are deprecated in mod_perl
+2.x. If your code uses any of these functions you should just load
+this module at the server startup, and chances are that everything
+should work as it did in 1.x.
 
 However, certain functionality is not optimized and therefore it's the
 best to try to port your code not to use deprecated functions and stop

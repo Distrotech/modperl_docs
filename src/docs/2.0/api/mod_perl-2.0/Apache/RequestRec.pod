@@ -15,7 +15,7 @@ Apache::RequestRec -- A Perl API for Apache request object
 
 =head1 DESCRIPTION
 
-META: complete
+C<Apache::RequestRec> provides the Perl API for Apache request object.
 
 =head1 API
 

@@ -17,6 +17,8 @@ Apache::ServerUtil -- Methods for work with Apache::Server object
 
 =head1 DESCRIPTION
 
+C<Apache::ServerUtil> provides the Perl API for Apache server object.
+
 META: complete
 
 =head1 API

@@ -37,16 +37,18 @@ APR::Table -- A Perl API for manipulating opaque string-content table
 =head1 DESCRIPTION
 
 C<APR::Table> allows its users to manipulate opaque string-content
-tables. The table is somewhat similar to the Perl hash, but allows
-multiply values for the same key.  An access to the records stored in
-the table always requires a key.
+tables.
+
+The table's structure is somewhat similar to the Perl's hash
+structure, but allows multiply values for the same key.  An access to
+the records stored in the table always requires a key.
 
 The key-value pairs are stored in the order they are added.
 
 The keys are case-insensitive.
 
 However as of the current implementation if more than value for the
-same key is requested, the whole table it lineary searched, which is
+same key is requested, the whole table is lineary searched, which is
 very inefficient unless the table is very small.
 
 C<APR::Table> provides a L<TIE Interface|/TIE_Interface>.

@@ -19,10 +19,11 @@ APR:PerlIO -- An APR Perl IO layer
 =head1 DESCRIPTION
 
 C<APR::PerlIO> implements a Perl IO layer using APR's file
-manipulation as its internals. Why do you want to use this? Normally
-you shouldn't, probably it won't be faster than Perl's default
-layer. It's only useful when you need to manipulate a filehandle
-opened at the APR side, while using Perl.
+manipulation as its internals.
+
+Why do you want to use this? Normally you shouldn't, probably it won't
+be faster than Perl's default layer. It's only useful when you need to
+manipulate a filehandle opened at the APR side, while using Perl.
 
 Normally you won't call open() with APR layer attribute, but some
 mod_perl functions will return a filehandle which is internally hooked
