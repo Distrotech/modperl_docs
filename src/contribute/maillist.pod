@@ -10,7 +10,7 @@ the mailing list and helping out anyone else having problems.
 =head1 Answering Questions
 
 Since mod_perl is an open source technology, its main support facility
-is the L<mailing lists|maillist::index>. Therefore it's very essential
+are the L<mailing lists|maillist::index>. Therefore it's very essential
 to support users and developers by sharing your mod_perl and related
 knowledge through answering questions and submitting interesting posts
 that enrich the community's knowledge in the related topics.
