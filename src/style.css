@@ -96,24 +96,31 @@ div.ad {
        /* background-color: #ffffff;*/
 }
 
-div.ad a:link    {text-decoration: none; color: #525D76;}
-div.ad a:visited {text-decoration: none; color: #525D76;}
-div.ad a:active  {text-decoration: none; color: #525D76;}
-div.ad a:hover   {text-decoration: none; color: #525D76;}
+div.ad a:link    {text-decoration: none; color: #525d76;}
+div.ad a:visited {text-decoration: none; color: #525d76;}
+div.ad a:active  {text-decoration: none; color: #525d76;}
+div.ad a:hover   {text-decoration: none; color: #525d76;}
 
 div.adtext {
         font-size: x-small;
         text-align:center;
 }
 
-.table-head	{ }
-.table-top	{ background-color: #cccccc; color: #525d76;}
-.table-cell	{ background-color: #eeeeee; 
-		  vertical-align:top; }
-.table-surround	{ background-color: black; }
-.table-light	{ background-color: #00cc99; }
-
-
+.table-head {}
+.table-top {
+        background-color: #cccccc;
+        color: #525d76;
+}
+.table-cell { 
+        background-color: #eeeeee;
+        vertical-align:top;
+}
+.table-surround { 
+        background-color: black; 
+}
+.table-light { 
+        background-color: #00cc99; 
+}
 
 div.selectedmenuitem {
         font-weight: bold;
