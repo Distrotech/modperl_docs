@@ -36,7 +36,7 @@
                 "docs/2.0/api"      => '....API'
             "docs/general"  => '..General Docs'
             "docs/tutorials"=> '..Tutorials'
-            "docs/offsite"  => '..OffSite Resources'
+            "docs/offsite"  => '..OffSite Docs'
         "help"      => 'Getting Help'
         "maillist"   => 'Mailing Lists'
         "products"  => 'Products'
