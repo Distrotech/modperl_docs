@@ -1036,6 +1036,9 @@ process and thus also for the build process. If you choose
 C<--prefix=/usr/share/apache> the Apache directory tree will be
 installed in I</usr/share/apache>.
 
+Note that the files activated by C<--activate-module> do not exist at
+this time. They will be generated during compilation.
+
 The last three steps build, test and install the Apache-side of the
 mod_perl enabled server.  Presumably your new server includes
 third-party components, otherwise you probably won't choose this
@@ -1555,6 +1558,9 @@ Build Apache:
      --enable-module=stats \
      --enable-module=rewrite
   % make
+
+Note: C<libperl.a> and C<libphp4.a> do not exist at this time. They
+will be generated during compilation.
 
 =item 1
 
