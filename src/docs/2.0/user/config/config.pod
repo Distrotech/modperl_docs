@@ -94,6 +94,9 @@ for more information.
 
 META: a dedicated chapter with examples?
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
+
 
 
 
@@ -152,6 +155,9 @@ C<=over> requires a corresponding C<=back>.
 META: to be written
 
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
+
 
 
 
@@ -177,6 +183,9 @@ C<L<PerlPostConfigRequire|/C_PerlPostConfigRequire_>> if you can, and
 there you have the C<STDERR> stream sent to the error_log file (by
 default).
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
+
 
 
 
@@ -194,6 +203,8 @@ for modules that implement L<new Apache
 directives|docs::2.0::user::config::custom>, which are needed during
 the configuration phase.
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 
 
@@ -219,6 +230,9 @@ after the configuration phase.
 
 See also: C<L<PerlRequire|/C_PerlRequire_>>.
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
+
 
 
 
@@ -241,6 +255,9 @@ can be used at run-time to check whether a certain C<$option> has been
 enabled. (META: probably need to add/move this to the coding chapter)
 
 Options are enabled by prepending C<+> and disabled with C<->.
+
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 The available options are:
 
@@ -562,6 +579,9 @@ Notice that we have got the value of the environment variable I<TEST>.
 
   META: to be written
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
+
 
 
 
@@ -607,6 +627,8 @@ F<L<startup.pl|docs::2.0::user::handlers::server/Startup_File>>.
 See also: C<L<PerlModule|/C_PerlModule_>> and
 C<L<PerlLoadModule|/C_PerlLoadModule_>>.
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 
 
@@ -624,6 +646,9 @@ or C<L<PerlPostConfigRequire|/C_PerlPostConfigRequire_>> (executes
 just before the end of the server startup) instead. Most of the time
 you want to use the latter.
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
+
 
 
 
@@ -637,6 +662,9 @@ you want to use the latter.
 
   META: to be written
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
+
 
 
 
@@ -646,6 +674,9 @@ you want to use the latter.
 =head2 C<PerlSetVar>
 
   META: to be written
+
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 
 
@@ -669,6 +700,9 @@ equivalent as C<use lib>, but it's broken on certain platforms/version
 (e.g. Darwin/5.6.0). C<use lib> is removing duplicated entries,
 whereas C<-I> does not.
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
+
 
 
 
@@ -680,6 +714,9 @@ whereas C<-I> does not.
 mod_perl 2.0 provides two types of C<SetHandler> handlers: C<modperl>
 and C<perl-script>. The C<SetHandler> directive is only relevant for
 response phase handlers. It doesn't affect other phases.
+
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 =head3 C<modperl>
 
@@ -1057,6 +1094,9 @@ The number of interpreters to clone at startup time.
 
 Default value: 3
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
+
 =head2 C<PerlInterpMax>
 
 If all running interpreters are in use, mod_perl will clone new
@@ -1067,12 +1107,18 @@ COND_SIGNAL()).
 
 Default value: 5
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
+
 =head2 C<PerlInterpMinSpare>
 
 The minimum number of available interpreters this parameter will clone
 interpreters up to C<PerlInterpMax>, before a request comes in.
 
 Default value: 3
+
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 
 =head2 C<PerlInterpMaxSpare>
@@ -1090,6 +1136,9 @@ interpreter is destroyed when the number is reached and replaced with
 a fresh clone.
 
 Default value: 2000
+
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 
 =head2 C<PerlInterpScope>
@@ -1139,6 +1188,8 @@ possible to do so on a per-virtualhost basis:
 
 Default value: C<request>
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 
 =head1 Debug Directives
@@ -1197,6 +1248,8 @@ with letters, it must be alone.
 When C<PerlTrace> is not specified, the tracing level will be set to
 the value of the C<$ENV{MOD_PERL_TRACE}> environment variable.
 
+See also: L<this directive argument types and allowed
+location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 
 
