@@ -471,9 +471,14 @@ C<--enable-maintainer-mode>.
 
 Enable tracing
 
+
 =head4 MP_INST_APACHE2
 
-Install all the I<*.pm> modules relative to the I<Apache2/> directory.
+Install all the I<*.pm> modules relative to the I<Apache2/> directory
+in the Perl modules tree (not Apache files tree).
+
+
+
 
 
 =head3 Non-Boolean Build Options
