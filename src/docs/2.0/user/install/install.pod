@@ -15,7 +15,7 @@ can use this knowledge to rebuild it using the same options. Simply
 chdir to the mod_perl source directory and run:
 
   % cd modperl-2.0
-  % perl -MApache::Build -erebuild
+  % perl -MApache::Build -e rebuild
 
 =head1 Installing from Binary Packages
 
