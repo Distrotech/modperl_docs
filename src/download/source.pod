@@ -117,12 +117,14 @@ the command C<svnpasswd>:
 To download the svn version of httpd-2.0 and bring it to the same
 state of the distribution package, execute the following commands:
 
+(Use http:// instead of https:// if you don't plan to commit changes)
+
 For httpd 2.0 (the stable Apache 2.0 branch):
 
-  % svn checkout http://svn.apache.org/repos/asf/httpd/httpd/branches/2.0.x/ httpd-2.0
+  % svn checkout https://svn.apache.org/repos/asf/httpd/httpd/branches/2.0.x/ httpd-2.0
   % cd httpd-2.0/srclib
-  % svn checkout http://svn.apache.org/repos/asf/apr/apr/branches/0.9.x/ apr
-  % svn checkout http://svn.apache.org/repos/asf/apr/apr-util/branches/0.9.x/ apr-util
+  % svn checkout https://svn.apache.org/repos/asf/apr/apr/branches/0.9.x/ apr
+  % svn checkout https://svn.apache.org/repos/asf/apr/apr-util/branches/0.9.x/ apr-util
   % cd ..
   % ./buildconf
 
@@ -136,9 +138,9 @@ version and rebuild, run:
 For httpd 2.1 (the development Apache 2.0 branch) use this instead:
 
   % svn checkout https://svn.apache.org/repos/asf/httpd/httpd/trunk/ httpd-2.1
-  % cd srclib
-  % svn checkout http://svn.apache.org/repos/asf/apr/apr/trunk/ apr
-  % svn checkout http://svn.apache.org/repos/asf/apr/apr-util/trunk/ apr-util
+  % cd httpd-2.1/srclib
+  % svn checkout https://svn.apache.org/repos/asf/apr/apr/trunk/ apr
+  % svn checkout https://svn.apache.org/repos/asf/apr/apr-util/trunk/ apr-util
 
 
 
