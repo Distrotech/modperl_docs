@@ -11,20 +11,20 @@ The most recent changes are listed first.
 
 =head1 ??? ver 1.32
 
-* guide::method_handlers
+* method_handlers.pod
 
   o moved here from the faqs
 
-* guide::databases
+* databases.pod
 
    o correct the notes regarding "Opening Connections With Different
      Parameters" for Apache::DBI. Must localize local changes.
 
-* guide::getwet
+* getwet.pod
 
    o a new chapter to get you started fast
 
-* guide::porting
+* porting.pod
 
   o add a new section "Preventing Apache::Constants Stringification"
     [Per Einar]
@@ -38,7 +38,7 @@ The most recent changes are listed first.
   o cover the 5.6's CHECK block in addition to INIT (Rafael
     Garcia-Suarez)
 
-* guide::troubleshooting
+* troubleshooting.pod
 
   o solution to the 'readdir()/opendir() not working' problem (Louis
     Semprini)
@@ -46,32 +46,22 @@ The most recent changes are listed first.
   o clearify how to solve the segfault problem caused by built-in
     mysql support in mod_php (Paul Buder)
 
-* guide::modules
+* modules.pod
 
   o extend on Apache::Filter(Per Einar Ellefsen)
 
-* guide::correct headers
-
-  o rewrite the headers of this chapter (Per Einar Ellefsen)
-
-* guide::config
+* config.pod
 
   o extended on method handlers (Per Einar Ellefsen)
 
   o show an example on how to load the mod_perl related config only
     when mod_perl is loaded (Rafael Garcia-Suarez)
 
-* guide::debug
+* debug.pod
 
   o extended on curinfo macro (Per Einar Ellefsen)
 
-* guide::multiuser
-
-  o chroot(1) info
-
-  o jail(8) info (Andrew McNaughton)
-
-* guide::help
+* help.pod
 
   o chroot(1) urls
 
@@ -79,12 +69,12 @@ The most recent changes are listed first.
 
   o link to the internal resources (Per Einar Ellefsen)
 
-* guide::install
+* install.pod
 
   o James G Smith has uploaded his Apache Builder to CPAN, update the
     download links, to reflect this change.
 
-* guide::performance
+* performance.pod
 
   o update the benchmark in the section "Apache::args
     vs. Apache::Request::param vs. CGI::param" using Apache::Request
@@ -97,7 +87,7 @@ The most recent changes are listed first.
   o added a new section: "Potential Drawbacks of Memory Sharing
     Restriction"
 
-* guide::
+* guide
 
   o most of the internal links were changed to use the whole title and
     not only first few words. The new build system support this.
