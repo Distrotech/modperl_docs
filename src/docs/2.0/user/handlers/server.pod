@@ -130,21 +130,21 @@ and each stage appends to it its log information. So when we perform:
 
 the following is getting logged to I<logs/startup_log>:
 
-  [Thu Aug 22 15:57:08 2002] - open_logs  : process 21823 is born to reproduce
-  [Thu Aug 22 15:57:08 2002] - post_config: configuration is completed
-  [Thu Aug 22 15:57:09 2002] - END        : process 21823 is shutdown
+  [Thu May 29 13:11:08 2003] - open_logs  : process 21823 is born to reproduce
+  [Thu May 29 13:11:08 2003] - post_config: configuration is completed
+  [Thu May 29 13:11:09 2003] - END        : process 21823 is shutdown
   
-  [Thu Aug 22 15:57:10 2002] - open_logs  : process 21825 is born to reproduce
-  [Thu Aug 22 15:57:10 2002] - post_config: configuration is completed
-  [Thu Aug 22 15:57:11 2002] - child_init : process 21830 is born to serve
-  [Thu Aug 22 15:57:11 2002] - child_init : process 21831 is born to serve
-  [Thu Aug 22 15:57:11 2002] - child_init : process 21832 is born to serve
-  [Thu Aug 22 15:57:11 2002] - child_init : process 21833 is born to serve
-  [Thu Aug 22 15:57:12 2002] - child_exit : process 21833 now exits
-  [Thu Aug 22 15:57:12 2002] - child_exit : process 21832 now exits
-  [Thu Aug 22 15:57:12 2002] - child_exit : process 21831 now exits
-  [Thu Aug 22 15:57:12 2002] - child_exit : process 21830 now exits
-  [Thu Aug 22 15:57:12 2002] - END        : process 21825 is shutdown
+  [Thu May 29 13:11:10 2003] - open_logs  : process 21825 is born to reproduce
+  [Thu May 29 13:11:10 2003] - post_config: configuration is completed
+  [Thu May 29 13:11:11 2003] - child_init : process 21830 is born to serve
+  [Thu May 29 13:11:11 2003] - child_init : process 21831 is born to serve
+  [Thu May 29 13:11:11 2003] - child_init : process 21832 is born to serve
+  [Thu May 29 13:11:11 2003] - child_init : process 21833 is born to serve
+  [Thu May 29 13:11:12 2003] - child_exit : process 21833 now exits
+  [Thu May 29 13:11:12 2003] - child_exit : process 21832 now exits
+  [Thu May 29 13:11:12 2003] - child_exit : process 21831 now exits
+  [Thu May 29 13:11:12 2003] - child_exit : process 21830 now exits
+  [Thu May 29 13:11:12 2003] - END        : process 21825 is shutdown
 
 First of all, we can clearly see that Apache always restart itself
 after the first I<post_config> phase is over. The logs show that the
@@ -188,7 +188,7 @@ C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 As we have seen in the
 C<L<MyApache::StartupLog::open_logs|/Startup_Phases_Demonstration_Module>>
 handler, the I<open_logs> phase handlers accept four arguments: the
-configuration pool, the logging streams pool, the temporary pool and
+configuration pool, the logging stream pool, the temporary pool and
 the server object:
 
   sub open_logs {

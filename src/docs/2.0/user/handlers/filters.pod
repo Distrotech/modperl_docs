@@ -110,8 +110,8 @@ And here is the filter handler code:
   use warnings;
   
   use Apache::Filter ();
-  use Apache::RequestRec();
-  use APR::Table;
+  use Apache::RequestRec ();
+  use APR::Table ();
   
   use Apache::Const -compile => qw(OK);
   

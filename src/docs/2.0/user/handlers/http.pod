@@ -1202,8 +1202,10 @@ logging handlers will be called as well.
 
 =head2 PerlCleanupHandler
 
-The cleanup stage is used to execute some code immediately after the
-request has been served (the client went away).
+There is no I<cleanup> Apache phase, it exists only inside mod_perl.
+It is used to execute some code immediately after the request has been
+served (the client went away) and before the request object is
+destroyed.
 
 There are several usages for this use phase. The obvious one is to run
 a cleanup code, for example removing temporarily created files. The
@@ -1300,6 +1302,7 @@ the end of the request.
   
       return Apache::OK;
   }
+  1;
 
 Next we add the following configuration:
 
@@ -1312,7 +1315,7 @@ Now when a request to I</cleanup1> is made, the contents of the
 current directory will be printed and once the request is over the
 temporary file is deleted.
 
-This response handler has a problem of running in a multiprocess
+This response handler has a problem of running in a multi-process
 environment, since it uses the same file, and several processes may
 try to read/write/delete that file at the same time, wrecking
 havoc. We could have appended the process id C<$$> to the file's name,
@@ -1396,6 +1399,7 @@ technique:
   
       return Apache::OK;
   }
+  1;
 
 Similarly to the first handler, we add the configuration:
 

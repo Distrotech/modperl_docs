@@ -95,18 +95,21 @@ objects as its arguments:
       return Apache::OK;
   }
 
-A good I<pre_connection> phase example is to have a facility to block
-remote clients by their IP before too many resources were used. This
-is almost as good as a firewall blocking, before Apache has started to
-do any work at all.
+Here is a useful I<pre_connection> phase example: provide a facility
+to block remote clients by their IP, before too many resources were
+consumed. This is almost as good as a firewall blocking, as it's
+executed before Apache has started to do any work at all.
 
 C<MyApache::BlockIP2> retrieves client's remote IP and looks it up in
 the black list (which should certainly live outside the code, e.g. dbm
 file, but a hardcoded list is good enough for our example).
 
-  #file:/MyApache/BlockIP2.pm
-  #--------------------------
+  #file:MyApache/BlockIP2.pm
+  #-------------------------
   package MyApache::BlockIP2;
+  
+  use strict;
+  use warnings;
   
   use Apache::Connection ();
   
