@@ -308,6 +308,8 @@ The following constants specify how the new hooks (handlers) are
 inserted into the list of hooks when there is at least one hook
 already registered for the same phase.
 
+META: Not working yet.
+
 META: need to verify the following:
 
 =over
