@@ -9,6 +9,7 @@
     ['http://www.apacheweek.com/', 'Apache Week'],
     ['http://www.perl.org/', 'Perl Mongers'],
     ['http://use.perl.org/', 'Use Perl'],
+    ['http://www.perlmonks.org/', 'Perl Monks'],
        ];  
 -%]
 [%- WRAPPER wrap_box 
