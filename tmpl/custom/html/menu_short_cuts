@@ -9,7 +9,7 @@
     ["${doc.dir.abs_doc_root}/download/source.html", 'The source'],
     ["${doc.dir.abs_doc_root}/docs/1.0/guide/index.html", 'The 1.0 guide'],
     ["${doc.dir.abs_doc_root}/docs/2.0/user/intro/start_fast.html", 'Starting with 2.0'],
-    ["${doc.dir.abs_doc_root}/docs/2.0/user/compat/compat.html", 'Migrating to 2.0'],
+    ["${doc.dir.abs_doc_root}/docs/2.0/user/porting/compat.html", 'Migrating to 2.0'],
     ["${doc.dir.abs_doc_root}/docs/1.0/guide/help.html#How_to_Report_Problems", 'Report 1.0 Problems'],
     ["${doc.dir.abs_doc_root}/docs/2.0/user/help/help.html#Reporting_Problems", 'Report 2.0 Problems'],
   ];  
