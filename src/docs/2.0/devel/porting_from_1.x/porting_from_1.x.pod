@@ -95,9 +95,12 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =head1 Authors
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+=over 
 
-Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
+=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=item * Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
+
+=back
 
 =cut
-
