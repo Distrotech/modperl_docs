@@ -25,6 +25,9 @@ META: there is a new compile-time option in perl-5.9.0+:
 and new_SV() can be used to discover where those SVs were allocated.
 (see perlhack.pod for more info)
 
+META: httpd has quite a lot of useful debug info:
+http://httpd.apache.org/dev/debugging.html
+(need to add this link to mp1 docs as well)
 
 =head2 Setting gdb breakpoints with mod_perl built as DSO
 
