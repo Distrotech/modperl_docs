@@ -1,0 +1,32 @@
+[%  # splash/button: a bar with rounded corners
+    #
+    #  ARGS: content, style
+    # STYLE: col, bgcol, align, width
+    #
+    SET
+        default = splash.style.default
+    ;
+    DEFAULT 
+        style   = default
+        col     = style.col.fore     or default.col.fore
+        bgcol   = style.col.back     or default.col.back
+        align   = style.button.align or default.button.align
+    ;
+    SET
+        rgbcol  = splash.rgb.$col
+        imgbase = "$splash.images/$bgcol"
+        imgsize = splash.imgsize
+        imgtype = splash.imgtype
+    ;
+-%]
+[% IF navstyle %]<div class='[%- navstyle  -%]'>[% END %]
+[%- content.length ? content : '&nbsp;' -%]
+[% IF navstyle %]</div>[% END %]
+[% IF linebrake %]<br>[% END %]
+
+
+
+
+
+
+

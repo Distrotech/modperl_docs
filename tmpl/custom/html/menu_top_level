@@ -1,0 +1,59 @@
+[% # top level menu
+   # expects to be set:
+   # nav          - cache navigator object
+   # rel_doc_root - relative docs path (only for chapters!)
+-%]
+
+[% # collect the top level data
+   # first go up to the absolute root
+   l = nav; # remember last valid node 
+   p = nav.up;
+   WHILE p;
+       l = p;
+       p = p.up;
+   END;
+
+   p = l; # last valid node
+   IF p.parent_rel_path.defined;
+      prefix = p.parent_rel_path;
+   ELSE;
+      prefix = ".";
+   END;
+   IF rel_doc_root.defined;
+       prefix = "$prefix/$rel_doc_root";
+   END;
+
+   # walk through the top level nodes
+   count = 0;
+   selected = 0;
+   current = p;
+   buttons = [];
+   p = p.first;
+   WHILE p;
+       count = count + 1;
+       link = INCLUDE link prefix=prefix link=p.meta.link;
+       buttons.push({link => link, text => p.meta.title});
+       IF p.id == current.id;
+           selected = count;
+       END;
+       p = p.next; # next node
+   END;
+-%]
+<div class='logo'>
+<a href="http://perl.apache.org/"><img src="[% doc.dir.abs_doc_root %]/images/mod_perl2.jpg" border=0 alt="mod_perl icon" height=59 width=150></a><br>
+</div>
+<br>
+[% INCLUDE splash/domm_pulldown 
+     select = selected
+     width  = "5%"
+     pad    = 0
+     border = 0
+     align   = 'left'
+%]
+
+
+
+
+
+
+

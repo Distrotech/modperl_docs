@@ -1,0 +1,71 @@
+[% # '<=prev | up | next=>' chapters navigation bar
+   # expects to be set 
+   # nav          - cache navigator object
+   # rel_doc_root - relative docs path
+%]
+[% 
+   prev = nav.prev;
+   next = nav.next;  
+   buttons = [];
+   IF prev;
+        link = INCLUDE link prefix=rel_doc_root link=prev.meta.link;
+	left = "<img src='/modperl-site-domm/images/left.gif' ALT='prev' border=0>";
+	buttons.push({link => link, 
+                     text => "${prev.meta.title}" 
+		     prelink => "<td align='right' width='40%'><div class='navbarlocaltext'>",   
+	             postlink => "</div></td>",
+                    });
+        buttons.push({link => link, 
+                     text => "$left" 
+		     prelink => "<td align='right' width='3%'>",   
+	             postlink => "</td>",
+                    });
+   
+    ELSE; 
+	buttons.push({link => "", 
+                     text => "&nbsp;" 
+		     prelink => "<td width='43%'>",   
+	             postlink => "</td>",
+                    });
+    END;
+
+
+       buttons.push({link => "$rel_doc_root/index.html", 
+                     text => "<img src='/modperl-site-domm/images/up.png' ALT='up' border=0>"
+		     postlink => "</td>",   
+	             prelink => "<td align='center' valign='top' width='3%'>",
+
+                    });
+
+
+   IF next;
+       link  = INCLUDE link prefix=rel_doc_root link=next.meta.link;
+	right="<img src='/modperl-site-domm/images/right.gif' ALT='next' border=0>";
+       buttons.push({link => link, 
+                     text =>  "$right"   
+		     postlink => "</td>",   
+	             prelink => "<td align='left' width='3%'>",
+
+                    });
+       buttons.push({link => link, 
+                     text =>  "${next.meta.title}"   
+		     postlink => "</div></td>",   
+	             prelink => "<td align='left' width='40%'><div class='navbarlocaltext'>",
+
+                    });
+   ELSE; 
+	buttons.push({link => "", 
+                     text => "&nbsp;" 
+		     prelink => "<td width='43%'>",   
+	             postlink => "</td>",
+                    });
+
+   END;
+%]
+<div class='navbarlocal'>
+<table border=0 cellspacing=1 cellpadding=0 width=100%>
+<tr>
+[% INCLUDE splash/domm_menu %]
+</tr></table>
+</div>
+

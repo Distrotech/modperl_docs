@@ -1,0 +1,27 @@
+[% PROCESS splash/config;
+    splash.images  = "$doc.dir.abs_doc_root/images/splash";
+    splash.fg = 'mauve';
+    splash.bg = 'lilac';
+-%]
+
+[% INCLUDE head
+    paget   = doc.meta.title
+    title   = "mod_perl: $paget" 
+    content = ''
+-%]
+
+
+<div class='content'>
+[% INCLUDE index_body %]
+<br>
+[% INCLUDE tail -%]
+</div>        
+
+<div class='leftcont'>
+[% INCLUDE menu_top_level nav=doc.nav; %]
+<br>
+[% INCLUDE ad -%]
+</div>
+
+
+</body></html>

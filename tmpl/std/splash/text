@@ -1,0 +1,1 @@
+[% IF prelink %][% prelink %][% END -%][% IF link %]<a href="[% link %]">[% END -%][%- content %][%- "</a>" IF link %][% IF postlink %][% postlink %][% END -%]

@@ -1,0 +1,8 @@
+[% title = view.print(item.title) %]
+[% title.replace('\W+', '_') %]
+<a name="[% PROCESS pod/html/a_name %]">
+<h1>[% title %]</h1>
+
+[% view.print(item.content) %]
+
+[ <a href="#toc">TOC</a> ]

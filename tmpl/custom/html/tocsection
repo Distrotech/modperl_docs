@@ -1,0 +1,15 @@
+[% # render one level of toc and call recursively itself if there are
+   # nested levels.
+   # expected args:
+   # subs - an array with keys indentical to 'toc' from above.
+%]
+    <ul>
+    [% FOREACH sec = subs %]
+        <li><a href="[% sec.link %]">[% sec.title %]</a>
+            [% sec.abstract %]
+        </li>
+        [% IF sec.subs %]
+            [% PROCESS tocsection subs=sec.subs %]
+        [% END %]
+    [% END %]
+    </ul>

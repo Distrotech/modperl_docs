@@ -1,0 +1,3 @@
+[% # accepts: title %]
+
+[% title.replace('\W+', '_') %]

@@ -1,0 +1,20 @@
+[%
+    INCLUDE navbar_global nav=doc.nav;
+
+    INCLUDE title;
+
+    IF doc.body.top;
+        "<p>${doc.body.top}</p>";
+    END;
+
+    IF doc.meta.abstract;
+        "<p>${doc.meta.abstract}</p>";
+    END;
+
+    PROCESS index_toc toc=doc.toc;
+
+    IF doc.body.bot;
+        "<p>${doc.body.bot}</p>";
+    END;
+
+%]

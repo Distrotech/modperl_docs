@@ -1,0 +1,17 @@
+[% # creates links correctly (if the link starts with foo:// the
+   # prefix won't be appended)
+   # expects to be set:
+   # prefix - dir to prefix
+   # link   - link as defined in the docset
+   #
+   IF link.search('^[^:]+://');
+      return = link;
+   ELSE;
+       IF prefix;
+           return = "$prefix/$link";
+       ELSE;
+          return = link;
+       END;
+   END;
+-%]   
+[%- return -%]

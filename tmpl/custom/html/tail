@@ -1,0 +1,19 @@
+<hr size=1 noshade>
+<center>
+<table border=0>
+<tr><td>
+<a href="http://perl.apache.org/"><img src="[% doc.dir.abs_doc_root %]/images/mod_perl.gif" alt="Mod Perl Icon" height=30 width=90></a>
+</td><td>
+<a href="http://validator.w3.org/check/referer"><img border="0" src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01!" height="31" width="88"></a>
+</td><td>
+<a href="http://jigsaw.w3.org/css-validator/"><img style="border:0;width:88px;height:31px" src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS!"></a>
+</td><td>
+[% PROCESS splash/ttpower %]
+</td></tr>
+<tr><td colspan=4 align=right>
+<font size=-2>Use of the Camel for Perl is
+a trademark of <a href="http://www.ora.com">O'Reilly &amp; Associates</a>,
+and is used by permission.
+Last Modified:&nbsp;[% doc.last_modified %]</font>
+</td></tr>
+</table></center>

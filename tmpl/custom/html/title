@@ -1,0 +1,1 @@
+[% IF doc.meta.title.defined %]<h1>[% doc.meta.title %]</h1>[% END %]

@@ -1,0 +1,20 @@
+[% #
+   # expected args:
+   # toc - an array with keys: link, title, abstract, subs
+   #       (subs is optional and includes a similar array)
+%]
+
+[% IF toc.size %]
+<a name="toc"></a>
+<table border=0 width=100%>
+<tr><th colspan=2><h3>Table of Contents</h3></th></tr>
+<tr><td valign='top'><div class='toc'>
+[% INCLUDE tocsection subs=toc %]
+</div></td>
+<td valign='top'>
+<div class='download'>Download:<br><br>
+<img src='[% doc.dir.abs_doc_root %]/images/pdf.gif' ALT='PDF'> (123 kB)<br>
+<br>
+<img src='[% doc.dir.abs_doc_root %]/images/page.gif' ALT='SRC'> (12 kB)<br>
+</div></td></tr></table>
+[% END %]
