@@ -1,6 +1,6 @@
 #=======================================================================
 #  Module for using Template-Toolkit for generating output
-#    $Id: TemplateToolkit.pm,v 1.1 2002/01/30 06:35:00 stas Exp $
+#    $Id: TemplateToolkit.pm,v 1.2 2002/04/09 00:58:34 moseley Exp $
 #
 #=======================================================================
 package TemplateToolkit;
@@ -70,14 +70,14 @@ sub get_meta_name_limits {
 
 
     return join "\n",
-        'Limit search to:',
+        'Limit search to:<br>&nbsp;',
         $q->radio_group(
             -name   =>'metaname',
             -values => $metanames,
             -default=>$metanames->[0],
             -labels =>$name_labels
         ),
-        '<br>';
+        '<br><br>';
 }
 
 sub get_sort_select_list {
@@ -103,7 +103,7 @@ sub get_sort_select_list {
         $q->checkbox(
             -name   => 'reverse',
             -label  => 'Reverse Sort'
-        );
+        ), '<br>';
 }
 
 

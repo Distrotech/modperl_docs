@@ -70,7 +70,7 @@
             maxlength => 200,
             } ) %]
 
-        [% CGI.submit('submit','Search!') %]<br><br>
+        [% CGI.submit('submit','Search') %]<br><br>
         [% search.get_meta_name_limits %]
         [% search.get_sort_select_list %]
         [% search.get_index_select_list %]
