@@ -3,6 +3,9 @@
 Basic Layout:
 -------------
 
+- check that images are not scaled down by <img> tags but they are made
+  smaller for real. Otherwise we waste bandwidth.
+
 - NS4, if PRE is long the page is scrolled to the right! See
   dst_html/docs/2.0/devel/debug_c/debug_c.html#Analyzing_the_core_File
 
@@ -37,6 +40,13 @@ last, and make a much smaller font.
   'content' doesn't have to wrap itself in a <div> tag. If class is
   passed then we can use it in <td class="">
 
+General:
+--------
+
+- Need to document the font-type and -size used for the image button,
+  so in the future we can add new buttons of the same style if needed.
+
+
 Content:
 --------
 
@@ -62,6 +72,10 @@ Content:
 - ask perl.com to link to perl.apache.org from 'perl sites' section.
   + also they need to add theperlreview.com
 
+- need to review the old site and add new rewrite rules for important
+  resources that have moved.
+
+- check that 404.html actually works.
 
 Search:
 -------
