@@ -103,6 +103,21 @@ output in your web pages.  Embperl has several features which are
 especially useful for creating HTML, including dynamic tables, form
 field processing, URL escaping/unescaping, session handling, and more.
 
+=head1 Interchange
+
+C<Interchange> (http://www.icdevgroup.org/) is a flexible, high
+performance application server that handles state management,
+authentication, session maintenance, click trails, filtering, URL
+encodings, security policy. It's made up of the following components:
+database abstraction layer, generic templating system, transaction
+routing rules, customer information object, universal localization
+scheme, security blackout definition, profiles, filters, search
+language, and session management.
+
+Some of Interchange's many modules are transaction management,
+pricing, personalization, payment processing, reporting, customer
+service, and search.
+
 =head1 Mason
 
 C<Mason> (http://www.masonhq.com/) is a powerful Perl-based web site
