@@ -261,6 +261,31 @@ C<=over> requires a corresponding C<=back>.
 
 
 
+
+=head2 C<PerlConfigRequire>
+
+  PerlConfigRequire Foo/Bar.pm
+
+is equivalent to Perl's:
+
+  require "Foo/Bar.pm";
+
+C<PerlConfigRequire> is used to load files with Perl code.
+
+It is very similar to C<L<PerlRequire|/C_PerlRequire_>>
+with the only difference being that Perl startup is not
+L<delayed|/Startup_Process> and will be immediately started
+upon encountering this directive.
+
+META: need to expand on this with examples and suggested usages
+
+
+
+
+
+
+
+
 =head2 C<PerlLoadModule>
 
 The C<PerlLoadModule> directive is similar to
@@ -644,6 +669,36 @@ Notice that we have got the value of the environment variable I<TEST>.
 
 
 
+
+
+
+=head2 C<PerlPostConfigRequire>
+
+  PerlPostConfigRequire Foo/Bar.pm
+
+is equivalent to Perl's:
+
+  require "Foo/Bar.pm";
+
+C<PerlPostConfigRequire> is used to load files with Perl code
+as late as possible during server startup.
+
+It is very similar to C<L<PerlRequire|/C_PerlRequire_>> and 
+C<L<PerlConfigRequire|/C_PerlConfigRequire_>>.
+
+C<PerlPostConfigRequire> delays loading of the file until
+the last possible moment before the server is starting, in
+the post_config phase.
+
+META: need to expand on this with examples and suggested usages
+
+
+
+
+
+
+
+
 =head2 C<PerlRequire>
 
   PerlRequire Foo/Bar.pm
@@ -681,47 +736,6 @@ See also: C<L<PerlModule|/C_PerlModule_>>.
 
 
 
-=head2 C<PerlConfigRequire>
-
-  PerlConfigRequire Foo/Bar.pm
-
-is equivalent to Perl's:
-
-  require "Foo/Bar.pm";
-
-C<PerlConfigRequire> is used to load files with Perl code.
-
-It is very similar to C<L<PerlRequire|/C_PerlRequire_>>
-with the only difference being that Perl startup is not
-L<delayed|/Startup_Process> and will be immediately started
-upon encountering this directive.
-
-META: need to expand on this with examples and suggested usages
-
-
-
-
-
-
-=head2 C<PerlPostConfigRequire>
-
-  PerlPostConfigRequire Foo/Bar.pm
-
-is equivalent to Perl's:
-
-  require "Foo/Bar.pm";
-
-C<PerlPostConfigRequire> is used to load files with Perl code
-as late as possible during server startup.
-
-It is very similar to C<L<PerlRequire|/C_PerlRequire_>> and 
-C<L<PerlConfigRequire|/C_PerlConfigRequire_>>.
-
-C<PerlPostConfigRequire> delays loading of the file until
-the last possible moment before the server is starting, in
-the post_config phase.
-
-META: need to expand on this with examples and suggested usages
 
 
 
