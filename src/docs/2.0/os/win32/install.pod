@@ -68,7 +68,9 @@ obtained from L<http://httpd.apache.org/>, which when unpacked will
 contain at the top-level a Visual Studio project file
 (make sure to obtain the I<win32-src.zip> archive). Choose the
 C<InstallBin - Win32 Release> target to build and install Apache 2.0,
-which by default will be placed in F</Apache2>.
+which by default will be placed in F</Apache2>. At the present
+time you must have version 2.0.47 or greater of Apache2 in
+order to build mod_perl.
 
 Having built and installed Apache 2.0, next obtain the mod_perl 2.0
 sources. First obtain the L<mod_perl 2.0
@@ -119,7 +121,9 @@ The following assumes you already have ActivePerl 8xx (I<not> 6xx)
 from L<http://www.activestate.com/> and a Win32 Apache 2.0 binary from 
 L<http://httpd.apache.org/>. In installing this, you might avoid
 some future problems by choosing installation directories that do
-not have spaces in their names (eg, F<C:/Apache2>).
+not have spaces in their names (eg, F<C:/Apache2>). At this time
+you must have version 2.0.47 or greater of Apache2 in order to
+install the mod_perl 2 ppm package.
 
 After installing Perl and Apache 2.0, you can then install mod_perl
 via the C<PPM> utility. ActiveState does not maintain mod_perl in
