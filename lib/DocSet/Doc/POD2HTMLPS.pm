@@ -136,9 +136,30 @@ sub view_seq_file {
     return qq{<i>$path</i>:\n\n<pre>$content</pre>\n\n};
 }
 
+# the <pre> section uses class "pre-section", which allows to use a custom
+# look-n-feel via the CSS
+sub view_verbatim {
+    my ($self, $text) = @_;
+    for ($text) {
+        s/&/&amp;/g;
+        s/</&lt;/g;
+        s/>/&gt;/g;
+    }
+
+    # if the <pre> section is too long ps2pdf fails to generate pdf,
+    # so split it into 40 lines chunks.
+    my $result = '';
+    while ($text =~ /((?:[^\n]*\n?){1,40})/sg) {
+        next unless length($1); # skip empty matches
+        $result .= qq{<pre class="pre-section">$1</pre>\n};
+    }
+
+    return $result;
+}
+
+
 
 *anchor        = \&DocSet::Doc::Common::pod_pom_html_anchor;
-*view_verbatim = \&DocSet::Doc::Common::pod_pom_html_view_verbatim;
 *view_seq_link_transform_path = \&DocSet::Doc::Common::pod_pom_html_view_seq_link_transform_path;
 
 #*view_seq_link = \&DocSet::Doc::Common::pod_pom_html_view_seq_link;
@@ -197,9 +218,30 @@ FE<lt>/etc/passwdE<gt> since it won't be found unless you actually put
 it under the current documents path or put the source document in
 the I</> path.
 
-The following rendering methods: view_verbatim(), anchor() and
+view_verbatim() is overriden: renders the
+E<lt>preE<gt>...E<lt>/preE<gt> html, but defines a CSS class
+C<pre-section> so the look-n-feel can be adjusted. in addition it
+splits text into 40 lines chunks. This solves two problems:
+
+=over
+
+=item *
+
+C<html2ps> tries to fit the whole E<lt>preE<gt>...E<lt>/preE<gt> in a
+single page ending up using a very small unreadable font when the text
+is long.
+
+=item *
+
+C<ps2pdf> fails to convert ps to pdf if the former includes
+E<lt>preE<gt>...E<lt>/preE<gt>, longer than 40 lines in one chunk.
+
+=back
+
+The following rendering methods: anchor() and
 view_seq_link_transform_path() are defined in the
 C<DocSet::Doc::Common> class and documented there.
+
 
 =head1 AUTHORS
 

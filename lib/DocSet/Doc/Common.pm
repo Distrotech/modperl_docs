@@ -145,26 +145,6 @@ sub pod_pom_html_anchor {
     return qq{<a name="$anchor" href="#toc_$anchor">$link</a>};
 }
 
-# the <pre> section uses class "pre-section", which allows to use a custom
-# look-n-feel via the CSS
-sub pod_pom_html_view_verbatim {
-    my ($self, $text) = @_;
-    for ($text) {
-        s/&/&amp;/g;
-        s/</&lt;/g;
-        s/>/&gt;/g;
-    }
-
-    # if the <pre> section is too long ps2pdf fails to generate pdf,
-    # so split it into 40 lines chunks.
-    my $result = '';
-    while ($text =~ /((?:[^\n]*\n?){1,40})/sg) {
-        next unless length($1); # skip empty matches
-        $result .= qq{<pre class="pre-section">$1</pre>\n};
-    }
-
-    return $result;
-}
 
 
 
@@ -256,13 +236,6 @@ the current document object.
 
 this is a common function that takes the C<$title> Pod::POM object,
 converts it into a E<lt>a nameE<gt> html anchor and returns it.
-
-=item * pod_pom_html_view_verbatim
-
-this is an overloaded C<Pod::POM::HTML::view_verbatim()> method which
-renders the E<lt>preE<gt>...E<lt>/preE<gt> html, but embeds a virtual
-colored line as the left column, so the rendered text will stand out
-from the normal text.
 
 =back
 

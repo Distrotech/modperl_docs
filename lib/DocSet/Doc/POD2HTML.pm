@@ -136,6 +136,20 @@ sub view_seq_file {
     return -e $file ? qq{<a href="$path">$path</a>} : qq{<i>$path</i>};
 }
 
+# the <pre> section uses class "pre-section", which allows to use a custom
+# look-n-feel via the CSS
+sub view_verbatim {
+    my ($self, $text) = @_;
+    for ($text) {
+        s/&/&amp;/g;
+        s/</&lt;/g;
+        s/>/&gt;/g;
+    }
+
+    return qq{<pre class="pre-section">$text</pre>\n};
+}
+
+
 #sub view_for {
 #    my $self = shift;
 #    my ($for) = @_;
@@ -150,7 +164,6 @@ sub view_seq_file {
 #}
 
 *anchor        = \&DocSet::Doc::Common::pod_pom_html_anchor;
-*view_verbatim = \&DocSet::Doc::Common::pod_pom_html_view_verbatim;
 *view_seq_link_transform_path = \&DocSet::Doc::Common::pod_pom_html_view_seq_link_transform_path;
 
 #*view_seq_link = \&DocSet::Doc::Common::pod_pom_html_view_seq_link;
@@ -209,7 +222,11 @@ to the location of the document and if we find it we link to it
 otherwise the default behaviour applies (the file path is turned into
 italics).
 
-The following rendering methods: view_verbatim(), anchor() and
+view_verbatim() is overriden: renders the
+E<lt>preE<gt>...E<lt>/preE<gt> html, but defines a CSS class
+C<pre-section> so the look-n-feel can be adjusted.
+
+The following rendering methods: anchor() and
 view_seq_link_transform_path() are defined in the
 C<DocSet::Doc::Common> class and documented there.
 
