@@ -33,7 +33,7 @@ C<L<"modperl"|docs::2.0::user::config::config/C_modperl_>> core
 handler the I<Environment> menu option will show only the environment
 under that handler. To see the environment seen by handlers running
 under the
-C<L<"perl-script"|docs::2.0::user::config::config/C_perl_script_>>>
+C<L<"perl-script"|docs::2.0::user::config::config/C_perl_script_>>
 core handler, configure C<Apache::Status> as:
 
   <Location /perl-status>
