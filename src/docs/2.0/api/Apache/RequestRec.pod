@@ -75,6 +75,27 @@ If C<$val> is I<undef> the unset() operation will happen: all existing
 values associated with the key C<$key> (and the key itself) will be
 deleted.
 
+=item * ap_auth_type()
+
+C<$r-E<gt>ap_auth_type> gets or sets the I<ap_auth_type> slot in the
+request record.
+
+  $r->ap_auth_type('Basic');
+
+or
+
+  my $auth_type = $r->ap_auth_type;
+
+I<ap_auth_type> holds the authentication type that has been negotiated
+between the client and server during the actual request.  Generally,
+I<ap_auth_type> is populated automatically when you call 
+C<$r-E<gt>get_basic_auth_pw> so you don't really need to worry
+too much about it,  but if you want to roll your own authentication
+mechanism then you will have to populate I<ap_auth_type> yourself.
+
+Note that C<$r-E<gt>ap_auth_type> was C<$r-E<gt>connection-E<gt>auth_type>
+in the mod_perl 1.0 API.
+
 =item *
 
 =back

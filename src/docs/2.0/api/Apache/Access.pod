@@ -1,0 +1,42 @@
+=head1 NAME
+
+Apache::Access -- A Perl API for Apache request object
+
+=head1 SYNOPSIS
+
+  use Apache::Access;
+  sub handler{
+      my $r = shift;
+      ...
+      my $auth_type = $r->auth_type;
+      ...
+  }
+
+=head1 DESCRIPTION
+
+C<Apache::Access> provides the Perl API for Apache request object.
+
+=head1 API
+
+Function arguments (if any) and return values are shown in the
+function's synopsis.
+
+=over
+
+=item * auth_type()
+
+C<$r-E<gt>auth_type> gets or sets the value of the I<AuthType>
+configuration directive for the current request.
+
+  my $auth_type = $r->auth_type;
+
+or
+
+  $r->auth_type('Basic');
+
+=item *
+
+=back
+
+
+=cut
