@@ -19,7 +19,7 @@ APR::IpSubnet - Perl API for accessing APRs ip_subnet structures
 =head1 Description
 
 C<APR::IpSubnet> object represents a range of IP addresses
-(IPv4/IPv6). An socket connection can be matched against this range to
+(IPv4/IPv6). A socket connection can be matched against this range to
 test whether the IP it's coming from is inside or outside of this
 range.
 

@@ -1,6 +1,6 @@
 =head1 NAME
 
-APR::Util - Perl API for XXX
+APR::Util - Perl API for Various APR Utilities
 
 
 

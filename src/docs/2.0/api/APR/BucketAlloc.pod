@@ -12,6 +12,8 @@ APR::BucketAlloc - Perl API for apr_bucket_alloc_t
 
 =head1 Description
 
+C<APR::BucketAlloc> is for bucket allocation.
+
 At the moment C<APR::BucketAlloc> is a virtual class, which doesn't
 exists as a module/package - so you don't need to load it, nor does it
 contain any callable methods or functions.

@@ -19,17 +19,31 @@ Apache::Command - Perl API for accessing Apache module command information
     $cmd = $cmd->next();
   }
 
+
+
+
+
+
 =head1 Description
 
-Each apache module can define a list of configuration commands it offers.
-This interface gives access to information about these configuration commands.
-Each module contains a chained-list of Apache::Command objects, each representing a single directive.
+Each Apache module can define a list of configuration commands it
+offers.  This interface gives access to information about these
+configuration commands.  Each module contains a chained-list of
+C<Apache::Command> objects, each representing a single directive.
 
 For example, C<PerlRequire> is a command offered by mod_perl.
+
+
+
+
+
 
 =head1 API
 
 C<Apache::Command> provides the following functions and/or methods:
+
+
+
 
 
 
@@ -147,6 +161,8 @@ The bit mask representing the overrides this command is allowed in (i.e OR_ALL/A
 =item since: 1.99_12
 
 =back
+
+
 
 
 
