@@ -4,10 +4,10 @@ Overview of mod_perl 2.0
 
 =head1 Description
 
-This chapter presents the new features of Apache 2.0, Perl 5.6.0 -
-5.8.0 and their influence on mod_perl 2.0. The new MPM models from Apache
-2.0 are discussed. This chapter should give you a general idea about
-what mod_perl 2.0 is and how it differs from mod_perl 1.0.
+This chapter should give you a general idea about what mod_perl 2.0 is
+and how it differs from mod_perl 1.0.  This chapter presents the new
+features of Apache 2.0, Perl 5.6.0 -- 5.8.0 and their influence on
+mod_perl 2.0. The new MPM models from Apache 2.0 are discussed.
 
 
 

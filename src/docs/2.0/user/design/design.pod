@@ -4,7 +4,12 @@ Notes on the design and goals of mod_perl-2.0
 
 =head1 Description
 
-Notes on the design and goals of mod_perl-2.0
+Notes on the design and goals of mod_perl-2.0.
+
+We try to keep this doc in sync with the development, so some items
+discussed here were already implemented, while others are only
+planned. If you find some inconsistencies in this document please let
+the list know.
 
 =head1 Introduction
 
@@ -395,52 +400,32 @@ access Apache and APR data structures.
 
 =head1 Filter Hooks
 
-mod_perl will provide two interfaces to filtering, a direct mapping to
-buckets and bucket brigades and a simpler, stream-oriented interface.
-
-Example of the stream oriented interface:
-
-  file:httpd.conf
-  ---------------
-  PerlOutputFilterHandler Apache::ReverseFilter
-
-  file:Apache/ReverseFilter.pm
-  ----------------------------
-  package Apache::ReverseFilter;
-  
-  use strict;
-  
-  sub handler {
-      my $filter = shift;
-  
-      while ($filter->read(my $buffer, 1024)) {
-          $filter->write(scalar reverse $buffer);
-      }
-  
-      return Apache::OK;
-  }
-  1;
+mod_perl 2.0 provides two interfaces to filtering, a direct mapping to
+buckets and bucket brigades and a simpler, stream-oriented
+interface. This is discussed in the L<Chapter on
+filters|docs::2.0::user::handlers::filters>.
 
 =head1 Directive Handlers
 
 mod_perl 1.0 provides a mechanism for Perl modules to implement
-first-class directive handlers, but requires an xs file to be
-generated and compiled.  The 2.0 version will provide the same
-functionality, but will not require the generated xs module.
+first-class directive handlers, but requires an XS file to be
+generated and compiled.  The 2.0 version provides the same
+functionality, but does not require the generated XS module
+(i.e. everything is implemented in pure Perl).
 
 =head1 E<lt>PerlE<gt> Configuration Sections
 
-The ability to write configuration in Perl will carry over from 1.0,
-but will likely be implemented much different internally.  The mapping
-of a Perl symbol table should fit cleanly into the new
-I<ap_directive_t> API, unlike the hoop jumping required in 1.0.
+The ability to write configuration in Perl carries over from 1.0, but
+but implemented much different internally.  The mapping of a Perl
+symbol table fits cleanly into the new I<ap_directive_t> API, unlike
+the hoop jumping required in mod_perl 1.0.
 
 =head1 Protocol Module Support
 
-Protocol module support is provided out-of-the-box, as the hooks
-and API are covered by the generated code blankets.  Any functionality
-for assisting protocol modules should be folded back into Apache if
-possible.
+L<Protocol module|docs::2.0::user::handlers::protocols> support is
+provided out-of-the-box, as the hooks and API are covered by the
+generated code blankets.  Any functionality for assisting protocol
+modules should be folded back into Apache if possible.
 
 =head1 mod_perl MPM
 
@@ -472,18 +457,19 @@ source tree.  This also allows for third-party xs modules to be
 unpacked inside the mod_perl tree and built static without
 modification to the mod_perl Makefiles.
 
-For platforms such as Win32, the build files will be generated similar
-to how unix-flavor I<Makefile>s are.
+For platforms such as Win32, the build files are generated similar to
+how unix-flavor I<Makefile>s are.
 
 =head1 Test Framework
 
-Similar to 1.0, mod_perl-2.0 will provide a 'make test' target to
-exercise as many areas of the API and module features as possible.
+Similar to 1.0, mod_perl-2.0 provides a 'make test' target to exercise
+as many areas of the API and module features as possible.
 
 The test framework in 1.0, like several other areas of mod_perl, was
-cobbled together over the years.  The goal of 2.0 is to provide a test
-framework that will be usable not only for mod_perl, but for
-third-party C<Apache::*> modules and Apache itself.
+cobbled together over the years.  mod_perl 2.0 provides a test
+framework that is usable not only for mod_perl, but for third-party
+C<Apache::*> modules and Apache itself. See
+C<L<Apache::Test|docs::general::testing::testing>>.
 
 =head1 CGI Emulation
 
@@ -494,30 +480,34 @@ runtime which have a longer lifetime than when running under mod_cgi.
 For example, the C<%ENV> environment variable table, C<END> blocks,
 C<@INC> include paths, etc.
 
-CGI emulation will be supported in 2.0, but done so in a way that it
-is encapsulated in its own handler.  Rather that 1.0 which uses the
+CGI emulation is supported in mod_perl 2.0, but done so in a way that
+it is encapsulated in its own handler.  Rather than 1.0 which uses the
 same response handler, regardless if the module requires CGI emulation
-or not.  With an I<ithreads> enabled Perl, it will also be possible to
+or not.  With an I<ithreads> enabled Perl, it's also possible to
 provide more robust namespace protection.
+
+Notice that C<ModPerl::Registry> is used instead of 1.0's
+C<Apache::Registry>, and similar for other registry groups.
+C<ModPerl::RegistryCooker> makes it easy to write your own
+customizable registry handler.
 
 =head1 Apache::* Library
 
-The majority of the standard Apache::* modules in 1.0 will be
-supported in 2.0.  Apache::Registry will likely be replaced with
-something akin to the Apache::PerlRun/Apache::RegistryNG replacement
-prototype that exists in 1.0.  The main goal being that the non-core
-CGI emulation components of these modules are broken into small,
-re-usable pieces to subclass Apache::Registry like behavior.
+The majority of the standard C<Apache::*> modules in 1.0 are supported
+in 2.0.  The main goal being that the non-core CGI emulation
+components of these modules are broken into small, re-usable pieces to
+subclass Apache::Registry like behavior.
 
 =head1 Perl Enhancements
 
-As Perl 5.8.0 is currently in development and Perl 6.0 is a long ways
-off, it is possible and reasonable to add enhancements to Perl which
-will benefit mod_perl.  While these enhancements do not preclude the
-design of mod_perl-2.0, they will make an impact should they be
-implemented/accepted into the Perl development track.
+Most of the following items were projected for inclusion in perl
+5.8.0, but that didn't happen.  While these enhancements do not
+preclude the design of mod_perl-2.0, they could make an impact if they
+were implemented/accepted into the Perl development track.
 
 =head2 GvSHARED
+
+(Note: This item wasn't implemented in Perl 5.8.0)
 
 As mentioned, the perl_clone() API will create a thread-safe
 interpreter clone, which is a copy of all mutable data and a shared
@@ -591,24 +581,12 @@ optimizations if these hooks were plugable, for example, optimizing
 calls to I<print>, so they directly call the Apache I<ap_rwrite>
 function, rather than proxy via a I<tied filehandle>.
 
-Another possible optimization would be "inlined" XSUB calls.  Perl has
-a generic opcode for calling subroutines, one which does not know the
-number of arguments coming into and being passed out of a subroutine.
-As the majority of mod_perl API methods have known in/out argument
-lists, it would be possible to implement a much faster version of the
-Perl I<pp_entersub> routine.
-
-=head2 Solar variables
-
-Perl global variables inside threaded MPMs are only global to the
-current interpreter clone in which they are running.  A useful feature
-for mod_perl applications would be the concept of a I<solar> variable,
-which is global across all interpreters.  Such a feature would of
-course require mutex locking, something we do not want to introduce
-for normal Perl variables.  It might be possible to again piggy-back
-the C<SvREADONLY> flag, which if true, checking for another flag
-C<SvSOLAR> which implements the proper locking for concurrent access
-to cross-interpreter globals.
+Another optimization that was implemented is "inlined" XSUB calls.
+Perl has a generic opcode for calling subroutines, one which does not
+know the number of arguments coming into and being passed out of a
+subroutine.  As the majority of mod_perl API methods have known in/out
+argument lists, mod_perl implements a much faster version of the Perl
+I<pp_entersub> routine.
 
 =head1 Maintainers
 
