@@ -1,5 +1,13 @@
 [% USE date;
    books = [
+    { title => "Practical mod_perl",
+      url   => "http://modperlbook.org/", 
+      image => { uri => "/images/books/practical_modperl.jpg",
+                 height => 169,
+                 width => 128,
+               },
+      authors => "Stas Bekman, Eric Cholet",
+    },
     { title => "The mod_perl Developer's Cookbook",
       url   => "http://www.modperlcookbook.org/", 
       image => { uri => "/images/books/modperlcookbook.jpg",
