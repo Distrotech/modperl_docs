@@ -1,0 +1,543 @@
+=head1 NAME
+
+Using Perl*Handlers
+
+=head1 Description
+
+This chapter discusses C<Perl*Handler>s and presents examples of their
+use.
+
+
+META: need to add/correct a diagram similar to the one in the eagle
+book, presenting the order of the phases.
+
+                           |
+                           v
+         -------------->[wait]---->post-read-request 
+         |                              |
+         |                              v
+         |                        URI translation
+         |                              |
+         |                              v
+         |                         header parsing
+         |                              |
+         |                              v
+         |                         access control
+         |     <REQUEST LOOP>           |
+      cleanup                           v
+         |                         authentication
+         |                              |
+         |                              v
+         |                          authorization
+         |                              |
+         |                              v
+         |                        MIME type checking
+         |                              |
+         |                              v
+      logging <----- RESPONSE <------ fixups
+
+
+
+
+=head1 Handlers (Hooks) Types
+
+For each phase there can be more than one handler assigned (also known
+as I<hooks>, because the C functions are called
+I<ap_hook_E<lt>phase_nameE<gt>>). The following types specify a
+phase's behavior when there is more then one handler to run for this
+phase. (For C API declarations see I<include/ap_config.h>, which
+includes other types which aren't exposed by mod_perl.)
+
+=over
+
+=item * VOID
+
+Handlers of the type C<VOID> will be I<all> executed in the order they
+have been registered disregarding their return values. Though in
+mod_perl they are expected to return C<Apache::OK>.
+
+=item * RUN_FIRST
+
+Handlers of the type C<RUN_FIRST> will be executed in the order they
+have been registered until the first handler that returns something
+other than C<Apache::DECLINE>. If the return value is C<Apache::OK>,
+the next handler in the chain will be run. If the return value is
+C<Apache::DECLINED> the next phase will start. In all other cases the
+execution will be aborted.
+
+=item * RUN_ALL
+
+Handlers of the type C<RUN_ALL> will be executed in the order they
+have been registered until the first handler that returns something
+other than C<Apache::OK> or C<Apache::DECLINE>.
+
+=back
+
+Also see L<mod_perl Directives Argument Types and Allowed
+Location|user::config::config/mod_perl_Directives_Argument_Types_and_Allowed_Location>
+
+=head1 Hook Ordering (Position)
+
+The following constants specify how the new hooks (handlers) are
+inserted into the list of hooks when there is at least one hook
+already registered for the same phase.
+
+META: need to verify the following:
+
+=over
+
+=item *  C<APR::HOOK_REALLY_FIRST>
+
+run this hook first, before ANYTHING.
+
+=item *  C<APR::HOOK_FIRST>
+
+run this hook first.
+
+=item *  C<APR::HOOK_MIDDLE>
+
+run this hook somewhere.
+
+=item *  C<APR::HOOK_LAST>
+
+run this hook after every other hook which is defined.
+
+=item *  C<APR::HOOK_REALLY_LAST>
+
+run this hook last, after EVERYTHING.
+
+=back
+
+META: more information in mod_example.c talking about
+position/predecessors, etc.
+
+=head1 Server Configuration (Startup) Phases
+
+=head2 PerlOpenLogsHandler
+
+The I<open_logs> phase happens just before the I<post_config> phase.
+
+Handlers registered by C<PerlOpenLogsHandler> are usually used for
+opening module-specific log files.
+
+At this stage the C<STDERR> stream is not yet redirected to
+I<error_log>, and therefore any messages to that stream will be
+printed to the console the server is starting from (if such exists).
+
+This phase is of type C<RUN_ALL>.
+
+The handler's configuration scope is C<SRV>.
+
+Example:
+
+
+
+
+=head2 PerlPostConfigHandler
+
+The I<post_config> phase happens right after Apache has processed the
+configuration files, before any child processes were spawned (which
+happens at the I<child_init> phase).
+
+This phase can be used for initializing things to be shared between
+all child processes. You can do the same in the startup file, but in
+the I<post_config> phase you have an access to a complete
+configuration tree.
+
+This phase is of type C<RUN_ALL>.
+
+The handler's configuration scope is C<SRV>.
+
+Example:
+
+
+
+
+
+
+=head2 PerlChildInitHandler
+
+The I<child_init> phase happens immediately after the child process is
+spawned. Each child process will run the hooks of this phase only once
+in their life-time.
+
+In the prefork MPM this phase is useful for pre-opening database
+connections (similar to Apache::DBI in mod_perl 1.0).
+
+This phase is of type C<VOID>.
+
+The handler's configuration scope is C<SRV>.
+
+Example:
+
+
+
+
+
+
+
+
+=head1 Command (Protocol) Phases
+
+META: blurb
+
+=head2 PerlPreConnectionHandler
+
+The I<pre_connection> phase happens just after the server accepts the
+connection, but before it is handed off to a protocol module to be
+served.  It gives modules an opportunity to modify the connection as
+soon as possible. The core server uses this phase to setup the
+connection record based on the type of connection that is being used.
+
+This phase is of type C<RUN_ALL>.
+
+The handler's configuration scope is C<SRV>, because it's not known
+yet which resource the request will be mapped to.
+
+Example:
+
+
+
+=head2 PerlProcessConnectionHandler
+
+The I<process_connection> phase is used to actually process the
+connection that was received.  Only protocol modules should assign
+handlers for this phase, as it gives them an opportunity to replace
+the standard HTTP processing with processing for some other protocols
+(e.g., POP3, FTP, etc).
+
+This phase is of type C<RUN_FIRST>.
+
+The handler's configuration scope is C<SRV>. Therefore the only way to
+run protocol servers different than the core HTTP is inside dedicated
+virtual hosts.
+
+Example:
+
+META: echo example comes here
+
+
+
+
+=head1 Request Phases
+
+Each HTTP request is processes by XXX phases, executed in the
+following order:
+
+=over
+
+=item 1 PerlPostReadRequestHandler (PerlInitHandler)
+
+=item 2 PerlTransHandler
+
+=item 3 PerlHeaderParserHandler (PerlInitHandler)
+
+=item 4 
+
+=item 5 
+
+=item 6 
+
+=item 7 
+
+=item 8 
+
+=item 9 
+
+
+=back
+
+=head2 PerlPostReadRequestHandler
+
+The I<post_read_request> phase is the first request phase and happens
+immediately after the request has been read and HTTP headers were
+parsed.
+
+This phase is usually used to do processings that must happen once per
+request.
+
+This phase is of type C<RUN_ALL>.
+
+The handler's configuration scope is C<SRV>, because at this phase the
+request has not yet been associated with a particular filename or
+directory.
+
+Example:
+
+=head2 PerlTransHandler
+
+The I<translate> phase provides an opportunity to translate the
+request's URI into an corresponding filename.
+
+In addition to doing the translation, this stage can be used to modify
+the URI itself and the request method. This is also a good place to
+register new handlers for the following phases based on the URI.
+
+If no custom handlers is provided, the server's default rules
+(C<Alias> directives and the like) will continue to be followed.
+
+This phase is of type C<RUN_FIRST>.
+
+The handler's configuration scope is C<SRV>, because at this phase the
+request has not yet been associated with a particular filename or
+directory.
+
+Example:
+
+
+=head2 PerlInitHandler
+
+When configured inside any section, but C<E<lt>VirtualHostE<gt>> this
+handler is an alias for C<L<PerlHeaderParserHandler>> described later.
+Otherwise it acts as an alias for C<L<PerlPostReadRequestHandler>>
+descibed earlier.
+
+It is the first handler to be invoked when serving a request.
+
+This phase is of type C<RUN_ALL>.
+
+Example:
+
+
+
+
+=head2 PerlHeaderParserHandler
+
+The I<header_parser> phase is the first phase to happen after the
+request has been mapped to its C<E<lt>LocationE<gt>> (or
+equivalent). At this phase the handler can examine the request headers
+and to take a special action based on these. For example this phase
+can be used to block evil clients, while little resources were wasted
+on these.
+
+This phase is of type C<RUN_ALL>.
+
+The handler's configuration scope is C<DIR>.
+
+Example:
+
+
+
+
+=head2 PerlAccessHandler
+
+The I<access_checker> phase is the first of three handlers that are
+involved in authentication and authorization, and used for access
+control.
+
+This phase can be used to restrict access from a certain IP address,
+time of the day or any other rule not connected to the user's
+identity.
+
+This phase is of type C<RUN_ALL>.
+
+The handler's configuration scope is C<DIR>.
+
+Example:
+
+
+=head2 PerlAuthenHandler
+
+The I<check_user_id> (I<authen>) phase is called whenever the
+requested file or directory is password protected.  This, in turn,
+requires that the directory be associated with C<AuthName>,
+C<AuthType> and at least one C<require> directive.
+
+This phase is usually used to verify a user's identification
+credentials. If the credentials are verified to be correct, the
+handler should return C<OK>.  Otherwise the handler returns
+C<AUTH_REQUIRED> to indicate that the user has not authenticated
+successfully.  When Apache sends the HTTP header with this code, the
+browser will normally pop up a dialog box that prompts the user for
+login information.
+
+This phase is of type C<RUN_FIRST>.
+
+The handler's configuration scope is C<DIR>.
+
+=head2 PerlAuthzHandler
+
+The I<auth_checker> (I<authz>) phase is used for authorization
+control. This phase requires a successful authentication from the
+previous phase, because a username is needed in order to decide
+whether a user is authorized to access the requested resource.
+
+As this phase is tightly connected to the authentication phase, the
+handlers registered for this phase are only called when the requested
+resource is password protected, similar to the auth phase. The handler
+is expected to return C<DECLINED> to defer the decision, C<OK> to
+indicate its acceptance of the user's authorization, or
+C<AUTH_REQUIRED> to indicate that the user is not authorized to access
+the requested document.
+
+This phase is of type C<RUN_FIRST>.
+
+The handler's configuration scope is C<DIR>.
+
+Example:
+
+
+=head2 PerlTypeHandler
+
+The I<type_checker> phase is used to set the response MIME type
+(C<Content-type>) and sometimes other bits of document type
+information like the document language.
+
+For example C<mod_autoindex>, which performs automatic directory
+indexing, uses this phase to map the filename extensions to the
+corresponding icons which will be later used in the listing of files.
+
+Of course later phases may override the mime type set in this phase.
+
+This phase is of type C<RUN_FIRST>.
+
+The handler's configuration scope is C<DIR>.
+
+Example:
+
+
+
+=head2 PerlFixupHandler
+
+The I<fixups> phase is happening just before the content handling
+phase. It gives the last chance to do things before the response is
+generated. For example in this phase C<mod_env> populates the
+environment with variables configured with I<SetEnv> and I<PassEnv>
+directives.
+
+This phase is of type C<RUN_ALL>.
+
+The handler's configuration scope is C<DIR>.
+
+Example:
+
+
+=head2 PerlResponseHandler
+
+The I<handler> (I<response>) phase is used for generating the
+response. This is probably the most important phase and most of the
+existing Apache modules do most of their work at this phase.
+
+This is the only phase that requires two directives under
+mod_perl. For example:
+
+  <Location /perl>
+     SetHandler  perl-script
+     PerlResponseHandler Apache::Registry
+  </Location>
+
+C<SetHandler> tells Apache that mod_perl is going to handle the
+response generation. C<PerlResponseHandler> tells mod_perl which
+handler is going to do the job.
+
+This phase is of type C<RUN_FIRST>.
+
+The handler's configuration scope is C<DIR>.
+
+Example:
+
+
+
+=head2 PerlLogHandler
+
+The I<log_transaction> phase happens no matter how the previous phases
+have ended up. If one of the earlier phases has aborted a request,
+e.g., failed authenication or 404 (file not found) errors, the rest of
+the phases up to and including the response phases are skipped. But
+this phase is always executed.
+
+By this phase all the information about the request and the response
+is known, therefore the logging handlers usually record this
+information in various ways (e.g., logging to a flat file or a
+database).
+
+This phase is of type C<RUN_ALL>.
+
+The handler's configuration scope is C<DIR>.
+
+Example:
+
+=head2 PerlCleanupHandler
+
+META: not implemented yet
+
+This phase is of type C<XXX>.
+
+The handler's configuration scope is C<XXX>.
+
+
+=head1 Filtering Phases
+
+mod_perl provides two interfaces to filtering: a direct mapping to
+buckets and bucket brigades and a simpler, stream-oriented interface.
+
+=head2 PerlInputFilterHandler
+
+META: not implemented yet
+
+This handler inserts
+
+This phase is of type C<VOID>.
+
+The handler's configuration scope is C<DIR>.
+
+=head2 PerlOutputFilterHandler
+
+This handler registers an stream-orientered output filter (i.e. it
+works with the response stream). To actually use it the core
+C<AddOutputFilter> directive must be used.
+
+This handler is of type C<VOID>.
+
+The handler's configuration scope is C<DIR>.
+
+Example:
+
+In this example the output filter C<Apache::ReverseFilter>
+
+The following filter reverts XXX
+
+  <Location /reverse>
+      SetHandler modperl
+      PerlOutputFilterHandler TestFilter::reverse
+      PerlResponseHandler TestFilter::reverse::response
+  </Location>
+
+
+
+
+
+
+
+
+
+
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+
+
+=cut
