@@ -104,6 +104,11 @@ during C<perl Makefile.PL> to generate the XS code in the I<./WrapXS/>
 directory by the xs_generate() function. This XS code is combined of
 the Apache API Perl glue and mod_perl specific extensions.
 
+If you need to skip certain unwanted C defines from being picked by
+the source scanning you can add them to the array
+C<$Apache::ParseSource::defines_unwanted> in
+I<lib/Apache/ParseSource.pm>.
+
 Notice that I<source_scan> target is normally not run during the
 project build process, since the source scanning is not stable yet,
 therefore everytime the map files change, C<make source_scan> should
