@@ -16,11 +16,14 @@ which can have serious implications for busy sites. This problem is
 addressed in the multi-thread/multi-process approach of mod_perl
 2.0/Apache 2.0.
 
-Note that there are some threading issues in perl-5.6
+There are some threading issues in perl-5.6
 (upon which ActivePerl builds 6xx are based) which cause
 problems with mod_perl 2.0 on Win32. Consequently, the minimum
 required perl version is 5.8 (ActivePerl builds 8xx) 
 for use with mod_perl 2.0 on Win32.
+
+Note that, at the present time, mod_perl 2 is in a development
+stage, with a version number C<1.99_xx>.
 
 =head1 Installing
 
