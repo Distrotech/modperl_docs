@@ -1185,11 +1185,27 @@ L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_wi
 The methods from mod_perl 1.0's module C<Apache::File> have been
 either moved to other packages or removed.
 
-=head2 C<open()> and C<close()>
 
-The methods C<open()> and C<close()> were removed. See the back
-compatibility implementation in the module
+=head2 C<new()>, C<open()> and C<close()>
+
+The methods C<new()>, C<open()> and C<close()> were removed. See the
+back compatibility implementation in the module
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
+
+Because of that some of the idioms have changes too. If previously you
+were writing:
+
+    my $fh = Apache::File->new($r->filename)
+        or return Apache::DECLINED;
+    # Slurp the file (hopefully it's not too big).
+    my $content = do { local $/; <$fh> };
+    close $fh;
+
+Now, you would write that as:
+
+  use Apache::RequestUtil ();
+  $content = $r->slurp_filename();
+
 
 =head2 C<tmpfile()>
 
