@@ -627,6 +627,8 @@ different system calls, especially IO calls.
 
 =head3 C<APR::ENOTIMPL>
 
+Something is not implemented
+
 =over
 
 =item since: 1.99_12

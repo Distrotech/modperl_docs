@@ -625,8 +625,6 @@ every odd bucket number to C<$bb2> and every even to C<$bb3>:
 
 Ensure the bucket's data lasts at least as long as the given pool:
 
-XXX: change?
-
   my $status = $b->setaside($pool);
 
 =over 4
@@ -637,18 +635,48 @@ XXX: change?
 =item arg1: C<$pool>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
-=item ret:
+=item ret: ( C<L<APR::Const status
+constant|docs::2.0::api::APR::Const>> )
 
-XXX: it's going to change to no return value
+On success,
+C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
+returned. Otherwise a failure code is returned.
+
+=item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
+
+when your code deals only with mod_perl buckets, you don't have to ask
+for the return value. If this method is called in the C<VOID> context,
+i.e.:
+
+  $b->setaside($pool);
+
+mod_perl will do the error checking on your behalf, and if the return
+code is not
+C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>>, an
+C<L<APR::Error exception|docs::2.0::api::APR::Error>> will be thrown.
+
+However if your code doesn't know which bucket types it may need to
+setaside, you may want to check the return code and deal with any
+errors. For example one of the possible error codes is
+C<L<APR::ENOTIMPL|docs::2.0::api::APR::Const/C_APR__ENOTIMPL_>>. As of
+this writing the pipe and socket buckets can't C<setaside()>, in which
+case you may want to look at the C<ap_save_brigade()> implementation.
 
 =item since: 1.99_17
 
 =back
 
+Usually setaside is called by certain output filters, in order to
+buffer socket writes of smaller buckets into a single write. This
+method works on all bucket types (not only the mod_perl bucket type),
+but as explained in the exceptions section, not all bucket types
+implement this method.
+
 When a mod_perl bucket is setaside, its data is detached from the
-original perl scalar and copied into a pool bucket. Usually setaside
-is called by certain output filters, in order to buffer socket writes
-of smaller buckets into a single write.
+original perl scalar and copied into a pool bucket. That allows
+downstream filters to deal with the data originally owned by a Perl
+interpreter, making it possible for that interpreter to go away and do
+other things, or be destroyed.
 
 
 
