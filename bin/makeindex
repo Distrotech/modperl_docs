@@ -6,6 +6,9 @@ use strict;
 #  -v 2 list docs processed
 #  -v 3 more detail
 #
+# run with -E to make swish send warnings and errors to stderr.
+# *Note: not implemented in this script at this time requires swish-e 2.2.1.
+#
 # You can also enable debugging for the spider (that fetches the docs for Swish).
 # For example:
 #  SPIDER_DEBUG=url ../../bin/makeindex -v2
@@ -17,7 +20,9 @@ use strict;
 
 my %opts;
 use Getopt::Std;
-getopt('vE', \%opts);
+
+#getopt('vE', \%opts);
+getopt('v', \%opts);
 
 
 # does the indexing process
