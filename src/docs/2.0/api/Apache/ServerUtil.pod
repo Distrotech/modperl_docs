@@ -8,12 +8,36 @@ Apache::ServerUtil - Perl API for Apache server record utils
 =head1 Synopsis
 
   use Apache::ServerUtil ();
-  
   $s = Apache->server;
+  
+  # push config
+  $s->add_config(['ServerTokens off']);
+  
+  # add components to the Server signature
+  $s->add_version_component("MyModule/1.234");
+  
+  # access PerlSetVar/PerlAddVar values
   my $srv_cfg = $s->dir_config;
   
-  # get 'conf/' dir path using (avoid using this function!)
+  # check command line defines
+  print "this is mp2"
+      if Apache::ServerUtil::exists_config_define('MODPERL2');
+  
+  # get PerlChildExitHandler configured handlers
+  @handlers = @{ $s->get_handlers('PerlChildExitHandler') || []};
+  
+  # server build and version info:
+  $when_built = Apache::ServerUtil::get_server_built();
+  $version = Apache::ServerUtil::get_server_version();
+  
+  # ServerRoot value
+  $server_root = Apache::ServerUtil::server_root();
+  
+  # get 'conf/' dir path (avoid using this function!)
   my $dir = Apache::ServerUtil::server_root_relative($r->pool, 'conf');
+  
+  # set child_exit handlers
+  $r->set_handlers(PerlChildExitHandler => \&handler);
   
   # server level PerlOptions flags lookup
   $s->push_handlers(ChildExit => \&child_exit)
@@ -23,15 +47,13 @@ Apache::ServerUtil - Perl API for Apache server record utils
   $s->method_register('NEWGET');
 
 
-META: to be completed
-
 
 
 
 =head1 Description
 
 C<Apache::ServerUtil> provides the L<Apache server
-object|docs::2.0::api::Apache::Server> utilities API.
+object|docs::2.0::api::Apache::ServerRec> utilities API.
 
 
 
@@ -234,36 +256,6 @@ deleted.
 
 
 
-
-=head2 C<error_log2stderr>
-
-Start sending STDERR to the error_log file
-
-  $s->error_log2stderr();
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-The current server
-
-=item ret: no return value
-
-=item since: 1.99_10
-
-=back
-
-This method may prove useful if you want to start redirecting STDERR
-to the error_log file before Apache does that on the startup.
-
-
-
-
-
-
-
-
 =head2 C<exists_config_define>
 
 Check for a definition from the server startup command line
@@ -348,7 +340,7 @@ Get the date and time that the server was built
 
 The server build time string
 
-=item since: 1.99_10
+=item since: 1.99_15
 
 =back
 
@@ -370,7 +362,7 @@ Get the server version string
 
 The server version string
 
-=item since: 1.99_10
+=item since: 1.99_15
 
 =back
 
@@ -548,7 +540,7 @@ returns the value set by the top-level C<ServerRoot> directive.
 
 =item ret: C<$server_root> ( string )
 
-=item since: 1.99_10
+=item since: 1.99_15
 
 =back
 
@@ -584,7 +576,7 @@ If C<$fname> is not specified, the value of C<ServerRoot> is returned
 with a trailing C</>. (it's the same as using C<''> as C<$fname>'s
 value).
 
-=item since: 1.99_10
+=item since: 1.99_15
 
 =back
 
@@ -639,9 +631,6 @@ to use the resulting path variable, when that pool has been destructed
 already. In order to avoid mysterious segmentation faults, mod_perl
 does a wasteful copy of the path string when returning it to you --
 another reason to avoid using this function.
-
-
-
 
 
 
@@ -712,6 +701,42 @@ Reset any previously set handlers:
 or
 
   $r->set_handlers(PerlCleanupHandler => undef);
+
+
+
+
+=head1 Unsupported API
+
+C<Apache::ServerUtil> also provides auto-generated Perl interface for
+a few other methods which aren't tested at the moment and therefore
+their API is a subject to change. These methods will be finalized
+later as a need arises. If you want to rely on any of the following
+methods please contact the L<the mod_perl development mailing
+list|maillist::dev> so we can help each other take the steps necessary
+to shift the method to an officially supported API.
+
+
+=head2 C<error_log2stderr>
+
+Start sending STDERR to the error_log file
+
+  $s->error_log2stderr();
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+The current server
+
+=item ret: no return value
+
+=item since: 1.99_10
+
+=back
+
+This method may prove useful if you want to start redirecting STDERR
+to the error_log file before Apache does that on the startup.
 
 
 
