@@ -8,6 +8,15 @@ Lots of prerequisites
 
 =head1 Installing from Source
 
+=head3 Re-using Build Options
+
+Since mod_perl remembers what build options were used to build it, you
+can use this knowledge to rebuild it using the same options. Simply
+chdir to the mod_perl source directory and run:
+
+  % cd modperl-2.0
+  % perl -MApache::Build -erebuild
+
 =head1 Installing from Binary Packages
 
 =head1 Maintainers
