@@ -114,14 +114,21 @@ intention is getting lost.
 
 =item *
 
-Use IE<lt>filenameE<gt> for filenames, URIs and things that are
-generally written in italics.
+Use FE<lt>filenameE<gt> for filenames, directories/paths, URIs, and
+the like.
 
 =item *
 
-Use BE<lt>stressE<gt> for stressing things, but you should avoid using
-this tag unless you think things are very important. Over-use of the
-bold text reduces it's original intention -- make things stand out.
+Use IE<lt>italicsE<gt> for emphasizing things. But use them with care,
+when things I<really> need to be emphasized.
+
+=item *
+
+Use BE<lt>stressE<gt> for stressing things more strongly than
+IE<lt>italicsE<gt> does. But avoid using this tag unless you think things
+are B<very> important. Defer to IE<lt>italicsE<gt> for emphasis, instead.
+Over-use of bold text reduces its original intention -- so use it
+with care to really make things stand out when they need to stand out.
 
 =item *
 
