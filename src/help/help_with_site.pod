@@ -81,6 +81,45 @@ B<A>. 99% of this site is comprised of a static content, so it doesn't
 make sense to run mod_perl to serve it. You can see mod_perl in action
 L<here|outstanding::index>.
 
+=head2 Q. I can't send an e-mail to the author/maintainer!
+
+To reduce spam problems for our authors, we use a pretty simplistic
+email-address-hiding system which consists of replacing the C<@>
+character with C<(at)>. To send an e-mail, just change it back.
+
+=head2 Q. What is all this about Authors and Maintainers?
+
+It's quite simple. As many sections of our site are documents which
+have been written by individuals, we like to credit our authors and
+guide you to the person to contact. The authors are the original
+authors of a document or someone who has contributed big sections of
+it, but might not be available to contact anymore. In any case, the
+person listed as a I<Maintainer> should be contacted with any changes
+or remarks (you can also CC the L<documentation mailing
+list|maillist::docs-dev>). See the L<download
+documentation|download::docs> section about information on submitting
+patches. If in doubt, contact the L<documentation mailing
+list|maillist::docs-dev>.
+
+However, B<do not> email the maintainer with general questions, even
+if they are related to the material in the doc they maintain, but
+always ask at <the modperl user list|maillist::modperl>. While we make
+e-mail addresses available, that doesn't mean you should just hope for
+them to answer any questions you might think they have the answer
+to. If you need help, ask your question at the mailing list. Otherwise
+you run a very high risk of your e-mail just being deleted immediately
+without ever being answered. All questions are usually answered at the
+list, so don't worry about asking there.
+
+The rule is:
+
+  If you feel you can help out a document, contact the Maintainer.
+  
+  If you don't understand something or need help, contact the mailing
+  list.
+
+Remember that, and you'll be fine.
+
 =head1 Contact Info
 
 If you've read the L<FAQ|/"FAQ"> and you still have a problem, please
