@@ -103,6 +103,14 @@ are used, not every interpreters at once.  Similar to mod_perl 1.x
 where each child has its own Perl interpreter, the modules are
 reloaded as each child is hit with a request.
 
+If a module is loaded at startup, the syntax tree of each subroutine
+is shared between interpreters (big win), but each subroutine has its
+own padlist (where lexical my variables are stored).  Once
+C<Apache::Reload> reloads a module, this sharing goes away and each
+Perl interpreter will have its own copy of the syntax tree for the
+given subroutines.
+
+
 =head1 PSUEDOHASHES
 
 The short summary of this is: Don't use psuedohashes. Use an array
