@@ -1720,7 +1720,7 @@ working on handlers that generate response content.
 
 Let's write a simple response handler, that just generates some
 content. This time let's do something more interesting than printing
-I<Hello world". Let's write a handler that prints itself:
+I<"Hello world">. Let's write a handler that prints itself:
 
   file:MyApache/Deparse.pm
   ------------------------
@@ -1854,6 +1854,21 @@ I</users/> in our example:
       Options +ExecCGI
   </Location>
 
+After restarting the server and issuing requests to the following
+URIs:
+
+  http://localhost/users/stas/test.pl
+  http://localhost/users/eric/test.pl
+  http://localhost/users/stas/date.pl
+
+The C<MyApache::LogPerUser> handler will append to I<logs/stas.log>:
+
+  127.0.0.1 [Sat Aug 31 01:50:38 2002] "/users/stas/test.pl" 200 8
+  127.0.0.1 [Sat Aug 31 01:50:40 2002] "/users/stas/date.pl" 200 44
+
+and to I<logs/eric.log>:
+
+  127.0.0.1 [Sat Aug 31 01:50:39 2002] "/users/eric/test.pl" 200 8
 
 
 =head2 PerlCleanupHandler
