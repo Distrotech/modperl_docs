@@ -6,7 +6,6 @@
         "docs"
             "docs/1.0"
                 "docs/1.0/guide"
-                "docs/1.0/faqs"
                 "docs/1.0/win32"
                 "docs/1.0/api"
             "docs/2.0"
@@ -29,7 +28,6 @@
         "docs"      => 'All Docs'
             "docs/1.0"  => '..1.0 Docs'
                 "docs/1.0/guide"    => '....Guide'
-                "docs/1.0/faqs"     => '....FAQs'
                 "docs/1.0/win32"    => '....Win32'
                 "docs/1.0/api"      => '....API'
             "docs/2.0"  => '..2.0 Docs'
