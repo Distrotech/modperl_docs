@@ -4,8 +4,7 @@
    # rel_doc_root - relative docs path (only for chapters!)
 -%]
 [%- SET buttons = [
-    [ 'http://take23.org/', 'mod_perl news @ Take23'],
-    ['http://www.apache.org/', 'The ASF'],
+    ['http://take23.org/', 'mod_perl news @ Take23'],
     ['http://www.apacheweek.com/', 'Apache Week'],
     ['http://www.perl.org/', 'Perl Mongers'],
     ['http://use.perl.org/', 'Use Perl'],
