@@ -486,7 +486,7 @@ I<xs/maps/apr_types.map>:
 
   apr_read_type          | IV
 
-C<IV> is used as a typemap, lSince enum is simply an integer. In more
+C<IV> is used as a typemap, Since enum is just an integer. In more
 complex cases the typemap can be different. (META: examples)
 
 
