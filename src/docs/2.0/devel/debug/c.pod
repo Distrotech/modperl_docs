@@ -35,6 +35,12 @@ compiling uses the moncontrol() function to disable gprof profiling in
 the parent, and enable it only for request processing in children (or
 in one_process mode).
 
+META: Jeff Trawick wrote a few useful debug modules, for httpd-2.1:
+mod_backtrace (similar to bt in gdb, but doesn't require the core
+file) and mod_whatkilledus (gives the info about the request that
+caused the segfault).
+http://httpd.apache.org/~trawick/exception_hook.html
+
 =head2 Setting gdb breakpoints with mod_perl built as DSO
 
 If mod_perl is built as a DSO module, you cannot set the breakpoint in
