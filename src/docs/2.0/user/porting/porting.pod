@@ -781,9 +781,9 @@ document|docs::2.0::user::porting::compat> and found L<the relevant
 entry|docs::2.0::user::porting::compat/C__connection_E_gt_remote_addr_>
 on these two functions. Indeed the API have changed. Instead of
 returning a packed C<SOCKADDR_IN> string, Apache now returns an
-C<L<APR::SocketAddr|docs::2.0::api::APR::SocketAddr>> object, which I
-can query to get the bits of information I'm interested in. So I
-applied this patch:
+C<L<APR::SockAddr|docs::2.0::api::APR::SockAddr>> object, which I can
+query to get the bits of information I'm interested in. So I applied
+this patch:
 
   --- Apache/MP3.pm.3     2003-06-06 15:36:15.000000000 +1000
   +++ Apache/MP3.pm       2003-06-06 15:56:32.000000000 +1000
@@ -1466,6 +1466,8 @@ on 8002, we get the following results:
 
   % lynx --source http://localhost:8002/method2
   mp2: MyApache::Method2 was called
+
+
 
 
 

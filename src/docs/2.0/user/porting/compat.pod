@@ -1230,8 +1230,8 @@ See the next item.
 =head2 C<$connection-E<gt>remote_addr>
 
 C<$connection-E<gt>local_addr> and C<$connection-E<gt>remote_addr>
-return an C<L<APR::SocketAddr|docs::2.0::api::APR::SocketAddr>> object
-and you can use this object's methods to retrieve the wanted bits of
+return an C<L<APR::SockAddr|docs::2.0::api::APR::SockAddr>> object and
+you can use this object's methods to retrieve the wanted bits of
 information, so if you had a code like:
 
   use Socket 'sockaddr_in';
