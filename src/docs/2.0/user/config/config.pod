@@ -1,0 +1,32 @@
+
+=head1 NAME
+
+Server Configuration
+
+=head1 Retrieving Server Startup Options
+
+The httpd server startup options can retrieved using
+C<Apache::exists_config_define()>. For example this checks whether the
+server has been started in a single mode:
+
+  if (Apache::exists_config_define("ONE_PROCESS")) {
+      print "Running in a single mode";
+  }
+
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=head1 Authors
+
+=over
+
+=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+=cut
