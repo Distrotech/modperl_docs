@@ -314,7 +314,8 @@ The current request
 
 =item opt arg1: C<$new_root>
 
-Sets the document root to a new value
+Sets the document root to a new value B<only for the duration of the
+current request>.
 
 Note the L<limited functionality under threaded
 MPMs|docs::2.0::api::Apache::ServerRec/Limited_Functionality_under_Threaded_MPMs>.
@@ -1075,6 +1076,7 @@ A reference to a string with the contents
 
 Note that if you assign to C<$r-E<gt>filename> you need to L<update
 its stat record|docs::2.0::api::Apache::RequestRec/C_filename_>.
+
 
 
 
