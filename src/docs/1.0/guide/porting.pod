@@ -2666,11 +2666,12 @@ function. This is called once each time the Perl program is executed,
 i.e. under mod_cgi, once per invocation of the CGI script. However,
 mod_perl only calls C<perl_run()> once, during server startup. Any
 C<END> blocks encountered during main server startup, i.e. those
-pulled in by the C<PerlRequire> or by any C<PerlModule>, are
+pulled in by C<PerlRequire>, C<PerlModule> and the startup file, are
 suspended.
 
 Except during the cleanup phase, any C<END> blocks encountered during
-compilation of C<Apache::Registry> scripts, including subsequent
+compilation of C<Apache::Registry> scripts (including those defined in
+the packages C<use()>'d by the script), including subsequent
 invocations when the script is cached in memory, are called after the
 script has completed.
 
