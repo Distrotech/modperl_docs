@@ -2526,6 +2526,7 @@ pass-through-unmodified mode. Here is a skeleton of the module:
   
       return $ctx;
   }
+  1;
 
 In order to make this module work properly over KeepAlive connections,
 we want to reset the I<state> flag at the very beginning of the new
