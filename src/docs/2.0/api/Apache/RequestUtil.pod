@@ -32,9 +32,9 @@ function's synopsis.
 
 =item * new()
 
-=item * server_name()
+=item * get_server_name()
 
-=item * server_port()
+=item * get_server_port()
 
 =item * dir_config()
 
