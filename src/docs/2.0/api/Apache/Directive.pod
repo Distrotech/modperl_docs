@@ -9,7 +9,7 @@ Apache::Directive - Perl API for manipulating the Apache configuration tree
 
   use Apache::Directive ();
   
-  my $tree = Apache::Directive->conftree;
+  my $tree = Apache::Directive::conftree();
   
   my $documentroot = $tree->lookup('DocumentRoot');
   
@@ -92,7 +92,7 @@ For example, in F<httpd.conf>:
 
 And later:
 
-  my $tree = Apache::Directive->conftree;
+  my $tree = Apache::Directive::conftree();
   my $node = $tree->lookup('PerlSwitches');
   my $args = $node->args;
 
@@ -133,7 +133,7 @@ For example: in F<httpd.conf>:
 
 And later:
 
-  my $tree = Apache::Directive->conftree;
+  my $tree = Apache::Directive::conftree();
   my $node = $tree->lookup('Location', '/test/');
   my $hash = $node->as_hash;
 
@@ -179,7 +179,7 @@ For example: in F<httpd.conf>:
 
 And later:
 
-  my $tree = Apache::Directive->conftree;
+  my $tree = Apache::Directive::conftree();
   my $node = $tree->lookup('Location', '/test/');
   my $string = $node->as_string;
 
@@ -197,7 +197,7 @@ C<$string> is now:
 
 Get the root of the configuration tree:
 
-  $conftree = Apache::Directive->conftree();
+  $conftree = Apache::Directive::conftree();
 
 =over 4
 
@@ -258,7 +258,7 @@ Get the F<filename> the configuration node was created from:
 
 For example:
 
-  my $tree = Apache::Directive->conftree;
+  my $tree = Apache::Directive::conftree();
   my $node = $tree->lookup('VirtualHost', 'example.com');
   my $filename = $node->filename;
 
