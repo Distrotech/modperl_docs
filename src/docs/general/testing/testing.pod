@@ -24,6 +24,9 @@ particular explains how to:
 
 =back
 
+For other C<Apache::Test> resources, see the L<References|/"References">
+section at the end of this document.
+
 =head1 Basics of Perl Modules Testing
 
 The tests themselves are written in Perl. The framework provides an
@@ -3106,6 +3109,15 @@ It's available from http://puffin.sourceforge.net/
 =head1 References
 
 =over
+
+=item * more Apache-Test documentation
+
+Testing mod_perl 2.0
+http://www.perl.com/pub/a/2003/05/22/testing.html
+
+Apache-Test manpage
+
+Apache-Test README
 
 =item * extreme programming methodology
 
