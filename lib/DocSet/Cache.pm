@@ -171,10 +171,12 @@ sub index_node {
 
     if (@_) {
         # set
-        my($id, $title, $abstract) = @_;
-        croak "must specify the index_node's id" unless defined $id;
-        croak "must specify the index_node's title" unless defined $title;
+        my($id, $stitle, $title, $abstract) = @_;
+        croak "must specify the index_node's id"     unless defined $id;
+        croak "must specify the index_node's stitle" unless defined $stitle;
+        croak "must specify the index_node's title"  unless defined $title;
         $self->{cache}{_index}{id}       = $id;
+        $self->{cache}{_index}{stitle}   = $stitle;
         $self->{cache}{_index}{title}    = $title;
         $self->{cache}{_index}{abstract} = $abstract;
     }
@@ -259,7 +261,7 @@ C<DocSet::Cache> - Maintain a Non-Volatile Cache of DocSet's Data
   my @ids = $cache->ordered_ids;
   my $total_ids = $cache->total_ids;
 
-  $cache->index_node($id, $title, $abstract);
+  $cache->index_node($id, $stitle, $title, $abstract);
   my %index_node = $cache->index_node();
 
   $cache->parent_node($cache_path, $id, $rel_path);

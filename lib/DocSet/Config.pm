@@ -20,18 +20,20 @@ my %ext2mime = (
     map({$_ => 'text/pod'  } qw(pod pm)),
 );
 
-my %conv_class= (
+my %conv_class = (
     'text/pod'  => {
-                    'text/html' => 'DocSet::Doc::POD2HTML',
-                    'text/ps'   => 'DocSet::Doc::POD2PS',
+                    'text/html'   => 'DocSet::Doc::POD2HTML',
+                    'text/htmlps' => 'DocSet::Doc::POD2HTMLPS',
+                    'text/ps'     => 'DocSet::Doc::POD2PS',
                    },
     'text/html' => {
-                    'text/html' => 'DocSet::Doc::HTML2HTML',
-                    'text/ps'   => 'DocSet::Doc::HTML2PS',
+                    'text/html'   => 'DocSet::Doc::HTML2HTML',
+                    'text/htmlps' => 'DocSet::Doc::HTML2HTML',
+                    'text/ps'     => 'DocSet::Doc::HTML2PS',
                    },
     'text/plain' => {
-                    'text/html' => 'DocSet::Doc::Text2HTML',
-                    'text/pdf'  => 'DocSet::Doc::Text2PDF',
+                    'text/html'   => 'DocSet::Doc::Text2HTML',
+                    'text/pdf'    => 'DocSet::Doc::Text2PDF',
                    },
 );
 
@@ -72,6 +74,9 @@ sub read_config {
     no strict 'refs';
     use vars qw(@c);
     *c = \@{"$package\::c"};
+
+#dumper \@c;
+
     my @groups = ();
     my $current_group = '';
     my $group_size;
@@ -102,14 +107,21 @@ sub read_config {
         }
         else {
             $self->{$key} = $val;
-            #print "$key = $val\n";
+            #dumper [$key => $val];
         }
     }
     if ($current_group) {
         push @{ $self->{node_groups} }, $current_group, $group_size;
     }
 
-     # merge_config will adjust this value, for nested docsets
+    # - make sure that at least title or stitle were specified
+    # - alias one to another if only one was specified
+    $self->{title}  ||= $self->{stitle};
+    $self->{stitle} ||= $self->{title};
+    die "Either 'title' or 'stitle' must appear in $config_file"
+        unless $self->{title};
+
+    # merge_config will adjust this value, for nested docsets
     # so this value is relevant only for the real top parent node
     $self->{dir}{abs_doc_root} = '.';
 
@@ -118,6 +130,32 @@ sub read_config {
 
 }
 
+
+# this sub controls the docset's 'modified' attribute which specifies
+# whether the docset is in a "dirty" state and need to be rebuilt or
+# not.
+#
+# get/set modified status
+# ... if $self->modified();
+# $self->modified(1);
+sub modified {
+    my $self = shift;
+    if (@_) {
+        my $status = shift;
+
+        # protect from modified status reset (once it's set to any
+        #value it cannot be reset to 0), must be a mistake. If we
+        # don't check this, it's possible that in one place the object
+        # is marked as dirty, but somewhere later a logic mistake
+        # resets this value to 0, (non-dirty).
+        if (exists $self->{modified} && !$status) {
+            Carp::croak("Cannot reset the 'modified' status");
+        }
+        $self->{modified} = $status;
+    }
+    return $self->{modified};
+
+}
 
 #
 # 1. put chapters together, docsets together, links together
@@ -140,18 +178,20 @@ sub add_node {
     return scalar @values;
 }
 
-# child config inherits from the parent config
+# child config inherits parts from the parent config
 # and adjusts its paths
 sub merge_config {
     my($self, $src_rel_dir) = @_;
 
     my $parent_o = $self->{parent_o};
 
+    # inherit 'file' attributes if not set in the child 
     my $files = $self->{file} || {};
     while ( my($k, $v) = each %{ $parent_o->{file}||{} }) {
         $self->{file}{$k} = $v unless $files->{$k};
     }
 
+    # inherit 'dir' attributes if not set in the child 
     my $dirs = $self->{dir} || {};
     while ( my($k, $v) = each %{ $parent_o->{dir}||{} }) {
         $self->{dir}{$k} = $v unless $dirs->{$k};
@@ -177,7 +217,7 @@ sub merge_config {
 
 }
 
-# return a list of files to be copied
+# return a list of files potentially to be copied
 #
 # due to a potentially huge list of files to be copied (e.g. the
 # splash library) currently it's assumed that this function is called
@@ -188,8 +228,8 @@ sub merge_config {
 #    (directories aren't descended into)
 # 2. Shell metachars (*?[]) can be used. e.g. if you want to grab
 #    directory foo and its contents, make sure to specify foo/*.
-sub files_to_copy {
-    my($self) = @_;
+sub files_to_scan_copy {
+    my $self = shift;
 
     my $copy_skip_patterns = $self->{copy_skip} || [];
     # build one sub that will match many regex at once.
@@ -209,6 +249,21 @@ sub files_to_copy {
             @{ $self->{copy_glob}||[] };
 
     return \@files;
+}
+
+# this functions sets/gets a ref to hash of files that need to be
+# copied as is, all the checking were done already. (only the modified
+# files will go here)
+sub files_to_copy {
+    my $self = shift;
+
+    if (@_) {
+        $self->{files_to_copy} = shift;
+    }
+    else {
+        return $self->{files_to_copy} || {};
+    }
+
 }
 
 sub expand_dir {
@@ -513,9 +568,16 @@ The following attributes must be declared in every docset configuration:
 a unique id of the docset. The uniquness should be preserved across
 any parallel docsets.
 
+=item * stitle
+
+the short title of the docset, used in the menu and the navigation
+breadcrumb. If it's not specified the I<title> attribute is used
+instead.
+
 =item * title
 
-the title of the docset
+the title of the docset. If it's not specified the I<stitle> attribute
+is used instead.
 
 =item * abstract
 

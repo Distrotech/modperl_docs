@@ -10,30 +10,73 @@ use vars qw(@ISA);
 require DocSet::Doc;
 @ISA = qw(DocSet::Doc);
 
+use constant HEAD_MAX_LEVEL => 4;
+use constant MAX_DESC_LENGTH => 500;
+
+# META: we are presenting too early, or this code should be moved to
+# POD2HTML specific module
+require Pod::POM::View::HTML;
+my $mode = 'Pod::POM::View::HTML';
+
 sub retrieve_meta_data {
     my($self) = @_;
 
     $self->parse_pod;
 
-    use Pod::POM::View::HTML;
-    my $mode = 'Pod::POM::View::HTML';
     #print Pod::POM::View::HTML->print($pom);
 
-    my $meta = {};
+    my $meta = {
+        title => 'No Title',
+        abstract => '',
+    };
 
     my $pom = $self->{parsed_tree};
     my @sections = $pom->head1();
-    # don't present on purpose ->present($mode); there should be no markup in NAME
-    my $name_sec = shift @sections;
-    if ($name_sec) {
-        $meta->{title} = $name_sec->content();
+
+    
+    if (@sections) {
+
+        # extract the title from the NAME section and remove it from content
+        if ($sections[0]->title =~ /NAME/) {
+            # don't present on purpose ->present($mode); there should
+            # be no markup in NAME a problem with
+            # <TITLE><CODE>....</CODE><TITLE> and alike
+            $meta->{title} = (shift @sections)->content();
+            $meta->{title} =~ s/^\s*|\s*$//sg;
+        }
+
+        # stitle is the same in docs
+        $meta->{stitle} = $meta->{title};
+
+        # locate the DESCRIPTION section (should be in the first three
+        # sections)
+        for (0..2) {
+            next unless defined $sections[$_]
+                && $sections[$_]->title =~ /DESCRIPTION/i;
+
+            my $abstract = $sections[$_]->content->present($mode);
+
+# cannot do this now, as it might cut some markup in the middle: <i>1 2</i>
+#            # we are interested only in the first paragraph, or if its
+#            # too big first MAX_DESC_LENGTH chars.
+#            my $index = index $abstract, " ", MAX_DESC_LENGTH;
+#            # cut only if index didn't return '-1' which is when the the
+#            # space wasn't found starting from location MAX_DESC_LENGTH
+#            unless ($index == -1) {
+#                $abstract = substr $abstract, 0, $index+1;
+#                $abstract .= " ...&nbsp;<i>(continued)</i>";
+#            }
+#
+#           # temp workaround, but can only split on paras
+            $abstract =~ s|<p>(.*?)</p>.*|$1|s;
+
+            $meta->{abstract} = $abstract;
+            last;
+        }
     }
-    else {
-        $meta->{title} = 'No Title';
-    }
-    $meta->{title} =~ s/^\s*|\s*$//sg;
 
     $meta->{link} = $self->{rel_dst_path};
+
     # put all the meta data under the same attribute
     $self->{meta} = $meta;
 
@@ -49,14 +92,19 @@ sub retrieve_meta_data {
 
 sub render_toc_level {
     my($self, $node, $level) = @_;
-    my %toc_entry = ();
     my $title = $node->title;
-    $toc_entry{link} = $toc_entry{title} = "$title"; # must stringify
-    $toc_entry{link} =~ s/\W/_/g; # META: put into a sub?
-    $toc_entry{link} = "#$toc_entry{link}"; # prepand '#' for internal links
+    my $link = "$title";  # must stringify to get the raw string
+    $link =~ s/\W/_/g;    # META: put into a sub?
+    $link = "#$link";     # prepand '#' for internal links
+
+    my %toc_entry = (
+        title => $title->present($mode), # run the formatting if any
+        link  => $link,
+        );
+
     my @sub = ();
     $level++;
-    if ($level < 5) {
+    if ($level <= HEAD_MAX_LEVEL) {
         # if there are deeper than =head4 levels we don't go down (spec is 1-4)
         my $method = "head$level";
         for my $sub_node ($node->$method()) {
@@ -64,6 +112,7 @@ sub render_toc_level {
         }
     }
     $toc_entry{subs} = \@sub if @sub;
+
     return \%toc_entry;
 }
 

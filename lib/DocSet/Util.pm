@@ -15,10 +15,11 @@ use DocSet::RunTime;
 
 use vars qw(@ISA @EXPORT);
 @ISA    = qw(Exporter);
-@EXPORT = qw(read_file read_file_paras copy_file write_file create_dir
-             filename_ext require_package dumper sub_trace note
-             get_date get_timestamp proc_tmpl build_matchmany_sub
-             banner should_update confess cluck);
+@EXPORT = qw(read_file read_file_paras copy_file gzip_file write_file
+             create_dir filename filename_ext require_package dumper
+             sub_trace note get_date get_timestamp proc_tmpl
+             build_matchmany_sub banner should_update confess cluck
+             format_bytes);
 
 # copy_file($src_path, $dst_path);
 # copy a file at $src_path to $dst_path, 
@@ -33,6 +34,14 @@ sub copy_file {
     create_dir($base_dir) unless (-d $base_dir);
 
     File::Copy::copy($src, $dst);
+}
+
+# gzip_file($src_path);
+# gzip a file at $src_path
+###############
+sub gzip_file {
+    my($src) = @_;
+    system "gzip -f $src";
 }
 
 
@@ -92,6 +101,12 @@ sub read_file_paras {
 
 }
 
+# return the filename part of the path
+sub filename {
+    my($path) = @_;
+    return File::Basename::basename($path);
+}
+
 # return the passed file's extension or '' if there is no one
 # note: that '/foo/bar.conf.in' returns an extension: 'conf.in';
 # note: a hidden file .foo will be recognized as an extension 'foo'
@@ -111,16 +126,17 @@ sub get_timestamp {
     sprintf "%02d/%02d/%04d", ++$mon, $day, 1900+$year;
 }
 
+my %require_seen = ();
 # convert Foo::Bar into Foo/Bar.pm and require
 sub require_package {
     my $package = shift;
     die "no package passed" unless $package;
+    return if $require_seen{$package};
+    $require_seen{$package} = 1;
     $package =~ s|::|/|g;
     $package .= '.pm';
     require $package;
 }
-
-
 
 # convert the template into the release version
 # $tmpl_root: a ref to an array of tmpl base dirs
@@ -205,6 +221,33 @@ sub build_matchmany_sub {
     die "Failed in building regex [@$ra_regex]: $@" if $@;
     $matchsub;
 }
+
+use constant KBYTE =>       1024;
+use constant MBYTE =>    1048576;
+use constant GBYTE => 1073741824;
+
+# compacts numbers like 1200234 => 1.2M, so they always fit into 4 chars.
+#################
+sub format_bytes {
+  my $bytes = shift || 0;
+
+  if ($bytes < KBYTE) {
+      return sprintf "%5dB", $bytes;
+  }
+  elsif (KBYTE < $bytes  and $bytes < MBYTE) {
+      return sprintf "%4.@{[int($bytes/KBYTE) < 10 ? 1 : 0]}fKiB", $bytes/KBYTE;
+  }
+  elsif (MBYTE < $bytes  and $bytes < GBYTE) {
+      return sprintf "%4.@{[int($bytes/MBYTE) < 10 ? 1 : 0]}fMiB", $bytes/MBYTE;
+  }
+  elsif (GBYTE < $bytes) {
+      return sprintf "%4.@{[int($bytes/GBYTE) < 10 ? 1 : 0]}fGiB", $bytes/GBYTE;
+  }
+  else {
+      # shouldn't happen
+  }
+}
+
 
 sub dumper {
     print Dumper @_;

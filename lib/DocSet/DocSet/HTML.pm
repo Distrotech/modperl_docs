@@ -3,6 +3,8 @@ package DocSet::DocSet::HTML;
 use strict;
 use warnings;
 
+use File::Spec::Functions;
+
 use DocSet::Util;
 use DocSet::NavigateCache ();
 
@@ -24,11 +26,16 @@ sub init {
     $self->set(dst_mime => 'text/html');
     $self->set(tmpl_mode => 'html');
     $self->set_dir(dst_root => $self->get_dir('dst_html'));
-    banner("HTML DocSet: " . $self->get('title') );
+
+    note "\n";
+    banner("[scan] HTML DocSet: " . $self->get('title') );
 }
 
 sub complete {
     my($self) = @_;
+
+    note "\n";
+    banner("[render] HTML DocSet: " . $self->get('title') );
 
     $self->write_index_file();
 }
@@ -88,11 +95,11 @@ sub write_index_file {
          version  => $self->get('version')||'',
          date     => get_date(),
          last_modified => get_timestamp(),
-#         body     => top
+         pdf_doc  => $self->pdf_doc,
     );
 
 
-    # pluster index top and bottom docs if defined (after converting them)
+    # plaster index top and bottom docs if defined (after converting them)
     if (my $body = $self->get('body')) {
         my $src_root = $self->get_dir('src_root');
         my $dst_mime = $self->get('dst_mime');
@@ -120,10 +127,6 @@ sub write_index_file {
 
     }
 
-
-
-
-
     my $dst_root  = $self->get_dir('dst_html');
     my $dst_file = "$dst_root/index.html";
     my $mode = $self->get('tmpl_mode');
@@ -133,6 +136,33 @@ sub write_index_file {
     my $content = proc_tmpl($tmpl_root, $tmpl_file, $mode, $vars);
     note "+++ Creating $dst_file";
     DocSet::Util::write_file($dst_file, $content);
+}
+
+# search for a pdf version in the parallel tree and copy/gzip it to
+# the same dir as the html version (we link to it from the html)
+sub pdf_doc {
+    my $self = shift;
+
+    my $id = $self->get('id');
+    my $dst_path = catfile $self->get_dir('dst_root'), "$id.pdf";
+    my $src_path = catfile $self->get_dir('dst_ps')  , "$id.pdf";
+
+#print "TRYING $dst_path $src_path \n";
+
+    my %pdf = ();
+    if (-e $src_path) {
+        copy_file($src_path, $dst_path);
+        gzip_file($dst_path);
+        my $gzip_path = "$dst_path.gz";
+        %pdf = (
+            size => format_bytes(-s $gzip_path),
+            link => filename($gzip_path),
+        );
+    }
+#dumper \%pdf;
+
+    return \%pdf;
+
 }
 
 

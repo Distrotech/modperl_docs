@@ -4,7 +4,6 @@ use strict;
 use Symbol ();
 use File::Basename;
 use File::Path;
-use Symbol ();
 
 my %compat_files = (
      'lib/warnings.pm' => \&warnings_pm,
@@ -67,3 +66,30 @@ EOF
 }
 
 1;
+
+=head1 NAME
+
+DocSet::5005compat - perl 5.005_03 compatibility module
+
+=head1 SYNOPSIS
+
+  # must be loaded as early as possible
+  use DocSet::5005compat;
+
+=head1 DESCRIPTION
+
+This module encapsulates the functionalities/modules unavailable under
+5.005_03.
+
+Currently it only creates the warnings pragma's shell, so the code like:
+
+ use warnings;
+
+won't fail under 5.005_03.
+
+=head1 ORIGIN
+
+Borrowed from Apache::Test project.
+
+=cut
+

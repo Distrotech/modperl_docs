@@ -22,7 +22,7 @@ sub init {
 sub scan {
     my($self) = @_;
 
-    note "Scanning $self->{src_uri}";
+    note "+++ Scanning $self->{src_uri}";
     $self->src_read();
 
     $self->retrieve_meta_data();
@@ -51,6 +51,9 @@ sub render {
     note "Rendering $dst_path";
     $self->convert();
     write_file($dst_path, $self->{output});
+
+    # anything that should be done after the target was written?
+    $self->postprocess() if $self->can('postprocess');
 }
 
 # read the source and remember the mod time
@@ -73,8 +76,9 @@ sub src_read {
         $self->{content} = \$content;
 
         # file change timestamp
-        my($mon, $day, $year) = (localtime ( (stat($path))[9] ) )[4,3,5];
-        $self->{timestamp} = sprintf "%02d/%02d/%04d", ++$mon,$day,1900+$year;
+        # my($mon, $day, $year) = (localtime ( (stat($path))[9] ) )[4,3,5];
+        # $self->{timestamp} = sprintf "%02d/%02d/%04d", ++$mon,$day,1900+$year;
+        $self->{timestamp} = scalar localtime;
 
     }
     else {

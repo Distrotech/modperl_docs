@@ -33,6 +33,20 @@ sub init {
         $self->merge_config($src_rel_dir);
     }
 
+    # we assume that the docset was not modified since the last run.
+    # if at least one source doc was modified, the docset is considered
+    # modified as well and should be rebuild. It's the responsibility
+    # of the modified object to make its parent docset as modified.
+    $self->modified(0);
+
+    # currently there are 4 reasons why the docset is considered
+    # 'modified', if at least one of these is 'modified':
+    # 1. the included docset
+    # 2. the included chapter
+    # 3. the included 'copy as-is' files
+    # 4. config.cfg is newer than corresponding index.html
+    # 
+
 }
 
 sub scan {
@@ -51,6 +65,7 @@ sub scan {
 
     # cache the index node meta data
     $cache->index_node($self->get('id'),
+                       $self->get('stitle'),
                        $self->get('title'),
                        $self->get('abstract')
                       );
@@ -77,14 +92,17 @@ sub scan {
         my($type, $data) = splice @nodes_by_type, 0, 2;
         if ($type eq 'docsets') {
             my $docset = $self->docset_scan_n_cache($data, $hidden);
+            $self->modified(1) if $docset->modified();
             $self->object_store($docset)
                 if defined $docset and ref $docset;
 
         } elsif ($type eq 'chapters') {
             my $chapter = $self->chapter_scan_n_cache($data, $hidden);
-            $self->object_store($chapter)
-                if defined $chapter and ref $chapter;
-
+            if (defined $chapter and ref $chapter) {
+                # modified chapter --> modified docset
+                $self->modified(1);
+                $self->object_store($chapter)
+            }
         } elsif ($type eq 'links') {
             $self->link_scan_n_cache($data, $hidden);
             # we don't need to process links
@@ -120,6 +138,17 @@ sub scan {
     # sync the cache
     $cache->write;
 
+    # copy non-pod files like images and stylesheets
+    #
+    # META: though this belongs to the 'render' part, we run it here,
+    # since we need to know after the scan() whether the docset is
+    # modified. a cleaner, logic-wise, solution would be only to check
+    # modification times on files that may need to be copied as-is,
+    # but to postpone the copying, if any, only to the render part of
+    # the logic. We could also remove here all the files that don't
+    # need to be copied, since they didn't change.
+    $self->scan_copy_the_rest;
+
 }
 
 
@@ -134,11 +163,21 @@ sub docset_scan_n_cache {
     # cache the children meta data
     my $id = $docset->get('id');
     my $meta = {
+                stitle   => $docset->get('stitle'),
                 title    => $docset->get('title'),
                 link     => "$src_rel_dir/index.html",
                 abstract => $docset->get('abstract'),
                };
     $self->cache->set($id, 'meta', $meta, $hidden);
+
+    # compare whether the config file is newer than the index.html
+    my $dst_root = $self->get_dir('dst_root');
+    my $dst_index = "$dst_root/$src_rel_dir/index.html";
+    my($should_update, $reason) = 
+        should_update($cfg_file, $dst_index);
+    $docset->modified(1) if $should_update;
+
+    note "\n"; # mark the end of scan
 
     return $docset;
 }
@@ -194,8 +233,11 @@ sub chapter_scan_n_cache {
     require_package($conv_class);
 
     my $chapter = $conv_class->new(
+         docset       => $self,
          tmpl_mode    => $self->get('tmpl_mode'),
          tmpl_root    => $self->get_dir('tmpl'),
+         src_root     => $src_root,
+         dst_root     => $dst_root,
          src_uri      => $src_file,
          src_path     => $src_path,
          dst_path     => $dst_path,
@@ -214,10 +256,47 @@ sub chapter_scan_n_cache {
 
 }
 
+####################
+sub scan_copy_the_rest {
+    my($self) = @_;
+
+    my @scan_copy_files = @{ $self->files_to_scan_copy() };
+
+    return unless @scan_copy_files;
+
+    my %to_copy = ();
+
+    my $src_root = $self->get_dir('src_root');
+    my $dst_root = $self->get_dir('dst_root');
+    note "+++ Scanning the copy as-is files. Comparing $src_root with $dst_root";
+    foreach my $src_path (@scan_copy_files){
+        my $dst_path = $src_path;
+#        # some OSs's File::Find returns files with no dir prefix root
+#        # (that's what ()* is for
+#        $dst_path =~ s/(?:$src_root)*/$dst_root/; 
+        $dst_path =~ s/$src_root/$dst_root/;
+
+        # to rebuild or not to rebuild
+        my($should_update, $reason) = 
+            should_update($src_path, $dst_path);
+        if (!$should_update) {
+            note "--- skipping cp $src_path $dst_path ($reason)";
+            next;
+        }
+        $self->modified(1); # dirty state
+        note "+++ processing $src_path => $dst_path ($reason)";
+        $to_copy{$src_path} = $dst_path;
+    }
+
+    $self->files_to_copy(\%to_copy);
+}
+
 sub render {
     my($self) = @_;
 
-    # copy non-pod files like images and stylesheets
+    # if the docset wasn't modified, don't render the docset
+    return unless $self->modified();
+
     $self->copy_the_rest;
 
     my $src_root = $self->get_dir('src_root');
@@ -240,28 +319,15 @@ sub render {
 sub copy_the_rest {
     my($self) = @_;
 
-    my @copy_files = @{ $self->files_to_copy || [] };
+    my %copy_files = %{ $self->files_to_copy };
 
-    return unless @copy_files;
+    return unless %copy_files;
 
     my $src_root = $self->get_dir('src_root');
     my $dst_root = $self->get_dir('dst_root');
     note "+++ Copying the non-processed files from $src_root to $dst_root";
-    foreach my $src_path (@copy_files){
-        my $dst_path = $src_path;
-#        # some OSs's File::Find returns files with no dir prefix root
-#        # (that's what ()* is for
-#        $dst_path =~ s/(?:$src_root)*/$dst_root/; 
-        $dst_path =~ s/$src_root/$dst_root/;
-            
-        # to rebuild or not to rebuild
-        my($should_update, $reason) = 
-            should_update($src_path, $dst_path);
-        if (!$should_update) {
-            note "--- skipping cp $src_path $dst_path ($reason)";
-            next;
-        }
-        note "+++ processing cp $src_path $dst_path ($reason)";
+    while (my ($src_path, $dst_path) = each %copy_files) {
+        note "+++ cp $src_path $dst_path";
         copy_file($src_path, $dst_path);
     }
 }
@@ -329,6 +395,17 @@ The following "public" methods are implemented in this super-class:
 Scans the docset for meta data and tocs of its items and caches this
 information and the item objects.
 
+=item * scan_copy_the_rest
+
+  $self->scan_copy_the_rest()
+
+Process the files that should be copied as is without processing
+(i.e. images, css files, etc). If any of the items have a timestamp
+newer than the corresponding copy in the target destination, the whole
+docset will be rebuilt.
+
+Only files that were modified will be copied during the render phase.
+
 =item * render
 
   $self->render();
@@ -340,7 +417,8 @@ index page linking all the items.
 
   $self->copy_the_rest()
 
-Copies the items which aren't processed (i.e. images, css files, etc).
+Copies the files which aren't processed (i.e. images, css files, etc.)
+and were modified as-is.
 
 =back
 

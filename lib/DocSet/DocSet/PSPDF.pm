@@ -13,7 +13,7 @@ use DocSet::DocSet ();
 
 # what's the output format
 sub trg_ext {
-    return 'html';
+    return 'html'; # in this case 'html' is just an intermediate format
 }
 
 sub init {
@@ -23,14 +23,19 @@ sub init {
 
     # configure PS/PDF specific run-time
     # though, we build ps/pdf the intermediate product is HTML
-    $self->set(dst_mime => 'text/html');
+    $self->set(dst_mime => 'text/htmlps');
     $self->set(tmpl_mode => 'ps');
     $self->set_dir(dst_root => $self->get_dir('dst_ps'));
-    banner("PS/PDF DocSet: " . $self->get('title') );
+
+    note "\n";
+    banner("[scan] PS/PDF DocSet: " . $self->get('title') );
 }
 
 sub complete {
     my($self) = @_;
+
+    note "\n";
+    banner("[render] PS/PDF DocSet: " . $self->get('title') );
 
     $self->write_index_file();
 
@@ -46,7 +51,7 @@ sub complete {
 # Using the same template file create the long and the short index
 # html files
 ##################################
-sub write_index_file{
+sub write_index_file {
     my($self) = @_;
 
     my $dir = {
@@ -112,6 +117,8 @@ sub create_pdf_book{
     my $command = "ps2pdf $dst_root/$id.ps $dst_root/$id.pdf";
     note "% $command";
     system $command;
+
+    # META: can delete the .ps now
 
 }
 
