@@ -4,8 +4,10 @@ APR::Const - Perl Interface for APR Constants
 
 =head1 Synopsis
 
-=head1 Constants
+  use APR::Const -compile => qw(constant names ...);
 
+
+=head1 Constants
 
 
 

@@ -351,6 +351,15 @@ use pseudo-hashes.
 
 So don't do that.
 
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
+
+
 =head1 Authors
 
 Matt Sergeant, matt@sergeant.org
@@ -361,8 +370,11 @@ A few concepts borrowed from C<Stonehenge::Reload> by Randal Schwartz
 and C<Apache::StatINC> (mod_perl 1.x) by Doug MacEachern and Ask
 Bjoern Hansen.
 
+
+
 =head1 See Also
 
 C<Stonehenge::Reload>
 
 =cut
+

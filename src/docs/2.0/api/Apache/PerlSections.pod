@@ -2,6 +2,10 @@
 
 Apache::PerlSections - Default Handler for Perl sections
 
+
+
+
+
 =head1 Synopsis
 
   <Perl >
@@ -14,6 +18,11 @@ Apache::PerlSections - Default Handler for Perl sections
   $ServerAdmin = $User;
   
   </Perl>
+
+
+
+
+
 
 =head1 Description
 
@@ -29,7 +38,6 @@ Block sections such as C<E<lt>LocationE<gt>>..C<E<lt>/LocationE<gt>>
 are represented in a C<%Location> hash, e.g.:
 
   <Perl>
-  
   $Location{"/~dougm/"} = {
     AuthUserFile   => '/tmp/htpasswd',
     AuthType       => 'Basic',
@@ -40,7 +48,6 @@ are represented in a C<%Location> hash, e.g.:
         require => 'user dougm',
     },
   };
-  
   </Perl>
 
 If an Apache directive can take two or three arguments you may push
@@ -100,10 +107,21 @@ except the ones whose names start with I<secure>:
   }
   </Perl>
 
+
+
+
+
+
+
+
 =head1 Configuration Variables
 
 There are a few variables that can be set to change the default
 behaviour of C<E<lt>Perl E<gt>> sections.
+
+
+
+
 
 =head2 C<$Apache::Server::SaveConfig>
 
@@ -113,6 +131,10 @@ value, the content of those namespaces will be preserved and will be
 available for inspection by modules like
 C<L<Apache::Status|docs::2.0::api::Apache::Status>>.
 
+
+
+
+
 =head2 C<$Apache::Server::StrictPerlSections>
 
 By default, compilation and run-time errors within C<E<lt>Perl E<gt>>
@@ -120,6 +142,12 @@ sections will cause a warning to be printed in the error_log. By
 setting this variable to a true value, code in the sections will be
 evaluated as if "use strict" was in usage, and all warning and errors
 will cause the server to abort startup and report the first error.
+
+
+
+
+
+
 
 =head1 Advanced API
 
@@ -175,7 +203,14 @@ for example:
 Would create a new alias. The source code of C<Apache::PerlSections>
 is a good place to look for a practical example.
 
+
+
+
+
 =head1 Bugs
+
+
+
 
 =head2 E<lt>PerlE<gt> directive missing closing 'E<gt>'
 
@@ -200,4 +235,28 @@ change it to be:
   # some code
   </Perl>
 
+
+
+
+=head1 See Also
+
+L<mod_perl 2.0 documentation|docs::2.0::index>.
+
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
+
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
+
 =cut
+

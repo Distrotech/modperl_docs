@@ -1,15 +1,29 @@
 =head1 NAME
 
-Apache::Filter -- A Perl API for Apache 2.0 Filtering
+Apache::Filter - Perl API for Apache 2.0 Filtering
+
+
+
 
 =head1 Synopsis
 
-  use Apache::Filter;
+  use Apache::Filter ();
+
+META: to be completed
+
+
+
 
 =head1 Description
 
+
 C<Apache::Filter> provides the Perl API for Apache 2.0 filtering
-framework
+framework.
+
+Make sure to read C<the Filtering
+tutorial|docs::2.0::user::handlers::filters>.
+
+
 
 
 =head1 Common Filter API
@@ -17,17 +31,46 @@ framework
 The following methods can be called from any filter handler:
 
 
+
+
 =head2 C<c>
 
-Inside a connection or a request filter the current connection object
-can be retrieved with:
+The current connection object can be retrieved from a connection or a
+request filter with:
 
-  my $c = $f->c;
+  $c = $f->c;
+
+=over 4
+
+=item arg1: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+=item ret: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+
+=back
 
 
 
 
 =head2 C<ctx>
+
+Get and set the filter context data.
+
+  $ctx = $f->ctx;
+  $f->ctx($ctx);
+
+=over 4
+
+=item arg1: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+=item opt arg2: C<$ctx> (scalar)
+
+Could be any perl SCALAR.
+
+=item ret: C<$ctx> (scalar)
+
+Could be any perl SCALAR.
+
+=back
 
 A filter context is created before the filter is called for the first
 time and it's destroyed at the end of the request. The context is
@@ -62,26 +105,54 @@ tied variable, so if you modify it need to store it at the end:
 META: later we might make it a TIEd-variable interface, so it'll be
 stored automatically.
 
-This method is useful when it's acting as a flag which ensures that
-something happens only once. For example:
+Besides its usage to store data between filter invocations, this
+method is also useful when as a flag. For example here is how to
+ensure that something happens only once during the filter's life:
 
       unless ($f->ctx) {
           do_something_once();
           $f->ctx(1);
       }
 
-=head2 C<frec>
 
-  my $fr = $f->frec([$frec]);
+
+
+=head2 C<frec>
 
 Get/set the C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>
 (filter record) object.
 
+  my $frec = $f->frec();
+  $f->frec($frec);
+
+=over 4
+
+=item arg1: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+=item opt arg2: C<$frec> (C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>)
+
+=item opt ret: C<$frec> (C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>)
+
+=back
+
+
+
+
+
 =head2 C<next>
 
-  $f->next;
-
 Returns the C<Apache::Filter> object of the next filter in chain.
+
+  $next_f = $f->next;
+
+=over 4
+
+=item arg1: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+=item ret: C<$next_f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+=back
+
 
 Since Apache inserts several core filters at the end of each chain,
 normally this method always returns an object. However if it's not a
@@ -98,19 +169,45 @@ C<$f-E<gt>frec-E<gt>name> (it'll return one of the following four
 names: I<modperl_request_output>, I<modperl_request_input>,
 I<modperl_connection_output> or I<modperl_connection_input>).
 
+
+
+
+
 =head2 C<r>
 
-Inside an HTTP request filter the current request object can be
-retrieved with:
+Inside an HTTP request filter retrieve the current request object:
 
-  my $r = $f->r;
+  $r = $f->r;
+
+=over 4
+
+=item arg1: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+=item ret: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+
+=back
+
+If a sub-request adds filters, then the sub-request is the request
+associated with the filter.
+
+
+
+
 
 =head2 C<remove>
 
-  $f->remove;
-
 Remove the current filter from the filter chain (for the current
 request).
+
+  $f->remove;
+
+=over 4
+
+=item arg1: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+=item ret: no return value
+
+=back
 
 Notice that you should either complete the current filter invocation
 normally (by calling C<L<get_brigade|/C_get_brigade_>> or
@@ -126,20 +223,83 @@ gets fixed in Apache and then make sure to require the minimum Apache
 version if you rely on it.
 
 
+
+
 =head1 Bucket Brigade Filter API
 
 The following methods can be called from any filter, directly
 manipulating bucket brigades:
 
 
-=head2 C<fflush>
 
-  $f->fflush($bb);
+
+
+=head2 C<fflush>
 
 Flush the C<$bb> brigade down the filter stack.
 
+  $ret = $f->fflush($bb);
+
+=over 4
+
+=item arg1: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+The current filter
+
+=item arg2: C<$bb> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+The brigade to flush
+
+=item ret: XXX
+
+=back
+
+
+
 
 =head2 C<get_brigade>
+
+This is a method to use in bucket brigade input filters. It acquires a
+bucket brigade from the upstream input filter.
+
+  $ret = $next_f->get_brigade($bb, $mode, $block, $readbytes);
+
+=over 4
+
+=item arg1: C<$next_f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+The next filter in the chain
+
+=item arg2: C<$bb> (C<L<APR::Brigade|docs::2.0::api::APR::Brigade>>)
+
+The original brigade passed to get_brigade() must be empty.  On return
+it gets populated with the next bucket brigade, or nothing if there is
+no more data to read.
+
+=item arg3: C<$mode> (integer)
+
+The way in which the data should be read
+
+=item arg4: C<$block> (integer)
+
+How the operations should be performed APR::BLOCK_READ,
+APR::NONBLOCK_READ
+
+=item arg5: C<$readbytes> (integer)
+
+How many bytes to read from the next filter.
+
+=item ret: C<$ret> (integer)
+
+It returns C<APR::SUCCESS> on success, otherwise a failure code, in
+which case it should be returned to the caller.
+
+If the bottom-most filter doesn't read from the network, then
+Apache::NOBODY_READ is returned (META: need to add this constant).
+
+=back
+
+For example:
 
   sub filter {
       my($f, $bb, $mode, $block, $readbytes) = @_;
@@ -152,9 +312,6 @@ Flush the C<$bb> brigade down the filter stack.
       return Apache::OK;
   }
 
-This is a method to use in bucket brigade input filters.  It acquires
-a bucket brigade from the upstream input filter.
-
 Normally arguments C<$mode>, C<$block>, C<$readbytes> are the same as
 passed to the filter itself.
 
@@ -162,7 +319,39 @@ It returns C<APR::SUCCESS> on success, otherwise a failure code, in
 which case it should be returned to the caller.
 
 
+
+
 =head2 C<pass_brigade>
+
+This is a method to use in bucket brigade output filters.  It passes
+the current bucket brigade to the downstream output filter.
+
+  $ret = $next_f->pass_brigade($bb);
+
+=over 4
+
+=item arg1: C<$next_f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+The next filter in the chain
+
+=item arg2: C<$bb> (C<L<APR::Brigade|docs::2.0::api::APR::Brigade>>)
+
+The current bucket brigade
+
+=item ret: C<$ret> (integer)
+
+It returns C<APR::SUCCESS> on success, otherwise a failure code, in
+which case it should be returned to the caller.
+
+If the bottom-most filter doesn't write to the network, then
+Apache::NOBODY_WROTE is returned (META: need to add this constant).
+
+=back
+
+The caller relinquishes ownership of the brigade (i.e. it may get
+destroyed/overwritten/etc by the callee).
+
+For example:
 
   sub filter {
       my($f, $bb) = @_;
@@ -176,11 +365,11 @@ which case it should be returned to the caller.
       return Apache::OK;
   }
 
-This is a method to use in bucket brigade output filters.  It passes
-the current bucket brigade to the downstream output filter.
 
-It returns C<APR::SUCCESS> on success, otherwise a failure code, in
-which case it should be returned to the caller.
+
+
+
+
 
 
 =head1 Streaming Filter API
@@ -190,10 +379,24 @@ simplified streaming functionality:
 
 =head2 C<seen_eos>
 
-  $f->seen_eos;
-
 This methods returns a true value when the EOS bucket is seen by the
-C<L<read|/C_read_>> method. This only works in streaming filters which
+C<L<read|/C_read_>> method.
+
+  $ret = $f->seen_eos;
+
+=over 4
+
+=item arg1: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+The filter to remove
+
+=item ret: C<$ret> (integer)
+
+a true value if seen, otherwise a false value
+
+=back
+
+This method only works in streaming filters which
 exhaustively C<L<$f-E<gt>read|/C_read_>> all the incoming data in a
 while loop, like so:
 
@@ -233,26 +436,78 @@ tests that test abnormal situations.
 
 =head2 C<read>
 
-  $f->read(my $buffer, $read_len);
+Read data from the filter
+
+  $ret = $f->read(my $buffer, $read_len);
+
+=over 4
+
+=item arg1: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+=item arg2: C<$buffer> (scalar)
+
+=item arg3: C<$read_len> (integer)
+
+=item ret: C<$ret> (number)
+
+=back
 
 Reads at most C<$read_len> characters into C<$buffer>. It returns a
-true value as long as it had something to read, and a false value
+true value as long as it had something to read, or a false value
 otherwise.
 
-This is a streaming filter method, which acquires the bucket brigade
-behind the scenes and reads data from all buckets. If the EOS bucket
-is read, the C<L<seen_eos|/C_seen_eos_>> method will return a true
-value.
+This is a streaming filter method, which acquires a single bucket
+brigade behind the scenes and reads data from all its
+buckets. Therefore it can only read from one bucket brigade per filter
+invocation.
+
+If the EOS bucket is read, the C<L<seen_eos|/C_seen_eos_>> method will
+return a true value.
+
+
+
+=head2 C<fputs>
+
+META: Autogenerated - needs to be reviewed/completed
+
+  $ret = $f->fputs($bb, $str);
+
+=over 4
+
+=item arg1: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+=item arg2: C<$bb> (C<L<APR::Brigade|docs::2.0::api::APR::Brigade>>)
+
+=item arg3: C<$str> (string)
+
+=item ret: C<$ret> (integer)
+
+=back
+
 
 
 =head2 C<print>
 
-  $f->print($buffer);
-
-Sends the contents of C<$buffer> to the next filter in chain (via
+Send the contents of C<$buffer> to the next filter in chain (via
 internal buffer).
 
+  $f->print($buffer);
+
+=over 4
+
+=item arg1: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+
+=item arg2: C<$buffer> (scalar)
+
+=item ret: XXX
+
+=back
+
 This method should be used only in streaming filters.
+
+
+
+
 
 
 =head1 Other Filter-related API
@@ -260,27 +515,98 @@ This method should be used only in streaming filters.
 Other methods which affect filters, but called on
 non-C<Apache::Filter> objects:
 
+
+
 =head2 C<add_input_filter>
+
+Add C<&callback> filter handler to input request filter chain.
 
   $r->add_input_filter(\&callback);
 
-Adds C<&callback> filter handler to input request filter chain.
+Add C<&callback> filter handler to input connection filter chain.
 
   $c->add_input_filter(\&callback);
 
-Adds C<&callback> filter handler to input connection filter chain.
+=over 4
+
+=item arg1: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>) or C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+
+=item arg2: C<&callback> (CODE ref)
+
+=item ret: XXX
+
+=back
+
+
+
+
 
 =head2 C<add_output_filter>
 
+Add C<&callback> filter handler to output request filter chain.
+
   $r->add_output_filter(\&callback);
 
-Adds C<&callback> filter handler to output request filter chain.
+Add C<&callback> filter handler to output connection filter chain.
 
   $c->add_output_filter(\&callback);
 
-Adds C<&callback> filter handler to output connection filter chain.
+=over 4
+
+=item arg1: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>) or C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+
+=item arg2: C<&callback> (CODE ref)
+
+=item ret: XXX
+
+=back
 
 
+
+
+
+=head1 TIE Interface
+
+C<Apache::Filter> also implements a tied interface, so you can work
+with the C<$f> object as a hash reference.
+
+META: complete
+
+
+
+=head2 C<TIEHANDLE>
+
+META: Autogenerated - needs to be reviewed/completed
+
+  $ret = TIEHANDLE($stashsv, $sv);
+
+=over 4
+
+=item arg1: C<$stashsv> (scalar)
+
+=item arg2: C<$sv> (scalar)
+
+=item ret: C<$ret> (scalar)
+
+=back
+
+
+
+
+
+=head2 C<PRINT>
+
+META: Autogenerated - needs to be reviewed/completed
+
+  $ret = PRINT(...);
+
+=over 4
+
+=item arg1: C<...> (XXX)
+
+=item ret: C<$ret> (integer)
+
+=back
 
 
 
@@ -296,6 +622,9 @@ Packages using filter attributes have to subclass C<Apache::Filter>:
 Attributes are parsed during the code compilation, by the function
 C<MODIFY_CODE_ATTRIBUTES>, inherited from the C<Apache::Filter>
 package.
+
+
+
 
 =head2 C<FilterRequestHandler>
 
@@ -320,6 +649,9 @@ The section L<HTTP Request vs. Connection
 Filters|docs::2.0::user::handlers::filters/HTTP_Request_vs__Connection_Filters>
 delves into more details.
 
+
+
+
 =head2 C<FilterConnectionHandler>
 
 The C<FilterConnectionHandler> attribute tells mod_perl to insert this
@@ -339,6 +671,9 @@ and add the configuration entry:
 The section L<HTTP Request vs. Connection
 Filters|docs::2.0::user::handlers::filters/HTTP_Request_vs__Connection_Filters>
 delves into more details.
+
+
+
 
 =head2 C<FilterInitHandler>
 
@@ -363,6 +698,9 @@ Initialization
 Phase|docs::2.0::user::handlers::filters/Filter_Initialization_Phase>
 tutorial section.
 
+
+
+
 =head2 C<FilterHasInitHandler>
 
 If a filter wants to run an initialization callback it can register
@@ -385,16 +723,22 @@ Initialization
 Phase|docs::2.0::user::handlers::filters/Filter_Initialization_Phase>
 tutorial section.
 
+
+
+
 =head1 Configuration
 
 mod_perl 2.0 filters configuration is explained in the L<filter
 handlers
 tutorial|docs::2.0::user::handlers::filters/mod_perl_Filters_Declaration_and_Configuration>.
 
+
+
 =head2 C<PerlInputFilterHandler>
 
 See
 C<L<PerlInputFilterHandler|docs::2.0::user::handlers::filters/C_PerlInputFilterHandler_>>.
+
 
 
 =head2 C<PerlOutputFilterHandler>
@@ -403,10 +747,12 @@ See
 C<L<PerlOutputFilterHandler|docs::2.0::user::handlers::filters/C_PerlOutputFilterHandler_>>.
 
 
+
 =head2 C<PerlSetInputFilter>
 
 See
 C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/C_PerlSetInputFilter_>>.
+
 
 
 =head2 C<PerlSetOutputFilter>
@@ -415,10 +761,26 @@ C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/C_PerlSetInputFilter_>
 See
 C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/C_PerlSetInputFilter_>>.
 
+
 =head1 See Also
 
-The L<filter handlers tutorial|docs::2.0::user::handlers::filters> and
-the C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>> manpage.
+L<mod_perl 2.0 documentation|docs::2.0::index>.
 
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
+
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
 
 =cut
+

@@ -162,4 +162,27 @@ to mod_perl 2.0|docs::2.0::user::porting::compat> which covers all
 mod_perl 1.0 constants, functions and methods that have changed in
 mod_perl 2.0.
 
+
+
+
+=head1 See Also
+
+L<mod_perl 2.0 documentation|docs::2.0::index>.
+
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
+
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
+
 =cut

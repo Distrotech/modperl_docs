@@ -1,6 +1,7 @@
 =head1 NAME
 
-Apache::Log -- Perl API for Apache Logging Methods
+Apache::Log - Perl API for Apache Logging Methods
+
 
 
 
@@ -67,6 +68,7 @@ Apache::Log -- Perl API for Apache Logging Methods
 
 
 
+
 =head1 Description
 
 C<Apache::Log> provides the Perl API for Apache logging methods.
@@ -94,6 +96,8 @@ method.
 The filename and the line number of the caller are logged only if
 C<Apache::LOG_DEBUG> is used (because that's how Apache 2.0 logging
 mechanism works).
+
+
 
 
 =head1 Constants
@@ -175,7 +179,7 @@ wanted. For example:
   $s->log_serror(Apache::LOG_MARK, Apache::LOG_INFO,
                  APR::SUCCESS, "This log message comes with a header");
 
-Will print:
+will print:
 
   [Wed May 14 16:47:09 2003] [info] This log message comes with a header
 
@@ -191,35 +195,71 @@ then the logging will be:
 
 
 
-
-
-
-
-
 =head1 Server Logging Methods
 
-=head2 C<$s-E<gt>log_error()>
+
+
+=head2 C<$s-E<gt>log_error>
+
+just logs the supplied message to I<error_log>
 
   $s->log_error(@message);
 
-just logs the supplied message. For example:
+=over 4
+
+=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+
+=item arg2: C<@message> (ARRAY)
+
+what to log
+
+=item ret: (XXX)
+
+=back
+
+For example:
 
   $s->log_error("running low on memory");
 
-=head2 C<$s-E<gt>log_serror()>
 
-  log_serror($file, $line, $level, $status, @message);
 
-where:
 
- * $file    The file in which this function is called
- * $line    The line number on which this function is called
- * $level   The level of this error message
- * $status  The status code from the previous command
- * @message The log message
+
+=head2 C<$s-E<gt>log_serror>
 
 This function provides a fine control of when the message is logged,
 gives an access to built-in status codes.
+
+  $s->log_serror($file, $line, $level, $status, @message);
+
+=over 4
+
+=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+
+=item arg2: C<$file> (string)
+
+The file in which this function is called
+
+=item arg3: C<$line> (number)
+
+The line number on which this function is called
+
+=item arg4: C<$level> (C<L<Apache::LOG_* constant|/LogLevel_Constants>>)
+
+The level of this error message
+
+=item arg5: C<$status> (integer)
+
+The status code from the last command (similar to $! in perl, usually
+APR:: status constant)
+
+=item arg6: C<@message> (ARRAY)
+
+The log message
+
+=item ret: (XXX)
+
+=back
 
 For example:
 
@@ -229,26 +269,23 @@ For example:
   $s->log_serror(Apache::LOG_MARK, Apache::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
 
-=head2 C<$s-E<gt>log()>
+
+
+
+=head2 C<$s-E<gt>log>
+
+returns a log handle which can be used to L<log messages of different
+levels|/LogLevel_Methods>.
 
   my $slog = $s->log;
 
-returns a handle which can be used to log messages of different
-level. See the next entry.
+=over 4
 
-=head2 emerg(), alert(), crit(), error(), warn(), notice(), info(), debug()
+=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
 
-  $s->log->emerg(@message);
+=item ret: C<$slog> (scalar)
 
-after getting the log handle with C<$s-E<gt>log>, use these methods to
-control when messages should be logged.
-
-For example:
-
-  my $slog = $s->log;
-  $slog->debug("just ", "some debug info");
-  $slog->warn(@warnings);
-  $slog->crit("dying");
+=back
 
 
 
@@ -258,66 +295,205 @@ For example:
 
 =head1 Request Logging Methods
 
-=head2 C<$r-E<gt>log_error()>
+
+
+
+=head2 C<$r-E<gt>log_error>
+
+logs the supplied message (similar to C<L<$s-E<gt>log_error|/C__s_E_gt_log_error_>>).
 
   $r->log_error(@message);
 
-logs the supplied message (similar to C<$s-E<gt>log_error>). For
-example:
+=over 4
 
-  $r->log_error("the request is about to end");
+=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
 
-the same as C<$s-E<gt>log_error>.
+=item arg2: C<@message> (ARRAY)
 
-=head2 C<$r-E<gt>log_rerror()>
+what to log
 
-  log_rerror($file, $line, $level, $status, @message);
+=item ret: (XXX)
 
-same as C<$s-E<gt>log_rerror>. For example:
-
-  $s->log_rerror(Apache::LOG_MARK, Apache::LOG_ERR,
-                 APR::SUCCESS, "log_rerror logging at err level");
-  
-  $s->log_rerror(Apache::LOG_MARK, Apache::LOG_DEBUG,
-                 APR::ENOTIME, "debug print");
-
-=head2 C<$r-E<gt>log()>
-
-  my $rlog = $r->log;
-
-Similar to C<$s-E<gt>log()>
-
-=head2 the emerg(), alert(), crit(), error(), warn(), notice(), info(), debug() methods
-
-Similar to the server's log functions with the same names.
+=back
 
 For example:
 
-  $rlog->debug("just ", "some debug info");
-  $rlog->warn(@req_warnings);
-  $rlog->crit("dying");
+  $r->log_error("the request is about to end");
+
+
+
+
+
+
+=head2 C<$r-E<gt>log_rerror>
+
+This function provides a fine control of when the message is logged,
+gives an access to built-in status codes.
+
+  $r->log_rerror($file, $line, $level, $status, @message);
+
+arguments are identical to
+C<L<$s-E<gt>log_serror|/C__s_E_gt_log_serror_>>.
+
+For example:
+
+  $r->log_rerror(Apache::LOG_MARK, Apache::LOG_ERR,
+                 APR::SUCCESS, "log_rerror logging at err level");
+  
+  $r->log_rerror(Apache::LOG_MARK, Apache::LOG_DEBUG,
+                 APR::ENOTIME, "debug print");
+
+
+
+
+=head2 C<$r-E<gt>log>
+
+returns a log handle which can be used to L<log messages of different
+levels|/LogLevel_Methods>.
+
+  $rlog = $r->log;
+
+=over 4
+
+=item arg1: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+
+=item ret: C<$rlog> (scalar)
+
+=back
+
+
+
+
+
+
+=head1 Other Logging Methods
+
+=head2 LogLevel Methods
+
+after getting the log handle with C<L<$s-E<gt>log|/C__s_E_gt_log_>> or
+C<L<$r-E<gt>log|/C__s_E_gt_log_>>, use one of the following methods
+(corresponding to the C<LogLevel> levels):
+
+  emerg(), alert(), crit(), error(), warn(), notice(), info(), debug()
+
+to control when messages should be logged:
+
+  $s->log->emerg(@message);
+  $r->log->emerg(@message);
+
+=over 4
+
+=item arg1: C<$slog> (log handle)
+
+=item arg2: C<@message> (ARRAY)
+
+=back
+
+For example if the C<LogLevel> is C<error> and the following code is
+executed:
+
+  my $slog = $s->log;
+  $slog->debug("just ", "some debug info");
+  $slog->warn(@warnings);
+  $slog->crit("dying");
+
+only the last command's logging will be performed. This is because
+I<warn>, I<debug> and other logging command which are listed right to
+I<error> will be disabled.
+
+
+
+=head2 C<emerg>
+
+See L<LogLevel Methods|/LogLevel_Methods>.
+
+
+
+=head2 C<alert>
+
+See L<LogLevel Methods|/LogLevel_Methods>.
+
+
+
+=head2 C<crit>
+
+See L<LogLevel Methods|/LogLevel_Methods>.
+
+
+
+=head2 C<error>
+
+See L<LogLevel Methods|/LogLevel_Methods>.
+
+
+
+=head2 C<warn>
+
+See L<LogLevel Methods|/LogLevel_Methods>.
+
+
+
+=head2 C<notice>
+
+See L<LogLevel Methods|/LogLevel_Methods>.
+
+
+=head2 C<info>
+
+See L<LogLevel Methods|/LogLevel_Methods>.
+
+
+=head2 C<debug>
+
+See L<LogLevel Methods|/LogLevel_Methods>.
+
+
+
 
 
 
 
 =head1 General Functions
 
-=head2 C<Apache::LOG_MARK()>
+=head2 C<Apache::LOG_MARK>
 
-  my($file, $line) = Apache::LOG_MARK();
+  ($file, $line) = Apache::LOG_MARK();
 
 Though looking like a constant, this is a function, which returns a
 list of two items: C<(__FILE__, __LINE__)>, i.e. the file and the line
-where the function was called from. It's mostly useful to be passed as
-the first argument to those logging methods, expecting the filename
-and the line number as the first arguments.
+where the function was called from.
+
+It's mostly useful to be passed as the first argument to those logging
+methods, expecting the filename and the line number as the first
+arguments (e.g., C<L<$s-E<gt>log_serror|/C__s_E_gt_log_serror_>> and
+C<L<$r-E<gt>log_rerror|/C__r_E_gt_log_rerror_>>).
 
 
+=head2 C<Apache::log_pid>
+
+
+Log the current pid of the parent process
+
+  Apache::log_pid($fname);
+
+=over 4
+
+=item arg1: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+
+The pool to use for logging
+
+=item arg2: C<$fname> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+
+The name of the file to log to
+
+=item ret: no return value
+
+=back
 
 
 =head1 Aliases
 
-=head2 C<$s-E<gt>warn()>
+=head2 C<$s-E<gt>warn>
 
   $s->warn(@warnings);
 
@@ -330,13 +506,36 @@ For example:
 
   $s->warn('routine server warning');
 
-=head2 C<Apache-E<gt>warn()>
+=head2 C<Apache-E<gt>warn>
 
-=head2 C<Apache::warn()>
+=head2 C<Apache::warn>
 
   Apache->warn(@warnings);
 
 
 
 
+
+
+=head1 See Also
+
+L<mod_perl 2.0 documentation|docs::2.0::index>.
+
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 1.1.
+
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
+
 =cut
+
