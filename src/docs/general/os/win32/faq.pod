@@ -281,9 +281,9 @@ instructions are found in the accompanying F<README> file.
 One can also install these utilties by running the F<install_apxs>
 script under L<http://perl.apache.org/dist/win32-bin/>. Note that
 this port does not offer yet the full functionality of
-the unix version - in particular, features enabling the utiltities
+the unix version - in particular, features enabling the utilities
 to be used within the Apache2 sources are missing. Nevertheless,
-they may be useful for building and installing 3rd-party modules.
+they may be useful for building and installing 3rd-party C modules.
 
 =head1 Maintainers
 
