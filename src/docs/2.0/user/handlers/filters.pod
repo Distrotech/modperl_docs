@@ -950,7 +950,7 @@ techniques to choose from to retrieve-modify-return bucket brigades:
 
 =item 1
 
-Create a new empty bucket brigade <$ctx_bb>, pass it to the upstream
+Create a new empty bucket brigade C<$ctx_bb>, pass it to the upstream
 filter via C<get_brigade()> and wait for this call to return. When it
 returns, C<$ctx_bb> is populated with buckets. Now the filter should
 move the bucket from C<$ctx_bb> to C<$bb>, on the way modifying the
@@ -1429,7 +1429,7 @@ the I<readline()> mode in chunks up to the buffer length (1024 in our
 example), and then prints each line reversed while preserving the new
 line control characters at the end of each line.  Behind the scenes
 C<$filter-E<gt>read()> retrieves the incoming brigade and gets the
-data from it, and C<$filter-E<gt>print()> appends to the new brigade
+data from it, and C<<$filter-E<gt>print()> appends to the new brigade
 which is then sent to the next filter in the stack. C<read()> breaks
 the I<while> loop, when the brigade is emptied or the end of stream is
 received.
