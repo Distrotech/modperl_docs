@@ -727,7 +727,7 @@ This nested subroutine creates a closure for C<$foo> and will make a
 new copy of the variable every time it is executed. The situation is
 easy to avoid once you know to watch out for it.
 
-=head2 Berkeley DB
+=head1 Berkeley DB
 
 One of the big wins in our architecture was the use of I<Berkeley DB>.
 Since most people are not familiar with it's more advanced features,
