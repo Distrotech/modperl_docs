@@ -201,7 +201,7 @@ As we have seen in the
 C<L<MyApache::StartupLog::open_logs|/Startup_Phases_Demonstration_Module>>
 handler, the I<open_logs> phase handlers accept four arguments: the
 configuration pool, the logging stream pool, the temporary pool and
-the server object:
+the main server object:
 
   sub open_logs {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
@@ -222,9 +222,29 @@ mode. Finally it logs the fact that it's running in the parent
 process.
 
 As you've seen in the example this handler is configured by adding to
-I<httpd.conf>:
+the top level of I<httpd.conf>:
 
   PerlOpenLogsHandler MyApache::StartupLog::open_logs
+
+This handler can be executed only by the main server. If you want to
+traverse the configured virtual hosts, you can accomplish that using a
+simple loop. For example to print out the configured port numbers do:
+
+  use Apache::Server ();
+  # ...
+  sub open_logs {
+      my($conf_pool, $log_pool, $temp_pool, $s) = @_;
+
+      my $port = $s->port;
+      warn "base port: $port\n";
+      for (my $vs = $s->next; $vs; $vs = $vs->next) {
+          my $port = $vs->port;
+          warn "vhost port: $port\n";
+      }
+      return Apache::OK;
+  }
+
+C<$s> is the base server object.
 
 The pool arguments in this phase and
 C<L<PerlPostConfigHandler|/PerlPostConfigHandler>> are:
@@ -281,15 +301,19 @@ example we used the I<post_config()> handler:
       return Apache::OK;
   }
 
-As you can see, its arguments are identical to the I<open_logs>
-phase's handler. In this example handler we don't do much but logging
-that the configuration was completed and returning right away.
+As you can see, its arguments are identical to the
+L<I<open_logs|/PerlOpenLogsHandler>> phase's handler. In this example
+handler we don't do much, but logging that the configuration was
+completed and returning right away.
 
 As you've seen in the example this handler is configured by adding to
 I<httpd.conf>:
 
   PerlPostConfigHandler MyApache::StartupLog::post_config
 
+Everything that applies to
+C<L<PerlOpenLogsHandler|/PerlOpenLogsHandler>> identically applies to
+this handler.
 
 =head2 PerlChildInitHandler
 
