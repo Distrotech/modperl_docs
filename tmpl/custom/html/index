@@ -3,24 +3,28 @@
     splash.fg = 'mauve';
     splash.bg = 'lilac';
 -%]
-
 [% INCLUDE head
     paget   = doc.meta.title
     title   = "mod_perl: $paget" 
     content = ''
 -%]
 
+<!-- left box (NAV)-->
 <div class='leftbox'>
     [% INCLUDE menu_top_level nav=doc.nav; %]
     <br>
     [% INCLUDE ad -%]
+    <br><br>
 </div>
+<!-- end left box-->
 
+<!-- right box-->
 <div class='rightbox'>
     [% INCLUDE index_body %]
     <br>
     [% INCLUDE tail %]
 </div>
+<!-- end right box-->
 
 </body>
 </html>

@@ -10,6 +10,7 @@
     content = ''
 -%]
 
+<!-- left box (NAV)-->
 <div class='leftbox'>
     [% INCLUDE menu_top_level
               nav=doc.nav
@@ -17,7 +18,9 @@
     %]
     <br>
     [% INCLUDE ad -%]
+    <br><br>
 </div>
+<!-- end left box-->
 
 <!-- right box-->
 <div class='rightbox'>

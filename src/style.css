@@ -1,29 +1,33 @@
 body {
         font-family: helvetica, verdana, sans-serif; 
-        font-size: small;
+        font-size: 0.8em;
         color: #000000; 
         background-color: #000066;
 }        
 
 .headline {
-        padding: 2px;
-        background-color: #828DA6;
+        padding: 5px;
+/* width:100%; /* works in NS4, but not in Moz/Opera */
+        margin-top:2px;
+        background-color: #525D76;
         color: #ffffff;
-}  
-
+        border-style:none;
+        border:1px;
+        font-size:1.4em;
+}
+  
 h1, h2, h3, h4 {
-        background-color: #dddddd;
         color: #525D76;
-
+        font-size:1.2em;
 }  
 
-a:link    { color: #0000ff; font-family: helvetica, verdana, sans-serif;}
-a:visited { color: #0000ff; font-family: helvetica, verdana, sans-serif;}
-a:active  { color: #0000ff; font-family: helvetica, verdana, sans-serif;}
-a:hover   { color: #0000ff; font-family: helvetica, verdana, sans-serif;}
+
+a:link    { color: #0000ff;} 
+a:visited { color: #0000ff;}
+a:active  { color: #0000ff;}
+a:hover   { color: #0000ff;}
 
 pre { 
-        font-family: courier new, courier, monospace;
         padding: 3px;
         border: 6px;
         border-style: solid;
@@ -41,94 +45,103 @@ div.leftbox {
         position: absolute;
         top: 5px;
         left: 5px;
-        width: 160px;
+        width: 170px;
         padding: 0px;
 }
 
 div.rightbox {
         position: absolute;
         top: 5px;
-        left: 175px;
-        padding: 0px;
-        margin-right: 10px;
+        left: 190px;
+        padding: px;
+        padding-right:10px; 
 }
 
 /* boxes in the left box */
 div.logo {
-        padding: 5px;
+        width: 160px;
+        padding: 5px;  /* 0px works in NS4 */
         border: 1px;
-        border-style: solid;
-        border-color: #000000;
-        text-align: center;
+        border-style: none;
         background-color: #ffffff;
 }
 
 div.menu {
+        width: 160px;
         border: 1px;
         padding: 5px;
-        border-style: solid;
-        border-color: #000000;
+        border-style: none;
         background-color: #ffffff;
 }
 
 div.activenav {
         font-weight: bold;
-        padding: 5px;
-        background-color: #525D76;
+        font-size:12px;
+        margin-bottom:5px;
+        margin-top:5px;
 }
-div.activenav    a {text-decoration: none; color: #ffffff;}
+
+div.activenav a:link {text-decoration: none; color: #525D76;}
+div.activenav a:visited {text-decoration: none; color: #525D76;}
+div.activenav a:active {text-decoration: none; color: #525D76;}
+div.activenav a:hover {text-decoration: none; color: #525D76;}
 
 div.notactivenav {
-        padding: 5px;
-        font-weight: bold;
-        border: 1px;
-        border-style: solid;
-        border-color: #000000;
-        margin-top: -1px;
+        font-size:12px;
+        margin-bottom:5px;
+        margin-top:5px;
 
 }
-div.notactivenav a {text-decoration: none; color: #525D76;}
+
+div.notactivenav a:link {text-decoration: none; color: #525D76;}
+div.notactivenav a:visited {text-decoration: none; color: #525D76;}
+div.nottctivenav a:active {text-decoration: none; color: #525D76;}
+div.notactivenav a:hover {text-decoration: none; color: #525D76;}
+
 
 div.ad {
+        width: 160px;
         border: 1px;
         padding: 5px;
-        border-style: solid;
-        border-color: #000000;
+        border-style: none;
         background-color: #ffffff;
-        font-size: x-small;
+         font-size: x-small;
+        text-align:center;
 }
 
 /* boxes in the right box */
 div.content {
-        padding: 5px;
-        border: 2px;
-        border-style: solid;
+        border: 1px;
+        border-style: none;
         border-color: #000000;
         background-color: #ffffff;
+        padding: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
 }
 
 div.navbarglobal {
-        padding: 5px;
-        border: 2px;
-        border-style: solid;
+        padding:5px;
+        padding-left: 8px;
+        border: 1px;
+        border-style: none;
         border-color: #000000;
         background-color: #ffffff;
         color: #000000;
 }
+
 div.navbarglobal a {text-decoration: none; color: #828DA6;}
 
 div.navbarlocal {
         text-align: right;
 }
 
-
-
 div.tail {
-        padding: 1px;
-        font-size: x-small;
+        padding:5px;
+        font-size: 0.6em;
         font-family: helvetica, verdana, sans-serif;
-        border: 2px;
-        border-style: solid;
+        border: 1px;
+        border-style: none;
         border-color: #000000;
         background-color: #ffffff;
 }
@@ -136,15 +149,10 @@ div.tail {
 div.toc {
         font-size: small;
 }
-div.toc          a {text-decoration: none; color: #0000ff;}
+
+div.toc a {text-decoration: none; color: #0000ff;}
 
 
 div.download {
         font-size: x-small;
 }
-
-
-
-
-
-

@@ -32,10 +32,12 @@
    WHILE p;
        count = count + 1;
        link = INCLUDE link prefix=prefix link=p.meta.link;
-       buttons.push({link => link, text => p.meta.stitle});
        IF p.id == current.id;
-           selected = count;
+           style = 'activenav';
+       ELSE;
+           style = 'notactivenav';
        END;
+       buttons.push({link => link, text => p.meta.stitle, style=> style });
        p = p.next; # next node
    END;
 -%]
@@ -44,13 +46,9 @@
 </div>
 <br>
 <div class='menu'>
-[% INCLUDE splash/domm_pulldown 
-     select = selected
-     width  = "5%"
-     pad    = 0
-     border = 0
-     align   = 'left'
-%]
+[% FOREACH but = buttons %]
+<div class='[% but.style  %]'><a href="[% but.link %]">[% but.text %]</a></div>
+[% END %]
 </div>
 
 

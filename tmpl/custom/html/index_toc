@@ -7,7 +7,6 @@
 [% numbers = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'] %]
 
 [% IF toc.size %]
-    <a name="toc"></a>
     <div class="toc">
 
     [% IF toc.0.group_title.defined;

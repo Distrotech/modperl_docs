@@ -1,10 +1,9 @@
 [%
     INCLUDE navbar_global nav=doc.nav;
 %]
-<br>
 
 <!-- content-->
-<div class='content'>
+<div class="content">
 [%
     INCLUDE title;
 
@@ -18,11 +17,14 @@
 
     INCLUDE download;
 
+#    INCLUDE navbar_local
+#        nav=doc.nav
+#        rel_doc_root=doc.dir.rel_doc_root;
+
     PROCESS index_toc toc=doc.toc;
 
     IF doc.body.bot;
         "<p>${doc.body.bot}</p>";
     END;
-
 %]
 </div>

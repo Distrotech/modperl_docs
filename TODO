@@ -1,19 +1,19 @@
 # things to do for mod_perl site infrastructure
 
-- Menu: the current page's item shouldn't be hyperlinked
+- Menu: 
+
+  o the current page's item is hyperlinked (it's not clear if it
+    shouldn't be as it helps navigation, since the menu opens only the
+    first level and it allows to go all the way up )
+
+  o Need to try to make the menu smaller
+
+- Navigation
+
+  o The 'TOP' image should be made using the same colors as other
+    widgets.
 
 - Internal links (e.g. in src/docs/1.0/guide) aren't hyperlinked.
 
-- ErrorDocument (can we use .htaccess?) => /404.html
-
-- URL changes adjustments to go to src/.htaccess:
-
-# embperl
-RedirectPermanent /Embperl/ http://perl.apache.org/embperl/
-RedirectPermanent /perl/Embperl/ http://perl.apache.org/embperl/
-RedirectPermanent /embperl.html /embperl/
-
-# ASP
-Redirect /asp http://www.apache-asp.org/
 
 - Think about porting the conferences stuff

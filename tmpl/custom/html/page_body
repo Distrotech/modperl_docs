@@ -3,10 +3,9 @@
         nav=doc.nav
         rel_doc_root=doc.dir.rel_doc_root;
 %]
-<br>
 
 <!-- content-->
-<div class='content'>
+<div class="content">
 [%
     INCLUDE title;
 
@@ -16,10 +15,8 @@
 
     INCLUDE page_toc toc=doc.toc;
 
-    INCLUDE download;
-
     # render the content
-    menu="<a href='#top'><img src='${doc.dir.abs_doc_root}/images/top.gif' width=54 height=21 border='0' alt='TOP'></a>";
+    menu="<a href='#top'><img src='${doc.dir.abs_doc_root}/images/top.gif' width='85' height='20' border='0' alt='TOP'></a>";
     FOREACH sec = doc.body;
         sec;
         menu;
@@ -28,8 +25,6 @@
     INCLUDE navbar_local
         nav=doc.nav
         rel_doc_root=doc.dir.rel_doc_root;
-
-
 %]
 </div>
 <!-- end content-->
