@@ -426,7 +426,7 @@ installs its modules in a version specific directory. For example:
 Even if you have followed the recommendation and eschewed use of the
 C<L<Apache::compat|docs::2.0::api::Apache::compat>> module, you may
 find it useful to learn how the API has been changed and how to modify
-your own code. Simply look at the C<Apache::compt> source code and see
+your own code. Simply look at the C<Apache::compat> source code and see
 how the functionality should be implemented in mod_perl 2.0.
 
 For example, mod_perl 2.0 doesn't provide the C<Apache-E<gt>gensym>
