@@ -380,22 +380,22 @@ may be worth a look.
 SSI is the granddaddy of templating systems, and the first one that
 many people used since it comes as a standard part of most web
 servers.  With mod_perl installed, mod_include gains some additional
-power.  Specifically, it is able to take a new #perl directive which
-allows for in-line subroutine calls.  It can also efficiently include
-the output of Apache::Registry scripts by using the Apache::Include
-module.
+power.  Specifically, it is able to take a new C<#perl> directive
+(though only if mod_perl is statically built) which allows for in-line
+subroutine calls.  It can also efficiently include the output of
+Apache::Registry scripts by using the Apache::Include module.
 
 The Apache::SSI module implements the functionality of mod_include
-entirely in Perl, including the additional #perl directive.  The main
-reasons to use it are to post-process the output of another handler
-(with Apache::Filter) or to add your own directives.  Adding
+entirely in Perl, including the additional C<#perl> directive.  The
+main reasons to use it are to post-process the output of another
+handler (with Apache::Filter) or to add your own directives.  Adding
 directives is easy through subclassing.  You might be tempted to
 implement a complete template processor in this way, by adding loops
 and other constructs, but it's probably not worth the trouble with so
 many other tools out there.
 
 SSI follows the callback model and is mostly a mini-language, although
-you can sneak in bits of Perl code as anonymous subs in #perl
+you can sneak in bits of Perl code as anonymous subs in C<#perl>
 directives.  Because SSI uses a repeated parse implementation, it is
 safe to use it on large numbers of files without worrying about memory
 bloat.
