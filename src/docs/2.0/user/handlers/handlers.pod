@@ -944,15 +944,15 @@ Now let's write the snooping filter:
   use Apache::Const -compile => qw(OK DECLINED);
   use APR::Const -compile => ':common';
   
-  sub connection : FilterConnectionHandler { snoop(@_) }
-  sub request    : FilterRequestHandler    { snoop(@_) }
+  sub connection : FilterConnectionHandler { snoop("connection", @_) }
+  sub request    : FilterRequestHandler    { snoop("request",    @_) }
   
   sub snoop {
-      my($filter, $bb, $mode, $block, $readbytes) = @_;
+      my $type = shift;
+      my($filter, $bb, $mode, $block, $readbytes) = @_; # filter args
   
       # $mode, $block, $readbytes are passed only for input filters
-      my $stream = defined $mode ? "input"   : "output";
-      my $phase  = $filter->r    ? "request" : "connection";
+      my $stream = defined $mode ? "input" : "output";
   
       # read the data and pass-through the bucket brigades unchanged
       my $ra_data = '';
@@ -969,12 +969,15 @@ Now let's write the snooping filter:
           return $rv unless $rv == APR::SUCCESS;
       }
   
-      # send the sniffed info to stderr so not to interfere with normal
+      # send the sniffed info to STDERR so not to interfere with normal
       # output
-      warn "[$phase ($stream)]\n";
+      my $direction = $stream eq 'output' ? ">>>" : "<<<";
+      print STDERR "\n$direction $type $stream filter\n";
+      my $c = 1;
       while (my($btype, $data) = splice @$ra_data, 0, 2) {
-          $data = join "", map "        $_\n", split /\n/, $data;
-          warn "    $btype:\n$data\n";
+          print STDERR "    o bucket $c: $btype\n";
+          print STDERR "[$data]\n";
+          $c++;
       }
   
       return Apache::OK;
@@ -996,12 +999,15 @@ Now let's write the snooping filter:
 This package provides two filter handlers, one for connection and
 another for request filtering:
 
-  sub connection : FilterConnectionHandler { snoop(@_) }
-  sub request    : FilterRequestHandler    { snoop(@_) }
+  sub connection : FilterConnectionHandler { snoop("connection", @_) }
+  sub request    : FilterRequestHandler    { snoop("request",    @_) }
 
 Both handlers forward their arguments to the C<snoop()> function that
 does the real job. We needed to add these two subroutines in order to
-assign the two different attributes.
+assign the two different attributes. Plus the functions pass the
+filter type to C<snoop()> as the first argument, which gets shifted
+off C<@_> and the rest of the C<@_> are the arguments that were
+originally passed to the filter handler.
 
 It's easy to know whether a filter handler is running in the input or
 the output mode. The arguments C<$filter> and C<$bb> are always
@@ -1058,40 +1064,49 @@ present it all here, since it helps a lot to understand how filters
 work.
 
 First we can see the connection input filter at work, as it processes
-the HTTP headers. We can see that each header is put into a separate
-brigade with a single bucket:
+the HTTP headers. We can see that for this request each header is put
+into a separate brigade with a single bucket. The data is conveniently
+enclosed by C<[]> so you can see the new line characters as well.
 
-  [connection (input)]
-      HEAP:
-          POST /dump?foo=1&bar=2 HTTP/1.1
+  <<< connection input filter
+      o bucket 1: HEAP
+  [POST /dump?foo=1&bar=2 HTTP/1.1
+  ]
   
-  [connection (input)]
-      HEAP:
-          TE: deflate,gzip;q=0.3
+  <<< connection input filter
+      o bucket 1: HEAP
+  [TE: deflate,gzip;q=0.3
+  ]
   
-  [connection (input)]
-      HEAP:
-          Connection: TE, close
+  <<< connection input filter
+      o bucket 1: HEAP
+  [Connection: TE, close
+  ]
   
-  [connection (input)]
-      HEAP:
-          Host: localhost:8008
+  <<< connection input filter
+      o bucket 1: HEAP
+  [Host: localhost:8008
+  ]
   
-  [connection (input)]
-      HEAP:
-          User-Agent: lwp-request/2.01
+  <<< connection input filter
+      o bucket 1: HEAP
+  [User-Agent: lwp-request/2.01
+  ]
   
-  [connection (input)]
-      HEAP:
-          Content-Length: 15
+  <<< connection input filter
+      o bucket 1: HEAP
+  [Content-Length: 14
+  ]
   
-  [connection (input)]
-      HEAP:
-          Content-Type: application/x-www-form-urlencoded
+  <<< connection input filter
+      o bucket 1: HEAP
+  [Content-Type: application/x-www-form-urlencoded
+  ]
   
-  [connection (input)]
-      HEAP:
-          
+  <<< connection input filter
+      o bucket 1: HEAP
+  [
+  ]
 
 Here the HTTP header has been terminated by a double new line. So far
 all the buckets were of the I<HEAP> type, meaning that they were
@@ -1102,15 +1117,15 @@ consumed by the last connection Apache core handler.
 The following two entries are generated when
 C<MyApache::Dump::handler> reads the POSTed content:
 
-  [connection (input)]
-      HEAP:
-          mod_perl rules
+  <<< connection input filter
+      o bucket 1: HEAP
+  [mod_perl rules]
   
-  [request (input)]
-      HEAP:
-          mod_perl rules
-  
-      EOS:
+  <<< request input filter
+      o bucket 1: HEAP
+  [mod_perl rules]
+      o bucket 2: EOS
+  []
 
 as we saw earlier on the diagram, the connection input filter is run
 before the request input filter. Since our connection input filter was
@@ -1124,12 +1139,13 @@ Next we can see that C<MyApache::Dump::handler> has generated its
 response. However only the request output filter is filtering it at
 this point:
 
-  [request (output)]
-      TRANSIENT:
-          args:
-          foo=1&bar=2
-          content:
-          mod_perl rules
+  >>> request output filter
+      o bucket 1: TRANSIENT
+  [args:
+  foo=1&bar=2
+  content:
+  mod_perl rules
+  ]
 
 This happens because Apache hasn't sent yet the response HTTP headers
 to the client. Apache postpones the header sending so it can calculate
@@ -1142,35 +1158,38 @@ When the content handler returns Apache sends the HTTP headers through
 connection output filters (notice that the request output filters
 don't see it):
 
-  [connection (output)]
-      HEAP:
-          HTTP/1.1 200 OK
-          Date: Tue, 13 Aug 2002 12:36:52 GMT
-          Server: Apache/2.0.40-dev (Unix) mod_perl/1.99_05-dev 
-          Perl/v5.8.0 mod_ssl/2.0.40-dev OpenSSL/0.9.6d DAV/2
-          Content-Length: 43
-          Connection: close
-          Content-Type: text/plain; charset=ISO-8859-1
-          
+  >>> connection output filter
+      o bucket 1: HEAP
+  [HTTP/1.1 200 OK
+  Date: Wed, 14 Aug 2002 07:31:53 GMT
+  Server: Apache/2.0.41-dev (Unix) mod_perl/1.99_05-dev 
+  Perl/v5.8.0 mod_ssl/2.0.41-dev OpenSSL/0.9.6d DAV/2
+  Content-Length: 42
+  Connection: close
+  Content-Type: text/plain; charset=ISO-8859-1
+  
+  ]
 
 Now the response body in the bucket of type I<HEAP> is passed through
 the connection output filter, followed by the I<EOS> bucket to mark
 the end of the request:
 
-  [connection (output)]
-      HEAP:
-          args:
-          foo=1&bar=2
-          content:
-          mod_perl rules
-  
-      EOS:
+  >>> connection output filter
+      o bucket 1: HEAP
+  [args:
+  foo=1&bar=2
+  content:
+  mod_perl rules
+  ]
+      o bucket 2: EOS
+  []
 
 Finally the output is flushed, to make sure that any buffered output
 is sent to the client:
 
-  [connection (output)]
-      FLUSH:
+  >>> connection output filter
+      o bucket 1: FLUSH
+  []
 
 This module helps to understand that each filter handler can be called
 many time during each request and connection. It's called for each
@@ -1182,6 +1201,169 @@ without POSTing any data or simply running a GET request, the request
 input filter won't be called.
 
 
+
+=head2 Connection Input Filter
+
+Let's say that we want to test how our handlers behave when they are
+requested as C<HEAD> requests, rather than C<GET>. We can alter the
+request headers at the incoming connection level transparently to all
+handlers. So here is the input filter handler that does that by
+directly manipulating the bucket brigades:
+
+  file:MyApache/InputFilterGET2HEAD.pm
+  -----------------------------------
+  package MyApache::InputFilterGET2HEAD;
+  
+  use strict;
+  use warnings;
+  
+  use base qw(Apache::Filter);
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  use APR::Brigade ();
+  use APR::Bucket ();
+  
+  use Apache::Const -compile => 'OK';
+  use APR::Const -compile => ':common';
+  
+  sub handler : FilterConnectionHandler {
+      my($filter, $bb, $mode, $block, $readbytes) = @_;
+  
+      my $c = $filter->c;
+      my $ctx_bb = APR::Brigade->new($c->pool, $c->bucket_alloc);
+      my $rv = $filter->next->get_brigade($ctx_bb, $mode, $block, $readbytes);
+      return $rv unless $rv == APR::SUCCESS;
+  
+      while (!$ctx_bb->empty) {
+          my $bucket = $ctx_bb->first;
+  
+          $bucket->remove;
+  
+          if ($bucket->is_eos) {
+              $bb->insert_tail($bucket);
+              last;
+          }
+  
+          my $data;
+          my $status = $bucket->read($data);
+          return $status unless $status == APR::SUCCESS;
+  
+          if ($data and $data =~ s|^GET|HEAD|) {
+              $bucket = APR::Bucket->new($data);
+          }
+  
+          $bb->insert_tail($bucket);
+      }
+  
+      Apache::OK;
+  }
+  
+  1;
+
+The filter handler is called for each bucket brigade, which in turn
+includes buckets with data. The gist of any filter handler is to
+retrieve the bucket brigade sent from the previous filter, prepare a
+new empty brigade, and move buckets from the former brigade to the
+latter optionally modifying the buckets on the way, which may include
+removing or adding new buckets. Of course if the filter doesn't want
+to modify any of the buckets it may decide to pass through the
+original brigade without doing any work.
+
+In our example the handler first removes the bucket at the top of the
+brigade and looks at its type. If it sees an end of stream, that
+removed bucket is linked to the tail of the bucket brigade that will
+go to the next filter and it doesn't attempt to read any more
+buckets. If this event doesn't happen the handler reads the data from
+that bucket and if it finds that the data is of interest to us, it
+modifies the data, creates a new bucket using the modified data and
+links it to the tail of the outgoing brigade, while discarding the
+original bucket. In our case the interesting data is a such that
+matches the regex C</^GET/>. If the data is not interesting to the
+handler, it simply links the unmodified bucket to the outgoing
+brigade.
+
+The handler looks for data like:
+
+  GET /perl/test.pl HTTP/1.1
+
+and turns it into:
+
+  HEAD /perl/test.pl HTTP/1.1
+
+For example, consider the following response handler:
+
+  file:MyApache/RequestType.pm
+  ---------------------------
+  package MyApache::RequestType;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::Const -compile => 'OK';
+  
+  sub handler {
+      my $r = shift;
+      $r->content_type('text/plain');
+      $r->print("the request type was " . $r->method);
+      Apache::OK;
+  }
+  1;
+
+which returns to the client the request type it has issued. In the
+case of the C<HEAD> request Apache will discard the response body, but
+it'll will still set the correct C<Content-Length> header, which will
+be 24 in case of the C<GET> request and 25 for C<HEAD>. Therefore if
+this response handler is configured as:
+
+  Listen 8005
+  <VirtualHost _default_:8005>
+      <Location />
+          SetHandler modperl
+          PerlResponseHandler +MyApache::RequestType
+      </Location>
+  </VirtualHost>
+
+and a C<GET> request is issued to I</>:
+
+  panic% perl -MLWP::UserAgent -le \
+  '$r = LWP::UserAgent->new()->get("http://localhost:8005/"); \
+  print $r->headers->content_length . ": ".  $r->content'
+  24: the request type was GET
+
+where the response's body is:
+
+  the request type was GET
+
+And the C<Content-Length> header is set to 24.
+
+However if we enable the C<MyApache::InputFilterGET2HEAD> input
+connection filter:
+
+  Listen 8005
+  <VirtualHost _default_:8005>
+      PerlInputFilterHandler +MyApache::InputFilterGET2HEAD
+  
+      <Location />
+          SetHandler modperl
+          PerlResponseHandler +MyApache::RequestType
+      </Location>
+  </VirtualHost>
+
+And issue the same C<GET> request, we get only:
+
+  25: 
+
+which means that the body was discarded by Apache, because our filter
+turned the C<GET> request into a C<HEAD> request and if Apache wasn't
+discarding the body on C<HEAD>, the response would be:
+
+  the request type was HEAD
+
+that's why the content length is reported as 25 and not 24 as in the
+real GET request.
+
+=head2 Request Input Filter
 
 =head2 Bucket Brigades and Stream-Oriented Request Output Filters
 
