@@ -97,8 +97,19 @@ gist is:
 
   PerlModule Apache::Reload
   PerlInitHandler Apache::Reload
+  #PerlPreConnectionHandler Apache::Reload
   PerlSetVar ReloadAll Off
   PerlSetVar ReloadModules "ModPerl::* Apache::*"
+
+Use:
+
+  PerlInitHandler Apache::Reload
+
+if you need to debug HTTP protocol handlers. Use:
+
+  PerlPreConnectionHandler Apache::Reload
+
+for any handlers.
 
 Though notice that we have started to practice the following style in
 our modules:
