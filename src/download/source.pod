@@ -58,14 +58,15 @@ Be sure to read the I<README> and I<INSTALL> documents (in the
 distribution package) and the longer mod_perl 2.x L<installation
 guide|docs::2.0::user::install::install>.
 
-=head2 Development source distribution
+=head2 2.x Development source distribution
 
 =over 
 
 =item * tarballs
 
 Download the httpd-2.0 (http://www.apache.org/dist/httpd/) and
-modperl-2.0 tarballs, and extract them in the same directory.
+modperl-2.0 tarballs (http://perl.apache.org/dist/), and extract them
+in the same directory.
 
 =item * cvs
 
