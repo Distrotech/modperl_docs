@@ -919,159 +919,167 @@ not eliminate options based on this chart without reading the more
 detailed explanations above.
 
 =for html
-  <TABLE BORDER=1>
-    <TR>
-      <TH><br></TH>
-      <TH>
+  <table  border="0" cellpadding="1" cellspacing="1">
+    <tr>
+      <th class="table-title-bg"><br></th>
+      <th class="table-title-bg">
+      <div class="table-title">
         Application Framework
-      </TH>
-      <TH>
+      </div>
+      </th>
+      <th class="table-title-bg">
+      <div class="table-title">
         Pipeline or Callback
-      </TH>
-      <TH>
+      </div>
+      </th>
+      <th class="table-title-bg">
+      <div class="table-title">
         Parsing Method
-      </TH>
-      <TH>
+      </div>
+      </th>
+      <th class="table-title-bg">
+      <div class="table-title">
         Language
-      </TH>
-    </TR>
-    <TR>
-      <TD>
+      </div>
+      </th>
+    </tr>
+    <tr>
+      <td class="table-bg">
         HTML::Mason
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Framework
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Callback
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Compiled
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Perl
-      </TD>
-    </TR>
-    <TR>
-      <TD>
+      </td>
+    </tr>
+    <tr>
+      <td class="table-bg">
         Template Toolkit
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Just Templates
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Pipeline
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Compiled
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Mini-Language
-      </TD>
-    </TR>
-    <TR>
-      <TD>
+      </td>
+    </tr>
+    <tr>
+      <td class="table-bg">
         Apache::ASP
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Framework
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Callback
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Compiled
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Perl and XSL
-      </TD>
-    </TR>
-    <TR>
-      <TD>
+      </td>
+    </tr>
+    <tr>
+      <td class="table-bg">
         HTML::Embperl
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Framework
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Callback
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Compiled
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Perl
-      </TD>
-    </TR>
-    <TR>
-      <TD>
+      </td>
+    </tr>
+    <tr>
+      <td class="table-bg">
         SSI
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Just Templates
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Callback
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Repeated Parse
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Mini-Language
-      </TD>
-    </TR>
-    <TR>
-      <TD>
+      </td>
+    </tr>
+    <tr>
+      <td class="table-bg">
         AxKit
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Framework
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Pipeline
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Compiled or Cached Parse Tree
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Perl and XSL and Mini-Language(s)
-      </TD>
-    </TR>
-    <TR>
-      <TD>
+      </td>
+    </tr>
+    <tr>
+      <td class="table-bg">
         HTML::Template
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Just Templates
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Pipeline
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Cached Parse Tree
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Mini-Language
-      </TD>
-    </TR>
-    <TR>
-      <TD>
+      </td>
+    </tr>
+    <tr>
+      <td class="table-bg">
         Text::Template
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Just Templates
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Pipeline
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Compiled
-      </TD>
-      <TD>
+      </td>
+      <td class="table-bg">
         Perl
-      </TD>
-    </TR>
-  </TABLE>
+      </td>
+    </tr>
+  </table>
 
 
 =head1 Updates

@@ -27,25 +27,25 @@ Module list</a>.</p>
 
 <h2>Contributors</h2>
 
-<table width="100%">
+<table  border="0" cellpadding="1" cellspacing="1">
 <tr>
-        <td class="menu-title-bg">
-        <div class="menu-title">
+        <th class="table-title-bg">
+        <div class="table-title">
                 Contributor
         </div>
         </td>
-        <td class="menu-title-bg">
-        <div class="menu-title">
+        <th class="table-title-bg">
+        <div class="table-title">
                 Activities
         </div>
         </td>
 </tr>
 [% FOREACH person = people %]
 <tr>
-        <td class="non-sel-bg">
+        <td class="table-bg">
                 <a href="#[% person.id %]">[% person.name %]</a>
         </td>
-        <td class="non-sel-bg">
+        <td class="table-bg">
                 [% person.summary %]
         </td>
 </tr>

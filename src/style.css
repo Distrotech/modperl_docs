@@ -493,3 +493,28 @@ small[class="nbr"] {
 small {
     display: none; 
 }
+
+/*** table styles, make them fit with the general design ***/
+/* mostly stolen from menu though */
+
+/* light blue bg-color for titles */
+td.table-title-bg,
+th.table-title-bg {
+    background-color: #828da6;
+    color: #ffffff;
+}
+
+div.table-title {
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 2px 3px 2px 3px;
+    background-color: #828da6;
+    color: #000000;
+}
+
+td.table-bg {
+    background-color: #eeeeee;
+    color: #000000;
+}
