@@ -483,27 +483,91 @@ The handler's configuration scope is C<DIR>.
 
 =head2 PerlOutputFilterHandler
 
-This handler registers an stream-orientered output filter (i.e. it
-works with the response stream). To actually use it the core
-C<AddOutputFilter> directive must be used.
+This handler registers and configures a stream-orientered output
+filter (i.e. it works with the response stream).
 
 This handler is of type C<VOID>.
 
 The handler's configuration scope is C<DIR>.
 
-Example:
+The output filter in the following example reverses every line of the
+response, preserving the new line characters in their places:
 
-In this example the output filter C<Apache::ReverseFilter>
-
-The following filter reverts XXX
-
+  file:httpd.conf
+  ---------------
+  PerlModule Apache::ReverseFilter
   <Location /reverse>
       SetHandler modperl
-      PerlOutputFilterHandler TestFilter::reverse
-      PerlResponseHandler TestFilter::reverse::response
+      PerlOutputFilterHandler Apache::ReverseFilter::output_filter
+      PerlResponseHandler     Apache::ReverseFilter::response
   </Location>
 
+  file:Apache/ReverseFilter.pm
+  ----------------------------
+  package Apache::ReverseFilter;
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  use Apache::Filter ();
+  
+  use Apache::Const -compile => qw(OK);
+  
+  my $clrf = qr/[\r\n]+/;
+  
+  sub output_filter {
+      my $filter = shift;
+  
+      my $left_over = '';
+      while ($filter->read(my $buffer, 2)) {
+          $buffer = $left_over . $buffer;
+          $left_over = '';
+          while ($buffer =~ /([^\r\n]*)([\r\n]*)/g) {
+              $left_over = $1, last unless $2;
+              $filter->print(scalar(reverse $1), $2);
+          }
+      }
+      $filter->print(scalar reverse $left_over) if length $left_over;
+  
+      Apache::OK;
+  }
+  
+  sub response {
+      my $r = shift;
+  
+      $r->content_type('text/plain');
+      $r->puts(1..9, "0\n");
+      $r->puts('a'..'z', "\n");
+  
+      Apache::OK;
+  }
+  1;
 
+
+In this example when a request to I</reverse> is made, the response
+handler C<Apache::ReverseFilter::response()> sends:
+
+  1234567890
+  abcdefghijklmnopqrstuvwxyz
+
+as a response and the output filter handler
+C<Apache::ReverseFilter::output_filter> reverses the lines, so the
+client gets:
+
+  0987654321
+  zyxwvutsrqponmlkjihgfedcba
+
+The reversing filter is quite simple: it reads from the output stream
+in chunks of 1024 characters, and then prints all lines reversed
+preserving the new line control characters at the end of each
+line. The special handling of new lines is needed for cases where an
+input line is longer than the buffer size, (1024 in our example), when
+this happens we store the reminder of the string in C<$left_over> and
+prepend it to the buffer when the next chunk is read. At the end we
+print out the reminder of the input when there is no more data left on
+the stream.
 
 
 
