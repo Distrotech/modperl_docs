@@ -1593,25 +1593,114 @@ http://marc.theaimsgroup.com/?l=apache-modperl-dev&m=106427616108596&w=2
 
 
 
-=head1 Handling HEAD Requests
+
+
+
+
+=head1 Miscellaneous Issues
+
+
+=head2 Handling HEAD Requests
 
 In order to avoid the overhead of sending the data to the client when
 the request is of type HEAD in mod_perl 1.0 we L<used to return
 early|docs::1.0::guide::porting/Generating_correct_HTTP_Headers> from
 the handler:
 
-  return OK if $r->header_only;
+  return Apache::OK if $r->header_only;
 
-This logic is no longer needed in mod_perl 2.0, because Apache 2.0
-automatically discards the response body for HEAD requests. (You can
-also read the comment in for C<ap_http_header_filter()> in
+This logic should not be used in mod_perl 2.0, because Apache 2.0
+automatically discards the response body for HEAD requests. It expects
+the full body to generate the correct set of response headers, if you
+don't send the body you may encounter problems.
+
+(You can also read the comment in for C<ap_http_header_filter()> in
 I<modules/http/http_protocol.c> in the Apache 2.0 source.)
+
+
+
+
+
+=head2 C<Content-Length> Response Header
+
+You may encounter some issues with the C-L (C<Content-Length>)
+header. Some of them are discussed here.
+
+=over
+
+=item * The special case of C<Content-Length: 0>
+
+Since Apache proclaims itself governor of the C-L header via the C-L
+filter (ap_content_length_filter at F<httpd-2.0/server/protocol.c>),
+for the most part C<GET> and C<HEAD> behave exactly the same.
+However, when Apache sees a C<HEAD> request with a C-L header of zero
+it takes special action and removes the C-L header.  This is done to
+protect against handlers that called C<$r-E<gt>header_only> (L<which
+was ok in 1.3 but is not in 2.0|/Handling_HEAD_Requests>).  Therefore,
+C<GET> and C<HEAD> behave indentically, except when the content
+handler (and/or filters) end up sending no content.  For more details
+refer to the lengthy comments in C<ap_http_header_filter()> in
+F<httpd-2.0/modules/http/http_protocol.c>).
+
+For more discussion on why it is important to get HEAD requests right,
+see these threads from the mod_perl list:
+
+  http://marc.theaimsgroup.com/?l=apache-modperl&m=108647669726915&w=2
+  http://marc.theaimsgroup.com/?t=109122984600001&r=1&w=2
+
+as well as this bug report from mozilla, which shows how C<HEAD>
+requests are used in the wild:
+
+  http://bugzilla.mozilla.org/show_bug.cgi?id=245447
+
+=item * Not getting C<Content-Length> header with C<HEAD> requests
+
+Even though the spec says that content handlers should send an
+identical response for GET and HEAD requests, some folks try to
+L<avoid the overhead of generating the response
+body|/Handling_HEAD_Requests>, which Apache is going to discard anyway
+for HEAD requests. The following discussion assumes that we deal with
+a HEAD request.
+
+When Apache sees EOS and no headers and no response body were sent,
+C<ap_content_length_filter()> (F<httpd-2.0/server/protocol.c>) sets
+C-L to 0. Later on C<ap_http_header_filter()>
+(F<httpd-2.0/modules/http/http_protocol.c>) removes the C-L header for
+the HEAD requests.
+
+The workaround is to force the sending of the response headers, before
+C<EOS> was sent (which happens when the response handler returns). The
+simplest solution is to use rflush():
+
+  if ($r->header_only) { # HEAD
+      $body_len = calculate_body_len();
+      $r->set_content_length($body_len);
+      $r->rflush;
+  }
+  else {                 # GET
+      # generate and send the body
+  }
+
+now if the handler sets the C-L header it'll be delivered to the
+client unmodified.
+
+=back
+
+
+
+
+
+
 
 =head1 Extending HTTP Protocol
 
 Extending HTTP under mod_perl is a trivial task.  Look at L<the
 example of adding a new method C<EMAIL>|/PerlHeaderParserHandler> for
 details.
+
+
+
+
 
 
 =head1 Maintainers
