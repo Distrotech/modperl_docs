@@ -1,9 +1,27 @@
 This docco explains how to update perl.apache.org
 
-The site is being built under /home/perlwww/apache.org/modperl-docs
-and then synced into /www/perl.apache.org.
+The site is being anonymously checked out and built under
+/home/perlwww/apache.org/modperl-docs and then synced into
+/www/perl.apache.org. user 'perlwww' is in the 'perl' group, so
+whatever it creates you should be able to modify at will. All the
+files under /home/perlwww are made g+rwx to group 'perl', so you can
+mess with files without becoming 'perlwww'.
 
-*** Doing Updates ***
+*** sudo'ing to perlwww ***
+
+Sometimes you need to sudo into the 'perlwww' user, to perform things
+that only that user can do (e.g. modifying crontabs).
+
+To sudo into the 'perlwww' user (assuming that you have the perms to
+do so):
+
+sudo -H -u perlwww bash
+
+or:
+
+sudo -H -u perlwww tcsh
+
+*** Automatic Updates ***
 
 The site is being updated automatically from the crontab. So all you
 have to do is to commit your changes and wait for them to be picked up
@@ -17,6 +35,18 @@ This is the current crontab:
 15 6,12,18 * * * /home/perlwww/apache.org/modperl-docs/bin/site_build_index
 # update all (only changes and pdfs) once a day
 15 0 * * * /home/perlwww/apache.org/modperl-docs/bin/site_build_pdf_index
+
+In order to modify the crontab you must sudo into the 'perlwww'
+user. Notice that the crontab that everybody in the 'perl' group can
+modify is the main reason for creating this special user.
+
+If the updating script emits any warnings/errors, they will be sent to
+the email address listed in /home/perlwww/.forward. (which is
+currently my address by in the future I plan to change it to the
+docs-dev list's address, so if I'm not around others will be able to
+know that there is a problem and resolve it.)
+
+*** Manual Updates ***
 
 If for some reason you cannot wait before the automatic update
 (e.g. if you've changed the template and don't want to wait a week for
@@ -56,18 +86,7 @@ will be simply truncated to 0. so the script takes care of checking
 whether the filesystem is under 95% (which happens quite often) and
 won't update the online version if that's the case.
 
-*** Permission Problems ***
-
-If for some reasons the permissions are getting messed up, first sudo
-into 'perlwww' user (assuming that you have the perms to do so):
-
-sudo -H -u perlwww bash
-
-or:
-
-sudo -H -u perlwww tcsh
-
-*** Other Problems ***
+*** Resolving Problems ***
 
 If the problem is with the build system email the docs-dev list. If
 the problem with the apache.org machine email root@apache.org.
