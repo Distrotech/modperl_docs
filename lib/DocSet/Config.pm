@@ -612,8 +612,6 @@ META: to be completed (see SYNOPSIS meanwhile)
 
 =back
 
-=back
-
 =head1 CONFIGURATION FILE
 
 Each DocSet has its own configuration file.
@@ -1030,8 +1028,6 @@ docs are for example in HTML, they have to be written in a proper
 HTML, so the parser will be able to extract the body. Of course these
 can be POD or other formats as well. But all is taken from these files
 are their bodies, so the title and other meta-data are ignored.
-
-=back
 
 =head1 AUTHORS
 

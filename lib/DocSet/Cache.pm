@@ -10,18 +10,28 @@ use Carp;
 
 my %attrs = map {$_ => 1} qw(toc meta order child_cache_path);
 
+# $update == 1 marks the cache as dirty, so it'll be always written to the disk
+# $purge == 1 deletes the existing cache file if such exists
 sub new {
-    my($class, $path, $update) = @_;
+    my($class, $path, $update, $purge) = @_;
 
     die "no cache path specified" unless defined $path;
 
     my $self = bless {
-                      path   => $path,
-                      dirty  => 0,
-                     }, ref($class)||$class;
-    $self->read();
+        path       => $path,
+        dirty      => 0,
+        cache      => {},
+        read_error => '',
+    }, ref($class)||$class;
 
-    if ($update) {
+    if ($purge) {
+        $self->purge();
+    }
+    else {
+        $self->read();
+    }
+
+    if ($purge || update) {
         # we will reconstruct the ids order to make sure to reflect the
         # changes in added and removed items (and those who have changed
         # their order)
@@ -43,15 +53,39 @@ sub path {
     $self->{path};
 }
 
+# returns the read error if any
+sub read_error {
+    shift->{read_error};
+}
+
+# check whether the cache file exists and readable
+sub can_read {
+    -e shift->{path} && -r _;
+}
+
+sub purge {
+    if (-e $self->{path}) {
+        note "!!! Removing cache file $self->{path}";
+        unlink $self->{path};
+    }
+}
+
 sub read {
     my($self) = @_;
 
     if (-w $self->{path} && DocSet::RunTime::has_storable_module()) {
         note "+++ Reading cache from $self->{path}";
-        $self->{cache} = Storable::retrieve($self->{path});
+        eval {
+            $self->{cache} = Storable::retrieve($self->{path});
+        };
+        if ($@) {
+            # nuke the cache file
+            note "failed to retrieve $self->{path}: $@";
+            $self->{read_error} = "$@";
+            $self->purge();
+        }
     } else {
         note "+++ Initializing a new cache for $self->{path}";
-        $self->{cache} = {};
     }
 }
 
@@ -102,10 +136,6 @@ sub get {
         return $self->{cache}{$id}{$attr};
     }
 }
-
-
-
-
 
 # check whether a cached entry exists
 sub is_cached {

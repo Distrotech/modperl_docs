@@ -56,27 +56,27 @@ sub scan {
     my($self) = @_;
 
     my $src_root = $self->get_dir('src_root');
-
+    my $purge = DocSet::RunTime::get_opts('rebuild_all') ? 1 : 0;
+    my $update = 1; # see DocSetCache::new
     # each output mode need its own cache, because of the destination
     # links which are different
     my $mode = $self->get('tmpl_mode');
-
     my $cache_file = "$src_root/cache.$mode.dat";
-    # rebuild of the docset is forced if the cache file doesn't exist
-    unless (-e $cache_file && -r _) {
+
+    # - create the new cache object for updates
+    # - rebuild_all forces  the existing cache's purge
+    my $cache = DocSet::Cache->new($cache_file, $update, $purge);
+    $self->cache($cache); # add to the docset object
+
+    # a complete rebuild of the docset is done when:
+    # - we are told to do so:
+    # - if the cache file doesn't exist
+    # - or the we failed to retrieve an existing cache
+    if (DocSet::RunTime::get_opts('rebuild_all') ||
+        $cache->read_error || !$cache->can_read) {
         $self->modified(1);
         $self->rebuild(1);
     }
-
-    # rebuild forces all objects to be rebuilt
-    $self->rebuild(1) if DocSet::RunTime::get_opts('rebuild_all');
-
-    # create the new cache object for updates 
-    my $cache = DocSet::Cache->new($cache_file, 1);
-    $self->cache($cache); # store away
-
-    # cleanup the cache or rebuild
-    $cache->invalidate if get_opts('rebuild_all');
 
     # cache the index node meta data
     $cache->index_node(id       => $self->get('id'),
