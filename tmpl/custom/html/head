@@ -1,4 +1,5 @@
-[%#
+[%-
+  #
   # head: standard header for HTML pages  
   # ARGS:
   #     title       # page title
