@@ -149,11 +149,11 @@ cached.
 =item $r-E<gt>mtime()
 
 This method returns the last modified time of the requested file,
-expressed as seconds since the epoch. The last modified time may also
-be changed using this method, although C<update_mtime()> method is
-better suited to this purpose.
+expressed as seconds since the epoch.
 
    my $date_string = localtime $r->mtime;
+
+To change the last modified time use the C<update_mtime()> method.
 
 =item $r-E<gt>set_content_length()
 
