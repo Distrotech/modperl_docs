@@ -25,11 +25,8 @@ binary from L<http://www.activestate.com/>.
 mod_perl 1 builds and tests successfully with either 
 an ActivePerl Perl in the 6xx series, based on perl-5.6.1,
 or with an ActivePerl Perl in the 8xx series, based on perl-5.8.0
-(for the latter, at the time of writing this requires the
-mod_perl cvs sources to build - see
-see the discussion on the
-L<Development Source Distribution|download::source/Development_Source_Distribution>
-for details on how to access this). If you are using perl-5.8,
+(for the latter, this requires mod_perl-1.29 or later).
+If you are using perl-5.8,
 you may want to consider mod_perl 2.0, which although still
 in a development phase offers several significant performance
 improvements for Win32 - see
@@ -69,7 +66,7 @@ MSVC++ 5.0+, Apache version 1.3-dev or higher and Perl 5.004_02 or higher.
 
 As of version 1.24_01, mod_perl will build on Win32 ActivePerls
 based on Perl-5.6.x (builds 6xx). For ActivePerl builds 8xx,
-at the time of writing you will need the mod_perl 1 cvs sources.
+you will need mod_perl-1.29 or later.
 For binary compatibility you should use the same compiler in 
 building mod_perl that was used to compile your Perl binary; 
 for ActivePerl, this means using VC++ 6.
@@ -181,15 +178,15 @@ and the Apache header files.
 
 This gives the location of where to install mod_perl.so
 (eg, F<\Apache\modules>). No default is assumed - if this argument
-is not given, mod_perl.so must be copied manually (in the
-current cvs mod_perl 1 sources, INSTALL_DLL, if not supplied, 
+is not given, mod_perl.so must be copied manually (in
+mod_perl-1.29 or later, INSTALL_DLL, if not supplied, 
 will assume a default of F<APACHE_SRC/modules>, if this directory
 exists).
 
 =item INSTALL_LIB
 
-This option, which is presently available only in the current
-mod_perl 1 cvs sources, gives the location of where to install
+This option, which is available only in mod_perl-1.29
+or later, gives the location of where to install
 mod_perl.lib (eg, F<\Apache\libexec>). This library is needed for
 building certain 3rd party Apache modules. If this is not supplied, 
 a default of F<APACHE_SRC/libexec> will be assumed, if this directory
