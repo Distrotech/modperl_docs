@@ -14,10 +14,9 @@ Please read this FAQ first.
 =head2 Q. The site looks very bad/unusable in the browser that I use.
 
 A. The site was developed using the open source standards: HTML 4.01
-and CSS 2.0. Any browser that follows the standards shouldn't have a
-problem to properly render this site. If you are using some very old
-browser, you should upgrade it. And you definitely don't want to use
-Netscape 4x.
+and CSS 2.0. Any browser that follows these two standards shouldn't
+have a problem to properly render this site. If you are using some
+very old browser, you should upgrade it.
 
 Text-only browsers are definitely supported.
 
