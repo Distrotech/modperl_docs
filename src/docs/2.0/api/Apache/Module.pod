@@ -9,6 +9,15 @@ Apache::Module - Perl API for creating and working with Apache modules
 
   use Apache::Module ();
   
+  #Define a configuration directive
+  my @directives = (
+      {
+          name => 'MyDirective',
+      }
+  );
+  
+  Apache::Module::add(__PACKAGE__, \@directives);
+  
   # iterate over the whole module list
   for (my $modp = Apache::Module::top_module(); $modp; $modp = $modp->next) {
       my $name                  = $modp->name;
@@ -62,6 +71,36 @@ Perl|docs::2.0::user::config::custom>.
 =head1 API
 
 C<Apache::Module> provides the following functions and/or methods:
+
+
+
+
+
+=head2 C<add>
+
+Add a module's custom configuration directive to Apache.
+
+  Apache::Module::add($package, $cmds);
+
+=over 4
+
+=item arg1: C<$package> ( string )
+
+the package of the module to add
+
+=item arg2: C<$cmds> ( ARRAY of HASH refs )
+
+the list of configuration directives to add
+
+=item ret: no return value
+
+=item since: 1.99_18
+
+=back
+
+See also L<Apache Server Configuration Customization in
+Perl|docs::2.0::user::config::custom>.
+
 
 
 

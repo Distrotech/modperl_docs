@@ -91,7 +91,7 @@ C<MyOtherParameter> which accepts a single argument.
   use Apache::CmdParms ();
   use Apache::Module ();
   
-  our @APACHE_MODULE_COMMANDS = (
+  my @directives = (
       {
        name         => 'MyParameter',
        func         => __PACKAGE__ . '::MyParameter',
@@ -103,6 +103,7 @@ C<MyOtherParameter> which accepts a single argument.
        name         => 'MyOtherParameter',
       },
   );
+  Apache::Module::add(__PACKAGE__, \@directives);
   
   sub MyParameter {
       my($self, $parms, @args) = @_;
@@ -125,12 +126,16 @@ And here is how to use it in I<httpd.conf>:
 The following sections discuss this and more advanced modules in
 detail.
 
-A minimal configuration module is comprised of two groups of elements:
+A minimal configuration module is comprised of three groups of elements:
 
 =over
 
-=item * A global array C<@APACHE_MODULE_COMMANDS> for declaring the
-new directives and their behavior.
+=item * An array C<L<@directives|/C__CMDS_>> for declaring the new
+directives and their behavior.
+
+=item * A call to
+C<L<Apache::Module::add()|docs::2.0::api::Apache::Module/C_add_>> to
+register the new directives with apache.
 
 =item * A subroutine per each new directive, which is called when the
 directive is seen
@@ -139,13 +144,13 @@ directive is seen
 
 
 
-=head2 C<@APACHE_MODULE_COMMANDS>
+=head2 C<@directives>
 
-C<@APACHE_MODULE_COMMANDS> is a global array of hash references. Each
+C<@directives> is an array of hash references. Each
 hash represents a separate new configuration directive. In our example
 we had:
 
-  our @APACHE_MODULE_COMMANDS = (
+  my @directives = (
       {
        name         => 'MyParameter',
        func         => __PACKAGE__ . '::MyParameter',
@@ -169,6 +174,10 @@ behavior: I<L<name|/C_name_>>, I<L<func|/C_func_>>,
 I<L<args_how|/C_args_how_>>, I<L<req_override|/C_req_override_>> and
 I<L<errmsg|/C_errmsg_>>. They are discussed in the following sections.
 
+It is worth noting that in previous versions of mod_perl, it was
+necessary to call this variable @APACHE_MODULE_COMMANDS. It is not
+the case anymore, and we consistently use the name @directives in 
+the documentation for clarity. It can be named anything at all.
 
 =head3 C<name>
 
@@ -274,7 +283,7 @@ To do this, you can use the I<cmd_data> parameter, which allows
 you to store arbitrary strings for later retrieval from your
 directive handler.  For instance:
 
-  our @APACHE_MODULE_COMMANDS = (
+  my @directives = (
       {
        name         => '<Location',
        # func defaults to Redirect()
@@ -312,6 +321,14 @@ C<info()> method exposed by the C<Apache::CmdParms> class.
 In case you are wondering, C<Location> and C<LocationMatch> were
 chosen for a reason - this is exactly how httpd core handles these
 two directives.
+
+=head2 Registering the new directives
+
+Once the C<L<@directives|/C__CMDS_>> array is populated, it needs to be
+registered with apache using 
+C<L<Apache::Module::add()|docs::2.0::api::Apache::Module/C_add_>>
+
+  Apache::Module::add(__PACKAGE__, \@directives);
 
 =head2 Directive Scope Definition Constants
 
@@ -780,7 +797,8 @@ to assign a custom value:
   ...
   use Apache::Module ();
   use Apache::CmdParms ();
-  our @APACHE_MODULE_COMMANDS = (...);
+  my @directives = (...);
+  Apache::Module::add(__PACKLAGE__, \@directives);
   ...
   sub SERVER_CREATE {
       my($class, $parms) = @_;
@@ -860,7 +878,8 @@ C<SERVER_CREATE>. Here is an example:
   ...
   use Apache::Module ();
   use Apache::CmdParms ();
-  our @APACHE_MODULE_COMMANDS = (...);
+  my @directives = (...);
+  Apache::Module::add(__PACKAGE__, \@directives);
   ...
   sub DIR_CREATE {
       my($class, $parms) = @_;
@@ -921,12 +940,13 @@ custom directives into Apache.
   
   use Apache::Const -compile => qw(OK);
   
-  our @APACHE_MODULE_COMMANDS = (
+  my @directives = (
       { name => 'MyPlus' },
       { name => 'MyList' },
       { name => 'MyAppend' },
       { name => 'MyOverride' },
   );
+  Apache::Module::add(__PACKAGE__, \@directives);
   
   sub MyPlus     { set_val('MyPlus',     @_) }
   sub MyAppend   { set_val('MyAppend',   @_) }
@@ -987,7 +1007,7 @@ custom directives into Apache.
   __END__
 
 It's probably a good idea to specify all the attributes for the
-C<@APACHE_MODULE_COMMANDS> entries, but here for simplicity we have
+C<@directives> entries, but here for simplicity we have
 only assigned to the I<L<name|/C_name_>> directive, which is a
 must. Since all our directives take a single argument,
 C<L<Apache::TAKE1|/C_Apache__TAKE1_>>, the default

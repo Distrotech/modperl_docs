@@ -87,7 +87,7 @@ and for parentheses-lovers:
   use Apache::Const -compile => qw(:cmd_how);
 
 The C<:cmd_how> constants group is used in
-C<L<@APACHE_MODULE_COMMANDS|docs::2.0::user::config::custom/C_args_how_>>
+C<L<Apache::Module::add()|docs::2.0::api::Apache::Module/C_add_>>
 and
 C<L<$cmds-E<gt>args_how|docs::2.0::api::Apache::Command/C_args_how_>>.
 

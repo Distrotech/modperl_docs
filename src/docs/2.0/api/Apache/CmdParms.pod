@@ -8,14 +8,17 @@ Apache::CmdParms - Perl API for Apache command parameters object
 =head1 Synopsis
 
   use Apache::CmdParms ();
+  use Apache::Module ();
   use Apache::Const -compile => qw(NOT_IN_LOCATION);
   
-  our @APACHE_MODULE_COMMANDS = (
+  my @directives = (
     {
       name => 'MyDirective',
       cmd_data => 'some extra data',
     },
   );
+  
+  Apache::Module::add(__PACKAGE__, \@directives);
   
   sub MyDirective {
       my($self, $parms, $args) = @_;
@@ -35,8 +38,8 @@ Apache::CmdParms - Perl API for Apache command parameters object
       # this command's directive object
       $directive = $parms->directive;
   
-      # the extra information passed thru cmd_data in
-      # @APACHE_MODULE_COMMANDS
+      # the extra information passed thru cmd_data to
+      # Apache::Module::add()
       $info = $parms->info;
   
       # which methods are <Limit>ed ?
@@ -193,7 +196,7 @@ The current directive node in the configuration tree
 =head2 C<info>
 
 The extra information passed through C<cmd_data> in
-C<L<@APACHE_MODULE_COMMANDS|docs::2.0::user::config::custom/C_cmd_data_>>.
+C<L<Apache::Module::add()|docs::2.0::api::Apache::Module/C_add_>>.
 
   $info = $parms->info;
 
@@ -213,7 +216,7 @@ The string passed in C<cmd_data>
 For example here is how to pass arbitrary information to a directive
 subroutine:
 
-  our @APACHE_MODULE_COMMANDS = (
+  my @directives = (
     {
       name => 'MyDirective1',
       func => \&MyDirective,
@@ -225,6 +228,7 @@ subroutine:
       cmd_data => 'Two',
     },
   );
+  Apache::Module::add(__PACKAGE__, \@directives);
   
   sub MyDirective {
     my($self, $parms, $args) = @_;
