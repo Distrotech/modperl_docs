@@ -739,6 +739,11 @@ Alternatively use the Apache core directives C<SetEnv> and C<PassEnv>,
 which always populate C<r-E<gt>subprocess_env>, but this doesn't happen
 until the Apache I<fixups> phase, which could be too late for your needs.
 
+Notice also that this handler does not reset C<%ENV> after each
+request's response phase, so if one response handler has changed
+C<%ENV> without localizing the change, it'll affect other handlers
+running after it as well.
+
 =head3 C<perl-script>
 
 Configured as:
@@ -776,10 +781,10 @@ C<$r-E<gt>puts()>.
 
 =item *
 
-Several special global Perl variables are saved before the handler is
-called and restored afterwards (similar to mod_perl 1.0). This
-includes: C<%ENV>, C<@INC>, C<$/>, C<STDOUT>'s C<$|> and C<END> blocks
-array (C<PL_endav>).
+Several special global Perl variables are saved before the response
+handler is called and restored afterwards (similar to mod_perl
+1.0). This includes: C<%ENV>, C<@INC>, C<$/>, C<STDOUT>'s C<$|> and
+C<END> blocks array (C<PL_endav>).
 
 =item *
 
