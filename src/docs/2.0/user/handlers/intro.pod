@@ -72,8 +72,14 @@ returned to the client.
 
 =head1 Handler Return Values
 
-Different handler groups are supposed to return different values. The
-only value that can be returned by all handlers is C<Apache::OK>,
+Different handler groups are supposed to return different values.
+
+Make sure that you B<always> explicitly return a wanted value and
+don't rely on the result of last expression to be used as the return
+value -- things will change in the future and you won't know why
+things aren't working anymore.
+
+The only value that can be returned by all handlers is C<Apache::OK>,
 which tells Apache that the handler has successfully finished its
 execution.
 
