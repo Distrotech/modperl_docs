@@ -1,13 +1,13 @@
 =head1 NAME
 
-APR::NetLib - Perl API for XXX
+APR::IpSubnet - Perl API for XXX
 
 
 
 
 =head1 Synopsis
 
-  use APR::NetLib ();
+  use APR::IpSubnet ();
 
 META: to be completed
 
@@ -23,7 +23,7 @@ META: to be completed
 
 =head1 API
 
-C<APR::NetLib> provides the following functions and/or methods:
+C<APR::IpSubnet> provides the following functions and/or methods:
 
 
 
