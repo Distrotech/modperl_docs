@@ -2,22 +2,23 @@
    # It expects the search hash ref to be set.
 -%]
 [% WRAPPER searchresults.html %]
+[%
+    PROCESS swish_header;
 
-    [% PROCESS swish_header %]
+    title = PROCESS title;
 
-    [% title = PROCESS title %]
+    IF ! search.results;
+        PROCESS show_message;
+        PROCESS search_form;
 
-    [% IF ! search.results %]
-        [% PROCESS show_message %]
-        [% PROCESS search_form %]
-
-    [% ELSE %]
-        [% PROCESS search_form %]
-        [% PROCESS nav_bar %]
-        [% PROCESS results_list %]
-        [% IF search.navigation('hits') > search.config('page_size'); PROCESS nav_bar; END %]
-    [% END %]
-
+    ELSE;
+        nav_bar_res = PROCESS nav_bar;
+        PROCESS search_form;
+        nav_bar_res;
+        PROCESS results_list;
+        nav_bar_res IF search.navigation('hits') > search.config('page_size');
+    END;
+%]
 [% END %]
 
 
