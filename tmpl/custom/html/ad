@@ -9,9 +9,7 @@
              border=0 align="middle" width=107 height=140 
              alt="Writing Apache Modules with Perl and C"><br><br>
         By Lincoln Stein, Doug MacEachern
-    </a><br>
-
-
+    </a>
 </div>
 
 [% END %]
@@ -27,12 +25,12 @@
              border=0 align="middle" width=113 height=140 
              alt="The mod_perl Developer's Cookbook"><br><br>
         By Geoffrey Young, Paul Lindner, Randy Kobes
-    </a><br>
+    </a>
 </div>
 
 [% END %]
 
- [% WRAPPER wrap_box 
+[% WRAPPER wrap_box 
            title = ''
 -%]
 <div class="adtext">
@@ -43,9 +41,8 @@
              border=0 align="middle" width=85 height=140
              alt="mod_perl Pocket Reference"><br><br>
         By Andrew Ford
-    </a><br>
+    </a>
 </div>
-
 [% END %]
 </div>
 
