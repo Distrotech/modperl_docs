@@ -171,14 +171,22 @@ containing packages for ActivePerl 6xx, and vice-versa, particularly
 if these packages contain XS-based modules.
 
 The mod_perl package available from this site will always
-use the latest mod_perl sources compiled against the latest official
+use the latest mod_perl sources available from CPAN
+compiled against the latest official
 Apache release; depending on changes made in Apache, you may or may
 not be able to use an earlier Apache binary. However, in the Apache
 Win32 world it is particularly a good idea to use the latest version,
-for bug and security fixes. If you encounter problems loading
+for bug and security fixes. If you want to try a later development
+version of mod_perl 2, get the F<mod_perl-dev.ppd> ppm package
+instead; the development version may contain bug fixes that were
+found since the last CPAN release, but it may also contain
+experimental features that have not been fully tested.
+
+If you encounter problems loading
 F<mod_perl.so>, ensure that the mod_perl version you are using matches
-that of Apache, make certain C<Perl> is in your C<PATH> environment
-variable, or try adding the Apache directive
+that of Apache, make sure you are using at least Apache/2.0.47,
+and also make certain C<Perl> is in your C<PATH> environment
+variable or try adding the Apache directive
 
   LoadFile "C:/Path/to/your/Perl/bin/perlxx.dll"
 

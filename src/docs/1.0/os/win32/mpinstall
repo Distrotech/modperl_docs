@@ -141,11 +141,19 @@ if ($] < 5.008) {
 else {
     $checksums = $ppmsx86 . $cs;
     if ($apache2) {
-        $ppdfile = 'mod_perl.ppd';
-        $tgzfile = 'mod_perl.tar.gz';
+        my $ans = prompt('Do you want the latest mod_perl 2 development version?', 'no');
+        if ($ans =~ /^n/i) {
+            $ppdfile = 'mod_perl.ppd';
+            $tgzfile = 'mod_perl.tar.gz';
+            $so_fake = 'mod_perl.so';
+       }
+        else {
+            $ppdfile = 'mod_perl-dev.ppd';
+            $tgzfile = 'mod_perl-dev.tar.gz';
+            $so_fake = 'mod_perl-dev.so';            
+        }
         $ppd = $ppms . $ppdfile;
         $tgz = $ppmsx86 . $tgzfile;
-        $so_fake = 'mod_perl.so';
         $so_fetch = $ppmsx86 . $so_fake;
     }
     else {
