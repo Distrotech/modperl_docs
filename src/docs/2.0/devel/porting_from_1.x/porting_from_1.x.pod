@@ -144,6 +144,9 @@ Framework|devel::testing::testing>.
 Most of documentation dedicated for migration to Apache 2.0 can be
 found at: http://httpd.apache.org/docs-2.0/developer/
 
+The 2.0 API documentation is now resides in the C header files, which
+can be conveniently browsed via http://docx.webperf.org/.
+
 =head2 ap_soft_timeout(), ap_reset_timeout(), ap_hard_timeout() and ap_kill_timeout()
 
 If the C part of the module in 1.0 includes C<ap_soft_timeout()>,
