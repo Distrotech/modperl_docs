@@ -339,8 +339,10 @@ C<L<Apache::Log|docs::2.0::api::mod_perl-2.0::Apache::Log>> manpage.
 C<$Apache::Server::CWD> is deprecated and exists only in
 C<Apache::compat>.
 
+=head1 C<$Apache::Server::AddPerlVersion>
 
-
+C<$Apache::Server::AddPerlVersion> is deprecated and exists only in
+C<Apache::compat>.
 
 =head1 Server Object Methods
 
