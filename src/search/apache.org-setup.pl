@@ -9,15 +9,15 @@ BEGIN {
     my $hostname = Sys::Hostname::hostname();
 
     if ($hostname && $hostname eq 'daedalus.apache.org') {
-        $ENV{SWISH_BINARY_PATH} = "/home/stas/bin/swish-e";
+        $ENV{SWISH_BINARY_PATH} = "/home/perlwww/bin/swish-e";
 
         unshift @INC,
             qw(
-               /home/stas/lib/perl5/5.00503
-               /home/stas/lib/perl5/site_perl/5.005
-               /home/stas/lib/perl5/site_perl/
-               /home/stas/lib/perl5/site_perl/
-               /home/stas/lib/perl5/
+               /home/perlwww/lib/perl5/5.00503
+               /home/perlwww/lib/perl5/site_perl/5.005
+               /home/perlwww/lib/perl5/site_perl/
+               /home/perlwww/lib/perl5/site_perl/
+               /home/perlwww/lib/perl5/
               );
 
     }

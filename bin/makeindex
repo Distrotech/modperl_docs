@@ -26,8 +26,8 @@ BEGIN {
     my $hostname = Sys::Hostname::hostname();
 
     if ($hostname && $hostname eq 'daedalus.apache.org') {
-        $ENV{MODPERL_SITE} = "http://perl.apache.org/preview/modperl-docs/dst_html";
-        $ENV{SWISH_BINARY_PATH} = "/home/stas/bin/swish-e";
+        $ENV{MODPERL_SITE} = "http://perl.apache.org/release/";
+        $ENV{SWISH_BINARY_PATH} = "/home/perlwww/bin/swish-e";
 
 #        unshift @INC,
 #            qw(
