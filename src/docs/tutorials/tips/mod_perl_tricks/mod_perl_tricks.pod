@@ -8,7 +8,829 @@ Perl and Apache play very well together, both for administration and
 coding. However, adding mod_perl to the mix creates a heaven for an
 administrator/programmer wanting to do cool things in no time!
 
-=head1 Part I: Web Site Care and Feeding
+This tutorial begins a collection of CGI scripts that illustrate the
+four basic types of CGI scripting: dynamic documents, document
+filtering, and URL redirection.  It also shows a few tricks that you
+might not have run into -- or even thought were possible with CGI.
+
+Then, we move to look at different uses of Perl to handle typical
+administrative tasks. Finally, we continue with the next step beyond
+CGI scripting: the creation of high performance Apache modules with
+the mod_perl API.
+
+=head1 Part I: Tricks with CGI.pm
+
+C<CGI.pm> is the long-favoured module for CGI scripting, and, as
+mod_perl can run CGI scripts (mostly) unaltered, also provides
+significant advantages for mod_perl programmers. Let's look at some of
+the more interesting uses of this module in web programming.
+
+=head2 Dynamic Documents
+
+The most familiar use of CGI is to create documents on the fly.  They
+can be simple documents, or get incredibly baroque.  We won't venture
+much past the early baroque.
+
+=head3 Making HTML look beautiful
+
+E<lt>IE<gt> E<lt>hateE<gt> E<lt>HTMLE<gt> E<lt>becauseE<gt>
+E<lt>it'sE<gt> E<lt>uglyE<gt> E<lt>andE<gt> E<lt>hasE<gt>
+E<lt>tooE<gt> E<lt>manyE<gt> E<lt>$#@*&E<gt> E<lt>angleE<gt>
+E<lt>bracketsE<gt>.  With CGI.pm it's almost good to look at.  Script
+I.1.1 shows what a nested list looks like with CGI.pm.
+
+  Script I.1.1: vegetables1.pl
+  ----------------------------
+  #!/usr/bin/perl
+  # Script: vegetables1.pl
+  use CGI::Pretty ':standard';
+  print header,
+     start_html('Vegetables'),
+     h1('Eat Your Vegetables'),
+     ol(
+        li('peas'),
+        li('broccoli'),
+        li('cabbage'),
+        li('peppers',
+           ul(
+              li('red'),
+              li('yellow'),
+              li('green')
+             )
+           ),
+        li('kolrabi'),
+        li('radishes')
+        ),
+     hr,
+     end_html;
+
+=head3 Making HTML concise
+
+But we can do even better than that because CGI.pm lets you collapse
+repeating tags by passing array references to its functions.  Script
+1.2 saves some typing, and in so doing, puts off the onset of RSI by
+months or years!
+
+  Script I.1.2: vegetables2.pl
+  ----------------------------
+  #!/usr/bin/perl
+  # Script: vegetables2.pl
+  use CGI ':standard';
+  print header,
+     start_html('Vegetables'),
+     h1('Eat Your Vegetables'),
+     ol(
+        li(['peas',
+            'broccoli',
+            'cabbage',
+            'peppers' .
+            ul(['red','yellow','green']),
+            'kolrabi',
+            'radishes'
+        ),
+     hr,
+     end_html;
+
+Or how about this one?
+
+  Script I.1.3: vegetables3.pl
+  ----------------------------
+  #!/usr/bin/perl
+  
+  # Script: vegetables3.pl
+  use CGI::Pretty qw/:standard :html3/;
+  
+  print header,
+     start_html('Vegetables'),
+     h1('Vegetables are for the Strong'),
+     table({-border=>undef},
+           caption(strong('When Should You Eat Your Vegetables?')),
+           Tr({-align=>CENTER,-valign=>TOP}, 
+              [
+               th(['','Breakfast','Lunch','Dinner']),
+               th('Tomatoes').td(['no','yes','yes']),
+               th('Broccoli').td(['no','no','yes']),
+               th('Onions').td(['yes','yes','yes'])
+              ]
+             )
+           ),
+    end_html;
+
+=head3 Making Interactive Forms
+
+Of course you mostly want to use CGI to create interactive forms.  No
+problem!  CGI.pm has a full set of functions for both generating the
+form and reading its contents once submitted.  Script I.1.4 creates a
+row of radio buttons labeled with various colors.  When the user
+selects a button and submits the form, the page redraws itself with
+the selected background color.  Psychedelic!
+
+  Script I.1.4: customizable.pl
+  -----------------------------
+  #!/usr/bin/perl
+  # script: customizable.pl
+  
+  use CGI::Pretty qw/:standard/;
+  
+  my $color = param('color') || 'white';
+  
+  print header,
+      start_html({-bgcolor=>$color},'Customizable Page'),
+      h1('Customizable Page'),
+      "Set this page's background color to:",br,
+      start_form,
+      radio_group(-name=>'color',
+                      -value=>['white','red','green','black',
+                               'blue','silver','cyan'],
+                      -cols=>2),
+      submit(-name=>'Set Background'),
+      end_form,
+      p,
+      hr,
+      end_html;
+
+=head2 Making Stateful Forms
+
+Many real Web applications are more than a single page.  Some may span
+multiple pages and fill-out forms.  When the user goes from one page
+to the next, you've got to save the state of the previous page
+somewhere.  A convenient and cheap place to put state information is
+in hidden fields in the form itself.  Script I.2.1 is an example of a
+loan application with a total of five separate pages.  Forward and
+back buttons allows the user to navigate between pages.  The script
+remembers all the pages and summarizes them up at the end.
+
+  Script I.2.1: loan.pl
+  ---------------------
+  #!/usr/local/bin/perl
+  
+  # script: loan.pl
+  use CGI qw/:standard :html3/;
+  
+  # this defines the contents of the fill out forms
+  # on each page.
+  my @PAGES = ('Personal Information','References','Assets','Review','Confirmation');
+  my %FIELDS = ('Personal Information' => ['Name','Address','Telephone','Fax'],
+                'References'           => ['Personal Reference 1','Personal Reference 2'],
+                'Assets'               => ['Savings Account','Home','Car']
+               );
+  my %ALL_FIELDS = ();
+  # accumulate the field names into %ALL_FIELDS;
+  foreach (values %FIELDS) {
+      grep($ALL_FIELDS{$_}++, @$_);
+  }
+  
+  
+  # figure out what page we're on and where we're heading.
+  my $current_page = calculate_page(param('page'),param('go'));
+  my $page_name = $PAGES[$current_page];
+  
+  print_header($page_name);
+  print_form($current_page)         if $FIELDS{$page_name};
+  print_review($current_page)       if $page_name eq 'Review';
+  print_confirmation($current_page) if $page_name eq 'Confirmation';
+  print end_html;
+  
+  # CALCULATE THE CURRENT PAGE
+  sub calculate_page {
+      my ($prev, $dir) = @_;
+      return 0 if $prev eq '';        # start with first page
+      return $prev + 1 if $dir eq 'Submit Application';
+      return $prev + 1 if $dir eq 'Next Page';
+      return $prev - 1 if $dir eq 'Previous Page';
+  }
+  
+  # PRINT HTTP AND HTML HEADERS
+  sub print_header {
+      my $page_name = shift;
+      print header,
+      start_html("Your Friendly Family Loan Center"),
+      h1("Your Friendly Family Loan Center"),
+      h2($page_name);
+  }
+  
+  # PRINT ONE OF THE QUESTIONNAIRE PAGES
+  sub print_form {
+      my $current_page = shift;
+      print "Please fill out the form completely and accurately.",
+         start_form,
+         hr;
+      draw_form(@{$FIELDS{$page_name}});
+      print hr;
+      print submit(-name=>'go',-value=>'Previous Page') 
+          if $current_page > 0;
+      print submit(-name=>'go',-value=>'Next Page'),
+         hidden(-name=>'page',-value=>$current_page,-override=>1),
+         end_form;
+  }
+  
+  # PRINT THE REVIEW PAGE
+  sub print_review {
+      my $current_page = shift;
+      print "Please review this information carefully before submitting it. ",
+         start_form;
+      my (@rows);
+      foreach $page ('Personal Information','References','Assets') {
+          push(@rows,th({-align=>LEFT},em($page)));
+          foreach $field (@{$FIELDS{$page}}) {
+              push(@rows,
+                  TR(th({-align=>LEFT},$field),
+                      td(param($field)))
+                  );
+              print hidden(-name=>$field);
+          }
+      }
+      print table({-border=>1},caption($page),@rows),
+         hidden(-name=>'page',-value=>$current_page,-override=>1),
+         submit(-name=>'go',-value=>'Previous Page'),
+         submit(-name=>'go',-value=>'Submit Application'),
+         end_form;
+  }
+  
+  # PRINT THE CONFIRMATION PAGE
+  sub print_confirmation {
+      print "Thank you. A loan officer will be contacting you shortly.",
+         p,
+         a({-href=>'../source.html'},'Code examples');
+  }
+  
+  
+  # CREATE A GENERIC QUESTIONNAIRE
+  sub draw_form {
+      my (@fields) = @_;
+      my (%fields);
+      grep ($fields{$_}++, @fields);
+      my (@hidden_fields) = grep(!$fields{$_}, keys %ALL_FIELDS);
+      my (@rows);
+      foreach (@fields) {
+          push(@rows,
+               TR(th({-align=>LEFT},$_),
+                  td(textfield(-name=>$_,-size=>50))
+                  )
+               );
+      }
+      print table(@rows);
+  
+      foreach (@hidden_fields) {
+          print hidden(-name=>$_);
+      }
+  }
+
+=head3 Keeping State with Cookies
+
+If you want to maintain state even if the user quits the browser and
+comes back again, you can use cookies.  Script I.2.2 records the
+user's name and color scheme preferences and recreates the page the
+way the user likes up to 30 days from the time the user last used the
+script.
+
+  Script I.2.2: preferences.pl
+  ----------------------------
+  #!/usr/local/bin/perl
+  
+  # file: preferences.pl
+  
+  use CGI qw(:standard :html3);
+  
+  # Some constants to use in our form.
+  my @colors = qw/aqua black blue fuschia gray green lime maroon navy olive
+     purple red silver teal white yellow/;
+  my @sizes=("<default>",1..7);
+  
+  # recover the "preferences" cookie.
+  my %preferences = cookie('preferences');
+  
+  # If the user wants to change the background color or her
+  # name, they will appear among our CGI parameters.
+  foreach ('text','background','name','size') {
+      $preferences{$_} = param($_) || $preferences{$_};
+  }
+  
+  # Set some defaults
+  $preferences{'background'} ||= 'silver';
+  $preferences{'text'} ||= 'black';
+  
+  # Refresh the cookie so that it doesn't expire.
+  my $the_cookie = cookie(-name=>'preferences',
+                          -value=>\%preferences,
+                          -path=>'/',
+                          -expires=>'+30d');
+  print header(-cookie=>$the_cookie);
+  
+  # Adjust the title to incorporate the user's name, if provided.
+  $title = $preferences{'name'} ? 
+      "Welcome back, $preferences{name}!" : "Customizable Page";
+  
+  # Create the HTML page.  We use several of the HTML 3.2
+  # extended tags to control the background color and the
+  # font size.  It's safe to use these features because
+  # cookies don't work anywhere else anyway.
+  print start_html(-title=>$title,
+                   -bgcolor=>$preferences{'background'},
+                   -text=>$preferences{'text'}
+                  );
+  
+  print basefont({-size=>$preferences{size}}) if $preferences{'size'} > 0;
+  
+  print h1($title);
+  
+  # Create the form
+  print hr,
+      start_form,
+      
+      "Your first name: ",
+      textfield(-name=>'name',
+                -default=>$preferences{'name'},
+                -size=>30),br,
+      
+      table(
+            TR(
+               td("Preferred"),
+               td("Page color:"),
+               td(popup_menu(-name=>'background',
+                             -values=>\@colors,
+                             -default=>$preferences{'background'})
+                  ),
+               ),
+            TR(
+               td(''),
+               td("Text color:"),
+               td(popup_menu(-name=>'text',
+                             -values=>\@colors,
+                             -default=>$preferences{'text'})
+                  )
+               ),
+            TR(
+               td(''),
+               td("Font size:"),
+               td(popup_menu(-name=>'size',
+                             -values=>\@sizes,
+                             -default=>$preferences{'size'})
+                  )
+               )
+            ),
+  
+      submit(-label=>'Set preferences'),
+      end_form,
+      hr,
+      end_html;
+
+=head2 Creating Non-HTML Types
+
+CGI can do more than just produce HTML documents.  It can produce any
+type of document that you can output with Perl.  This includes GIFs,
+Postscript files, sounds or whatever.
+
+Script I.3.1 creates a clickable image map of a colored circle inside
+a square.  The script is responsible both for generating the map and
+making the image (using the GD.pm library).  It also creates a
+fill-out form that lets the user change the size and color of the image!
+
+  Script I.3.1: circle.pl
+  -----------------------
+  #!/usr/local/bin/perl
+  
+  # script: circle.pl
+  use GD;
+  use CGI qw/:standard :imagemap/;
+  
+  use constant RECTSIZE     => 100;
+  use constant CIRCLE_RADIUS  => 40;
+  my %COLORS = (
+                'white' => [255,255,255],
+                'red'   => [255,0,0],
+                'green' => [0,255,0],
+                'blue'  => [0,0,255],
+                'black' => [0,0,0],
+                'bisque'=> [255,228,196],
+                'papaya whip' => [255,239,213],
+                'sienna' => [160,82,45]
+               );
+  
+  my $draw          = param('draw');
+  my $circle_color  = param('color') || 'bisque';
+  my $mag           = param('magnification') || 1;
+  
+  if ($draw) {
+      draw_image();
+  } else {
+      make_page();
+  }
+  
+  sub draw_image {
+      # create a new image
+      my $im = new GD::Image(RECTSIZE*$mag,RECTSIZE*$mag);
+  
+      # allocate some colors
+      my $white = $im->colorAllocate(@{$COLORS{'white'}});
+      my $black = $im->colorAllocate(@{$COLORS{'black'}});       
+      my $circlecolor = $im->colorAllocate(@{$COLORS{$circle_color}});
+  
+      # make the background transparent and interlaced
+      $im->transparent($white);
+      $im->interlaced('true');
+  
+      # Put a black frame around the picture
+      $im->rectangle(0,0,RECTSIZE*$mag-1,RECTSIZE*$mag-1,$black);
+  
+      # Draw the circle
+      $im->arc(RECTSIZE*$mag/2,RECTSIZE*$mag/2,
+               CIRCLE_RADIUS*$mag*2,
+               CIRCLE_RADIUS*$mag*2,
+               0,360,$black);
+  
+      # And fill it with circlecolor
+      $im->fill(RECTSIZE*$mag/2,RECTSIZE*$mag/2,$circlecolor);
+  
+      # Convert the image to GIF and print it
+      print header('image/gif'),$im->gif;
+  }
+  
+  sub make_page {
+     print header(),
+     start_html(-title=>'Feeling Circular',-bgcolor=>'white'),
+     h1('A Circle is as a Circle Does'),
+     start_form,
+     "Magnification: ",radio_group(-name=>'magnification',-values=>[1..4]),br,
+     "Color: ",popup_menu(-name=>'color',-values=>[sort keys %COLORS]),
+     submit(-value=>'Change'),
+     end_form;
+     print em(param('message') || 'click in the drawing' );
+  
+     my $url = url(-relative=>1,-query_string=>1);
+     $url .= '?' unless param();
+     $url .= '&draw=1';
+  
+     print p(
+         img({-src=>$url,
+              -align=>'LEFT',
+              -usemap=>'#map',
+              -border=>0}));
+  
+     print Map({-name=>'map'},
+               Area({-shape=>'CIRCLE',
+                     -href=>param(-name=>'message',-value=>"You clicked in the circle") 
+                         && url(-relative=>1,-query_string=>1),
+                     -coords=>join(',',RECTSIZE*$mag/2,RECTSIZE*$mag/2,CIRCLE_RADIUS*$mag),
+                     -alt=>'Circle'}),
+               Area({-shape=>'RECT',
+                     -href=>param(-name=>'message',-value=>"You clicked in the square") 
+                         && url(-relative=>1,-query_string=>1),
+                     -coords=>join(',',0,0,RECTSIZE*$mag,RECTSIZE*$mag),
+                     -alt=>'Square'}));
+     print end_html;
+  }
+
+Script I.3.2 creates a GIF89a animation.  First it creates a set of
+simple GIFs, then uses the I<combine> program (part of the ImageMagick
+package) to combine them together into an animation.
+
+I'm not a good animator, so I can't do anything fancy.  But you can!
+
+  Script I.3.2: animate.pl
+  ------------------------
+  #!/usr/local/bin/perl
+  
+  # script: animated.pl
+  use GD;
+  use File::Path;
+  
+  use constant START      => 80;
+  use constant END        => 200;
+  use constant STEP       => 10;
+  use constant COMBINE    => '/usr/local/bin/convert';
+  my @COMBINE_OPTIONS = (-delay => 5,
+                         -loop  => 10000);
+ 
+  my @COLORS = ([240,240,240],
+                [220,220,220],
+                [200,200,200],
+                [180,180,180],
+                [160,160,160],
+                [140,140,140],
+                [150,120,120],
+                [160,100,100],
+                [170,80,80],
+                [180,60,60],
+                [190,40,40],
+                [200,20,20],
+                [210,0,0]);
+  @COLORS = (@COLORS,reverse(@COLORS));
+  
+  my @FILES = ();
+  my $dir = create_temporary_directory();
+  my $index = 0;
+  for (my $r = START; $r <= END; $r+=STEP) {
+      draw($r,$index,$dir);
+      $index++;
+  }
+  for (my $r = END; $r > START; $r-=STEP) {
+      draw($r,$index,$dir);
+      $index++;
+  }
+  
+  # emit the GIF89a
+  $| = 1;
+  print "Content-type: image/gif\n\n";
+  system COMBINE,@COMBINE_OPTIONS,@FILES,"gif:-";
+  
+  rmtree([$dir],0,1);
+  
+  sub draw {
+      my ($r,$color_index,$dir) = @_;
+      my $im = new GD::Image(END,END);
+      my $white = $im->colorAllocate(255,255,255);
+      my $black = $im->colorAllocate(0,0,0);
+      my $color = $im->colorAllocate(@{$COLORS[$color_index % @COLORS]});
+      $im->rectangle(0,0,END,END,$white);
+      $im->arc(END/2,END/2,$r,$r,0,360,$black);
+      $im->fill(END/2,END/2,$color);
+      my $file = sprintf("%s/picture.%02d.gif",$dir,$color_index);
+      open (OUT,">$file") || die "couldn't create $file: $!";
+      print OUT $im->gif;
+      close OUT;
+      push(@FILES,$file);
+  }
+  
+  sub create_temporary_directory {
+      my $basename = "/usr/tmp/animate$$";
+      my $counter=0;
+      while ($counter < 100) {
+          my $try = sprintf("$basename.%04d",$counter);
+          next if -e $try;
+          return $try if mkdir $try,0700;
+      } continue { $counter++; }
+      die "Couldn't make a temporary directory";
+  }
+
+=head2 Document Translation
+
+Did you know that you can use a CGI script to translate other
+documents on the fly?  No s**t!  Script I.4.1 is a script that
+intercepts all four-letter words in text documents and stars out the
+naughty bits.  The document itself is specified using additional path
+information.  We're a bit over-literal about what a four-letter word
+is, but what's the fun if you can't be extravagant?
+
+  Script I.4.1: naughty.pl
+  
+  #!/usr/local/bin/perl
+  # Script: naughty.pl
+  
+  use CGI ':standard';
+  my $file = path_translated() || 
+             die "must be called with additional path info";
+  open (FILE,$file) || die "Can't open $file: $!\n";
+  print header('text/plain');
+  while (<FILE>) {
+     s/\b(\w)\w{2}(\w)\b/$1**$2/g;
+     print;
+  }
+  close FILE;
+
+4.1 won't work on HTML files because the HTML tags will get starred
+out too.  If you find it a little limiting to work only on plain-text
+files, script I.4.2 uses LWP's HTML parsing functions to modify just
+the text part of an HTML document without touching the tags.  The
+script's a little awkward because we have to guess the type of file
+from the extension, and I<redirect> when we're dealing with a non-HTML
+file.  We can do better with I<mod_perl>.
+
+  Script I.4.2: naughty2.pl
+  -------------------------
+  #!/usr/local/bin/perl
+  
+  # Script: naughty2.pl
+  package HTML::Parser::FixNaughty;
+  
+  require HTML::Parser;
+  @HTML::Parser::FixNaughty::ISA = 'HTML::Parser';
+  
+  sub start {
+      my ($self,$tag,$attr,$attrseq,$origtext) = @_;
+      print $origtext;
+  }
+  sub end {
+      my ($self,$tag) = @_;
+      print "</$tag>";
+  }
+  sub text {
+      my ($self,$text) = @_;
+      $text =~ s/\b(\w)\w{2}(\w)\b/$1**$2/g;    
+      print $text;
+  }
+  
+  
+  package main;
+  use CGI qw/header path_info redirect path_translated/;
+  
+  my $file = path_translated() || 
+        die "must be called with additional path info";
+  $file .= "index.html" if $file =~ m!/$!;
+  
+  unless ($file =~ /\.html?$/) {
+      print redirect(path_info());
+      exit 0;
+  }
+  
+  my $parser = new HTML::Parser::FixNaughty;
+  print header();
+  $parser->parse_file($file);
+
+A cleaner way to do this is to make this into an Apache Handler
+running under mod_perl. Let's look at C<Apache::FixNaughty>:
+
+  file:Apache/FixNaughty.pm
+  -------------------------
+  # prefefine the HTML parser that we use afterwards
+  package HTML::Parser::FixNaughty;
+  
+  require HTML::Parser;
+  @HTML::Parser::FixNaughty::ISA = 'HTML::Parser';
+  
+  sub start {
+      my ($self,$tag,$attr,$attrseq,$origtext) = @_;
+      print $origtext;
+  }
+  sub end {
+      my ($self,$tag) = @_;
+      print "</$tag>";
+  }
+  sub text {
+      my ($self,$text) = @_;
+      $text =~ s/\b(\w)\w{2}(\w)\b/$1**$2/g;    
+      print $text;
+  }
+  
+  # now for the mod_perl handler
+  package Apache::FixNaughty;
+  
+  use Apache::Constants qw/:common/;
+  use strict;
+  use warnings;
+  use CGI qw/header path_info redirect path_translated/;
+  
+  sub handler {
+      my $r = shift;
+      
+      unless(-e $r->finfo) {
+          $r->log_reason("Can't be found", $r->filename);
+          return NOT_FOUND;
+      }
+      
+      unless ($r->content_type eq 'text/html') {
+          return DECLINED;
+      }
+      
+      my $parser = new HTML::Parser::FixNaughty;
+      
+      $r->send_http_header('text/html');
+      $parser->parse_file($file);
+  
+      return OK;
+  }
+  
+  1;
+  __END__
+
+You'll configure this like so:
+
+  Alias /naughty/ /path/to/doc/root/
+  <Location /naughty>
+    SetHandler perl-script
+    PerlHandler Apache::FixNaughty
+  </Location>
+
+Now, all files being served below the I</naughty> URL will be the same
+as those served from your document root, but will be processed and
+censured!
+
+=head3 Smart Redirection
+
+There's no need even to create a document with CGI.  You can simply
+I<redirect> to the URL you want.  Script I.4.3 chooses a random
+picture from a directory somewhere and displays it.  The directory to
+pick from is specified as additional path information, as in:
+
+        /cgi-bin/random_pict/banners/egregious_advertising
+
+  Script I.4.3 random_pict.pl
+  ---------------------------
+  #!/usr/local/bin/perl
+  # script: random_pict.pl
+  
+  use CGI qw/:standard/;
+  my $PICTURE_PATH = path_translated();
+  my $PICTURE_URL = path_info();
+  chdir $PICTURE_PATH
+           or die "Couldn't chdir to pictures directory: $!";
+  my @pictures = <*.{jpg,gif}>;
+  my $lucky_one = $pictures[rand(@pictures)];
+  die "Failed to pick a picture" unless $lucky_one;
+  
+  print redirect("$PICTURE_URL/$lucky_one");
+
+Under mod_perl, you would do this (the bigger size is because we're
+doing more checks here):
+
+  file:Apache/RandPicture.pm
+  --------------------------
+  package Apache::RandPicture;
+  
+  use strict;
+  use Apache::Constants qw(:common REDIRECT);
+  use DirHandle ();
+  
+  sub handler {
+      my $r = shift;
+      my $dir_uri = $r->dir_config('PictureDir');
+      unless ($dir_uri) {
+          $r->log_reason("No PictureDir configured");
+          return SERVER_ERROR;
+      }
+      $dir_uri .= "/" unless $dir_uri =~ m:/$:;
+  
+      my $subr = $r->lookup_uri($dir_uri);
+      my $dir = $subr->filename;
+      # Get list of images in the directory.
+      my $dh = DirHandle->new($dir);
+      unless ($dh) {
+          $r->log_error("Can't read directory $dir: $!");
+          return SERVER_ERROR;
+      }
+  
+      my @files;
+      for my $entry ($dh->read) {
+          # get the file's MIME type
+          my $rr = $subr->lookup_uri($entry);
+          my $type = $rr->content_type;
+          next unless $type =~ m:^image/:;
+          push @files, $rr->uri;
+      }
+      $dh->close;
+      unless (@files) {
+          $r->log_error("No image files in directory");
+          return SERVER_ERROR;
+      }
+  
+      my $lucky_one = $files[rand @files];
+      # internal redirect, so we don't have to go back to the client
+      $r->internal_redirect($lucky_one);
+      return REDIRECT;
+  }
+  
+  1;
+  __END__
+
+
+
+
+=head2 File Uploads
+
+Everyone wants to do it.  I don't know why.  Script I.5.1 shows a
+basic script that accepts a file to upload, reads it, and prints out
+its length and MIME type.  Windows users should read about binmode()
+before they try this at home!
+
+  Script I.5.1 upload.pl
+  ----------------------
+  #!/usr/local/bin/perl
+  #script: upload.pl
+  
+  use CGI qw/:standard/;
+  
+  print header,
+      start_html('file upload'),
+      h1('file upload');
+  print_form()    unless param;
+  print_results() if param;
+  print end_html;
+  
+  sub print_form {
+      print start_multipart_form(),
+         filefield(-name=>'upload',-size=>60),br,
+         submit(-label=>'Upload File'),
+         end_form;
+  }
+  
+  sub print_results {
+      my $length;
+      my $file = param('upload');
+      if (!$file) {
+          print "No file uploaded.";
+          return;
+      }
+      print h2('File name'),$file;
+      print h2('File MIME type'),
+      uploadInfo($file)->{'Content-Type'};
+      while (<$file>) {
+          $length += length($_);
+      }
+      print h2('File length'),$length;
+  }
+
+
+=head1 Part II: Web Site Care and Feeding
 
 These scripts are designed to make your life as a Webmaster easier,
 leaving you time for more exciting things, like tango lessons.
@@ -22,15 +844,15 @@ Log files are your friends.
 
 =head3 Log rotation
 
-Script I.1.1 shows the basic script for rotating log files.  It
+Script II.1.1 shows the basic script for rotating log files.  It
 renames the current "access_log" to "access_log.0", "access_log.0" to
 "access_log.1", and so on.  The oldest log gets deleted.  Run it from
 a cron job to keep your log files from taking over.  The faster your
 log files grow, the more frequently you should run the script.
 
 
-  Script I.1.1: Basic Log File Rotation
-  -------------------------------------
+  Script II.1.1: Basic Log File Rotation
+  --------------------------------------
   #!/usr/local/bin/perl
   $LOGPATH='/usr/local/apache/logs';
   @LOGNAMES=('access_log','error_log','referer_log','agent_log');
@@ -51,13 +873,13 @@ log files grow, the more frequently you should run the script.
 
 But some people don't want to delete the old logs.  Wow, maybe some
 day you could sell them for a lot of money to a marketing and
-merchandising company!  Script I.1.2 appends the oldest to a gzip
+merchandising company!  Script II.1.2 appends the oldest to a gzip
 archive.  Log files compress extremely well and make great bedtime
 reading.
 
 
-  Script I.1.2: Log File Rotation and Archiving
-  ---------------------------------------------
+  Script II.1.2: Log File Rotation and Archiving
+  ----------------------------------------------
   #!/usr/local/bin/perl
   $LOGPATH    = '/usr/local/apache/logs';
   $PIDFILE    = 'httpd.pid';
@@ -85,13 +907,13 @@ reading.
 What's that?  Someone broke into your computer, stole your log files
 and now B<he's> selling it to a Web marketing and merchandising
 company?  Shame on them.  And on you for letting it happen.  Script
-I.1.3 uses I<idea> (part of the SSLEay package) to encrypt the log
+II.1.3 uses I<idea> (part of the SSLEay package) to encrypt the log
 before compressing it.  You need GNU tar to run this one.  The log
 files are individually compressed and encrypted, and stamped with the
 current date.
 
-  Script I.1.3: Log File Rotation and Encryption
-  ----------------------------------------------
+  Script II.1.3: Log File Rotation and Encryption
+  -----------------------------------------------
   #!/usr/local/bin/perl
   use POSIX 'strftime';
   
@@ -129,7 +951,7 @@ current date.
 
 =head3 Log Parsing
 
-There's a lot you can learn from log files.  Script I.1.4 does the
+There's a lot you can learn from log files.  Script II.1.4 does the
 basic access log regular expression match.  What you do with the
 split-out fields is limited by your imagination.  Here's a typical log
 entry so that you can follow along (wrapped for readability):
@@ -137,8 +959,8 @@ entry so that you can follow along (wrapped for readability):
   portio.cshl.org - - [03/Feb/1998:17:42:15 -0500]  
        "GET /pictures/small_logo.gif HTTP/1.0" 200 2172
 
-  Script I.1.4: Basic Log Parsing
-  -------------------------------
+  Script II.1.4: Basic Log Parsing
+  --------------------------------
   #!/usr/local/bin/perl
   
   $REGEX=/^(\S+) (\S+) (\S+) \[([^]]+)\] "(\w+) (\S+).*" (\d+) (\S+)/;
@@ -157,7 +979,7 @@ entry so that you can follow along (wrapped for readability):
   }
 
 
-Script I.1.5 scans the log for certain status codes and prints out the
+Script II.1.5 scans the log for certain status codes and prints out the
 top URLs or hosts that triggered them.  It can be used to get
 quick-and-dirty usage statistics, to find broken links, or to detect
 certain types of breakin attempts.  Use it like this:
@@ -165,7 +987,7 @@ certain types of breakin attempts.  Use it like this:
  % find_status.pl -t10 200 ~www/logs/access_log
 
   TOP 10 URLS/HOSTS WITH STATUS CODE 200:
-
+  
     REQUESTS  URL/HOST
     --------  --------
       1845    /www/wilogo.gif
@@ -179,8 +1001,8 @@ certain types of breakin attempts.  Use it like this:
        686    /WWW/pics/small_awlogo.gif
 
 
-  Script I.1.5: Find frequent status codes
-  ----------------------------------------
+  Script II.1.5: Find frequent status codes
+  -----------------------------------------
   #!/usr/local/bin/perl
   # File: find_status.pl
   
@@ -243,7 +1065,7 @@ certain types of breakin attempts.  Use it like this:
 
 Many sites turn off reverse name look-ups in order to improve server
 performance.  The log files will contain the IP addresses of remote
-hosts, but not their DNS names.  Script I.1.6 will do the reverse name
+hosts, but not their DNS names.  Script II.1.6 will do the reverse name
 resolution off-line.  You can run it before the log rotation and
 archiving scripts, preferably on a machine that isn't busy serving Web
 requests at the same time.
@@ -253,8 +1075,8 @@ is more important than completeness, if an address doesn't resolve
 after two seconds, it moves on to the next one and never tries that
 name again.
 
-  Script I.1.6: Reverse DNS Resolution
-  ------------------------------------
+  Script II.1.6: Reverse DNS Resolution
+  -------------------------------------
   #!/usr/local/bin/perl
   
   use constant TIMEOUT => 2;
@@ -284,7 +1106,7 @@ name again.
 
 I was very upset a few months ago when I did some log analysis and
 discovered that 90% of my hits were coming from 10% of users, and that
-those 10% were all robots!  Script I.1.7 is the script I used to
+those 10% were all robots!  Script II.1.7 is the script I used to
 crunch the log and perform the analysis.  The script works like this:
 
 =over
@@ -323,8 +1145,8 @@ By comparing the distribution of "polite" robots to the total
 distribution, we can make a good guess as to who the impolite robots
 are.
 
-  Script I.1.7: Robo-Cop
-  ----------------------
+  Script II.1.7: Robo-Cop
+  -----------------------
   #!/usr/local/bin/perl
   
   use Time::ParseDate;
@@ -350,10 +1172,10 @@ are.
       my $seconds = parsedate($date);
       if ($LAST{$host}) {
          my $interval = $seconds - $LAST{$host};
- 	 if ($interval < MAX_INTERVAL) {
- 	     $INT_NUMERATOR{$host} += $interval;
- 	     $INT_DENOMINATOR{$host}++;
- 	 }
+          if ($interval < MAX_INTERVAL) {
+              $INT_NUMERATOR{$host} += $interval;
+              $INT_DENOMINATOR{$host}++;
+          }
       }
       $LAST{$host} = $seconds;
       $POLITE{$host}++ if $URL eq '/robots.txt';
@@ -371,12 +1193,12 @@ are.
       my $index = $percent_hits/$mean_interval;
   
       print join("\t",
- 	        $_,
- 	        $POLITE{$_} ? 'yes' : 'no',
- 	        $HITS{$_},
- 	        $mean_interval,
- 	        $percent_hits,
- 	        $index
+                 $_,
+                 $POLITE{$_} ? 'yes' : 'no',
+                 $HITS{$_},
+                 $mean_interval,
+                 $percent_hits,
+                 $index
                 ),"\n";
   }
 
@@ -407,16 +1229,16 @@ Do the same for each server on the local network.
 Here's what you add to each Web server's syslog.conf (this assumes
 that the central logging host has the alias hostname "loghost":
 
-  local0.info			@loghost
+  local0.info                        @loghost
 
 Here's what you add to the central log host's syslog.conf:
 
-  local0.info			/var/log/web/access_log
+  local0.info                        /var/log/web/access_log
 
-Script I.1.8 shows the code for the "logger" program:
+Script II.1.8 shows the code for the "logger" program:
 
-  Script I.1.8 "logger"
-  ---------------------
+  Script II.1.8 "logger"
+  ----------------------
   #!/usr/local/bin/perl
   # script: logger
   
@@ -450,14 +1272,14 @@ want to use TEXT columns instead.
 
   CREATE TABLE access_log (
         when    datetime     not null,
-        host	varchar(255) not null,
+        host        varchar(255) not null,
         method  char(4)      not null,
-        url	varchar(255) not null,
-        auth	varchar(50),
+        url        varchar(255) not null,
+        auth        varchar(50),
         browser varchar(50),
         referer varchar(255),
         status  smallint(3)  not null,
-        bytes	int(8)       default 0
+        bytes        int(8)       default 0
   );
 
 Now create the following entries in httpd.conf:
@@ -465,10 +1287,10 @@ Now create the following entries in httpd.conf:
   LogFormat "\"%{%Y-%m-%d %H:%M:%S}t\" %h \"%r\" %u \"%{User-agent}i\" %{Referer}i %s %b" mysql
   CustomLog "| /usr/local/apache/bin/mysqllog" mysql
 
-Script I.1.9 is the source code for mysqllog.
+Script II.1.9 is the source code for mysqllog.
 
-  Script I.1.9 "mysqllog"
-  -----------------------
+  Script II.1.9 "mysqllog"
+  ------------------------
   #!/usr/local/bin/perl
   # script: mysqllog
   use DBI;
@@ -511,12 +1333,12 @@ server and send you an email message when there's a problem.
 =head3 Monitoring a local server
 
 The simplest script just tries to signal the Web server process.  If
-the process has gone away, it sends out an S.O.S.  See script I.2.1
+the process has gone away, it sends out an S.O.S.  See script II.2.1
 shows the technique.  Notice that the script has to run as I<root> in
 order to successfully signal the server.
 
-  Script I.2.1 "localSOS"
-  -----------------------
+  Script II.2.1 "localSOS"
+  ------------------------
   #!/usr/local/bin/perl
   # script: localSOS
   
@@ -553,21 +1375,21 @@ order to successfully signal the server.
 Local monitoring won't catch problems with remote machines, and
 they'll miss subtle problems that can happen when the Web server hangs
 but doesn't actually crash.  A functional test is better.  Script
-I.2.2 uses the LWP library to send a HEAD request to a bunch of
+II.2.2 uses the LWP library to send a HEAD request to a bunch of
 servers.  If any of them fails to respond, it sends out an SOS.  This
 script does B<not> have to run as a privileged user.
 
-  Script I.2.2 "remoteSOS"
-  ------------------------
+  Script II.2.2 "remoteSOS"
+  -------------------------
   #!/usr/local/bin/perl
   # script: remoteSOS
   
   use LWP::Simple;
   %SERVERS = (
-	 "Fred's server"   => 'http://www.fred.com',
-	 "Martha's server" => 'http://www.stewart-living.com',
-	 "Bill's server"   => 'http://www.whitehouse.gov'
-	 );
+         "Fred's server"   => 'http://www.fred.com',
+         "Martha's server" => 'http://www.stewart-living.com',
+         "Bill's server"   => 'http://www.whitehouse.gov'
+         );
   $MAIL                 =  '/usr/sbin/sendmail';
   $MAIL_FLAGS           =  '-t -oi';
   $WEBMASTER            =  'webmaster';
@@ -598,12 +1420,12 @@ script does B<not> have to run as a privileged user.
 =head3 Resurrecting Dead Servers
 
 So it's not enough to get e-mail that the server's down, you want to
-relaunch it as well?  Script I.2.3 is a hybrid of localSOS and
+relaunch it as well?  Script II.2.3 is a hybrid of localSOS and
 remoteSOS that tries to relaunch the local server after sending out
 the SOS.  It has to be run as B<root>, unless you've made I<apachectl>
 suid to root.
 
-  Script I.2.2 "webLazarus"
+  Script II.2.2 "webLazarus"
   ------------------------- 
   #!/usr/local/bin/perl
   # script: webLazarus
@@ -686,8 +1508,8 @@ makes this easy.
   dogs.html: OK
   gillie_fish.html: Not Modified
 
-  Script I.3.1 mirrorOne.pl
-  -------------------------
+  Script II.3.1 mirrorOne.pl
+  --------------------------
   #!/usr/local/bin/perl
   # mirrorOne.pl
   
@@ -696,10 +1518,10 @@ makes this easy.
   
   use constant DIRECTORY => '/local/web/price_lists';
   %DOCUMENTS = (
-	 'dogs.html'  => 'http://www.pets.com/dogs/price_list.html',
-	 'cats.html'  => 'http://www.pets.com/cats/price_list.html',
-	 'gillie_fish.html' => 'http://aquaria.com/prices.html'
-	 );
+         'dogs.html'  => 'http://www.pets.com/dogs/price_list.html',
+         'cats.html'  => 'http://www.pets.com/cats/price_list.html',
+         'gillie_fish.html' => 'http://aquaria.com/prices.html'
+         );
   chdir DIRECTORY;
   foreach (sort keys %DOCUMENTS) {
      my $status = mirror($DOCUMENTS{$_},$_);
@@ -709,12 +1531,12 @@ makes this easy.
 =head3 Mirroring a Document Tree
 
 With a little more work, you can recursively mirror an entire set of
-linked pages.  Script I.3.2 mirrors the requested document and all
+linked pages.  Script II.3.2 mirrors the requested document and all
 subdocuments, using the LWP C<HTML::LinkExtor> module to extract all
 the HTML links.
 
-  Script I.3.2 mirrorTree.pl
-  --------------------------
+  Script II.3.2 mirrorTree.pl
+  ---------------------------
   #!/usr/local/bin/perl
   
   # File: mirrorTree.pl
@@ -768,7 +1590,7 @@ the HTML links.
   
       foreach (@hrefs) {
           next unless is_child($BASE,$_);
- 	  mirror($_);
+           mirror($_);
       }
   
   }
@@ -783,7 +1605,7 @@ the HTML links.
 
 A slight modification of this last script allows you to check an
 entire document hierarchy (your own or someone else's) for bad links.
-The script shown in I.3.3 traverses a document, and checks each of the
+The script shown in II.3.3 traverses a document, and checks each of the
 http:, ftp: and gopher: links to see if there's a response at the
 other end.  Links that point to sub-documents are fetched and
 traversed as before, so you can check your whole site in this way.
@@ -819,8 +1641,8 @@ traversed as before, so you can check your whole site in this way.
   152 documents checked
   11 bad links
 
-  Script I.3.2 find_bad_links.pl
-  ------------------------------
+  Script II.3.2 find_bad_links.pl
+  -------------------------------
   #!/usr/local/bin/perl
   
   # File: find_bad_links.pl
@@ -831,9 +1653,9 @@ traversed as before, so you can check your whole site in this way.
   use WWW::RobotRules;
   
   %CAN_HANDLE = ('http'=>1,
- 	        'gopher'=>1,
- 	        # 'ftp'=>1,   # timeout problems?
- 	        );
+                 'gopher'=>1,
+                 # 'ftp'=>1,   # timeout problems?
+                 );
   %OUTCOME = ();
   $CHECKED = $BAD = 0;
   @BAD = ();
@@ -889,8 +1711,8 @@ traversed as before, so you can check your whole site in this way.
       my @hrefs = map { url($_->[2],$base)->abs } @links;
       
       foreach (@hrefs) {
- 	 next if check_links($_);
- 	 push (@BAD,"$rel : $_");
+          next if check_links($_);
+          push (@BAD,"$rel : $_");
       }
       1;
   }
@@ -922,8 +1744,8 @@ randomly selected server.
 NOTE: Another way to do this is to have multiple "A" records defined
 for your server's hostname and let DNS caching distribute the load.
 
-  Script I.4.1: A Load Balancing "Web Server"
-  -------------------------------------------
+  Script II.4.1: A Load Balancing "Web Server"
+  --------------------------------------------
   #!/usr/local/bin/perl
   
   # list of hosts to balance between
@@ -936,7 +1758,7 @@ for your server's hostname and let DNS caching distribute the load.
   
   # Listen on port 80
   $sock = IO::Socket::INET->new(Listen  => 5,
- 	                        LocalPort => 80,
+                                 LocalPort => 80,
                                 LocalAddr => $hostname,
                                 Reuse     => 1,
                                 Proto    => 'tcp');
@@ -976,7 +1798,7 @@ for your server's hostname and let DNS caching distribute the load.
 
 Any server written in C suffers the risk of static buffer overflow
 bugs.  In the past, these bugs have led to security compromises and
-Web server breakins.  Script I.2.3 torture tests servers and CGI
+Web server breakins.  Script II.2.3 torture tests servers and CGI
 scripts by sending large amounts of random date to them.  If the
 server crashes, it probably contains a buffer overflow bug.
 
@@ -1001,8 +1823,8 @@ Here's what you see when a server crashes:
   500 Could not connect to www.capricorn.com:80
   500 Could not connect to www.capricorn.com:80
 
-  Script I.5.1: torture tester
-  ----------------------------
+  Script II.5.1: torture tester
+  -----------------------------
   #!/usr/local/bin/perl
   
   # file: torture.pl
@@ -1068,7 +1890,7 @@ Here's what you see when a server crashes:
          $request = new HTTP::Request ('GET',$url);
       }
   
-      elsif ($POST) {		# handle POST request
+      elsif ($POST) {                # handle POST request
          my $header = new HTTP::Headers (
                                         Content_Type => 'application/x-www-form-urlencoded',
                                         Content_Length => length($garbage)
@@ -1076,12 +1898,12 @@ Here's what you see when a server crashes:
         # garbage becomes the POST content
         $request = new HTTP::Request ('POST',$url,$header,$garbage);
         
-      } else {			# handle GET request
+      } else {                        # handle GET request
         
-         if ($PATH) {		# append garbage to the base URL
+         if ($PATH) {                # append garbage to the base URL
              chop($url) if substr($url,-1,1) eq '/'; 
              $url .= "/$garbage";
-         } else {		# append garbage to the query string
+         } else {                # append garbage to the query string
              $url .= "?$garbage";
          }
          
@@ -1106,7 +1928,7 @@ Here's what you see when a server crashes:
 For other load testing tools, have a look at our L<Benchmarking
 section|guide::performance/Essential_Tools>.
 
-=head1 Part II: mod_perl -- Faster Than a Speeding Bullet
+=head1 Part III: mod_perl -- Faster Than a Speeding Bullet
 
 I<mod_perl> is Doug MacEachern's embedded Perl for Apache.  With a
 mod_perl-enabled server, there's no tedious waiting around while the
@@ -1129,7 +1951,7 @@ mod_perl.
 This is a ho-hum because you can do it with CGI and with
 C<Apache::Registry>.  Still, it's worth seeing a simple script written
 using the strict mod_perl API so you see what it looks like.  Script
-II.1.1 prints out a little hello world message.
+III.1.1 prints out a little hello world message.
 
 Install it by adding a section like this one to one of the
 configuration files:
@@ -1139,8 +1961,8 @@ configuration files:
     PerlHandler Apache::Hello
   </Location>
 
-  Script II.1.1 Apache::Hello
-  ---------------------------
+  Script III.1.1 Apache::Hello
+  ----------------------------
   package Apache::Hello;
   # file: Apache/Hello.pm
   
@@ -1181,7 +2003,7 @@ starrer-outer, but a lot faster.
 
 =head3 Adding a Canned Footer to Every Page
 
-Script II.2.1 adds a canned footer to every HTML file.  The footer
+Script III.2.1 adds a canned footer to every HTML file.  The footer
 contains a copyright statement, plus the modification date of the
 file.  You could easily extend this to add other information, such as
 a page hit counter, or the username of the page's owner.
@@ -1205,8 +2027,8 @@ with this extension to be passed through the footer module:
   </Files>
 
 
-  Script II.2.1 Apache::Footer
-  ----------------------------
+  Script III.2.1 Apache::Footer
+  -----------------------------
   package Apache::Footer;
   # file Apache::Footer.pm
   
@@ -1231,7 +2053,7 @@ with this extension to be passed through the footer module:
       while (<$fh>) {
           s!(</BODY>)!$footer$1!oi;
       } continue {
-	 $r->print($_);
+         $r->print($_);
       }
   
       return OK;
@@ -1265,7 +2087,7 @@ navigation bar to appear on, add this comment:
 
   <!--#NAVBAR-->
 
-Now add C<Apache::NavBar> to your system (Script II.2.2).  This module
+Now add C<Apache::NavBar> to your system (Script III.2.2).  This module
 parses the configuration file to create a "navigation bar object".  We
 then call the navigation bar object's C<to_html()> method in order to
 generate the HTML for the navigation bar to display on the current
@@ -1282,8 +2104,8 @@ The remainder is just looping through the file a section at a time,
 searching for the C<E<lt>!--NAVBAR--E<gt>> comment, and substituting
 the navigation bar HTML.
 
-  Script II.2.2 Apache::NavBar
-  ----------------------------
+  Script III.2.2 Apache::NavBar
+  -----------------------------
   
   package Apache::NavBar;
   # file Apache/NavBar.pm
@@ -1399,7 +2221,7 @@ WU-FTP has a great feature that automatically gzips a file if you
 fetch it by name with a I<.gz> extension added.  Why can't Web servers
 do that trick?  With Apache and mod_perl, you can.
 
-Script II.2.4 is a content filter that automatically gzips everything
+Script III.2.4 is a content filter that automatically gzips everything
 retrieved from a particular directory and adds the "gzip"
 C<Content-Encoding> header to it.  Unix versions of Netscape Navigator
 will automatically recognize this encoding type and decompress the
@@ -1419,8 +2241,8 @@ I</compressed> directory will be compressed automagically.
      PerlHandler Apache::GZip
   </Location>
 
-  Script II.2.3: Apache::GZip
-  ---------------------------
+  Script III.2.3: Apache::GZip
+  ----------------------------
   package Apache::GZip;
   #File: Apache::GZip.pm
   
@@ -1492,7 +2314,7 @@ CPAN, which can handle the output of any handler in a chain.
 
 By adding a URI translation handler, you can set things up so that a
 remote user can append a I<.gz> to the end of any URL and the file we
-be delivered in compressed form.  Script II.2.4 shows the translation
+be delivered in compressed form.  Script III.2.4 shows the translation
 handler you need.  It is called during the initial phases of the
 request to make any modifications to the URL that it wishes.  In this
 case, it removes the I<.gz> ending from the filename and arranges for
@@ -1508,8 +2330,8 @@ your site:
 
   PerlTransHandler Apache::AutoGZip
 
-  Script II.2.4: Apache::AutoGZip
-  -------------------------------
+  Script III.2.4: Apache::AutoGZip
+  --------------------------------
   package Apache::AutoGZip;
   
   use strict 'vars';
@@ -1553,7 +2375,7 @@ your site:
 Access control, as opposed to authentication and authorization, is
 based on something the user "is" rather than something he "knows".
 The "is" is usually something about his browser, such as its IP
-address, hostname, or user agent.  Script II.3.1 blocks access to the
+address, hostname, or user agent.  Script III.3.1 blocks access to the
 Web server for certain User Agents (you might use this to block
 impolite robots).
 
@@ -1587,8 +2409,8 @@ files associated with different portions of the document tree.
   </Location>
 
 
-  Script II.3.1: Apache::BlockAgent
-  ---------------------------------
+  Script III.3.1: Apache::BlockAgent
+  ----------------------------------
   package Apache::BlockAgent;
   # block browsers that we don't like
   
@@ -1662,7 +2484,7 @@ password database.  (It's not a good idea to do this if the system is
 connected to the Internet because passwords travel in the clear, but
 it's OK for trusted intranets.)
 
-Script II.4.1 shows how the C<Apache::AuthSystem> module fetches the
+Script III.4.1 shows how the C<Apache::AuthSystem> module fetches the
 user's name and password, compares it to the system password, and
 takes appropriate action.  The C<getpwnam()> function operates either
 on local files or on the NIS database, depending on how the server
@@ -1679,8 +2501,8 @@ this one in access.conf:
     require valid-user
   </Location>
 
-  Script II.4.1: Apache::AuthSystem
-  ---------------------------------
+  Script III.4.1: Apache::AuthSystem
+  ----------------------------------
   package Apache::AuthSystem;
   # authenticate users on system password database
   
@@ -1726,7 +2548,7 @@ password that looks like a valid e-mail address.  The system rejects
 the username and password unless they are formatted correctly.
 
 In a real application, you'd probably want to log the password
-somewhere for posterity.  Script II.4.2 shows the code for
+somewhere for posterity.  Script III.4.2 shows the code for
 C<Apache::AuthAnon>.  To activate it, create a I<httpd.conf> section
 like this one:
 
@@ -1740,8 +2562,8 @@ like this one:
   </Location>
 
 
-  Script II.4.2: Anonymous Authentication
-  ---------------------------------------
+  Script III.4.2: Anonymous Authentication
+  ----------------------------------------
   package Apache::AuthAnon;
   
   use strict;
@@ -1790,7 +2612,7 @@ authorization checks a group database to see if the user belongs to
 one or more privileged groups.  But authorization can be anything you
 dream up.
 
-Script II.4.3 shows how you can authorize users by their gender (or at
+Script III.4.3 shows how you can authorize users by their gender (or at
 least their I<apparent> gender, by checking their names with Jon
 Orwant's C<Text::GenderFromName> module.  This must be used in
 conjunction with an authentication module, such as one of the standard
@@ -1812,8 +2634,8 @@ The script uses a custom error response to explain why the user was
 denied admittance.  This is better than the standard "Authorization
 Failed" message.
 
-  Script II.4.3: Apache::AuthzGender
-  ----------------------------------
+  Script III.4.3: Apache::AuthzGender
+  -----------------------------------
   package Apache::AuthzGender;
   
   use strict;
@@ -1871,7 +2693,7 @@ create an anonymizing proxy) or to modify the returned page.
 
 =head3 A Banner Ad Blocker
 
-Script II.5.1 shows the code for a banner-ad blocker written by Doug
+Script III.5.1 shows the code for a banner-ad blocker written by Doug
 MacEachern.  It intercepts all proxy requests, substituting its own
 content handler for the default.  The content handler uses the LWP
 library to fetch the requested document. If the retrieved document is
@@ -1896,8 +2718,8 @@ from the C<ImageMagick> module, you could adapt this module to
 quiet-down animated GIFs by stripping them of all but the very first
 frame.
 
-  Script II.5.1: Apache::AdBlocker
-  --------------------------------
+  Script III.5.1: Apache::AdBlocker
+  ---------------------------------
   
   package Apache::AdBlocker;
   
@@ -2006,7 +2828,7 @@ own log handler to do customized logging.
 
 =head3 Send E-Mail When a Particular Page Gets Hit
 
-Script II.6.1 installs a log handler which watches over a page or set
+Script III.6.1 installs a log handler which watches over a page or set
 of pages.  When someone fetches a watched page, the log handler sends
 off an e-mail to notify someone (probably the owner of the page) that
 the page has been read.
@@ -2024,8 +2846,8 @@ The "mailto" directive specifies the name of the recipient(s) to
 notify.
 
 
-  Script II.6.1: Apache::LogMail
-  ------------------------------
+  Script III.6.1: Apache::LogMail
+  -------------------------------
   package Apache::LogMail;
   use Apache::Constants ':common';
   
@@ -2064,7 +2886,7 @@ notify.
 
 =head3 Writing Log Information Into a Relational Database
 
-Coming full circle, Script II.6.2 shows a module that writes log
+Coming full circle, Script III.6.2 shows a module that writes log
 information into a DBI database.  The idea is similar to Script I.1.9,
 but there's now no need to open a pipe to an external process.  It's
 also a little more efficient, because the log data fields can be
@@ -2084,8 +2906,8 @@ Or, to restrict special logging to accesses of files in below the URL
     PerlLogHandler Apache::LogDBI  
   </Location>
 
-  Script II.6.2: Apache::LogDBI
-  -----------------------------
+  Script III.6.2: Apache::LogDBI
+  ------------------------------
   package Apache::LogDBI;
   use Apache::Constants ':common';
   
@@ -2181,10 +3003,16 @@ at http://www.tpj.com/
 
 =head1 Maintainers
 
-Maintainer is the person(s) you should contact with updates,
+The maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
+=over
+
+=item *
+
 Per Einar Ellefsen E<lt>per.einar (at) skynet.beE<gt>
+
+=back
 
 =head1 Authors
 
