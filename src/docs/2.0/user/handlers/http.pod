@@ -378,7 +378,7 @@ and here is the C<MyApache::SendEmail> handler:
   
       return Apache::DECLINED unless $r->method eq METHOD;
   
-      Apache::method_register($r->pool, METHOD);
+      Apache::Server::method_register($r->pool, METHOD);
       $r->handler("perl-script");
       $r->push_handlers(PerlResponseHandler => \&send_email_handler);
   
@@ -441,7 +441,7 @@ C<perl-script> handler will do the processing. Finally it pushes the
 function C<send_email_handler()> to the C<PerlResponseHandler> list of
 handlers:
 
-      Apache::method_register($r->pool, METHOD);
+      Apache::Server::method_register($r->pool, METHOD);
       $r->handler("perl-script");
       $r->push_handlers(PerlResponseHandler => \&send_email_handler);
 
