@@ -18,6 +18,10 @@ abstract = doc.meta.abstract or "Manuals, Hints, Guidelines, Scenarios, Troubles
 
 -%]
 
+[% IF doc.headers.base -%]
+        <base href="[% doc.headers.base | uri | html %]">
+[%- END -%]
+
 [%- "        $l\n" FOREACH l = [ doc.headers.link, default_headers.link ] -%]
         <meta name="description" content="mod_perl documentation: [% abstract | html %]">
 [%- FOREACH m = ["name", "http-equiv"];
@@ -29,6 +33,4 @@ abstract = doc.meta.abstract or "Manuals, Hints, Guidelines, Scenarios, Troubles
 [%-     END;
 END -%]
 
-[% IF doc.headers.base -%]
-        <base href="[% doc.headers.base | uri | html %]">
-[%- END -%]
+
