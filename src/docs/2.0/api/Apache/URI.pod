@@ -302,6 +302,8 @@ The parsed uri
 
 =item since: 1.99_10
 
+This object is suitable for using with C<L<APR::URI::rpath|docs::2.0::api::APR::URI/C_rpath_>>
+
 =back
 
 
