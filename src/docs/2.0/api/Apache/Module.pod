@@ -355,8 +355,6 @@ module iteration.
 
 =over 4
 
-=item obj: C<Apache::Module> ( class name )
-
 =item ret: C<$module>
 ( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
 
