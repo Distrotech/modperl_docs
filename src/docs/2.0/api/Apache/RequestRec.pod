@@ -464,7 +464,7 @@ For example, here is how to send a gzip'ed response:
 
 =head2 C<content_languages>
 
-Get/set content languages (the "Content-Language" HTTP header).
+Get/set content languages (the C<"Content-Language"> HTTP header).
 Content languages are string like I<"en"> or I<"fr">.
 
   $languages = $r->content_languages();
@@ -478,11 +478,11 @@ Content languages are string like I<"en"> or I<"fr">.
 =item opt arg1: C<$new_lang> ( ARRAY ref )
 
 If passed, sets the content languages to new values. It must be an
-ARRAY ref of language names, like I<"en"> or I<"fr">
+ARRAY reference of language names, like I<"en"> or I<"fr">
 
 =item ret: C<$languages> ( ARRAY ref )
 
-The current list of content languages.
+The current list of content languages, as an ARRAY reference.
 
 If C<$new_lang> is passed, then the previous value is returned.
 
