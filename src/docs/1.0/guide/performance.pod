@@ -5060,6 +5060,41 @@ C<$Apache::SizeLimit::DEBUG> variable:
 
 which can be modified any time, even after the module was loaded.
 
+=head3 Potential Drawbacks of Memory Sharing Restriction
+
+It's very important that the system won't be heavily engaged in
+swapping process. Some systems do swap in and out every so often even
+if they have plenty of real memory available and it's OK. The
+following applies to conditions when there is hardly any free memory
+available.
+
+So if the system uses almost all of its real memory (including the
+cache), there is a danger of parent's process memory pages being
+swapped out (written to a swap device). If this happens the memory
+usage reporting tools will report all those swapped out pages as
+non-shared, even though in reality these pages are still shared on
+most OSs. When these pages are getting swapped in, the sharing will be
+reported back to normal after a certain amount of time. If a big chunk
+of the memory shared with child processes is swapped out, it's most
+likely that C<Apache::SizeLimit> or C<Apache::GTopLimit> will notice
+that the shared memory floor threshold was crossed and as a result
+kill those processes. If many of the parent process' pages are swapped
+out, and the newly created child process is already starting with
+shared memory below the limit, it'll be killed immediately after
+serving a single request (assuming that we the
+C<$CHECK_EVERY_N_REQUESTS> is set to one). This is a very bad
+situation which will eventually lead to a state where the system won't
+respond at all, as it'll be heavily engaged in swapping process.
+
+This effect may be less or more severe depending on the memory
+manager's implementation and it certainly varies from OS to OS, and
+different kernel versions. Therefore you should be aware of this
+potential problem and simply try to avoid situations where the system
+needs to swap at all, by adding more memory, reducing the number of
+child servers or spreading the load across more machines, if reducing
+the number of child servers is not an options because of the request
+rate demands.
+
 =head3 Defining the Maximum Memory Size Threshold
 
 Not less important than maximizing shared memory is restricting the

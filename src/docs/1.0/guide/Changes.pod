@@ -22,6 +22,9 @@ The most recent changes are listed first.
     Apache::GTopLimit which now both sport the shared and unshared
     memory thresholds.
 
+  o added a new section: "Potential Drawbacks of Memory Sharing
+    Restriction"
+
 * guide::
 
   o most of the internal links were changed to use the whole title and
