@@ -41,7 +41,22 @@ file) and mod_whatkilledus (gives the info about the request that
 caused the segfault).
 http://httpd.apache.org/~trawick/exception_hook.html
 
-=head2 Setting gdb breakpoints with mod_perl built as DSO
+
+
+
+=head2 Entering Single Server Mode
+
+Most of the time, when debugging Apache or mod_perl, one needs to
+start Apache in a single server mode and not allow it to detach itself
+from the initial process. This is accomplished with:
+
+ % httpd -DONE_PROCESS -DNO_DETACH
+
+
+
+
+
+=head2 Setting gdb Breakpoints with mod_perl Built as DSO
 
 If mod_perl is built as a DSO module, you cannot set the breakpoint in
 the mod_perl source files when the I<httpd> program gets loaded into
