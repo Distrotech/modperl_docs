@@ -306,9 +306,6 @@ http://cvs.apache.org/snapshots/modperl-2.0/
 
 =head2 Configuring mod_perl
 
-Before you proceed make sure that Apache 2.0 has been built and
-installed. mod_perl B<cannot> be built before that.
-
 To build mod_perl, you B<must> also use the same compiler that Perl
 was built with. You can find that out by running C<perl -V> and
 looking at the C<Compiler:> section.
@@ -322,12 +319,19 @@ I<Makefile.PL> file, but requires one or more configuration options:
 where I<options> is an optional list of (key,value) pairs.
 
 The following sections give the details about all the available
-options, but let's mention first the most important ones.
+options, but let's mention first an important one.
 
 If you want to have mod_perl 1.0 and 2.0 installed under the same perl
 tree you need to enable C<L<MP_INST_APACHE2|/MP_INST_APACHE2>>:
 
   % perl Makefile.PL MP_INST_APACHE2=1 <other options>
+
+Configure Options are discussed in L<Build Options|/mod_perl_Build_Options>
+
+=head3 Dynamic mod_perl
+
+Before you proceed, make sure that Apache 2.0 has been built and
+installed. mod_perl B<cannot> be built before that.
 
 It seems that most users use pre-packaged Apache installation, most of
 which tend to spread the Apache files across many directories
@@ -357,7 +361,25 @@ directory, passed via the C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option:
 
   % perl Makefile.PL MP_INST_APACHE2=1 MP_AP_PREFIX=$HOME/httpd/prefork
 
-These and other options are discussed in the following sections.
+=head3 Static mod_perl
+
+Before you proceed make sure that Apache 2.0 has been downloaded and
+extracted. mod_perl B<cannot> be build before that.
+
+To enable statically linking mod_perl into Apache, use the
+C<L<MP_USE_STATIC|/MP_USE_STATIC>> flag like this:
+
+  % perl Makefile.PL MP_USE_STATIC=1 MP_AP_BUILD=1 \
+    MP_AP_PREFIX=$HOME/src/httpd-2.x \
+    MP_AP_CONFIGURE="--with-mpm=prefork"
+
+C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> B<must> point to an extrated Apache
+2.0 source tree.
+
+This will configure Apache by passing C<L<MP_AP_CONFIGURE|/MP_AP_CONFIGURE>>
+to Apache's F<./configure> script.
+
+=head2 mod_perl Build Options
 
 =head3 Boolean Build Options
 
@@ -382,10 +404,6 @@ be turned off if C<MP_USE_STATIC=1> is used.
 
 Build static mod_perl (I<mod_perl.a>). This is the default. It'll be
 turned off if C<MP_USE_DSO=1> is used.
-
-C<MP_USE_DSO> and C<MP_USE_STATIC> are both enabled by default. So
-mod_perl is built once as I<mod_perl.a> and I<mod_perl.so>, but
-afterwards you can choose which of the two to use.
 
 =head4 MP_AP_BUILD
 
@@ -491,6 +509,13 @@ Path to C<apxs>. For example if you've installed Apache 2.0 under
 I</home/httpd/httpd-2.0> as DSO, the default location would be
 I</home/httpd/httpd-2.0/bin/apxs>.
 
+=head4 MP_AP_CONFIGURE
+
+The command-line arguments to pass to httpd's configure script.
+
+C<MP_AP_CONFIGURE> has no effect unless C<MP_AP_BUILD> is also
+specified.
+
 =head4 MP_AP_PREFIX
 
 Apache installation prefix, under which the I<include/> directory with
@@ -583,13 +608,6 @@ If your terminal supports colored text you may want to set the
 environment variable C<APACHE_TEST_COLOR> to 1 to enable the colored
 tracing which makes it easier to tell the reported errors and
 warnings, from the rest of the notifications.
-
-=head4 MP_AP_CONFIGURE
-
-The command-line arguments to pass to httpd's configure script.
-
-C<MP_AP_CONFIGURE> has no effect unless C<MP_AP_BUILD> is also
-specified.
 
 =head2 Re-using Configure Options
 
