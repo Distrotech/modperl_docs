@@ -18,6 +18,15 @@ to help you, you need to provide us the information about the software
 that you are using and other relevant details. Please follow the
 instructions in the following sections when reporting problems.
 
+B<The most important thing> to understand is that you should try hard
+to provide B<all> the information that may assist to understand and
+reproduce the problem. When you prepare a bug report, put yourself in
+the position of a person who is going to try to help you, realizing
+that a guess-work on behalf of that helpful person, more often doesn't
+work than it does. Unfortunately most people don't realize that, and
+it takes several emails to squeeze the needed details from the person
+reporting the bug, a process which may drag for days.
+
 =head2 Wrong Apache/mod_perl combination
 
 First of all:
@@ -27,6 +36,8 @@ First of all:
 
 So if you aren't using Apache 2.x with mod_perl 2.0 please do not send
 any bug reports.
+
+META: mod_perl-1.99_0x is a to-be mod_perl 2.0.
 
 =head2 Before Posting a Report
 
@@ -142,9 +153,9 @@ http://lists.perl.org/.
 For other remotely related to mod_perl questions see the references to
 L<other documentation|docs::offsite::other>.
 
-Finally, if you are posting to the list for the first time, please
-refer to the mod_perl mailing lists'
-L<Guidelines|maillist::email-etiquette>.
+Finally, if you are not familiar with the modperl list etiquette,
+please refer to the mod_perl mailing lists'
+L<Guidelines|maillist::email-etiquette> before posting.
 
 =head1 Help on Related Topics
 

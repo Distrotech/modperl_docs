@@ -53,41 +53,78 @@ subject:
 
   Subject: [mp1.0] response handler randomly segfaults
 
+B<The most important thing> to understand is that you should try hard
+to provide B<all> the information that may assist to understand and
+reproduce the problem. When you prepare a bug report, put yourself in
+the position of a person who is going to try to help you, realizing
+that a guess-work on behalf of that helpful person, more often doesn't
+work than it does. Unfortunately most people don't realize that, and
+it takes several emails to squeeze the needed details from the person
+reporting the bug, a process which may drag for days.
+
 Always send the following details:
 
 =over
 
-=item * Anything in the I<error_log> file that looks suspicious and possibly related to the problem.
+=item *
 
-=item * Output of C<perl -V>
+Anything in the I<error_log> file that looks suspicious and possibly
+related to the problem.
 
-=item * Version of mod_perl
+=item *
 
-=item * Version of apache
+Output of C<perl -V>
 
-=item * Options given to mod_perl's Makefile.PL
+=item *
 
-=item * Server configuration details
+Version of mod_perl (hint: it's logged into the error_log file when
+the server has just started)
 
-=item * Relevant sections of your ErrorLog (make test's is: t/logs/error_log)
+=item *
 
-=item * If 'make test' fails, the output of 'make test TEST_VERBOSE=1'
+Version of apache (hint: it's logged into the error_log file when the
+server has just started)
+
+=item *
+
+Options given to mod_perl's Makefile.PL while building it. If you are
+using a pre-compiled binary (e.g., rpm), find the source package that
+was used to build this binary and retrieve this information from
+there.
+
+=item *
+
+Server configuration details (that's the relevant parts of your
+I<httpd.conf>, usually just the relevant mod_perl configuration
+sections).
+
+=item *
+
+Relevant sections of your C<ErrorLog> (make test's is: t/logs/error_log)
+
+=item *
+
+If some other code doesn't work, minimize that code to a minimal size
+while it reproduces the problem and attach it to the report.
+
+=item *
+
+If you build from source, make sure that C<make test> passes 100%.
+
+If 'make test' fails, run the failing tests separately in a verbose
+mode|docs::1.0::guide::install/Manual_Testing> and attach the output of
+the run and the relevant sections of your C<ErrorLog> to the report.
 
 =back
 
-Also check whether:
-
-=over
-
-=item * 'make test' passes 100%?
-
-=item * the script works under mod_cgi if applicable
-
-=back
+If this is a script which doesn't use mod_perl api, try to test under
+mod_cgi if applicable
 
 You should try to isolate the problem and send the smallest possible
-code snippet, that reproduces the problem. If the issue is unique and
-we cannot reproduce the problem, it's hard to solve it.
+code snippet, that reproduces the problem.
+
+Remember, that if we cannot reproduce the problem, we might not be
+able to solve it.
 
 =over
 
