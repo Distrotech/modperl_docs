@@ -44,11 +44,8 @@ them. Unless your browser mangles formatted text.
 
 Thanks!
 
-Currently there are no searchable/browsable mailing list archives, but
-the raw mbox-format archives can be downloaded from:
-
-  http://perl.apache.org/mail/docs-dev
-  http://perl.apache.org/mail/docs-cvs
+Docs Dev mainling list's archive:
+Epigone: http://mathforum.org/epigone/modperl-docs-dev 
 
 There is also rsync interface for those who want to keep local mirrors
 and hopefull offload the main apache.org servers:
