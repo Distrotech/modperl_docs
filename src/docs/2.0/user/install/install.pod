@@ -68,6 +68,28 @@ required. Perl 5.8.0's I<threads.pm> doesn't work with mod_perl 2.0.
 
 =back
 
+=item * CPAN Perl Modules
+
+The mod_perl 2.0 test suite has several requirements on its own. If
+you don't satisfy them, the tests depending on these requirements will
+be skipped, which is OK, but you won't get to run these tests and
+potential problems, which may exhibit themselves in your own code,
+could be missed. We don't require them from C<Makefile.PL>, which
+could have been automated the requirements installation, in order to
+have less dependencies to get mod_perl 2.0 installed.
+
+Also if your code uses any of these modules, chances are that you will
+need to use at least the version numbers listed here.
+
+=over
+
+=item CGI.pm 3.01
+
+=item Compress::Zlib 1.09
+
+=back
+
+
 =back
 
 
