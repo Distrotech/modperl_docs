@@ -260,7 +260,7 @@ warnings, from the rest of the notifications.
 
   % make test
 
-L<Apache::Test Framework|devel::testing::testing> document covers the
+L<Apache::Test Framework|docs::general::testing::testing> document covers the
 C<make test> suite.
 
 META: probably need to link directly to the 'Running Tests' section.

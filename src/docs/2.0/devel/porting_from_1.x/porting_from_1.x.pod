@@ -135,7 +135,7 @@ working with PerlIO, you can use the C<PERLIO_LAYERS> constant. e.g.:
 C<Apache::Test> testing framework that comes together with mod_perl
 2.0 works with 1.0 and 2.0 mod_perl versions. Therefore you should
 consider porting your test suite to use L<the Apache::Test
-Framework|devel::testing::testing>.
+Framework|docs::general::testing::testing>.
 
 =head1 Apache C Code Specific Notes
 
