@@ -3,6 +3,7 @@ Organization: UUNET Deutschland Web Competence Center
 Date: Fri, 05 Jun 1998 16:13:18 +0200
 From: Sven Neuhaus <Sven.Neuhaus@de.uu.net>
 Subject: Large real-time stock exchange game
+URL: http://www.wmboerse.de
 
 Hello,
 

@@ -2,6 +2,7 @@ From: Eric Cholet <cholet@LOGILUNE.COM>
 Organization: Logilune
 Date: Fri, 14 May 1999 10:06:24 +0200
 Subject: News agency uses mod_perl for their online system with over 6.5 million stories
+URL: http://www.afp-direct.com
 
 http://www.afp-direct.com hosts the Agence France-Presse's online
 database of news stories and photographs. Agence France-Presse is the

@@ -29,10 +29,10 @@ URL: http://www.find-job.net
 
 =back
 
-  Find Job! http://www.find-job.net is the biggest computers and
+  Find Job! http://www.find-job.net is the biggest computer and
   Internet related employment site in Japan, and it is running on
-  mod_perl completely. We have around 75000 registered users and 10000
-  registered companies. Our pageview is around 4 million per month. Our
+  mod_perl completely. We have around 75,000 registered users and 10,000
+  registered companies. Our pageviews are around 4 million per month. Our
   whole system was running under plain CGI written in Perl, until
   recently we changed it to mod_perl ModPerl::PerlRun with
   HTML::Template templating system. On some scripts we saw up to 400% of

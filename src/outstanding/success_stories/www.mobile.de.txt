@@ -2,6 +2,7 @@ From: Jan Willamowius <jan@mobile.de>
 Date: Fri, 01 Mar 2002 12:17:08 +0100
 Subject: 277M page views in Jan 2002
 Traffic: in January 2002: 277 Mio page views, 10 Mio visits
+URL: http://www.mobile.de
 
 All pages are dynamically created by a Linux cluster running Apache
 with mod_perl from a MySQL database (even though some pages look

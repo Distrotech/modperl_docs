@@ -1,6 +1,7 @@
 Subject:      Computer Aided Teaching system at Mathematics Department at the University of Western Australia
 From:       Kevin Judd <kevin@MATHS.UWA.EDU.AU>
 Date:         Mon, 9 Mar 1998 09:41:44 +0800
+URL: http://CalMaeth.maths.uwa.edu.au
 
 At the Mathematics Department at the University of Western Australia I
 have a web-based computer aided teaching system using mod_perl. The

@@ -27,7 +27,7 @@ URL: http://www.termium.com/
 
   TERMIUMplus (www.termium.com) is a trilingual application that
   allows translators and terminologists to search a collection of
-  1.5 million entries in English, French and Spansih. The system is
+  1.5 million entries in English, French and Spanish. The system is
   freely available to any employee of the Canadian Federal government as
   well as by subscription to individuals and organizations outside. The
   terms and the user interface are both trilingual.
@@ -96,6 +96,7 @@ URL: http://www.termium.com/
   
   Software costs aside I wouldn't build this appliation using
   anything but mod_perl, Apache and MySQL!
+
 
 =cut
 

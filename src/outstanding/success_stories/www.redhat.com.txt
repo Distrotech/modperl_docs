@@ -1,6 +1,7 @@
 Subject: Red Hat's use of mod_perl
 Date: 29 Nov 2002 23:30:24 -0500
 From: Chip Turner <cturner@redhat.com>
+URL: http://www.redhat.com/
 
 Red Hat's main website, www.redhat.com, is a mod_perl site (mainly
 Apache::ASP).  Also, the Red Hat Network's website, rhn.redhat.com, is

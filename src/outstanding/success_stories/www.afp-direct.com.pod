@@ -19,6 +19,10 @@ News agency uses mod_perl for their online system with over 6.5 million stories
 
 Date: Fri, 14 May 1999 10:06:24 +0200
 
+=item * 
+
+URL: http://www.afp-direct.com
+
 =back
 
   http://www.afp-direct.com hosts the Agence France-Presse's online

@@ -19,6 +19,10 @@ Large real-time stock exchange game
 
 Date: Fri, 05 Jun 1998 16:13:18 +0200
 
+=item * 
+
+URL: http://www.wmboerse.de
+
 =back
 
   Hello,
