@@ -1042,9 +1042,42 @@ modify it.
 
 
 
+=head1 Writing Well-Behaving Filters
 
+META: to be written. 
 
+[
 
+talk about issues like not losing metabuckets. e.g. if the filter runs
+a switch statement and propogates buckets types that were known at the
+time of writing, it may drop buckets of new types which may be added
+later, so it's important to ensure that there is a default cause where
+the bucket is passed as is.
+
+of course mention the fact where things like EOS buckets must be
+passed, or the whole chain will be broken. Or if some filter decides
+to inject an EOS bucket by itself, it should probably consume and
+destroy the rest of the incoming bb. need to check on this issue.
+
+]
+
+=head1 Writing Efficient Filters
+
+META: to be written
+
+[
+
+Bucket Brigades are used to make the data flow between filters and
+handlers more efficient. e.g. a file handle can be put in a bucket and
+the read from the file can be postponed to the very moment when the
+data is sent to the client, thus saving a lot of memory and CPU
+cycles.  though filters writers should be aware that if they call
+$bucket->read(), or any other operation that internally forces the
+bucket to read the information into the memory (like the length() op)
+and thus making the data handling inefficient. therefore a care should
+be taken so not to read the data in, unless it's really necessary.
+
+]
 
 =head1 Maintainers
 
