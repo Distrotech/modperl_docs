@@ -261,7 +261,18 @@ C<Apache::Constants::export()> has no replacement in 2.0 as it's not
 needed.
 
 
+=head1 Environment Variables
 
+There are several thread-safety issues with setting environment
+variables.
+
+Environment variables set during request time won't be seen by C
+code. See the L<DBD::Oracle
+issue|docs::2.0::user::troubleshooting::troubleshooting/C_Libraries_Don_t_See_C__ENV__Entries_Set_by_Perl_Code> for possible workarounds.
+
+Forked processes (including backticks) won't see CGI emulation
+environment variables. (META: This will hopefully be resolved in the
+future, it's documented in modperl_env.c:modperl_env_magic_set_all.)
 
 
 =head1 C<Apache::> Methods
