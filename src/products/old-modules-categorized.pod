@@ -1,0 +1,317 @@
+=head1 NAME
+
+Categorization of 1.0 Apache:: modules
+
+=head1 Description
+
+With the new naming conventions for naming modules in the C<Apache::>
+namespace, we will present here a suggestion of how the C<Apache::>
+namespace would look like if the "older" modules had used this naming
+convention.
+
+This is only for indicative purposes, to give module authors an idea
+of how to name their new modules, and to give new users an easy-to-use
+catalog of modules; it B<is not a suggestion to rename older modules>.
+
+=head1 The Module Categorization
+
+Here is an idea of how the C<Apache::> namespace would have looked
+like if the 1.0 modules we all know and love would have been
+renamed. The naming conventions are L<summarized
+here|products::apache-modules> and should be used for anyone creating
+a new C<Apache::> module for CPAN distribution.
+
+  Apache             RmcO? Interface to the Apache server API           DOUGM
+  
+  Apache::
+  ::Filter           RdpOp Lets handlers filter each others' output     KWILLIAMS
+  ::Handlers         ????? Declare code snippets to run as handlers     JSMITH
+  ::Module           ????? Interface to Apache C module structures      DOUGM
+  ::ModuleDoc        ????? Self documentation for Apache C modules      DOUGM
+  ::ShowRequest      ????? Show phases and module participation         DOUGM
+  ::SubProcess       cmcO? Interface to Apache subprocess API           APML
+  
+  Apache::Access::
+  ::CodeRed          ????? Responds to CodeRed worm attacks             REUVEN
+  ::MSIISProbes      ????? Responds to worm attacks on IIS w/ e-mail    TONKIN
+  ::RefererBlock     bdpf? Block based on MIME type + Referer           CHOLET
+  
+  Apache::App::
+  ::Album            ????? Simple mod_perl Photo Album                  WOODY
+  ::Archive          bdpf? Make linked contents pages of .tar(.gz)      JPETERSON
+  ::AutoIndex        Rdcf? Lists directory content                      GOZER
+  ::Blog             ????? mod_perl weblog handler                      GARDNER
+  ::ContentCache     ????? Caches dynamic content                       LINDNER
+  ::CVS              bdpO? Apache PerlContentHandler for CVS            BARBEE
+  ::DnsZone          bdpna Webbased dns-zone manager for BIND           THOMAS
+  ::FileManager      ????? apache mod_perl file manager                 PMC
+  ::Gallery          ????? mod_perl handler to create an image gallery  LEGART
+  ::MiniWiki         ????? Miniature Wiki for Apache                    KERW
+  ::Motd             ????? Provide motd functionality                   CRAMIREZ
+  ::MP3              ????? Streamable directories of MP3 and Ogg Vorbis LDS
+  ::NNTPGateway      adpf? A Web based NNTP (usenet) interface          BOUBAKER
+  ::OpenIndex        Rmpfp Apache modperl module to manage site files   SANDERSON
+  ::Perldoc          ????? mod_perl handler to spooge out HTML perldocs RBOW
+  ::PhotoIndex       ????? Creating a Photo Gallery on the fly          MYNEID
+  ::RSS              ????? Generate RSS output for directory Index      IKEBE
+  ::Stage            Rdpf? Manage a document staging directory          ANDK
+  
+  Apache::App::WAP::
+  ::AutoIndex        ????? File browser with WML                        DBRIAN
+  ::MailPeek         ????? Peek at e-mail with WML                      DBRIAN
+  
+  Apache::App::MP3::
+  ::Skin             bdpOp Enables use of skin files with Apache::MP3   RGRAFF
+  
+  Apache::Auth::
+  ::Cookie           RdpO? Authen + Authz via cookies                   MSCHOUT
+  ::CookieURL        ????? Authen + Authz via cookies or URL munging    HANK
+  ::DBI              ????? Authen + Authz via Perl's DBI                ABH
+  ::DBILogin         bdpf? Authenticate/authorize to backend database   JGROENVEL
+  ::Expire           bdpfp PerlAuthenHandler to implement time limits   JJHORNER
+  ::LDAP             bdpf? LDAP authentication module                   CDONLEY
+  ::Multi            ????? Choose from a number of authen modules       DARREN
+  ::NetLDAP          ????? LDAP authentication module (Net::LDAP)       MEWILCOX
+  ::PerLDAP          bdpf? LDAP authentication module (PerLDAP)         HENRIK
+  ::PHLogin          bdpf? Authenticate via a PH database               JGROENVEL
+  ::RedirectDBI      RdpO? Redirect to different directories by DBI     SANDERSON
+  ::Ticket           ????? Cookie based access module                   MSCHOUT
+  ::Usertrack        bdpf? Perl version of mod_usertrack                ABH
+  
+  Apache::Auth::Cookie::
+  ::DBI              ????? AuthCookie backed by DBI database            CROMIS
+  ::DBIRadius        ????? AuthCookie backed by DBI + optional Radius   BARRACODE
+  ::LDAP             ????? AuthCookie backed by LDAP database           BJORNARDO
+  
+  Apache::Authen::
+  ::Cache            Rdpng Cache authentication credentials             JBODNAR
+  ::IMAP             bdpf? Authentication via an IMAP server            JRLITTELL
+  ::LDAP             ????? mod_perl LDAP Authentication Module          CGILMORE
+  ::N2               ????? Authenticate into the NT and NIS+ domains    VALERIE
+  ::NIS              ????? mod_perl NIS Authentication module           DEP
+  ::NISPlus          ????? Authenticate into a NIS+ domain              VALERIE
+  ::NTLM             ????? Microsoft NTLM and Basic User Authentication GRICHTER
+  ::Passwd           bdpf? Authenticate against /etc/passwd             DEP
+  ::PasswdSrv        bdpf? External authentication server               JEFFH
+  ::Radius           bdpf? Authentication via a Radius server           DANIEL
+  ::SecurID          ????? Authentication via a SecurID server          FLIPKIN
+  ::Smb              bdpf? Authenticate against NT server               PARKER
+  ::URL              bdpf? Authenticate via another URL                 JGROENVEL
+  
+  Apache::Authz::
+  ::Cache            ????? Cache Authorization Module                   CGILMORE
+  ::LDAP             ????? mod_perl LDAP Authorization Module           CGILMORE
+  ::NIS              bdpf? NIS authorization                            DEP
+  ::Passwd           bdpf? /etc/group Group Authorization module        DEP
+  ::UserDir          ????? UserDir authorization module                 NINJAZ
+  
+  Apache::Config::
+  ::Config           ???O? Manipulate Apache configuration files        RSOLIV
+  ::ConfigFile       ????? Parse an Apache style httpd.conf             NWIGER
+  ::ConfigParser     ????? Load Apache configuration files              BZAJAC
+  ::Htaccess         ????? Create and modify Apache .htaccess files     BDFOY
+  ::Htgroup          ????? Manage Apache authentication group files     RBOW
+  ::Htpasswd         ????? Manage Unix crypt-style password file.       KMELTZ
+  ::WinBitHack       ????? Emulate XBitHack on Win32                    RKOBES
+  
+  Apache::Config::Htpasswd::
+  ::Perishable       ????? Perl extension for expiring htaccess entries ALLENDAY
+  
+  Apache::Devel::
+  ::DB               amcO? Hook Perl interactive DB into mod_perl       DOUGM
+  ::DebugInfo        ampO? Per-request data logging                     GEOFF
+  ::DProf            bmcf? Hook Devel::DProf into mod_perl              DOUGM
+  ::DumpHeaders      bdpf? Watch HTTP transaction via headers           ABH
+  ::Emulator         ????? Emulates mod_perl request object from CGI    NWETTERS
+  ::Fake             ????? Fake a mod_perl request object               JWALT
+  ::Peek             amcf? Devel::Peek for mod_perl                     APML
+  ::PerlVINC         ????? Versioning of modules among dirs/vhosts      DAVEM
+  ::Recorder         ????? Record HTTP sessions                         CBROOKS
+  ::RegistryLexInfo  ????? Diff Apache::Registry script padlists        DOUGM
+  ::Reload           RdpO? Reload changed modules (extending StatINC)   MSERGEANT
+  ::SmallProf        bmpf? Hook Devel::SmallProf into mod_perl          DOUGM
+  
+  Apache::File::
+  ::ParseControl     cdpOp control the parsing of server-side scripts   DAPATRICK
+  ::Resumable        ????? Serve resumable files under modperl          TBONE
+  
+  Apache::Filter::Output::
+  ::AntiSpam         bdpOp AntiSpam filter for web pages                MIYAGAWA
+  ::Clean            ????? mod_perl interface into HTML::Clean          GEOFF
+  ::Clickable        ????? Make URLs and Emails in HTML clickable       MIYAGAWA
+  ::Compress         bdpOp Compress content on the fly                  KWILLIAMS
+  ::Dynagzip         ????? Dynamic gzip compression w/chunked stream    SLAVA
+  ::EmbperlChain     bdpO? Feed handler output to Embperl               CHOLET
+  ::GzipChain        bmpf? Compress files on the fly                    ANDK
+  ::ImageMagick      ????? Convert and manipulate images on the fly     GRICHTER
+  ::Lint             ????? Apache wrapper around HTML::Lint             PETDANCE
+  ::OutputChain      bmpO? Chain output of stacked handlers             JANPAZ
+  ::PassFile         bdpf? Send file via OutputChain                    ANDK
+  ::PrettyPerl       Rdpf? Syntax highlighting for Perl files           RA
+  ::PrettyText       bdpf? Re-format .txt files for client display      CHTHORMAN
+  ::StickyQuery      ????? rewrites links using sticky query            MIYAGAWA
+  
+  Apache::Framework::
+  ::ASP              MdpOg Active Server Pages for Apache and mod_perl  CHAMAS
+  ::AxKit            RdcO? XML Application Server for Apache            MSERGEANT
+  ::Backhand         bdcr? Bridge between mod_backhand + mod_perl       DLOWE
+  ::CIPP             ????? Use CIPP embedded HTML Pages                 JRED
+  ::Chameleon        ????? Framework for multiple-user websites         IDORU
+  ::ContentHandler   ????? Extension for uniform application generation ZENSPIDER
+  ::EP               ????? System for embedding Perl into HTML          JWIED
+  ::ePerl            Rdpr? Fast emulated Embedded Perl (ePerl)          RSE
+  ::HeavyCGI         ????? Run complex CGI tasks on an Apache server    ANDK
+  ::HTMLView         bmpfl A mod_perl module for compiled HTMLView page BJORNARDO
+  ::HTPL             ????? Apache mod_perl driver for HTPL.             SCHOP
+  ::iNcom            bdpf? An e-commerce framework                      FRAJULAC
+  ::Layer            bdpf? Layer content tree over one or more          SAM
+  ::mod_pml          ????? mod_perl interface to Perl Markup Language   PJONES
+  ::NavBar           bdpO? Navigation bar generator                     BARRACODE
+  ::Onanox           ????? Customisable multi-user websites             IDORU
+  ::OWA              bdpf? Runs Oracle PL/SQL Web Toolkit apps          SVINTO
+  ::PageKit          ampOo MVC Web App framework, based on mod_perl/XML BORISZ
+  ::PSP              ????? mod_perl interface to Perl Server Pages      RADCLIFF
+  ::Sandwich         Mmpfp Layered document (sandwich) maker            VKHERA
+  ::SetWWWTheme      ????? Standard theme generation                    CHOGAN
+  ::SimpleReplace    ampf? Simple replacement template tool             GEOFF
+  ::SimpleTemplate   ????? Templates with embedded Perl                 FORTY
+  ::SSI              RmpOp Implement server-side includes in Perl       KWILLIAMS
+  ::Taco             ????? mod_perl handler for Taco                    KWILLIAMS
+  ::Template         ????? mod_perl interface to Template Toolkit       ABW
+  ::WebSNMP          ????? SNMP calls to be embedded in HTML            RIGBYC
+  ::WeSQL            ????? Apache mod_perl module for WeSQL             
+  ::Wombat           ????? embed Wombat within Apache/mod_perl          IX
+  ::XBEL             ????? transform XBEL into exciting and fooy HTML   ASCOPE
+  ::XPP              ????? embedded perl language co-existing w/ HTML   CNATION
+  
+  Apache::Framework::AxKit::
+  ::Language::XSP::ObjectTaglib   ????? Helper for OO Taglibs           SIMON
+  ::Plugin::AddXSLParams::Request ????? Apache::Request to XSLT params  KHAMPTON
+  ::Plugin::Session  ????? Flexible session management for AxKit        JWALT
+  ::RayApp           ????? Logic and presentation separation in AxKit   JANPAZ
+  
+  Apache::GD::
+  ::Graph            ????? Generate Graphs in an Apache handler.        RKITOVER
+  ::Thumbnail        ????? On-the-fly thumbnails using GD and libjpeg   ISAAC
+  
+  Apache::Log::
+  ::DBI              bdpf? Logging via DBI                              ABH
+  ::DBIConfig        Rdpng Custom format logging via DBI for mod_perl   JBODNAR
+  ::File             ????? Interface to Apache's logging routines       DOUGM
+  ::Ignore           RdpOg mod_perl log handler to ignore connections   BEATNIK
+  ::Parse            bdpO? OO interface to Apache log files             AKIRA
+  ::SearchEngine     ????? Logging of terms used in search engines      OCTO
+  ::Traffic          bdpf? Logs bytes transferred, per-user basis       MAURICE
+  
+  Apache::Method::
+  ::Roaming          bdpO? PUT/GET/MOVE/DELETE (Netscape Roaming)       JWIED
+  
+  Apache::MIME::
+  ::Mapper           ????? associate file extensions with PerlHandlers  GEOFF
+  ::XML              bdpf? mime encoding sniffer for XML files          MSERGEANT
+  
+  Apache::Monitor::
+  ::GTopLimit        Sdpnp Child exit on small shared or large mem      STAS
+  ::Server           SmcO? Interface to Apache server_rec struct        APML
+  ::Throttle         ????? Speed-based content negotiation              DONS
+  ::VMonitor         Mdpnp Visual System and Processes Monitor          STAS
+  
+  Apache::Monitor::Watchdog::
+  ::RunAway          Rdpnp RunAway processes watchdog/terminator        STAS
+  
+  Apache::Persistent::
+  ::DBI              bmpO? Persistent DBI connection mgmt.              ABH
+  ::Mysql            bdpO? Persistent connection mgmt. for Mysql        NJENSEN
+  ::Storage          ????? Storing persistent data in Apache            KROW
+  
+  Apache::Persistent::Sybase::
+  ::ConPool          ????? A Sybase connection pooling module           MEWP
+  ::CTlib            Mdpn? Persistent CTlib connection mgmt for Apache  MDOWNING
+  
+  Apache::Proxy::
+  ::ACE              bdpOp IDN compatible ACE proxy server              MIYAGAWA
+  ::DoCoMo           ????? NTT DoCoMo HTTP gateway clone for mod_proxy  KOBAYASI
+  ::PassThru         bdpO? Skeleton for vanilla proxy                   ABH
+  ::Gateway          bdpf? A multiplexing gateway                       CCWF
+  ::Info             ????? Get information from doc server to mod_perl  GOZER
+  ::No404            ????? 404 free Proxy                               MIYAGAWA
+  ::Pass             bdpf? Perl implementation of ProxyPass             MJS
+  ::Proxy            ????? Perl interface to mod_proxy                  XFIRE
+  ::Reverse          ????? An Apache mod_perl reverse proxy             CLINTDW
+  ::Rewrite          ????? mod_perl URL-rewriting proxy                 CGILMORE
+  ::Rewriting        ????? proxy that works by rewriting requests       HAGANK
+  ::Stuff            ????? mod_perl header/footer/proxy module          JBODNAR
+  
+  Apache::RPC::
+  ::AppCluster       ????? RPC for distributed application servers      MAUNDER
+  ::AwSOAP           ????? SOAP Gateway into ActiveWorks Event Space    DYACOB
+  ::Lite             ????? mod_perl-based XML-RPC server                KULCHENKO
+  ::Server           ????? Subclass of RPC::XML::Server for mod_perl    RJRAY
+  ::SOAP             ????? mod_perl-based SOAP server                   KULCHENKO
+  ::SmartProxy       ????? HTTP Smart Proxy for SOAP::Lite              DYACOB
+  ::Status           ????? Status monitor for RPC                       RJRAY
+  
+  Apache::Trans::
+  ::AddHostPath      adpf? Prepends parts of hostname to URI            RJENKS
+  ::LDAP             bdpf? Translate URIs to LDAP queries               CDONLEY
+  ::TimedRedirect    ????? Allows the configuration of a timed redirect PETERM
+  
+  Apache::Util::
+  ::Cache            ????? Cache data accessible between children       RSOLIV
+  ::Cookie           amcO? C version of CGI::Cookie                     APML
+  ::DefaultCharset   ????? AddDefaultCharset configuration w/ mod_perl  MIYAGAWA
+  ::GuessCharset     ????? Add HTTP charset by guessing file's encoding MIYAGAWA
+  ::Icon             bdcO? Access to AddIcon* configuration             DOUGM
+  ::Keywords         ????? Store keywords as personal profile in cookie MAGNUS
+  ::Language         ????? Transparent language support                 GOZER
+  ::Mmap             bdcf? Share data via Mmap module                   FLETCH
+  ::Request          amcO? CGI.pm functionality using API methods       JIMW
+  ::RequestNotes     ampf? Pass cookie & form data around pnotes        GEOFF
+  ::SecSess          ????? Secure Apache session management library     PLIAM
+  ::Session          RmpOa Maintain client <-> httpd session/state      JBAKER
+  ::SessionX         ????? Extented persistence framework for session data GRICHTER
+  ::Singleton        ????? Singleton class for mod_perl                 MIYAGAWA
+  ::TaintRequest     ????? HTML Escape tainted data to prevent CSS Attacks  LINDNER
+  ::TempFile         ????? Allocate temp filenames for request duration TOMHUGHES
+  ::Upload           amcO? File upload class                            APML
+  ::UploadMeter      ????? Upload meter for form-based uploads          ISAAC
+  ::UploadSvr        bdpO? A lightweight publishing system              ANDK
+  
+  Apache::Util::Cookie::
+  ::Encrypted        adpOp Cookies with value auto encrypted/decrypted  JKRASNOO
+  
+  Apache::Util::Session::
+  ::CacheAny         ????? Use Cache::* for Apache::Session storage     MIYAGAWA
+  ::Counted          ????? Session management via a File::CounterFile   ANDK
+  ::Generate::ModUniqueId  ????? use mod_unique_id for session ID generation MIYAGAWA
+  ::Generate::ModUsertrack ????? mod_usertrack for session ID generation MIYAGAWA
+  ::PHP              ????? glues Apache::Session with PHP::Session      MIYAGAWA
+  ::SharedMem        ????? Session management via shared memory         SIMONW
+
+=head1 Maintainers
+
+The maintainer is the person you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Per Einar Ellefsen E<lt>pereinar (at) oslo.online.noE<gt>
+
+=back
+
+=head1 Authors
+
+=over
+
+=item *
+
+Per Einar Ellefsen E<lt>pereinar (at) oslo.online.noE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+=cut
