@@ -457,13 +457,38 @@ When deciding which constants are to be exported, the regular
 expression will be used, so in our example all matches
 C</^APR_FLOCK_/> will be imported into the Perl API.
 
-For example to import an I<filter_type_e> C<enum> for Apache, add:
+For example to import an I<read_type_e> C<enum> for APR, add:
 
   my %enums_wanted = (
-      Apache => { map { $_, 1 } qw(filter_type) },
+      APR => { map { $_, 1 } qw(apr_read_type) },
   );
 
 Notice that I<_e> part at the end of the enum name has gone.
+
+After adding/modifying the datastructures make sure to run C<make
+source_scan> or C<perl build/source_scan.pl> and verify that the
+wanted constant or enum were picked by the source scanning
+process. Simply grep I<xs/tables/current> for the wanted string. For
+example after adding I<apr_read_type_e> enum we can check:
+
+  % more xs/tables/current/Apache/ConstantsTable.pm
+  ...
+    'read_type' => [
+      'APR_BLOCK_READ',
+      'APR_NONBLOCK_READ'
+    ],
+
+Of course the newly added constant or enum's typemap should be
+declared in the appropriate I<xs/maps/*_types.map> files, so the XS
+conversion of arguments will be performed correctly. For example
+I<apr_read_type> is an APR enum so it's declared in
+I<xs/maps/apr_types.map>:
+
+  apr_read_type          | IV
+
+C<IV> is used as a typemap, lSince enum is simply an integer. In more
+complex cases the typemap can be different. (META: examples)
+
 
 =head1 Maintainers
 
