@@ -128,7 +128,7 @@ And here is the filter handler code:
           $f->print($buffer);
       }
   
-      Apache::OK;
+      return Apache::OK;
   }
   1;
 
@@ -505,30 +505,52 @@ All filters (excluding the core filter that reads from the network and
 the core filter that writes to it) block at least once when
 invoked. Depending on whether this is an input or an output filter,
 the blocking happens when the bucket brigade is requested from the
-upstream filter or when the bucket brigade is passed to the next
+upstream filter or when the bucket brigade is passed to the downstream
 filter.
 
 First of all, the input and output filters differ in the ways they
 acquire the bucket brigades (which includes the data that they
 filter). Even though when a streaming API is used the difference can't
-be seen, it's important to understand how things work underneath.
+be seen, it's important to understand how things work
+underneath. Therefore we are going to show examples of transparent
+filters, which pass data through them unmodified. Instead of reading
+the data in and printing it out the bucket brigades are now passed as
+is.
 
-When an input filter is invoked, it first asks the upstream filter for
-the next bucket brigade (using the C<get_brigade()> call). That
-upstream filter is in turn going to ask for the bucket brigade from
-the next upstream filter in chain, etc., till the last filter (called
-C<core_in>), that reads from the network is reached. The C<core_in>
-filter reads, using a socket, a portion of the incoming data from the
-network, processes it and sends it to its downstream filter, which
-will process the data and send it to its downstream filter, etc., till
-it reaches the very first filter who has asked for the data. (In
-reality some other handler triggers the request for the bucket
-brigade, e.g., the HTTP response handler, or a protocol module, but
-for our discussion it's good enough to assume that it's the first
-filter that issues the C<get_brigade()> call.)
+Here is a code for a transparent input filter:
+
+  #file:MyApache/FilterTransparent.pm (first part)
+  #-----------------------------------------------
+  package MyApache::FilterTransparent;
+  
+  use Apache::Const -compile => qw(OK);
+  use APR::Const -compile => ':common';
+  
+  sub in {
+      my ($f, $bb, $mode, $block, $readbytes) = @_;
+  
+      my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
+      return $rv unless $rv == APR::SUCCESS;
+  
+      return Apache::OK;
+  }
+
+When the input filter I<in()> is invoked, it first asks the upstream
+filter for the next bucket brigade (using the C<get_brigade()>
+call). That upstream filter is in turn going to ask for the bucket
+brigade from the next upstream filter in chain, etc., till the last
+filter (called C<core_in>), that reads from the network is
+reached. The C<core_in> filter reads, using a socket, a portion of the
+incoming data from the network, processes it and sends it to its
+downstream filter, which will process the data and send it to its
+downstream filter, etc., till it reaches the very first filter who has
+asked for the data. (In reality some other handler triggers the
+request for the bucket brigade, e.g., an HTTP response handler, or a
+protocol module, but for our discussion it's good enough to assume
+that it's the first filter that issues the C<get_brigade()> call.)
 
 The following diagram depicts a typical input filters chain data flow
-in addition to the program control flow:
+in addition to the program control flow.
 
 =for html
 <img src="in_filter_stream.gif" width="659" height="275" 
@@ -546,8 +568,8 @@ call to return. When this call returns all upstream filters have
 already completed finishing their filtering task.
 
 As mentioned earlier, the streaming interface hides these details,
-however the first call C<$f-E<gt>read()> will block as underneath
-it performs the C<get_brigade()> call.
+however the first C<$f-E<gt>read()> call will block, as underneath it
+performs the C<get_brigade()> call.
 
 The diagram shows a part of the actual input filter chain for an HTTP
 request, the C<...> shows that there are more filters in between the
@@ -556,7 +578,7 @@ mod_perl filter and C<http_in>.
 Now let's look at what happens in the output filters chain. Here the
 first filter acquires the bucket brigades containing the response
 data, from the content handler (or another protocol handler if we
-aren't talking HTTP), it then applies any modification and passes the
+aren't talking HTTP), it then may apply some modification and pass the
 data to the next filter (using the C<pass_brigade()> call), which in
 turn applies its modifications and sends the bucket brigade to the
 next filter, etc., all the way down to the last filter (called
@@ -566,6 +588,25 @@ wait to acquire the bucket brigade (since the upstream filter passes
 it to them as an argument), they still block in a similar fashion to
 input filters, since they have to wait for the C<pass_brigade()> call
 to return.
+
+Here is an example of a transparent output filter:
+
+  #file:MyApache/FilterTransparent.pm (continued)
+  #-----------------------------------------------
+  sub out {
+      my ($f, $bb) = @_;
+  
+      my $rv = $f->next->pass_brigade($bb);
+      return $rv unless $rv == APR::SUCCESS;
+  
+      return Apache::OK;
+  }
+  1;
+
+The c<out> filter passes C<$bb> to the downstream filter unmodified
+and if you add debug prints before and after the C<pass_brigade()>
+call and configure the same filter twice, the debug print will show
+the blocking call.
 
 The following diagram depicts a typical output filters chain data flow
 in addition to the program control flow:
