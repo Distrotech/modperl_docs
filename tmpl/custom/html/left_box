@@ -24,7 +24,7 @@
 
     <!-- menu short_cuts begin -->
 
-[%- INCLUDE short_cuts -%]
+[%- INCLUDE menu_short_cuts -%]
 
     <!-- menu short_cuts end -->
 
