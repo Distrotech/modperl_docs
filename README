@@ -14,6 +14,11 @@ and then look in modperl-2.0/docs or:
 
  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-docs
 
+The documentation CVS snapshots (rolled every 6 hours) can be
+downloaded from http://cvs.apache.org/snapshots/modperl-docs/, the
+same repository now is a part of the modperl-2.0 checkout in the
+modperl-2.0/docs directory.
+
 You probably want to subscribe to these two mailing lists:
 
 docs-cvs-subscribe@perl.apache.org
