@@ -6,20 +6,21 @@
     # collect the top level data
     # first go up to the absolute root
     l = nav; # remember last valid node 
+
     p = nav.up;
     WHILE p;
-       l = p;
-       p = p.up;
+        l = p;
+        p = p.up;
     END;
 
     p = l; # last valid node
     IF p.parent_rel_path.defined;
-      prefix = p.parent_rel_path;
+        prefix = p.parent_rel_path;
     ELSE;
-      prefix = ".";
+        prefix = ".";
     END;
     IF rel_doc_root.defined;
-       prefix = "$prefix/$rel_doc_root";
+        prefix = "$prefix/$rel_doc_root";
     END;
 
     # walk through the top level nodes
