@@ -130,7 +130,7 @@ The next command in the chain of commands for this module
 =item ret: C<$next>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
-Returns the next command in the chain for this module, undef for
+Returns the next command in the chain for this module, C<undef> for
 the last command.
 
 =item since: 1.99_12
