@@ -205,12 +205,25 @@ to run the scripts under C<ddd> substitute C<gdb> with C<ddd>:
 
 =over
 
-=item Debugging mod_perl Initialization
+=item * Debugging mod_perl Initialization
 
 The F<code/.debug-modperl-init> startup script breaks at the
 modperl_hook_init() function, which is useful for debugging code at
 the modperl's initialization phase.
 
+=item * Debugging mod_perl XS Extensions
+
+The F<code/.debug-modperl-xs> startup script breaks at the
+mpxs_Apache__Filter_print() function implemented in
+I<xs/Apache/Filter/Apache__Filter.h>. This is an example of debugging
+code in XS Extensions. For this particular example the complete test
+case is:
+
+  % ddd -command=.debug-modperl-xs & \
+  t/TEST -v -run -ping=block filter/api
+
+When I<filter/api> test is running it calls
+mpxs_Apache__Filter_print() which is when the breakpoint is reached.
 
 =back
 
