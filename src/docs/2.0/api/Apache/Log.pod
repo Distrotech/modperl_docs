@@ -243,7 +243,7 @@ just logs the supplied message to I<error_log>
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 =item arg1: C<@message> ( strings ARRAY )
 
@@ -273,7 +273,7 @@ gives an access to built-in status codes.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 =item arg1: C<$file> ( string )
 
@@ -329,7 +329,7 @@ levels|/LogLevel_Methods>.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 =item ret: C<$slog> ( C<Apache::Log::Server> object )
 

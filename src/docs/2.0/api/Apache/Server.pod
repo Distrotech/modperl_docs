@@ -7,7 +7,7 @@ Apache::Server - Perl API for XXX
 
 =head1 Synopsis
 
-  use Apache::Server ();
+  use Apache::ServerRec ();
 
 META: to be completed
 

@@ -90,7 +90,7 @@ The ip-subnet representation
 
 The socket address to test
 
-=item ret: C<$ret> ( true/false )
+=item ret: C<$ret> ( boolean )
 
 true if the socket address is within the subnet, false otherwise
 

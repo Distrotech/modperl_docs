@@ -36,7 +36,7 @@ where a sample start-up script F<C:/Apache2/conf/extra.pl> is
   use Apache::RequestRec ();
   use Apache::RequestIO ();
   use Apache::RequestUtil ();
-  use Apache::Server ();
+  use Apache::ServerRec ();
   use Apache::ServerUtil ();
   use Apache::Connection ();
   use Apache::Log ();

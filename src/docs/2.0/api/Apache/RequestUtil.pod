@@ -475,7 +475,7 @@ sub-request
 
 A request or a sub-request object
 
-=item ret: C<$is_initial> ( true/false )
+=item ret: C<$is_initial> ( boolean )
 
 If true -- it's the main request, otherwise it's a sub-request
 
@@ -502,7 +502,7 @@ check whether a directory level C<PerlOptions> flag is enabled or not.
 
 =item arg1: C<$flag> ( string )
 
-=item ret: C<$result> ( true/false )
+=item ret: C<$result> ( boolean )
 
 =item since: 1.99_10
 
@@ -569,7 +569,7 @@ a container:
 
 that argument will be I</foo>
 
-=item ret: C<$ret> ( true/false )
+=item ret: C<$ret> ( boolean )
 
 a true value if the merge was successful (i.e. the request
 C<$location> match was found), otherwise false.
@@ -879,7 +879,7 @@ a single handler CODE reference or just a name of the subroutine
 if more than one passed, use a reference to an array of CODE refs
 and/or subroutine names.
 
-=item ret: C<$ok> ( true/false )
+=item ret: C<$ok> ( boolean )
 
 returns a true value on success, otherwise a false value
 
@@ -972,7 +972,7 @@ and/or subroutine names.
 if the argument is C<undef> or C<[]> the list of handlers is reset to
 zero.
 
-=item ret: C<$ok> ( true/false )
+=item ret: C<$ok> ( boolean )
 
 returns a true value on success, otherwise a false value
 

@@ -183,7 +183,7 @@ Determine if a bucket is an EOS bucket
 =item obj: C<$bucket>
 ( C<L<APR::Bucket object|docs::2.0::api::APR::Bucket>> )
 
-=item ret: C<$ret> ( true/false )
+=item ret: C<$ret> ( boolean )
 
 =item since: 1.99_10
 
@@ -204,7 +204,7 @@ Determine if a bucket is a FLUSH bucket
 =item obj: C<$bucket>
 ( C<L<APR::Bucket object|docs::2.0::api::APR::Bucket>> )
 
-=item ret: C<$ret> ( true/false )
+=item ret: C<$ret> ( boolean )
 
 =item since: 1.99_10
 

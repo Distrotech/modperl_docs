@@ -104,7 +104,7 @@ I<startup.pl> for mod_perl 2.0:
   use Apache::RequestIO ();
   use Apache::RequestUtil ();
   
-  use Apache::Server ();
+  use Apache::ServerRec ();
   use Apache::ServerUtil ();
   use Apache::Connection ();
   use Apache::Log ();

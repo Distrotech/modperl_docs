@@ -257,7 +257,7 @@ This handler can be executed only by the main server. If you want to
 traverse the configured virtual hosts, you can accomplish that using a
 simple loop. For example to print out the configured port numbers do:
 
-  use Apache::Server ();
+  use Apache::ServerRec ();
   # ...
   sub open_logs {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;

@@ -792,7 +792,7 @@ C<L<read|/C_read_>> method.
 
 The filter to remove
 
-=item ret: C<$ok> ( true/false )
+=item ret: C<$ok> ( boolean )
 
 a true value if EOS has been seen, otherwise a false value
 

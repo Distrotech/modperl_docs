@@ -74,7 +74,7 @@ supported.
 
 what package to special list is for
 
-=item ret: C<$ok> ( true/false )
+=item ret: C<$ok> ( boolean )
 
 true value if C<$key> is known, false otherwise.
 
@@ -103,7 +103,7 @@ supported.
 
 what package to special list is for
 
-=item ret: C<$ok> ( true/false )
+=item ret: C<$ok> ( boolean )
 
 true value if C<$key> is known, false otherwise.
 
@@ -131,7 +131,7 @@ supported.
 
 what package to special list is for
 
-=item ret: C<$ok> ( true/false )
+=item ret: C<$ok> ( boolean )
 
 true value if C<$key> is known, false otherwise.
 

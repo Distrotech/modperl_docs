@@ -8,9 +8,37 @@ Apache::ServerRec - Perl API for Apache server record accessors
 =head1 Synopsis
 
   use Apache::ServerRec ();
-
-META: to be completed
-
+  
+  $error_fname = $s->error_fname();
+  
+  $is_virtual = $s->is_virtual();
+  
+  $keep_alive         = $s->keep_alive();
+  $keep_alive_max     = $s->keep_alive_max();
+  $keep_alive_timeout = $s->keep_alive_timeout();
+  
+  $limit_req_fields    = $s->limit_req_fields();
+  $limit_req_fieldsize = $s->limit_req_fieldsize();
+  $limit_req_line      = $s->limit_req_line();
+  
+  $path = $s->path();
+  
+  $hostname = $s->server_hostname();
+  $port     = $s->port();
+  
+  $server_admin = $s->server_admin();
+  
+  $proc = $s->process();
+  
+  $timeout  = $s->timeout();
+  $loglevel = $s->loglevel();
+  
+  my $server = Apache->server;
+  my $vhosts = 0;
+  for (my $s = $server->next; $s; $s = $s->next) {
+      $vhosts++;
+  }
+  print "There are $vhosts virtual hosts";
 
 
 
@@ -31,23 +59,328 @@ C<Apache::ServerRec> provides the following functions and/or methods:
 
 
 
-=head2 C<process>
 
-The process this server is running in
 
-  $proc = $s->process();
+=head2 C<error_fname>
+
+Get/set the C<ErrorLog> file value (e.g. F<logs/error_log>)
+
+  $error_fname      = $s->error_fname();
+  $prev_error_fname = $s->error_fname($new_error_fname);
 
 =over 4
 
 =item obj: C<$s>
 ( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
-=item ret: C<$proc>
-( C<L<Apache::Process object|docs::2.0::api::Apache::Process>> )
+=item opt arg1: C<$new_error_fname> ( string )
+
+If passed, sets the new value for C<ErrorLog>
+
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
+
+=item ret: C<$error_fname> ( string )
+
+Returns the C<ErrorLog> value setting.
+
+If C<$new_error_fname> is passed returns the setting before the change.
 
 =item since: 1.99_15
 
 =back
+
+
+
+
+
+
+
+=head2 C<is_virtual>
+
+Test whether C<$s> is a virtual host object
+
+  $is_virtual = $s->is_virtual();
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item ret: C<$is_virtual> ( boolean )
+
+Returns the is_virtual setting.
+
+If C<$new_is_virtual> is passed, returns the setting before the
+change.
+
+=item since: 1.99_15
+
+=back
+
+Example:
+
+  print "This is a virtual host" if $s->is_virtual();
+
+
+
+
+
+
+=head2 C<keep_alive>
+
+Get/set the C<KeepAlive> setting, which specifies whether Apache
+should accept more than one request over the same connection from the
+same client.
+
+  $keep_alive      = $s->keep_alive();
+  $prev_keep_alive = $s->keep_alive($new_keep_alive);
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item opt arg1: C<$new_keep_alive> ( boolean )
+
+If passed, sets the new keep_alive.
+
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
+
+=item ret: C<$keep_alive> ( boolean )
+
+Returns the C<KeepAlive> setting.
+
+If C<$new_keep_alive> is passed, returns the setting before the
+change.
+
+=item since: 1.99_15
+
+=back
+
+
+
+
+
+
+
+=head2 C<keep_alive_max>
+
+Get/set the C<MaxKeepAliveRequest> setting, which specifies the
+maximum number of requests Apache will serve over a C<KeepAlive>
+connection.
+
+  $keep_alive_max      = $s->keep_alive_max();
+  $prev_keep_alive_max = $s->keep_alive_max($new_keep_alive_max);
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item opt arg1: C<$new_keep_alive_max> ( integer )
+
+If passed, sets the new keep_alive_max.
+
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
+
+=item ret: C<$keep_alive_max> ( integer )
+
+Returns the keep_alive_max setting.
+
+If C<$new_keep_alive_max> is passed, returns the setting before the
+change.
+
+=item since: 1.99_15
+
+=back
+
+
+
+
+
+
+=head2 C<keep_alive_timeout>
+
+Get/set the C<KeepAliveTimeout> setting (in microsecs), which
+specifies how long Apache will wait for another request before
+breaking a C<KeepAlive> connection.
+
+  $keep_alive_timeout      = $s->keep_alive_timeout();
+  $prev_keep_alive_timeout = $s->keep_alive_timeout($new_timeout);
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item opt arg1: C<$new_keep_alive_timeout> ( integer )
+
+The expected value is in microsecs.
+
+If passed, sets the new C<KeepAlive> timeout.
+
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
+
+=item ret: C<$keep_alive_timeout> ( integer )
+
+Returns the C<KeepAlive> timeout value (in microsecs).
+
+If C<$new_timeout> is passed, returns the setting before the change.
+
+=item since: 1.99_15
+
+=back
+
+
+
+
+
+
+=head2 C<limit_req_fields>
+
+Get/set limit on number of request header fields
+
+  $limit_req_fields      = $s->limit_req_fields();
+  $prev_limit_req_fields = $s->limit_req_fields($new_limit_req_fields);
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item opt arg1: C<$new_limit_req_fields> ( integer )
+
+If passed, sets the new request headers number limit.
+
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
+
+=item ret: C<$limit_req_fields> ( integer )
+
+Returns the request headers number limit.
+
+If C<$new_limit_req_fields> is passed, returns the setting before the
+change.
+
+=item since: 1.99_15
+
+=back
+
+
+
+
+
+
+=head2 C<limit_req_fieldsize>
+
+Get/set limit on size of any request header field
+
+  $limit_req_fieldsize = $s->limit_req_fieldsize();
+  $prev_limit          = $s->limit_req_fieldsize($new_limit);
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item opt arg1: C<$new_limit_req_fieldsize> ( integer )
+
+If passed, sets the new request header size limit.
+
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
+
+=item ret: C<$limit_req_fieldsize> ( integer )
+
+Returns the request header size limit.
+
+If C<$new_limit> is passed, returns the setting before the change.
+
+=item since: 1.99_15
+
+=back
+
+
+
+
+
+
+=head2 C<limit_req_line>
+
+Get/set limit on size of the HTTP request line
+
+  $limit_req_line      = $s->limit_req_line();
+  $prev_limit_req_line = $s->limit_req_line($new_limit_req_line);
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item opt arg1: C<$new_limit_req_line> ( integer )
+
+If passed, sets the new request line limit value.
+
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
+
+=item ret: C<$limit_req_line> ( integer )
+
+Returns the request line limit value
+
+If C<$new_limit_req_line> is passed, returns the setting before the
+change.
+
+=item since: 1.99_15
+
+=back
+
+
+
+
+
+
+
+=head2 C<loglevel>
+
+Get/set the C<LogLevel> directive value
+
+  $loglevel      = $s->loglevel();
+  $prev_loglevel = $s->loglevel($new_loglevel);
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item opt arg1: C<$new_loglevel> ( C<L<Apache::Const :log
+constant|docs::2.0::api::Apache::Const/C__log_>> )
+
+If passed, sets a new C<LogLevel> value
+
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
+
+=item ret: C<$loglevel> ( C<L<Apache::Const :log
+constant|docs::2.0::api::Apache::Const/C__log_>> )
+
+Returns the C<LogLevel> value as a constant.
+
+If C<$new_loglevel> is passed, returns the setting before the change.
+
+=item since: 1.99_15
+
+=back
+
+For example, to set the C<LogLevel> value to C<info>:
+
+  use Apache::Const -compile => qw(LOG_INFO);
+  $s->loglevel(Apache::LOG_INFO);
+
 
 
 
@@ -88,70 +421,30 @@ available vhosts:
 
 
 
+=head2 C<path>
 
-=head2 C<server_admin>
+Get/set pathname for the C<ServerPath> setting
 
-Get/set the server admin value
-
-  $server_admin      = $s->server_admin();
-  $prev_server_admin = $s->server_admin($new_server_admin);
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item opt arg2: C<$new_server_admin> ( string )
-
-If passed, sets the new server_admin.
-
-Note that under threaded mpms, this option works only before threads
-are spawned (i.e. before the
-C<L<ChildInit|docs::2.0::user::handlers::server/PerlChildInitHandler>>
-phase).
-
-=item ret: C<$server_admin> ( string )
-
-Returns the server_admin setting.
-
-If C<$new_server_admin> is passed returns the setting before the
-change.
-
-=item since: 1.99_15
-
-=back
-
-
-
-
-
-=head2 C<server_hostname>
-
-Get/set the server hostname value
-
-  $server_hostname      = $s->server_hostname();
-  $prev_server_hostname = $s->server_hostname($new_server_hostname);
+  $path      = $s->path();
+  $prev_path = $s->path($new_path);
 
 =over 4
 
 =item obj: C<$s>
 ( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
-=item opt arg2: C<$new_server_hostname> ( string )
+=item opt arg1: C<$new_path> ( string )
 
-If passed, sets the new server_hostname.
+If passed, sets the new path.
 
-Note that under threaded mpms, this option works only before threads
-are spawned (i.e. before the
-C<L<ChildInit|docs::2.0::user::handlers::server/PerlChildInitHandler>>
-phase).
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
 
-=item ret: C<$server_hostname> ( string )
+=item ret: C<$path> ( string )
 
-Returns the server_hostname setting.
+Returns the path setting.
 
-If C<$new_server_hostname> is passed returns the setting before the
-change.
+If C<$new_path> is passed, returns the setting before the change.
 
 =item since: 1.99_15
 
@@ -174,19 +467,17 @@ Get/set the port value
 =item obj: C<$s>
 ( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
-=item opt arg2: C<$new_port> ( string )
+=item opt arg1: C<$new_port> ( integer )
 
 If passed, sets the new port.
 
-Note that under threaded mpms, this option works only before threads
-are spawned (i.e. before the
-C<L<ChildInit|docs::2.0::user::handlers::server/PerlChildInitHandler>>
-phase).
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
 
 META: I don't think one should be allowed to change port number after
 the server has started.
 
-=item ret: C<$port> ( string )
+=item ret: C<$port> ( integer )
 
 Returns the port setting.
 
@@ -200,32 +491,20 @@ If C<$new_port> is passed returns the setting before the change.
 
 
 
-=head2 C<error_fname>
 
-Get/set the C<ErrorLog> file value (e.g. F<logs/error_log>)
+=head2 C<process>
 
-  $error_fname      = $s->error_fname();
-  $prev_error_fname = $s->error_fname($new_error_fname);
+The process this server is running in
+
+  $proc = $s->process();
 
 =over 4
 
 =item obj: C<$s>
 ( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
-=item opt arg2: C<$new_error_fname> ( string )
-
-If passed, sets the new value for C<ErrorLog>
-
-Note that under threaded mpms, this option works only before threads
-are spawned (i.e. before the
-C<L<ChildInit|docs::2.0::user::handlers::server/PerlChildInitHandler>>
-phase).
-
-=item ret: C<$error_fname> ( string )
-
-Returns the C<ErrorLog> value setting.
-
-If C<$new_error_fname> is passed returns the setting before the change.
+=item ret: C<$proc>
+( C<L<Apache::Process object|docs::2.0::api::Apache::Process>> )
 
 =item since: 1.99_15
 
@@ -236,28 +515,31 @@ If C<$new_error_fname> is passed returns the setting before the change.
 
 
 
+=head2 C<server_admin>
 
-=head2 C<loglevel>
+Get/set the C<ServerAdmin> value
 
-Get/set the C<LogLevel> directive value
-
-  $loglevel      = $s->loglevel();
-  $prev_loglevel = $s->loglevel($new_loglevel);
+  $server_admin      = $s->server_admin();
+  $prev_server_admin = $s->server_admin($new_server_admin);
 
 =over 4
 
 =item obj: C<$s>
 ( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
-=item opt arg2: C<$new_loglevel> ( string )
+=item opt arg1: C<$new_server_admin> ( string )
 
-If passed, sets a new C<LogLevel> value
+If passed, sets the new C<ServerAdmin> value.
 
-=item ret: C<$loglevel> ( string )
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
 
-Returns the C<LogLevel> value
+=item ret: C<$server_admin> ( string )
 
-If C<$new_loglevel> is passed, returns the setting before the change.
+Returns the C<ServerAdmin> value.
+
+If C<$new_server_admin> is passed, returns the setting before the
+change.
 
 =item since: 1.99_15
 
@@ -267,28 +549,35 @@ If C<$new_loglevel> is passed, returns the setting before the change.
 
 
 
+=head2 C<server_hostname>
 
-=head2 C<is_virtual>
+Get/set the C<ServerName> value
 
-Test whether C<$s> is a virtual host object
-
-  $is_virtual = $s->is_virtual();
+  $server_hostname      = $s->server_hostname();
+  $prev_server_hostname = $s->server_hostname($new_server_hostname);
 
 =over 4
 
 =item obj: C<$s>
 ( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
-=item ret: C<$is_virtual> ( string )
+=item opt arg1: C<$new_server_hostname> ( string )
 
-Returns the is_virtual setting.
+If passed, sets the C<ServerName> value
 
-If C<$new_is_virtual> is passed returns the setting before the change.
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
+
+=item ret: C<$server_hostname> ( string )
+
+Returns the C<ServerName> value
+
+If C<$new_server_hostname> is passed, returns the setting before the
+change.
 
 =item since: 1.99_15
 
 =back
-
 
 
 
@@ -298,7 +587,8 @@ If C<$new_is_virtual> is passed returns the setting before the change.
 
 =head2 C<timeout>
 
-Get/set the timeout (in microsecs), before we give up doing something
+Get/set the timeout (C<TimeOut>) (in microsecs), which Apache will
+wait for before it gives up doing something
 
   $timeout      = $s->timeout();
   $prev_timeout = $s->timeout($new_timeout);
@@ -308,27 +598,25 @@ Get/set the timeout (in microsecs), before we give up doing something
 =item obj: C<$s>
 ( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
-=item opt arg2: C<$new_timeout> ( string )
+=item opt arg1: C<$new_timeout> ( integer )
 
 If passed, sets the new timeout (the value should be in microseconds).
 
-Note that under threaded mpms, this option works only before threads
-are spawned (i.e. before the
-C<L<ChildInit|docs::2.0::user::handlers::server/PerlChildInitHandler>>
-phase).
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
 
-=item ret: C<$timeout> ( string )
+=item ret: C<$timeout> ( integer )
 
 Returns the timeout setting in microseconds.
 
-If C<$new_timeout> is passed returns the setting before the change.
+If C<$new_timeout> is passed, returns the setting before the change.
 
 =item since: 1.99_15
 
 =back
 
-To stress out the timeout values is microseconds, here is how to set
-the timeout to 20 secs:
+Let us repeat again: the timeout values is microseconds. For example
+to set the timeout to 20 secs:
 
   $s->timeout(20_000_000);
 
@@ -338,278 +626,28 @@ the timeout to 20 secs:
 
 
 
-=head2 C<keep_alive_timeout>
 
-META: Autogenerated - needs to be reviewed/completed
 
-Get/set the apr interval we will wait for another request
 
-  $keep_alive_timeout = $s->keep_alive_timeout();
-  $prev_keep_alive_timeout = $s->keep_alive_timeout($new_keep_alive_timeout);
 
-=over 4
 
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
-=item opt arg2: C<$new_keep_alive_timeout> ( string )
 
-If passed, sets the new keep_alive_timeout.
+=head1 Notes
 
-=item ret: C<$keep_alive_timeout> ( string )
 
-Returns the keep_alive_timeout setting.
+=head2 Limited Functionality under Threaded MPMs
 
-If C<$new_keep_alive_timeout> is passed returns the setting before the change.
+Note that under threaded MPMs, some of the read/write accessors, will
+be able to set values only before threads are spawned (i.e. before the
+C<L<ChildInit
+phase|docs::2.0::user::handlers::server/PerlChildInitHandler>>).
+Therefore if you are developing your application on the non-threaded
+MPM, but planning to have it run under threaded mpm, you should not
+use those methods to set values after the ChildInit phase.
 
-=item since: 1.99_15
-
-=back
-
-
-
-=head2 C<keep_alive_max>
-
-META: Autogenerated - needs to be reviewed/completed
-
-Get/set maximum requests per connection
-
-  $keep_alive_max = $s->keep_alive_max();
-  $prev_keep_alive_max = $s->keep_alive_max($new_keep_alive_max);
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item opt arg2: C<$new_keep_alive_max> ( string )
-
-If passed, sets the new keep_alive_max.
-
-=item ret: C<$keep_alive_max> ( string )
-
-Returns the keep_alive_max setting.
-
-If C<$new_keep_alive_max> is passed returns the setting before the change.
-
-=item since: 1.99_15
-
-=back
-
-
-=head2 C<keep_alive>
-
-META: Autogenerated - needs to be reviewed/completed
-
-Use persistent connections?
-
-  $keep_alive = $s->keep_alive();
-  $prev_keep_alive = $s->keep_alive($new_keep_alive);
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item opt arg2: C<$new_keep_alive> ( string )
-
-If passed, sets the new keep_alive.
-
-=item ret: C<$keep_alive> ( string )
-
-Returns the keep_alive setting.
-
-If C<$new_keep_alive> is passed returns the setting before the change.
-
-=item since: 1.99_15
-
-=back
-
-
-
-=head2 C<path>
-
-META: Autogenerated - needs to be reviewed/completed
-
-Get/set pathname for ServerPath
-
-  $path = $s->path();
-  $prev_path = $s->path($new_path);
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item opt arg2: C<$new_path> ( string )
-
-If passed, sets the new path.
-
-=item ret: C<$path> ( string )
-
-Returns the path setting.
-
-If C<$new_path> is passed returns the setting before the change.
-
-=item since: 1.99_15
-
-=back
-
-
-
-
-=head2 C<names>
-
-META: Autogenerated - needs to be reviewed/completed
-
-Get/set normal names for ServerAlias servers
-
-  $names = $s->names();
-  $prev_names = $s->names($new_names);
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item opt arg2: C<$new_names> (C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>>)
-
-If passed, sets the new names.
-
-=item ret: C<$names> (C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>>)
-
-Returns the names setting.
-
-If C<$new_names> is passed returns the setting before the change.
-
-=item since: 1.99_15
-
-=back
-
-
-
-
-
-=head2 C<wild_names>
-
-META: Autogenerated - needs to be reviewed/completed
-
-Wildcarded names for ServerAlias servers
-
-  $wild_names = $s->wild_names();
-  $prev_wild_names = $s->wild_names($new_wild_names);
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item opt arg2: C<$new_wild_names> (C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>>)
-
-If passed, sets the new wild_names.
-
-=item ret: C<$wild_names> (C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>>)
-
-Returns the wild_names setting.
-
-If C<$new_wild_names> is passed returns the setting before the change.
-
-=item since: 1.99_15
-
-=back
-
-
-
-
-=head2 C<limit_req_line>
-
-META: Autogenerated - needs to be reviewed/completed
-
-Get/set limit on size of the HTTP request line
-
-  $limit_req_line = $s->limit_req_line();
-  $prev_limit_req_line = $s->limit_req_line($new_limit_req_line);
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item opt arg2: C<$new_limit_req_line> ( string )
-
-If passed, sets the new limit_req_line.
-
-=item ret: C<$limit_req_line> ( string )
-
-Returns the limit_req_line setting.
-
-If C<$new_limit_req_line> is passed returns the setting before the
-change.
-
-=item since: 1.99_15
-
-=back
-
-
-=head2 C<limit_req_fieldsize>
-
-META: Autogenerated - needs to be reviewed/completed
-
-limit on size of any request header field
-
-  $limit_req_fieldsize = $s->limit_req_fieldsize();
-  $prev_limit_req_fieldsize = $s->limit_req_fieldsize($new_limit_req_fieldsize);
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item opt arg2: C<$new_limit_req_fieldsize> ( string )
-
-If passed, sets the new limit_req_fieldsize.
-
-=item ret: C<$limit_req_fieldsize> ( string )
-
-Returns the limit_req_fieldsize setting.
-
-If C<$new_limit_req_fieldsize> is passed returns the setting before
-the change.
-
-=item since: 1.99_15
-
-=back
-
-
-
-
-=head2 C<limit_req_fields>
-
-META: Autogenerated - needs to be reviewed/completed
-
-Get/set limit on number of request header fields
-
-  $limit_req_fields = $s->limit_req_fields();
-  $prev_limit_req_fields = $s->limit_req_fields($new_limit_req_fields);
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item opt arg2: C<$new_limit_req_fields> ( string )
-
-If passed, sets the new limit_req_fields.
-
-=item ret: C<$limit_req_fields> ( string )
-
-Returns the limit_req_fields setting.
-
-If C<$new_limit_req_fields> is passed returns the setting before the change.
-
-=item since: 1.99_15
-
-=back
+The affected accessor methods are marked as such in their respective
+documentation entries.
 
 
 
@@ -627,54 +665,6 @@ later as a need arises. If you want to rely on any of the following
 methods please contact the L<the mod_perl development mailing
 list|maillist::dev> so we can help each other take the steps necessary
 to shift the method to an officially supported API.
-
-
-
-
-=head2 C<module_config>
-
-Get config vector containing pointers to modules' per-server config
-structures.
-
-  $module_config = $s->module_config();
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item ret: C<$module_config>
-( C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>> )
-
-Returns the module_config setting.
-
-=item since: subject to change
-
-=back
-
-
-
-
-=head2 C<lookup_defaults>
-
-Get the lookup_defaults value.  MIME type info, etc., before we start
-checking per-directory info.
-
-  $lookup_defaults = $s->lookup_defaults();
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item ret: C<$lookup_defaults>
-( C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>> )
-
-Returns the lookup_defaults setting.
-
-=item since: subject to change
-
-=back
 
 
 
@@ -707,6 +697,128 @@ other APIs.
 
 
 
+
+
+=head2 C<lookup_defaults>
+
+Get the lookup_defaults value.  MIME type info, etc., before we start
+checking per-directory info.
+
+  $lookup_defaults = $s->lookup_defaults();
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item ret: C<$lookup_defaults>
+( C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>> )
+
+Returns the lookup_defaults setting.
+
+=item since: subject to change
+
+=back
+
+
+
+
+
+=head2 C<module_config>
+
+Get config vector containing pointers to modules' per-server config
+structures.
+
+  $module_config = $s->module_config();
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item ret: C<$module_config>
+( C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>> )
+
+Returns the module_config setting.
+
+=item since: subject to change
+
+=back
+
+
+
+
+=head2 C<names>
+
+Get/set the value(s) for the C<ServerAlias> setting
+
+  $names      = $s->names();
+  $prev_names = $s->names($new_names);
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item opt arg1: C<$new_names>
+( C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>> )
+
+If passed, sets the new names.
+
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
+
+=item ret: C<$names> 
+( C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>> )
+
+Returns the names setting.
+
+If C<$new_names> is passed, returns the setting before the change.
+
+=item since: 1.99_15
+
+=back
+
+META: we don't have C<APR::ArrayHeader> yet
+
+
+
+
+
+
+=head2 C<wild_names>
+
+Wildcarded names for ServerAlias servers
+
+  $wild_names      = $s->wild_names();
+  $prev_wild_names = $s->wild_names($new_wild_names);
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item opt arg1: C<$new_wild_names>
+( C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>> )
+
+If passed, sets the new wild_names.
+
+Note the L<limited functionality under threaded
+MPMs|/Limited_Functionality_under_Threaded_MPMs>.
+
+=item ret: C<$wild_names>
+( C<L<APR::ArrayHeader|docs::2.0::api::APR::ArrayHeader>> )
+
+Returns the wild_names setting.
+
+If C<$new_wild_names> is passed, returns the setting before the
+change.
+
+=item since: 1.99_15
+
+=back
+
+META: we don't have C<APR::ArrayHeader> yet
 
 
 

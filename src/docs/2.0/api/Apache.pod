@@ -18,7 +18,7 @@ C<L<Apache::current_callback()|docs::2.0::api::ModPerl::Util/C_current_callback_
 
 There are several modules that require the I<Apache> class as the
 first argument to the class methods that they define. For example
-C<L<Apache::Server|docs::2.0::api::Apache::Server>> defines a class
+C<L<Apache::Server|docs::2.0::api::Apache::ServerRec>> defines a class
 method
 C<L<Apache-E<gt>server|docs::2.0::api::Apache::Server/C_server_>>:
 

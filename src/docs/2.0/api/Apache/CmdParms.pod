@@ -243,7 +243,7 @@ server_rec being configured for
 
 =item obj: C<$obj> (C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
 
-=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item arg1: C<$s> (C<L<Apache::Server|docs::2.0::api::Apache::ServerRec>>)
 
 =item ret: no return value
 

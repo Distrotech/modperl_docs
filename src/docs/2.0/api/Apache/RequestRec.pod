@@ -210,7 +210,7 @@ The connection record to the client
 
 =head2 C<server>
 
-Get the C<L<Apache::Server|docs::2.0::api::Apache::Server>> object for
+Get the C<L<Apache::Server|docs::2.0::api::Apache::ServerRec>> object for
 the server the request C<$r> is running under.
 
   $s = $r->server();
@@ -220,7 +220,7 @@ the server the request C<$r> is running under.
 =item obj: C<$r>
 ( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
-=item ret: C<$s> ( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+=item ret: C<$s> ( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 =item since: 1.99_12
 

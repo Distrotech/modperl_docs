@@ -124,7 +124,7 @@ The pool object to use to allocate APR::PerlIO layer.
 
 =item ret: ( integer )
 
-success or failure value (true/false).
+success or failure value (boolean).
 
 =item since: 1.99_10
 

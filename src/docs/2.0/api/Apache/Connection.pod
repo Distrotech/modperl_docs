@@ -60,7 +60,7 @@ Physical vhost this connection came in on
 
 =item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
 
-=item ret: C<$base_server> (C<L<Apache::Server|docs::2.0::api::Apache::Server>>)
+=item ret: C<$base_server> (C<L<Apache::Server|docs::2.0::api::Apache::ServerRec>>)
 
 =back
 

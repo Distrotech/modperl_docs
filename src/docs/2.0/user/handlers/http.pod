@@ -444,7 +444,7 @@ and here is the C<MyApache::SendEmail> handler:
   use Apache::RequestRec ();
   use Apache::RequestIO ();
   use Apache::RequestUtil ();
-  use Apache::Server ();
+  use Apache::ServerRec ();
   use Apache::Process ();
   use APR::Table ();
   

@@ -46,7 +46,7 @@ Plain text password string
 
 Encrypted or encoded hash. See below for supported hash formats.
 
-=item ret: C<$ok> ( true/false )
+=item ret: C<$ok> ( boolean )
 
 The password either matches or not.
 

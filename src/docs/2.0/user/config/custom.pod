@@ -751,7 +751,7 @@ will contain the object of the virtual host's server. To reach the
 main server's configuration object use:
 
   use Apache::Module ();
-  use Apache::Server ();
+  use Apache::ServerRec ();
   use Apache::ServerUtil ();
   ...
   if ($s->is_virtual) {
@@ -1057,7 +1057,7 @@ things identically, while others differently. So here it the handler:
   
   use Apache::RequestRec ();
   use Apache::RequestIO ();
-  use Apache::Server ();
+  use Apache::ServerRec ();
   use Apache::ServerUtil ();
   use Apache::Module ();
   

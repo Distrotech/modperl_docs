@@ -439,7 +439,7 @@ C<@INC>. Instead use:
 
 in I<httpd.conf> or:
 
-  use Apache::Server ();
+  use Apache::ServerRec ();
   use Apache::ServerUtil ();
   use Apache::Process ();
   my $pool = Apache->server->process->pool;

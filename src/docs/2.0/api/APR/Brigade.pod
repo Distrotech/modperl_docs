@@ -159,7 +159,7 @@ Test whether the bucket brigade is empty
 =item obj: C<$bb>
 ( C<L<APR::Brigade object|docs::2.0::api::APR::Brigade>> )
 
-=item ret: C<$ret> ( true/false )
+=item ret: C<$ret> ( boolean )
 
 =item since: 1.99_15
 

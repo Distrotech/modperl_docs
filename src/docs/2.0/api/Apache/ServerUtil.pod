@@ -50,7 +50,8 @@ Add a component to the version string
 
 =over 4
 
-=item obj: C<$pconf> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item obj: C<$pconf>
+( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
 The pool to allocate the component from (should really be a
 C<$pconf_pool>)
@@ -81,7 +82,7 @@ Check for a definition from the server command line
 
 The define to check for
 
-=item ret: C<$result> (integer)
+=item ret: C<$result> ( boolean )
 
 true if defined, false otherwise
 
@@ -175,9 +176,9 @@ Dynamically add Apache configuration:
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
-=item arg1: C<$lines> (ARRAY ref)
+=item arg1: C<$lines> ( ARRAY ref )
 
 An ARRAY reference containing configuration lines per element, without
 the new line terminators.
@@ -223,7 +224,7 @@ C<L<APR::Table|docs::2.0::api::APR::Table>> methods.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 =item opt arg2: C<$key> ( string )
 
@@ -293,7 +294,7 @@ Start sending STDERR to the error_log file
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 The current server
 
@@ -321,7 +322,7 @@ a given phase.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 =item arg1: C<$hook_name> ( string )
 
@@ -359,11 +360,11 @@ check whether a server level C<PerlOptions> flag is enabled or not.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 =item arg1: C<$flag> ( string )
 
-=item ret: C<$result> ( true/false )
+=item ret: C<$result> ( boolean )
 
 =item since: 1.99_10
 
@@ -427,7 +428,7 @@ given phase.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 =item arg1: C<$hook_name> ( string )
 
@@ -441,7 +442,7 @@ a single handler CODE reference or just a name of the subroutine
 if more than one passed, use a reference to an array of CODE refs
 and/or subroutine names.
 
-=item ret: C<$ok> ( true/false )
+=item ret: C<$ok> ( boolean )
 
 returns a true value on success, otherwise a false value
 
@@ -483,7 +484,7 @@ Get the main server's object
 =item obj: C<Apache> (class name)
 
 =item ret: C<$main_s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 =item since: 1.99_10
 
@@ -510,7 +511,7 @@ C<ServerRoot>:
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 =item opt arg2: C<$fname> ( string )
 
@@ -548,7 +549,7 @@ set handlers are forgotten.
 =over 4
 
 =item obj: C<$s>
-( C<L<Apache::Server object|docs::2.0::api::Apache::Server>> )
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
 
 =item arg1: C<$hook_name> ( string )
 
@@ -565,7 +566,7 @@ and/or subroutine names.
 if the argument is C<undef> or C<[]> the list of handlers is reset to
 zero.
 
-=item ret: C<$ok> ( true/false )
+=item ret: C<$ok> ( boolean )
 
 returns a true value on success, otherwise a false value
 
