@@ -1,6 +1,6 @@
-   <meta name="Author" content="Stas Bekman">
-   <meta name="Description" content="All Apache/Perl related information: Hints, Guidelines, Scenarios and Troubleshottings">
-   <meta name="keywords" content="mod_perl modperl perl cgi apache webserver speed fast guide mod_perl apache guide help info faq mod_perl installation cgi troubleshooting help no sex speedup free open source OSS mod_perl apache guide">
+   <meta name="Author" content="docs-dev (at) perl.apache.org">
+   <meta name="Description" content="mod_perl documentation: Manuals, Hints, Guidelines, Scenarios, Troubleshooting and Help">
+   <meta name="keywords" content="mod_perl modperl perl cgi apache webserver speed fast guide mod_perl asf parent apache guide help info faq mod_perl installation cgi troubleshooting help no sex speedup child rules free open source OSS mod_perl speed suck apache guide manual troubleshoot cgi fast apache sexy ">
    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
    <meta name="Classification" content="information">
    <link href="[% doc.dir.abs_doc_root %]/style.css" rel="stylesheet" type="text/css" title="refstyle">
