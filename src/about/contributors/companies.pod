@@ -24,9 +24,10 @@ MacEachern. (XXX: when/what?)
 
 =item * TicketMaster
 
-In 2002 TicketMaster (http://www.ticketmaster.com/) has sponsored Stas
-Bekman to work on the mod_perl documentation, the new perl.apache.org
-site and contributing to the mod_perl 2.0 development.
+TicketMaster (http://www.ticketmaster.com/) has sponsored Stas Bekman
+to work on the mod_perl documentation, the new perl.apache.org site
+and contributing to the mod_perl 2.0 development (fall 2001 - fall
+2004).
 
 =back
 
