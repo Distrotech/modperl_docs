@@ -2249,6 +2249,31 @@ is equivalent to:
   ok $ok;
   ok $not_ok;
 
+However if you want to use C<t_cmp()> or some other function call in
+the arguments to C<ok()> that won't quite work since the function will
+be always called no matter whether the first argument will evaluate to
+a true or a false value. For example, if you had a function:
+
+  ok t_cmp($expected, $received, $comment);
+
+and now you want to run this sub-test if module C<HTTP::Date> is
+available, changing it to:
+
+  my $should_skip = eval { require HTTP::Date } ? "" : "missing HTTP::Date";
+  skip $should_skip, t_cmp($expected, $received, $comment);
+
+will still run C<t_cmp()> even if C<HTTP::Date> is not
+available. Therefore it's probably better to code it in this way:
+
+  if (eval {require HTTP::Date}) {
+      ok t_cmp($expected, $received, $comment);
+  }
+  else {
+      skip "Skip HTTP::Date not found";
+  }
+
+=head2 Running only Selected Sub-tests
+
 C<Apache::Test> also allows to write tests in such a way that only
 selected sub-tests will be run.  The test simply needs to switch from
 using ok() to sok().  Where the argument to sok() is a CODE reference
