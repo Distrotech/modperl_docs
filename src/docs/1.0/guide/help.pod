@@ -111,9 +111,10 @@ while it reproduces the problem and attach it to the report.
 
 If you build from source, make sure that C<make test> passes 100%.
 
-If 'make test' fails, run the failing tests separately in a verbose
-mode|docs::1.0::guide::install/Manual_Testing> and attach the output of
-the run and the relevant sections of your C<ErrorLog> to the report.
+If C<make test> fails, run the failing tests L<separately, using the
+verbose mode|docs::1.0::guide::install/Manual_Testing> and attach the
+output of the run and the relevant sections of your C<ErrorLog> to the
+report.
 
 =back
 
