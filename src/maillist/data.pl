@@ -80,6 +80,11 @@ DESC
                },
       archives => [
                    {
+                    title   => 'Epigone',
+                    link    => 'http://mathforum.org/epigone/modperl-docs-dev',
+                    comment => '',
+                   },
+                   {
                     title   => 'Mbox file',
                     link    => 'http://perl.apache.org/mail/docs-dev/',
                     comment => '',
@@ -128,8 +133,8 @@ DESC
                },
       archives => [
                    {
-                    title   => 'Mbox file',
-                    link    => 'http://perl.apache.org/mail/dev/',
+                    title   => 'Epigone',
+                    link    => 'http://mathforum.org/epigone/modperl-dev',
                     comment => '',
                    },
                    {
@@ -147,7 +152,11 @@ DESC
                     link    => 'http://www.geocrawler.com/lists/3/web/182/0/',
                     comment => '(it throws all modperl lists in one bundle, not good)',
                    },
-
+                   {
+                    title   => 'Mbox file',
+                    link    => 'http://perl.apache.org/mail/dev/',
+                    comment => '',
+                   },
                   ],
      },
 

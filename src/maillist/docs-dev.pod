@@ -47,6 +47,10 @@ mailto:docs-dev-help@perl.apache.org
 
 =over
 
+=item * Epigone
+
+http://mathforum.org/epigone/modperl-docs-dev 
+
 =item * Mbox file
 
 http://perl.apache.org/mail/docs-dev/ 
