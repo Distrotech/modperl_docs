@@ -1,6 +1,7 @@
 Name: Geoffrey Young
 Email: geoff@modperlcookbook.org
 URL: http://www.modperlcookbook.org/~geoff/
+Image: geoffrey-young.jpg
 Summary: modules, documentation, development.
 
 Geoff has co-authored the <a href="http://www.modperlcookbook.org/">
