@@ -451,12 +451,12 @@ For example:
 
 =head2 C<$r-E<gt>log_reason>
 
-This function provides a convenient way to log of errors in a
-preformatted way
+This function provides a convenient way to log errors in a
+preformatted way:
 
   $r->log_reason($message);
   $r->log_reason($message, $filename);
-  
+
 =over 4
 
 =item obj: C<$r>
@@ -464,23 +464,32 @@ preformatted way
 
 =item arg1: C<$message> ( string )
 
-what to log
+the message to log
 
 =item opt arg2: C<$filename> ( string )
 
-where to report the error as coming from
+where to report the error as coming from (e.g. C<__FILE__>)
 
 =item ret: no return value
 
-A sample log entry would look like:
+=item since: 1.99_17
 
-  [Fri Sep 24 11:58:36 2004] [error] access to /someuri failed for 127.0.0.1, reason: $message
+=back
+
+For example:
+
+  $r->log_reason("There is no enough data");
+
+will generate a log entry similar to the following:
+
+  [Fri Sep 24 11:58:36 2004] [error] access to /someuri
+  failed for 127.0.0.1, reason: There is no enough data.
 
 
 
 
 
-  
+
 
 =head2 C<$r-E<gt>log_rerror>
 
