@@ -162,9 +162,9 @@ searching for modules.
 The mod_perl PPM package also includes the necessary Apache DLL
 F<mod_perl.so>; a post-installation script should be run which will
 offer to copy this file to your Apache2 modules directory (eg,
-F<C:/Apache2/modules/>). If this is not done, get either
-F<mod_perl-2.tar.gz> from
-L<http://theoryx5.uwinnipeg.ca/ppms/x86/>, for builds 8xx; 
+F<C:/Apache2/modules/>). If this is not done, get
+F<mod_perl.tar.gz> from
+L<http://theoryx5.uwinnipeg.ca/ppms/x86/>; 
 when unpacked, this file
 contains F<mod_perl.so> in the top-level directory.
 
