@@ -2155,13 +2155,28 @@ does all the work for you:
       "a bad value",
       "testing feature foo");
 
-In addition it will handle undef'ined values as well, so you can do:
+t_cmp() will handle C<undef>'ined values as well, so you can do:
 
+  my $expected;
   ok t_cmp(undef, $expected, "should be undef");
 
+Finally you can use t_cmp() for regex comparisons. This feature is
+mostly useful when there may be more than one valid expected value,
+which can be described with regex. For example this can be useful to
+inspect the value of C<$@> when eval() is expected to fail:
 
+  eval {foo();}
+  if ($@) {
+      ok t_cmp(qr/^expecting foo/, $@, "func eval");
+  }
 
+which is the same as:
 
+  eval {foo();}
+  if ($@) {
+      t_debug("func eval");
+      ok $@ =~ /^expecting foo/ ? 1 : 0;
+  }
 
 =head2 Tie-ing STDOUT to a Response Handler Object
 
