@@ -29,19 +29,19 @@ following addresses.
 
 =item * subscribe to the list
 
-mailto:modperl-subscribe@apache.org
+mailto:modperl-subscribe@perl.apache.org
 
 =item * subscribe to the list's digest
 
-mailto:modperl-subscribe@apache.org
+mailto:modperl-subscribe@perl.apache.org
 
 =item * unsubscribe from the list
 
-mailto:modperl-unsubscribe@apache.org
+mailto:modperl-unsubscribe@perl.apache.org
 
 =item * get help with the list
 
-mailto:modperl-help@apache.org
+mailto:modperl-help@perl.apache.org
 
 =back
 

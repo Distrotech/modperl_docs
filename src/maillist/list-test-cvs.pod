@@ -30,19 +30,19 @@ following addresses.
 
 =item * subscribe to the list
 
-mailto:test-dev-subscribe@httpd.apache.org
+mailto:test-cvs-subscribe@httpd.apache.org
 
 =item * subscribe to the list's digest
 
-mailto:test-dev-subscribe-digest@httpd.apache.org
+mailto:test-cvs-subscribe-digest@httpd.apache.org
 
 =item * unsubscribe from the list
 
-mailto:test-dev-unsubscribe@httpd.apache.org
+mailto:test-cvs-unsubscribe@httpd.apache.org
 
 =item * get help with the list
 
-mailto:test-dev-help@httpd.apache.org
+mailto:test-cvs-help@httpd.apache.org
 
 =back
 

@@ -11,10 +11,10 @@ mod_perl users and developers to share ideas, solve problems and discuss
 things related to mod_perl and the C<Apache::*> modules.
 DESC
       addr  => {
-                subscribe        => 'modperl-subscribe@apache.org',
-                subscribe_digest => 'modperl-subscribe@apache.org',
-                unsubscribe      => 'modperl-unsubscribe@apache.org',
-                help             => 'modperl-help@apache.org',
+                subscribe        => 'modperl-subscribe@perl.apache.org',
+                subscribe_digest => 'modperl-subscribe@perl.apache.org',
+                unsubscribe      => 'modperl-unsubscribe@perl.apache.org',
+                help             => 'modperl-help@perl.apache.org',
                },
       archives => [
                    {
@@ -166,10 +166,10 @@ committed to the modperl CVS repository a mail is sent here with the
 diff.
 DESC
       addr  => {
-                subscribe        => 'modperl-cvs-subscribe@apache.org',
-                subscribe_digest => 'modperl-cvs-subscribe@apache.org',
-                unsubscribe      => 'modperl-cvs-unsubscribe@apache.org',
-                help             => 'modperl-cvs-help@apache.org',
+                subscribe        => 'modperl-cvs-subscribe@perl.apache.org',
+                subscribe_digest => 'modperl-cvs-subscribe@perl.apache.org',
+                unsubscribe      => 'modperl-cvs-unsubscribe@perl.apache.org',
+                help             => 'modperl-cvs-help@perl.apache.org',
                },
       archives => [
                    {
@@ -229,10 +229,10 @@ including cvs commits of changes for mod_perl's sub-project
 C<Apache::Test>.
 DESC
       addr  => {
-                subscribe        => 'test-dev-subscribe@httpd.apache.org',
-                subscribe_digest => 'test-dev-subscribe-digest@httpd.apache.org',
-                unsubscribe      => 'test-dev-unsubscribe@httpd.apache.org',
-                help             => 'test-dev-help@httpd.apache.org',
+                subscribe        => 'test-cvs-subscribe@httpd.apache.org',
+                subscribe_digest => 'test-cvs-subscribe-digest@httpd.apache.org',
+                unsubscribe      => 'test-cvs-unsubscribe@httpd.apache.org',
+                help             => 'test-cvs-help@httpd.apache.org',
                },
       archives => [
                    {
@@ -254,10 +254,10 @@ A mailing list for B<mod_perl advocacy issues>,
 discussions about the site, etc. 
 DESC
       addr  => {
-               subscribe        => 'docs-dev-subscribe@perl.apache.org',
-                subscribe_digest => 'docs-dev-subscribe-digest@perl.apache.org',
-                unsubscribe      => 'docs-dev-unsubscribe@perl.apache.org',
-                help             => 'docs-dev-help@perl.apache.org',
+               subscribe        => 'advocacy-subscribe@perl.apache.org',
+                subscribe_digest => 'advocacy-subscribe-digest@perl.apache.org',
+                unsubscribe      => 'advocacy-unsubscribe@perl.apache.org',
+                help             => 'advocacy-help@perl.apache.org',
                },
       archives => [
                    {

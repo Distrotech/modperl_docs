@@ -28,19 +28,19 @@ following addresses.
 
 =item * subscribe to the list
 
-mailto:docs-dev-subscribe@perl.apache.org
+mailto:advocacy-subscribe@perl.apache.org
 
 =item * subscribe to the list's digest
 
-mailto:docs-dev-subscribe-digest@perl.apache.org
+mailto:advocacy-subscribe-digest@perl.apache.org
 
 =item * unsubscribe from the list
 
-mailto:docs-dev-unsubscribe@perl.apache.org
+mailto:advocacy-unsubscribe@perl.apache.org
 
 =item * get help with the list
 
-mailto:docs-dev-help@perl.apache.org
+mailto:advocacy-help@perl.apache.org
 
 =back
 
