@@ -4,7 +4,6 @@ body {
     font-family: helvetica, arial, verdana, sans-serif;
     font-size: 1.0em;
     color: #000000;
-    background-color: #ffffff;
 }
 
 p {
@@ -37,6 +36,7 @@ dl, ul, ol {
 h1, h2, h3, h4 {
     font-family: helvetica, arial, verdana, sans-serif;
     color: #000000;
+    background-color: #ffffff;
 }
 h1 { font-size: 1.3em; }
 h2 { font-size: 1.2em; }
@@ -275,29 +275,6 @@ div.index-section {
 
 
 /*** swish-e search stuff ***/
-
-/***********
-Not currently used, but in source or templates:
-
-    span.search-text in tmpl/custom/html/search
-
-    in tmpl/custom/html/search_field
-    td.search-title {
-        font-size: 12px;
-    }
-
-    /* font specs for search box */
-    .radio-font {
-        font-family: verdana, arial, helvetica, sans-serif;
-        font-size: 0.9em;
-        color: #000000;
-    }
-
-    in search.tt for displaying the title
-    td.search-heading
-
-**************/
-
 
 /* Wrapped around the entire search form in src/search/search.tt */
 div.search-form { 
