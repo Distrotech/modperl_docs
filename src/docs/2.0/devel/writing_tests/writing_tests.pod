@@ -111,6 +111,8 @@ You can look at the modperl-2.0's or httpd-test's (I<perl-framework>)
 testing environments which both use C<Apache::Test> for their test
 suites.
 
+=head2 Basic Testing
+
 Running tests is just like for any CPAN Perl module; first we create
 the I<Makefile> and build everything with I<make>:
 
@@ -156,13 +158,17 @@ If you have to run the same tests repeatedly, in most cases you don't
 want to wait for the server to start every time. You can start it
 once:
 
-  % t/TEST -start
+  % t/TEST -start-httpd
 
 and then run tests without restarting the server using I<-run> option:
 
   % t/TEST -run
 
-Once the server is started you can modify I<.t> files and rerun the
+When you are done with tests, stop the server with:
+
+  % t/TEST -stop-httpd
+
+When the server is started you can modify I<.t> files and rerun the
 tests without restarting the server. However if you modify response
 handlers, you must restart the server for changes to take an
 effect. If C<Apache::Reload> is used and configured to automatically
@@ -206,7 +212,7 @@ following two commands are equivalent:
 
 The command:
 
-  % t/TEST -start
+  % t/TEST -start-httpd
 
 always stops the server first if any is running. In case you have a
 server runnning on the same port, (for example if you develop the a
@@ -215,10 +221,81 @@ server on a different port. C<Apache::Test> will try to automatically
 pick a free port, but you can explicitly tell on which port to run,
 using the I<-port> configuration option:
 
-  % t/TEST -start -port 8799
+  % t/TEST -start-httpd -port 8799
 
 or by setting an evironment variable C<APACHE_PORT> to the desired
 value before starting the server.
+
+=head2 Stress Testing
+
+Normally when I<t/TEST> is run without specifying the tests to run,
+the tests will be sorted alphabetically. If tests are explicitly
+passed as arguments to I<t/TEST> they will be run in a specified
+order.
+
+There are a few options useful for stress testing.
+
+=over
+
+=item -times
+
+You can run the tests N times by using the I<-times> option. For
+example to run all the tests 3 times specify:
+
+  % t/TEST -times=3
+
+=item -order
+
+It's possible that certain tests aren't cleaning up after themselves
+and modify the state of the server, which may influence other
+tests. But since normally all the tests are run in the same order, the
+potential problem may not be discovered until the code is used in
+production, where the real world testing hits the problem. Therefore
+in order to try to detect as many problems as possible during the
+testing process, it's may be useful to run tests in different orders.
+
+This if of course mosly useful in conjunction with I<-times=N> option.
+
+Assuming that we have tests a, b and c:
+
+=over
+
+=item * -order=rotate
+
+rotate the tests: a, b, c, a, b, c
+
+=item * -order=repeat
+
+repeat the tests: a, a, b, b, c, c
+
+=item * -order=random
+
+run in the random order, e.g.: a, c, c, b, a, b
+
+In this mode the used srand() seed is printed to STDOUT, so it then
+can be used to rerun the tests in exactly the same order.
+
+=item * -order=SEED
+
+used to initialize the pseudo-random algorithm, which allows to
+reproduce the same sequence of tests. For example if we run:
+
+  % t/TEST -order=random -times=5
+
+and the seed 234559 is used, we can repeat the same order of tests, by
+running:
+
+  % t/TEST -order=234559 -times=5
+
+Alternatively, the environment variable C<APACHE_TEST_SEED> can be set
+to the value of seed.
+
+=back
+
+=back
+
+
+
 
 META: a lot more stuff to go here from the pods/modperl_dev.pod and
 Apache-Test/README
