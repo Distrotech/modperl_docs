@@ -237,6 +237,14 @@ going anywhere at that time. It collected news and articles about
 mod_perl and also related issues such as other interesting Apache
 modules.
 
+Also in October 2000, Geoffrey Young got the idea to begin a mod_perl
+mailing list digest (see
+http://marc.theaimsgroup.com/?l=apache-modperl-dev&m=97051473628623&w=2
+and
+http://marc.theaimsgroup.com/?l=apache-modperl&m=97059662005378&w=2 ),
+which he kept up regularly (weekly, then biweekly) up until late 2001,
+when James G. Smith took over and has been running it since then.
+
 The I<mod_perl Pocket Reference>
 (http://www.oreilly.com/catalog/modperlpr/), by Andrew Ford, was
 published by O'Reilly and Associates in December 2000. It summarizes
@@ -255,7 +263,6 @@ valuable resource to everyone.
   - beginnings of new site
   - conferences w/ mod_perl present
   - when Doug and Stas funded? Stas: August 2001; end 2002
-  - digest started?
 
 
 =head1 The arrival of 2.0
