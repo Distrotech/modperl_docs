@@ -134,6 +134,22 @@ You need to install at least version 2.87 of CGI.pm to work
 under mod_perl 2.0, as earlier CGI.pm versions aren't
 mod_perl 2.0 aware.
 
+
+=head1 Issues with APR Used Outside of mod_perl
+
+It doesn't strictly belong to this document, since it's talking about
+APR usages outside of mod_perl, so this may move to its own dedicated
+page, some time later.
+
+Whenever using an C<APR::> package outside of mod_perl, you need to:
+
+    use APR;
+
+in order to load the XS subroutines. For example:
+
+  % perl -MApache2 -MAPR -le 'use APR::Table; use APR::Pool; \
+  $table = APR::Table::make(APR::Pool->new, 2);'
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
