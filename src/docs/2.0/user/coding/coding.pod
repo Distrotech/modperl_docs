@@ -74,14 +74,14 @@ Any of these environment variables can be accessed via C<%ENV>.
 =head2 Threaded MPM or not?
 
 If the code needs to behave differently depending on whether it's
-running under one of the threaded MPMs, or not, the
-C<Apache::MPM-E<gt>is_threaded> method can be used. For example:
+running under one of the threaded MPMs, or not, the class method
+C<Apache::MPM-E<gt>is_threaded> can be used. For example:
 
   use Apache::MPM ();
-  use APR::OS ();
   if (Apache::MPM->is_threaded) {
-      my $id = APR::OS::thread_current();
-      print "current thread id: $id";
+      require APR::OS;
+      my $tid = APR::OS::thread_current();
+      print "current thread id: $tid (pid: $$)";
   }
   else {
       print "current process id: $$";
@@ -89,6 +89,31 @@ C<Apache::MPM-E<gt>is_threaded> method can be used. For example:
 
 This code prints the current thread id if running under a threaded
 MPM, otherwise it prints the process id.
+
+=head2 Writing MPM-specific Code
+
+If you write a CPAN module it's a bad idea to write code that won't
+run under all MPMs, and developers should strive to write a code that
+works with all mpms. However it's perfectly fine to perform different
+things under different mpms.
+
+If you don't develop CPAN modules, it's perfectly fine to develop your
+project to be run under a specific MPM.
+
+  use Apache::MPM ();
+  my $mpm = lc Apache::MPM->show;
+  if ($mpm eq 'prefork') {
+      # prefork-specific code
+  }
+  elsif ($mpm eq 'worker') {
+      # worker-specific code
+  }
+  elsif ($mpm eq 'winnt') {
+      # winnt-specific code
+  }
+  else {
+      # others...
+  }
 
 
 =head1 Code Developing Nuances
