@@ -5,8 +5,6 @@ Basic Layout:
 
 - NS4, cannot make bg-image to render
 
-- NS4, this pages is messed up: dst_html/download/bundles.html
-
 - NS4, if PRE is long the page is scrolled to the right! See
   dst_html/docs/2.0/devel/debug_c/debug_c.html#Analyzing_the_core_File
 
@@ -25,6 +23,8 @@ style.css:
 
 - the pdf/src images are a little bit too big vertically, so if some
   pages don't have this icon the bar following the title jumps.
+
+- how do we make [prev|up|next] widget do the same as <td NOWRAP>?
 
 Templates:
 ----------
@@ -69,8 +69,9 @@ Search:
   previews.
 
 - can we take the swish-e further and instead of linking to the static
-  page, link to a page created dynamically, by taking the static page
-  and highlighting the matched words, similar to google's cache?
+  matching page, link to a page created dynamically, by taking the
+  static page and highlighting the matched words, similar to google's
+  cache?
 
 ====================================================================
 
@@ -80,3 +81,35 @@ Later:
 - Think about porting the conferences stuff
 
 
+====================================================================
+
+The site's usability figures by platform/browser:
+-------------------------------------------------
+ +2 = perfect
+ +1 = good, 
+  0 = usable, but looks bad
+ -1 = unusable
+ -2 = browser crashes
+
+Graphic Browsers:
+
+Name/Version     Linux WinXX MacOS 
+------------------------------------
+Mozilla/0.9.7     +2    
+Netscape/4.79     -0
+Opera/5.0         +2
+Konquerer/2.2.1   +2
+
+
+Text Browsers:
+
+Name/Version     Linux WinXX MacOS 
+------------------------------------
+links/0.96-6mdk   +1
+lynx-2.8.5-0.3mdk +2
+
+
+Notes:
+
+- Galleon uses the same engine (gecko) as Mozilla so the rendering is
+  the same.
