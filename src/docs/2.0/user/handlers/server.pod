@@ -648,8 +648,10 @@ Finally as usual the I<startup.pl> file must be terminated with C<1;>.
 
 =head2 Dealing with Restarts
 
-META: to be written, talk about Apache::ServerUtil::restart_count();
-see t/conf/post_config_startup.pl
+Ideally the code running at the server startup shouldn't be affected
+by L<the apache restart|/Start_Immediately_Restarts>. If however this
+is not the case, you can use
+C<L<Apache::ServerUtil::restart_count|docs::2.0::api::Apache::ServerUtil/C_restart_count_>>.
 
 
 
