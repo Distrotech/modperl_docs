@@ -68,15 +68,12 @@
 [% END %]
 
 [% BLOCK sub_items %]
-    <ul>
     [%- FOREACH sec = subs -%]
 
-    <li class="search-list">[% CGI.checkbox('sbm', 0, sec.section, sec.label); %]
-        [%- IF sec.subs -%][%- PROCESS sub_items subs=sec.subs -%][%- END -%]</li>
+    <div class="level">[% CGI.checkbox('sbm', 0, sec.section, sec.label); %]
+        [%- IF sec.subs -%][%- PROCESS sub_items subs=sec.subs -%][%- END -%]</div>
 
     [%- END -%]
-    </ul>
-
 [% END %]
 
 [% BLOCK search_form %]
@@ -150,7 +147,7 @@
 [% BLOCK results_list %]
 
     [% FOREACH item = search.results %]
-        <dl>
+        <dl class="toc">
             <dt>
                 <span class="search-result-title">
                     [% item.swishreccount %]

@@ -298,13 +298,6 @@ div.search-form {
 /*     margin: 0px 0px 2px 0px; */
 }
 
-
-/* List of site sections in search.tt */
-li.search-list {
-    list-style: none;
-}
-
-
 /* "Results for" line in search results search.tt */
 td.search-header {
     background-color: #525d76;
