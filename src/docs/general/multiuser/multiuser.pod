@@ -14,6 +14,13 @@ although the number of these is not as big as we would have liked it
 to be. To see a list of ISPs that can provide mod_perl hosting, see
 L<ISPs supporting mod_perl|help::isps>.
 
+Note: At this moment this document talks about mod_perl 1.0. mod_perl
+2.0 coupled with the perchild mpm
+(http://httpd.apache.org/docs-2.0/mod/perchild.html) will allow
+different users run mod_perl handlers under different uid/gid. This
+solves the problem of secure co-existing of more than one mod_perl
+user on the same httpd server.
+
 
 =head1 ISPs providing mod_perl services - a fantasy or a reality
 
