@@ -90,7 +90,7 @@ get the source code. Many articles involve mod_perl.
 
 Linux Magazin (german), I<Bis in den roten Bereich> - Examples on
 performance test scripts to see the modperl benefits:
-http://www.linux-magazin.de/ausgabe/1998/08/Pounder/pounder.html .
+http://www.linux-magazin.de/Artikel/ausgabe/1998/08/Pounder/pounder.html .
 
 =back
 
@@ -222,8 +222,8 @@ http://www.logilune.com/eric/
 =item *
 
 Mike Fletcher has two introductory talks on mod_perl:
-http://www.phydeaux.org/perl/yapc/ and
-http://www.phydeaux.org/perl/mptalk/ .
+http://phydeaux.org/perl/yapc/ and
+http://phydeaux.org/perl/mptalk/ .
 
 =item *
 

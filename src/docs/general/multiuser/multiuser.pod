@@ -284,7 +284,7 @@ solutions suggested at the beginning of this chapter.
 Allows running a few instances of the same or different OSs on the
 same machine. This technology comes in two flavors:
 
-Open source: http://www.plex86.org/
+Open source: http://savannah.nongnu.org/projects/plex86/
 
 Commercial: http://www.vmware.com/
 
