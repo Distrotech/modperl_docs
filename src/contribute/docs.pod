@@ -1,0 +1,47 @@
+=head1 NAME
+
+Contribute to the Documentation
+
+=head1 Submit Corrections
+
+There is a lot of mod_perl documentation. And we are sure it includes
+documentation bugs. So if you spot any make sure to report it.
+
+The documentation includes code examples, which sometimes were written
+without testing, so it's possible that they are broken. If some
+example doesn't work for you, please, let us know.
+
+If you notice bad English grammar and speling :), don't hesitate to
+tell us where and what do you think is the best way to fix it.
+
+=head1 Submit New Articles
+
+If you have some mod_perl knowledge that is not documented please
+share it and send us the documentation patch, or a complete new
+article. This can include installation and configuration scenarious,
+performance improving tips, debugging techniques and what not.
+
+Developers using mod_perl constantly work with other technologies
+related to mod_perl. If you have spent some time lurking on the
+mod_perl lists, you have probably discovered that mod_perl developers
+are pros in many other related fields, such as Apache, Perl,
+relational databases, etc. If you think that the mod_perl community
+will find an information about a related technology useful, please
+submit this information for the inclusion in the documentation.
+
+=head1 How to Send Information and Where
+
+The documentation contributions and corrections are to be sent to the
+mod_perl documentation mailing list.
+
+If the correction is minor, please specify the URL you are talking
+about, and preferrably the version number of the document if such is
+available.
+
+If the correction is medium to large, please retrieve the
+documentation source package or use the cvs repository and submit the
+patch against the latest version.
+
+META: links?
+
+=cut

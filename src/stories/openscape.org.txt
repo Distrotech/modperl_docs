@@ -1,0 +1,63 @@
+Subject:      Mod_perl Uber Alles
+From:       Christopher A. Thompson <x4@ROCKETMAIL.COM>
+Date:         Wed, 15 Apr 1998 09:34:19 -0700
+
+I have put up a site that's a true testament to mod perl's power. (He
+said humbly).
+
+http://openscape.org now contains the new site that I've been writing
+over the last 2 weeks.
+
+The site is generated 100% dynamically by my module Obelisk.pm. Apache
+1.2.6 and mod_perl 1.10 are used, and the module is inserted to run on
+<Location />. MySQL and DBD::MySQL provide the back end object store.
+
+I keep all text, news items, and the like in the SQL database. at
+request time, the module takes the following steps.
+
+$method = $r->method;
+$loc = $r->uri;
+
+$loc is then parsed out. Depending on the "page" requested the module
+generates a page based on several SQL calls, and prints the result
+back out. I pass args on to the subrequests this way too, such as
+http://openscape.org/rnews/12  will read news item 12. It's all
+handled in the URL parsing. For the forms handling when you post a
+news item, I use CGI_Lite to grab things off POST. (If $method is
+POST), since Apache:: cant grab POST by default. I plan to implement
+my own POST handler, I just havent gotten around to it.
+
+You can post comments on news items, and those will be generated
+dynamically too. (a-la slashdot.org if you're familiar).
+
+The amazing part of all this is twofold. First, it's all done in 427
+lines of perl and 6 SQL tables. Slashdot is 2500 lines of code.
+Second, while I dont have any definitive numbers, this looks like it's
+going to scale very large. I've thrown a few large parallel requests
+at it (just simple LWP gets, in many parallel processes) and it doesnt
+seem to slow down. This box is just a P5/166 with 64megs RAM and Linux
+2.0.31.
+
+This all occurs with no CGI.pm, no Apache::Registry, no on disk
+content but the Obelisk.pm. I am so spoiled by this method that I dont
+think I can go back. I'm writing a Doc on the process and I'll have it
+up soon. I know I'm not the first person to do this, but the process
+doesnt seem to be exceedingly documented. Oh, and Obelisk will be
+GPL'ed as soon as I gather it into a form that's fit for human
+consumption.
+
+Thanks Doug and crew for mod_perl.
+
+-Chris
+
+
+
+===
+------------------------------------------------------------
+Chris Thompson    |I do not wish it to be misconstrued that
+ct@x4.net         |     at no time was I not in total
+ct@cthompson.org  |      Disagreement   --Anonymous
+------------------------------------------------------------
+
+
+

@@ -1,0 +1,24 @@
+=head1 NAME
+
+Rent.com runs mod_perl
+
+=head1 Info
+
+=over
+
+=item * Author: Eric Hammond E<lt>ehammond (at) rent.comE<gt>
+
+=item * Date: Fri, 14 Dec 2001 14:27:41 -0800
+
+=back
+
+=head1 The Story
+
+  http://www.rent.com/
+  
+  Rent.com is a dynamic, database driven web site built on mod_perl.
+  Initial development took 3 months to replace an NT/IIS/ASP
+  implementation.
+
+=cut
+

@@ -1,0 +1,58 @@
+=head1 NAME
+
+Development CVS mailing list
+
+=head1 Description
+
+The B<modperl-cvs> list is the list where you can watch mod_perl
+getting patched.  No real discussions happen on this list, but if you
+want to know about the latest changes in the mod_perl core before the
+rest of the people, this is a list to be on. Everytime something gets
+committed to the modperl CVS repository a mail is sent here with the
+diff.
+
+Please read the mailing list L<Guidelines|email-etiquette> before
+posting.
+
+=head1 Subscription Information
+
+To subscribe or unsubscribe send an empty email to one of the
+following addresses.
+
+=over
+
+=item * subscribe to the list
+
+mailto:modperl-cvs-subscribe@apache.org
+
+=item * subscribe to the list's digest
+
+mailto:modperl-cvs-subscribe@apache.org
+
+=item * unsubscribe from the list
+
+mailto:modperl-cvs-unsubscribe@apache.org
+
+=item * get help with the list
+
+mailto:modperl-cvs-help@apache.org
+
+=back
+
+=head1 Searchable Archives
+
+=over
+
+=item * marc.theaimsgroup.com
+
+http://marc.theaimsgroup.com/?l=apache-modperl-cvs&r=1&w=2#apache-modperl-cvs 
+
+=item * Mbox file archive
+
+http://perl.apache.org/mail/modperl-cvs/ 
+
+=back
+
+
+=cut
+

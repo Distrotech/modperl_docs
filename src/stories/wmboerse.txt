@@ -1,0 +1,47 @@
+To: modperl@apache.org
+Subject: mod_perl at its best.
+Organization: UUNET Deutschland Web Competence Center
+Date: Fri, 05 Jun 1998 16:13:18 +0200
+From: Sven Neuhaus <Sven.Neuhaus@de.uu.net>
+Subject: Large real-time stock exchange game
+
+Hello,
+
+another mod_perl success story:
+
+Have a look at www.wmboerse.de - it's a german real-time 
+stock exchange simulation game for the soccer world championship.
+Participation is free and there are some nice prices to be won.
+
+The technology used is Apache, mod_perl, DBI and DB::Adabas. The
+project is sponsored by Sun Microsystems (they are supplying
+a Sun Ultra Enterprise 450 with 3 CPUs @ 300Mhz and 1GByte RAM at 
+the moment), UUNET Germany (bandwidth) and Software AG 
+(Adabas-D database).
+
+The server is a real beast. It's amazingly fast. The game is running
+since Sunday. At the moment, there are 2344 players, 183 of them
+have been active in the last 10 minutes. We are expecting a large
+increase in players as soon as national television reports about
+the game.
+
+The load is at 0.80, there are 123 processes, still 400MB RAM free
+(we plugged in 512 MB today, previously the box had 512MB).
+We will increase the maximum number of child processes if we get 
+close to the current limit (100).
+
+Here's some data from the Apache status page:
+Server uptime: 4 hours 10 minutes 58 seconds
+Total accesses: 254671 - Total Traffic: 902.9 MB (!)
+CPU Usage: u27.68 s10.98 cu2.03 cs.63 - .274% CPU load
+16.9 requests/sec - 61.4 kB/second - 3717 B/request
+18 requests currently being processed, 14 idle servers 
+
+Anyway, grab a browser and have a look. The project is a great success
+so far, and it couldn't have been done this easily and quickly without 
+mod_perl and the other great free software out there.
+
+Thanks and enjoy!
+
+-Sven Neuhaus
+

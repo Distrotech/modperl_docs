@@ -1,0 +1,56 @@
+=head1 NAME
+
+[% list.title -%] mailing list
+
+=head1 Description
+
+[% list.desc -%]
+
+Please read the mailing list L<Guidelines|email-etiquette> before
+posting.
+
+=head1 Subscription Information
+
+To subscribe or unsubscribe send an empty email to one of the
+following addresses.
+
+=over
+
+=item * subscribe to the list
+
+mailto:[% list.addr.subscribe %]
+
+=item * subscribe to the list's digest
+
+mailto:[% list.addr.subscribe_digest %]
+
+=item * unsubscribe from the list
+
+mailto:[% list.addr.unsubscribe %]
+
+=item * get help with the list
+
+mailto:[% list.addr.help %]
+
+=back
+
+=head1 Searchable Archives
+
+[% IF list.archives.size -%]
+=over
+[% FOREACH arch = list.archives -%]
+[% IF arch -%]
+
+=item * [% arch.title %]
+
+[% arch.link -%] [% arch.comment -%]
+
+[% END -%]
+[% END -%]
+
+=back
+[% END -%]
+
+
+=cut
+

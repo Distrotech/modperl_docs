@@ -1,0 +1,59 @@
+=head1 NAME
+
+Embperl mailing list
+
+=head1 Description
+
+The B<embperl mailing list> is available for I<Embperl>
+L<http://perl.apache.org/embperl/> users and developers to share
+ideas, ask question and solve problems.
+
+Please read the mailing list L<Guidelines|email-etiquette> before
+posting.
+
+=head1 Subscription Information
+
+To subscribe or unsubscribe send an empty email to one of the
+following addresses.
+
+=over
+
+=item * subscribe to the list
+
+mailto:embperl-subscribe@perl.apache.org
+
+=item * subscribe to the list's digest
+
+mailto:embperl-subscribe-digest@perl.apache.org
+
+=item * unsubscribe from the list
+
+mailto:embperl-unsubscribe@perl.apache.org
+
+=item * get help with the list
+
+mailto:embperl-help@perl.apache.org
+
+=back
+
+=head1 Searchable Archives
+
+=over
+
+=item * ecos.de
+
+http://www.ecos.de/~mailarc/embperl/ 
+
+=item * geocrawler.com
+
+http://www.geocrawler.com/lists/3/Web/187/0/ 
+
+=item * Mbox file
+
+http://perl.apache.org/mail/embperl 
+
+=back
+
+
+=cut
+

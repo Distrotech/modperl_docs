@@ -1,0 +1,21 @@
+Subject:      Computer Aided Teaching system at Mathematics Department at the University of Western Australia
+From:       Kevin Judd <kevin@MATHS.UWA.EDU.AU>
+Date:         Mon, 9 Mar 1998 09:41:44 +0800
+
+At the Mathematics Department at the University of Western Australia I
+have a web-based computer aided teaching system using mod_perl. The
+students have individual weekly assignments in calculus, statistics,
+linear algebra with diagnostics and assessment built in. The system
+relieves academic staff of the burden of assignment marking and provides
+more personal interaction with students. The system requires database
+management and connection to a computer algebra engine. The transfer from
+a slow/unreliable/Macintosh/Hypercard/Mathematica system to a
+fast/reliable/web system took a couple of months and I had never
+programmed in perl before. The whole excersize was amazingly painless and
+it was entirely mod_perl's doing.
+
+http://CalMaeth.maths.uwa.edu.au
+
+
+Kevin
+

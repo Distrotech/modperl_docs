@@ -1,0 +1,20 @@
+Subject:      Students astronomy site
+From:       Smelly Belly <smiley@SEDS.ORG>
+Date:         Fri, 6 Mar 1998 12:07:59 -0700
+
+I run a web site for approximately 1200 students of introductory astronomy
+here at the U of Arizona. The server is an old Sun Sparc 1 and we use
+lots of perl CGI's to connect to a database on the backend and create
+custom pages. Before mod_perl, the site was unacceptable slow. Now, with
+the scripts re-written to use mod_perl, the dynamically created pages load
+faster than regular HTML files.
+
+Mr. Guy Smiley
+--
+e-mail:  ( smiley at seds dot org )
+website: ( double u double u double u dot seds dot org slash tilde smiley )
+phone:   ( five two zero three two one one nine six four )
+--
+"I root for a big comet or asteroid as a way of cleansing the planet."
+ George Carlin
+

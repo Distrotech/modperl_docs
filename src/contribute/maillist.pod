@@ -1,0 +1,26 @@
+=head1 NAME
+
+Contribute at the Mailing List
+
+=head1 Answering Questions
+
+Since mod_perl is an open source technology, it's main support
+facility is its mailing lists. Therefore it's very essential to
+support users and developers by sharing your mod_perl and related
+knowledge through answering questions and submitting interesting posts
+that enrich community's knowledge in the related topics.
+
+You don't have to be a guru, to be a very valuable person to the
+mod_perl community. Through answering questions you learn a lot by
+yourself, and eventually become a guru yourself.
+
+=head1 Helping Navigating the Documentation
+
+mod_perl is one of the few open source projects that bundled with a
+lot of documentation. The only problem is that it's very hard to read
+all the documentation when someone just starts with
+mod_perl. Therefore helping to find the right document to read when
+someone in trouble is a noble thing to do.
+
+=cut
+

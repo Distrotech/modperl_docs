@@ -1,0 +1,54 @@
+=head1 NAME
+
+Source and Binary mod_perl distributions
+
+=head1 Description
+
+This page includes links to various source and binary mod_perl
+distributions. If you know about a distribution that isn't listed
+here, please tell us (by announcing it at the mod_perl list).
+
+=head1 Locations
+
+=over
+
+=item *
+
+Master Source distribution - Release http://perl.apache.org/dist, the
+latest CVS snapshot http://cvs.apache.org/snapshots/
+
+=item *
+
+Win32 mod_perl Binaries (made by Randy Kobes) -
+ftp://theoryx5.uwinnipeg.ca/pub/other/. Grab a perl-win32-bin-x.x.exe
+self-extracting file. There's accompanying readme files with more details
+on the particular versions of packages included. These all include Perl
+and some common modules, so are largish.
+
+=item *
+
+Win32 ActivePerl mod_perl ppms - suitable for builds 6xx.  You can install
+this by, within the ppm shell, setting the repository to
+I<http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer> and
+typing C<install mod_perl>. This will also run a post-install script to
+install the required mod_perl.so to your Apache modules/ directory. This
+mod_perl package is built against the current stable Apache release -
+earlier versions are available
+(http://theoryx5.uwinnipeg.ca/ppmpackages/mod_perl-legacy/), as are some
+ppms of other Apache modules (http://theoryx5.uwinnipeg.ca/ppmpackages/).
+
+=item *
+
+Static mod_perl and libapreq (Apache::Request) RPMs and SRPMs (made by
+David Harris ) http://www.davideous.com/modperlrpm/distrib/. Mirrored at
+http://perl.apache.org/rpm/.
+
+=item *
+
+i386 RPMs + SRPM (RedHat) of Apache with mod_perl and php3 built
+staticaly. (made by Vladimir Ivaschenko)
+http://www.hazard.maks.net/apache/
+
+=back
+
+=cut
