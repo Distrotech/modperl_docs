@@ -159,13 +159,21 @@ If you don't have the prerequisites installed yet, install them now.
 =item Perl
 
   % cd perl-5.8.x
+  % ./Configure -des
+
+If you L<need the threads
+support|docs::2.0::user::install::install.html/Prerequisites>, run:
+
   % ./Configure -des -Dusethreads
-  % make && make test && make install
 
 If you want to debug mod_perl segmentation faults, add the
 following I<./Configure> options:
 
   -Doptimize='-g' -Dusedevel
+
+Now build it:
+
+  % make && make test && make install
 
 
 =item Apache
