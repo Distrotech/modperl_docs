@@ -45,7 +45,7 @@
             <td class="menu-border"><br></td>
             <td class="non-sel-bg" align="center">
                 <div class="nonselectedmenuitem">
-                    <form method="post" action="[% doc.dir.abs_doc_root %]/search/swish.cgi" enctype="application/x-www-form-urlencoded" name="site_search_form">
+                    <form method="GET" action="[% doc.dir.abs_doc_root %]/search/swish.cgi" enctype="application/x-www-form-urlencoded" name="site_search_form">
                         [% PROCESS search_widget %]
                     </form>
                 </div>
