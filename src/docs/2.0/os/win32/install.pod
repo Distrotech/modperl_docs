@@ -182,23 +182,23 @@ before loading F<mod_perl.so>. If all else fails, a reboot may help.
 
 If the I<theoryx5.uwinnipeg.ca> repository is down, you can
 access these packages at 
-L<http://theoryx5.uwinnipeg.ca/apache/perl/win32-bin/ppms/>,
+L<http://www.apache.org/dyn/closer.cgi/perl/win32-bin/ppms/>,
 for builds 8xx, and
-L<http://theoryx5.uwinnipeg.ca/apache/perl/win32-bin/ppmpackages/>,
+L<http://www.apache.org/dyn/closer.cgi/perl/win32-bin/ppmpackages/>,
 for builds 6xx.
 
 =head2 All in one packages
 
 There is an IndigoPerl Perl/Apache 2 binary package available from
 L<http://www.indigostar.com/> containing mod_perl 2. As well,
-at L<http://theoryx5.uwinnipeg.ca/apache/perl/win32-bin/> 
+at L<http://www.apache.org/dyn/closer.cgi/perl/win32-bin/> 
 there is a self-extracting
 archive F<Perl-5.8-win32-bin.exe> containing a binary version
 of perl-5.8 (compatible with ActivePerl 8xx), together with Apache 2.0
 and mod_perl 2.0. See the file F<Perl-5.8-win32-bin.readme> for
 a description. If you have trouble
 fetching the whole file at once, the directory
-L<http://theoryx5.uwinnipeg.ca/apache/perl/win32-bin/Perl-5.8-win32-bin/>
+L<http://www.apache.org/dyn/closer.cgi/perl/win32-bin/Perl-5.8-win32-bin/>
 contains this distribution split across multiple files -
 see F<README.join> for instructions on how to join them. Alternatively,
 if you have Perl already, you can get the script
