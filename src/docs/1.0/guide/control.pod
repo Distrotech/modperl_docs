@@ -28,7 +28,7 @@ This will produce a list of all the C<httpd_perl> (parent and
 children) processes.  You are looking for the parent process. If you
 run your server as root, you will easily locate it since it belongs to
 root. If you run the server as some other user (when you L<don't have
-root access|guide::install/nstallation_Without_Superuser_Privileges>,
+root access|guide::install/Installation_Without_Superuser_Privileges>,
 the processes will belong to that user unless defined differently in
 I<httpd.conf>.  It's still easy to find which is the parent--usually
 it's the process with the smallest PID.
