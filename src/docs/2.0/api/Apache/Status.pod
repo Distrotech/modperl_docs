@@ -24,8 +24,8 @@ about the status of the Perl interpreter embedded in the server.
 Configure like so:
 
   <Location /perl-status>
-       SetHandler modperl
-       PerlResponseHandler Apache::Status
+      SetHandler modperl
+      PerlResponseHandler Apache::Status
   </Location>
 
 Notice that under the
@@ -37,21 +37,21 @@ C<L<"perl-script"|docs::2.0::user::config::config/C_perl_script_>>
 core handler, configure C<Apache::Status> as:
 
   <Location /perl-status>
-       SetHandler perl-script
-       PerlResponseHandler Apache::Status
+      SetHandler perl-script
+      PerlResponseHandler Apache::Status
   </Location>
 
 Other modules can "plugin" a menu item like so:
 
   require Apache::Module;
   Apache::Status->menu_item(
-     'DBI' => "DBI connections", #item for Apache::DBI module
-     sub {
-         my($r, $q) = @_; #request and CGI objects
-         my(@strings);
-         push @strings,  "blobs of html";
-         return \@strings;     #return an array ref
-     }
+      'DBI' => "DBI connections", #item for Apache::DBI module
+      sub {
+          my($r, $q) = @_; #request and CGI objects
+          my(@strings);
+          push @strings,  "blobs of html";
+          return \@strings;     #return an array ref
+      }
   ) if Apache::Module::loaded('Apache::Status');
 
 B<WARNING>: C<Apache::Status> must be loaded before these modules via
