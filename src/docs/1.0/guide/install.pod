@@ -681,9 +681,60 @@ you might get:
   mod_perl.o(.text+0x13b): undefined reference to `Perl_av_undef'
   [more errors snipped]
 
-This happens when you have Perl built statically linked, with no
-shared I<libperl.a>.  Build a dynamically linked Perl (with
-I<libperl.a>) and the problem will disappear.
+This happens when you have a statically linked perl build
+(i.e. without a shared I<libperl.so> library).  Build a dynamically
+linked perl (with I<libperl.so>) and the problem will disappear. See
+the "Building a shared Perl library" section from the I<INSTALL> file
+that comes with Perl source.
+
+=for html Also see <a
+href="http://modperlbook.org/html/ch15_04.html">Chapter 15.4 - Perl
+Build Options"</a> from <a href="http://modperlbook.org/">Practical
+mod_perl</a>.
+
+=head4 Further notes on libperl.(a|so)
+
+Library files such as I<libfoo.a> are archives that are used at
+linking time - these files are completely included in the final
+application that linked it.
+
+Whereas I<libfoo.so> indicates that it's a shared library. At the
+linking time the application only knows which library it wants. Only
+at the loading time (runtime) that shared library will be loaded.
+
+One of the benefits of using a shared library, is that it's loaded
+only once. If there are two application linking to F<libperl.so> that
+run at the same time, only the first application will need to load
+it. The second application will share that loaded library (that
+service is provided by the OS kernel). In the case of static
+I<libfoo.a>, it'll be loaded as many times as there are applications
+that included it, thus consuming more memory. Of course this is not
+the only benefit of using shared libs.
+
+In mod_perl 1.0, the library file is unfortunately named
+F<libperl.(so|a)>. So you have F<libperl.(so|a)> which is perl, and
+you have F<libperl.(so|a)> which is modperl. You are certainly looking
+at the modperl version of F<libperl.a> if you find it in the apache
+directory. perl's F<libperl.(so|a)> lives under the perl tree (e.g. in
+F<5.8.6/i686-linux/CORE/libperl.so>).
+
+Some distributions (notably Debian) have chosen to put F<libperl.so>
+and F<libperl.a> into the global library loader path (e.g.,
+F</usr/lib>) which will cause linking problems when compiling mod_perl
+(if compiling against static perl), in which case you hould move aside
+the F<libperl.a> while building mod_perl or else will likely encounter
+further errors. If building against the dynamic perl's F<libperl.so>,
+you may have similar problems but at startup time. It's the best to
+get rid of perl that installs its libs into F</usr/lib> (or similar)
+and reinstall a new perl, which puts its library under the perl tree.
+
+
+
+
+
+
+
+
 
 =head2 mod_perl Building (make)
 
