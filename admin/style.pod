@@ -348,6 +348,21 @@ visual merges. I'm sure other editors provide similar functionality.
 [Stas: if you know about these functionalities, please let me know so
 we can share the knowledge with others who don't use emacs.]
 
+To submit normal patches (when they are minor changes, and you're sure
+the document hasn't changed), use the C<cvs diff> method:
+
+  ai% cvs diff -u src/docs/1.0/...pod
+
+If you're adding a file, especially if it needs a new directory, it
+might be a good idea to submit a patch against C</dev/null>, which
+will automatically create the new directory, like this.
+
+  ai% diff -u /dev/null newdir/newfilename.pod
+
+Or on Windows:
+
+  ai% diff -u NUL newdir/newfilename.pod
+
 =head2 Adding Inline Remarks
 
 =over 4
