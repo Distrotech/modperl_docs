@@ -31,8 +31,8 @@ used under mod_perl.
 
 =back
 
-For a complete list of modules, see the L<Apache/Perl Module
-list|products::apache-modlist>.
+For a complete list of modules, see the L<Apache/Perl Modules
+|products::apache-modules>.
 
 
 =head1 Apache::Session - Maintain session state across HTTP requests

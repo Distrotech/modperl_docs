@@ -1,6 +1,6 @@
 =head1 NAME
 
-Application Servers and Toolkits based on mod_perl.
+Application Servers and Toolkits based on mod_perl
 
 =head1 Description
 

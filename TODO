@@ -15,12 +15,6 @@ Basic Layout:
 DocSet:
 -------
 
-- need to be able to copy elements from the <head> section of the
-  source html into the target file. Since this may cause collisions
-  with preset headers, need to override the preset header's elements
-  with source header elements. meaning that the TT should be able to
-  reproduce the headers.
-
 - how do we make L<foo|../search/swish.cgi> I cannot do search::swish,
   it's not a doc.
   STATUS: need to extend pod parser with U<title (url|relative url)>
@@ -65,12 +59,6 @@ Content:
 - Need to resolve prompt issue. (user/root prompt)
 
 - Replace occurences of 1.x and 2.x with 1.0 and 2.0
-
-- src/products/apache-modlist.html can be removed after Doug's
-  blessing
-  STATUS: Per Einar thinks that some of the material could be re-used
-  before deleting the file
-
 
 Search:
 -------

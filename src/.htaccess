@@ -7,22 +7,22 @@ Redirect permanent /guide/ http://perl.apache.org/docs/1.0/guide/
 
 # Distributed with mod_perl
 Redirect permanent /src/mod_perl.html http://perl.apache.org/docs/index.html
-Redirect permanent /src/apache-modlist.html http://perl.apache.org/products/apache-modlist.html
+Redirect permanent /src/apache-modlist.html http://perl.apache.org/products/apache-modules.html
 Redirect permanent /src/cgi_to_mod_perl.html http://perl.apache.org/docs/index.html
 Redirect permanent /src/mod_perl_traps.html http://perl.apache.org/docs/index.html
 # (equivalent to those with /src above, but it seems like the dist is kept symlinked in 2 locations)
 Redirect permanent /dist/mod_perl.html http://perl.apache.org/docs/index.html
-Redirect permanent /dist/apache-modlist.html http://perl.apache.org/products/apache-modlist.html
+Redirect permanent /dist/apache-modlist.html http://perl.apache.org/products/apache-modules.html
 Redirect permanent /dist/cgi_to_mod_perl.html http://perl.apache.org/docs/index.html
 Redirect permanent /dist/mod_perl_traps.html http://perl.apache.org/docs/index.html
 
 # FAQs
 Redirect permanent /faq/mod_perl_cgi.html http://perl.apache.org/docs/index.html
-Redirect permanent /mod_perl_cvs.html http://perl.apache.org/docs/general/cvs_howto.html
+Redirect permanent /mod_perl_cvs.html http://perl.apache.org/contribute/cvs_howto.html
 Redirect permanent /faq/index.html http://perl.apache.org/docs/index.html
 Redirect permanent /tuning/index.html http://perl.apache.org/docs/index.html
 Redirect permanent /faq/mod_perl_api.html http://perl.apache.org/docs/index.html
-Redirect permanent /features/tmpl-cmp.html http://perl.apache.org/docs/tutorials/templates/comparison.html
+Redirect permanent /features/tmpl-cmp.html http://perl.apache.org/docs/tutorials/tmpl/comparison/comparison.html
 Redirect permanent /perl_myth.html http://perl.apache.org/docs/general/perl_myth.html
 
 Redirect permanent /distributions.html http://perl.apache.org/download/index.html
