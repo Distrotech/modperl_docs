@@ -8,14 +8,69 @@ This chapter covers the mod_perl coding specifics, different from normal Perl co
 
 =head1 Prerequisites
 
-=head1 Installing from Source
+=head1 TITLE_XXX
 
-=head1 Installing from Binary Packages
+=head2 Environment Variables
+
+mod_perl sets the following environment variables:
+
+=over
+
+=item * 
+
+C<MOD_PERL> - is set to the mod_perl version the server is running
+under. e.g.:
+
+  mod_perl/1.99_03-dev
+
+If this C<$ENV{MOD_PERL}> doesn't exist, most likely you are
+not running under mod_perl.
+
+=item *
+
+C<GATEWAY_INTERFACE> - is always set to something like: C<CGI-Perl/1.1>
+
+=back
+
+mod_perl passes (exports) the following shell environment variables
+(if they are set) :
+
+=over
+
+=item * 
+
+C<PATH> - Executables search path.
+
+=item * 
+
+C<TZ> - Time Zone.
+
+=back
+
+Any of these environment variables can be accessed via C<%ENV>.
 
 =head1 Perl Specifics in mod_perl Environment
 
 In the following sections we discuss the specifics of Perl behavior
 under mod_perl.
+
+=head2 Request-localized Globals
+
+Under the handler:
+
+  SetHandler perl-script
+
+Several special global Perl variables are saved before the handler is
+called and restored afterwards. This includes: C<%ENV>, C<@INC>,
+C<$/>, C<STDOUT>'s C<$|> and C<END> blocks array (C<PL_endav>).
+
+Under:
+
+  SetHandler modperl
+
+nothing is restored, so you should be especially careful to remember
+localize all special Perl variables so the local changes won't affect
+other handlers.
 
 =head2 exit()
 
