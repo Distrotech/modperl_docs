@@ -2181,6 +2181,8 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
 =head3 C<Apache::ACCESS_CONF>
 
+F<*.conf> inside E<lt>DirectoryE<gt> or E<lt>LocationE<gt>
+
 =over
 
 =item since: 1.99_12
@@ -2192,6 +2194,8 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
 
 =head3 C<Apache::OR_ALL>
+
+(OR_LIMIT|OR_OPTIONS|OR_FILEINFO|OR_AUTHCFG|OR_INDEXES)
 
 =over
 
@@ -2205,6 +2209,8 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
 =head3 C<Apache::OR_AUTHCFG>
 
+F<*.conf> inside E<lt>DirectoryE<gt> or E<lt>LocationE<gt> and F<.htaccess> when AllowOverride AuthConfig
+
 =over
 
 =item since: 1.99_12
@@ -2216,6 +2222,8 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
 
 =head3 C<Apache::OR_FILEINFO>
+
+F<*.conf> anywhere and F<.htaccess> when AllowOverride FileInfo
 
 =over
 
@@ -2229,6 +2237,8 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
 =head3 C<Apache::OR_INDEXES>
 
+F<*.conf> anywhere and F<.htaccess> when AllowOverride Indexes
+
 =over
 
 =item since: 1.99_12
@@ -2240,6 +2250,8 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
 
 =head3 C<Apache::OR_LIMIT>
+
+F<*.conf> inside E<lt>DirectoryE<gt> or E<lt>LocationE<gt> and F<.htaccess> when AllowOverride Limit
 
 =over
 
@@ -2253,6 +2265,8 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
 =head3 C<Apache::OR_NONE>
 
+F<*.conf> is not available anywhere in this override
+
 =over
 
 =item since: 1.99_12
@@ -2264,6 +2278,8 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
 
 =head3 C<Apache::OR_OPTIONS>
+
+F<*.conf> anywhere and F<.htaccess> when AllowOverride Options
 
 =over
 
@@ -2277,6 +2293,8 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
 =head3 C<Apache::OR_UNSET>
 
+Unset a directive (in Allow)
+
 =over
 
 =item since: 1.99_12
@@ -2288,6 +2306,8 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
 
 =head3 C<Apache::RSRC_CONF>
+
+F<*.conf> outside E<lt>DirectoryE<gt> or E<lt>LocationE<gt>
 
 =over
 
