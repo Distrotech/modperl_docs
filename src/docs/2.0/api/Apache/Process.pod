@@ -29,7 +29,7 @@ Apache::Process - Perl API for Apache process record
 
 C<Apache::Process> provides the API for the Apache process object,
 which you can retrieve with
-C<L<$s-<Egt>process|docs::2.0::api::Apache::ServerRec/C_process_>>:
+C<L<$s-E<gt>process|docs::2.0::api::Apache::ServerRec/C_process_>>:
 
   use Apache::ServerRec ();
   $proc = $s->process;

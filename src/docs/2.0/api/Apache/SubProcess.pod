@@ -1,6 +1,10 @@
 =head1 NAME
 
-Apache::SubProcess -- Executing SubProcesses from mod_perl
+Apache::SubProcess -- Executing SubProcesses under mod_perl
+
+
+
+
 
 =head1 Synopsis
 
@@ -47,6 +51,11 @@ Apache::SubProcess -- Executing SubProcesses from mod_perl
 C<Apache::SubProcess> provides the Perl API for running and
 communicating with processes spawned from mod_perl handlers.
 
+At the moment it's possible to spawn only external program in a new
+process. It's possible to provide other interfaces, e.g. executing a
+sub-routine reference (via C<B::Deparse>) and may be spawn a new
+program in a thread (since the APR api includes API for spawning
+threads, e.g. that's how it's running mod_cgi on win32).
 
 
 =head1 API
@@ -54,18 +63,38 @@ communicating with processes spawned from mod_perl handlers.
 
 =head2 C<spawn_proc_prog>
 
-  $out_fh = 
-      Apache::SubProcess::spawn_proc_prog($r, $command, [\@argv]);
-  ($in_fh, $out_fh, $err_fh) = 
-      Apache::SubProcess::spawn_proc_prog($r, $command, [\@argv]);
+Spawn a sub-process and return STD communication pipes:
 
-spawn_proc_prog() spawns a sub-process which exec()'s C<$command> and
-returns the output pipe filehandle in the scalar context, or input,
-output and error pipe filehandles in the list context. Using these
-three pipes it's possible to communicate with the spawned process.
+  $out_fh                    = $r->spawn_proc_prog($command);
+  $out_fh                    = $r->spawn_proc_prog($command, \@argv);
+  ($in_fh, $out_fh, $err_fh) = $r->spawn_proc_prog($command);
+  ($in_fh, $out_fh, $err_fh) = $r->spawn_proc_prog($command, \@argv);
 
-The third optional argument is a reference to an array which if passed
-becomes ARGV to the spawned program.
+=over 4
+
+=item obj: C<$r>
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+
+=item arg1: C<$command> ( string )
+
+The command to be C<$exec()>'ed.
+
+=item opt arg2: C<\@argv> ( ARRAY ref )
+
+A reference to an array of arguments to be passed to the process as
+the process' C<ARGV>.
+
+=item ret: ...
+
+In SCALAR context returns the output filehandle of the spawned
+process.
+
+In LIST context returns the input, outpur and error filehandles of the
+spawned process.
+
+=item since: 1.99_15
+
+=back
 
 It's possible to pass environment variables as well, by calling:
 
@@ -88,10 +117,10 @@ implementation which hides the internal datastructure).
 
 Therefore to write a portable code, you want to use select for
 perlio-disabled Perl and do nothing for perlio-enabled Perl, hence you
-can use something similar to the read_data() wrapper shown in the
-L<SYNOPSIS|/SYNOPSIS> section.
+can use something similar to the C<read_data()> wrapper shown in the
+L<Synopsis|/Synopsis> section.
 
-
+Several examples appear in the L<Synopsis|/Synopsis> section.
 
 
 
