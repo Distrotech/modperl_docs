@@ -51,6 +51,10 @@ mailto:docs-dev-help@perl.apache.org
 
 nntp://news.gmane.org/gmane.comp.apache.mod-perl.devel 
 
+=item * marc.theaimsgroup.com
+
+http://marc.theaimsgroup.com/?l=apache-modperl-docs-dev&r=1&w=2 
+
 =item * Epigone
 
 http://mathforum.org/epigone/modperl-docs-dev 

@@ -100,6 +100,11 @@ DESC
                     comment => '',
                    },
                    {
+                    title   => 'marc.theaimsgroup.com',
+                    link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-docs-dev&r=1&w=2',
+                    comment => '',
+                   },
+                   {
                     title   => 'Epigone',
                     link    => 'http://mathforum.org/epigone/modperl-docs-dev',
                     comment => '',
@@ -128,6 +133,11 @@ DESC
                 help             => 'docs-cvs-help@perl.apache.org',
                },
       archives => [
+                   {
+                    title   => 'marc.theaimsgroup.com',
+                    link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-docs-cvs&r=1&w=2',
+                    comment => '',
+                   },
                    {
                     title   => 'Mbox file',
                     link    => 'http://perl.apache.org/mail/docs-cvs/',
