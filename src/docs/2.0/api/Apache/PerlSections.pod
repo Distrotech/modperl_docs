@@ -138,7 +138,7 @@ behaviour of C<E<lt>Perl E<gt>> sections.
 
 
 
-=head2 C<$Apache::Server::SaveConfig>
+=head2 C<$Apache::PerlSections::Save>
 
 By default, the namespace in which C<E<lt>Perl E<gt>> sections are
 evaluated is cleared after each block closes. By setting it to a true

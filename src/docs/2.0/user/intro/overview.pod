@@ -269,7 +269,7 @@ If a mod_perl 1.0 module wants access to configuration information,
 there are two approaches.  A module can "subclass" directive handlers,
 saving a copy of the data for itself, then returning B<DECLINE_CMD> so
 the other modules are also handed the info.  Or, the
-C<$Apache::Server::SaveConfig> variable can be set to save
+C<$Apache::PerlSections::Save> variable can be set to save
 E<lt>PerlE<gt> configuration in the C<%Apache::ReadConfig::>
 namespace.  Both methods are rather kludgy, version 2.0 provides a
 L<Perl interface to the Apache configuration

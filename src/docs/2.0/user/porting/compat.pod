@@ -92,6 +92,13 @@ server startup abort, dumping the error to stderr. To avoid this, C<eval {}>
 can be used to trap errors and ignore them. In mod_perl 1, 'strict' was
 somewhat of a misnomer.
 
+=head2 C<$Apache::Server::SaveConfig>
+
+C<$Apache::Server::SaveConfig> has been renamed to
+C<$Apache::PerlSections::Save>.  see
+C<L<E<lt>PerlE<gt>|docs::2.0::api::Apache::PerlSections>>
+for more information on this global variable.
+
 =head2 Apache Configuration Customization
 
 mod_perl 2.0 has slightly changed the mechanism for L<adding custom
