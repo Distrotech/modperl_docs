@@ -8,6 +8,47 @@ This chapter explains how to implement the HTTP protocol handlers in
 mod_perl.
 
 
+=head1 HTTP Request Handler Skeleton
+
+All HTTP Request handlers have the following structure:
+
+  package MyApache::MyHandlerName;
+  
+  # load modules that are going to be used
+  use ...;
+  
+  # compile (or import) constants
+  use Apache::Const -compile => qw(OK);
+  
+  sub handler {
+      my $r = shift;
+      
+      # handler code comes here
+      
+      return Apache::OK; # or another status constant
+  }
+  1;
+
+First, the package is declared. Next, the modules that are going to be
+used are loaded and constants compiled.
+
+The handler itself coming next and usually it receives the only
+argument: the
+C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> object.
+If the handler is declared as L<a method handler
+|docs::2.0::user::coding::coding/Method_Handlers>:
+
+  sub handler : method {
+      my($class, $r) = @_;
+
+the handler receives two arguments: the class name and the
+C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> object.
+
+The handler ends with L<a return
+code|docs::2.0::user::handlers::intro/Stacked_Handlers> and the file
+is ended with C<1;> to return true when it gets loaded.
+
+
 =head1 HTTP Request Cycle Phases
 
 Those familiar with mod_perl 1.0 will find the HTTP request cycle in
