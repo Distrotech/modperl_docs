@@ -695,14 +695,14 @@ fails.
 
 =head2 HP-UX
 
-=head3 /perl/perl-status?sig Dumps Core Under HP-UX 10.20
+=head3 C<Apache::Status> Dumps Core Under HP-UX 10.20
 
-This issue is known to happen when perl's I<./Configure> doesn't
-detect that C<SIGRTMAX> is defined but not implemented on that
-platform.
+HP-UX 10.20 may dump core when accessing I<perl-status?sig>.  This
+issue is known to happen when perl's I<./Configure> doesn't detect
+that C<SIGRTMAX> is defined, but not implemented on that platform.
 
-One solution is to upgrade to a recent version of Perl that properly
-detects the implementation of that signal.
+One solution is to upgrade to a recent version of Perl (5.8.0?) that
+properly detects the implementation of that signal.
 
 Another solution is to modify I<Apache/Status.pm> to skip that broken
 signal by replacing the line:
