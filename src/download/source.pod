@@ -91,7 +91,7 @@ http://search.cpan.org/dist/mod_perl/
 
 =over
 
-=item * The latest CVS snapshot
+=item * The latest SVN snapshot
 
 http://cvs.apache.org/snapshots/modperl-2.0/
 
