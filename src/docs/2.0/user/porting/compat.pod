@@ -860,11 +860,37 @@ have:
 
 to set it up for earlier stages than response handler.
 
-=head2  C<$connection-E<gt>user>
+=head2 C<$connection-E<gt>user>
 
 This method is deprecated in mod_perl 1.0 and C<$r-E<gt>user> should
 be used instead for both versions of mod_perl. C<$r-E<gt>user()>
 method is available since mod_perl version 1.24_01.
+
+=head2 C<$connection-E<gt>local_addr>
+
+See the next item.
+
+=head2 C<$connection-E<gt>remote_addr>
+
+C<$connection-E<gt>local_addr> and C<$connection-E<gt>remote_addr>
+return an C<L<APR::SocketAddr|docs::2.0::api::APR::SocketAddr>> object
+and you can use this object's methods to retrieve the wanted bits of
+information, so if you had a code like:
+
+  use Socket 'sockaddr_in';
+  my ($serverport, $serveraddr) = sockaddr_in($r->connection->local_addr);
+  my ($remoteport, $remoteaddr) = sockaddr_in($r->connection->remote_addr);
+
+now it'll be written as:
+
+  require APR::SockAddr;
+  my $serverport = $c->local_addr->port_get;
+  my $serveraddr = $c->local_addr->ip_get;
+  my $remoteport = $c->remote_addr->port_get;
+  my $remoteaddr = $c->remote_addr->ip_get;
+
+META: it's not simple to fix this in the compat layer, since it'll
+break the API for normal Apache 2.0 modules. Stay tuned for solutions.
 
 =head1 C<Apache::File>
 
