@@ -171,6 +171,8 @@ C<Apache::Foo> can register hooks itself at server startup:
   Apache::Hook->add(PerlAuthenHandler => \&authenticate, Apache::Hook::MIDDLE);
   Apache::Hook->add(PerlLogHandler    => \&logger,       Apache::Hook::LAST);
 
+META: Not implemented yet (API will change?) 
+
 However, this means that Perl subroutines registered via this
 mechanism will be called for B<every> request.  It will be left to
 that subroutine to decide if it was to handle or decline the given
