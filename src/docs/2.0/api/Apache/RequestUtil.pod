@@ -64,4 +64,20 @@ function's synopsis.
 
 =head2 get_handlers()
 
+=head2 slurp_filename()
+
+  my $ref_content = $r->slurp_filename([$tainted]);
+
+Return a reference to contents of C<$r-E<gt>filename>.
+
+By default the returned data is tainted (if run under C<-T>). If an
+optional C<$tainted> flag is set to zero, the data will be marked as
+non-tainted. Do not set this flag to zero unless you know what you are
+doing, you may create a security hole in your program if you do. For
+more information see the I<perlsec> manpage. If you wonder why this
+option is available, it is used internally by the
+C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>> handler and
+friends, because the CGI scripts that it reads are considered safe
+(you could just as well C<require()> them).
+
 =cut
