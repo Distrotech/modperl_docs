@@ -140,8 +140,20 @@ C<ModPerl::MM::WriteMakefile> attributes:
 =head2 C<TYPEMAPS>
 
 
-=head2 C<OTHERLDFLAGS>
+=head2 C<dynamic_lib>
 
+=head3 C<OTHERLDFLAGS>
+
+  dynamic_lib => { OTHERLDFLAGS => ... }
+
+=head2 C<macro>
+
+=head3 C<MOD_INSTALL>
+
+  macro => { MOD_INSTALL => ... }
+
+arranges for modules to be installed under Apache2 if mod_perl was
+built with C<MP_INST_APACHE2=1>.
 
 =head1 Public API
 
