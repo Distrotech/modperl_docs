@@ -1,8 +1,8 @@
-[% # super-docset navigation bar
-   # expects to be set 
+[% # parent-docsets navigation bar
+   # expects to be set:
    # nav          - cache navigator object
    # rel_doc_root - relative docs path (only for chapters!)
-%]
+-%]
 [% IF nav -%]
     [% # prepare the sects to show where are we relative 
        # to the absolute root
@@ -35,15 +35,17 @@
                        text => nav.index_node.stitle});
        END;
     -%]
-[% IF nav_not_empty == 1 %]
-<div class='navbarglobal'>
-[% WRAPPER splash/domm_button 
-             width = "100%"
-             align = 'left'
-             col   = splash.style.select.col.fore
--%][% FOREACH sec = sects -%]
-<a href="[% sec.link %]"><b>[% sec.text %]</b></a> / 
-[% END -%][% END -%]
-</div>
-<br>
-[% END %][% END %]
+
+    [%- IF nav_not_empty == 1 -%]
+        <div class='navbarglobal'>
+        [%- WRAPPER splash/domm_button 
+                     width = "100%"
+                     align = 'left'
+                     col   = splash.style.select.col.fore
+        -%]
+            [%- FOREACH sec = sects -%]<a href="[% sec.link %]"><b>[% sec.text %]</b></a> / [%- END -%]
+        [%- END -%]
+        </div>
+        <br>
+    [%- END -%]
+[% END -%]
