@@ -1,10 +1,24 @@
 #!/usr/bin/perl -w
+use strict;
 
-# run with -v to enable the verbose mode
+# run with -v to enable the verbose mode for Swish-e
+#  -v 1 just summary
+#  -v 2 list docs processed
+#  -v 3 more detail
+#
+# You can also enable debugging for the spider (that fetches the docs for Swish).
+# For example:
+#  SPIDER_DEBUG=url ../../bin/makeindex -v2
+#
+# Note that using "skipped" will show that all files are skipped.  That's
+# because the spider config file splits the docs into sections and feeds
+# those sections directly to swish for indexing.  This bypasses the normal
+# mode of just indexing full files.
 
 my %opts;
 use Getopt::Std;
-getopt('v', \%opts);
+getopt('vE', \%opts);
+
 
 # does the indexing process
 # relies on setting of the following env varibles:
@@ -44,20 +58,24 @@ BEGIN {
 use FindBin qw($Bin);
 use Cwd ();
 
-my $verbose_level = exists $opts{v} ? 1 : 0;
-my $verbose_level_reverse = exists $opts{v} ? 0 : 1;
+my $verbose_level = exists $opts{v} && $opts{v} =~/^\d+$/ ? $opts{v} : 0;
 
-my $swish_binary = $ENV{SWISH_BINARY_PATH} || './swish-e';
-die "Cannot find swish-e at $swish_binary: $!" unless -x $swish_binary;
 
 my $cwd = Cwd::fastcwd();
 chdir "$Bin/../dst_html/search";
 
-$ENV{SPIDER_QUIET} = $verbose_level_reverse;
+my $swish_binary = $ENV{SWISH_BINARY_PATH} || './swish-e';
+die "Cannot find swish-e at $swish_binary: $!" unless -x $swish_binary;
+
+$ENV{SPIDER_QUIET} = !$verbose_level;
 
 # index
 my $command = "$swish_binary -v $verbose_level -S prog -c swish.conf";
-#print "$command\n";
+
+# Requires updating swish-e.
+# $command .= ' -E' if $verbose_level || exists $opts{E};
+
+print "Running: [$command]\n" if $verbose_level;
 CORE::system($command);
 
 chdir $cwd;
