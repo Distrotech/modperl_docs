@@ -23,9 +23,7 @@ Apache::Log - Perl API for Apache Logging Methods
                  APR::ENOTIME, "debug print");
   Apache::ServerRec->log_error("routine warning");
   
-  Apache->warn("routine warning");
-  Apache::warn("routine warning");
-  Apache::ServerRec->warn("routine warning");
+  Apache::ServerRec::warn("routine warning");
 
   #in a handler
   #------------
@@ -62,6 +60,7 @@ Apache::Log - Perl API for Apache Logging Methods
       $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
                      APR::ENOTIME, "fatal error");
 
+      $r->warn('routine request warning');
       $s->warn('routine server warning');
 
       return Apache::OK;
@@ -338,8 +337,37 @@ methods|/LogLevel_Methods>.
 
 =item since: 1.99_12
 
+=back
+
+
+
+=head2 C<$s-E<gt>warn>
+
+  $s->warn(@warnings);
+
+is the same as:
+
+  $s->log_error(Apache::Log::LOG_MARK, Apache::LOG_WARNING,
+                APR::SUCCESS, @warnings)
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item arg1: C<@warnings> ( strings ARRAY )
+
+array of warning strings
+
+=item ret: no return value
+
+=item since: 1.99_12
 
 =back
+
+For example:
+
+  $s->warn('routine server warning');
 
 
 
@@ -435,6 +463,37 @@ methods|/LogLevel_Methods>.
 
 
 =back
+
+
+
+=head2 C<$r-E<gt>warn>
+
+  $r->warn(@warnings);
+
+is the same as:
+
+  $r->log_error(Apache::Log::LOG_MARK, Apache::LOG_WARNING,
+                APR::SUCCESS, @warnings)
+
+=over 4
+
+=item obj: C<$r>
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+
+=item arg1: C<@warnings> ( strings ARRAY )
+
+array of warning strings
+
+=item ret: no return value
+
+=item since: 1.99_17
+
+=back
+
+For example:
+
+  $r->warn('routine server warning');
+
 
 
 
@@ -565,28 +624,93 @@ C<L<$r-E<gt>log_rerror|/C__r_E_gt_log_rerror_>> ).
 
 
 
+=head1 Virtual Hosts
+
+Code running from within a virtual host needs to be able to log into
+its C<ErrorLog> file, if different from the main log. Calling any of
+the logging methods on the C<$r> and C<$s> objects will do the logging
+correctly.
+
+If the core C<warn()> is called, it'll be always logged to the main
+log file. Here is how to make it log into the vhost F<error_log> file.
+Let's say that we start with the following code:
+
+  warn "the code is smoking";
+
+=over
+
+=item 1
+
+First, we need to use mod_perl's logging function, instead of
+C<CORE::warn>
+
+Either replace C<warn> with C<Apache::ServerRec::warn>:
+
+  use Apache::Log ();
+  Apache::ServerRec::warn("the code is smoking");
+
+or import it into your code:
+
+  use Apache::ServerRec qw(warn); # override warn locally
+  warn "the code is smoking";
+
+or override C<CORE::warn>:
+
+  use Apache::Log ();
+  *CORE::GLOBAL::warn = \&Apache::ServerRec::warn;
+  warn "the code is smoking";
+
+Avoid using the latter suggestion, since it'll affect all the code
+running on the server, which may break things. Of course you can
+localize that as well:
+
+  use Apache::Log ();
+  local *CORE::GLOBAL::warn = \&Apache::ServerRec::warn;
+  warn "the code is smoking";
+
+Chances are that you need to make the internal Perl warnings go into
+the vhost's F<error_log> file as well. Here is how to do that:
+
+  use Apache::Log ();
+  local $SIG{__WARN__} = \&Apache::ServerRec::warn;
+  eval q[my $x = "aaa" + 1;]; # this issues a warning
+
+Notice that it'll override any previous setting you may have had,
+disabling modules like C<CGI::Carp> which also use C<$SIG{__WARN__}>
+
+=item 2
+
+Next we need to figure out how to get hold of the vhost's server
+object.
+
+Inside HTTP request handlers this is possible via
+C<Apache-E<gt>request|docs::2.0::api::Apache::RequestUtil/C_request_>. Which
+requires either C<L<PerlOptions
++GlobalRequest|docs::2.0::user::config::config/C_GlobalRequest_>>
+setting or can be also done at runtime if C<$r> is available:
+
+  use Apache::RequestUtil ();
+  sub handler {
+      my $r = shift;
+      Apache->request($r);
+      ...
+
+Outside HTTP handlers at the moment it is not possible, to get hold of
+the vhost's F<error_log> file. This shouldn't be a problem for the
+code that runs only under mod_perl, since the always available C<$s>
+object can invoke a plethora of methods supplied by
+C<Apache::Log>. This is only a problem for modules, which are supposed
+to run outside mod_perl as well.
+
+META: To solve this we think to introduce 'PerlOptions +GlobalServer',
+a big brother for 'PerlOptions +GlobalRequest', which will be set in
+modperl_hook_pre_connection.
 
 
-=head1 Aliases
+=back
 
-=head2 C<$s-E<gt>warn>
 
-  $s->warn(@warnings);
 
-is the same as:
-
-  $s->log_error(Apache::Log::LOG_MARK, Apache::LOG_WARNING,
-                APR::SUCCESS, @warnings)
-
-For example:
-
-  $s->warn('routine server warning');
-
-=head2 C<Apache-E<gt>warn>
-
-=head2 C<Apache::warn>
-
-  Apache->warn(@warnings);
 
 
 
