@@ -987,8 +987,8 @@ In all other cases use normal functions.
 =head2 Adding Typemaps for new C Data Types
 
 Sometimes when a new interface is added it may include C data types
-for which we don't yet have a Perl typemap. In such a case, the first
-thing to do is to provide the required typemaps.
+for which we don't have corresponding XS typemaps yet. In such a case,
+the first thing to do is to provide the required typemaps.
 
 Let's add a prototype for the I<typedef struct scoreboard> data type
 defined in I<httpd-2.0/include/scoreboard.h>.
