@@ -300,15 +300,62 @@ where I<emerg> is the for the most important messages and I<debug> for
 the least important ones.
 
 Currently the default level is I<info>, therefore any messages which
-fall into the I<info> category and above (I<notice>, I<warning>,
-etc). If for example you want to see the I<debug> messages you can
+fall into the I<info> category and above (I<notice>, I<warning>, etc).
+This tracing level is unrelated to the Apache's C<LogLevel> mechanism,
+which Apache-Test sets to C<debug> in F<t/conf/httpd.conf> and you can
+override it F<t/conf/extra.conf.in>.
+
+Let's assume you have the following code snippet:
+
+  use Apache::TestTrace;
+  warning "careful, perl on the premises";
+  debug "that's just silly";
+
+If you want to get only I<warning> messages and above, use:
+
+  % t/TEST -trace=warning ...
+
+now only the warning message 
+
+  careful, perl on the premises
+
+will be printed. If you want to see the I<debug> messages you can
 change the default level using I<-trace> option:
 
   % t/TEST -trace=debug ...
 
-or if you want to get only I<warning> messages and above, use:
+now the last example will print both messages.
 
-  % t/TEST -trace=warning ...
+By default the messages are printed to STDERR, but can be redirected
+to a file. Refer to the C<Apache::TestTrace> manpage for more
+information.
+
+Finally you can use methods: C<emerg()>, C<alert()>, C<crit()>,
+C<error()>, C<warning()>, C<notice()>, C<info()> and C<debug()> in
+your client and server side code. This if useful for example if you
+have some debug tracing that you don't want to be printed during the
+normal C<make test>. However if some users have a problem you can ask
+them to run the test suite with the trace level of 'debug' and voila
+they can send you the extra debug output. Moreveor all these functions
+use C<Data::Dumper> to dump arguments which are references to perl
+structures. So for example your code may look like:
+
+  use Apache::TestTrace;
+  ...
+  my $data = { foo => bar };
+  debug "my data", $data;
+
+and only when run with C<-trace=debug> it'll output.
+
+  my data
+  $VAR1 = {
+            'foo' => 'bar'
+          };
+
+Normally it will not print anything.
+
+
+
 
 
 =head2 Stress Testing
