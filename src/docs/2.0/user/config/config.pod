@@ -774,9 +774,9 @@ It is also possible to configure the scope to be per-handler:
 
   PerlInterpScope handler
 
-With this configuration, an interpreter will be selected before
-C<PerlAccessHandlers> are run, and put back immediately afterwards,
-before Apache moves onto the authentication phase.  If a
+For example if C<PerlAccessHandler> is configured, an interpreter will
+be selected before running the handler, and put back immediately
+afterwards, before Apache moves onto the next phase. If a
 C<PerlFixupHandler> is configured further down the chain, another
 interpreter will be selected and again put back afterwards, before
 C<PerlResponseHandler> is run.
