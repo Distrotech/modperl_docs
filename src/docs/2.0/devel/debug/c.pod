@@ -735,6 +735,57 @@ truss(1) stops the process after it dumps core and prevents Apache
 from reaping it.  So, you could hit the clients/threads limit if you
 segfault a lot.
 
+=head1 Debugging Threaded MPMs
+
+
+=head2 Useful Information from gdb Manual
+
+Debugging programs with multiple threads:
+http://sources.redhat.com/gdb/current/onlinedocs/gdb_5.html#SEC25
+
+Stopping and starting multi-thread programs:
+http://sources.redhat.com/gdb/current/onlinedocs/gdb_6.html#SEC40
+
+=head2 libpthread
+
+when using:
+
+  set auto-solib-add 0
+
+make sure to:
+
+  sharedlibrary libpthread
+
+(or whatever the shared library is used on your OS) without which you
+may have problems to debug the threaded mpm mod_perl.
+
+
+
+=head1 Defining and Using Custom gdb Macros
+
+GDB provides two ways to store sequences of commands for execution as
+a unit: user-defined commands and command files. See:
+http://sources.redhat.com/gdb/current/onlinedocs/gdb_21.html
+
+Apache 2.0 source comes with a nice pack of macros and can be found in
+I<httpd-2.0/.gdbinit>. To use it issue:
+
+  gdb> source /wherever/httpd-2.0/.gdbinit
+
+Now if for example you want to dump the contents of the bucket
+brigade, you can do:
+
+  gdb> dump_brigade my_brigade
+
+where C<my_brigade> is the pointer to the bucket brigade that you want
+to debug.
+
+mod_perl 1.0 has a similar file (I<modperl/.gdbinit>) mainly including
+handy macros for dumping Perl datastructures, however it works only
+with non-threaded Perls. But otherwise it's useful in debugging
+mod_perl 2.0 as well.
+
+
 =head1 Expanding C Macros
 
 Perl, mod_perl and httpd C code makes an extensive use of C macros,
