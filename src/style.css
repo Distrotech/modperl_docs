@@ -317,3 +317,16 @@ td.camel-line-bottom { background-color: #525d76; }
 }
 
 .hr { height: 1px; }
+
+ .hr { height: 1px; }
+
+
+/* quotations, mainly for the first page */
+
+.quotation {
+    font-style: italic;
+}
+p.quotation {           /* Used to cite the author */
+    text-align: right;
+}
+
