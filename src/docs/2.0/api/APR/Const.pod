@@ -1840,7 +1840,7 @@ The C<:poll> group is for XXX constants.
 
   use APR::Const -compile => qw(:read_type);
 
-The C<:read_type> group is for XXX constants.
+The C<:read_type> group is for IO constants.
 
 
 
@@ -1853,6 +1853,8 @@ The C<:read_type> group is for XXX constants.
 
 =back
 
+the read function blocks
+
 
 
 
@@ -1864,6 +1866,9 @@ The C<:read_type> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+
+the read function does not block
 
 
 
