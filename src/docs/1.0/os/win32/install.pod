@@ -232,7 +232,7 @@ lines for readability):
 while for C<ppm3> the appropriate command is (again broken over
 two lines for readability):
 
-   C:\> ppm
+   C:\> ppm3
    PPM> repository add theoryx5 
          http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer
 
