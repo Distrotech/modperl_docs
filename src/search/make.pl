@@ -17,24 +17,24 @@ my $SEARCH_OPTIONS = 'search_options';
 
 
 my $items = <<ITEMS;
-    0, outstanding, Technologie Extraordinaire, Stories
-    0, download,    Download, Download
-    0, docs,        Documentation, All Docs
-    1,   docs/1.0, mod_perl 1.0 Docs, 1.0 Docs
+    0, outstanding,        Technologie Extraordinaire, Stories
+    0, download,           Download,                   Download
+    0, docs,               Documentation,              All Docs
+    1,   docs/1.0,         mod_perl 1.0 Docs,          1.0 Docs
     2,     docs/1.0/guide, Guide,
     2,     docs/1.0/win32, Win32
     2,     docs/1.0/api,   API
-    1,   docs/2.0, mod_perl 2.0 Docs, 2.0 Docs
+    1,   docs/2.0,         mod_perl 2.0 Docs,          2.0 Docs
     2,     docs/2.0/user,  User
     2,     docs/2.0/devel, Developer
     2,     docs/2.0/api,   API
-    1,   docs/general,      General Docs
-    1,   docs/tutorials,    Tutorials
-    1,   docs/offsite,      OffSite Docs
-    0, help,       Getting Help
-    0, maillist,  Mailing Lists
-    0, products,   Products
-    0, contribute, Contribute
+    1,   docs/general,     General Docs
+    1,   docs/tutorials,   Tutorials
+    1,   docs/offsite,     OffSite Docs
+    0, help,               Getting Help
+    0, maillist,           Mailing Lists
+    0, products,           Products
+    0, contribute,         Contribute
 ITEMS
 
 
