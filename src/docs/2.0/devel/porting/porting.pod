@@ -125,6 +125,8 @@ META: to be written
       /* threads specific code goes here */
   #endif
 
+For now see: http://httpd.apache.org/docs-2.0/developer/thread_safety.html
+
 
 =head1 PerlIO
 
