@@ -10,6 +10,9 @@ APR::Bucket - Perl API for manipulating APR Buckets
   use APR::Bucket ();
   my $ba = $c->bucket_alloc;
   
+  $ba2 = APR::Bucket::alloc_create($pool);
+  APR::Bucket::alloc_destroy($ba2);
+  
   $b1 = APR::Bucket->new($ba, "aaa");
   $b2 = APR::Bucket::eos_create($ba);
   $b3 = APR::Bucket::flush_create($ba);
@@ -27,8 +30,9 @@ APR::Bucket - Perl API for manipulating APR Buckets
   $b1->destroy;
   
   $b2->delete; # remove+destroy
-
-
+  
+  $b4 = APR::Bucket->new($ba, "to be setaside");
+  $b4->setaside($pool);
 
 
 
@@ -154,7 +158,7 @@ it's better to call C<L<delete|/C_delete_>> which does exactly that.
 
 =head2 C<alloc_create>
 
-Create an C<APR::BucketAlloc> freelist.
+Create an C<APR::BucketAlloc> object:
 
   $ba = APR::Bucket::alloc_create($pool);
 
@@ -163,27 +167,27 @@ Create an C<APR::BucketAlloc> freelist.
 =item arg1: C<$pool>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
-The pool used to create this this freelist.
+The pool used to create this object.
 
 =item ret: C<$ba>
 ( C<L<APR::BucketAlloc object|docs::2.0::api::APR::BucketAlloc>> )
 
-The new freelist.
+The new object.
 
 =item since: 1.99_17
 
 =back
 
-These freelists are used to create new buckets and bucket
-brigades.  Normally it is not necesssary to create them,
-since the existing bucket brigades and/or connection objects 
-in modperl-2 provide them automatically.
+This bucket allocation list (freelist) is used to create new buckets
+and bucket brigades.  Normally it is not necesssary to create them,
+since the existing bucket brigades and/or connection objects in
+modperl 2.0 provide them automatically.
 
 Example:
 
   use APR::Bucket ();
   use Apache::Connection ();
-  my $ba = APR::Bucket::alloc_create($c->$pool);
+  my $ba = APR::Bucket::alloc_create($c->pool);
   my $eos_b = APR::Bucket::eos_create($ba);
 
 
@@ -192,7 +196,8 @@ Example:
 
 =head2 C<alloc_destroy>
 
-Destroy an C<APR::BucketAlloc> freelist.
+Destroy an C<L<APR::BucketAlloc
+object|docs::2.0::api::APR::BucketAlloc>>:
 
   APR::Bucket::alloc_destroy($ba);
 
@@ -203,14 +208,17 @@ Destroy an C<APR::BucketAlloc> freelist.
 
 The freelist to destroy.
 
+=item ret: no return value
+
 =item since: 1.99_17
 
 =back
 
-Destroys the freelist; this object may not be used again.
-Normally it is not necessary to destroy allocators, since
-the pool which created them will destroy them during pool
-cleanup.
+Once destroyed this object may not be used again.  Normally it is not
+necessary to destroy allocators, since the pool which created them
+will destroy them during pool cleanup.
+
+
 
 
 
@@ -415,17 +423,17 @@ If the length is unknown, C<$len> value will be -1.
 
 Create a new bucket and initialize it with data:
 
-  $nb = APR::Bucket->new($bucket_alloc, $data);
-  $nb =          $b->new($bucket_alloc, $data);
-  $nb = APR::Bucket->new($bucket_alloc, $data, $offset);
-  $nb = APR::Bucket->new($bucket_alloc, $data, $offset, $len);
+  $nb = APR::Bucket->new($ba, $data);
+  $nb =          $b->new($ba, $data);
+  $nb = APR::Bucket->new($ba, $data, $offset);
+  $nb = APR::Bucket->new($ba, $data, $offset, $len);
 
 =over 4
 
 =item obj: C<$b>
 ( C<L<APR::Bucket object or class|docs::2.0::api::APR::Bucket>> )
 
-=item arg1: C<$bucket_alloc>
+=item arg1: C<$ba>
 ( C<L<APR::BucketAlloc object|docs::2.0::api::APR::BucketAlloc>> )
 
 =item arg2: C<$data> ( string )
@@ -615,29 +623,35 @@ every odd bucket number to C<$bb2> and every even to C<$bb3>:
 
 =head2 C<setaside>
 
-Ensure the bucket's data lasts at least as long as the given pool.
+Ensure the bucket's data lasts at least as long as the given pool:
 
+XXX: change?
 
-  my $status = $bucket->setaside($pool);
+  my $status = $b->setaside($pool);
 
 =over 4
 
-=item obj: C<$bucket>
+=item obj: C<$b>
 ( C<L<APR::Bucket object|docs::2.0::api::APR::Bucket>> )
 
 =item arg1: C<$pool>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
-=item ret: status code- APR_SUCCESS or error condition.
+=item ret:
+
+XXX: it's going to change to no return value
 
 =item since: 1.99_17
 
 =back
 
-When the a modperl bucket is setaside, its data is detached from the 
+When a mod_perl bucket is setaside, its data is detached from the
 original perl scalar and copied into a pool bucket. Usually setaside
-is called by certain output filters, in order to buffer socket writes 
+is called by certain output filters, in order to buffer socket writes
 of smaller buckets into a single write.
+
+
+
 
 
 

@@ -366,7 +366,7 @@ handlers.
               if ($b->read(my $data)) {
                   $last++ if $data =~ /^[\r\n]+$/;
                   # could do some transformation on data here
-                  $b = APR::Bucket->new($bb->bucket_alloc, $data);
+                  $b = APR::Bucket->new($bb_out->bucket_alloc, $data);
               }
   
               $b->remove;

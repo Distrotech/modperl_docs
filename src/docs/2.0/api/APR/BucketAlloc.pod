@@ -1,6 +1,6 @@
 =head1 NAME
 
-APR::BucketAlloc - Perl API for apr_bucket_alloc_t
+APR::BucketAlloc - Perl API for Bucket Allocation
 
 
 
@@ -12,21 +12,23 @@ APR::BucketAlloc - Perl API for apr_bucket_alloc_t
 
 =head1 Description
 
-C<APR::BucketAlloc> is for bucket allocation.
+C<APR::BucketAlloc> is used for bucket allocation.
 
 At the moment C<APR::BucketAlloc> is a virtual class, which doesn't
 exists as a module/package - so you don't need to load it, nor does it
 contain any callable methods or functions.
 
 Objects blessed into C<APR::BucketAlloc> class, are returned by
-C<L<$c-E<gt>bucket_alloc|docs::2.0::api::Apache::Connection/C_bucket_alloc_>>
+C<L<$c-E<gt>bucket_alloc|docs::2.0::api::Apache::Connection/C_bucket_alloc_>>,
+C<L<APR::Bucket::alloc_create|docs::2.0::api::APR::Bucket/C_alloc_create_>>
+and
+C<L<$bb-E<gt>bucket_alloc|docs::2.0::api::APR::Brigade/C_bucket_alloc_>>,
 and used by
-C<L<APR::Brigade-E<gt>new|docs::2.0::api::APR::Brigade/C_new_>>.
+C<L<APR::Brigade-E<gt>new|docs::2.0::api::APR::Brigade/C_new_>> and
+C<L<APR::Bucket-E<gt>new|docs::2.0::api::APR::Bucket/C_new_>>.
 
-At the moment it can be used only inside httpd. In order to be usable
-outside httpd we may need to create a real package and provide an
-alternative method to buckets allocation. It'll be added as soon as
-there will be a need for that functionality.
+C<L<APR::Bucket::alloc_create|docs::2.0::api::APR::Bucket/C_alloc_create_>>
+can be used outside the httpd.
 
 
 

@@ -10,6 +10,7 @@ APR::Brigade - Perl API for manipulating APR Bucket Brigades
   use APR::Brigade ();
   
   $bb = APR::Brigade->new($r->pool, $c->bucket_alloc);
+  $ba = $bb->bucket_alloc();
   $pool = $bb->pool;
   
   $bb->insert_head($b);
@@ -33,6 +34,7 @@ APR::Brigade - Perl API for manipulating APR Bucket Brigades
   last if $bb->is_empty();
   $bb->cleanup();
   $bb->destroy();
+  
 
 
 
@@ -391,19 +393,17 @@ Create a new bucket brigade, using the request object's pool:
 
 =head2 C<bucket_alloc>
 
+Get the bucket allocator associated with this brigade.
+
   my $ba = $bb->bucket_alloc();
-  $bb2->bucket_alloc($ba);
 
 =over 4
 
 =item obj: C<$bb>
 ( C<L<APR::Brigade object or class|docs::2.0::api::APR::Brigade>> )
 
-
-=item opt arg1: C<$bucket_alloc>
+=item ret: C<$ba>
 ( C<L<APR::BucketAlloc object|docs::2.0::api::APR::BucketAlloc>> )
-
-Get/set the bucket allocator associated with this brigade.
 
 =item since: 1.99_17
 
@@ -550,9 +550,10 @@ Create a bucket brigade with three buckets, and split it into two
 brigade such that the second brigade will have the last two buckets.
 
   my $bb1 = APR::Brigade->new($r->pool, $c->bucket_alloc);
-  $bb1->insert_tail(APR::Bucket->new($c->bucket_alloc, "1"));
-  $bb1->insert_tail(APR::Bucket->new($c->bucket_alloc, "2"));
-  $bb1->insert_tail(APR::Bucket->new($c->bucket_alloc, "3"));
+  my $ba  = $c->bucket_alloc();
+  $bb1->insert_tail(APR::Bucket->new($ba, "1"));
+  $bb1->insert_tail(APR::Bucket->new($ba, "2"));
+  $bb1->insert_tail(APR::Bucket->new($ba, "3"));
 
 C<$bb1> now contains buckets "1", "2", "3". Now do the split at the
 second bucket:
