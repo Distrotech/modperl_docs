@@ -267,11 +267,11 @@ C<UNIVERSAL::AUTOLOAD> may cause a lot of problems, since once it's
 installed Perl will call it every time some method is missing
 (e.g. undefined C<DESTROY> methods). The following approach seems to
 somewhat work for me. It installs C<UNIVERSAL::AUTOLOAD> only when the
-configuration stage has completed:
+the child process starts.
 
   httpd.conf:
   -----------
-  PerlPostConfigHandler ModPerl::MethodLookupAuto
+  PerlChildInitHandler ModPerl::MethodLookupAuto
 
   startup.pl:
   -----------
