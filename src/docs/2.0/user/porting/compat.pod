@@ -326,12 +326,68 @@ However to check the version it's better to use C<$mod_perl::VERSION>:
 
 =head2 C<Apache-E<gt>request>
 
-C<Apache-E<gt>request> is deprecated.  It's error-prone and hurts
-performance when using threaded MPMs, since it has to use thread local
-storage.
+C<Apache-E<gt>request> usage should be avoided under mod_perl 2.0
+C<$r> should be passed around as an argument instead (or in the worst
+case maintain your own global variable). Since your application may
+run under under threaded mpm, the C<Apache-E<gt>request> usage
+involves storage and retrieval from the thread local storage, which is
+expensive.
 
-For any location that uses C<Apache-E<gt>request> and uses
-C<SetHandler modperl>, you need to configure:
+It's possible to use C<$r> even in CGI scripts running under Registry
+modules, without breaking the mod_cgi compatibility. Registry modules
+convert a script like:
+
+  print "Content-type: text/plain";
+  print "Hello";
+
+into something like:
+
+  package Foo;
+  sub handler {
+    print "Content-type: text/plain\n\n";
+    print "Hello";
+    return Apache::OK;
+  }
+
+where the C<handler()> function always receives C<$r> as an argument,
+so if you change your script to be:
+
+  my $r;
+  $r = shift if $ENV{MOD_PERL};
+  if ($r) {
+      $r->content_type('text/plain');
+  }
+  else {
+      print "Content-type: text/plain\n\n";
+  }
+  print "Hello"
+
+it'll really be converted into something like:
+
+  package Foo;
+  sub handler {
+      my $r;
+      $r = shift if $ENV{MOD_PERL};
+      if ($r) {
+          $r->content_type('text/plain');
+      }
+      else {
+          print "Content-type: text/plain\n\n";
+      }
+      print "Hello"
+      return Apache::OK;
+  }
+
+The script works under both mod_perl and mod_cgi.
+
+For example CGI.pm 2.93 or higher accepts C<$r> as an argument to its
+C<new()> function. So does C<CGI::Cookie::fetch> from the same
+distribution.
+
+Moreover, user's configuration may preclude from
+C<Apache-E<gt>request> being available at run time. For any location
+that uses C<Apache-E<gt>request> and uses C<SetHandler modperl>, the
+configuration should either explicitly enable this feature:
 
   <Location ...>
       SetHandler modperl
@@ -339,12 +395,29 @@ C<SetHandler modperl>, you need to configure:
       ...
   </Location>
 
-It's already enabled for:
+It's already enabled for C<SetHandler perl-script>:
 
   <Location ...>
       SetHandler perl-script
       ...
   </Location>
+
+This configuration makes C<Apache-E<gt>request> available B<only>
+during the response phase
+(C<L<PerlResponseHandler|docs::2.0::user::handlers::http/PerlResponseHandler>>). Other
+phases can make C<Apache-E<gt>request> available, by explicitly
+setting it in the handler that has an access to C<$r>. For example:
+
+  package MyApache::Auth;
+  use Apache::RequestUtil ();
+  #...
+  sub handler {
+      my $r = shift;
+      Apache->request($r);
+      # do some calls that rely on Apache->request being available
+      #...
+  }
+
 
 =head2 C<Apache-E<gt>define>
 
