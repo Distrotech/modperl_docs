@@ -726,7 +726,7 @@ filters|docs::2.0::user::handlers::filters>.
 
 Read data from the filter
 
-  $read = $f->recv($buffer, $wanted);
+  $read = $f->read($buffer, $wanted);
 
 =over 4
 
