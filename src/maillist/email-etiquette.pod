@@ -320,7 +320,7 @@ subject line to your new subject line so that folks can see what is
 going on.
 
 
-=head2 Extracts From Other Posts
+=head2 Extracts From the Post You Reply to
 
 When replying to a post, please include B<short> excerpts from the
 post to which you are replying so that others can follow the
@@ -329,6 +329,12 @@ If you are lazy about this then messages can get very long indeed and
 can become a burden to the other people who might be trying to help.
 Make sure that there is a clear distinction between the text(s) of the
 message(s) to which you are replying and your reply itself.
+
+Please do not quote the original message you reply to at the bottom of
+the email, as we already have the original message in the mail list
+archives. Either quote only the relevant parts you reply to, if you
+reply under those quotes, or don't quote at all if you can't be
+bothered to maintain context.
 
 
 =head2 Unnecessary Duplication
