@@ -9,7 +9,7 @@
 
 =head1 NAME
 
-isoldmyhouse.com
+mod_perl 2.0 drives isoldmyhouse.com
 
 =head1 "Chris Faust" E<lt>cfaust (at) doyougot.comE<gt> exclaimed:
 
