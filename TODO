@@ -6,16 +6,6 @@ Basic Layout:
 - NS4, if PRE is long the page is scrolled to the right! See
   dst_html/docs/2.0/devel/debug_c/debug_c.html#Analyzing_the_core_File
 
-- in Mozilla, there are no borders around the NavBar tables, whereas with IE
-  and Opera, there are. which way is correct/better?
-
-- with Opera and IE, there is too little spacing between the ads. Maybe add
-  a br or &nbsp; may be not?
-
-- there are empty prev/up/next boxes on the main page, looking sort of
-  strange. shoulf we remove those completly, if there is no UP or use
-  really-empty images as placeholders?
-
 - since we have <hr> before the tail on all pages, we don't need the
   &nbsp; x 300 hack, since hr will ensure that the page will always
   span 100% to the right. the local_nav table also spans 100%. But
@@ -33,6 +23,9 @@ Internal links:
 --------------_
 
 - links (e.g. in src/docs/1.0/guide) aren't hyperlinked yet.
+
+- btw, the subscribe information for some lists that are not docs-dev 
+says docs-dev-...
 
 style.css:
 ----------
@@ -88,6 +81,10 @@ Search:
   matching page, link to a page created dynamically, by taking the
   static page and highlighting the matched words, similar to google's
   cache?
+
+- in search.tt, move <font> to use CSS definitions.
+
+
 
 ====================================================================
 
