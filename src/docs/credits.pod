@@ -302,6 +302,8 @@ Alphabetically sorted:
 
 =item * Jeffrey W. Baker
 
+=item * Jens Heunemann
+
 =item * Jie Gao
 
 =item * Joao Fonseca
