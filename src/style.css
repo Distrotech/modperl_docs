@@ -69,7 +69,7 @@ div.logo {
         padding: 5px;  /* 0px works in NS4 */
         border: 1px;
         border-style: none;
-        background-color: #ffffff;
+       /* background-color: #ffffff; */
 }
 
 div.menumain {
