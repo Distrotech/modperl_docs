@@ -244,8 +244,8 @@ and structures which are considered "private" to Apache or otherwise
 un-useful to Perl don't get glued.
 
 The Apache header tree is parsed into Perl data structures which live
-in the generated C<Apache::FunctionTable> and
-C<Apache::StructureTable> modules.  For example, the following
+in the generated C<Apache2::FunctionTable> and
+C<Apache2::StructureTable> modules.  For example, the following
 function prototype:
 
  AP_DECLARE(int) ap_meets_conditions(request_rec *r);
@@ -337,7 +337,7 @@ vice-versa.  For example:
 
  apr_int32_t => SvIV
  apr_int64_t => SvNV
- server_rec  => SvRV (Perl object blessed into the Apache::ServerRec class) 
+ server_rec  => SvRV (Perl object blessed into the Apache2::ServerRec class) 
 
 =back
 
@@ -438,8 +438,8 @@ blanket.
 =head1 Build System
 
 The biggest mess in 1.0 is mod_perl's Makefile.PL, the majority of
-logic has been broken down and moved to the C<Apache::Build> module.
-The I<Makefile.PL> will construct an C<Apache::Build> object which
+logic has been broken down and moved to the C<Apache2::Build> module.
+The I<Makefile.PL> will construct an C<Apache2::Build> object which
 will have all the info it needs to generate scripts and I<Makefile>s
 that apache-2.0 needs.  Regardless of what that scheme may be or
 change to, it will be easy to adapt to with build
@@ -468,7 +468,7 @@ as many areas of the API and module features as possible.
 The test framework in 1.0, like several other areas of mod_perl, was
 cobbled together over the years.  mod_perl 2.0 provides a test
 framework that is usable not only for mod_perl, but for third-party
-C<Apache::*> modules and Apache itself. See
+C<Apache2::*> modules and Apache itself. See
 C<L<Apache::Test|docs::general::testing::testing>>.
 
 =head1 CGI Emulation
@@ -491,9 +491,9 @@ C<Apache::Registry>, and similar for other registry groups.
 C<ModPerl::RegistryCooker> makes it easy to write your own
 customizable registry handler.
 
-=head1 Apache::* Library
+=head1 Apache2::* Library
 
-The majority of the standard C<Apache::*> modules in 1.0 are supported
+The majority of the standard C<Apache2::*> modules in 1.0 are supported
 in 2.0.  The main goal being that the non-core CGI emulation
 components of these modules are broken into small, re-usable pieces to
 subclass Apache::Registry like behavior.
@@ -549,9 +549,9 @@ subroutine calls.  However, there is certain information required for
 method look ups that are only known at runtime.  To work around this,
 compile-time hints can be used, for example:
 
- my Apache::Request $r = shift;
+ my Apache2::Request $r = shift;
 
-Tells the Perl compiler to expect an object in the C<Apache::Request>
+Tells the Perl compiler to expect an object in the C<Apache2::Request>
 class to be assigned to C<$r>.  A patch has already been submitted to
 use this information so method calls can be resolved at compile time.
 However, the implementation does not take into account sub-classing of
