@@ -2946,8 +2946,9 @@ later.
 
 =head2 What Compiler Should Be Used to Build mod_perl?
 
-All Perl modules that use C extensions must be compiled using the same
-compiler that your copy of Perl was built with.
+All Perl modules that use C extensions, and non-Perl components that
+interact with Perl, must be compiled using the same compiler that your
+copy of Perl was built with and the same compile options.
 
 When you run C<perl Makefile.PL>, a I<Makefile> is created.  This
 I<Makefile> includes the same compilation options that were used to
@@ -2968,11 +2969,6 @@ each of the components.
 You shouldn't worry about this when compiling Perl modules since Perl
 will choose what's right automatically.  Unless you override things.
 If you do that, you are on your own...
-
-If you compile a non-Perl component separately, you should make sure
-to use the same compiler and the same options used to build Perl.
-Hint: Take a look at the I<Config.pm> module or the output of C<perl
--V>.
 
 =head1 OS Related Notes
 
