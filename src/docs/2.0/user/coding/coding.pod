@@ -66,17 +66,21 @@ register a cleanup callback via
 C<L<cleanup_register|docs::2.0::api::APR::Pool/C_cleanup_register_>>
 on the pool object of choice. Here are some examples of its usage:
 
-To run something at the server shutdown and restart use
-C<$s-E<gt>pool-E<gt>cleanup_register()> in F<startup.pl>:
+To run something at the server shutdown and restart use a cleanup
+handler registered on
+C<L<base_server_pool()|docs::2.0::api::Apache::ServerUtil/C_base_server_pool_>>
+in F<startup.pl>:
 
   #PerlRequire startup.pl
   use Apache::ServerUtil ();
   use APR::Pool ();
   
   warn "parent pid is $$\n";
-  my $pool = Apache->server->pool;
-  $pool->cleanup_register(\&cleanup);
+  $base_server_pool = Apache::ServerUtil::base_server_pool();
+  $base_server_pool->cleanup_register(\&cleanup);
   sub cleanup { warn "server cleanup in $$\n" }
+
+C<L<base_server_pool()|docs::2.0::api::Apache::ServerUtil/C_base_server_pool_>>.
 
 This is usually useful when some server-wide cleanup should be
 performed when the server is stopped or restarted.
@@ -110,6 +114,9 @@ and it'll be called when the object is destroyed:
 In this example the cleanup callback gets called, when C<$pool> goes
 out of scope and gets destroyed. This is very similar to OO C<DESTROY>
 method.
+
+
+
 
 
 =head1 Goodies Toolkit
