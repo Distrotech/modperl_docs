@@ -1610,6 +1610,16 @@ destroy the rest of the incoming bb. need to check on this issue.
 
 ]
 
+[
+
+HTTP request output filters should probably also unset the C-L header,
+if the filter will changes the size of the data that goes through
+it. (e.g. lc() filter shouldn't do it). However need to check if
+Apache core output filters don't do that already.
+
+  $filter->r->headers_out->unset('Content-Length');
+
+]
 =head1 Writing Efficient Filters
 
 META: to be written
@@ -1627,7 +1637,6 @@ and thus making the data handling inefficient. therefore a care should
 be taken so not to read the data in, unless it's really necessary.
 
 ]
-
 
 
 =head1 Maintainers
