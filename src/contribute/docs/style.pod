@@ -168,13 +168,20 @@ consistent.
 
 I<user> mode prompt:
 
-  ai% ls -l
+  % ls -l
 
 I<root> mode prompt:
 
-  ai# ls -l
+  # ls -l
 
-(ai for A.I., short and sweet)
+This is also documented in the L<Conventions|docs::conventions>
+document. If there is possible confusion about whether the second one
+is a root prompt or a comment, it might be a good idea to indicate it.
+
+For Operating System-specific information, use an adapted prompt: for
+example for Win32:
+
+  C:\> bin\build
 
 =item *
 
