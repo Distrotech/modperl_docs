@@ -337,7 +337,7 @@ vice-versa.  For example:
 
  apr_int32_t => SvIV
  apr_int64_t => SvNV
- server_rec  => SvRV (Perl object blessed into the Apache::Server class) 
+ server_rec  => SvRV (Perl object blessed into the Apache::ServerRec class) 
 
 =back
 

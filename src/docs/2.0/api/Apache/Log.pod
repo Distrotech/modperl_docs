@@ -21,11 +21,11 @@ Apache::Log - Perl API for Apache Logging Methods
                  APR::SUCCESS, "log_serror logging at err level");
   $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_DEBUG,
                  APR::ENOTIME, "debug print");
-  Apache::Server->log_error("routine warning");
+  Apache::ServerRec->log_error("routine warning");
   
   Apache->warn("routine warning");
   Apache::warn("routine warning");
-  Apache::Server->warn("routine warning");
+  Apache::ServerRec->warn("routine warning");
 
   #in a handler
   #------------
@@ -91,7 +91,7 @@ will log the message, but this one won't:
 It will be logged only if the server log level is set to I<info> or
 I<debug>. C<LogLevel> is set in the configuration file, but can be
 changed using the
-C<L<$s-E<gt>loglevel()|docs::2.0::api::Apache::Server/C_loglevel_>>
+C<L<$s-E<gt>loglevel()|docs::2.0::api::Apache::ServerRec/C_loglevel_>>
 method.
 
 The filename and the line number of the caller are logged only if
