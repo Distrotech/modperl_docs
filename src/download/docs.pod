@@ -19,9 +19,9 @@ server. To get it, you will need to checkout a copy. Assuming you have
 CVS installed, run the following commands from the directory you want
 to place the I<modperl-docs> directory in:
 
-  ai% cvs -d:pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+  % cvs -d:pserver:anoncvs@cvs.apache.org:/home/cvspublic login
     (use the password "anoncvs")
-  ai% cvs -d:pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-docs
+  % cvs -d:pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-docs
 
 You will now find a directory called I<modperl-docs> in the current
 working directory which contains all the sources needed to build the
@@ -63,7 +63,7 @@ The programs used to build the site are included in the directory you
 checked out from CVS. To build the whole site, run this while being
 placed in the I<modperl-docs> directory.
 
-  ai% bin/build
+  % bin/build
 
 This will place the site in the sub-directory I<dst_html>. You may
 open I<index.html> in there to start browsing the site.
@@ -76,7 +76,7 @@ I<INSTALL.win32> for some win32-specific information.
 Now, you can go back to your I<modperl-docs> directory. Building the
 PDF version is as easy as with the HTML version, just do a simple:
 
-  ai% bin/build -d
+  % bin/build -d
 
 And the PDF version will be built. This is often very time-consuming
 and heave on resources though. The results will be placed in
@@ -95,8 +95,8 @@ Once you see a change is made, you need to update your CVS working
 copy, and re-build the site (although it will only rebuilt modified
 files).
 
-  ai% cvs up
-  ai% bin/build
+  % cvs up
+  % bin/build
 
 Rebuilding the PDF version is just as easy, just run:
 
@@ -106,8 +106,8 @@ There are some times however when a simple rebuild will not be enough:
 usually when there are changes made to the design or to I<config.cfg>
 files. In that case, you will need to force the whole rebuild:
 
-  ai% bin/build -f
-  ai% bin/build -df    # if you want PDF to be rebuilt.
+  % bin/build -f
+  % bin/build -df    # if you want PDF to be rebuilt.
 
 =head1 Submitting documentation patches
 
@@ -126,7 +126,7 @@ If the change is big, send the whole source file to the maintainer.
 If you only add a paragraph/modify a line, please make sure you have
 the I<latest> CVS version, and then issue:
 
-  ai% cvs diff -u > patch
+  % cvs diff -u > patch
 
 And send the I<patch> file to the maintainer, preferably inline in
 your e-mail.
