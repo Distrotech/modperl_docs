@@ -14,6 +14,17 @@ troubleshooting.
 =head1 Building and Installation
 
 
+
+
+=head2 Cannot find -lgdbm
+
+Please see: L<Missing or Misconfigured
+libgdbm.so|docs::1.0::guide::install/Missing_or_Misconfigured_libgdbm_so>.
+
+
+
+
+
 =head2 make: don't know how to make dynamic. Stop
 
   make: don't know how to make dynamic. Stop
