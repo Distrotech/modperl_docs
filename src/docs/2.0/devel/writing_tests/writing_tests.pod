@@ -1515,42 +1515,9 @@ I<my-extra.conf> will be created, it'll look like:
   ----------------
   PerlSwitches -Mlib=~/modperl-2.0/t/../lib
 
-The following tokens are valid:
-
-META: complete
-
-          'cgi_module_name' => 'mod_cgi',
-          'conf_dir' => '/home/stas/httpd/prefork/conf',
-          't_conf_file' => '/home/stas/apache.org/modperl-2.0/t/conf/httpd.conf',
-          't_dir' => '/home/stas/apache.org/modperl-2.0/t',
-          'cgi_module' => 'mod_cgi.c',
-          'target' => 'httpd',
-          'thread_module' => 'worker.c',
-          'bindir' => '/home/stas/httpd/prefork/bin',
-          'user' => 'stas',
-          'top_dir' => '/home/stas/apache.org/modperl-2.0',
-          'httpd_conf' => '/home/stas/httpd/prefork/conf/httpd.conf',
-          'httpd' => '/home/stas/httpd/prefork/bin/httpd',
-          'scheme' => 'http',
-          'ssl_module_name' => 'mod_ssl',
-          'port' => 8529,
-          'sbindir' => '/home/stas/httpd/prefork/bin',
-          't_conf' => '/home/stas/apache.org/modperl-2.0/t/conf',
-          'servername' => 'localhost.localdomain',
-          'inherit_documentroot' => '/home/stas/httpd/prefork/htdocs',
-          'proxy' => 'off',
-          'serveradmin' => 'you@your.address',
-          'remote_addr' => '127.0.0.1',
-          'perlpod' => '/home/stas/perl/ithread/lib/5.7.2/pod',
-          'ssl_module' => 'mod_ssl.c',
-          't_logs' => '/home/stas/apache.org/modperl-2.0/t/logs',
-          'maxclients' => 1,
-          'group' => 'stas',
-          'thread_module_name' => 'worker',
-          'documentroot' => '/home/stas/apache.org/modperl-2.0/t/htdocs',
-          'serverroot' => '/home/stas/apache.org/modperl-2.0/t',
-          'perl' => '/home/stas/perl/ithread/bin/perl',
-          'src_dir' => '/home/stas/apache.org/modperl-2.0/src/modules/perl'
+The valid tokens are defined in C<%Apache::TestConfig::Usage> and also
+can be in the output of C<t/TEST -help>'s I<configuration options>
+section. The tokens are case insensitive.
 
 =head2 Threaded versus Non-threaded Perl Test's Compatibility
 
