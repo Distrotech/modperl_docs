@@ -1,20 +1,20 @@
 =head1 NAME
 
-Apache::Util - Perl API for Misc Apache Utility functions
+Apache2::Util - Perl API for Misc Apache Utility functions
 
 
 
 
 =head1 Synopsis
 
-  use Apache::Util ();
+  use Apache2::Util ();
   
   # OS escape path
-  $escaped_path = Apache::Util::escape_path($path, "a 'long' file.html");
+  $escaped_path = Apache2::Util::escape_path($path, "a 'long' file.html");
   
   # format time as a string
   my $fmt = "%a, %D %H:%M:%S %Z";
-  $fmtdate = Apache::Util::ht_time($r->pool, $r->request_time, $fmt, 0);
+  $fmtdate = Apache2::Util::ht_time($r->pool, $r->request_time, $fmt, 0);
 
 
 
@@ -29,7 +29,7 @@ Various Apache utilities that don't fit into any other group.
 
 =head1 Functions API
 
-C<Apache::Util> provides the following functions and/or methods:
+C<Apache2::Util> provides the following functions and/or methods:
 
 
 
@@ -38,8 +38,8 @@ C<Apache::Util> provides the following functions and/or methods:
 
 convert an OS path to a URL in an OS dependant way.
 
-  $escaped_path = Apache::Util::escape_path($path, $p);
-  $escaped_path = Apache::Util::escape_path($path, $p, $partial);
+  $escaped_path = Apache2::Util::escape_path($path, $p);
+  $escaped_path = Apache2::Util::escape_path($path, $p, $partial);
 
 =over 4
 
@@ -76,10 +76,10 @@ The escaped path
 
 Convert time from an integer value into a string in a specified format
 
-  $time_str = Apache::Util::ht_time($p);
-  $time_str = Apache::Util::ht_time($p, $time);
-  $time_str = Apache::Util::ht_time($p, $time, $fmt);
-  $time_str = Apache::Util::ht_time($p, $time, $fmt, $gmt);
+  $time_str = Apache2::Util::ht_time($p);
+  $time_str = Apache2::Util::ht_time($p, $time);
+  $time_str = Apache2::Util::ht_time($p, $time, $fmt);
+  $time_str = Apache2::Util::ht_time($p, $time, $fmt, $gmt);
 
 =over 4
 
@@ -91,7 +91,7 @@ The pool to allocate memory from
 =item opt arg2: C<$time> ( number )
 
 The time to convert (e.g., C<time()> or
-C<L<$r-E<gt>request_time|docs::2.0::api::Apache::RequestRec/C_request_time_>>).
+C<L<$r-E<gt>request_time|docs::2.0::api::Apache2::RequestRec/C_request_time_>>).
 
 If the value is not passed the current time will be used.
 
@@ -121,18 +121,18 @@ Examples:
 
 Use current time, the default format and convert to GMT:
 
-  $fmtdate = Apache::Util::ht_time($r->pool);
+  $fmtdate = Apache2::Util::ht_time($r->pool);
 
 Use my time, the default format and convert to GMT:
 
   my $time = time+100;
-  $fmtdate = Apache::Util::ht_time($r->pool, $time);
+  $fmtdate = Apache2::Util::ht_time($r->pool, $time);
 
 Use the time the request has started, custom format and don't convert
 to GMT:
 
   my $fmt = "%a, %D %H:%M:%S %Z";
-  $fmtdate = Apache::Util::ht_time($r->pool, $r->request_time, $fmt, 0);
+  $fmtdate = Apache2::Util::ht_time($r->pool, $r->request_time, $fmt, 0);
 
 
 
