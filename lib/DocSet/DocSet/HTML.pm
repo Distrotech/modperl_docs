@@ -57,8 +57,7 @@ sub write_sitemap_file {
 
     my $meta = $self->sitemap;
     my $file = exists $meta->{link} ? $meta->{link} : "sitemap.html";
-
-    my $navigator = DocSet::NavigateCache->new($self->cache->path, $self->get('id'));
+    my $navigator = DocSet::NavigateCache->new($self->cache->path, $meta->{id});
     my %args = (
          nav      => $navigator,
          meta     => $meta,

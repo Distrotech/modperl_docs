@@ -145,9 +145,8 @@ sub pod_pom_html_anchor {
     return qq{<a name="$anchor" href="#toc_$anchor">$link</a>};
 }
 
-# we want the pre sections look different from normal text. So we use
-# the vertical bar on the left. make sure to set the td.pre-bar class
-# style.css: td.pre-bar { background-color: #cccccc; }
+# the <pre> section uses class "pre-section", which allows to use a custom
+# look-n-feel via the CSS
 sub pod_pom_html_view_verbatim {
     my ($self, $text) = @_;
     for ($text) {
@@ -156,15 +155,14 @@ sub pod_pom_html_view_verbatim {
         s/>/&gt;/g;
     }
 
-    return <<PRE_SECTION;
-<table border="0" cellspacing="0" cellpadding="0">
-    <tr>
-        <td class="pre-bar" width="1"><br></td>
-        <td><pre>$text</pre></td>
-    </tr>
-</table>
-PRE_SECTION
+    # if the <pre> section is too long ps2pdf fails to generate pdf,
+    # so split it into 40 lines chunks.
+    my $result = '';
+    while ($text =~ /((?:[^\n]*\n){1,40})/sg) {
+        $result .= qq{<pre class="pre-section">$1</pre>\n};
+    }
 
+    return $result;
 }
 
 

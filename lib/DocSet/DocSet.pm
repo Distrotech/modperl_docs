@@ -228,9 +228,9 @@ sub link_scan_n_cache {
 sub sitemap_cache {
     my($self, $link, $hidden) = @_;
     my %meta = %$link; # make a copy
-    my $id = delete $meta{id};
-    $meta{title} = $meta{stitle} unless exists $meta{title};
-    $meta{stitle} = $meta{title} unless exists $meta{stitle};
+    my $id = $meta{id};
+    $meta{title}  = $meta{stitle} unless exists $meta{title};
+    $meta{stitle} = $meta{title}  unless exists $meta{stitle};
     $self->cache->add($id);
     $self->cache->set($id, 'meta', \%meta, $hidden);
 

@@ -16,17 +16,20 @@ code {
     font-family: courier new, courier, monospace;
 }
 
-pre {
-    font-family: courier new, courier, monospace;
-    font-size: 1.0em;
-}
-
 dl, ul, ol {
     font-family: helvetica, arial, verdana, sans-serif;
     font-size: 1.0em;
 }
 
-
+.pre-section {
+    font-family: courier new, courier, monospace;
+    font-size: 1.0em;
+    border-style: solid;
+    border-width: 0px 0px 0px 1px;
+    white-space: pre;
+    border-color: #004080; /* same color as quotation */
+    /* width: 100%;  might be needed for konqueror?*/
+}
 
 
 
@@ -368,10 +371,6 @@ td.blue-bg {
 /* light gray/white bg-color for ad-sec */
 td.ad-bg { 
     background-color: #eeeeee; 
-}
-
-td.pre-bar { 
-    background-color: #cccccc; 
 }
 
 /* lines for camel */
