@@ -2,10 +2,15 @@
 
 Application Servers and Toolkits based on mod_perl.
 
-=head1 Overview
+=head1 Description
 
 There are several application servers and toolkits available designed
-to run under mod_perl.
+to run under mod_perl, which might provide you with inline-Perl
+coding, or MVC (Model/View/Controller) frameworks.
+
+You probably want to look at L<Choosing a Templating
+system|docs::2.0::world::templates::choosing> for more information and
+in-depth analysis of some of the ones listed here.
 
 =head1 Apache::ASP
 
@@ -45,15 +50,6 @@ qualified names to URLs, strings, fonts, colors, icons, files, and
 views.  bOP provides a full-suite of services including dynamic
 tracing, configuration, logging, class loading, type hierarchy, unit
 testing, and acceptance testing.
-
-=head1 Bricolage
-
-C<Bricolage> (http://bricolage.thepirtgroup.com/) is a full-featured,
-open-source, enterprise-class content management system. It offers a
-browser-based interface for ease-of use, a full-fledged templating
-system with complete programming language support for flexibility, and
-many other features. It operates in an Apache/mod_perl environment,
-and uses the PostgreSQL RDBMS for its repository.
 
 =head1 Embperl
 
