@@ -2,6 +2,11 @@
 
 Debugging mod_perl
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 Warning and Errors Explained
 
 Let's talk first about things that bother most web (and non-web)
@@ -3922,5 +3927,33 @@ while offering several additional features, including the ability to:
 =back
 
 See the module's manpage for more details.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut

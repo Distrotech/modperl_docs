@@ -2,6 +2,11 @@
 
 Workarounds for some known bugs in browsers.
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 Preventing QUERY_STRING from getting corrupted because of &entity key names
 
 In a URL which contains a query string, if the string has multiple
@@ -27,6 +32,34 @@ URL.  It drops the port designator and uses port 80 anyway.
 
 See L<Publishing Port Numbers other than
 80|guide::config/Publishing_Port_Numbers_other_than_80>.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

@@ -2,7 +2,7 @@
 
 CGI to mod_perl Porting. mod_perl Coding guidelines.
 
-=head1 Document Coverage
+=head1 Description
 
 This chapter is relevant to both writing a new CGI script or perl
 handler from scratch and migrating an application from plain CGI to
@@ -3589,5 +3589,33 @@ If your took care to write the original plain CGI script's code in a
 clean and modular way, you can see that the transition is a very
 simple one and doesn't take a lot of effort. Almost no code was
 modified.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut

@@ -1,16 +1,28 @@
-		###################################
-		### mod_perl Guide CHANGES file ###
-		###################################
+=head1 NAME
 
-??? ver 1.32
+CHANGES
 
-* performance.pod:
+=head1 Description
+
+Refer to this document to learn what changes were made to the
+documents, since you've read these last time. 
+
+The most recent changes are listed first.
+
+=head1 ??? ver 1.32
+
+* guide::install
+
+  o James G Smith has uploaded his Apache Builder to CPAN, update the
+    download links, to reflect this change.
+
+* guide::performance
 
   o Update the documentation on Apache::SizeLimit and
     Apache::GTopLimit which now both sport the shared and unshared
     memory thresholds.
 
-* guide:
+* guide::
 
   o most of the internal links were changed to use the whole title and
     not only first few words. The new build system support this.
@@ -21,7 +33,14 @@
     qualified, so each document can link to other documents in
     different projects/subprojects.
 
-Nov 15 2001 ver 1.31
+* Minor corrections:
+
+  o remove qw() or variables list in guide::perl (Tim Noll
+    <tnoll@grapevine.net>)
+
+
+
+=head1 Nov 15 2001 ver 1.31
 
 * intro.pod: 
 
@@ -51,7 +70,7 @@ Nov 15 2001 ver 1.31
  
   o detecting SSL connection (Vivek Khera, Geoff Young, Issac Goldstand)
 
-  o Note the Apache::Request->instance class method in addition to the
+  o Note the Apache::Request-E<gt>instance class method in addition to the
     POST2GET example (Robin Bjorn)
 
 * porting.pod:
@@ -84,7 +103,7 @@ Nov 15 2001 ver 1.31
 
 
 
-09.02.2001 ver 1.30
+=head1 09.02.2001 ver 1.30
 
 * snippets.pod
 
@@ -94,7 +113,7 @@ Nov 15 2001 ver 1.31
 * modules.pod
 
   o removing a myth about Apache::Registry suffering from
-    "XYZ123456.html ==> /perl/foo.pl?p1=XYZ&p2=123456" kind of URI
+    "XYZ123456.html ==E<gt> /perl/foo.pl?p1=XYZ&p2=123456" kind of URI
     rewrites (multiply cached version of the same files). It's not
     true, at least it works OK now. (Geoff Young)
 
@@ -129,7 +148,7 @@ Nov 15 2001 ver 1.31
 
 
 
-04.26.2001 ver 1.29
+=head1 04.26.2001 ver 1.29
 
 * dbm.pod:
 
@@ -233,7 +252,7 @@ Nov 15 2001 ver 1.31
   
 
 
-01.11.2001 ver 1.28
+=head1 01.11.2001 ver 1.28
 
 * Makefile.PL: fixed to generate a correct Makefile on Solaris:
   removed space/extra new line after some manually created targets
@@ -304,7 +323,7 @@ Nov 15 2001 ver 1.31
   o install.pod: (Artur Zambrzycki)
 
 
-11.26.2000 ver 1.27
+=head1 11.26.2000 ver 1.27
 
 * intro.pod: 
 
@@ -413,7 +432,7 @@ Nov 15 2001 ver 1.31
 
 
 
-08.22.2000 ver 1.26-fix-01
+=head1 08.22.2000 ver 1.26-fix-01
 
 * build: fixed the Makefile.PL to detect the prerequisites. MANIFEST
   file is OK now (didn't accept files starting with './') (Marcel
@@ -425,7 +444,7 @@ Nov 15 2001 ver 1.31
 
 
 
-08.21.2000 ver 1.26
+=head1 08.21.2000 ver 1.26
 
 * mod_perl guide's build process is now completely migrated into an
   external module, distributed in package Pod::HtmlPSPdf.
@@ -453,7 +472,7 @@ Nov 15 2001 ver 1.31
 * Minor corrections: 
   o config (Ron Pero)
 
-08.05.2000 ver 1.25
+=head1 08.05.2000 ver 1.25
 
 * License: People asked me to redistribute mod_perl Guide in other
   ways than just mirroring the mod_perl site. Therefore I've licensed
@@ -543,7 +562,7 @@ Nov 15 2001 ver 1.31
 
 
 
-06.07.2000 ver 1.24
+=head1 06.07.2000 ver 1.24
 
 * perl: "catching exceptions" -- a few corrections (Matt Sergeant)
 
@@ -649,7 +668,7 @@ Nov 15 2001 ver 1.31
 
 
 
-05.12.2000 ver 1.23
+=head1 05.12.2000 ver 1.23
 
 * guide's layout changed: Now there are two index files -- the default
   index.html shows only the names of the chapters in TOC, the new
@@ -703,7 +722,7 @@ Nov 15 2001 ver 1.31
 
 * scenario: new: "mod_proxy: Security Issues" (Eric Cholet)
 
-* performance: new: "Improving Perl Code Performance Hints" =>
+* performance: new: "Improving Perl Code Performance Hints" =E<gt>
   "Concatination or List" (Doug)
 
 * debug: new: "hanging processes detection: Using the Perl Trace"
@@ -728,7 +747,7 @@ Nov 15 2001 ver 1.31
 
 * install: new: "APACHE_USER and APACHE_GROUP env" (Doug)
 
-* config: new: "Overriding <Location> Setting in "Sub-Location""
+* config: new: "Overriding E<lt>LocationE<gt> Setting in "Sub-Location""
   (Darren Chamberlain, Vivek Vhera)
 
 * review: Mark Summerfield has reviewed these chapters: porting,
@@ -760,7 +779,7 @@ Nov 15 2001 ver 1.31
 
 
 
-04.09.2000 ver 1.22
+=head1 04.09.2000 ver 1.22
 
 * intro: updated the long due credits section
 
@@ -849,7 +868,7 @@ Nov 15 2001 ver 1.31
 * snippets: added a "PerlTransHandler example" (Randal L. Schwartz,
   Ajay Shah)
 
-* config: extended examples for "<Perl> sections", added the package
+* config: extended examples for "E<lt>PerlE<gt> sections", added the package
   declaration caveat, Apache::ReadConfig namespace and more.
 
 * performance: extended the "Reducing the Number of stat() Calls"
@@ -885,7 +904,7 @@ Nov 15 2001 ver 1.31
 
 
 
-03.04.2000 ver 1.21
+=head1 03.04.2000 ver 1.21
 
 * help: updated the mod_perl list subscription info, added the
   advocacy list info.
@@ -958,14 +977,14 @@ Nov 15 2001 ver 1.31
 
 
 
-02.09.2000 ver 1.20
+=head1 02.09.2000 ver 1.20
 
 * I've created a mod_perl_guide package and now it's available from
   CPAN! So when a new version gets released you just open your CPAN
   shell and do:
 
   % perl -MCPAN -eshell
-  cpan> install mod_perl_guide
+  cpanE<gt> install mod_perl_guide
 
   All the POD sources and build scripts has moved to this
   distribution, get them from CPAN. 
@@ -1004,7 +1023,7 @@ Nov 15 2001 ver 1.31
 * modules: added and extended the Apache::Registry{BB|NG} sections
   (Doug)
 
-* config: added "debugging <Perl> sections" (Doug)
+* config: added "debugging E<lt>PerlE<gt> sections" (Doug)
 
 * modules: added a ref to "Apache::RedirectLogFix" (Doug)
 
@@ -1076,7 +1095,7 @@ Nov 15 2001 ver 1.31
 
 
 
-12.19.99 ver 1.19
+=head1 12.19.1999 ver 1.19
 
 * all.html has gone (all htmls in one) -- it became more than 1Mb, too
   big - use the PS version instead
@@ -1171,7 +1190,7 @@ Nov 15 2001 ver 1.31
 
 
 
-11.13.99 ver 1.18
+=head1 11.13.1999 ver 1.18
 
 * An almost complete rewrite of debug.pod:
 
@@ -1366,7 +1385,7 @@ Nov 15 2001 ver 1.31
 
 
 
-10.16.99 ver 1.17
+=head1 10.16.1999 ver 1.17
 
 * intro: CREDITS section was updated with the long list of
   contributors!!! Thank you all!!! If I've missed your name, please let
@@ -1434,7 +1453,7 @@ Nov 15 2001 ver 1.31
 
 * warnings: added "Can't locate loadable object for module XXX" (Doug)
 
-* config: corrected the <Perl> section dump typo (Gerald Richter)
+* config: corrected the E<lt>PerlE<gt> section dump typo (Gerald Richter)
 
 * scenario: corrected the snippet to extract the client IP from the
   X-Forwarded-For header to use headers_in instead of the obsolete
@@ -1483,7 +1502,7 @@ Nov 15 2001 ver 1.31
 
 * performance: added "Cached stat() calls"
 
-09.26.99 ver 1.16
+=head1 09.26.1999 ver 1.16
 
 * Many little things fixed, rewritten - didn't worth listing them all
   here.
@@ -1533,13 +1552,13 @@ Nov 15 2001 ver 1.31
               Reloading Configuration Files 
               Dynamically updating configuration files 
 
-* scenario: updated the X-Forwarded-For> section with notes of
+* scenario: updated the X-Forwarded-For section with notes of
   non-reliability. (Ask Bjoern Hansen, Vivek Khera)
 
 * porting: started the "Sharing variables between processes" section
   (Eric Cholet)
 
-* config: dumping the configuration by <Perl> sections (Eric Cholet)
+* config: dumping the configuration by E<lt>PerlE<gt> sections (Eric Cholet)
 
 * performance: prepare_cached() in persistent connections.
 
@@ -1578,7 +1597,7 @@ Nov 15 2001 ver 1.31
   guide. I liked the light grey background when the guide was printed
   on the B&W printer, but yes it uses too much toner - so it's gone :)
 
-08.17.99 ver 1.15
+=head1 08.17.1999 ver 1.15
 
 * Richard A. Wells has kindly reviewed and corrected the following 
   pods: advocacy.pod download.pod snippets.pod status.pod
@@ -1596,7 +1615,7 @@ Nov 15 2001 ver 1.31
 * Updated the porting.pod sections: "Sometimes it wors, sometimes
   doesn't", "Script's name space" and other as well
 
-* config.pod: updated <Perl> sections (how to dump the sections (Eric
+* config.pod: updated E<lt>PerlE<gt> sections (how to dump the sections (Eric
   Cholet) and how to use the /perl-status for doing that.
 
 * hardware.pod: David Landgren did a great job of reviewing,
@@ -1652,7 +1671,7 @@ Nov 15 2001 ver 1.31
 
 * porting.pod: Reloading handlers trick (Doug)
 
-07.3.99 ver 1.14
+=head1 07.03.1999 ver 1.14
 
 * porting.pod: added "Exposing Apache::Registry secrets, closures,
   multiserver mode".
@@ -1673,7 +1692,7 @@ Nov 15 2001 ver 1.31
 	multiuser.pod  
 	help.pod      
 
-06.19.99 ver 1.13
+=head1 06.19.1999 ver 1.13
 
 * While working on presentation discovered a wonderfull 'html2ps'
   utility (http://www.tdb.uu.se/~jan/html2psug.html) - so now we have
@@ -1705,7 +1724,7 @@ Nov 15 2001 ver 1.31
 
 * More pods have been purified by Steve Reppucci (performance.pod).
 
-06.05.99 ver 1.12
+=head1 06.05.1999 ver 1.12
 
 * install.pod: added "Should I rebuild mod_perl if I have upgraded my
   perl?"
@@ -1775,7 +1794,7 @@ Nov 15 2001 ver 1.31
   strategy.pod). Thanks to Steve English speakers can read my
   scribbles as well :o) 
 
-05.17.99 ver 1.11
+=head1 05.17.1999 ver 1.11
 
 * new hardware.pod: added a "Operating System and Hardware Demands"
   (Dean Fitz reviewed it and made lots of fixes!!! Thanks)
@@ -1815,7 +1834,7 @@ Nov 15 2001 ver 1.31
 
 * updated help.pod with squid help URLs
 
-05.08.99 ver 1.10
+=head1 05.08.1999 ver 1.10
 
 * control.pod: SUID start-up scripts (Lincoln Stein)
 
@@ -1834,8 +1853,8 @@ Nov 15 2001 ver 1.31
 * strategy.pod and scenario.pod started the ProxyPass sections (Mark
   Mills, Ken Williams, Ask Bjoern Hansen)
 
-* wrote a code to validate a pod L<> directive, by first building a
-  hash of all available achors and hash of all L<> directives, then
+* wrote a code to validate a pod LE<lt>E<gt> directive, by first building a
+  hash of all available achors and hash of all LE<lt>E<gt> directives, then
   reporting the broken links! This is cool! TomC will never accept the
   patch to his Pod2Html.pm :( So there is no broken links anymore,
   unless I forgot to run the checker :)
@@ -1867,8 +1886,8 @@ Nov 15 2001 ver 1.31
 
 * The last html sources file has gone, now all src files are pods. 
 
-* Improved search engines requirements: Extended <META
-  NAME="Description"> and <META NAME="keywords">
+* Improved search engines requirements: Extended E<lt>META
+  NAME="Description"E<gt> and E<lt>META NAME="keywords"E<gt>
 
 * Improved navigation : added Next, Main. Previous links.
 
@@ -1881,7 +1900,7 @@ Nov 15 2001 ver 1.31
 * extended the "Using $|=1 under mod_perl and better print()
   techniques" at performace.pod.
 
-04.19.99 ver 1.09 (1/2)
+=head1 04.19.1999 ver 1.09 (1/2)
 
 * guide.tar.gz and guide-src.tar.gz were outdated, now they are synced
 
@@ -1897,7 +1916,7 @@ Nov 15 2001 ver 1.31
 * Numerous typos were spotted by Andreas J. Koenig and gave me an
   idea to run speller :)
 
-04.17.99 ver 1.09
+=head1 04.17.1999 ver 1.09
 
 * added to warnings.pod: explained "incorrect line number reporting in
   error/warn log messages"
@@ -1982,7 +2001,7 @@ Nov 15 2001 ver 1.31
   contributed entirely by Eric Cholet (I have edited it a bit :).
 
 
-04.03.99
+=head1 04.03.1999 ver 1.08
 
 * Rewritten the CREDITS section of the intro.html. I hope I didn't miss
  anyone, if I did please tell. Lets feed the ego :)
@@ -2031,7 +2050,7 @@ what other ones should go here.
  readable, that I'm afraid to apply new changes to break all the
  beauty he made :) Thanks, Steve!
 
-03.15.99
+=head1 03.15.1999 ver 1.07
 
 * Added a downloadable guide.tar.gz as someone requested
 
@@ -2074,7 +2093,7 @@ what other ones should go here.
 If you see some incorrect English in the guide, don't hesitate to send
 an email to me. Thanks!
 
-01.22.99
+=head1 01.22.1999 ver 1.06
 
 * new obvious.pod: Where do the warnings/errors go?
 
@@ -2115,7 +2134,7 @@ script with the same path from the second virtual host (Doug)
 
 * help.html: added a section for DBI help (Jeffrey W. Baker)
 
-12.28.98
+=head1 12.28.1998 ver 1.05
 
 * Updated the "Client hit STOP or Netscrape bit it" section, with new
 warning "[modperl] caught SIGPIPE in process" for ver 1.17 (new
@@ -2127,7 +2146,7 @@ ScriptAlias typos at config.html.
 
 * broken link to www-security-faq was spotted by Gunther Birznieks
 
-12.20.98
+=head1 12.20.1998 ver 1.04
 
 * fixed: @INC vs %INC obvious.html#Using_Apache_StatINC (thank to Ken Williams)
 
@@ -2144,7 +2163,7 @@ ScriptAlias typos at config.html.
   html. Applied the patch to Pod::Html::VERSION 1.01
 
 1119a1120
->        (?! :)                     # don't convert HTTP::Foo and alike
+E<gt>        (?! :)                     # don't convert HTTP::Foo and alike
 
 
 * Discovered that the guide is being searchable thru the
@@ -2155,12 +2174,12 @@ ScriptAlias typos at config.html.
 * control: HUP vs TERM vs USR1. I have asked for validation of this
   section, but received none... Added a note about slowness of
   termination (Robin Berjon) and possible way to speed it up (Frank
-  D. Cringle). Added a mneumonics => numbers for SIGs (Marshall Dudley)
+  D. Cringle). Added a mnemonics =E<gt> numbers for SIGs (Marshall Dudley)
 
 * added the missing USE_APACI=1 in start.html#Mod_Perl (Thanks to Tzvetan Stoyanov)
 
 
-12.13.98
+=head1 12.13.1998 ver 1.03
 
 * covered warning: rwrite returned -1
 * covered warning: Client hit STOP or Netscrape bit it!
@@ -2183,8 +2202,8 @@ All the above are based on the Doug's answers this weekend :)
         Choosing MinSpareServers, MaxSpareServers and StartServers 
         Summary of Benchmarking to tune all 5 parameters 
 
-##########################################################################
-12.08.98
+
+=head1 12.08.1998 ver 1.02
 
 * Lots of "little typos" fixed. Thanks to Evan A. Zacks, 
   Eric Cholet and Nancy Lin !
@@ -2196,7 +2215,7 @@ All the above are based on the Doug's answers this weekend :)
 
 * lots of little changes and add ons...
 
-12.07.98
+=head1 12.07.1998  ver 1.01
 
 * Run a spell check. ispell and WWWebster were quite helpful :)
 
@@ -2215,13 +2234,12 @@ All the above are based on the Doug's answers this weekend :)
 * Added an 'all in one page', suitable for printing. Currently it's
   just an ordered cat(). In the future it might change :)
 
-12.03.98
+=head1 12.03.1998 ver 1.00
+
 
 * First Release
 
-
-
-
+=cut
 
 
 

@@ -2,6 +2,11 @@
 
 Guide's Overview
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 What's inside?
 
 Before you start a mod_perl installation, you should have an
@@ -134,6 +139,34 @@ and SQL, understanding security, building databases, and more.
 L<Appendix A: Downloading software and documentation|guide::download/>
 includes pointers to the software that was explained and/or mentioned
 in this guide.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

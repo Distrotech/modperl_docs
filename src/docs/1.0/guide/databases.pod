@@ -2,6 +2,11 @@
 
 mod_perl and Relational Databases
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 Why Relational (SQL) Databases
 
 Nowadays millions of people surf the Internet. There are millions of
@@ -538,6 +543,34 @@ these users is online. In the second query we use the C<OR> keyword.
   
   # Now %matched includes the usernames of the users who are being
   # watched by $username and currently are online.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

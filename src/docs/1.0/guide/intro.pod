@@ -2,6 +2,11 @@
 
 Introduction. Incentives. Credits.
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 What is mod_perl
 
 The Apache/Perl integration project brings together the full power of
@@ -856,5 +861,33 @@ MacEachern, the author of mod_perl, and all the developers who
 contributed bug patches, modules and help. And of course the numerous
 unseen users around the world who help to promote mod_perl and to make
 it a better tool.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut

@@ -377,23 +377,31 @@ The MOD_PERL variable gets set immediately when the perl interpreter
 starts up, whereas GATEWAY_INTERFACE may not be set yet when BEGIN
 blocks are being processed.
 
-=head2 Where can I get help that I did not find in here?
+=head1 Maintainers
 
-There is a mailing-list dedicated to mod_perl.  It is archived at
-http://mathforum.org/epigone/modperl (which has a search engine) and
-also at
-http://marc.theaimsgroup.com/?l=apache-modperl&r=1&w=2#apache-modperl
-(threaded and indexed).
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
 
-You can subscribe to the list by sending a mail with the line C<subscribe
-modperl> to C<majordomo@apache.org>.
+=over
 
-The mod_perl homepage http://perl.apache.org/ has links to other
-mod_perl resources.
+=item *
 
-The pod source of this FAQ is available at
-http://www.ping.de/~fdc/mod_perl/mod_perl_faq.tar.gz
+Frank D. Cringle E<lt>fdc@cliwe.ping.deE<gt> or the L<modperl docs
+list|maillist::list-docs-dev>
 
-=head2 Where do I send suggestions and corrections concerning this FAQ?
+=back
 
-mailto:fdc@cliwe.ping.de
+=head1 Authors
+
+=over
+
+=item *
+
+Frank D. Cringle E<lt>fdc@cliwe.ping.deE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+=cut

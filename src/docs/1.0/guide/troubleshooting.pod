@@ -2,6 +2,11 @@
 
 Warnings and Errors Troubleshooting Index
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 General Advice
 
 Perl's warnings mode is immensely helpful in detecting possible
@@ -606,5 +611,33 @@ successfully restart when asked to.  This flag disables all
 C<PerlRequire> and C<PerlModule> statements on the first load, so they
 can succeed on the second load.  Without that flag, the second load
 fails.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut

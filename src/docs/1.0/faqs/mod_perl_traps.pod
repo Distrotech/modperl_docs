@@ -361,11 +361,31 @@ follows:
 
         The Camel Book, 2nd edition, p. 538 (p. 356 in the 1st edition).
 
-=head1 AUTHORS
+=head1 Maintainers
 
-Doug MacEachern, with contributions from
-Jens Heunemann E<lt>heunemann2@janet.deE<gt>,
-David Landgren E<lt>david@landgren.netE<gt>,
-Mark Mills E<lt>mark@ntr.netE<gt> and 
-Randal Schwartz E<lt>merlyn@stonehenge.comE<gt>
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
 
+=over
+
+=item * 
+
+L<modperl docs list|maillist::list-docs-dev>
+
+=back
+
+=head1 Authors
+
+=over
+
+=item *
+
+Doug MacEachern
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+
+=cut

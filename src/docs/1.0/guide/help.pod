@@ -2,6 +2,11 @@
 
 Getting Help and Further Learning
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 READ ME FIRST
 
 If, after reading this guide and the other documents listed in this
@@ -697,5 +702,33 @@ http://www.sun.com/sun-on-net/performance/vmsizing.pdf
 =item * 
 
 =back
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * 
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut

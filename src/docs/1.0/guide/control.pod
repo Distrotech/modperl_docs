@@ -2,6 +2,10 @@
 
 Controlling and Monitoring the Server
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
 =head1 Restarting Techniques
 
 All of these techniques require that you know the server process id
@@ -1612,6 +1616,34 @@ redundant (and might give you compile-time errors).
 
 This will produce a nice error in I<error_log>, giving the line number
 of the call and the name of the undefined subroutine.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

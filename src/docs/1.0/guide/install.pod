@@ -2,6 +2,11 @@
 
 mod_perl Installation
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 A Summary of a Basic mod_perl Installation
 
 The following 10 commands summarize the execution steps required to
@@ -2666,11 +2671,9 @@ you are more likely to make a mistake that way.
 
 James G Smith wrote an Apache Builder, that can install a combination
 of Apache, mod_perl, and mod_ssl -- it also has limited support for
-including mod_php in the mix.
-
-http://hex.tamu.edu/build-apache  (the actual Perl script)
-
-http://hex.tamu.edu/generic.conf  (a sample configuration file)
+including mod_php in the mix. The builder is available from James'
+CPAN directory: $CPAN/authors/id/J/JS/JSMITH/ in the package
+I<build-apache-xx.tar.gz>.
 
 =item * Aphid Apache Installer
 
@@ -3085,6 +3088,34 @@ SHARED_CORE on these platforms when DSO features are used in the
 Configuration file or on the configure command line.
 
 =back
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

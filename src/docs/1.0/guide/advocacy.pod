@@ -2,6 +2,10 @@
 
 mod_perl Advocacy
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
 =head1 Thoughts about scalability and flexibility
 
 Your need for scalability and flexibility depends on what you need from
@@ -131,6 +135,34 @@ I guess that's because they don't read http://slashdot.org :)
 Many said that in many people's minds: 'CGI' eq 'Perl'
 
 =back
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

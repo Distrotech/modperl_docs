@@ -2,6 +2,11 @@
 
 Code Snippets
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 Redirecting Errors to the Client Instead of error_log
 
 Many error conditions result in an I<exception> (or I<signal> -- same
@@ -1277,6 +1282,34 @@ cleaner scripts, please contribute them... thanks
 Update: there is now a "mysqlhotcopy" utility distributed with MySQL
 that can make an atomic snapshot of a database. (by Tim Bunce) So you
 may consider using it instead.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

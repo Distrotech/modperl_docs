@@ -2,7 +2,7 @@
 
 Appendix A: Downloading software and documentation
 
-=head1 Coverage
+=head1 Description
 
 Here you will find instructions for downloading the software and
 its related documentation.
@@ -172,6 +172,34 @@ CPU Load, Memory Usage and information about running processes. The
 module C<GTop> provides a Perl interface to this library.
 
 http://home-of-linux.org/gnome/libgtop/
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

@@ -2,6 +2,11 @@
 
 Protecting Your Site
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 The Importance of Your site's Security
 
 Let's face it, your site or service can easily become a target for
@@ -279,5 +284,33 @@ C<$r-E<gt>custom_response>. It looks something like this:
   Apache::SpeedLimit        Control client request rate             
 
 =back
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut

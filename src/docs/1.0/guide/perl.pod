@@ -2,7 +2,7 @@
 
 Perl Reference
 
-=head1 A Must Read!
+=head1 Description
 
 This document was born because some users are reluctant to learn Perl,
 prior to jumping into mod_perl.  I will try to cover some of the most
@@ -1521,7 +1521,7 @@ their fully qualified names.
 
 With perl5.6 you can use the C<our> operator instead:
 
-  our qw($scalar %hash @array);
+  our ($scalar %hash @array);
 
 If you want to share package global variables between packages, here
 is what you can do.
@@ -2569,6 +2569,34 @@ features.  Not on the CPAN. Available at
 http://www.avrasoft.com/perl/rfc/try-1136.zip
 
 =back
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

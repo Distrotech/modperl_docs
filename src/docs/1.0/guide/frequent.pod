@@ -2,7 +2,7 @@
 
 Frequent mod_perl problems
 
-=head1 Coverage
+=head1 Description
 
 Some problems come up very often on the mailing list.  If there is
 some important problem that is being reported frequently on the list
@@ -18,6 +18,34 @@ Subroutines|guide::perl/my___Scoped_Variable_in_Nested_Subroutines>".
 
 See the section L<Evil things might happen when using
 PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_using_PerlFreshRestart>
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

@@ -118,3 +118,32 @@ Read the I<SUPPORT> file.
 =head1 SEE ALSO
 
 Apache::PerlRun(3)
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * 
+
+L<modperl docs list|maillist::list-docs-dev>
+
+=back
+
+=head1 Authors
+
+=over
+
+=item *
+
+Doug MacEachern
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+
+=cut

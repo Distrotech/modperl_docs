@@ -2,6 +2,10 @@
 
 mod_perl Configuration
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
 =head1 Server Configuration
 
 The next step after building and installing your new mod_perl enabled
@@ -2159,6 +2163,34 @@ then do:
 
 before starting the server. Now you should get some useful
 diagnostics.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

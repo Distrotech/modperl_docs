@@ -176,5 +176,33 @@ The I<mod_perl> manpage, the L<Apache> manpage,
 http://perl.apache.org/, especially the guide, http://take23.org/,
 http://httpd.apache.org/, and http://www.activestate.com/.
 
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * 
+
+Randy Kobes E<lt>randy@theoryx5.uwinnipeg.caE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Randy Kobes E<lt>randy@theoryx5.uwinnipeg.caE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+
 =cut
 

@@ -93,3 +93,31 @@ http://cvs.apache.org/snapshots/
 
 cvs(1)
 
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * 
+
+L<modperl docs list|maillist::list-docs-dev>
+
+=back
+
+=head1 Authors
+
+=over
+
+=item *
+
+Doug MacEachern
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+
+=cut

@@ -180,3 +180,32 @@ Some codesnippets is from Doug MacEachern.
 
 The L<faqs::mod_perl>, the I<Apache>, the I<perltoot> manpages (also
 available at C<http://www.perl.com/CPAN/doc/FMTEYEWTK/perltoot.html>)
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * 
+
+L<modperl docs list|maillist::list-docs-dev>
+
+=back
+
+=head1 Authors
+
+=over
+
+=item *
+
+Doug MacEachern
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+
+=cut

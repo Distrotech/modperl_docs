@@ -2,6 +2,11 @@
 
 Performance Tuning
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 The Big Picture
 
 To make the user's Web browsing experience as painless as possible,
@@ -5993,5 +5998,33 @@ and/or cause segmentation faults.
 
 See your preferred compiler's man page for detailed information about
 optimization.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut

@@ -2,6 +2,11 @@
 
 Popular Perl Complaints and Myths
 
+=head1 Description
+
+This document tries to explain the myths about Perl and overturn the
+FUD certain bodies try to spread.
+
 =head1 Abbreviations
 
 =over 4
@@ -48,22 +53,24 @@ Compiled code always has the potential to be faster than interpreted
 code. Ultimately, all interpreted code needs to eventually be converted
 to native instructions at some point, and this is invariably has to be
 done by a compiled application.
-  That said, an interpreted language CAN be faster than a comprable
+
+That said, an interpreted language CAN be faster than a comprable
 native application in certain situations, given certain, common
-programming practices. For example, the allocation and de-allocation of
-memory can be a relatively expensive process in a tightly scoped
+programming practices. For example, the allocation and de-allocation
+of memory can be a relatively expensive process in a tightly scoped
 compiled language, wheras interpreted languages typically use garbage
 collectors which don't need to do expensive deallocation in a tight
 loop, instead waiting until additional memory is absolutely necessary,
 or for a less computationally intensive period. Of course, using a
-garbage collector in C would eliminate this edge in this situation, but
-where using garbage collectors in C is uncommon, Perl and most other
-interpreted languages have built-in garbage collectors.
-  It is also important to point out that few people use the full
-potential of their modern CPU with a single application. Modern CPUs are
-not only more than fast enough to run interpreted code, many processors
-include instruction sets designed to increase the performance of
-interpreted code.
+garbage collector in C would eliminate this edge in this situation,
+but where using garbage collectors in C is uncommon, Perl and most
+other interpreted languages have built-in garbage collectors.
+
+It is also important to point out that few people use the full
+potential of their modern CPU with a single application. Modern CPUs
+are not only more than fast enough to run interpreted code, many
+processors include instruction sets designed to increase the
+performance of interpreted code.
 
 =back
 
@@ -86,11 +93,13 @@ those scripts with the parent.  So while the child may take 6MB of
 memory, 5MB of that might be shared meaning it only really uses 1MB
 per child.  Even 5 MB of memory per child is not uncommon for most web
 applications on other languages.
-  Also, most modern operating systems support the concept of shared libraries. Perl
-can be compiled as a shared library, enabling the bulk of the perl
-interpreter to be shared between processes. Some executable formats on
-some platforms (I believe ELF is one such format) are able to share
-entire executable TEXT segments between unrelated processes.
+
+Also, most modern operating systems support the concept of shared
+libraries. Perl can be compiled as a shared library, enabling the bulk
+of the perl interpreter to be shared between processes. Some
+executable formats on some platforms (I believe ELF is one such
+format) are able to share entire executable TEXT segments between
+unrelated processes.
 
 =back
 
@@ -227,9 +236,10 @@ much faster then ASP, Perl has much more example code and full
 programs which are freely downloadable, and Perl is cross platform,
 able to run on Solaris, Linux, SCO, Digital Unix, Unix V, AIX, OS2,
 VMS MacOS, Win95-98 and NT to name a few.
-  Also, Benchmarks show that embedded Perl solutions outperform ASP/VB on IIS
-by several orders of magnitude. Perl is a much easier language for some
-to learn, especially those with a background in C or C++.
+
+Also, Benchmarks show that embedded Perl solutions outperform ASP/VB
+on IIS by several orders of magnitude. Perl is a much easier language
+for some to learn, especially those with a background in C or C++.
 
 =back
 
@@ -284,20 +294,32 @@ document.
 
 =back
 
-=head1 AUTHOR
+=head1 Maintainers
 
-Adam Pisoni
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
 
-=head2 Contact info 
+=over
 
-email: adam@cnation.com
+=item * 
 
-www: http://www.cnation.com
+Contact the L<modperl docs list|maillist::list-docs-dev>
 
-=head1 VERSION
+=back
 
-Ver 1.04
 
-Tue Aug  5 9:45:00 PST 1999
+=head1 Authors
+
+=over
+
+=item *
+
+Adam Pisoni E<lt>adam@cnation.comE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut

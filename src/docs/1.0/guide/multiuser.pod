@@ -2,6 +2,11 @@
 
 mod_perl for ISPs. mod_perl and Virtual Hosts
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 ISPs providing mod_perl services - a fantasy or a reality
 
 =over 4
@@ -313,5 +318,33 @@ Basis.|guide::config/Is_There_a_Way_to_Modify__INC_on_a_Per_Virtual_Host_or_Per_
 
 L<A Script From One Virtual Host Calls a Script with the Same Path
 From the Other Virtual Host|guide::config/A_Script_From_One_Virtual_Host_Calls_a_Script_with_the_Same_Path_From_the_Other_Virtual_Host>
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut

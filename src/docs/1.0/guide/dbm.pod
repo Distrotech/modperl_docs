@@ -2,6 +2,11 @@
 
 mod_perl and dbm files
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 Where and Why to use dbm files
 
 Some of the earliest databases implemented on Unix were dbm files, and
@@ -459,5 +464,33 @@ If your CGI script is interrupted, the C<DESTROY> block will take care
 of unlocking the dbm file and flush any changes.  So your DB will be
 safe against possible corruption because of unclean program
 termination.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut

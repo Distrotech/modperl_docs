@@ -819,11 +819,33 @@ from:
 
 =head1 REVISION
 
-$Id: mod_perl.pod,v 1.2 2002/02/27 18:03:35 stas Exp $
+$Id: mod_perl.pod,v 1.3 2002/03/20 17:42:05 stas Exp $
 
-=head1 AUTHOR
+=head1 Maintainers
 
-Doug MacEachern 
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+L<modperl docs list|maillist::list-docs-dev>
+
+=back
+
+=head1 Authors
+
+=over
+
+=item *
+
+Doug MacEachern
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 
-
+=cut

@@ -2,7 +2,7 @@
 
 Choosing an Operating System and Hardware
 
-=head1 Is it important?
+=head1 Description
 
 Before you use the techniques in this Guide to tune servers and write
 code you need to consider the demands which will be placed on the
@@ -469,6 +469,34 @@ well, so you will know what to pick.  Otherwise, you should hire a
 knowledgeable hardware consultant and employ them on a regular basis,
 since your needs will probably change as time goes by and your
 hardware will likewise be forced to adapt as well.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

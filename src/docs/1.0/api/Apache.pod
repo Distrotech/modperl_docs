@@ -1028,7 +1028,22 @@ CGI::Apache(3)
 
 Apache C API notes at C<http://www.apache.org/docs/>
 
-=head1 AUTHORS
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * 
+
+Adam Pisoni E<lt>adam@cnation.comE<gt>, 
+but contact L<modperl docs list|maillist::list-docs-dev>
+
+=back
+
+
+=head1 Authors
 
 Perl interface to the Apache C API written by Doug MacEachern
 with contributions from Gisle Aas, Andreas Koenig, Eric Bartley, 

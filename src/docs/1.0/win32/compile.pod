@@ -172,4 +172,32 @@ concerning the relative order of these and the C<LoadModule> directive.
 The I<mod_perl> manpage, the L<Apache> manpage,
 http://perl.apache.org/, especially the guide, and http://take23.org/.
 
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * 
+
+Randy Kobes E<lt>randy@theoryx5.uwinnipeg.caE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Randy Kobes E<lt>randy@theoryx5.uwinnipeg.caE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+
 =cut

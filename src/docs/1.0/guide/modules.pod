@@ -2,6 +2,11 @@
 
 Apache::* modules
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 Apache::Session - Maintain session state across HTTP requests
 
 This module provides the Apache/mod_perl user with a mechanism for
@@ -669,6 +674,34 @@ This module parses I<httpd.conf>, or any compatible config file, and
 provides methods for accessing the values from the parsed file.
 
 See the module manpage for more information.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

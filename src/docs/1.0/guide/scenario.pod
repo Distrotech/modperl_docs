@@ -2,6 +2,11 @@
 
 Real World Scenarios
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 Assumptions 
 
 I will assume for this section that you are familiar with plain (not
@@ -1739,6 +1744,34 @@ This is not really mod_perl related, so I'll just stress one
 point. If you want the caching to work the following HTTP headers
 should be supplied: C<Last-Modified>, C<Content-Length> and
 C<Expires>.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

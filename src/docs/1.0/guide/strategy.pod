@@ -2,6 +2,11 @@
 
 Choosing the Right Strategy
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 Do it like I do it!?
 
 There is no such thing as the B<right> strategy in the web server
@@ -1221,6 +1226,34 @@ proprietary solution; in 6 months/one year software will have caught
 up with whatever hardware you're using and because software is easier
 to adapt you'll have more freedom to change what software you're using
 and more control of things. So the choice is in your hand.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 
