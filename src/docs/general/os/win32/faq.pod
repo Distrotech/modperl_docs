@@ -7,13 +7,62 @@ Frequently asked questions for mod_perl on Win32
 This document discusses some questions that arise often
 with mod_perl on Win32.
 
+=head1 Resolving Problems
+
 If you don't find a solution to your problem here, make sure to check
-the general troubleshooting documents, where non-platform specific
-problems are discussed. In particular, see the discussion of 
-L<frequent mod_perl problems|docs::1.0::guide::frequent>,
-L<debugging mod_perl|docs::1.0::guide::debug>, and
-a L<troubleshooting guide for mod_perl 
-2.0|docs::2.0::user::troubleshooting::troubleshooting>.
+the other troubleshooting documents according to the used mod_perl
+version as explained in the following sections.
+
+=head2 Problems with mod_perl 1.0
+
+If you have troubles with mod_perl 1.0, please refer to the following
+documents:
+
+=over
+
+=item *
+
+L<Frequent mod_perl 1.0 problems|docs::1.0::guide::frequent>
+
+=item *
+
+L<General mod_perl 1.0 troubleshooting|docs::1.0::guide::troubleshooting>
+
+=item *
+
+L<Debugging mod_perl 1.0|docs::1.0::guide::debug>
+
+=back
+
+If the solution is still not found, see the L<guide to getting help
+with mod_perl 1.0|docs::1.0::guide::help>.
+
+=head2 Problems with mod_perl 2.0
+
+=over
+
+=item *
+
+L<Win32 specific 2.0 problems|docs::2.0::os::win32::faq>
+
+=item *
+
+L<General troubleshooting guide for mod_perl
+2.0|docs::2.0::user::troubleshooting::troubleshooting>
+
+=item *
+
+L<Debugging mod_perl 2.0 Perl
+code|docs::2.0::devel::debug::perl>
+
+=item *
+
+L<Debugging mod_perl 2.0 internals|docs::2.0::devel::debug::c>.
+
+=back
+
+If the solution is still not found, see the L<guide to getting help
+with mod_perl 2.0|docs::2.0::user::help::help>.
 
 =head1 Obtaining mod_perl
 
@@ -209,19 +258,6 @@ packages|docs::1.0::os::win32::install/PPM_Packages>; the
 I<libapreq> package available in the ActiveState repository
 will not work under mod_perl. Note that I<libapreq>
 has not yet been ported to mod_perl 2.0.
-
-=head1 See Also
-
-The discussion of 
-L<frequent mod_perl problems|docs::1.0::guide::frequent>,
-L<debugging mod_perl|docs::1.0::guide::debug>, and
-a L<troubleshooting guide for mod_perl 
-2.0|docs::2.0::user::troubleshooting::troubleshooting>.
-Help is also available through the archives of and subscribing to
-the L<mod_perl mailing list|maillist::modperl>; you will
-probably find the
-L<guide to getting help|docs::1.0::guide::help>
-useful reading beforehand.
 
 =head1 Maintainers
 
