@@ -1150,12 +1150,14 @@ and you can use this object's methods to retrieve the wanted bits of
 information, so if you had a code like:
 
   use Socket 'sockaddr_in';
-  my ($serverport, $serverip) = sockaddr_in($r->connection->local_addr);
-  my ($remoteport, $remoteip) = sockaddr_in($r->connection->remote_addr);
+  my $c = $r->connection;
+  my ($serverport, $serverip) = sockaddr_in($c->local_addr);
+  my ($remoteport, $remoteip) = sockaddr_in($c->remote_addr);
 
 now it'll be written as:
 
   require APR::SockAddr;
+  my $c = $r->connection;
   my $serverport = $c->local_addr->port;
   my $serverip   = $c->local_addr->ip_get;
   my $remoteport = $c->remote_addr->port;
