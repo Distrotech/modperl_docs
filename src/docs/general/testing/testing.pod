@@ -3304,6 +3304,16 @@ It's available from http://puffin.sourceforge.net/
 
 =back
 
+=head1 Got a question?
+
+Post it to the L<Apache-Test dev list|maillist::test-dev>. The list is
+moderated, so unless you are subscribed to it it may take some time
+for your post to make it to the list.
+
+For more information see: http://perl.apache.org/docs/Apache-Test/
+
+List's archive (none at moment)
+
 
 =head1 References
 
