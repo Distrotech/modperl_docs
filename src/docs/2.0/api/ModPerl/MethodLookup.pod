@@ -352,7 +352,7 @@ Similar aliases can be provided for
 C<L<print_object()|/C_print_object___>> and
 C<L<print_module()|/C_print_module___>>.
 
-=head1 TODO
+=head1 Todo
 
 These methods aren't yet picked by this module (the extract from the
 map file):
@@ -366,6 +366,34 @@ map file):
 Please report if you find any other missing methods. But remember that
 as of this moment the module reports only XS function. In the future
 we may add support for pure perl functions/methods as well.
+
+=head1 See Also
+
+=over
+
+=item *
+
+L<the mod_perl 1.0 backward compatibility
+document|docs::2.0::user::porting::compat/>
+
+=item *
+
+L<porting Perl modules|docs::2.0::user::porting::porting>
+
+=item *
+
+L<porting XS modules|docs::2.0::devel::porting::porting>
+
+=item *
+
+C<L<Apache::porting|docs::2.0::api::Apache::porting>>
+
+=back
+
+
+
+
+
 
 =head1 Author
 
