@@ -18,7 +18,7 @@ Apache::Status - Embedded interpreter status information
 
 =head1 Description
 
-The B<Apache::Status> module provides some information
+The C<Apache::Status> module provides some information
 about the status of the Perl interpreter embedded in the server.
 
 Configure like so:
@@ -28,10 +28,13 @@ Configure like so:
        PerlResponseHandler Apache::Status
   </Location>
 
-Notice that under the "modperl" core handler the I<Environment> menu
-option will show only the environment under that handler. To see the
-environment seen by handlers running under the "perl-script" core
-handler, configure C<Apache::Status> as:
+Notice that under the
+C<L<"modperl"|docs::2.0::user::config::config/C_modperl_>> core
+handler the I<Environment> menu option will show only the environment
+under that handler. To see the environment seen by handlers running
+under the
+C<L<"perl-script"|docs::2.0::user::config::config/C_perl_script_>>>
+core handler, configure C<Apache::Status> as:
 
   <Location /perl-status>
        SetHandler perl-script
@@ -61,103 +64,100 @@ F<startup.pl>).
 
 =head1 Options
 
-=over 4
-
-=item StatusOptionsAll
+=head2 C<StatusOptionsAll>
 
 This single directive will enable all of the options described below.
 
   PerlSetVar StatusOptionsAll On
 
-=item StatusDumper
+=head2 C<StatusDumper>
 
 When browsing symbol tables, the values of arrays, hashes and scalars
-can be viewed via B<Data::Dumper> if this configuration variable is set
-to On:
+can be viewed via C<Data::Dumper> if this configuration variable is
+set to C<On>:
 
   PerlSetVar StatusDumper On
 
-=item StatusPeek
+=head2 C<StatusPeek>
 
-With this option On and the B<Apache::Peek> module installed, 
-functions and variables can be viewed ala B<Devel::Peek> style:
+With this option C<On> and the C<Apache::Peek> module installed,
+functions and variables can be viewed ala C<Devel::Peek> style:
 
   PerlSetVar StatusPeek On
 
-=item StatusLexInfo
+=head2 C<StatusLexInfo>
 
-With this option On and the B<B::LexInfo> module installed,
+With this option C<On> and the C<B::LexInfo> module installed,
 subroutine lexical variable information can be viewed.
 
   PerlSetVar StatusLexInfo On
 
-=item StatusDeparse
+=head2 C<StatusDeparse>
 
-With this option On and B<B::Deparse> version 0.59 or higher 
-(included in Perl 5.005_59+), subroutines can be "deparsed".
+With this option C<On> subroutines can be "deparsed".
 
   PerlSetVar StatusDeparse On
 
-Options can be passed to B::Deparse::new like so:
+Options can be passed to C<B::Deparse::new> like so:
 
   PerlSetVar StatusDeparseOptions "-p -sC"
 
-See the B<B::Deparse> manpage for details.
+See the C<B::Deparse> manpage for details.
 
-=item StatusTerse
+=head2 C<StatusTerse>
 
-With this option On, text-based op tree graphs of subroutines can be 
-displayed, thanks to B<B::Terse>.
+With this option C<On>, text-based op tree graphs of subroutines can
+be displayed, thanks to C<B::Terse>.
 
   PerlSetVar StatusTerse On
 
-=item StatusTerseSize
+=head2 C<StatusTerseSize>
 
-With this option On and the B<B::TerseSize> module installed,
+With this option C<On> and the C<B::TerseSize> module installed,
 text-based op tree graphs of subroutines and their size can be
-displayed.  See the B<B::TerseSize> docs for more info.
+displayed.  See the C<B::TerseSize> docs for more info.
 
   PerlSetVar StatusTerseSize On
 
-=item StatusTerseSizeMainSummary
+=head2 C<StatusTerseSizeMainSummary>
 
-With this option On and the B<B::TerseSize> module installed, a
-"Memory Usage" will be added to the Apache::Status main menu.  This
-option is disabled by default, as it can be rather cpu intensive to
-summarize memory usage for the entire server.  It is strongly
+With this option C<On> and the C<B::TerseSize> module installed, a
+I<"Memory Usage"> will be added to the C<Apache::Status> main menu.
+This option is disabled by default, as it can be rather cpu intensive
+to summarize memory usage for the entire server.  It is strongly
 suggested that this option only be used with a development server
-running in B<-X> mode, as the results will be cached.
+running in C<-X> mode, as the results will be cached.
 
   PerlSetVar StatusTerseSizeMainSummary On
 
-=item StatusGraph
+=head2 C<StatusGraph>
 
-When B<StatusDumper> is enabled, another link "OP Tree Graph" will be
-present with the dump if this configuration variable is set to On:
+When C<StatusDumper> is enabled, another link I<"OP Tree Graph"> will
+be present with the dump if this configuration variable is set to
+C<On>:
 
   PerlSetVar StatusGraph
 
 This requires the B module (part of the Perl compiler kit) and
-B::Graph (version 0.03 or higher) module to be installed along with
-the B<dot> program.
+C<B::Graph> (version 0.03 or higher) module to be installed along with
+the C<dot> program.
 
 Dot is part of the graph visualization toolkit from AT&T:
 C<http://www.research.att.com/sw/tools/graphviz/>).
 
 B<WARNING>: Some graphs may produce very large images, some graphs may
-produce no image if B::Graph's output is incorrect.
+produce no image if C<B::Graph>'s output is incorrect.
 
-=item Dot
+=head2 C<Dot>
 
-Location of the dot program for StatusGraph,
-if other than /usr/bin or /usr/local/bin
+Location of the dot program for C<StatusGraph>,
+if other than I</usr/bin> or I</usr/local/bin>
 
-=item GraphDir
+=head2 C<GraphDir>
 
-Directory where StatusGraph should write it's temporary image files.
-Default is $ServerRoot/logs/b_graphs
+Directory where C<StatusGraph> should write it's temporary image
+files.  Default is C<$ServerRoot/logs/b_graphs>.
 
-=back
 
 
 
@@ -165,7 +165,10 @@ Default is $ServerRoot/logs/b_graphs
 
 =head1 Prerequisites
 
-The I<Devel::Symdump> module, version B<2.00> or higher.
+The C<Devel::Symdump> module, version C<2.00> or higher.
+
+Other optional functionality requirements: C<B::Deparse> - 0.59,
+C<B::Fathom> - 0.05, C<C<B::Graph>> - 0.03.
 
 
 
@@ -182,7 +185,7 @@ The Apache Software License, Version 2.0.
 =head1 See Also
 
 perl(1), Apache(3), Devel::Symdump(3), Data::Dumper(3), B(3),
-B::Graph(3), L<mod_perl 2.0 documentation|docs::2.0::index>.
+C<B::Graph>(3), L<mod_perl 2.0 documentation|docs::2.0::index>.
 
 
 

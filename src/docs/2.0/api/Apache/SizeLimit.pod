@@ -41,7 +41,7 @@ size checker is called.
 =head1 Description
 
 This module is highly platform dependent, please read the
-L<CAVEATS|/Caveats> section.  It also does not work under threaded
+L<Caveats|/Caveats> section.  It also does not work under threaded
 MPMs, as explained below.
 
 This module was written in response to questions on the mod_perl
@@ -56,21 +56,22 @@ of requests your server handles, the larger the httpd processes grow
 over time.
 
 This module will not really help you with the first problem.  For that
-you should probably look into Apache::Resource or some other means of
-setting a limit on the data size of your program.  BSD-ish systems
-have setrlimit() which will croak your memory gobbling processes.
-However it is a little violent, terminating your process in
-mid-request.
+you should probably look into
+C<L<Apache::Resource|docs::2.0::api::Apache::Resource>> or some other
+means of setting a limit on the data size of your program.  BSD-ish
+systems have C<setrlimit()> which will croak your memory gobbling
+processes.  However it is a little violent, terminating your process
+in mid-request.
 
 This module attempts to solve the second situation where your process
 slowly grows over time.  The idea is to check the memory usage after
 every request, and if it exceeds a threshold, exit gracefully.
 
 By using this module, you should be able to discontinue using the
-Apache configuration directive B<MaxRequestsPerChild>, although you
-can use both if you are feeling paranoid.  Personally, I just use the
-technique shown in this module and set my MaxRequestsPerChild value to
-0.
+Apache configuration directive C<MaxRequestsPerChild>, although you
+can use both if you are feeling paranoid.  Most users use the
+technique shown in this module and set their C<MaxRequestsPerChild>
+value to C<0>.
 
 =head1 Shared Memory Options
 
@@ -78,7 +79,7 @@ In addition to simply checking the total size of a process, this
 module can factor in how much of the memory used by the process is
 actually being shared by copy-on-write.  If you don't understand how
 memory is shared in this way, take a look at the extensive
-documentation at http://perl.apache.org/.
+documentation at http://perl.apache.org/docs/.
 
 You can take advantage of the shared memory information by setting a
 minimum shared size and/or a maximum unshared size.  Experience on one
@@ -102,13 +103,13 @@ Currently supported OSes:
 
 =item linux
 
-For linux we read the process size out of /proc/self/status.  This
+For linux we read the process size out of F</proc/self/statm>.  This
 seems to be fast enough on modern systems. If you are worried about
-performance, try setting the CHECK_EVERY_N_REQUESTS option.
+performance, try setting the C<CHECK_EVERY_N_REQUESTS> option.
 
 =item Solaris 2.6 and above
 
-For solaris we simply retrieve the size of /proc/self/as, which
+For Solaris we simply retrieve the size of F</proc/self/as>, which
 contains the address-space image of the process, and convert to KB.
 Shared memory calculations are not supported.
 
@@ -118,19 +119,20 @@ confirm or deny?
 
 =item *BSD*
 
-Uses BSD::Resource::getrusage() to determine process size.  This is
-pretty efficient (a lot more efficient than reading it from the /proc
-fs anyway).
+Uses C<BSD::Resource::getrusage()> to determine process size.  This is
+pretty efficient (a lot more efficient than reading it from the
+I</proc> fs anyway).
 
 =item AIX?
 
-Uses BSD::Resource::getrusage() to determine process size.  Not sure
-if the shared memory calculations will work or not.  AIX users?
+Uses C<BSD::Resource::getrusage()> to determine process size.  Not
+sure if the shared memory calculations will work or not.  AIX users?
 
 =item Win32
 
-Uses Win32::API to access process memory information.  Win32::API can
-be installed under ActiveState perl using the supplied ppm utility.
+Uses C<Win32::API> to access process memory information.
+C<Win32::API> can be installed under ActiveState perl using the
+supplied ppm utility.
 
 =back
 
@@ -144,10 +146,11 @@ course.
 
 =head1 Threaded MPMs
 
-At this time, Apache::SizeLimit does not support use under threaded
-MPMs, including "worker."  This is because there is no efficient way
-to get the memory usage of a thread, or make a thread exit cleanly.
-Suggestions and patches are welcome on the mod_perl dev mailing list.
+At this time, C<Apache::SizeLimit> does not support use under threaded
+MPMs.  This is because there is no efficient way to get the memory
+usage of a thread, or make a thread exit cleanly.  Suggestions and
+patches are welcome on L<the mod_perl dev mailing
+list|maillist::dev>.
 
 
 
@@ -155,6 +158,7 @@ Suggestions and patches are welcome on the mod_perl dev mailing list.
 
 mod_perl 2.0 and its core modules are copyrighted under
 The Apache Software License, Version 2.0.
+
 
 
 =head1 Author
