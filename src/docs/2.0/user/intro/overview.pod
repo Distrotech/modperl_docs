@@ -405,7 +405,7 @@ filtered through multiple layers. See the I<perlapio>
 
 For example this allows mod_perl to inter-operate with the APR IO
 layer and even use the APR IO layer in Perl code. See the
-C<L<APR::PerlIO|docs::2.0::api::mod_perl-2.0::APR::PerlIO>> manpage.
+C<L<APR::PerlIO|docs::2.0::api::APR::PerlIO>> manpage.
 
 Another example of using the new feature is the extension of the
 C<open()> functionality to create anonymous temporary files via:

@@ -123,7 +123,7 @@ I<http://localhost/perl/rock.pl> and you should get the response:
 If that didn't work check the I<error_log> file.
 
 For more information on the registry scripts refer to the
-C<L<ModPerl::Registry|docs::2.0::api::ModPerl-Registry::ModPerl::Registry>>
+C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>>
 manapage. (XXX: on day there will a tutorial on registry, should port
 it from 1.0's docs).
 

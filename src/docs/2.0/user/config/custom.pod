@@ -203,7 +203,7 @@ The I<> attribute defines the valid scope in which this directive can
 appear. There are L<several
 constants|/Directive_Scope_Definition_Constants> which map onto the
 corresponding Apache macros. These constants should be imported from
-the C<L<Apache::Const|docs::2.0::api::mod_perl-2.0::Apache::Const>>
+the C<L<Apache::Const|docs::2.0::api::Apache::Const>>
 package.
 
 For example, to use the C<OR_ALL> constant, which allows directives to
@@ -232,7 +232,7 @@ Directives can receive zero, one or many arguments. In order to help
 Apache validate that the number of arguments is valid, the I<args_how>
 attribute should be set to the desired value. Similar to the
 I<L<req_override|/C_req_override_>> attribute, the
-C<L<Apache::Const|docs::2.0::api::mod_perl-2.0::Apache::Const>>
+C<L<Apache::Const|docs::2.0::api::Apache::Const>>
 package provides special constants which map to the corresponding
 Apache macros.  There are L<several
 constants|/Directive_Syntax_Definition_Constants> to choose from.
@@ -406,14 +406,14 @@ object will be returned.
 =item 2
 
 C<$parms> is an
-C<L<Apache::CmdParms|docs::2.0::api::mod_perl-2.0::Apache::CmdParms>>
+C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>
 object from which you can retrieve various other information about the
 configuration. For example to retrieve the server object:
 
   my $s = $parms->server;
 
 See
-C<L<Apache::CmdParms|docs::2.0::api::mod_perl-2.0::Apache::CmdParms>>
+C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>
 for more information.
 
 =item 3
@@ -431,7 +431,7 @@ section|/Directive_Syntax_Definition_Constants>.
 The following values of the I<L<args_how|/C_args_how_>> attribute
 define how many arguments and what kind of arguments directives can
 accept. These values are constants that can be imported from the
-C<L<Apache::Const|docs::2.0::api::mod_perl-2.0::Apache::Const>>
+C<L<Apache::Const|docs::2.0::api::Apache::Const>>
 package. For example:
 
   use Apache::Const -compile => qw(TAKE1 TAKE23);
@@ -668,7 +668,7 @@ C<SERVER_CREATE> is called once for the main server, and once more for
 each virtual host defined in I<httpd.conf>. It's called with two
 arguments: C<$class>, the package name it was created in and C<$parms>
 the already familiar
-C<L<Apache::CmdParms|docs::2.0::api::mod_perl-2.0::Apache::CmdParms>>
+C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>
 object. The object is expected to return a reference to a blessed
 hash, which will be used by configuration directives callbacks to set
 the values assigned in the configuration file. But it's possible to
@@ -781,7 +781,7 @@ To retrieve that value later, you can use:
 
 The only difference in the retrieving the directory configuration
 object. Here the third argument C<$r-E<gt>per_dir_config> tells
-C<L<Apache::Module|docs::2.0::api::mod_perl-2.0::Apache::Module>> to
+C<L<Apache::Module|docs::2.0::api::Apache::Module>> to
 get the directory configuration object.
 
 =head3 C<DIR_MERGE>

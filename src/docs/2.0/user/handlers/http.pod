@@ -466,9 +466,9 @@ This phase is of type
 C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 
 The best example here would be to use
-C<L<Apache::Reload|docs::2.0::api::mod_perl-2.0::Apache::Reload>>
+C<L<Apache::Reload|docs::2.0::api::Apache::Reload>>
 which takes the benefit of this directive. Usually
-C<L<Apache::Reload|docs::2.0::api::mod_perl-2.0::Apache::Reload>> is
+C<L<Apache::Reload|docs::2.0::api::Apache::Reload>> is
 configured as:
 
   PerlInitHandler Apache::Reload
@@ -489,7 +489,7 @@ C<E<lt>LocationE<gt>> container:
       Options +ExecCGI
   </Location>
 
-C<L<Apache::Reload|docs::2.0::api::mod_perl-2.0::Apache::Reload>> will
+C<L<Apache::Reload|docs::2.0::api::Apache::Reload>> will
 reload the modified modules, only when a request to the I</devel>
 namespace is issued, because C<L<PerlInitHandler|/PerlInitHandler>>
 plays the role of
