@@ -240,11 +240,10 @@ Now let's write the snooping filter:
   use strict;
   use warnings;
   
-  use APR::Bucket ();
-  
   use base qw(Apache::Filter);
   use Apache::FilterRec ();
   use APR::Brigade ();
+  use APR::Bucket ();
   
   use Apache::Const -compile => qw(OK DECLINED);
   use APR::Const -compile => ':common';
@@ -413,7 +412,7 @@ enclosed by C<[]> so you can see the new line characters as well.
 Here the HTTP header has been terminated by a double new line. So far
 all the buckets were of the I<HEAP> type, meaning that they were
 allocated from the heap memory. Notice that the HTTP request input
-filters will never see the bucket brigade with HTTP headers, as it has
+filters will never see the bucket brigades with HTTP headers, as it has
 been consumed by the last core connection filter.
 
 The following two entries are generated when
