@@ -221,9 +221,9 @@ or calls:
 
   $r->subprocess_env;
 
-in a void context (which has the same effect as C<PerlOptions
-+SetupEnv> for the handler that called it), only the following
-environment variables are accessible via C<%ENV>:
+in a void context with no arguments (which has the same effect
+as C<PerlOptions +SetupEnv> for the handler that called it), only
+the following environment variables are accessible via C<%ENV>:
 
 =over
 
@@ -300,6 +300,12 @@ Several special global Perl variables are saved before the handler is
 called and restored afterwards (similar to mod_perl 1.0). This
 includes: C<%ENV>, C<@INC>, C<$/>, C<STDOUT>'s C<$|> and C<END> blocks
 array (C<PL_endav>).
+
+=item *
+
+Entries added to C<%ENV> are passed on to the C<subprocess_env> table,
+and are thus accessible via C<r-E<gt>subprocess_env> during the later
+C<PerlLogHandler> and C<PerlCleanupHandler> phases.
 
 =back
 
