@@ -121,6 +121,8 @@ method.
 
 =head1 Goodies Toolkit
 
+
+
 =head2 Environment Variables
 
 mod_perl sets the following environment variables:
@@ -165,6 +167,11 @@ C<TZ> - Time Zone.
 
 Any of these environment variables can be accessed via C<%ENV>.
 
+
+
+
+
+
 =head2 Threaded MPM or not?
 
 If the code needs to behave differently depending on whether it's
@@ -183,6 +190,10 @@ C<Apache::MPM-E<gt>is_threaded> can be used. For example:
 
 This code prints the current thread id if running under a threaded
 MPM, otherwise it prints the process id.
+
+
+
+
 
 =head2 Writing MPM-specific Code
 
@@ -210,7 +221,12 @@ project to be run under a specific MPM.
   }
 
 
+
+
+
 =head1 Code Developing Nuances
+
+
 
 =head2 Auto-Reloading Modified Modules with Apache::Reload
 
@@ -266,12 +282,22 @@ don't want to use this new functionality.
 
 Refer to the I<perllexwarn> manpage for more information.
 
+
+
+
 =head1 Integration with Apache Issues
 
 In the following sections we discuss the specifics of Apache behavior
 relevant to mod_perl developers.
 
+
+
+
+
 =head2 HTTP Response Headers
+
+
+
 
 =head3 Generating HTTP Response Headers
 
@@ -362,6 +388,8 @@ script's name start with the C<nph-> prefix.
 
 
 
+
+
 =head3 Forcing HTTP Response Headers Out
 
 Apache 2.0 doesn't provide a method to force HTTP response headers
@@ -398,6 +426,7 @@ may ignore the command to flush the data.
 
 
 
+
 =head2 Sending HTTP Response Body
 
 In mod_perl 2.0 a response body can be sent only during the response
@@ -407,6 +436,7 @@ appropriate explanation logged into the I<error_log> file.
 This happens due to the Apache 2.0 HTTP architecture specifics. One of
 the issues is that the HTTP response filters are not setup before the
 response phase.
+
 
 
 
@@ -524,6 +554,9 @@ internally used by registry handlers, can be used to run C<END> blocks
 at arbitrary times.
 
 
+
+
+
 =head2 Request-localized Globals
 
 mod_perl 2.0 provides two types of C<SetHandler> handlers:
@@ -548,6 +581,8 @@ Under:
 nothing is restored, so you should be especially careful to remember
 localize all special Perl variables so the local changes won't affect
 other handlers.
+
+
 
 
 
@@ -583,6 +618,8 @@ deal with this situation.
 
 =head1 C<ModPerl::Registry> Handlers Family
 
+
+
 =head2 A Look Behind the Scenes
 
 If you have a CGI script F<test.pl>:
@@ -616,6 +653,8 @@ only argument to the C<handler()> function.
 Depending on the used registry handler the package is made of the file
 path, the uri or anything else. Check the handler's documentation to
 learn which method is used.
+
+
 
 
 
@@ -665,6 +704,9 @@ C<L<Apache-E<gt>request|docs::2.0::api::Apache::RequestUtil/C_request_>>.
 The following sections discuss threading issues when running mod_perl
 under a threaded MPM.
 
+
+
+
 =head2 Thread-environment Issues
 
 The "only" thing you have to worry about your code is that it's
@@ -696,6 +738,8 @@ For more information refer to the I<perlthrtut>
 (I<http://perldoc.com/perl5.8.0/pod/perlthrtut.html>) manpage.
 
 
+
+
 =head2 Deploying Threads
 
 This is actually quite unrelated to mod_perl 2.0. You don't have to
@@ -715,6 +759,8 @@ and other functions that rely on shared process' datastructures are
 discussed.  I<http://www.perl.com/lpt/a/2002/06/11/threads.html>.
 
 
+
+
 =head2 Shared Variables
 
 Global variables are only global to the interpreter in which they are
@@ -725,6 +771,11 @@ function C<threads::shared::share()>. New variables can be shared by
 using the I<shared> attribute when creating them. This feature is
 documented in the I<threads::shared>
 (I<http://search.cpan.org/search?query=threads%3A%3Ashared>) manpage.
+
+
+
+
+
 
 =head1 Maintainers
 
