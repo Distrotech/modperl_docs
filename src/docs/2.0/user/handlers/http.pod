@@ -959,8 +959,8 @@ mod_perl. For example:
   </Location>
 
 C<SetHandler> set to
-C<L<perl-script|docs::2.0::user::config::config/perl_script>> or
-C<L<modperl|docs::2.0::user::config::config/modperl>> tells Apache
+C<L<perl-script|docs::2.0::user::config::config/C_perl_script_>> or
+C<L<modperl|docs::2.0::user::config::config/C_modperl_>> tells Apache
 that mod_perl is going to handle the response
 generation. C<PerlResponseHandler> tells mod_perl which callback is
 going to do the job.

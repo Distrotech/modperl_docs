@@ -53,16 +53,17 @@ script and therefore fails to connect.
 The issue is that the C array C<environ[]> is not thread-safe.
 Therefore mod_perl 2.0 unties C<%ENV> from the underlying C<environ[]>
 array under the
-I<L<perl-script|docs::2.0::user::config::config/perl_script>> handler.
+I<L<perl-script|docs::2.0::user::config::config/C_perl_script_>>
+handler.
 
 The C<DBD::Oracle> driver or client library uses C<getenv()> (which
 fetches from the C<environ[]> array).  When C<%ENV> is untied from
 C<environ[]>, Perl code will see C<%ENV> changes, but C code will not.
 
-The I<L<modperl|docs::2.0::user::config::config/modperl>> handler does
-not untie C<%ENV> from C<environ[]>. Still one should avoid setting
-C<%ENV> values whenever possible.  And if it is required, should be
-done at startup time.
+The I<L<modperl|docs::2.0::user::config::config/C_modperl_>> handler
+does not untie C<%ENV> from C<environ[]>. Still one should avoid
+setting C<%ENV> values whenever possible.  And if it is required,
+should be done at startup time.
 
 In the particular case of the C<DBD::> drivers, you can set the
 variables that don't change (C<$ENV{ORACLE_HOME}> and
