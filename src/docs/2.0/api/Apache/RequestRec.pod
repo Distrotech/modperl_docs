@@ -831,7 +831,7 @@ new value
 the current hostname, or the previous value if the optionnal
 C<$new_hostname> argument was passed
 
-=item since: 1.99_12
+=item since: 1.99_19
 
 =back
 
