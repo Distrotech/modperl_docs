@@ -57,6 +57,8 @@ program in a thread (since the APR api includes API for spawning
 threads, e.g. that's how it's running mod_cgi on win32).
 
 
+
+
 =head1 API
 
 
@@ -120,6 +122,21 @@ can use something similar to the C<read_data()> wrapper shown in the
 L<Synopsis|/Synopsis> section.
 
 Several examples appear in the L<Synopsis|/Synopsis> section.
+
+C<spawn_proc_prog()> is similar to C<fork()>, but provides you a
+better framework to communicate with that process and handles the
+cleanups for you. But that means that just like C<fork()> it gives you
+a different process, so you don't use the current Perl interpreter in
+that new process. If you try to use that method or fork to run a
+high-performance parallel processing you should look elsewhere. You
+could try Perl threads, but they are B<very> expensive to start if you
+have a lot of things loaded into memory (since C<perl_clone()> dups
+almost everything in the perl land, but the opcode tree). In the
+mod_perl "paradigm" this is much more expensive than fork, since
+normally most of the time we have lots of perl things loaded into
+memory. Most likely the best solution here is to offload the job to
+PPerl or some other daemon, with the only added complexity of
+communication.
 
 
 
