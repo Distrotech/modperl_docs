@@ -598,6 +598,24 @@ now with:
       \*_;
   }
 
+=head2 C<$r-E<gt>notes>
+
+Similar to C<headers_in()>, C<headers_out()> and C<err_headers_out()>
+in mod_perl 2.0, C<$r-E<gt>notes()> returns an
+C<L<APR::Table|docs::2.0::api::APR::Table>> object, which can be used
+as a tied hash or calling its I<get()>/I<set()>/I<add()>/I<unset()>
+methods.
+
+If C<L<Apache::compat|docs::2.0::api::Apache::compat>> is loaded the
+old API:
+
+   $r->notes($key => $val);
+   $val = $r->notes($key);
+
+is supported as well.
+
+See the L<Apache::RequestRec> manpage.
+
 =head2 C<$r-E<gt>header_in>
 
 See the next item.
