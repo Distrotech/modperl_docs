@@ -83,6 +83,9 @@ The most recent changes are listed first.
 
 * performance.pod
 
+  o add more benchmarking tools refs: HTTP::WebTest,
+    HTTP::Monkeywrench, HTTP::TestEngine, HTTPD::Bench::ApacheBench
+
   o update the benchmark in the section "Apache::args
     vs. Apache::Request::param vs. CGI::param" using Apache::Request
     1.0.

@@ -247,11 +247,11 @@ benchmark response times.
 
 =head4 ApacheBench
 
-ApacheBench (B<ab>) is a tool for benchmarking your Apache HTTP
+ApacheBench (C<ab>) is a tool for benchmarking your Apache HTTP
 server.  It is designed to give you an idea of the performance that
 your current Apache installation can give.  In particular, it shows
 you how many requests per second your Apache server is capable of
-serving.  The B<ab> tool comes bundled with the Apache source
+serving.  The C<ab> tool comes bundled with the Apache source
 distribution.
 
 Let's try it.  We will simulate 10 users concurrently requesting a
@@ -290,6 +290,9 @@ interest to you.
 For example if we believe that the script I<perl/test.pl> is not
 efficient we will try to improve it and run the benchmark again, to
 see whether we have any improve in performance.
+
+C<HTTPD::Bench::ApacheBench>, available from CPAN, provides a Perl
+interface for C<ab>.
 
 =head4 httperf
 
@@ -441,6 +444,36 @@ An example of the lines which show up in the I<error_log> file:
 
 The C<Apache::Timeit> package is a part of the I<Apache-Perl-contrib>
 files collection available from CPAN.
+
+=head3 Other Benchmarking Tools
+
+Other tools you may want to take a look at:
+
+=over
+
+=item * C<HTTP::WebTest>
+
+C<HTTP::WebTest> module runs tests on remote URLs or local web files
+containing Perl/JSP/HTML/JavaScript/etc. and generates a detailed test
+report.
+
+Available from CPAN.
+
+=item * C<HTTP::Monkeywrench>
+
+C<HTTP::Monkeywrench> is a test-harness application to test the
+integrity of a user's path through a web site.
+
+=item * C<HTTP::TestEngine>
+
+C<HTTP::TestEngine> acts as an HTTP session "recorder". An user
+service's usage session is recorded and then can be played back.
+C<HTTP::Monkeywrench> is currently supported, with plans for
+C<HTTP::WebTest> support in the future.
+
+Available from http://sourceforge.net/projects/http-recorder/.
+
+=back
 
 =head2 Code Profiling Techniques
 
