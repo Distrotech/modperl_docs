@@ -6,43 +6,52 @@
 </head>
 <body bgcolor=#ffffff >
 <h3>Sites Running mod_perl</h3> 
-<hr>
+
+
+<p>
 This document contains information to give you an idea of where and
 more importantly, <b>how</b> mod_perl is being used.  If you have an
 interesting mod_perl application, let <a
 href="../maillist/list-docs-dev.html">us</a> know about it!
-<p>
-Of course, the sites described on this page are not the only sites
-running mod_perl.  Since mod_perl has inserted it's name and version
-into Apache's Server header, we are able to see others based on the 
-<a href="netcraft/">netcraft survey</a> results. 
 </p>
 
 <p>
-You might also be interested in the <a
+Of course, the sites described on this page are not the only sites
+running mod_perl. Since mod_perl inserts its name and version into
+Apache's Server header, we are able to see others based on the <a
+href="stats/netcraft.html">Netcraft survey</a> results. 
+</p>
+
+<p> 
+Also remember that many services are using mod_perl as their
+back-end, therefore these aren't reported by Netcraft, since the
+back-ends are usually cannot be accessed by the Netcraft scanner. For
+the same reason, if you try to verify whether some of the services
+listed here are running mod_perl, you may not be ablet to, because the
+back-end is not accessible. The listing is made of reports from people
+who develop and maintain these services, so they know.
+</p>
+
+
+<p> 
+In addition to the sites listed in this document, you might also be
+interested in the <a
 href="http://perl.apache.org/embperl/Sites.pod.1.html">sites running
 Embperl</a>, <a
-href="http://www.apache-asp.org/sites.html"><tt>Apache::ASP</tt></a>, <a
-href="http://www.axkit.org/livesites.xml">AxKit</a> and <a
-href="http://www.masonhq.com/about/sites.html">Mason</a>, which are all
-application toolkits/servers running under mod_perl.
+href="http://www.apache-asp.org/sites.html"><tt>Apache::ASP</tt></a>,
+<a href="http://www.axkit.org/livesites.xml">AxKit</a> and <a
+href="http://www.masonhq.com/about/sites.html">Mason</a>, which are
+all application toolkits/servers running under mod_perl.
 </p>
 
 <hr>
 <p>
-The first public site to run mod_perl and the hand that feeds CPAN
-with it, <a href="http://www.perl.com/CPAN/modules/04pause.html">PAUSE</a>, the Perl Authors Upload SErver.  This was a birthday present given
-to PAUSE by <b>Andreas K&ouml;nig</b> on August 20, 1996.
+The first public site to run mod_perl: <a
+href="http://www.perl.com/CPAN/modules/04pause.html">PAUSE</a>, the
+Perl Authors Upload SErver.  This was a birthday present given to
+PAUSE by <b>Andreas K&ouml;nig</b> on August 20, 1996.
 </p>
-<p>
 
-Andreas and <b>Kulturbox</b> went on to create an exciting site with
-mod_perl that gives you a 
-dynamic tour of Berlin, Germany.
-<a href="http://www.kulturbox.de/perl/berlininfo">BerlinINFO</a>.  The images you see here are generated on the fly, 
-using mod_perl allows the <a href="http://www.perl.com/CPAN/modules/by-module/GD/">GD</a> image objects to be cached in memory
-for an extra performance boost.
-</p>
 <p>
 
 Do you like movies?  Then take a look at how <b>Rob Hartill</b> uses mod_perl 
@@ -75,51 +84,29 @@ client programs.  We're very satisfied with mod_perl, and very
 thankful for it.
 </p>
 
+
 <p>
 
+<a href="http://www.sol.no/">Scandinavia Online AS</a> uses mod_perl
+for the <a href="http://kvasir.sol.no/">Kvasir search engine</a>.
+<b>Kvasir</b> is Norway's most popular Internet directory.
 
-The Internet's largest on-line toy store, <a
-href="http://www.etoys.com/">eToys.com</a>, uses mod_perl extensively.
-We use an object-oriented approach built on standard CPAN modules such
-as DBI, BerkeleyDB, and Template Toolkit.  eToys ranked third in
-overall traffic among e-commerce sites during the 1999 Christmas rush,
-right behind Amazon and eBay.  
 </p>
+
 <p>
-
-
-
-
-<b>Patrick Kane</b> uses mod_perl at 
-<a href="http://www.enews.com/">The Electronic Newsstand</a> to maintain
-limited and persistent connections to their Sybase servers where users
-can search and browse through thousands of virtual magazines.  Patrick
-also uses mod_perl's Authentication hook for seamlessly migrating users
-from their old registration system to a new one.
-</p>
-<p>
-
-
-<a href="http://www.sol.no/">Scandinavia Online AS</a> uses
-mod_perl for the <a href="http://kvasir.sol.no/">Kvasir search
-engine</a>.  <b>Kvasir</b> is Norway's most popular Internet directory.
-</p>
-<p>
-
-
 
 <b>Alvar Freude</b> uses mod_perl on <a
 href="http://www.a-blast.org/">http://www.a-blast.org/</a>.  It is a
 "truly interactive text network", written completely in mod_perl. For
 a quick, non-technical overview have a look on <a
 href="http://www.assoziations-blaster.de/prixars/">http://www.assoziations-blaster.de/prixars/</a>.
-(its in english on our old domain).<br>
-About one year ago, it runs on M$ IIS with ActivePerl and some PHP, in
-the meantime it is completely rewritten as Apache module, using MySQL as
-database. With this, I speed up the execution time from ~3 Seconds to
-~10 milliseconds for each Blast-Page (OK, OK, the old machine had a very
-worst hardware, now we use only a semi-worst one: Pentium II 350, 320 MB
-RAM with Soft-RAID 0 under Linux).<br>
+(its in english on our old domain).<br> About one year ago, it runs on
+M$ IIS with ActivePerl and some PHP, in the meantime it is completely
+rewritten as Apache module, using MySQL as database. With this, I
+speed up the execution time from ~3 Seconds to ~10 milliseconds for
+each Blast-Page (OK, OK, the old machine had a very worst hardware,
+now we use only a semi-worst one: Pentium II 350, 320 MB RAM with
+Soft-RAID 0 under Linux).<br>
 
 The blast_engine includes the links into the texts in realtime, also
 the statistics are created in realtime:<br> <a
@@ -165,16 +152,7 @@ very fast under mod_perl.  The service runs under
 <CODE>Apache::Registry</CODE> module. The site is written and
 maintained by <B>Stas Bekman</B>.
 </p>
-<p>
 
-
-<a href="http://www.filepile.com/">filepile.com</a> is an archive of
-over 1.2 million freeware/shareware files.  <b>Michael Mittelstadt</b> explains:
-"After moving to mod_perl, everything is wonderful, everything is
-fast, and the computer (dual P6, linux) is no longer bending under 
-the stress.  mod_perl saved us from having to buy a second webserver."
-
-</p>
 <p>
 
 <b>Gerald Richter</b> and <b>ECOS</b> are using mod_perl (with
@@ -235,27 +213,26 @@ mod_perl. I'm sure we'll find alot more uses for it in the future.
 </p>
 <p>
 
-
-<A HREF="http://www.magirus.com">Magirus Datentechnik GmbH</A> 
-is a German company of about 200 peoples, (de)located in 
-Germany, Switzerland, Italy, Austria, and needs a powerful 
-Intranet System for it's internal information flows.  We're 
-using mod_perl to do it.  Our mod_perl applications make the 
-link between 5 different database systems (Perl power and 
-mod_perl permanent database connections), allow users to get 
-price-lists, make offers and orders, get the status of a 
-client, etc. The advantage of that kind of configuration is 
-that we just need to install a Web Browser on the user's side. 
-These tools are avaible from both Intranet or secured Internet 
-connection. Without mod_perl, the average response time for 
-the top 5 applications is between 3 till 9 seconds.  This can't 
-be accepted by an end-user.  With mod_perl, the response time 
-seems (for the end-user) to be null (depending of the client's 
-speed).  This is only working on a private-network and so we 
-can't give you an address to try it.  For more information, 
-contact <A HREF="mailto:Philippe.Froidevaux@magirus.com">
+<A HREF="http://www.magirus.com">Magirus Datentechnik GmbH</A> is a
+German company employing around 200 people.  Magirus has offices
+located in Germany, Switzerland, Italy, Austria and needs a powerful
+Intranet System for it's internal information flows. We're using
+mod_perl to do it. Our mod_perl applications make the link between 5
+different database systems (Perl power and mod_perl permanent database
+connections) to allow users to get price-lists, make offers and
+orders, get the status of a client, etc.  A principle advantage of
+this kind of configuration is that we only need to install a Web
+Browser on the user's side. These tools are available from both
+Intranet or secured Internet connection. Without mod_perl, the average
+response time for the top 5 applications is between 3 and 9
+seconds. This is unacceptable to our end-users. With mod_perl, the
+response time seems (for the end-user) to be immediate (depending of
+the client's speed). This is only working on a private-network and so
+we can't give you an address to try it. For more information, contact
+<A HREF="mailto:Philippe.Froidevaux@magirus.com">
 Philippe.Froidevaux@magirus.com</A>.
 </p>
+
 <p>
 
 <b>Tony Bowden</b> developed <a href="http://www.musicdatabase.com/">The
@@ -388,22 +365,26 @@ query). This was accomplished by creating persistant database connections
 connections upon startup. No longer do I have to wait for my original
 scripts to connect and gather data. 
 </p>
+
 <p>
 
-Rob Malda tells that <a href="http://slashdot.org/">Slashdot.org</a> -
-news for nerd, is a combination of Perl and MySQL. Slashdot runs under
-mod_perl which keeps things nice and speedy.
+Rob Malda tells us that <a
+href="http://slashdot.org/">Slashdot.org</a> - "News for Nerds", is a
+combination of Perl and MySQL. Slashdot runs under mod_perl which
+keeps things nice and speedy.
 
 </p>
+
 <p>
 
 <a href="http://www.mojam.com/">Mojam</a> is a new Internet music
 media company with the goal of attracting the largest audience of
 music listeners and players anywhere.  Mojam is different that
 RollingStone or MTV because it focuses on helping new bands get their
-music out to the listeners by posting thier show dates, music clips,
+music out to the listeners by posting their show dates, music clips,
 and news releases.  mojam.com is 100% Apache mod_perl running Mason to
-dynamically deliver all of it's pages. 
+dynamically deliver all of it's pages.
+
 </p>
 
 <p>
