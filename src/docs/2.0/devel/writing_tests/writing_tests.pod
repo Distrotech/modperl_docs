@@ -1279,6 +1279,28 @@ section and placed into I<t/conf/httpd.conf>:
       PerlSetVar Foo Bar
   </Location>
 
+This autoconfiguration feature was added to:
+
+=over
+
+=item *
+
+simplify (less lines) test configuration.
+
+=item *
+
+ensure unique namespace for E<lt>Location ...E<gt>'s.
+
+=item *
+
+force E<lt>Location ...E<gt> names to be consistent.
+
+=item *
+
+prevent clashes within main configuration.
+
+=back
+
 If some directives are supposed to go to the base configuration,
 i.e. not to be automatically wrapped into C<E<lt>LocationE<gt>> block,
 you should use a special C<E<lt>BaseE<gt>>..C<E<lt>/BaseE<gt>> block:
@@ -1303,6 +1325,8 @@ gone. As you can imagine this block was added to support our virtue of
 laziness, since most tests don't need to add directives to the base
 configuration and we want to keep the configuration sections in tests
 to a minimum and let Perl do the rest of the job for us.
+
+
 
 META: Virtual host?
 
