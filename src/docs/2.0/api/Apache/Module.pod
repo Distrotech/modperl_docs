@@ -21,6 +21,9 @@ Apache::Module - Perl API for creating and working with Apache modules
   # find a specific module
   my $module = Apache::Module::find_linked_module('mod_ssl.c');
   
+  # remove a specific module
+  $module->remove_loaded_module();
+  
   # access module configuration from a directive
   sub MyDirective {
       my ($self, $parms, $args) = @_;
@@ -290,6 +293,27 @@ The next module in the list, undef if the last module in the list.
 =item since: 1.99_12
 
 =back
+
+
+
+
+
+
+=head2 C<remove_loaded_module>
+
+Remove a module from the list of loaded modules permanently.
+
+  $module->remove_loaded_module();
+
+=over 4
+
+=item obj: C<$module>
+( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
+
+=item since: 1.99_12
+
+=back
+
 
 
 
