@@ -546,6 +546,280 @@ the buckets.
 
 
 
+=head1 Examples
+
+Following are some practical examples.
+
+META: If you have written an interesting, but not too complicated
+module, which others can learn from, please submit a pod to the
+L<mailing list|maillist::modperl> so we can include it here.
+
+
+
+
+
+=head2 Command Server
+
+The C<MyApache::CommandServer> example is based on the example in the
+"TCP Servers with IO::Socket" section of the I<perlipc> manpage.  Of
+course, we don't need C<IO::Socket> since Apache takes care of those
+details for us.  The rest of that example can still be used to
+illustrate implementing a simple text protocol.  In this case, one
+where a command is sent by the client to be executed on the server
+side, with results sent back to the client.
+
+The C<MyApache::CommandServer> handler will support four commands:
+C<motd>, C<date>, C<who> and C<quit>.  These are probably not commands
+which can be exploited, but should we add such commands, we'll want to
+limit access based on ip address/hostname, authentication and
+authorization.  Protocol handlers need to take care of these tasks
+themselves, since we bypass the HTTP protocol handler.
+
+Here is the whole module:
+
+  package MyApache::CommandServer;
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use Apache::Connection ();
+  use Apache::RequestUtil ();
+  use Apache::HookRun ();
+  use Apache::Access ();
+  use APR::Socket ();
+  
+  use Apache::Const -compile => qw(OK DONE DECLINED);
+  
+  my @cmds = qw(motd date who quit);
+  my %commands = map { $_, \&{$_} } @cmds;
+  
+  sub handler {
+      my $c = shift;
+      my $socket = $c->client_socket;
+  
+      if ((my $rc = login($c)) != Apache::OK) {
+          $socket->send("Access Denied\n");
+          return $rc;
+      }
+  
+      $socket->send("Welcome to " . __PACKAGE__ .
+                    "\nAvailable commands: @cmds\n");
+  
+      while (1) {
+          my $cmd;
+          next unless $cmd = getline($socket);
+  
+          if (my $sub = $commands{$cmd}) {
+              last unless $sub->($socket) == Apache::OK;
+          }
+          else {
+              $socket->send("Commands: @cmds\n");
+          }
+      }
+  
+      return Apache::OK;
+  }
+  
+  sub login {
+      my $c = shift;
+  
+      my $r = Apache::RequestRec->new($c);
+      $r->location_merge(__PACKAGE__);
+  
+      for my $method (qw(run_access_checker run_check_user_id
+                         run_auth_checker)) {
+          my $rc = $r->$method();
+  
+          if ($rc != Apache::OK and $rc != Apache::DECLINED) {
+              return $rc;
+          }
+  
+          last unless $r->some_auth_required;
+  
+          unless ($r->user) {
+              my $socket = $c->client_socket;
+              my $username = prompt($socket, "Login");
+              my $password = prompt($socket, "Password");
+  
+              $r->set_basic_credentials($username, $password);
+          }
+      }
+  
+      return Apache::OK;
+  }
+  
+  sub getline {
+      my $socket = shift;
+  
+      my $line;
+      $socket->recv($line, 1024);
+      return unless $line;
+      $line =~ s/[\r\n]*$//;
+  
+      return $line;
+  }
+  
+  sub prompt {
+      my($socket, $msg) = @_;
+  
+      $socket->send("$msg: ");
+      getline($socket);
+  }
+  
+  sub motd {
+      my $socket = shift;
+  
+      open my $fh, '/etc/motd' or return;
+      local $/;
+      $socket->send(scalar <$fh>);
+      close $fh;
+  
+      return Apache::OK;
+  }
+  
+  sub date {
+      my $socket = shift;
+  
+      $socket->send(scalar(localtime) . "\n");
+  
+      return Apache::OK;
+  }
+  
+  sub who {
+      my $socket = shift;
+  
+      # make -T happy
+      local $ENV{PATH} = "/bin:/usr/bin";
+  
+      $socket->send(scalar `who`);
+  
+      return Apache::OK;
+  }
+  
+  sub quit { Apache::DONE }
+  
+  1;
+  __END__
+
+
+Next, let's explain what this module does in details.
+
+As with all C<PerlProcessConnectionHandlers>, we are passed an
+C<Apache::Connection> object as the first argument.  Again, we will be
+directly accessing the client socket via the I<client_socket> method.
+The I<login> subroutine is called to check if access by this client
+should be allowed.  This routine makes up for what we lost with the
+core HTTP protocol handler bypassed.  First we call the
+C<Apache::RequestRec> I<new> method, which returns a I<request_rec>
+object, just like that which is passed at request time to L<HTTP
+protocol|docs::2.0::user::handlers::http> C<Perl*Handlers> and
+returned by the subrequest API methods, I<lookup_uri> and
+I<lookup_file>.  However, this "fake request" does not run handlers
+for any of the phases, it simply returns an object which we can use to
+do that ourselves.  The C<location_merge()> method is passed the
+C<location> for this request, it will look up the
+C<E<lt>LocationE<gt>> section that matches the given name and merge it
+with the default server configuration.  For example, should we only
+wish to allow access to this server from certain locations:
+
+  <Location MyApache::CommandServer>
+      deny from all
+      allow from 10.*
+  </Location>
+
+The C<location_merge()> method only looks up and merges the
+configuration, we still need to apply it.  This is done in I<for>
+loop, iterating over three methods: C<run_access_checker()>,
+C<run_check_user_id()> and C<run_auth_checker()>.  These methods will
+call directly into the Apache functions that invoke module handlers
+for these phases and will return an integer status code, such as
+C<Apache::OK>, C<Apache::DECLINED> or C<Apache::FORBIDDEN>.  If
+I<run_access_check> returns something other than C<Apache::OK> or
+C<Apache::DECLINED>, that status will be propagated up to the handler
+routine and then back up to Apache.  Otherwise, the access check
+passed and the loop will break unless C<some_auth_required()> returns
+true.  This would be false given the previous configuration example,
+but would be true in the presence of a C<require> directive, such as:
+
+  <Location MyApache::CommandServer>
+      deny from all
+      allow from 10.*
+      require user dougm
+  </Location>
+
+Given this configuration, C<some_auth_required()> will return true.
+The C<user()> method is then called, which will return false if we
+have not yet authenticated.  A C<prompt()> utility is called to read
+the username and password, which are then injected into the
+C<headers_in()> table using the C<set_basic_credentials()> method.
+The I<Authenticate> field in this table is set to a I<base64> encoded
+value of the username:password pair, exactly the same format a browser
+would send for I<Basic authentication>.  Next time through the loop
+I<run_check_user_id> is called, which will in turn invoke any
+authentication handlers, such as I<mod_auth>.  When I<mod_auth> calls
+the C<ap_get_basic_auth_pw()> API function (as all C<Basic> auth
+modules do), it will get back the username and password we injected.
+If we fail authentication a C<401> status code is returned which we
+propagate up.  Otherwise, authorization handlers are run via
+C<run_auth_checker()>.  Authorization handlers normally need the
+I<user> field of the C<request_rec> for its checks and that field was
+filled in when I<mod_auth> called C<ap_get_basic_auth_pw()>.
+
+Provided login is a success, a welcome message is printed and main
+request loop entered.  Inside the loop the C<getline()> function
+returns just one line of data, with newline characters stripped.  If
+the string sent by the client is in our command table, the command is
+then invoked, otherwise a usage message is sent.  If the command does
+not return C<Apache::OK>, we break out of the loop.
+
+Let's use this configuration:
+
+  Listen 8085
+  <VirtualHost _default_:8085>
+      PerlProcessConnectionHandler MyApache::CommandServer
+  
+      <Location MyApache::CommandServer>
+          allow from 127.0.0.1
+          require user dougm
+          satisfy any
+          AuthUserFile /tmp/basic-auth
+      </Location>
+  </VirtualHost>
+
+The auth file can be created with the help of C<htpasswd> utility
+coming bundled with the Apache server. For example to create a file
+F</tmp/basic-auth> and add a password entry for user I<dougm> with
+password I<foobar> we do:
+
+  % htpasswd -bc /tmp/basic-auth dougm foobar
+
+Now we are ready to try the command server:
+
+  % telnet localhost 8085
+  Trying 127.0.0.1...
+  Connected to localhost (127.0.0.1).
+  Escape character is '^]'.
+  Login: dougm
+  Password: foobar
+  Welcome to MyApache::CommandServer
+  Available commands: motd date who quit
+  motd
+  Have a lot of fun...
+  date
+  Mon Mar 12 19:20:10 PST 2001
+  who
+  dougm    tty1     Mar 12 00:49
+  dougm    pts/0    Mar 12 11:23
+  dougm    pts/1    Mar 12 14:08
+  dougm    pts/2    Mar 12 17:09
+  quit
+  Connection closed by foreign host.
+
+
+
+
+
+
 
 
 
