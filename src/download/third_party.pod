@@ -12,10 +12,10 @@ Where to get software written by other parties that might be usefull
 Perl is probably already installed on your machine, but you should at
 least check the version you are using.  It is highly recommended that
 you have at least Perl version 5.004.  You can get the latest perl
-version from http://www.perl.com/ .  Try the direct download link
-http://www.perl.com/pace/pub/perldocs/latest.html .  You can get Perl
-documentation from the same location (although copious documentation
-is included in the downloaded Perl distribution).
+version from http://cpan.org/src/.  Try the direct download link
+http://cpan.org/src/stable.tar.gz.  You can get Perl documentation
+from the same location (although copious documentation is included in
+the downloaded Perl distribution).
 
 =head1 CPAN Downloads
 
