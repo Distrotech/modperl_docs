@@ -688,7 +688,7 @@ the "Building a shared Perl library" section from the I<INSTALL> file
 that comes with Perl source.
 
 =for html Also see <a
-href="http://modperlbook.org/html/ch15_04.html">Chapter 15.4 - Perl
+href="http://modperlbook.org/html/ch15_04.html">"Chapter 15.4 - Perl
 Build Options"</a> from <a href="http://modperlbook.org/">Practical
 mod_perl</a>.
 
@@ -721,13 +721,14 @@ F<5.8.6/i686-linux/CORE/libperl.so>).
 Some distributions (notably Debian) have chosen to put F<libperl.so>
 and F<libperl.a> into the global library loader path (e.g.,
 F</usr/lib>) which will cause linking problems when compiling mod_perl
-(if compiling against static perl), in which case you hould move aside
-the F<libperl.a> while building mod_perl or else will likely encounter
-further errors. If building against the dynamic perl's F<libperl.so>,
-you may have similar problems but at startup time. It's the best to
-get rid of perl that installs its libs into F</usr/lib> (or similar)
-and reinstall a new perl, which puts its library under the perl tree.
-
+(if compiling against static perl), in which case you should move
+aside the F<libperl.a> while building mod_perl or else will likely
+encounter further errors. If building against the dynamic perl's
+F<libperl.so>, you may have similar problems but at startup time. It's
+the best to get rid of perl that installs its libs into F</usr/lib>
+(or similar) and reinstall a new perl, which puts its library under
+the perl tree.  Also see L<libperl.so and
+libperl.a|docs::1.0::guide::install/libperl_so_and_libperl_a">.
 
 
 
