@@ -9,6 +9,9 @@ Basic Layout:
 DocSet:
 -------
 
+- how do we make L<foo|../search/swish.cgi> I cannot do search::swish,
+it's not a doc.
+
 Menu: 
 -----
 
@@ -18,12 +21,23 @@ style.css:
 Templates:
 ----------
 
+- should move this:
+
+  Use of the Camel for Perl is a trademark of O'Reilly & Associates,
+  and is used by permission.
+
+last, and make a much smaller font.
+
 - consider passing the class name to the wrap_box template, so the
   'content' doesn't have to wrap itself in a <div> tag. If class is
   passed then we can use it in <td class="">
 
 Content:
 --------
+
+- link the 'perl.apache.org' logo to point to
+  'http://perl.apache.org/' without underlining.
+
 
 - need to make the content review and adjust config.cfg files to
   provide good abstracts. The same goes for src html files -- should
