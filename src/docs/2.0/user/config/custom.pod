@@ -673,7 +673,7 @@ C<L<Apache::OR_EXEC_ON_READ|/C_Apache__OR_EXEC_ON_READ_>>. e.g.:
 META: complete the details, which are new to 2.0.
 
 To retrieve the contents of a custom "container" directive, use the
-C<L<Apache::Directive>> object's methods 
+C<L<Apache::Directive|docs::2.0::api::Apache::Directive>> object's methods 
 C<L<as_hash|docs::2.0::api::Apache::Directive/C_as_hash_>>
 or C<L<as_string|docs::2.0::api::Apache::Directive/C_as_string_>> :
 
