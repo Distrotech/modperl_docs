@@ -1,12 +1,12 @@
 =head1 NAME
 
-Apache::Resource - Limit resources used by httpd children
+Apache2::Resource - Limit resources used by httpd children
 
 
 
 =head1 Synopsis
 
-  PerlModule Apache::Resource
+  PerlModule Apache2::Resource
   # set child memory limit in megabytes
   # default is 64 Meg
   PerlSetEnv PERL_RLIMIT_DATA 32:48
@@ -19,14 +19,14 @@ Apache::Resource - Limit resources used by httpd children
   # default is 360 seconds
   PerlSetEnv PERL_RLIMIT_CPU 120
   
-  PerlChildInitHandler Apache::Resource
+  PerlChildInitHandler Apache2::Resource
 
 
 
 
 =head1 Description
 
-C<Apache::Resource> uses the C<BSD::Resource> module, which uses the C
+C<Apache2::Resource> uses the C<BSD::Resource> module, which uses the C
 function C<setrlimit> to set limits on system resources such as memory
 and cpu usage.
 
@@ -51,7 +51,7 @@ number, it is used for both soft and hard limits.
 To set reasonable defaults for all RLIMITs, add this to your httpd.conf:
 
   PerlSetEnv PERL_RLIMIT_DEFAULTS On
-  PerlModule Apache::Resource
+  PerlModule Apache2::Resource
 
 
 
