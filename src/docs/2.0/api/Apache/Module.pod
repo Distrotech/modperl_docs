@@ -310,6 +310,8 @@ Remove a module from the list of loaded modules permanently.
 =item obj: C<$module>
 ( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
 
+=item ret: no return value
+
 =item since: 1.99_12
 
 =back
