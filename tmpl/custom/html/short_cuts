@@ -1,0 +1,32 @@
+[%-# links menu
+   # expects to be set:
+   # nav          - cache navigator object
+   # rel_doc_root - relative docs path (only for chapters!)
+-%]
+[%- SET buttons = [
+    [ "${doc.dir.abs_doc_root}/maillist/list-modperl.html#Searchable_Archives", 'Maillist Archives'],
+    ["${doc.dir.abs_doc_root}/docs/1.0/guide/index.html", 'The 1.x guide'],
+    ["${doc.dir.abs_doc_root}/download/source.html#How_to_get_the_stable_source_distribution", 'The 1.x source'],
+       ];  
+-%]
+[%- WRAPPER wrap_box 
+        title = 'Hot Short Cuts'
+-%]
+
+[%- FOREACH but = buttons -%]
+
+        <tr>
+            <td class="menu-border"><br></td>
+            <td class="non-sel-bg">
+                <div class="nonselectedmenuitem">
+                    <a href="[%- but.0 -%]">[%- but.1 -%]</a>
+                </div>
+            </td>
+            <td class="menu-border"><br></td>
+        </tr>
+[%- END -%]
+
+        <tr>
+            <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+        </tr>
+[%- END -%]
