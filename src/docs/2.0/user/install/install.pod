@@ -78,26 +78,26 @@ with CPAN.pm shell:
 
 I<options> an optional list of (key,value) pairs.
 
+=head3 Boolean Build Options
+
 The following options are boolean and can be set with C<MP_XXX=1> or
 unset with C<MP_XXX=0>, where XXX is the name of the option.
 
-=over 4
-
-=item MP_PROMPT_DEFAULT
+=head4 MP_PROMPT_DEFAULT
 
 Accept default values for all would-be prompts.
 
-=item MP_GENERATE_XS
+=head4 MP_GENERATE_XS
 
 Generate XS code from parsed source headers in I<xs/tables/$httpd_version>.
 Default is 1, set to 0 to disable.
 
-=item MP_USE_DSO
+=head4 MP_USE_DSO
 
 Build mod_perl as a DSO (I<mod_perl.so>). This is the default. It'll
 be turned off if C<MP_USE_STATIC=1> is used.
 
-=item MP_USE_STATIC
+=head4 MP_USE_STATIC
 
 Build static mod_perl (I<mod_perl.a>). This is the default. It'll be
 turned off if C<MP_USE_DSO=1> is used.
@@ -129,19 +129,19 @@ META: The following is not implemented yet.
   to have this stuff buried and tangled like it is in 1.x
 
 
-=item MP_STATIC_EXTS
+=head4 MP_STATIC_EXTS
 
 Build C<Apache::*.xs> as static extensions.
 
-=item MP_USE_GTOP
+=head4 MP_USE_GTOP
 
 Link with I<libgtop> and enable I<libgtop> reporting.
 
-=item MP_DEBUG
+=head4 MP_DEBUG
 
 Turn on debugging (C<-g -lperld>) and tracing.
 
-=item MP_MAINTAINER
+=head4 MP_MAINTAINER
 
 Enable maintainer compile mode, which sets C<MP_DEBUG=1> and adds the
 following C<gcc> flags:
@@ -153,21 +153,20 @@ following C<gcc> flags:
 To use this mode Apache must be build with
 C<--enable-maintainer-mode>.
 
-=item MP_TRACE
+=head4 MP_TRACE
 
 Enable tracing
 
-=item MP_INST_APACHE2
+=head4 MP_INST_APACHE2
 
 Install all the I<*.pm> modules relative to the I<Apache2/> directory.
 
-=back
 
-Non-Boolean options: set them with MP_XXX=value.
+=head3 Non-Boolean Build Options
 
-=over 4
+set the non-boolen options with MP_XXX=value.
 
-=item MP_APXS
+=head4 MP_APXS
 
 Path to C<apxs>. For example if you've installed Apache 2.0 under
 I</home/httpd/httpd-2.0> as DSO, the default location would be
@@ -175,7 +174,7 @@ I</home/httpd/httpd-2.0/bin/apxs>.
 
 META: this option most likely will go away, use MP_AP_PREFIX
 
-=item MP_AP_PREFIX
+=head4 MP_AP_PREFIX
 
 Apache installation prefix, under which the Apache I<include/>
 directory can be found. If Apache is not installed yet, you can point
@@ -184,7 +183,7 @@ to the source directory. For example if you've have installed Apache
 
   MP_AP_PREFIX=\Apache2
 
-=item MP_CCOPTS
+=head4 MP_CCOPTS
 
 Add to compiler flags, e.g.:
 
@@ -193,25 +192,23 @@ Add to compiler flags, e.g.:
 (Notice that C<-Werror> will work only with the Perl version 5.7 and
 higher.)
 
-=item MP_OPTIONS_FILE
+=head4 MP_OPTIONS_FILE
 
 Read build options from given file. e.g.:
 
   MP_OPTIONS_FILE=~/.my_mod_perl2_opts
 
-=back
 
-mod_perl specific compiler options:
 
-=over 4
+=head3 mod_perl-specific Compiler Options
 
-=item -DMP_IOBUFSIZE
+=head4 -DMP_IOBUFSIZE
 
 Change the default mod_perl's 8K IO buffer size, e.g. to 16K:
 
   MP_CCOPTS=-DMP_IOBUFSIZE=16384
 
-=back
+=head3 Options File
 
 Options can also be specified in the file I<makepl_args.mod_perl2> or
 I<.makepl_args.mod_perl2>. The file can be placed under C<$ENV{HOME}>,
