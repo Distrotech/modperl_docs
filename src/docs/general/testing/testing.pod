@@ -90,7 +90,7 @@ understand the problem if you get these debug printings from the user.
 A simpler approach is to use the C<Test::More> module in your test
 scripts. This module offers many useful test functions, including
 C<diag>, a function that automatically escapes and passes strings to
-C<print> to bypass C<Test::Harnes>:
+C<print> to bypass C<Test::Harness>:
 
   use Test::More;
   diag "testing : feature foo\n";
