@@ -158,23 +158,42 @@ once:
 
   % t/TEST -start
 
-and then run all the tests via:
+and then run tests without restarting the server using I<-run> option:
 
-  % t/TEST
+  % t/TEST -run
 
-or only specific tests, by explicitly specifying them. For example to
-run the test file I<t/protocol/echo.t> we execute:
+Once the server is started you can modify I<.t> files and rerun the
+tests without restarting the server. However if you modify response
+handlers, you must restart the server for changes to take an
+effect. If C<Apache::Reload> is used and configured to automatically
+reload the handlers when they change you don't have to restart the
+server. For example to automatically reload all C<TestDirective::*>
+modules when they change on the disk, add to I<t/conf/extra.conf.in>:
 
-  % t/TEST protocol/echo
+  PerlModule Apache::Reload
+  PerlInitHandler Apache::Reload
+  PerlSetVar ReloadAll Off
+  PerlSetVar ReloadModules "TestDirective::*"
+
+and restart the server.
+
+If none of the tests are specified at the command line all tests found
+in the I<t> directory (files ending with I<.t> are recongnized as
+tests) will be run. To run specific tests, they should be explicitly
+specified. For example to run the test file I<t/protocol/echo.t> we
+execute:
+
+  % t/TEST -run protocol/echo
 
 notice that you don't have to add the I<t/> prefix and I<.t> extension
 for the test filenames if you specify them explicitly.
 
-Also when you run specific tests, it's because something is not
-working, therefore usually you want to run them in the verbose mode,
-that we have mentioned before.
+When you run specific tests you may want to run them in the verbose
+mode, and depending on how the test was written, you may get more
+debug information under this mode. This mode is turned on with I<-v>
+option:
 
-  % t/TEST -v protocol/echo
+  % t/TEST -run -v protocol/echo
 
 You can run all the tests in a single directory by just passing this
 directory as an argument. You can pass more than one test or directory
@@ -182,22 +201,8 @@ name at the same time. Thefore assuming that the directory
 I<t/protocol> includes only two files: I<echo.t> and I<eliza.t>--the
 following two commands are equivalent:
 
-  % t/TEST protocol/echo protocol/eliza
-  % t/TEST protocol
-
-There is one bit you should be aware of. If you run the tests without
-restarting the server any changes to the response handlers that you
-apply won't take effect, untill the server is restarted. Therefore you
-may want to use C<Apache::Reload> module, which will reload files
-automatically if they change between requests.
-
-META: do we include it in modperl-2.0? +document the new syntax.
-
-This will force the response handler C<Apache::Foo> to be reloaded on
-every request.
-
-Since the request test files don't reside in memory you can change
-them and the changes will take effect without restarting the server.
+  % t/TEST -run protocol/echo protocol/eliza
+  % t/TEST -run protocol
 
 The command:
 
@@ -646,7 +651,7 @@ like this:
             );
 
 See the L<Apache::TestUtil> manpage for more info on the t_cmp()
-function.
+function (e.g. it works with regexs as well).
 
 And the corresponding response part:
 
@@ -888,6 +893,19 @@ as a last argument for plan():
 
 =over
 
+=item * skip_unless()
+
+Instead of using a scalar as a last argument to plan() to tell whether
+to skip the test or not, it's better to use skip_unless() which also
+prints the reason for skipping the test if the condition is not
+satisfied. For example:
+
+  plan tests => 5, skip_unless(sub { $a == $b }, "$a != $b");
+
+skip_unless() executes the code reference in the first argument and if
+it returns a false value C<$reason> gets printed as a reason for test
+skipping.
+
 =item * have_module()
 
 have_module() tests for existance of Perl modules or C modules
@@ -1070,7 +1088,52 @@ to ok():
   skip $should_skip, $test_me;
 
 so if C<$should_skip> is true, the test will be reported as
-skipped. The second argument is the one that's sent to ok().
+skipped. The second argument is the one that's sent to ok(), so if
+C<$should_skip> is true, a normal ok() sub-test is run. The following
+example represent four possible outcomes of using the skip() function:
+
+  skip_subtest_1.t
+  --------------
+  use Apache::Test;
+  plan tests => 4;
+  
+  my $ok     = 1;
+  my $not_ok = 0;
+  
+  my $should_skip = "foo is missing";
+  skip $should_skip, $ok;
+  skip $should_skip, $not_ok;
+  
+  $should_skip = '';
+  skip $should_skip, $ok;
+  skip $should_skip, $not_ok;
+
+now we run the test:
+
+  % ./t/TEST -run -v skip_subtest_1
+  skip_subtest_1....1..4
+  ok 1 # skip foo is missing
+  ok 2 # skip foo is missing
+  ok 3
+  not ok 4
+  # Failed test 4 in skip_subtest_1.t at line 13
+  Failed 1/1 test scripts, 0.00% okay. 1/4 subtests failed, 75.00% okay.
+
+As you can see since C<$should_skip> had a true value, the first two
+sub-tests were explicitly skipped (using C<$should_skip> as a reason),
+so the second argument to skip didn't matter. In the last two
+sub-tests C<$should_skip> had a false value therefore the second
+argument was passed to the ok() function. Basically the following
+code:
+
+  $should_skip = '';
+  skip $should_skip, $ok;
+  skip $should_skip, $not_ok;
+
+is equivalent to:
+
+  ok $ok;
+  ok $not_ok;
 
 C<Apache::Test> also allows to write tests in such a way that only
 selected sub-tests will be run.  The test simply needs to switch from
@@ -1080,7 +1143,7 @@ are specified on the command line only those will be run/passed to
 ok(), the rest will be skipped.  If no sub-tests are specified, sok()
 works just like ok().  For example, you can write this test:
 
-  skip_subtest.t
+  skip_subtest_2.t
   --------------
   use Apache::Test;
   plan tests => 4;
@@ -1091,14 +1154,31 @@ works just like ok().  For example, you can write this test:
 
 and then ask to run only sub-tests 1 and 3 and to skip the rest.
 
-  % ./t/TEST -v skip_subtest 1 3
-  skip_subtest....1..4
+  % ./t/TEST -v skip_subtest_2 1 3
+  skip_subtest_2....1..4
   ok 1
   ok 2 # skip skipping this subtest
   ok 3
   ok 4 # skip skipping this subtest
   ok, 2/4 skipped:  skipping this subtest
   All tests successful, 2 subtests skipped.
+
+Only the sub-tests 1 and 3 get executed.
+
+A range of sub-tests to run can be given using the Perl's range
+operand:
+
+  % ./t/TEST -v skip_subtest_2 2..4
+  skip_subtest_2....1..4
+  ok 1 # skip askipping this subtest
+  not ok 2
+  # Failed test 2
+  ok 3
+  not ok 4
+  # Failed test 4
+  Failed 1/1 test scripts, 0.00% okay. 2/4 subtests failed, 50.00% okay.
+
+In this run, only the first sub-test gets executed.
 
 =head2 Todo Sub-tests
 
