@@ -25,17 +25,17 @@ body[class="body-margins"] {
 
 p, dl, ul, ol  {
     font-family: helvetica, arial, verdana, sans-serif;
-    font-size: 1.0em;
+    /*font-size: 1.0em; */
 }
 
 code {
     font-family: courier new, courier, monospace;
-    font-size: 1.0em;
+    /*font-size: 1.0em;*/
 }
 
 .pre-section {
     font-family: courier new, courier, monospace;
-    font-size: 1.0em;
+    /*font-size: 1.0em;*/
     border-style: solid;
     border-width: 0px 0px 0px 1px;
     white-space: pre;
@@ -275,7 +275,7 @@ td.menu-border {
 /* Wrapped around each section of content */
 div.index-section {
     font-family: helvetica, arial, verdana, sans-serif;
-    font-size: 1.0em;
+    /*font-size: 1.0em;*/
 }
 
 
@@ -286,7 +286,7 @@ div.index-section {
 /* Wrapped around the entire search form in src/search/search.tt */
 div.search-form {
     font-family: helvetica, arial, verdana, sans-serif;
-    font-size: 1.0em;  
+    /*font-size: 1.0em;  */
     background-color: white;
     color: #000000;
 }
@@ -326,7 +326,7 @@ td.search-nav {
 /* title line for a search result */
 span.search-result-title {
     font-family: helvetica, arial, verdana, sans-serif;
-    font-size: 1.0em;
+   /* font-size: 1.0em;*/
     background-color: #ffffff;
     color: #000000;
 }
@@ -458,6 +458,7 @@ td.search-box-bg {
     font-family: helvetica, arial, verdana, sans-serif;
     width: 80px;
     margin: 0px 0px 2px 0px;
+    display: block;
 }
 
 .inp-select{
