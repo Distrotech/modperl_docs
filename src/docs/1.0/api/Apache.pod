@@ -595,7 +595,7 @@ of references to the handler subroutines.
 
 =head2 $r-E<gt>set_handlers( $hook, [\E<amp>handler, ... ] )
 
-Sets the list if handlers to be called for $hook. $hook is a string
+Sets the list of handlers to be called for $hook. $hook is a string
 representing the phase to handle. The list of handlers is an anonymous
 array of code references to the handlers to install for this request
 phase. The special list C<[ \&OK ]> can be used to disable a
