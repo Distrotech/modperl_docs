@@ -21,8 +21,39 @@ pragma|guide::debug/diagnostics_pragma> for more information.
 
 =head1 Building and Installation
 
+=head2 Bareword "gensym" not allowed while "strict subs"
+
+When building mod_perl one may get the following failure:
+
+  make[1]: Entering directory `.../mod_perl-1.29/Symbol'
+  Running Mkbootstrap for Apache::Symbol ()
+  ...
+  Bareword "gensym" not allowed while "strict subs" in use at 
+  /usr/lib/perl5/5.8.3/Pod/Parser.pm line 1158.
+  ...
+  make: *** [subdirs] Error 2
+
+That happens when you you've modify C<@INC> to push C<"."> before all
+other directories, whereas it should be last. When C<"."> is first in
+C<@INC> it picks F<mod_perl-1.29/Symbol/Symbol.pm> when it's inside
+the directory F<mod_perl-1.29/Symbol>. This shouldn't happen if your
+system paths are coming first. To check your C<@INC>, run:
+
+  % perl -V
+
+and it'll appear at the end of the output. Usually C<"."> is pushed
+first by setting a C<PERL5LIB> or a similar environment
+variable. Unset it and repeat the build process to solve the problem.
+
+
+=head2 make test issues
+
 See L<make Troubleshooting|guide::install/make_Troubleshooting> and
 L<make test Troubleshooting|guide::install/make_test_Troubleshooting>
+
+
+
+
 
 =head1 Configuration and Startup
 
