@@ -7,6 +7,12 @@ Debugging mod_perl C Internals
 This document explains how to debug C code under mod_perl, including
 mod_perl core itself.
 
+For certain debugging purposes you may find useful to read first the
+following notes on mod_perl internals: L<Apache 2.0
+Integration|docs::2.0::devel::core::apache_integration> and 
+L<mod_perl-specific functionality
+flow|docs::2.0::devel::core::mod_perl_specific>.
+
 =head1 Debug notes
 
 META: needs more organization

@@ -10,6 +10,10 @@ is essential for a less-painful debugging experience. It should also
 help to know where a new code should be added when a new feature is
 added.
 
+Internals of mod_perl-specific features are discussed in L<mod_perl
+internals: mod_perl-specific functionality
+flow|docs::2.0::devel::core::mod_perl_specific>.
+
 Make sure to read also: L<Debugging mod_perl C
 Internals|docs::2.0::devel::debug::c>.
 
