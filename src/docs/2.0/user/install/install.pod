@@ -179,12 +179,16 @@ META: this option most likely will go away, use MP_AP_PREFIX
 =head4 MP_AP_PREFIX
 
 Apache installation prefix, under which the Apache I<include/>
-directory can be found. If Apache is not installed yet, you can point
-to the source directory, but only after you've built or configured
-Apache in it. For example if you've have installed Apache
-2.0 in C<\Apache2> on Win32, you should use:
+directory can be found. For example if you've have installed Apache
+2.0 in directory I<\Apache2> on Win32, you should use:
 
   MP_AP_PREFIX=\Apache2
+
+If Apache is not installed yet, you can point to the Apache 2.0 source
+directory, but only after you've built or configured Apache in it. For
+example:
+
+  MP_AP_PREFIX=/home/stas/apache.org/httpd-2.0
 
 =head4 MP_CCOPTS
 
