@@ -32,8 +32,10 @@ party module and core developers.
 To migrate the configuration files to the mod_perl 2.0 syntax, you may
 need to do certain adjustments. Several configuration directives are
 deprecated in 2.0, but still available for backwards compatibility
-with mod_perl 1.0. If you don't need the backwards compatibility
-consider using the directives that have replaced them.
+with mod_perl 1.0 unless 2.0 was built with
+C<L<MP_COMPAT_1X=0|docs::2.0::user::install::install/MP_COMPAT_1X>>. If
+you don't need the backwards compatibility consider using the
+directives that have replaced them.
 
 =head2 C<PerlHandler>
 
@@ -306,8 +308,10 @@ future, it's documented in modperl_env.c:modperl_env_magic_set_all.)
 =head2 C<$ENV{GATEWAY_INTERFACE}>
 
 The environment variable C<$ENV{GATEWAY_INTERFACE}> is deprecated in
-mod_perl 2.0. Instead use C<$ENV{MOD_PERL}>, which is set to something
-like this:
+mod_perl 2.0 (See:
+C<L<MP_COMPAT_1X=0|docs::2.0::user::install::install/MP_COMPAT_1X>>). Instead
+use C<$ENV{MOD_PERL}> (available in both mod_perl generations), which
+is set to something like this:
 
   mod_perl/1.99_03-dev
 
@@ -437,6 +441,19 @@ use:
 
 instead. See the
 C<L<Apache::Log|docs::2.0::api::Apache::Log>> manpage.
+
+
+
+
+=head1 C<Apache::> Variables
+
+=head2 C<$Apache::__T>
+
+C<$Apache::__T> is deprecated in mod_perl 2.0. Use C<${^TAINT}>
+instead.
+
+
+
 
 
 =head1 C<Apache::Server::> Methods and Variables

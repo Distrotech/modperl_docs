@@ -152,8 +152,8 @@ C<ModPerl::MM::WriteMakefile> attributes:
 
   macro => { MOD_INSTALL => ... }
 
-arranges for modules to be installed under Apache2 if mod_perl was
-built with C<MP_INST_APACHE2=1>.
+arranges for modules to be installed under the subdir I<Apache2/> if
+mod_perl was built with C<MP_INST_APACHE2=1>.
 
 =head1 Public API
 

@@ -220,7 +220,7 @@ environment variables are accessible via C<%ENV>:
 
 =item *
 
-C<MOD_PERL> and C<GATEWAY_INTERFACE> (always)
+C<MOD_PERL> (always)
 
 =item *
 

@@ -306,6 +306,72 @@ Build C<Apache::*.xs> as static extensions.
 
 Link with I<libgtop> and enable I<libgtop> reporting.
 
+=head2 MP_COMPAT_1X
+
+C<MP_COMPAT_1X=1> or a lack of it enables several mod_perl 1.0
+back-compatibility features, which are deprecated in mod_perl
+2.0. It's enabled by default, but can be disabled with
+C<MP_COMPAT_1X=0> during the build process.
+
+When this option is disabled, the following things will happen:
+
+=over
+
+=item *
+
+Environment variable C<GATEWAY_INTERFACE> will be enabled only if
+C<PerlOptions +SetupEnv> is enabled and its value would be the
+default:
+
+  CGI/1.1
+
+and not:
+
+  CGI-Perl/1.1
+
+The use of C<$ENV{GATEWAY_INTERFACE}> is deprecated and the existance
+of C<$ENV{MOD_PERL}> should be checked instead.
+
+=item *
+
+Deprecated special variable, C<$Apache::__T> won't be available. Use
+C<${^TAINT}> instead.
+
+=item *
+
+I<$ServerRoot> and I<$ServerRoot/lib/perl> won't be appended to
+C<@INC>. Instead use:
+
+  PerlSwitches -I/path/to/server -I/path/to/server/lib/perl
+
+in I<httpd.conf> or:
+
+  use Apache::Server ();
+  use Apache::ServerUtil ();
+  use Apache::Process ();
+  my $pool = Apache->server->process->pool;
+  push @INC, Apache::server_root_relative($pool, "");
+  push @INC, Apache::server_root_relative($pool, "lib/perl");
+
+in I<startup.pl>.
+
+=item *
+
+The following deprecated configuration directives won't be recognized
+by Apache:
+
+  PerlSendHeader
+  PerlSetupEnv
+  PerlHandler
+  PerlTaintCheck
+  PerlWarn
+
+Use L<their 2.0
+equivalents|docs::2.0::user::compat::compat/Configuration_Files_Porting>
+instead.
+
+=back
+
 =head4 MP_DEBUG
 
 Turn on debugging (C<-g -lperld>) and tracing.
