@@ -107,6 +107,26 @@ PHSS_29484 and PHSS_29485. Once installed the issue should go away.
 =head1 Runtime
 
 
+
+=head2 Memory Leaks
+
+=over
+
+=item * s/// in perls 5.8.1 and 5.8.2
+
+p5-porters report:
+http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2003-12/msg00634.html
+
+Fixed in 5.8.3. There is no workaround but to upgrade to 5.8.3 or
+higher.
+
+
+=back
+
+
+
+
+
 =head2 C Libraries Don't See C<%ENV> Entries Set by Perl Code
 
 For example some people have reported problems with C<DBD::Oracle>
