@@ -55,6 +55,20 @@ C<Apache::ServerRec> object.
 the rest of the arguments are the same as described by the I<open()>
 manpage.
 
+=item seek()
+
+  seek($fh, $offset, $whence);
+
+If C<$offset> is zero, C<seek()> works normally.
+
+However if C<$offset> is non-zero and Perl has been compiled with with
+large files support (C<-Duselargefiles>), whereas APR wasn't, this
+function will croak. This is because largefile size C<Off_t> simply
+cannot fit into a non-largefile size C<apr_off_t>.
+
+To solve the problem, rebuild Perl with C<-Uuselargefiles>. Currently
+there is no way to force APR to build with large files support.
+
 =back
 
 The C interface provides functions to convert between Perl IO and
