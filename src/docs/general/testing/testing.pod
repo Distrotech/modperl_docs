@@ -1121,6 +1121,46 @@ I<httpd.conf> as a mod_perl file (PerlRequire).
 
 =back
 
+=head2 Inheriting from System-wide httpd.conf
+
+C<Apache::Test> tries to find a global I<httpd.conf> file and inherit
+its configuration when autogenerating I<t/conf/httpd.conf>. For
+example it picks C<LoadModule> directives.
+
+It's possible to explicitly specify which file to inherit from using
+the C<-httpd_conf> option. For example during the build:
+
+  % perl Makefile.PL -httpd_conf /path/to/httpd.conf
+
+or during the configuration:
+
+  % t/TEST -conf -httpd_conf /path/to/httpd.conf
+
+Certain projects need to have a control of what gets inherited. For
+example if your global I<httpd.conf> includes a directive:
+
+  LoadModule apreq_module "/home/joe/apache2/modules/mod_apreq.so"
+
+And you want to run the test suite for C<Apache::Request> 2.0,
+inheriting the above directive will load the pre-installed
+I<mod_apreq.so> and not the newly built one, which is wrong. In such
+cases it's possible to tell the test suite which modules shouldn't be
+inheritated. In our example C<Apache-Request> has the following code
+in F<t/TEST.PL>:
+
+  use base 'Apache::TestRun';
+  $Apache::TestTrace::Level = 'debug';
+  main::->new->run(@ARGV);
+  
+  sub pre_configure {
+      my $self = shift;
+      # Don't load an installed mod_apreq
+      Apache::TestConfig::autoconfig_skip_module_add('mod_apreq.c');
+  }
+
+it subclasses C<Apache::TestRun> and overrides the I<pre_configure>
+method, which excludes the module I<mod_apreq.c> from the list of
+inherited modules (notice that the extension is I<.c>).
 
 
 =head1 Apache::Test Framework's Architecture
