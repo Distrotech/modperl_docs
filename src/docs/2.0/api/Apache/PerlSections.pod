@@ -334,6 +334,33 @@ change it to be:
 
 
 
+=head2 E<lt>PerlE<gt>[...]> was not closed.
+
+On encountering a one-line E<lt>PerlE<gt> block, 
+httpd's configuration parser will cause a startup
+failure with an error similar to this one:
+
+  Starting httpd:
+  Syntax error on line ... of /etc/httpd/conf/httpd.conf:
+  <Perl>use> was not closed.
+
+If you have written a simple one-line E<lt>PerlE<gt>
+section like this one :
+
+  <Perl>use Apache::DBI;</Perl>
+
+change it to be:
+
+   <Perl>
+   use Apache::DBI;
+   </Perl>
+
+This is caused by a limitation of httpd's configuration
+parser and is not likely to be changed to allow one-line
+block like the example above. Use multi-line blocks instead.
+
+
+
 
 =head1 See Also
 
