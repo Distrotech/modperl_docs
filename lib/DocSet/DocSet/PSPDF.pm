@@ -44,7 +44,9 @@ sub complete {
 }
 
 
-
+# XXX: almost the same code as in ::HTML counterpart, consider
+# creating ::Common and re-use
+#
 # generate the index.html file based on the doc entities it includes,
 # in the following order: docsets, books, chapters
 #
@@ -54,9 +56,36 @@ sub complete {
 sub write_index_file {
     my($self) = @_;
 
+    my @toc  = ();
+    my $cache = $self->cache;
+
+    # TOC
+    my @node_groups = @{ $self->node_groups };
+    my @ids = $cache->ordered_ids;
+
+    # create the toc while skipping over hidden files
+    if (@node_groups && @ids) {
+        # index's toc is built from groups of items' meta data
+        while (@node_groups) {
+            my($title, $count) = splice @node_groups, 0, 2;
+            push @toc, {
+                group_title => $title,
+                subs  => [map {$cache->get($_, 'meta')} 
+                          grep !$cache->is_hidden($_), 
+                          splice @ids, 0, $count],
+            };
+        }
+    }
+    else {
+        # index's toc is built from items' meta data
+        for my $id (grep !$cache->is_hidden($_), $cache->ordered_ids) {
+            push @toc, $cache->get($id, 'meta');
+        }
+    }
+
     my $dir = {
-        abs_doc_root => $self->get_dir('abs_doc_root'),
-        rel_doc_root => '..', # META: probably wrong, could be ../..! (see write_index_html_file())
+        abs_doc_root   => $self->get_dir('abs_doc_root'),
+        rel_doc_root   => $self->get_dir('rel_parent_root'),
         path_from_base => $self->get_dir('path_from_base'),
     };
 
@@ -65,18 +94,46 @@ sub write_index_file {
                 abstract => $self->get('abstract'),
                };
 
-    use DocSet::NavigateCache;
     my $navigator = DocSet::NavigateCache->new($self->cache->path, $self->get('id'));
 
     my %args = 
         (
          nav      => $navigator,
+         toc      => \@toc,
          meta     => $meta,
          dir      => $dir,
          version  => $self->get('version')||'',
          date     => get_date(),
          last_modified => get_timestamp(),
         );
+
+    # plaster index top and bottom docs if defined (after converting them)
+    if (my $body = $self->get('body')) {
+        my $src_root = $self->get_dir('src_root');
+        my $dst_mime = $self->get('dst_mime');
+
+        for my $sec (qw(top bot)) {
+            my $src_file = $body->{$sec};
+            next unless $src_file;
+
+            my $src_ext = filename_ext($src_file)
+                or die "cannot get an extension for $src_file";
+            my $src_mime = $self->ext2mime($src_ext)
+                or die "unknown extension: $src_ext";
+            my $conv_class = $self->conv_class($src_mime, $dst_mime);
+            require_package($conv_class);
+
+            my $chapter = $conv_class->new(
+                tmpl_mode    => $self->get('tmpl_mode'),
+                tmpl_root    => $self->get_dir('tmpl'),
+                src_uri      => $src_file,
+                src_path     => "$src_root/$src_file",
+            );
+            $chapter->scan();
+            $args{body}{$sec} = $chapter->converted_body();
+        }
+
+    }
 
     my $dst_root  = $self->get_dir('dst_root');
     my $dst_file = "$dst_root/index.html";

@@ -158,7 +158,8 @@ sub pod_pom_html_view_verbatim {
     # if the <pre> section is too long ps2pdf fails to generate pdf,
     # so split it into 40 lines chunks.
     my $result = '';
-    while ($text =~ /((?:[^\n]*\n){1,40})/sg) {
+    while ($text =~ /((?:[^\n]*\n?){1,40})/sg) {
+        next unless length($1); # skip empty matches
         $result .= qq{<pre class="pre-section">$1</pre>\n};
     }
 
