@@ -5069,6 +5069,30 @@ Growing|guide::performance/Preventing_Your_Processes_from_Growing> and
 L<Limiting Other Resources Used by Apache Child
 Processes|guide::performance/Limiting_Other_Resources_Used_by_Apache_Child_Processes>.
 
+
+
+=head2 Avoid the Evil Troika
+
+The I<perlre> manpage says:
+
+  WARNING: Once Perl sees that you need one of "$&", "$`", or "$'"
+  anywhere in the program, it has to provide them for every pattern
+  match. This may substantially slow your program.
+
+The mere existence of these variables will trigger this behavior,
+regardless of whether or not the code that accesses them will be
+executed. Removing these variables should significantly improve the
+regex performance.
+
+How do you know whether some code loads them? You could grep(1), but
+it's hard to remember to do that as you include more modules from CPAN
+and write new code. Luckily C<Devel::SawAmpersand> comes to help.
+(http://search.cpan.org/dist/Devel-SawAmpersand/lib/Devel/SawAmpersand.pm)
+This module will alert you if it detects any of the evil troika
+variables present.
+
+
+
 =head2 Preventing Your Processes from Growing
 
 If you have already worked with mod_perl, you have probably noticed
