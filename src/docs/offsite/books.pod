@@ -1,0 +1,127 @@
+=head1 NAME
+
+mod_perl and related books
+
+=head1 DESCRIPTION
+
+This document presents the published mod_perl and related books.
+
+=head1 mod_perl books
+
+These are the mod_perl specific books.
+
+=head2 Writing Apache Modules with Perl and C
+
+http://www.modperl.com is the home site of The Apache Modules Book, a book
+about creating Web server modules using the Apache API, written by
+Lincoln Stein and Doug MacEachern.
+
+The book should be available from your local bookstore or from your
+favorite on-line bookseller.  O'Reilly & Associates lists this book
+as:
+
+  Writing Apache Modules with Perl and C
+  By Lincoln Stein & Doug MacEachern
+  1st Edition March 1999
+  2nd Edition Feb 2000
+  1-56592-567-X, Order Number: 567X
+  746 pages, $34.95
+
+=head2 The mod_perl Developer's Cookbook
+
+Home site: http://www.modperlcookbook.org
+
+SAMS lists this book as:
+
+  The mod_perl Developer's Cookbook
+  By Geoffrey Young; Paul Lindner; Randy Kobes
+  ISBN: 0672322404
+  Pub. Date: Jan 17,2002
+  Price: $39.99
+  Pages: 600
+
+=head2 Practical mod_perl
+
+http://www.modperlbook.com is the home site of the new mod_perl book,
+that Eric Cholet and Stas Bekman are co-authoring.  We expect the book
+to be published in 2002 by O'Reilly & Associates.
+
+Ideas, suggestions and comments are welcome. Please send them to
+E<lt>info {at} modperlbook.comE<gt>.
+
+=head2 mod_perl Quick Reference Card
+
+I<mod_perl Pocket Reference> by Andrew Ford was published by O'Reilly
+and Associates http://www.oreilly.com/catalog/modperlpr/
+
+You should probably get also the I<Apache Pocket Reference> by the
+same author and the same publisher:
+http://www.oreilly.com/catalog/apachepr/
+
+See also Andrew's collection of reference card for Apache and other
+programs: http://www.refcards.com.
+
+
+=head1 Apache books
+
+This is a list of all known books about Apache sorted by the year when
+they where published and in alphabetical
+order. http://httpd.apache.org/info/apache_books.html
+
+=head1 CGI and Perl books
+
+There are gazillions of Perl and CGI/Perl books out there. We couldn't
+find a single resource covering them all. Here are some of the places
+to start from:
+
+These resources provide listing of Perl books plus 3rd party reviews:
+
+=over
+
+=item * 
+
+http://www.perl.com/language/critiques/
+
+=item * 
+
+http://www.reviewsonline.com/perl.htm
+
+=item * 
+
+http://slashdot.org/books/
+
+=back
+
+These resources provide listing of Perl books without 3rd party reviews:
+
+=over
+
+=item * 
+
+http://www.sysarch.com/cgi-bin/perl_books
+
+=item * 
+
+http://perl.oreilly.com/
+
+=item * 
+
+http://wwwiz.com/books/cgi-perl.html
+
+=item * 
+
+http://www.stonehenge.com/books/
+
+=item * 
+
+http://www.perldoc.com/books/
+
+=item * 
+
+http://www.theperlreview.com/books.shtml
+
+=back
+
+
+=cut
+
