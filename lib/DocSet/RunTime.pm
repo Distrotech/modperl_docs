@@ -53,25 +53,28 @@ sub has_storable_module {
     return HAS_STORABLE;
 }
 
-my $html2ps_exec = `which html2ps` || '';
-chomp $html2ps_exec;
+# check for existence of html2ps and ps2pdf
+
+my $html2ps_exec = which('html2ps');
 sub can_create_ps {
     # ps2html is bundled, so we can always create PS
-    return $html2ps_exec;
+    return $html2ps_exec if $html2ps_exec;
+
+    print 'It seems that you do not have html2ps installed! You have',
+        'to install it if you want to generate the PDF file';
+    return 0;
 
     # if you unbundle it make sure you write here a code similar to
     # can_create_pdf()
 }
 
-my $ps2pdf_exec = `which ps2pdf` || '';
-chomp $ps2pdf_exec;
+my $ps2pdf_exec = which('ps2pdf');
 sub can_create_pdf {
     # check whether ps2pdf exists
     return $ps2pdf_exec if $ps2pdf_exec;
 
-    print(qq{It seems that you do not have ps2pdf installed! You have
-             to install it if you want to generate the PDF file
-            });
+    print 'It seems that you do not have ps2pdf installed! You have',
+        'to install it if you want to generate the PDF file';
     return 0;
 }
 
@@ -93,9 +96,10 @@ sub scan_src_docs {
         my $rsub_skip_seen = 
             build_matchmany_sub(\@seen_pattern);
 
+        my $full_path_regex = quotemeta $full_path;
         $src_docs{$rel_path} = {
             map { $_ => 1 }
-                map {s|$full_path/||; $_}
+                map {s|$full_path_regex/||; $_}
                 grep $rsub_keep_ext->($_),   # get files with wanted exts
                 grep !$rsub_skip_seen->($_), # skip seen base dirs
                 @{ expand_dir($full_path) }

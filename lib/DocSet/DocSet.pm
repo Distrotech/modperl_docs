@@ -73,7 +73,7 @@ sub scan {
     # cache the location of the parent node cache
     if (my $parent_o = $self->get('parent_o')) {
         my $parent_src_root   = $parent_o->get_dir('src_root');
-        (my $rel2parent_src_root = $src_root) =~ s|$parent_src_root||;
+        (my $rel2parent_src_root = $src_root) =~ s|\Q$parent_src_root||;
         my $rel_dir = join '/', ("..") x ($rel2parent_src_root =~ tr|/|/|);
         my $parent_cache_path = "$parent_src_root/cache.$mode.dat";
         $cache->parent_node($parent_cache_path,
@@ -279,7 +279,8 @@ sub scan_copy_the_rest {
 #        # some OSs's File::Find returns files with no dir prefix root
 #        # (that's what ()* is for
 #        $dst_path =~ s/(?:$src_root)*/$dst_root/; 
-        $dst_path =~ s/$src_root/$dst_root/;
+#        $dst_path =~ s/$src_root/$dst_root/;
+        $dst_path =~ s/\Q$src_root/$dst_root/;
 
         # to rebuild or not to rebuild
         my($should_update, $reason) = 

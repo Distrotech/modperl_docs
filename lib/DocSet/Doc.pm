@@ -72,6 +72,9 @@ sub src_read {
 
     # META: at this moment everything is a file path
     my $src_uri = "file://" . $self->{src_path};
+    # Win32: fix the path, or it'll be parsed as hostname
+    $src_uri =~ s|\\|/|g;
+
     my $u = URI->new($src_uri);
 
     my $scheme = $u->scheme;

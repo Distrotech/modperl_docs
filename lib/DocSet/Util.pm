@@ -15,13 +15,15 @@ use File::Spec::Functions;
 
 require DocSet::RunTime; # interdependency with DocSet::Util
 
+use constant IS_WIN32 => $^O eq 'MSWin32';
+
 use vars qw(@ISA @EXPORT);
 @ISA    = qw(Exporter);
 @EXPORT = qw(read_file read_file_paras copy_file gzip_file write_file
              create_dir filename filename_ext require_package dumper
              sub_trace note get_date get_timestamp proc_tmpl
              build_matchmany_sub banner should_update confess cluck
-             carp format_bytes expand_dir);
+             carp format_bytes expand_dir which);
 
 # copy_file($src_path, $dst_path);
 # copy a file at $src_path to $dst_path, 
@@ -272,6 +274,26 @@ sub expand_dir {
     return \@files;
 }
 
+# which($short_exec_name)
+# Portable 'which' implementation.
+#
+# Parts borrowed from modperl-2.0/lib/Apache/Build.pm and modified to
+# take into account Win32 PATHEXT
+########################
+my @path_ext = ();
+if (IS_WIN32 and $ENV{PATHEXT}) {
+    @path_ext = split ';', $ENV{PATHEXT};
+}
+sub which {
+    foreach (map { catfile $_, $_[0] } File::Spec->path()) {
+        return $_ if -x;
+        if(IS_WIN32 and @path_ext) { # AFAIK, Win9x doesn't have PATHEXT
+            foreach my $ext (@path_ext) {
+                return $_.$ext if -x $_.$ext;
+            }
+        }
+    }
+}
 
 sub dumper {
     print Dumper @_;
