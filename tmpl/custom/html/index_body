@@ -1,16 +1,15 @@
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-[%- INCLUDE navbar_global 
-        nav=doc.nav;
-    INCLUDE title;
--%]
-</table>
-
 [%-
+    INCLUDE title;
+
     INCLUDE navbar_local_top
         nav=doc.nav.up
         rel_doc_root=doc.dir.rel_doc_root;
+-%]
 
-    "<!-- content-->";
+
+    <!-- content begin -->
+
+[%-
     IF doc.body.top;
         "${doc.body.top}";
     END;
@@ -25,10 +24,13 @@
         "${doc.body.bot}";
     END;
 
-    "<br>";
+-%]
+    <br>
+[%-
     INCLUDE navbar_local_bottom
         nav=doc.nav.up
         rel_doc_root=doc.dir.rel_doc_root;
 
-%]
-<!-- end content-->
+-%]
+
+    <!-- content end -->

@@ -1,29 +1,71 @@
 [%- # search widget
-    #
     # this template expects these vars to be set:
     # doc.dir.abs_doc_root - doc root
     # doc.dir.path_from_base
 -%]
+    <table border="0" cellspacing="0" cellpadding="0" width="150" align="center">
+        <tr>
+            <td class="menu-border" width="1"><br class="smallbr"></td>
+            <td class="menu-border" width="148"><br class="smallbr"></td>
+            <td class="menu-border" width="1"><br class="smallbr"></td>
+        </tr>
 
-<form method="post" action="[% doc.dir.abs_doc_root %]/search/swish.cgi" enctype="application/x-www-form-urlencoded" name="site_search_form">
-<table border="0" cellspacing="0" cellpadding="0">
-    <tr>
-        <td class="menu-border" colspan="5" height="1"><br class="smallbr"></td>
-    </tr>
-    <tr>
-        <td class="menu-border" width="1"><br class="smallbr"></td>
-        <td class="search">
-            <input type="text" name="query" size="15" maxlength="200" class="input-fld" value="">
-        </td>
-        <td class="menu-border" width="1"><br class="smallbr"></td>
-        <td class="search" width="2" align="center">
-            <input type="submit" name="submit" value="Search" class="submit-but">
-            <input type="hidden" name="sbm" value="[% doc.dir.path_from_base %]">
-         </td>
-        <td class="menu-border" width="1"><br class="smallbr"></td>
-    </tr>
-    <tr>
-        <td class="menu-border" colspan="5" height="1"><br class="smallbr"></td>
-    </tr>
-</table>
-</form>
+        <tr>
+            <td class="menu-border"><br></td>
+            <td align="center" class="menu-title-bg">
+                <div class="menu-title">Search</div>
+            </td>
+            <td class="menu-border"><br></td>
+        </tr>
+
+        <tr>
+            <td class="menu-border" colspan="3"><br class="smallbr"></td>
+        </tr>
+
+        <tr>
+            <td class="menu-border"><br></td>
+            <td class="non-sel-bg" align="center">
+                <div class="nonselectedmenuitem">
+                    <form method="post" action="[% doc.dir.abs_doc_root %]/search/swish.cgi" enctype="application/x-www-form-urlencoded" name="site_search_form">
+                        <table border="0" cellspacing="0" cellpadding="2">
+                            <tr>
+                                <td colspan="2" height="5"><br class="smallbr"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="center">
+                                    <input type="text" name="query" size="12" maxlength="200" value="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" height="5"><br class="smallbr"></td>
+                            </tr>
+                            <tr valign="top">
+                                <td><input type="radio" name="smb" value="[% doc.dir.path_from_base %]" checked></td>
+                                <td class="radio-font">This section</td>
+                            </tr>
+                            <tr valign="top">
+                                <td><input type="radio" name="smb" value=""></td>
+                                <td class="radio-font">Whole site</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" height="5"><br class="smallbr"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="center">
+                                    <input type="submit" name="submit" value="Search">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" height="5"><br class="smallbr"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </td>
+            <td class="menu-border"><br></td>
+        </tr>
+
+        <tr>
+            <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+        </tr>
+    </table>

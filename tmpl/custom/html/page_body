@@ -1,37 +1,40 @@
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-[%- INCLUDE navbar_global 
-        nav=doc.nav
-        rel_doc_root=doc.dir.rel_doc_root;
+[%-
     INCLUDE title;
--%]
-</table>
 
-[%
     INCLUDE navbar_local_top
         nav=doc.nav
         rel_doc_root=doc.dir.rel_doc_root;
+-%]
 
-    "<!-- content-->";
-    INCLUDE page_toc toc=doc.toc;
 
-    # render the content
-    # index_section is used to break up the doc into sections for indexing
+    <!-- content begin -->
+    [%-
+        INCLUDE page_toc toc=doc.toc;
+    
+        # render the content
+        # index-section is used to break up the doc into sections for indexing
+    
+FOREACH sec = doc.body;
+    -%]
 
-    FOREACH sec = doc.body;
-        '<div class="index_section">';
-        '<!-- SwishCommand index -->';
-        sec;
-        "<br><br>\n";
-        IF loop.count == loop.size;
-            INCLUDE navbar_local_bottom
-                nav=doc.nav
-                rel_doc_root=doc.dir.rel_doc_root;
-        ELSE;
-            INCLUDE top_link;
-        END;
-        "<br><br>\n";
-        '<!-- SwishCommand noindex -->';
-        "</div>\n\n";
+    <div class="index-section">
+    <!-- SwishCommand index -->
+    
+    [%-
+    sec;
+    "<br><br>\n";
+    IF loop.count == loop.size;
+        INCLUDE navbar_local_bottom
+            nav=doc.nav
+            rel_doc_root=doc.dir.rel_doc_root;
+    ELSE;
+        INCLUDE top_link;
     END;
-%]
-<!-- end content-->
+    -%]
+    
+    <br><br>
+    <!-- SwishCommand noindex -->
+    </div>
+[%- END -%]
+
+    <!-- content end -->

@@ -1,32 +1,76 @@
 [%- INCLUDE head
     paget   = doc.meta.title
-    title   = "mod_perl: $paget" 
+    title   = "mod_perl: $paget"
     content = ''
 -%]
-
 <!-- Swishcommand noindex -->
 
-<!-- left box (NAV)-->
+<!-- logobox begin -->
+<div class="logobox">
+    <table border="0" cellspacing="0" cellpadding="0" width="100%" align="center">
+        <tr valign="top">
+
+            [%- INCLUDE logo -%]
+            [%- INCLUDE navbar_global
+                    nav=doc.nav
+                    rel_doc_root=doc.dir.rel_doc_root;
+            -%]
+
+            <!-- camel begin -->
+            <td align="right"><img src="[%- doc.dir.abs_doc_root -%]/images/logo/logo_blend_camel.gif" border="0" alt="mod_perl icon" width="40" height="49"></td>
+            <!-- camel end -->
+        </tr>
+    </table>
+</div>
+<!-- logobox end -->
+
+<!-- left box begin -->
 <div class="leftbox">
-    [%- INCLUDE logo -%]
+    <!-- menu main begin -->
+
+[%-INCLUDE menu_main nav=doc.nav; -%]
+
+    <!-- menu main end -->
+
     <br>
-    [%- INCLUDE menu_main nav=doc.nav; -%]
+
+    <!-- search begin -->
+
+[%- INCLUDE search -%]
+
+    <!-- search end -->
+
     <br>
-    [%- INCLUDE menu_links -%]
+
+    <!-- menu links begin -->
+
+[%- INCLUDE menu_links -%]
+
+    <!-- menu links end -->
+
     <br>
-    [%- INCLUDE ad -%]
+
+    <!-- ad begin -->
+
+[%- INCLUDE ad -%]
+
+    <!-- ad end -->
+
     <br><br>
 </div>
-<!-- end left box-->
+<!-- left box end -->
 
-<!-- right box-->
+<!-- right box begin-->
 <div class="rightbox">
     [%- INCLUDE index_body -%]
+    
     <br>
     <hr noshade size="1">
+
     [%- INCLUDE tail -%]
+
 </div>
-<!-- end right box-->
+<!-- right box end -->
 
 </body>
 </html>

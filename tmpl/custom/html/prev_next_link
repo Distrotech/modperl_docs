@@ -1,4 +1,4 @@
-[% # '<=prev | up | next=>' chapters navigation bar
+[%-# '<=prev | up | next=>' chapters navigation bar
    # if there is no up, prev or next we render only a transparent placeholder
    # expects to be set 
    # nav          - cache navigator object

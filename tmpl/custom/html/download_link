@@ -1,17 +1,20 @@
-[%  # link to the pdf, source and other variants of the doc 
+[%- # link to the pdf, source and other variants of the doc 
     # src block
+    flag = 0;
     IF doc.src_doc.link;
         INCLUDE src_doc;
+    ELSE;
+        flag = flag + 1;
     END;
-    "&nbsp;&nbsp;";
     # pdf block
     IF doc.pdf_doc.link;
         INCLUDE pdf_doc;
+    ELSE;
+        flag = flag + 1;
     END;
+
+    IF flag == 2;
+        "<br>";
+    END;    
 -%]
-[% BLOCK src_doc %]
-<a href="[% doc.src_doc.link -%]"><img src="[% doc.dir.abs_doc_root %]/images/nav/page_src.gif" width="48" height="20" border="0" align="middle" alt="Source version of the document ([%- doc.src_doc.size -%])"></a>
-[% END %]
-[% BLOCK pdf_doc %]
-<a href="[% doc.pdf_doc.link -%]"><img src="[% doc.dir.abs_doc_root %]/images/nav/page_pdf.gif" width="48" height="20" border="0" align="middle" alt="PDF version of the document ([%- doc.pdf_doc.size -%])"></a> 
-[% END %]
+[%- BLOCK src_doc -%]<a href="[%- doc.src_doc.link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_src.gif" width="48" height="20" border="0" alt="Source version of the document ([%- doc.src_doc.size -%])"></a>[%- END -%][%- BLOCK pdf_doc -%]<a href="[%- doc.pdf_doc.link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_pdf.gif" width="48" height="20" border="0" alt="PDF version of the document ([%- doc.pdf_doc.size -%])"></a>[%- END -%]
