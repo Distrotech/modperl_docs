@@ -313,6 +313,12 @@ sent:
   ----------------------
   1st    eos
 
+META: EOS buckets are valid for Request filters. For Connection
+filters, you will get one only in the response filters only at the end
+of the connection. See the trick how to workaround this in
+C<Apache::Filter::HTTPHeadersFixup>. Need to mention that in a few
+other places in this doc.
+
 Notice that the EOS bucket may come attached to the last bucket
 brigade with data, instead of coming in its its own bucket brigade.
 Filters should never make an assumption that the EOS bucket is
