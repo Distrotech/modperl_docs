@@ -1687,6 +1687,29 @@ client unmodified.
 
 
 
+=head1 Misc Notes
+
+These items will need to be extended and integrated in this or other
+HTTP related documents:
+
+=over
+
+=item * front-end back-end setup: mod_proxy+X-Forwarded-For
+
+apache-1.3:
+
+frontend: mod_proxy_add_forward http://develooper.com/code/mpaf/
+
+backend: mod_rpaf (reverse proxy add forward):
+http://stderr.net/apache/rpaf/
+
+apache-2.x:
+
+frontend: mod_proxy
+
+backend: mod_rpaf: http://stderr.net/apache/rpaf/
+
+=back
 
 
 
