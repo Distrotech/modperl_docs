@@ -250,7 +250,7 @@ that the configuration was completed and returning right away.
 As you've seen in the example this handler is configured by adding to
 I<httpd.conf>:
 
-  PerlOpenLogsHandler MyApache::StartupLog::post_config
+  PerlPostConfigHandler MyApache::StartupLog::post_config
 
 
 =head2 PerlChildInitHandler
@@ -286,8 +286,7 @@ child process it's run in and returns.
 As you've seen in the example this handler is configured by adding to
 I<httpd.conf>:
 
-  PerlOpenLogsHandler MyApache::StartupLog::child_init
-
+  PerlChildInitHandler  MyApache::StartupLog::child_init
 
 =head2 PerlChildExitHandler
 
@@ -318,7 +317,7 @@ child process it's run in and returns.
 As you've seen in the example this handler is configured by adding to
 I<httpd.conf>:
 
-  PerlOpenLogsHandler MyApache::StartupLog::child_exit
+  PerlChildExitHandler  MyApache::StartupLog::child_exit
 
 
 =head1 Maintainers
