@@ -9,6 +9,12 @@ Apache::ServerUtil -- Methods for work with Apache::Server object
   $s = Apache->server;
   my $srv_cfg = $s->dir_config;
 
+  # get 'conf/' dir path using $r
+  my $conf_dir = Apache::server_root_relative('conf', $r->pool);
+
+  # get 'log/' dir path using default server startup pool
+  my $log_dir = Apache::server_root_relative('log');
+
 =head1 DESCRIPTION
 
 META: complete
@@ -43,7 +49,7 @@ returns a I<HASH> reference blessed into the I<APR::Table> class. This
 object can be manipulated via the I<APR::Table> methods. For available
 methods see I<APR::Table>.
 
-  @values = $r->dir_config( $key );
+  @values = $s->dir_config($key);
 
 If the C<$key> argument is passed in the list context a list of all
 matching values will be returned. This method is ineffective for big
@@ -51,7 +57,7 @@ tables, as it does a linear search of the table. Thefore avoid using
 this way of calling dir_config() unless you know that there could be
 more than one value for the wanted key and all the values are wanted.
 
-  $value = $r->dir_config( $key );
+  $value = $s->dir_config($key);
 
 If the C<$key> argument is passed in the scalar context only a single
 value will be returned. Since the table preserves the insertion order,
@@ -60,13 +66,13 @@ assosiated with the desired key is returned. Calling in the scalar
 context is also much faster, as it'll stop searching the table as soon
 as the first match happens.
 
-  $r->dir_config( $key => $val );
+  $s->dir_config($key => $val);
 
 If the C<$key> and the C<$val> arguments are used, the set() operation
 will happen: all existing values associated with the key C<$key> (and
 the key itself) will be deleted and C<$value> will be placed instead.
 
-  $r->dir_config( $key => undef );
+  $s->dir_config($key => undef);
 
 If C<$val> is I<undef> the unset() operation will happen: all existing
 values associated with the key C<$key> (and the key itself) will be
@@ -77,6 +83,27 @@ deleted.
 =item * add_handlers()
 
 =item * get_handlers()
+
+=item * server_root_relative()
+
+Returns the canonical form of the filename made absolute to
+C<ServerRoot>:
+
+  Apache::server_root_relative([$fname, [$pool]]);
+
+If C<$fname> is specified, it'll be appended to the value of
+C<ServerRoot> and return it. e.g.:
+
+  my $log_dir = Apache::server_root_relative('log', $r->pool);
+
+If C<$pool> is not specified, the default server startup pool is used
+(this style adds an overhead of fetching the startup data). e.g.:
+
+  my $conf_dir = Apache::server_root_relative('conf');
+
+If C<$fname> is not specified, the value of C<ServerRoot> is returned
+with a trailing C</>. (it's the same as using C<''> as C<$fname>'s
+value).
 
 =back
 
