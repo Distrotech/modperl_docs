@@ -4,20 +4,33 @@ Migrating from mod_perl 1.0 to mod_perl 2.0
 
 =head1 Description
 
-This chapter explains how to port code from mod_perl 1.0 to mod_perl
-2.0.
+This chapter explains how to port code and configuration files from
+mod_perl 1.0 to mod_perl 2.0.
 
+As will be explained in details later loading C<Apache::compat> at the
+server startup, should make the code running properly under 1.0 work
+under mod_perl 2.0. If you want to port your code to mod_perl 2.0 or
+writing from scratch and not concerned about backwards compatibility,
+this document explains what has changed compared to mod_perl 1.0.
 
+Several configuration directives were changed, renamed or
+removed. Several APIs have changed, renamed, removed, or moved to new
+packages.  Certain functions while staying exactly the same as in
+mod_perl 1.0, now reside in different packages. Before using them you
+need to find out those packages and load them.
+
+You should be able to find the destiny of the functions that you
+cannot find any more or which behave differently now under the package
+names the functions belong in mod_perl 1.0.
 
 
 =head1 Configuration Files Porting
 
 To migrate the configuration files to the mod_perl 2.0 syntax, you may
-need to do certain adjustments if you use any of the configuration
-directives listed in the following sections.
-
-Remember that if you use any of the new directives, your configuration
-won't work anymore with mod_perl 1.0.
+need to do certain adjustments. Several configuration directives are
+deprecated in 2.0, but still available for backwards compatibility
+with mod_perl 1.0. If you don't need the backwards compatibility
+consider using the directives that have replaced them.
 
 =head2 C<PerlHandler>
 
@@ -57,7 +70,16 @@ Warnings now can be enabled globally with:
 =head2 C<PerlFreshRestart>
 
 C<PerlFreshRestart> is a mod_perl 1.0 legacy and doesn't exist in
-mod_perl 2.0.
+mod_perl 2.0. A full teardown and startup of interpreters is done on
+restart.
+
+
+
+
+
+
+
+
 
 =head1 Code Porting
 
@@ -155,6 +177,56 @@ C<Apache::compat> doesn't provide a complete back compatibility layer.
 
 =head1 C<Apache::>
 
+
+
+=head2 C<Apache-E<gt>define()>
+
+C<Apache-E<gt>define()> has been replaced with
+C<Apache::exists_config_define()> residing inside
+C<Apache::ServerUtil>.
+
+See the C<L<Apache::ServerUtil>> manpage.
+
+=head2 C<Apache::exit()>
+
+C<Apache::exit()> has been replaced with C<ModPerl::Util::exit()>,
+which is a function (not a method) and accepts a single optional
+argument: status, whose default is 0 (== do nothing).
+
+See the C<L<ModPerl::Util>> manpage.
+
+=head2 C<gensym()>
+
+Since Perl 5.6.1 filehandlers are autovivified and there is no need
+for C<Apache::gensym()> function, since now it can be done with:
+
+  open my $fh, "foo" or die $!;
+
+Though the C function modperl_perl_gensym() is available for XS/C
+extensions writers.
+
+=head2 C<module()>
+
+C<Apache::module> has been replaced with the function
+C<Apache::Module::loaded()>, which now accepts a single argument: the
+module name.
+
+
+
+
+
+=head1 Request Object Methods
+
+
+=head2 C<$r-E<gt>lookup_file>, C<$r-E<gt>lookup_uri>, 
+
+These functions have moved but didn't change their functionality. In
+order to use them load the module they belong to in mod_perl 2.0:
+
+  $r->lookup_file          Apache::SubRequest
+  $r->lookup_uri           Apache::SubRequest
+
+
 =head2 C<$r-E<gt>content()> and C<$r-E<gt>args()> in an Array Context
 
 C<$r-E<gt>args()> in 2.0 returns the query string without parsing and
@@ -216,18 +288,12 @@ This method is deprecated in 1.0 and C<$r-E<gt>user> should be used
 instead for both versions of mod_perl. C<Apache::user()> method is
 available since mod_perl version 1.24_01.
 
+=head2 C<$r-E<gt>is_main()>
 
+C<$r-E<gt>is_main()> is not part of the mod_perl 2.0 API. Use
+C<!$r-E<gt>main()> instead.
 
-=head2 C<exit()>
-
-C<Apache::exit()> has been replaced with C<ModPerl::Util::exit()>,
-which is a function (not a method) and accepts a single optional
-argument: status, whose default is 0 (== do nothing).
-
-See the L<ModPerl::Util> manpage.
-
-
-=head2 C<finfo()>
+=head2 C<$r-E<gt>finfo()>
 
 XXX: not implemented yet. To be implemented. C<Apache::compat> handles
 that for now with:
@@ -238,17 +304,7 @@ that for now with:
       \*_;
   }
 
-=head2 C<gensym()>
-
-Since Perl 5.6.1 filehandlers are autovivified and there is no need
-for C<Apache::gensym()> function, since now it can be done with:
-
-  open my $fh, "foo" or die $!;
-
-Though the C function modperl_perl_gensym() is available for XS/C
-extensions writers.
-
-=head2 C<header_in()>, C<header_out()> and C<err_header_out()>
+=head2 C<$r-E<gt>header_in()>, C<$r-E<gt>header_out()> and C<$r-E<gt>err_header_out()>
 
 C<header_in()>, C<header_out()> and C<err_header_out()> are not
 available in 2.0. Use C<headers_in()>, C<headers_out()> and
@@ -266,7 +322,7 @@ See the L<Apache::RequestRec> manpage.
 
 
 
-=head2 C<log_reason()>
+=head2 C<$r-E<gt>log_reason()>
 
 C<log_reason()> has been replaced with a set of dedicated functions:
 C<Apache::RequestRec::log_error()>, C<Apache::ServerRec::log_error()>,
@@ -276,13 +332,7 @@ See the L<Apache::RequestRec>, L<Apache::Server> and L<Apache::Log>
 manpages.
 
 
-=head2 C<module()>
-
-C<Apache::module> has been replaced with the function
-C<Apache::Module::loaded()>, which now accepts a single argument: the
-module name.
-
-=head2 C<register_cleanup()>
+=head2 C<$r-E<gt>register_cleanup()>
 
 register_cleanup() has been replaced with
 C<APR::Pool::cleanup_register()> which accepts the pool object as the
@@ -319,7 +369,7 @@ It's already enabled for:
       ...
   </Location>
 
-=head2 C<send_fd()> and C<send_fd_length()>
+=head2 C<$r-E<gt>send_fd()> and C<$r-E<gt>send_fd_length()>
 
 currently available only in the 1.0 compatibility layer. The problem
 is that Apache has changed the API and the its functionality. See the
@@ -349,7 +399,6 @@ in mod_perl 2.0.
 
 The methods from module C<Apache::File> have been either moved to
 other packages or removed.
-
 
 =head2 C<open()> and C<close()>
 
