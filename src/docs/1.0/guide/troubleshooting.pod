@@ -506,6 +506,18 @@ But even better, switch to C<Apache::Cookie>:
     my %bar = $cookies->{foo}->value;
   }
 
+=head2 readdir() not working
+
+If readdir() either fails with an exception, or in the list context it
+returns the correct number of items but each item as an empty string,
+you have a binary compatibility between mod_perl and Perl
+problem. Most likely the two have been built against different
+I<glibc> versions, which have incompatible C<struct dirent>.
+
+To solve this problem rebuild mod_perl and Perl against the same
+I<glibc> version or get new binary packages built against the same
+I<glibc> version.
+
 =head1 Shutdown and Restart
 
 =head2 Evil things might happen when using PerlFreshRestart
