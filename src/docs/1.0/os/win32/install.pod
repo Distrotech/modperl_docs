@@ -297,8 +297,13 @@ Apache release; depending on changes made in Apache, you may or may
 not be able to use an earlier Apache binary. However, in the Apache
 Win32 world it is particularly a good idea to use the latest version,
 for bug and security fixes. If you encounter problems in loading
-F<mod_perl.so>, ensure that the version of the mod_perl binary
-matches that of Apache; if all else fails, a reboot may help.
+F<mod_perl.so>, ensure that the mod_perl version you are using matches
+that of Apache, make certain C<Perl> is in your C<PATH> environment
+variable, or try adding the Apache directive
+
+  LoadFile "C:/Path/to/your/Perl/bin/perlxx.dll"
+
+before loading F<mod_perl.so>. If all else fails, a reboot may help.
 
 =head1 See Also
 
