@@ -6,7 +6,9 @@
     <ul>
     [% FOREACH sec = subs %]
         <li><a href="[% sec.link %]">[% sec.title %]</a>
-            [% sec.abstract %]
+        [% IF sec.abstract %]
+            <br>[% sec.abstract %]<br><br>
+	[% END %]
         </li>
         [% IF sec.subs %]
             [% PROCESS tocsection subs=sec.subs %]

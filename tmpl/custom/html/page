@@ -9,13 +9,6 @@
     title   = "mod_perl: $paget" 
     content = ''
 -%]
-<div class='content'>
-<div class='cbody'>
-[% INCLUDE page_body %]
-</div>
-<br>
-[% INCLUDE tail -%]
-</div>
 
 <div class='leftcont'>
 [% INCLUDE menu_top_level
