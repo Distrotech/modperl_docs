@@ -1,0 +1,56 @@
+This docco explains how to update perl.apache.org
+
+The site is being updated automatically from the crontab. So all you
+have to do is to commit your changes and wait for them to be picked up
+by the update system.
+
+This is the current crontab:
+
+# every monday rebuild all, including pdf
+30 05  * * 1 /home/perlwww/apache.org/modperl-docs/bin/site_build_force_pdf_index
+# update all (only changes/no pdf) every 6 hours
+15 6,12,18 * * * /home/perlwww/apache.org/modperl-docs/bin/site_build_index
+# update all (only changes and pdfs) once a day
+15 0 * * * /home/perlwww/apache.org/modperl-docs/bin/site_build_pdf_index
+
+If for some reason you cannot wait before the automatic update
+(e.g. if you've changed the template and don't want to wait a week for
+the update to be picked up) there a few symlinks that you can use to
+update the site:
+
+/home/perlwww/apache.org/modperl-docs/bin/site_build                      
+/home/perlwww/apache.org/modperl-docs/bin/site_build_index
+/home/perlwww/apache.org/modperl-docs/bin/site_build_force                
+/home/perlwww/apache.org/modperl-docs/bin/site_build_pdf
+/home/perlwww/apache.org/modperl-docs/bin/site_build_force_index          
+/home/perlwww/apache.org/modperl-docs/bin/site_build_pdf_index
+/home/perlwww/apache.org/modperl-docs/bin/site_build_force_pdf_index
+
+if the name includes:
+force - the whole site is rebuilt
+pdf   - builds pdfs
+index - builds the index
+
+the more you ask to do, the longer it will take the update. e.g.,
+site_build only updates the html files, if you use site_build_index
+the search index will be updated as well, site_build_pdf will update
+htmls and pdfs, etc. site_build_force_pdf_index does a complete
+rebuild of htmls, pdfs and the search index.
+
+In most cases, when you do a minor update you just need to run:
+
+  /home/perlwww/apache.org/modperl-docs/bin/site_build
+
+so it'll rebuild the html of the modified files.
+
+--------
+
+If for some reasons the permissions are getting messed up, first sudo
+into 'perlwww' user (assuming that you have the perms to do so):
+
+sudo -H -u perlwww bash
+
+or:
+
+sudo -H -u perlwww tcsh
+
