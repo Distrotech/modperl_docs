@@ -221,6 +221,8 @@ sub merge_config {
                 : '.';
     }
 
+    # inherit the 'copy_skip' attribute if not set in the child
+    $self->{copy_skip} ||= $parent_o->{copy_skip} || [];
 }
 
 
