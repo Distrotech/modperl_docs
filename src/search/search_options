@@ -13,7 +13,9 @@
                 "docs/2.0/user"
                 "docs/2.0/devel"
                 "docs/2.0/api"
-                "docs/2.0/world"
+            "docs/general"
+            "docs/tutorials"
+            "docs/offsite"
         "help"
         "maillist"
         "products"
@@ -34,7 +36,9 @@
                 "docs/2.0/user"     => '....User'
                 "docs/2.0/devel"    => '....Developer'
                 "docs/2.0/api"      => '....API'
-                "docs/2.0/world"    => '....Related'
+            "docs/general"  => '..General Docs'
+            "docs/tutorials"=> '..Tutorials'
+            "docs/offsite"  => '..OffSite Resources'
         "help"      => 'Getting Help'
         "maillist"   => 'Mailing Lists'
         "products"  => 'Products'
