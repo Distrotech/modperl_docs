@@ -1,0 +1,660 @@
+=head1 NAME
+
+APR::Const - Perl Interface for APR Constants
+
+=head1 SYNOPSIS
+
+=head1 CONSTANTS
+
+
+
+
+=head2 C<:common>
+
+  use APR::Const -compile qw(:common);
+
+The C<:common> group is for XXX constants.
+
+=head3 C<APR::SUCCESS>
+
+
+
+
+
+=head2 C<:error>
+
+  use APR::Const -compile qw(:error);
+
+The C<:error> group is for XXX constants.
+
+=head3 C<APR::EABOVEROOT>
+
+
+=head3 C<APR::EABSOLUTE>
+
+
+=head3 C<APR::EACCES>
+
+
+=head3 C<APR::EAGAIN>
+
+
+=head3 C<APR::EBADDATE>
+
+
+=head3 C<APR::EBADF>
+
+
+=head3 C<APR::EBADIP>
+
+
+=head3 C<APR::EBADMASK>
+
+
+=head3 C<APR::EBADPATH>
+
+
+=head3 C<APR::EBUSY>
+
+
+=head3 C<APR::ECONNABORTED>
+
+
+=head3 C<APR::ECONNREFUSED>
+
+
+=head3 C<APR::ECONNRESET>
+
+
+=head3 C<APR::EDSOOPEN>
+
+
+=head3 C<APR::EEXIST>
+
+
+=head3 C<APR::EFTYPE>
+
+
+=head3 C<APR::EGENERAL>
+
+
+=head3 C<APR::EHOSTUNREACH>
+
+
+=head3 C<APR::EINCOMPLETE>
+
+
+=head3 C<APR::EINIT>
+
+
+=head3 C<APR::EINPROGRESS>
+
+
+=head3 C<APR::EINTR>
+
+
+=head3 C<APR::EINVAL>
+
+
+=head3 C<APR::EINVALSOCK>
+
+
+=head3 C<APR::EMFILE>
+
+
+=head3 C<APR::EMISMATCH>
+
+
+=head3 C<APR::ENAMETOOLONG>
+
+
+=head3 C<APR::END>
+
+
+=head3 C<APR::ENETUNREACH>
+
+
+=head3 C<APR::ENFILE>
+
+
+=head3 C<APR::ENODIR>
+
+
+=head3 C<APR::ENOENT>
+
+
+=head3 C<APR::ENOLOCK>
+
+
+=head3 C<APR::ENOMEM>
+
+
+=head3 C<APR::ENOPOLL>
+
+
+=head3 C<APR::ENOPOOL>
+
+
+=head3 C<APR::ENOPROC>
+
+
+=head3 C<APR::ENOSHMAVAIL>
+
+
+=head3 C<APR::ENOSOCKET>
+
+
+=head3 C<APR::ENOSPC>
+
+
+=head3 C<APR::ENOSTAT>
+
+
+=head3 C<APR::ENOTDIR>
+
+
+=head3 C<APR::ENOTEMPTY>
+
+
+=head3 C<APR::ENOTHDKEY>
+
+
+=head3 C<APR::ENOTHREAD>
+
+
+=head3 C<APR::ENOTIME>
+
+
+=head3 C<APR::ENOTIMPL>
+
+
+=head3 C<APR::ENOTSOCK>
+
+
+=head3 C<APR::EOF>
+
+
+=head3 C<APR::EPIPE>
+
+
+=head3 C<APR::ERELATIVE>
+
+
+=head3 C<APR::ESPIPE>
+
+
+=head3 C<APR::ETIMEDOUT>
+
+
+=head3 C<APR::EXDEV>
+
+
+
+
+
+=head2 C<:filemode>
+
+  use APR::Const -compile qw(:filemode);
+
+The C<:filemode> group is for XXX constants.
+
+=head3 C<APR::BINARY>
+
+
+=head3 C<APR::BUFFERED>
+
+
+=head3 C<APR::CREATE>
+
+
+=head3 C<APR::DELONCLOSE>
+
+
+=head3 C<APR::EXCL>
+
+
+=head3 C<APR::PEND>
+
+
+=head3 C<APR::READ>
+
+
+=head3 C<APR::TRUNCATE>
+
+
+=head3 C<APR::WRITE>
+
+
+
+
+
+=head2 C<:filepath>
+
+  use APR::Const -compile qw(:filepath);
+
+The C<:filepath> group is for XXX constants.
+
+=head3 C<APR::FILEPATH_NATIVE>
+
+
+=head3 C<APR::FILEPATH_NOTABOVEROOT>
+
+
+=head3 C<APR::FILEPATH_NOTABSOLUTE>
+
+
+=head3 C<APR::FILEPATH_NOTRELATIVE>
+
+
+=head3 C<APR::FILEPATH_SECUREROOT>
+
+
+=head3 C<APR::FILEPATH_SECUREROOTTEST>
+
+
+=head3 C<APR::FILEPATH_TRUENAME>
+
+
+
+
+
+=head2 C<:fileperms>
+
+  use APR::Const -compile qw(:fileperms);
+
+The C<:fileperms> group is for XXX constants.
+
+=head3 C<APR::GEXECUTE>
+
+
+=head3 C<APR::GREAD>
+
+
+=head3 C<APR::GWRITE>
+
+
+=head3 C<APR::UEXECUTE>
+
+
+=head3 C<APR::UREAD>
+
+
+=head3 C<APR::UWRITE>
+
+
+=head3 C<APR::WEXECUTE>
+
+
+=head3 C<APR::WREAD>
+
+
+=head3 C<APR::WWRITE>
+
+
+
+
+
+=head2 C<:finfo>
+
+  use APR::Const -compile qw(:finfo);
+
+The C<:finfo> group is for XXX constants.
+
+=head3 C<APR::FINFO_ATIME>
+
+
+=head3 C<APR::FINFO_CSIZE>
+
+
+=head3 C<APR::FINFO_CTIME>
+
+
+=head3 C<APR::FINFO_DEV>
+
+
+=head3 C<APR::FINFO_DIRENT>
+
+
+=head3 C<APR::FINFO_GPROT>
+
+
+=head3 C<APR::FINFO_GROUP>
+
+
+=head3 C<APR::FINFO_ICASE>
+
+
+=head3 C<APR::FINFO_IDENT>
+
+
+=head3 C<APR::FINFO_INODE>
+
+
+=head3 C<APR::FINFO_LINK>
+
+
+=head3 C<APR::FINFO_MIN>
+
+
+=head3 C<APR::FINFO_MTIME>
+
+
+=head3 C<APR::FINFO_NAME>
+
+
+=head3 C<APR::FINFO_NLINK>
+
+
+=head3 C<APR::FINFO_NORM>
+
+
+=head3 C<APR::FINFO_OWNER>
+
+
+=head3 C<APR::FINFO_PROT>
+
+
+=head3 C<APR::FINFO_SIZE>
+
+
+=head3 C<APR::FINFO_TYPE>
+
+
+=head3 C<APR::FINFO_UPROT>
+
+
+=head3 C<APR::FINFO_USER>
+
+
+=head3 C<APR::FINFO_WPROT>
+
+
+
+
+
+=head2 C<:flock>
+
+  use APR::Const -compile qw(:flock);
+
+The C<:flock> group is for XXX constants.
+
+=head3 C<APR::FLOCK_EXCLUSIVE>
+
+
+=head3 C<APR::FLOCK_NONBLOCK>
+
+
+=head3 C<APR::FLOCK_SHARED>
+
+
+=head3 C<APR::FLOCK_TYPEMASK>
+
+
+
+
+
+=head2 C<:hook>
+
+  use APR::Const -compile qw(:hook);
+
+The C<:hook> group is for XXX constants.
+
+=head3 C<APR::HOOK_FIRST>
+
+
+=head3 C<APR::HOOK_LAST>
+
+
+=head3 C<APR::HOOK_MIDDLE>
+
+
+=head3 C<APR::HOOK_REALLY_FIRST>
+
+
+=head3 C<APR::HOOK_REALLY_LAST>
+
+
+
+
+
+=head2 C<:limit>
+
+  use APR::Const -compile qw(:limit);
+
+The C<:limit> group is for XXX constants.
+
+=head3 C<APR::LIMIT_CPU>
+
+
+=head3 C<APR::LIMIT_MEM>
+
+
+=head3 C<APR::LIMIT_NOFILE>
+
+
+=head3 C<APR::LIMIT_NPROC>
+
+
+
+
+
+=head2 C<:lockmech>
+
+  use APR::Const -compile qw(:lockmech);
+
+The C<:lockmech> group is for XXX constants.
+
+=head3 C<APR::LOCK_DEFAULT>
+
+
+=head3 C<APR::LOCK_FCNTL>
+
+
+=head3 C<APR::LOCK_FLOCK>
+
+
+=head3 C<APR::LOCK_POSIXSEM>
+
+
+=head3 C<APR::LOCK_PROC_PTHREAD>
+
+
+=head3 C<APR::LOCK_SYSVSEM>
+
+
+
+
+
+=head2 C<:poll>
+
+  use APR::Const -compile qw(:poll);
+
+The C<:poll> group is for XXX constants.
+
+=head3 C<APR::POLLERR>
+
+
+=head3 C<APR::POLLHUP>
+
+
+=head3 C<APR::POLLIN>
+
+
+=head3 C<APR::POLLNVAL>
+
+
+=head3 C<APR::POLLOUT>
+
+
+=head3 C<APR::POLLPRI>
+
+
+
+
+
+=head2 C<:read_type>
+
+  use APR::Const -compile qw(:read_type);
+
+The C<:read_type> group is for XXX constants.
+
+=head3 C<APR::BLOCK_READ>
+
+
+=head3 C<APR::NONBLOCK_READ>
+
+
+
+
+
+=head2 C<:shutdown_how>
+
+  use APR::Const -compile qw(:shutdown_how);
+
+The C<:shutdown_how> group is for XXX constants.
+
+=head3 C<APR::SHUTDOWN_READ>
+
+
+=head3 C<APR::SHUTDOWN_READWRITE>
+
+
+=head3 C<APR::SHUTDOWN_WRITE>
+
+
+
+
+
+=head2 C<:socket>
+
+  use APR::Const -compile qw(:socket);
+
+The C<:socket> group is for XXX constants.
+
+=head3 C<APR::SO_DEBUG>
+
+
+=head3 C<APR::SO_DISCONNECTED>
+
+
+=head3 C<APR::SO_KEEPALIVE>
+
+
+=head3 C<APR::SO_LINGER>
+
+
+=head3 C<APR::SO_NONBLOCK>
+
+
+=head3 C<APR::SO_RCVBUF>
+
+
+=head3 C<APR::SO_REUSEADDR>
+
+
+=head3 C<APR::SO_SNDBUF>
+
+
+=head3 C<APR::SO_TIMEOUT>
+
+
+
+
+
+=head2 C<:table>
+
+  use APR::Const -compile qw(:table);
+
+The C<:table> group is for XXX constants.
+
+=head3 C<APR::OVERLAP_TABLES_MERGE>
+
+
+=head3 C<APR::OVERLAP_TABLES_SET>
+
+
+
+
+
+=head2 C<:uri>
+
+  use APR::Const -compile qw(:uri);
+
+The C<:uri> group is for XXX constants.
+
+=head3 C<APR::URI_ACAP_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_FTP_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_GOPHER_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_HTTPS_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_HTTP_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_IMAP_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_LDAP_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_NFS_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_NNTP_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_POP_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_PROSPERO_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_RTSP_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_SIP_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_SNEWS_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_SSH_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_TELNET_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_TIP_DEFAULT_PORT>
+
+
+=head3 C<APR::URI_UNP_OMITPASSWORD>
+
+
+=head3 C<APR::URI_UNP_OMITPATHINFO>
+
+
+=head3 C<APR::URI_UNP_OMITQUERY>
+
+
+=head3 C<APR::URI_UNP_OMITSITEPART>
+
+
+=head3 C<APR::URI_UNP_OMITUSER>
+
+
+=head3 C<APR::URI_UNP_OMITUSERINFO>
+
+
+=head3 C<APR::URI_UNP_REVEALPASSWORD>
+
+
+=head3 C<APR::URI_WAIS_DEFAULT_PORT>
+
+
+=cut

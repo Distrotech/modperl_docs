@@ -1,0 +1,567 @@
+=head1 NAME
+
+Apache::Const - Perl Interface for Apache Constants
+
+=head1 SYNOPSIS
+
+=head1 CONSTANTS
+
+
+
+
+=head2 C<:cmd_how>
+
+  use Apache::Const -compile qw(:cmd_how);
+
+The C<:cmd_how> group is for XXX constants.
+
+=head3 C<Apache::FLAG>
+
+
+=head3 C<Apache::ITERATE>
+
+
+=head3 C<Apache::ITERATE2>
+
+
+=head3 C<Apache::NO_ARGS>
+
+
+=head3 C<Apache::RAW_ARGS>
+
+
+=head3 C<Apache::TAKE1>
+
+
+=head3 C<Apache::TAKE12>
+
+
+=head3 C<Apache::TAKE123>
+
+
+=head3 C<Apache::TAKE13>
+
+
+=head3 C<Apache::TAKE2>
+
+
+=head3 C<Apache::TAKE23>
+
+
+=head3 C<Apache::TAKE3>
+
+
+
+
+
+=head2 C<:common>
+
+  use Apache::Const -compile qw(:common);
+
+The C<:common> group is for XXX constants.
+
+=head3 C<Apache::AUTH_REQUIRED>
+
+
+=head3 C<Apache::DECLINED>
+
+
+=head3 C<Apache::DONE>
+
+
+=head3 C<Apache::FORBIDDEN>
+
+
+=head3 C<Apache::NOT_FOUND>
+
+
+=head3 C<Apache::OK>
+
+
+=head3 C<Apache::REDIRECT>
+
+
+=head3 C<Apache::SERVER_ERROR>
+
+
+
+
+
+=head2 C<:config>
+
+  use Apache::Const -compile qw(:config);
+
+The C<:config> group is for XXX constants.
+
+=head3 C<Apache::DECLINE_CMD>
+
+
+
+
+
+=head2 C<:filter_type>
+
+  use Apache::Const -compile qw(:filter_type);
+
+The C<:filter_type> group is for XXX constants.
+
+=head3 C<Apache::FTYPE_CONNECTION>
+
+
+=head3 C<Apache::FTYPE_CONTENT_SET>
+
+
+=head3 C<Apache::FTYPE_NETWORK>
+
+
+=head3 C<Apache::FTYPE_PROTOCOL>
+
+
+=head3 C<Apache::FTYPE_RESOURCE>
+
+
+=head3 C<Apache::FTYPE_TRANSCODE>
+
+
+
+
+
+=head2 C<:http>
+
+  use Apache::Const -compile qw(:http);
+
+The C<:http> group is for XXX constants.
+
+=head3 C<Apache::HTTP_ACCEPTED>
+
+
+=head3 C<Apache::HTTP_BAD_GATEWAY>
+
+
+=head3 C<Apache::HTTP_BAD_REQUEST>
+
+
+=head3 C<Apache::HTTP_CONFLICT>
+
+
+=head3 C<Apache::HTTP_CONTINUE>
+
+
+=head3 C<Apache::HTTP_CREATED>
+
+
+=head3 C<Apache::HTTP_EXPECTATION_FAILED>
+
+
+=head3 C<Apache::HTTP_FAILED_DEPENDENCY>
+
+
+=head3 C<Apache::HTTP_FORBIDDEN>
+
+
+=head3 C<Apache::HTTP_GATEWAY_TIME_OUT>
+
+
+=head3 C<Apache::HTTP_GONE>
+
+
+=head3 C<Apache::HTTP_INSUFFICIENT_STORAGE>
+
+
+=head3 C<Apache::HTTP_INTERNAL_SERVER_ERROR>
+
+
+=head3 C<Apache::HTTP_LENGTH_REQUIRED>
+
+
+=head3 C<Apache::HTTP_LOCKED>
+
+
+=head3 C<Apache::HTTP_METHOD_NOT_ALLOWED>
+
+
+=head3 C<Apache::HTTP_MOVED_PERMANENTLY>
+
+
+=head3 C<Apache::HTTP_MOVED_TEMPORARILY>
+
+
+=head3 C<Apache::HTTP_MULTIPLE_CHOICES>
+
+
+=head3 C<Apache::HTTP_MULTI_STATUS>
+
+
+=head3 C<Apache::HTTP_NON_AUTHORITATIVE>
+
+
+=head3 C<Apache::HTTP_NOT_ACCEPTABLE>
+
+
+=head3 C<Apache::HTTP_NOT_EXTENDED>
+
+
+=head3 C<Apache::HTTP_NOT_FOUND>
+
+
+=head3 C<Apache::HTTP_NOT_IMPLEMENTED>
+
+
+=head3 C<Apache::HTTP_NOT_MODIFIED>
+
+
+=head3 C<Apache::HTTP_NO_CONTENT>
+
+
+=head3 C<Apache::HTTP_OK>
+
+
+=head3 C<Apache::HTTP_PARTIAL_CONTENT>
+
+
+=head3 C<Apache::HTTP_PAYMENT_REQUIRED>
+
+
+=head3 C<Apache::HTTP_PRECONDITION_FAILED>
+
+
+=head3 C<Apache::HTTP_PROCESSING>
+
+
+=head3 C<Apache::HTTP_PROXY_AUTHENTICATION_REQUIRED>
+
+
+=head3 C<Apache::HTTP_RANGE_NOT_SATISFIABLE>
+
+
+=head3 C<Apache::HTTP_REQUEST_ENTITY_TOO_LARGE>
+
+
+=head3 C<Apache::HTTP_REQUEST_TIME_OUT>
+
+
+=head3 C<Apache::HTTP_REQUEST_URI_TOO_LARGE>
+
+
+=head3 C<Apache::HTTP_RESET_CONTENT>
+
+
+=head3 C<Apache::HTTP_SEE_OTHER>
+
+
+=head3 C<Apache::HTTP_SERVICE_UNAVAILABLE>
+
+
+=head3 C<Apache::HTTP_SWITCHING_PROTOCOLS>
+
+
+=head3 C<Apache::HTTP_TEMPORARY_REDIRECT>
+
+
+=head3 C<Apache::HTTP_UNAUTHORIZED>
+
+
+=head3 C<Apache::HTTP_UNPROCESSABLE_ENTITY>
+
+
+=head3 C<Apache::HTTP_UNSUPPORTED_MEDIA_TYPE>
+
+
+=head3 C<Apache::HTTP_USE_PROXY>
+
+
+=head3 C<Apache::HTTP_VARIANT_ALSO_VARIES>
+
+
+
+
+
+=head2 C<:input_mode>
+
+  use Apache::Const -compile qw(:input_mode);
+
+The C<:input_mode> group is for XXX constants.
+
+=head3 C<Apache::MODE_EATCRLF>
+
+
+=head3 C<Apache::MODE_EXHAUSTIVE>
+
+
+=head3 C<Apache::MODE_GETLINE>
+
+
+=head3 C<Apache::MODE_INIT>
+
+
+=head3 C<Apache::MODE_READBYTES>
+
+
+=head3 C<Apache::MODE_SPECULATIVE>
+
+
+
+
+
+=head2 C<:log>
+
+  use Apache::Const -compile qw(:log);
+
+The C<:log> group is for XXX constants.
+
+=head3 C<Apache::LOG_ALERT>
+
+
+=head3 C<Apache::LOG_CRIT>
+
+
+=head3 C<Apache::LOG_DEBUG>
+
+
+=head3 C<Apache::LOG_EMERG>
+
+
+=head3 C<Apache::LOG_ERR>
+
+
+=head3 C<Apache::LOG_INFO>
+
+
+=head3 C<Apache::LOG_LEVELMASK>
+
+
+=head3 C<Apache::LOG_NOTICE>
+
+
+=head3 C<Apache::LOG_STARTUP>
+
+
+=head3 C<Apache::LOG_TOCLIENT>
+
+
+=head3 C<Apache::LOG_WARNING>
+
+
+
+
+
+=head2 C<:methods>
+
+  use Apache::Const -compile qw(:methods);
+
+The C<:methods> group is for XXX constants.
+
+=head3 C<Apache::METHODS>
+
+
+=head3 C<Apache::M_BASELINE_CONTROL>
+
+
+=head3 C<Apache::M_CHECKIN>
+
+
+=head3 C<Apache::M_CHECKOUT>
+
+
+=head3 C<Apache::M_CONNECT>
+
+
+=head3 C<Apache::M_COPY>
+
+
+=head3 C<Apache::M_DELETE>
+
+
+=head3 C<Apache::M_GET>
+
+
+=head3 C<Apache::M_INVALID>
+
+
+=head3 C<Apache::M_LABEL>
+
+
+=head3 C<Apache::M_LOCK>
+
+
+=head3 C<Apache::M_MERGE>
+
+
+=head3 C<Apache::M_MKACTIVITY>
+
+
+=head3 C<Apache::M_MKCOL>
+
+
+=head3 C<Apache::M_MKWORKSPACE>
+
+
+=head3 C<Apache::M_MOVE>
+
+
+=head3 C<Apache::M_OPTIONS>
+
+
+=head3 C<Apache::M_PATCH>
+
+
+=head3 C<Apache::M_POST>
+
+
+=head3 C<Apache::M_PROPFIND>
+
+
+=head3 C<Apache::M_PROPPATCH>
+
+
+=head3 C<Apache::M_PUT>
+
+
+=head3 C<Apache::M_REPORT>
+
+
+=head3 C<Apache::M_TRACE>
+
+
+=head3 C<Apache::M_UNCHECKOUT>
+
+
+=head3 C<Apache::M_UNLOCK>
+
+
+=head3 C<Apache::M_UPDATE>
+
+
+=head3 C<Apache::M_VERSION_CONTROL>
+
+
+
+
+
+=head2 C<:options>
+
+  use Apache::Const -compile qw(:options);
+
+The C<:options> group is for XXX constants.
+
+=head3 C<Apache::OPT_ALL>
+
+
+=head3 C<Apache::OPT_EXECCGI>
+
+
+=head3 C<Apache::OPT_INCLUDES>
+
+
+=head3 C<Apache::OPT_INCNOEXEC>
+
+
+=head3 C<Apache::OPT_INDEXES>
+
+
+=head3 C<Apache::OPT_MULTI>
+
+
+=head3 C<Apache::OPT_NONE>
+
+
+=head3 C<Apache::OPT_SYM_LINKS>
+
+
+=head3 C<Apache::OPT_SYM_OWNER>
+
+
+=head3 C<Apache::OPT_UNSET>
+
+
+
+
+
+=head2 C<:override>
+
+  use Apache::Const -compile qw(:override);
+
+The C<:override> group is for XXX constants.
+
+=head3 C<Apache::ACCESS_CONF>
+
+
+=head3 C<Apache::OR_ALL>
+
+
+=head3 C<Apache::OR_AUTHCFG>
+
+
+=head3 C<Apache::OR_FILEINFO>
+
+
+=head3 C<Apache::OR_INDEXES>
+
+
+=head3 C<Apache::OR_LIMIT>
+
+
+=head3 C<Apache::OR_NONE>
+
+
+=head3 C<Apache::OR_OPTIONS>
+
+
+=head3 C<Apache::OR_UNSET>
+
+
+=head3 C<Apache::RSRC_CONF>
+
+
+
+
+
+=head2 C<:remotehost>
+
+  use Apache::Const -compile qw(:remotehost);
+
+The C<:remotehost> group is for XXX constants.
+
+=head3 C<Apache::REMOTE_DOUBLE_REV>
+
+
+=head3 C<Apache::REMOTE_HOST>
+
+
+=head3 C<Apache::REMOTE_NAME>
+
+
+=head3 C<Apache::REMOTE_NOLOOKUP>
+
+
+
+
+
+=head2 C<:satisfy>
+
+  use Apache::Const -compile qw(:satisfy);
+
+The C<:satisfy> group is for XXX constants.
+
+=head3 C<Apache::SATISFY_ALL>
+
+
+=head3 C<Apache::SATISFY_ANY>
+
+
+=head3 C<Apache::SATISFY_NOSPEC>
+
+
+
+
+
+=head2 C<:types>
+
+  use Apache::Const -compile qw(:types);
+
+The C<:types> group is for XXX constants.
+
+=head3 C<Apache::DIR_MAGIC_TYPE>
+
+
+=cut
