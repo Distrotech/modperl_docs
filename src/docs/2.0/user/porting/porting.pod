@@ -119,6 +119,13 @@ appropriate method call.
 The following sections provide more detailed information and
 instructions for each of these three porting strategies.
 
+=head1 Using C<Apache::porting>
+
+META: to be written. this is a new package which makes chunks of this
+doc simpler. for now see the
+C<L<Apache::porting|docs::2.0::api::Apache::porting>> manpage.
+
+
 =head1 Using the C<Apache::compat> Layer
 
 The C<L<Apache::compat|docs::2.0::api::Apache::compat>> module tries
