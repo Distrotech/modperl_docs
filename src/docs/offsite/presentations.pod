@@ -57,9 +57,9 @@ http://phydeaux.org/perl/mptalk/ .
 
 =item *
 
-I<Apache, mod_perl and Embperl> by Malcolmn
-Beattie. http://users.ox.ac.uk/~mbeattie/oxlug-oct99/ . Held at
-OxLUG, 3 October 1999.
+I<Apache, mod_perl and Embperl> by Malcolmn Beattie.
+http://web.archive.org/web/20010605114950/http://users.ox.ac.uk/~mbeattie/oxlug-oct99/. Held
+at OxLUG, 3 October 1999.
 
 =back
 
