@@ -110,8 +110,8 @@ L<Protocol handler|docs::2.0::user::handlers::protocols> return values
 aren't really handled by Apache, the handler is supposed to take care
 of any errors by itself. The only special case is the
 C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreConnectionHandler>>
-handler, which, if returning anything but C<Apache::OK>, will prevent
-from
+handler, which, if returning anything but C<Apache::OK> or
+C<Apache::DONE>, will prevent from
 C<L<PerlConnectionHandler|docs::2.0::user::handlers::protocols/PerlConnectionHandler>>
 to be
 run. C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreConnectionHandler>>
