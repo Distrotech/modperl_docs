@@ -16,6 +16,54 @@ which then will be converted into HTML, XML, PS, PDF and other
 formats. You can learn the syntax of this format from the I<perlpod>
 manpage.
 
+=head1 Document structure
+
+The document should be constructed from at least the following
+C<=head1> sections.
+
+=over
+
+=item NAME
+
+The first section's title must be C<NAME> with a short title as a
+content. e.g.:
+
+  =head1 NAME
+  
+  This is the title of the document
+
+There should be no POD escape characters in this section, since it can
+be used in places where it's not possible to render things like I<> or
+B<>.
+
+This section won't appear in the finally rendered document
+
+=item DESCRIPTION
+
+C<DESCRIPTION> or C<Description>, so it gets rendered like other =head
+sections in the document in case you don't use upper case for these.
+
+The first paragraph of this section will be used on the index pages
+that link the documents together. e.g.:
+
+  =head1 Description
+  
+  This document explains...
+
+This section must appear in the first three sections of the
+document. It's not required to be the one following the C<NAME>
+section since in Perl modules pods it usually comes third after the
+C<SYNOPSIS> section.
+
+=item AUTHOR
+
+The author of the document with an optional email address or other
+means for reaching the author.
+
+Usually comes as one of the last sections of the document.
+
+=back
+
 =head1 Conventions
 
 Please try to use the following conventions when writing the docs:
