@@ -1,3 +1,5 @@
+/*** main elements ***/
+
 body {
     font-family: helvetica, arial, verdana, sans-serif;
     font-size: 1.0em;
@@ -10,27 +12,60 @@ p {
     color: #000000;
 }
 
+code {
+    font-family: courier new, courier, monospace;
+}
+
+pre {
+    font-family: courier new, courier, monospace;
+    font-size: 1.0em;
+    color: #000000;
+}
+
+dl, ul, ol {
+    font-family: helvetica, arial, verdana, sans-serif;
+    font-size: 1.0em;
+    color: #000000;
+}
+
+
+
+
+
+
+
+/*** headers ***/
+
+h1, h2, h3, h4, {
+    font-family: helvetica, arial, verdana, sans-serif;
+    color: #000000;
+}
 h1 { font-size: 1.3em; }
 h2 { font-size: 1.2em; }
 h3 { font-size: 1.1em; }
 h4 { font-size: 1.0em; }
 
-h1, h2, h3, h4, h1 a:link, h1 a:visited, h2 a:link, h2 a:visited, h3 a:link, h3 a:visited, h4 a:link, h4 a:visited  {
-    /* color: #525d76; */
-    color: #000000;
-    text-decoration: none;
-    font-family: helvetica, arial, verdana, sans-serif;
-}
 
-h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover {
-    color: #999999;
-    text-decoration: none;
-}
+
+
+
+/*** links ***/
 
 a:link    { color: #0000ff;}
 a:visited { color: #993333;}
 a:active  { color: #666666;}
-a:hover   { color: #666666;}
+a:hover   { 
+    color: #666666;
+    text-decoration: underline; /* needed for opera */
+}
+
+/* hidden links */
+h1 a:link,    h2 a:link,    h3 a:link,    h4 a:link, 
+h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited,
+h1 a:hover,   h2 a:hover,   h3 a:hover,   h4 a:hover  {
+    color: #000000;
+    text-decoration: none;
+}
 
 a.more {
     font-size: 0.8em;
@@ -38,86 +73,66 @@ a.more {
     text-decoration: none;
 }
 
-a.pdfsrc-links {
+a.pdfsrc {
+    font-family: verdana, arial, helvetica, sans-serif;
     font-size: 0.9em;
+    font-weight: bold;
     color: #525d76;
+}
+a.pdfsrc:link, 
+a.pdfsrc:visited, 
+a.pdfsrc:active {
+    text-decoration: none;
+}
+a.pdfsrc:hover {
+    text-decoration: underline;
+}
+
+ul.toc a {
     text-decoration: none;
 }
 
-a.pdfsrc-links a:hover {
+ul.toc a:hover {
     text-decoration: underline;
 }
 
 
 
-/* light blue bg-color for menu-titles */
-td.menu-title-bg { background-color: #828da6; }
 
-/* light gray/white bg-color for non-selected menu-items */
-td.non-sel-bg { background-color: #eeeeee; }
-
-/* dark blue bg-color for selected menu-items */
-td.sel-bg { background-color: #525d76; }
-
-div.nonselectedmenuitem {
-    padding: 3px;
-    background-color: #eeeeee;
-    font-size: 0.9em;
-    font-family: verdana, arial, helvetica, sans-serif;
-}
-
-div.nonselectedmenuitem a:link, div.nonselectedmenuitem a:visited, div.nonselectedmenuitem a:active {
+div.nonselectedmenuitem a:link, 
+div.nonselectedmenuitem a:visited, 
+div.nonselectedmenuitem a:active {
     color: #525d76;
     text-decoration: none;
 }
-
-div.nonselectedmenuitem a:hover {  text-decoration: underline; }
-
-div.selectedmenuitem {
-    padding: 3px;
-    background-color: #525d76;
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 0.9em;
+div.nonselectedmenuitem a:hover {  
+    text-decoration: underline; 
 }
 
-div.selectedmenuitem a, div.selectedmenuitem a:link, div.selectedmenuitem a:visited, div.selectedmenuitem a:active {
+div.selectedmenuitem a, 
+div.selectedmenuitem a:link, 
+div.selectedmenuitem a:visited, 
+div.selectedmenuitem a:active {
     color: #ffffff;
     text-decoration: none;
 }
-
-div.selectedmenuitem a:hover { color: #cccc99; }
-
-div.menu-title {
-    padding: 3px;
-    color: #000000;
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    background-color: #828da6;
-    text-align: center;
+div.selectedmenuitem a:hover { 
+    text-decoration: underline; 
 }
 
-div.menu-title a:link, div.menu-title a:visited, div.menu-title a:active {
+div.menu-title a:link,
+div.menu-title a:visited, 
+div.menu-title a:active, 
+div.menu-title a:hover {
     color: #000000;
     text-decoration: none;
 }
 
-div.menu-title a:hover {
-    text-decoration: underline;
-}
 
 
-/* dark blue border color for menu-boxes */
-td.menu-border { background-color: #525d76; }
 
-/* font specs for search box */
-.radio-font {
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 0.9em;
-    color: #000000;
-}
 
-/* main boxes */
+/*** main boxes ***/
 div.logobox {
     position: absolute;
     top: 0px;
@@ -158,7 +173,36 @@ div.adtext {
     padding: 5px;
 }
 
-/* breadcrumb */
+div.tail {
+    font-family: helvetica, arial, verdana, sans-serif;
+    font-size: 0.85em;
+    border: 1px;
+    border-style: none;
+    border-color: #000000;
+    margin-right: 0px;
+    padding: 5px;
+}
+
+p.copyright {
+    font-size: 0.7em;
+}
+
+div.headline {
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 1.3em;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 3px;
+    margin-right: 0px;
+}
+
+
+
+
+
+
+/*** breadcrumb ***/
 td.navbarglobal {
     font-family: verdana, arial, helvetica, sans-serif;
     color: #828da6;
@@ -178,41 +222,80 @@ td.navbarglobal a:hover {
 }
 
 
-/* why do we need this ?*/
+
+
+
+
+
+
+/*** menu styles ***/
+
+/* light blue bg-color for menu-titles */
+td.menu-title-bg { 
+    background-color: #828da6; 
+}
+
+/* light gray/white bg-color for non-selected menu-items */
+td.non-sel-bg { 
+    background-color: #eeeeee; 
+}
+
+/* dark blue bg-color for selected menu-items */
+td.sel-bg {
+    background-color: #525d76;
+}
+
+div.nonselectedmenuitem {
+    padding: 3px;
+    background-color: #eeeeee;
+    font-size: 0.9em;
+    font-family: verdana, arial, helvetica, sans-serif;
+}
+
+div.selectedmenuitem {
+    padding: 3px;
+    background-color: #525d76;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 0.9em;
+}
+
+div.menu-title {
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #828da6;
+    text-align: center;
+    padding: 3px;
+    color: #000000;
+}
+
+
+/* dark blue border color for menu-boxes */
+td.menu-border { 
+    background-color: #525d76; 
+}
+
+
+
+
+
+/*** swish-e search stuff ***/
 div.index-section {
     font-family: helvetica, arial, verdana, sans-serif;
     font-size: 1.0em;
     color: #000000;
 }
 
-div.tail {
-    padding: 5px;
-    font-size: 0.85em;
-    font-family: helvetica, arial, verdana, sans-serif;
-    border: 1px;
-    border-style: none;
-    border-color: #000000;
-    margin-right: 0px;
-}
-
-p.copyright {
-    font-size: 0.7em;
-}
-
-div.headline {
-    background-color: #ffffff;
+/* font specs for search box */
+.radio-font {
     font-family: verdana, arial, helvetica, sans-serif;
-    font-weight: bold;
+    font-size: 0.9em;
     color: #000000;
-    font-size: 1.2em;
-    padding: 3px;
-    margin-right: 0px;
 }
 
-
-
-/* Search Results */
-div.searchform { font-size: 1.0em; }
+div.searchform { 
+    font-size: 1.0em; 
+}
 
 input {
     font-size: 12px;
@@ -231,15 +314,11 @@ li.search-list {
 }
 
 
-
-
-
 td.searchheader {
     background-color: #525d76;
     font-family: verdana, arial, helvetica, sans-serif;
     color: #ffffff;
     font-size: 0.9em;
-/*    font-size: 0.8em; */
 }
 
 td.searchtimes {
@@ -247,7 +326,6 @@ td.searchtimes {
     font-family: verdana, arial, helvetica, sans-serif;
     color: #ffffff;
     font-size: 0.7em;
-/*    font-size: 0.6em; */
 }
 
 
@@ -277,7 +355,6 @@ span.searchrank {
 }
 
 div.searchsummary {
-/*    font-size: 0.85em; */
     font-size: 0.8em;
 }
 
@@ -285,56 +362,41 @@ div.searchprops {
     margin-top: 0.4em;
     font-size: 0.80em;
     color: #009999;
-/*    font-size: 0.6em; */
 }
 
-span.searchhighlight { background-color: #ffff99; }
-
-code { font-family: courier new, courier, monospace; }
-pre {
-    font-family: courier new, courier, monospace;
-    font-size: 1.0em;
-    color: #000000;
+span.searchhighlight { 
+    background-color: #ffff99;
 }
 
-/* lists */
-dl, ul, ol {
-    color: #000000;
-    font-size: 1.0em;
-    font-family: helvetica, arial, verdana, sans-serif;
-}
 
-dl a:link, dl a:active, ul a, ul a:link, ul a:active, ul a:visited, ul a:hover  {
-    text-decoration: none;
-    color: #0000ff;
-}
-
-dl a:visited {
-    text-decoration: none;
-    color: #993333;
-}
-
-dl a:hover {
-    text-decoration: none;
-    color: #666666;
-}
-
-/* misc */
+/*** misc ***/
 
 /* general border-color for ad-images */
-.img-border { color: #000000; }
+.img-border {
+    color: #000000; 
+}
 
 /* dark-blue bg-color */
-td.blue-bg { background-color: #525d76; }
+td.blue-bg {
+    background-color: #525d76;
+}
 
 /* light gray/white bg-color for ad-sec */
-td.ad-bg { background-color: #eeeeee; }
+td.ad-bg { 
+    background-color: #eeeeee; 
+}
 
-td.pre-bar { background-color: #cccccc; }
+td.pre-bar { 
+    background-color: #cccccc; 
+}
 
 /* lines for camel */
-td.camel-line-top { background-color: #bfcfe7; }
-td.camel-line-bottom { background-color: #525d76; }
+td.camel-line-top {
+    background-color: #bfcfe7;
+}
+td.camel-line-bottom {
+    background-color: #525d76;
+}
 
 /* instead of using space.gif */
 .smallbr {
@@ -343,12 +405,11 @@ td.camel-line-bottom { background-color: #525d76; }
     line-height: 1px;
 }
 
-.hr { height: 1px; }
+.hr { 
+    height: 1px; 
+}
 
- .hr { height: 1px; }
-
-
-/* quotations, mainly for the first page */
+/*** quotations, mainly for the first page ***/
 
 span.big-mod {
     font-family: helvetica, arial, verdana, sans-serif;
@@ -384,6 +445,3 @@ div.quote-details {
     margin-top: 10;
     float: right;
 }
-
-
-

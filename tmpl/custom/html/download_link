@@ -29,9 +29,9 @@
 -%]
 
 [%- BLOCK src_doc -%]
-<a class="pdfsrc-links" href="[%- doc.src_doc.link -%]">src</a>
+<a class="pdfsrc" href="[%- doc.src_doc.link -%]">src</a>
 [%- END -%]
 
 [%- BLOCK pdf_doc -%]
-<a class="pdfsrc-links" href="[%- doc.pdf_doc.link -%]">pdf</a>
+<a class="pdfsrc" href="[%- doc.pdf_doc.link -%]">pdf</a>
 [%- END -%]

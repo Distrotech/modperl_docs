@@ -4,7 +4,7 @@
    # subs - an array with keys indentical to 'toc' from above.
 -%]
 
-        <ul>
+        <ul class="toc">
 [%- FOREACH sec = subs -%]
 
             <li>
