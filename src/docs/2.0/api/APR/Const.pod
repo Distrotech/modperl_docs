@@ -2012,14 +2012,17 @@ Possible values:
   1 nonblocking
   0 blocking
 
-For example, to set the socket to a blocking IO mode:
+For example, to set a socket to a blocking IO mode:
 
   use APR::Socket ();
   use APR::Const    -compile => qw(SO_NONBLOCK);
   ...
-  my $oldval = $sock->opt_set(APR::SO_NONBLOCK, 0);
-  die "failed to set the socket to a blocking IO mode: $ARP::err"
-      unless defined $oldval;
+  if ($socket->opt_get(APR::SO_NONBLOCK)) {
+      $socket->opt_set(APR::SO_NONBLOCK => 0);
+  }
+
+You don't have to query for this option, before setting it. It was
+done for the demonstration purpose.
 
 =over
 
