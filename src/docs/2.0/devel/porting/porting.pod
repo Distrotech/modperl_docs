@@ -160,7 +160,7 @@ question. C<ModPerl::MethodLookup> knows that C<Apache::RequestIO>
 expects an object of type C<Apache::RequestRec>, and C<Apache::Filter>
 of type C<Apache::Filter>. So if we call:
 
-  ModPerl::MethodLookup::lookup_method($r, 'print');
+  ModPerl::MethodLookup::lookup_method('print', $r);
 
 only one module will be matched. This functionality can be used in
 C<L<AUTOLOAD|docs::2.0::api::ModPerl::MethodLookup/AUTOLOAD>>.
