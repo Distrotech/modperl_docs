@@ -12,6 +12,11 @@ Lots of prerequisites
 
 =head1 Installing from Source
 
+First of all:
+
+  Apache 2.0 doesn't work with mod_perl 1.0.
+  Apache 1.0 doesn't work with mod_perl 2.0.
+
 XXX: For Win32 specific installation doc here.
 
 Download the httpd-2.0 and modperl-2.0 tarballs, and extract them in the
