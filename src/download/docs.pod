@@ -116,17 +116,29 @@ on the patch:
 
 =item *
 
-If the change is big, send the whole source file to the maintainer.
+If the change is big, send the whole source file to the maintainer or
+the L<documentation mailing list|maillist::docs-dev>.
 
 =item *
 
 If you only add a paragraph/modify a line, please make sure you have
 the I<latest> CVS version, and then issue:
 
+  % cd modperl-docs
   % cvs diff -u > patch
 
-And send the I<patch> file to the maintainer, preferably inline in
-your e-mail.
+And send the I<patch> file to the maintainer or the L<documentation
+mailing list|maillist::docs-dev>, preferably inlined in your e-mail
+(so it's easier to review and follow if needed).
+
+For example if you have improved the
+I<src/docs/2.0/api/Apache/RequestUtil.pod> doc, to generate the patch
+do:
+
+  % cd modperl-docs
+  % cvs diff -u src/docs/2.0/api/Apache/RequestUtil.pod > patch
+
+This approach will get the diff of only that file.
 
 =back
 
