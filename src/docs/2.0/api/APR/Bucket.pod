@@ -10,7 +10,7 @@ APR::Bucket - Perl API for manipulating APR Buckets
   use APR::Bucket ();
   my $ba = $c->bucket_alloc;
   
-  $b1 = APR::Bucket->new("aaa");
+  $b1 = APR::Bucket->new($ba, "aaa");
   $b2 = APR::Bucket::eos_create($ba);
   $b3 = APR::Bucket::flush_create($ba);
   
@@ -44,8 +44,8 @@ is to read the function right to left. The following code sample helps
 to visualize the operations:
 
   my $bb = APR::Brigade->new($r->pool, $ba);
-  my $d1 = APR::Bucket->new("d1");
-  my $d2 = APR::Bucket->new("d2");
+  my $d1 = APR::Bucket->new($ba, "d1");
+  my $d2 = APR::Bucket->new($ba, "d2");
   my $f1 = APR::Bucket::flush_create($ba);
   my $f2 = APR::Bucket::flush_create($ba);
   my $e1 = APR::Bucket::eos_create($ba);
@@ -105,7 +105,7 @@ the existing data buckets with new buckets with upcased data;
 
   for (my $b = $bb->first; $b; $b = $bb->next($b)) {
      if ($b->read(my $data)) {
-          my $nb = APR::Bucket->new(uc $data);
+          my $nb = APR::Bucket->new($bb->bucket_alloc, uc $data);
           $b->insert_before($nb);
           $b->delete;
           $b = $nb;
@@ -147,6 +147,70 @@ Usually instead of calling:
 
 it's better to call C<L<delete|/C_delete_>> which does exactly that.
 
+
+
+
+
+
+=head2 C<alloc_create>
+
+Create an C<APR::BucketAlloc> freelist.
+
+  $ba = APR::Bucket::alloc_create($pool);
+
+=over 4
+
+=item arg1: C<$pool>
+( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
+
+The pool used to create this this freelist.
+
+=item ret: C<$ba>
+( C<L<APR::BucketAlloc object|docs::2.0::api::APR::BucketAlloc>> )
+
+The new freelist.
+
+=item since: 1.99_17
+
+=back
+
+These freelists are used to create new buckets and bucket
+brigades.  Normally it is not necesssary to create them,
+since the existing bucket brigades and/or connection objects 
+in modperl-2 provide them automatically.
+
+Example:
+
+  use APR::Bucket ();
+  use Apache::Connection ();
+  my $ba = APR::Bucket::alloc_create($c->$pool);
+  my $eos_b = APR::Bucket::eos_create($ba);
+
+
+
+
+
+=head2 C<alloc_destroy>
+
+Destroy an C<APR::BucketAlloc> freelist.
+
+  APR::Bucket::alloc_destroy($ba);
+
+=over 4
+
+=item arg1: C<$ba>
+( C<L<APR::BucketAlloc object|docs::2.0::api::APR::BucketAlloc>> )
+
+The freelist to destroy.
+
+=item since: 1.99_17
+
+=back
+
+Destroys the freelist; this object may not be used again.
+Normally it is not necessary to destroy allocators, since
+the pool which created them will destroy them during pool
+cleanup.
 
 
 
@@ -351,17 +415,20 @@ If the length is unknown, C<$len> value will be -1.
 
 Create a new bucket and initialize it with data:
 
-  $nb = APR::Bucket->new($data);
-  $nb =          $b->new($data);
-  $nb = APR::Bucket->new($data, $offset);
-  $nb = APR::Bucket->new($data, $offset, $len);
+  $nb = APR::Bucket->new($bucket_alloc, $data);
+  $nb =          $b->new($bucket_alloc, $data);
+  $nb = APR::Bucket->new($bucket_alloc, $data, $offset);
+  $nb = APR::Bucket->new($bucket_alloc, $data, $offset, $len);
 
 =over 4
 
 =item obj: C<$b>
 ( C<L<APR::Bucket object or class|docs::2.0::api::APR::Bucket>> )
 
-=item arg1: C<$data> ( string )
+=item arg1: C<$bucket_alloc>
+( C<L<APR::BucketAlloc object|docs::2.0::api::APR::BucketAlloc>> )
+
+=item arg2: C<$data> ( string )
 
 The data to initialize with.
 
@@ -370,11 +437,11 @@ is stored in the bucket object. That means that if you modify C<$data>
 after passing it to C<new()> you will modify the data in the bucket as
 well. To avoid that pass to C<new()> a copy which you won't modify.
 
-=item opt arg2: C<$offset> ( number )
+=item opt arg3: C<$offset> ( number )
 
 Optional offset inside C<$data>. Default: 0.
 
-=item opt arg3: C<$len> ( number )
+=item opt arg4: C<$len> ( number )
 
 Optional partial length to read.
 
@@ -391,7 +458,7 @@ will be used. Otherwise the default is to use:
 
 a newly created bucket object
 
-=item since: 1.99_10
+=item since: 1.99_17
 
 =back
 
@@ -405,7 +472,7 @@ Create a new bucket using a whole string:
 
   use APR::Bucket ();
   my $data = "my data";
-  my $b = APR::Bucket->new($data);
+  my $b = APR::Bucket->new($ba, $data);
 
 now the bucket contains the string I<'my data'>.
 
@@ -416,7 +483,7 @@ Create a new bucket using a sub-string:
   use APR::Bucket ();
   my $data   = "my data";
   my $offset = 3;
-  my $b = APR::Bucket->new($data, $offset);
+  my $b = APR::Bucket->new($ba, $data, $offset);
 
 now the bucket contains the string I<'data'>.
 
@@ -429,7 +496,7 @@ offset:
   my $data   = "my data";
   my $offset = 3;
   my $len    = 3;
-  my $b = APR::Bucket->new($data, $offset, $len);
+  my $b = APR::Bucket->new($ba, $data, $offset, $len);
 
 now the bucket contains the string I<'dat'>.
 
@@ -443,7 +510,7 @@ now the bucket contains the string I<'dat'>.
 
 Read the data from the bucket.
 
-  $len = $b->read($buffer,);
+  $len = $b->read($buffer);
   $len = $b->read($buffer, $block);
 
 =over 4
@@ -546,6 +613,36 @@ every odd bucket number to C<$bb2> and every even to C<$bb3>:
 
 
 
+=head2 C<setaside>
+
+Ensure the bucket's data lasts at least as long as the given pool.
+
+
+  my $status = $bucket->setaside($pool);
+
+=over 4
+
+=item obj: C<$bucket>
+( C<L<APR::Bucket object|docs::2.0::api::APR::Bucket>> )
+
+=item arg1: C<$pool>
+( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
+
+=item ret: status code- APR_SUCCESS or error condition.
+
+=item since: 1.99_17
+
+=back
+
+When the a modperl bucket is setaside, its data is detached from the 
+original perl scalar and copied into a pool bucket. Usually setaside
+is called by certain output filters, in order to buffer socket writes 
+of smaller buckets into a single write.
+
+
+
+
+
 =head2 C<type>
 
 Get the type of the data in the bucket.
@@ -621,7 +718,7 @@ see what use can be done of it in Perl.
 It gives the offset to when a new bucket is created with a non-zero
 offset value:
 
-  my $b = APR::Bucket->new($data, $offset, $len);
+  my $b = APR::Bucket->new($ba, $data, $offset, $len);
 
 So if the offset was 3. C<$start> will be 3 too.
 

@@ -366,7 +366,7 @@ handlers.
               if ($b->read(my $data)) {
                   $last++ if $data =~ /^[\r\n]+$/;
                   # could do some transformation on data here
-                  $b = APR::Bucket->new($data);
+                  $b = APR::Bucket->new($bb->bucket_alloc, $data);
               }
   
               $b->remove;
@@ -469,7 +469,7 @@ using a single bucket brigade. Here is the modified code:
   
               if ($b->read(my $data)) {
                   last if $data =~ /^[\r\n]+$/;
-                  my $nb = APR::Bucket->new(uc $data);
+                  my $nb = APR::Bucket->new($bb->bucket_alloc, uc $data);
                   # head->...->$nb->$b ->...->tail
                   $b->insert_before($nb);
                   $b->remove;
@@ -575,7 +575,7 @@ the buckets in the brigade. The handler now becomes:
           last if $data =~ /^[\r\n]+$/;
   
           # could transform data here
-          my $b = APR::Bucket->new($data);
+          my $b = APR::Bucket->new($bb->bucket_alloc, $data);
           $bb->insert_tail($b);
   
           $c->output_filters->fflush($bb);
