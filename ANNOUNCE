@@ -1,28 +1,38 @@
 What?
 -----
-As you may know, we have been at work for a while trying to create a
-new site for mod_perl: not only a new design, but a more sensible
-organization of all the documentation we currently have at hand. We
-have now come to the point where we are very satisfied with the design
-and overall usability of the site, so we will present this to you as
-Release Candidate 1 before releasing it officially.
+
+As you may know, the work on the new mod_perl site have started in
+September 2001, and after almost a year we are glad to present to you
+the outcome of this work. The new site's goal wasn't only to create a
+nice design, but mainly to improve its documentation organization and
+navigation aspects, because of the ever growing amount of
+documentation that the mod_perl community generates.
+
+We have now come to the point where we are very satisfied with the
+design and overall usability of the site, so we are proud to announce
+the Release Candidate 1. Depending on the feedback from you, the site
+may undergo some minor fixes if there are problems and eventually be
+released for you all to use.
 
 Where?
 ------
-The site is now located at this URL:
+
+RC1 is now located at this URL:
 
      http://perl.apache.org/release/
 
-When the Release Candidate gets all bugs rolled out, we will release
-it to its correct address, http://perl.apache.org/.
+When the Release Candidate gets all bugs rolled out, it will replace
+the existing mod_perl site:
 
-What should I do?
------------------
+     http://perl.apache.org/
+
+What Problems To Report?
+------------------------
 
 Throughout development, the site has been tested extensively on many
-different OS/browser combinations: Unix, MacOS and Windows
-mostly. However, we can of course not be sure that it's working
-correctly for everyone.
+different OS/browser combinations: Unix, MacOS and Windows. However,
+we couldn't test with every possible browser/platform combination, so
+it's possible that certain combinations are problematic.
 
 This is why we ask for your help: take some time to browse the site,
 and take note of:
@@ -31,19 +41,47 @@ and take note of:
   of the content?
 - your general satisfaction with how the site is.
 
-The site has been designed with respect to the HTML 4.0 and CSS 2
-standards, and it is therefore normal that the rendering might be
-flawed in some (few) browsers that do not support this. However, we
-have still made sure that the content is accessible by everyone, so
-even text-browsers should make the site usable.
+Before sending your feedback, please remember that the site has been
+designed with respect to the HTML 4.0 and CSS 2 standards, and it is
+therefore possible that the rendering might be flawed in some browsers
+that do not follow these standards, either because they are old (and
+these standards didn't exist at the time of their release) or simply
+broken. However, we still tried to make the site usable for these
+browsers, which also somewhat restricted us in deploying the standards
+to their full extent. 
+
+So if you see a rendering problem, in an old, buggy or alpha version
+of some browser, but the site is still usable you may have to live
+with that and possibly you will need to consider upgrading your
+browser.
+
+The text browsers "lynx" and "links" seem to work fine with the new
+site, please report any problems with other text browsers that we
+didn't have a chance to test with.
+
+The punchline, is that you should remember that we don't claim that
+the site is perfect and it's still much better than the existing
+one. We will *not* try to provide a solution for every browser out
+there, because we simply don't have the resources for that, and we
+don't want to maintain a dozen css style sheets to accomodate for
+idiosyncrasies of every browser.
+
+Also we would like to remind you that you've had many chances to
+influence the overall design of the site and at this point it's too
+late to suggest drastic changes, so please stick to bug reports since
+we want to release the new site soon. If you've ideas for the future
+generations of the site, please consider bringing them up after this
+site is released.
 
 Where to report?
 ----------------
-First of all, you should check the list of reported bugs here:
-    http://perl.apache.org/site-issues.txt
-If your issue is already listed, we will take care of it.
 
-If your issue isn't listed, you will have to contact the docs-dev
+Before reporting a problem, first please check whether the problem
+that you've have been reported already here:
+    http://perl.apache.org/site-issues.txt
+If your issue is already listed, please do not submit it again.
+
+Otherwise please post the description of the problem to the docs-dev
 list:
 
      http://perl.apache.org/release/maillist/docs-dev.html
@@ -53,19 +91,21 @@ To post, send an e-mail to:
      docs-dev (at) perl.apache.org
 
 You do not have to be subscribed to post, but your message will have
-to be approved first so it might take some hours to get a response.
+to be approved first so it might take some hours before it gets to the
+list.
 
 When reporting, we will need as detailed information as possible:
-- your Operating System name/release
-- the browser you are using: name + release
+- Operating System's name and version
+- browser's name and version
 - a detailed report of the *exact* problem you are having
+- if you have a rendering problem please provide a snapshot, though
+  please try to keep the snapshot's size small.
 
 Please be as precise as possible to help us find out the problem and
-fix it. Furthermore, if you have a fix, we will appreciate that.
+fix it. Furthermore, if you know hot to fix the problem, we will
+appreciate that.
 
-Try to refrain from too general design questions: we have spent a
-considerable amount of time on the design and are now more concerned
-with the fact that the site *works* for everyone.
+When the new site goes live?
+----------------------------
 
-Enjoy your new site, mod_perlers!
-
+If there will be no major bugs hopefully in about 1-2 weeks.
