@@ -2549,8 +2549,8 @@ home for it.  You have a few options:
 
 =item *
 
-Reduce resources usage (see L<Limiting the size of the
-processes|guide::performance/Limiting_the_Size_of_the_Processes>).
+Reduce resources usage (see L<Preventing Your Processes from
+Growing|guide::performance/Preventing_Your_Processes_from_Growing>).
 
 =item *
 

@@ -2942,9 +2942,9 @@ clients, you must edit the C<HARD_SERVER_LIMIT> entry in C<httpd.h>
 and recompile.  In our case we want this variable to be as small as
 possible, because in this way we can limit the resources used by the
 server children.  Since we can restrict each child's process size (see
-L<Limiting the size of the
-processes|guide::performance/Limiting_the_Size_of_the_Process>), the
-calculation of C<MaxClients> is pretty straightforward:
+L<Preventing Your Processes from
+Growing|guide::performance/Preventing_Your_Processes_from_Growing>),
+the calculation of C<MaxClients> is pretty straightforward:
 
                Total RAM Dedicated to the Webserver
   MaxClients = ------------------------------------
@@ -2953,7 +2953,7 @@ calculation of C<MaxClients> is pretty straightforward:
 So if I have 400Mb left for the webserver to run with, I can set
 C<MaxClients> to be of 40 if I know that each child is limited to 10Mb
 of memory (e.g. with
-L<C<Apache::SizeLimit>|guide::performance/Limiting_the_Size_of_the_Processes>).
+L<C<Apache::SizeLimit>|guide::performance/Preventing_Your_Processes_from_Growing>).
 
 You will be wondering what will happen to your server if there are
 more concurrent users than C<MaxClients> at any time.  This situation
@@ -3054,14 +3054,14 @@ But beware -- if you set this number too low, you will lose some of
 the speed bonus you get from mod_perl.  Consider using
 C<Apache::PerlRun> if this is the case.
 
-Another approach is to use the
-L<Apache::SizeLimit|guide::performance/Limiting_the_Size_of_the_Processes> or
-the L<Apache::GTopLimit|guide::performance/Keeping_the_Shared_Memory_Limit>
+Another approach is to use the L<Apache::SizeLimit or
+Apache::GTopLimit|guide::performance/Preventing_Your_Processes_from_Growing>
 modules.  By using either of these modules you should be able to
 discontinue using the C<MaxRequestPerChild>, although for some
-developers, using both in combination does the job. In addition the
-latter module allows you to kill any servers whose shared memory size
-drops below a specified limit.
+developers, using both in combination does the job. In addition these
+modules allow you to kill httpd processes whose shared memory size
+drops below a specified limit or unshared memory size crosses a
+specified threshold.
 
 See also L<Preload Perl modules at server
 startup|guide::performance/Preloading_Perl_Modules_at_Serve> and L<Sharing
@@ -3124,10 +3124,8 @@ OK, we've run various benchmarks -- let's summarize the conclusions:
 
 If your scripts are clean and don't leak memory, set this variable to
 a number as large as possible (10000?). If you use
-C<Apache::SizeLimit>, you can set this parameter to 0 (treated as
-infinity). You will want this parameter to be smaller if your code
-becomes unshared over the process' life. And C<Apache::GTopLimit>
-comes into the picture with the shared memory limitation feature.
+C<Apache::SizeLimit> or C<Apache::GTopLimit>, you can set this
+parameter to 0 (treated as infinity).
 
 =item *  StartServers
 
@@ -4929,45 +4927,58 @@ callback closure for formatting the rows to print:
       }	 #  end of sub {}
   };  #  end of my $rsub = eval {
 
-You might also want to check the section L<Limiting the Size of the
-Processes|guide::performance/Limiting_the_Size_of_the_Process>
-and L<Limiting Other Resources Used by Apache Child
+You might also want to check the section L<Preventing Your Processes
+from
+Growing|guide::performance/Preventing_Your_Processes_from_Growing> and
+L<Limiting Other Resources Used by Apache Child
 Processes|guide::performance/Limiting_Other_Resources_Used_by>.
 
-=head2 Keeping the Shared Memory Limit
+=head2 Preventing Your Processes from Growing
 
-As we have discussed already, during the child process' life a part of
-the memory pages becomes unshared as some data structures become
-I<"dirty"> leading to the increased real memory consuming.  As you
-remember to prevent from the process from growing, it should be killed
-and the newly started process will have all its memory shared with the
-parent process.  While it serves requests the unsharing process
-repeats and it has to be replaced again.
+If you have already worked with mod_perl, you have probably noticed
+that it can be difficult to keep your mod_perl processes from using a
+lot of memory.  The less memory you have, the fewer processes you can
+run and the worse your server will perform, especially under a heavy
+load.  This chapter presents several common situations which can lead
+to unnecessary consumption of RAM, together with preventive measures.
 
-As you remember the C<MaxRequestsPerChild> directive allows you to
-specify the number of requests the server should process before it
-gets killed.  So you have to tune this directive, by finding the
-optimal value using which, the process won't get too much unshared
-memory.  But this is very inconvenient solution since chances are that
-your service is undergoing constant changes and you will have to
-re-tune this number again and again to adapt to the ever changing code
-base.
+When you need to control the size of your httpd processes, use one of
+the two modules C<Apache::GTopLimit> and C<Apache::SizeLimit> which
+kill Apache httpd processes when the latter grow too large or lose a
+big chunk of their shared memory. The two modules differ in methods
+for finding out the memory usage. C<Apache::GTopLimit> relies on the
+I<libgtop> library to perform this task, therefore if this library can
+be built on your platform you can use this
+module. C<Apache::SizeLimit> includes different methods for different
+platforms, you will have to check the modules' manpage to figure out
+which platforms are supported.
 
-It would be so nice if we could just set some guardian to watch the
-shared size and kill the process based on the actual shared memory
-usage, when it goes below the specified limit, so it's possible that
-the processes will never be killed if there limit is never passed.
+=head3 Defining the Minimum Shared Memory Size Threshold
 
-That's where the C<Apache::GTopLimit> module comes to help.  If you
-are lucky to have your OS among those that can build the
-L<libgtop|guide::download/libgtop> library, you will be able to build the
-C<GTop> module that provides the Perl API for C<libgtop>, which in
-turn used by C<Apache::GTopLimit> (that's the I<GTop> part in the
-name).
+As we have already discussed, when it is first created an Apache child
+process usually has a large fraction of it memory shared with its
+parent.  During the child process' life some of its data structures
+are modified and a part of its memory becomes unshared (pages become
+I<"dirty">), leading to an increase in memory consumption.  You will
+remember that the C<MaxRequestsPerChild> directive allows you to
+specify the number of requests a child process should serve before it
+is killed.  One way to limit the memory consumption of a process is to
+kill it and let Apache replace it with a newly started process, which
+again will have all its memory shared with the Apache parent.  The new
+child process serves requests and eventually the cycle is repeated.
 
-To set the shared memory lower limit of 4MB using the
-C<Apache::GTopLimit> add the following code into the I<startup.pl>
-file:
+This is a fairly crude means of limiting unshared memory and you will
+probably need to tune C<MaxRequestsPerChild>, eventually finding an
+optimum value.  If, as is likely, your service is undergoing constant
+changes then this is an inconvenient solution.  You have to re-tune
+this number again and again to adapt to the ever changing code base.
+
+You really want to set some guardian to watch the shared size and kill
+the process if it goes below some limit.  This way, processes will not
+be killed unnecessarily.
+
+To set a shared memory lower limit of 4MB using C<Apache::GTopLimit>
+add the following code into the I<startup.pl> file:
 
   use Apache::GTopLimit;
   $Apache::GTopLimit::MIN_PROCESS_SHARED_SIZE = 4096;
@@ -4976,93 +4987,137 @@ and in I<httpd.conf>:
 
   PerlFixupHandler Apache::GTopLimit
 
-and don't forget to restart the server for the changes to take the
-effect.
+don't forget to restart the server for the changes to take effect.
 
-If you don't want to set this limit by default but only for those
-requests that are likely to get the memory unshared. In this case the
-memory size testing would be done only if you decide that you want
-it. You register the post-processing check by using the
+This has the effect that as soon as the child process shares less than
+4MB, (the corollary being that it must therefore be occupying a lot of
+memory with its unique pages), it will be killed after completing to
+serve the last request, and, as a consequence, a new child will take
+its place.
+
+If you use C<Apache::SizeLimit> you can accomplish the same with the
+adding to I<startup.pl>:
+
+  use Apache::SizeLimit;
+  $Apache::SizeLimit::MIN_SHARE_SIZE = 4096;
+
+and in I<httpd.conf>:
+
+  PerlFixupHandler Apache::SizeLimit
+
+If you only want to set this limit for some requests (presumably the
+ones which you think are likely to cause memory to become unshared)
+then you can register a post-processing check using the
 set_min_shared_size() function. For example:
 
     use Apache::GTopLimit;
-    if ($need_to_limit){
-      Apache::GTopLimit->set_min_shared_size(4096);
+    if ($need_to_limit) {
+        # make sure that at least 4MB are shared
+        Apache::GTopLimit->set_min_shared_size(4096);
     }
 
-Since accessing the process info might add a little overhead, you may
-want to only check the process size every N times. And that's where
-the C<$Apache::GTopLimit::CHECK_EVERY_N_REQUESTS> variable comes to
-help.  For example to test the size every other time--put in your
-I<startup.pl>:
+or for C<Apache::SizeLimit>:
+
+    use Apache::SizeLimit;
+    if ($need_to_limit) {
+        # make sure that at least 4MB are shared
+        Apache::SizeLimit->setmin(4096);
+    }
+
+Since accessing the process information adds a little overhead, you
+may want to only check the process size every N times.  In this case
+set the C<$Apache::GTopLimit::CHECK_EVERY_N_REQUESTS> variable.  For
+example to test the size every other time, put in your I<startup.pl>:
 
   $Apache::GTopLimit::CHECK_EVERY_N_REQUESTS = 2;
 
-If you want to run this module in the debug mode, add the following
-directive in your I<startup.pl>:
+or for C<Apache::SizeLimit>:
 
-  $Apache::GTopLimit::DEBUG = 1;
+  $Apache::SizeLimit::CHECK_EVERY_N_REQUESTS = 2;
 
-=head2 Limiting the Size of the Processes
+You can run the C<Apache::GTopLimit> module in the debug mode by
+setting:
 
-So now you know how to prevent processes from consuming more real
-memory when the memory gets unshared. An even more important
-restriction that we want to impose is the absolute size of the
-process. If the process grows after each request, especially if your
-code has memory leaks or you are unfortunate to run an OS with C
-libraries that leak memory, you can easily run out of memory if
-nothing will restrict those processes from growing. The only
-restriction we can impose is killing the processes when they become
-too big.
+    PerlSetVar Apache::GTopLimit::DEBUG 1
 
-You can set the C<MaxRequestPerChild> directive to kill the processes
-after only a few requests have been served. But as we have explained
-in the previous section this solution is not as good as the ability to
-control the process size and killing it only when the limit is
-crossed.
+in I<httpd.conf>. It's important that this setting should happen
+before the C<Apache::GTopLimit> module is loaded.
 
-If you have the C<Apache::GTopLimit> we have described in the previous
-section you can control the upper limit by setting the
+When debug mode is turned I<on> the module reports in the I<error_log>
+file the memory usage of the current process and also when it detects
+that at least one of the thresholds was crosses and the process is
+going to be killed.
+
+C<Apache::SizeLimit> controls the debug level via
+C<$Apache::SizeLimit::DEBUG> variable:
+
+  $Apache::SizeLimit::DEBUG = 1;
+
+which can be modified any time, even after the module was loaded.
+
+=head3 Defining the Maximum Memory Size Threshold
+
+Not less important than maximizing shared memory is restricting the
+absolute size of the processes.  If the processes grow after each
+request, and if nothing restricts them from growing, you can easily
+run out of memory.
+
+Again you can set the C<MaxRequestPerChild> directive to kill the
+processes after a few requests have been served.  But as we have
+explained in the previous section this solution is not as good as one
+which monitors the process size and kills it only when some limit is
+reached.
+
+If you have C<Apache::GTopLimit> (described in the previous section)
+you can limit process' memory usage by setting the
 C<$Apache::GTopLimit::MAX_PROCESS_SIZE> directive.  For example if you
-want the processes to be killed when they are growing bigger than 10MB
-you should set the following limit in the I<startup.pl> file:
+want the processes to be killed when they reach 10MB you should put
+the following in your I<startup.pl> file:
 
     $Apache::GTopLimit::MAX_PROCESS_SIZE = 10240;
 
-Just like with the shared memory limiting, you can set the limit for
-the current process using the set_max_size() method in your code:
+Just as when limiting shared memory, you can set a limit for the
+current process using the set_max_size() method in your code:
 
     use Apache::GTopLimit;
     Apache::GTopLimit->set_max_size(10000);
 
-Another alternative is to use the C<Apache::SizeLimit> module, which
-is available for more platforms than C<Apache::GTopLimit> at the
-moment of this writing. You should check the module's manpage to find
-out what they are.
-
-To usage is very similar to C<Apache::GTopLimit>, you control the
-upper size limit by setting the
-C<$Apache::SizeLimit::MAX_PROCESS_SIZE> variable in your I<startup.pl>
-file:
+For C<Apache::SizeLimit> the equivalents are:
 
   use Apache::SizeLimit;
   $Apache::SizeLimit::MAX_PROCESS_SIZE = 10240; 
 
-And in your I<httpd.conf> you should add:
-
-  PerlFixupHandler Apache::SizeLimit
-
-Just like with C<Apache::GTopLimit>, you can test the memory every few
-times, by setting the C<$Apache::SizeLimit::CHECK_EVERY_N_REQUESTS>
-variable. For example every fourth time:
-
-  $Apache::SizeLimit::CHECK_EVERY_N_REQUESTS = 4;
-
-And you can set the limit from within your code, rather from the
-global configuration:
+and:
 
   use Apache::SizeLimit;
   Apache::SizeLimit->setmax(10240);
+
+=head3 Defining the Maximum Unshared Memory Size Threshold
+
+Instead of setting the shared and total memory usage thresholds, you
+can set a single threshold which measures the amount of unshared
+memory, by subtracting the shared memory size from the total memory
+size.
+
+Both modules allow you to set the thresholds in similar ways.  With
+C<Apache::GTopLimit> you can set the unshared memory threshold
+server-wide with:
+
+  $Apache::GTopLimit::MAX_PROCESS_UNSHARED_SIZE = 6144;
+
+and locally for a handler with:
+
+  Apache::GTopLimit->set_max_unshared_size(6144);
+
+If you are using C<Apache::SizeLimit> the corresponding settings would
+be:
+
+  $Apache::SizeLimit::MAX_UNSHARED_SIZE = 6144;
+
+and:
+
+  Apache::SizeLimit->setmax_unshared(6144);
+
 
 =head2 Limiting Other Resources Used by Apache Child Processes
 

@@ -2,6 +2,25 @@
 		### mod_perl Guide CHANGES file ###
 		###################################
 
+??? ver 1.32
+
+* performance.pod:
+
+  o Update the documentation on Apache::SizeLimit and
+    Apache::GTopLimit which now both sport the shared and unshared
+    memory thresholds.
+
+* guide:
+
+  o most of the internal links were changed to use the whole title and
+    not only first few words. The new build system support this.
+
+  o The documents themselves are now referenced as guide::something,
+    e.g. guide::modules, because now the guide is a part of a much
+    bigger collection of the documents, which need to be fully
+    qualified, so each document can link to other documents in
+    different projects/subprojects.
+
 Nov 15 2001 ver 1.31
 
 * intro.pod: 

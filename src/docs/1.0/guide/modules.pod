@@ -180,10 +180,9 @@ too large or if they share too little of their memory.  You can
 choose to set up the process size limiter to check the process 
 size on every request:
 
-The module is thoroughly explained in the sections: "L<Keeping the
-Shared Memory Limit|guide::performance/Keeping_the_Shared_Memory_Limit>" and
-"L<Limiting the Size of the
-Processes|guide::performance/Limiting_the_Size_of_the_Process>"
+The module is thoroughly explained in the section: L<Preventing Your
+Processes from
+Growing|guide::performance/Preventing_Your_Processes_from_Growing>
 
 =head1 Apache::Request (libapreq) - Generic Apache Request Library
 
