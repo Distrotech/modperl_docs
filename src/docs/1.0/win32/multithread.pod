@@ -1,8 +1,8 @@
 =head1 NAME
 
-win32_multithread - discussion of multithreading on Win32 mod_perl-1.xx
+Discussion of multithreading on Win32 mod_perl-1.xx
 
-=head1 DESCRIPTION
+=head1 Description
 
 This document discusses the multithreading limitations of
 mod_perl-1.xx on Win32.
@@ -111,7 +111,7 @@ does. PerlEx is transparently supported by CGI.pm, so users of this
 package should be more or less covered. (A IIS-FastCGI accelerator is,
 regrettably, no longer available.)
 
-=head1 SEE ALSO
+=head1 See ALso
 
 http://perl.apache.org and http://httpd.apache.org, especially the
 discussion of Apache-2 and modperl-2.

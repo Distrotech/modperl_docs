@@ -1,14 +1,14 @@
 =head1 NAME
 
-win32_binaries - obtaining Apache mod_perl-1.xx binaries for Win32
+Obtaining Apache mod_perl binaries for Win32
 
-=head1 DESCRIPTION
+=head1 Description
 
 This document discusses the two major types of binary packages
 available for Win32 mod_perl - all-in-one Perl/Apache/mod_perl
 binaries, and mod_perl ppm (Perl Package Manager) packages.
 
-=head1 ALL-IN-ONE PACKAGES
+=head1 All-in-one packages
 
 There are at least two binary packages for Win32 that contain the
 necessary Perl and Apache binaries:
@@ -88,7 +88,7 @@ not be able to use an earlier Apache binary. However, in the Apache
 Win32 world it is particularly a good idea to use the latest version,
 for bug and security fixes.
 
-=head1 CONFIGURATION
+=head1 Configuration
 
 Add this line to F<C:\Apache\conf\httpd.conf>:
 
@@ -133,14 +133,14 @@ F<Hello.pm> as follows:
   package Apache::Hello;
   use strict;
   use Apache::Constants qw(OK);
-
+  
   sub handler {
      my $r = shift;
      $r->send_http_header;
      $r->print("<html><body>Hello World!</body></html>\n");
      return OK;
    }
-
+  
   1;
 
 and save it in, for example, the F<C:\Perl\site\lib\Apache\>
@@ -159,18 +159,22 @@ With this, calls to
 
 will use C<Apache::Hello> to deliver the content.
 
-=head1 APACHE MODULES
+=head1 Apache modules
 
 The C<theorxy5> repository containing the mod_perl ppm package also
 contains a number of other Apache modules, such as C<Apache::ASP>,
 C<HTML::Embperl>, and C<HTML::Mason>. However, there may be ones you
 find that are not available through a repository; in such cases, you
 might try sending a message to the maintainer of the repository asking
-if a particular package could be included, or you could use the
-C<CPAN.pm> module to fetch, build, and install the module - see
-C<perldoc CPAN> for details.
+if a particular package could be included.
 
-=head1 SEE ALSO
+Alternatively, you can use the C<CPAN.pm> module to fetch, build, and
+install the module - see C<perldoc CPAN> for details. You will need the
+B<nmake> utility for this, download it from http://download.microsoft.com/download/vc15/Patch/1.52/W95/EN-US/Nmake15.exe
+(it's a self extracting archive, so run it and then copy the files into
+your F<Windows> directory).
+
+=head1 See Also
 
 The I<mod_perl> manpage, the L<Apache> manpage,
 http://perl.apache.org/, especially the guide, http://take23.org/,

@@ -1,19 +1,29 @@
 =head1 NAME
 
-win32_compile - Apache mod_perl-1.xx installation instructions for Win32
+Apache mod_perl-1.xx cpilation instructions for Win32
 
-=head1 DESCRIPTION
+=head1 Description
 
 This document discusses how to build, test, configure and
 install mod_perl under Win32.
 
-=head1 PREREQUISITES
+If you are only interested in running mod_perl, it might be a better idea
+to L<get and install one of the binary
+packages|docs::1.0::win32::binaries>.
 
-=over 3
+=head1 Prerequisites
+
+=over
+
+=item *
 
 patience - mod_perl is considered alpha under Win32.
 
+=item *
+
 MSVC++ 5.0+, Apache version 1.3-dev or higher and Perl 5.004_02 or higher.
+
+=item *
 
 As of version 1.24_01, mod_perl will build on Win32 ActivePerls
 based on Perl-5.6.x (builds 6xx). For binary compatibility you 
@@ -22,7 +32,7 @@ to compile your Perl binary; for ActivePerl, this means using VC++ 6.
 
 =back
 
-=head1 BUILDING
+=head1 Building
 
 Obtain the mod_perl sources from CPAN:
 
@@ -151,7 +161,7 @@ This latter method of building mod_perl will also install the
 Apache and mod_perl header files, which can then be accessed
 through the Apache::src module.
 
-=head1 CONFIGURATION
+=head1 Configuration
 
 Add this line to F<C:\Apache\conf\httpd.conf>:
 
@@ -167,7 +177,7 @@ See the descriptions of the C<ClearModuleList> and C<AddModule>
 directives in the Apache documents for more details, especially
 concerning the relative order of these and the C<LoadModule> directive.
 
-=head1 SEE ALSO
+=head1 See Also
 
 The I<mod_perl> manpage, the L<Apache> manpage,
 http://perl.apache.org/, especially the guide, and http://take23.org/.
