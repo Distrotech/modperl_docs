@@ -89,8 +89,7 @@ C<L<exit|docs::2.0::api::ModPerl::Util/C_exit_>>).
 For example you wrote a code that performs L<a socket
 read|docs::2.0::api::APR::Socket/C_recv_>:
 
-  my $buff = $sock->recv(1024);
-  my $rlen = length $buff;
+  my $rlen = $sock->recv(my $buff, 1024);
   warn "read $rlen bytes\n";
 
 and in certain cases it times out. The code will die and log the
@@ -99,12 +98,13 @@ you want to give the read another chance before dying. In which case
 you rewrite the code to handle the exception like so:
 
   use APR::Const -compile => qw(TIMEUP);
-  my $buff = eval { $sock->recv(1024) };
+  my $buff;
+  retry:
+  my $rlen = eval { $sock->recv($buff, 1024) };
   if ($@) {
      die $@ unless ref $@ && $@ == APR::TIMEUP;
      goto retry;
   }
-  my $rlen = length $buff;
   warn "read $rlen bytes\n";
 
 Notice that we handle non-object and non-C<APR::Error> exceptions as

@@ -24,8 +24,8 @@ APR::Brigade - Perl API for manipulating APR Bucket Brigades
   $bb2 = APR::Brigade->new($r->pool, $c->bucket_alloc);
   $bb1->concat($bb2);
   
-  $data  = $bb->flatten();
-  $data2 = $bb2->flatten($len);
+  $len = $bb->flatten($data);
+  $len = $bb2->flatten($data, $wanted);
   
   $len = $bb->length;
   $bb3 = $bb->split($b_last);
@@ -204,22 +204,34 @@ C<undef> is returned if there are no buckets in C<$bb>.
 
 Get the data from buckets in the bucket brigade as one string
 
-  $data = $bb->flatten();
-  $data = $bb->flatten($len);
+  $len = $bb->flatten($buffer);
+  $len = $bb->flatten($buffer, $wanted);
 
 =over 4
 
 =item obj: C<$bb>
 ( C<L<APR::Brigade object|docs::2.0::api::APR::Brigade>> )
 
-=item opt arg1: C<$len> ( number )
+=item arg1: C<$buffer> ( SCALAR )
 
-If no argument is passed then all data will be returned. If C<$len> is
-specified -- that number or less bytes will be returned.
+The buffer to fill. All previous data will be lost.
 
-=item ret: C<$data> ( string )
+=item opt arg2: C<$wanted> ( number )
 
-=item since: 1.99_10
+If no argument is passed then all data will be returned. If C<$wanted>
+is specified -- that number or less bytes will be returned.
+
+=item ret: C<$len> ( number )
+
+How many bytes were actually read.
+
+C<$buffer> gets populated with the string that is read. It will
+contain an empty string if there was nothing to read.
+
+
+=item since: 1.99_15
+
+=item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
 =back
 

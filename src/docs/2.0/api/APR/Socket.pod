@@ -17,15 +17,8 @@ APR::Socket - Perl API for APR sockets
   }
   # read from/write to the socket (w/o handling possible failures)
   my $wanted = 1024;
-  while (1) {
-      # read from the socket
-      my $buff = $sock->recv($wanted);
-      my $rlen = length $buff;
-      last if $rlen == 0; # EOF
-  
-      # write to the socket
-      my $wlen = $sock->send($buff);
-      last if $wlen != $rlen; # shouldn't happen
+  while ($sock->recv(my $buff, $wanted)) {
+      $sock->send($buff);
   }
 
   ### get/set IO timeout and try to read some data
@@ -37,14 +30,15 @@ APR::Socket - Perl API for APR sockets
   }
   # now read, while handling timeouts
   my $wanted = 1024;
-  my $buff = eval { $sock->recv($wanted) };
+  my $buff;
+  my $rlen = eval { $sock->recv($buff, $wanted) };
   if ($@ && ref $@ && $@ == APR::TIMEUP) {
       # timeout, do something, e.g.
       warn "timed out, will try again later";
   }
   else {
-      my $rlen = length $buff;
       warn "asked for $wanted bytes, read $rlen bytes\n";
+      # do something with the data
   }
 
 
@@ -152,7 +146,7 @@ mode|docs::2.0::api::APR::Const/C_APR__SO_NONBLOCK_>.
 
 Read incoming data from the socket
 
-  my $buff = $sock->recv($wanted);
+  $len = $sock->recv($buffer, $wanted);
 
 =over 4
 
@@ -161,14 +155,20 @@ Read incoming data from the socket
 
 The socket to read from
 
-=item arg1: C<$wanted> ( int )
+=item arg1: C<$buffer> ( SCALAR )
+
+The buffer to fill. All previous data will be lost.
+
+=item arg2: C<$wanted> ( int )
 
 How many bytes to attempt to read.
 
-=item ret: C<$buf> ( string )
+=item ret: C<$len> ( number )
 
-C<$buf> gets populated with the string that is read. It will contain
-an empty string if there is nothing to read.
+How many bytes were actually read.
+
+C<$buffer> gets populated with the string that is read. It will
+contain an empty string if there was nothing to read.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
@@ -183,7 +183,8 @@ catch the C<L<APR::TIMEUP|docs::2.0::api::APR::Const/C_APR__TIMEUP_>>
 exception. For example:
 
   use APR::Const -compile => qw(TIMEUP);
-  my $buff = eval { $sock->recv($wanted) };
+  my $buffer;
+  eval { $sock->recv($buffer, $wanted) };
   if ($@ && $@ == APR::TIMEUP) {
       # timeout, do something, e.g.
   }
@@ -203,15 +204,8 @@ Examples:
   }
   # read from/write to the socket (w/o handling possible failures)
   my $wanted = 1024;
-  while (1) {
-      # read from the socket
-      my $buff = $sock->recv($wanted);
-      my $rlen = length $buff;
-      last if $rlen == 0; # EOF
-  
-      # write to the socket
-      my $wlen = $sock->send($buff);
-      last if $wlen != $rlen; # shouldn't happen
+  while ($sock->recv(my $buffer, $wanted)) {
+      $sock->send($buffer);
   }
 
 

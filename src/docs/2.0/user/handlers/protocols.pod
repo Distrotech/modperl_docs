@@ -247,16 +247,9 @@ Here is the code:
       # set the socket to the blocking mode
       $sock->opt_set(APR::SO_NONBLOCK => 0);
   
-      while (1) {
-          # read from the socket
-          my $buff = $sock->recv(BUFF_LEN);
-          my $rlen = length $buff;
-          last if $rlen == 0; # EOF
+      while ($sock->recv(my $buff, BUFF_LEN)) {
           last if $buff =~ /^[\r\n]+$/;
-  
-          # write to the socket
-          my $wlen = $sock->send($buff);
-          last if $wlen != $rlen; # shouldn't happen
+          $sock->send($buff);
       }
   
       Apache::OK;
@@ -276,10 +269,9 @@ compiled earlier.
 
 Inside the recv/send loop, the handler attempts to read C<BUFF_LEN>
 bytes from the client socket into the C<$buff> buffer. The handler
-breaks the loop if the returned buffer is empty, (there was nothing
-more to read (EOF)) or if the buffer contains nothing but new line
-character(s), which is how we know to abort the connection in the
-interactive mode.
+breaks the loop if nothing was read (EOF) or if the buffer contains
+nothing but new line character(s), which is how we know to abort the
+connection in the interactive mode.
 
 If the handler receives some data, it sends it unmodified back to the
 client with the C<APR::Socket::send()> method. When the loop is
@@ -378,8 +370,7 @@ handlers.
                   last;
               }
   
-              my $data = $bucket->read;
-              if (length $data) {
+              if ($bucket->read(my $data)) {
                   $last++ if $data =~ /^[\r\n]+$/;
                   # could do some transformation on data here
                   $bucket = APR::Bucket->new($data);
@@ -421,7 +412,7 @@ represented by the following pseudo-code:
 
   while ($bb_in = get_brigade()) {
       while ($bucket_in = $bb_in->get_bucket()) {
-          my $data = $bucket_in->read();
+          $bucket_in->read(my $data);
           # do something with data
           $bucket_out = new_bucket($data);
   
@@ -542,7 +533,7 @@ the buckets in the brigade. The handler now becomes:
               last;
           }
   
-          my $data = $bb->flatten;
+          next unless $bb->flatten(my $data);
           $bb->cleanup;
           last if $data =~ /^[\r\n]+$/;
   

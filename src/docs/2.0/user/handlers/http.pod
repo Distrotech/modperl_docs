@@ -315,6 +315,17 @@ To configure this module simply add to I<httpd.conf>:
 
 =head2 PerlMapToStorageHandler
 
+The I<map_to_storage> phase is used to perform the translation of a
+
+
+
+
+request's URI into an corresponding filename. If no custom handler is
+provided, the server's standard translation rules (e.g., C<Alias>
+directives, mod_rewrite, etc.) will continue to be used. A
+C<PerlTransHandler> handler can alter the default translation
+mechanism or completely override it.
+
 META: add something here
 
 This phase is of type
@@ -446,8 +457,8 @@ and here is the C<MyApache::SendEmail> handler:
                   last;
               }
   
-              my $buf = $b->read;
-              $data .= $buf if length $buf;
+              $b->read(my $buf);
+              $data .= $buf;
           }
   
       } while (!$seen_eos);

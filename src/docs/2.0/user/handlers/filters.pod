@@ -1162,8 +1162,8 @@ the request's I<args> and I<content> as strings:
                   last;
               }
   
-              my $buf = $b->read;
-              $data .= $buf if length $buf;
+              $b->read(my $data);
+              $data .= $buf;
           }
   
       } while (!$seen_eos);
@@ -1245,7 +1245,8 @@ Now let's write the snooping filter:
   
       my @data;
       for (my $b = $bb->first; $b; $b = $bb->next($b)) {
-          push @data, $b->type->name, $b->read;
+          $b->read(my $bdata);
+          push @data, $b->type->name, $bdata;
       }
   
       # send the sniffed info to STDERR so not to interfere with normal
@@ -1531,7 +1532,7 @@ the bucket brigades:
       return $rv unless $rv == APR::SUCCESS;
   
       for (my $b = $bb->first; $b; $b = $bb->next($b)) {
-          my $data = $b->read;
+          $b->read(my $data);
           warn("data: $data\n");
   
           if ($data and $data =~ s|^GET|HEAD|) {
@@ -1770,8 +1771,8 @@ request's body: C<MyApache::InputRequestFilterLC>:
               last;
           }
   
-          my $data = $b->read;
-          $b = APR::Bucket->new(lc $data) if length $data;
+          my $len = $b->read(my $data);
+          $b = APR::Bucket->new(lc $data) if $len;
   
           $bb->insert_tail($b);
       }
@@ -2120,8 +2121,7 @@ to accomplish exactly the same task as the first filter.
               last;
           }
   
-          my $data = $bucket->read;
-          if (length $data) {
+          if ($bucket->read(my $data)) {
               $data = join "",
                   map {scalar(reverse $_), "\n"} split "\n", $data;
               $bucket = APR::Bucket->new($data);
@@ -2318,7 +2318,7 @@ implementation details. First let's look at the C<response()> handler
                   last;
               }
   
-              my $buf = $b->read;
+              $b->read(my $buf);
               warn "DATA bucket: [$buf]\n" if $debug;
               push @data, $buf;
           }
@@ -2413,8 +2413,7 @@ Now comes the filter (which lives in the same package):
       my @data;
       for (my $b = $bb->first; $b; $b = $bb->next($b)) {
           $seen_eos++, last if $b->is_eos;
-          my $bdata = $b->read;
-          $bdata = '' unless defined $bdata;
+          $b->read(my $bdata);
           push @data, $bdata;
       }
       return (join('', @data), $seen_eos);

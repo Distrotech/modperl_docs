@@ -16,8 +16,8 @@ APR::Bucket - Perl API for manipulating APR Buckets
   $b2->is_eos;
   $b3->is_flush;
   
-  $len  = $b1->length;
-  $data = $b1->read;
+  $len = $b1->length;
+  $len = $b1->read($data);
   $type = $b1->type;
   
   $b1->insert_after($b2);
@@ -332,8 +332,8 @@ now the bucket contains the string I<'dat'>.
 
 Read the data from the bucket.
 
-  $data = $b->read();
-  $data = $b->read($block);
+  $len = $b->read($buffer,);
+  $len = $b->read($buffer, $block);
 
 =over 4
 
@@ -342,7 +342,11 @@ Read the data from the bucket.
 
 The bucket to read from
 
-=item opt arg1: C<$block> ( C<L<APR::Const :read_type
+=item arg1: C<$buffer> ( SCALAR )
+
+The buffer to fill. All previous data will be lost.
+
+=item opt arg2: C<$block> ( C<L<APR::Const :read_type
 constant|docs::2.0::api::APR::Const/C__read_type_>> )
 
 optional reading mode constant.
@@ -350,10 +354,12 @@ optional reading mode constant.
 By default the read is blocking, via C<L<APR::BLOCK_READ
 constant|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>>.
 
-=item ret: C<$data> ( string )
+=item ret: C<$len> ( number )
 
-the read data buffer. The buffer will contain an empty string if no
-data was read.
+How many bytes were actually read
+
+C<$buffer> gets populated with the string that is read. It will
+contain an empty string if there was nothing to read.
 
 =item since: 1.99_15
 
@@ -365,12 +371,15 @@ Examples:
 
 Blocking read:
 
-  my $data = $b->read();
+  my $len = $b->read(my $buffer);
 
 Non-blocking read:
 
   use APR::Const -compile 'NONBLOCK_READ';
-  my $data = $b->read(APR::NONBLOCK_READ);
+  my $len = $b->read(my $buffer, APR::NONBLOCK_READ);
+
+
+
 
 
 
