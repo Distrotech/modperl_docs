@@ -226,7 +226,7 @@ And we give it a whirl:
 Here is the code:
 
   file:MyApache/EchoSocket.pm
-  ------------------
+  ---------------------------
   package MyApache::EchoSocket;
   
   use strict;
@@ -326,8 +326,8 @@ And try the new connection handler in action:
 
   Connection closed by foreign host.
 
-As you can see the response now was all in lower case, because of the
-output filter.
+As you can see the response part this time was all in lower case,
+because of the output filter.
 
 And here is the implementation of the connection and the filter
 handlers.
@@ -340,25 +340,27 @@ handlers.
   use warnings FATAL => 'all';
   
   use Apache::Connection ();
+  use APR::Socket ();
   use APR::Bucket ();
   use APR::Brigade ();
-  use APR::Util ();
+  use APR::Error ();
   
-  use APR::Const -compile => qw(SUCCESS EOF);
+  use APR::Const    -compile => qw(SUCCESS EOF SO_NONBLOCK);
   use Apache::Const -compile => qw(OK MODE_GETLINE);
   
   sub handler {
       my $c = shift;
   
+      $c->client_socket->opt_set(APR::SO_NONBLOCK => 0);
+  
       my $bb_in  = APR::Brigade->new($c->pool, $c->bucket_alloc);
       my $bb_out = APR::Brigade->new($c->pool, $c->bucket_alloc);
-      my $last = 0;
   
       while (1) {
-          my $rv = $c->input_filters->get_brigade($bb_in,
+          my $rc = $c->input_filters->get_brigade($bb_in,
                                                   Apache::MODE_GETLINE);
-          if ($rv != APR::SUCCESS && $rv != APR::EOF) {
-              my $error = APR::strerror($rv);
+          if ($rc != APR::SUCCESS && $rc != APR::EOF) {
+              my $error = APR::Error::strerror($rc);
               warn __PACKAGE__ . ": get_brigade: $error\n";
               last;
           }
@@ -375,26 +377,23 @@ handlers.
                   last;
               }
   
-              my $data;
-              my $status = $bucket->read($data);
-              return $status unless $status == APR::SUCCESS;
-  
-              if ($data) {
-                  $last++ if $data =~ /^[\r\n]+$/;
-                  # could do something with the data here
+              my $data = $bucket->read;
+              if (length $data) {
+                  last if $data =~ /^[\r\n]+$/;
+                  # could do some transformation on data here
                   $bucket = APR::Bucket->new($data);
               }
   
               $bb_out->insert_tail($bucket);
           }
   
-          my $b = APR::Bucket::flush_create($c->bucket_alloc);
-          $bb_out->insert_tail($b);
+          my $fb = APR::Bucket::flush_create($c->bucket_alloc);
+          $bb->insert_tail($fb);
           $c->output_filters->pass_brigade($bb_out);
-          last if $last;
       }
   
       $bb_in->destroy;
+      $bb_out->destroy;
   
       Apache::OK;
   }
@@ -440,6 +439,19 @@ bucket is created and added as the last bucket, so when the outgoing
 bucket brigade is passed out to the outgoing connection filters, it
 won't be buffered but sent to the client right away.
 
+It's possible to make the flushing code simpler, by using a dedicated
+method C<L<fflush()|docs::2.0::api::Apache::Filter/C_fflush_>> that
+does just that -- flushing of the bucket brigade. It replaces 3 lines
+of code:
+
+          my $fb = APR::Bucket::flush_create($c->bucket_alloc);
+          $bb_out->insert_tail($fb);
+          $c->output_filters->pass_brigade($bb_out);
+
+with just one line:
+
+          $c->output_fiilters->fflush($bb_out);
+
 If you look at the complete handler, the loop is terminated when one
 of the following conditions occurs: an error happens, the end of
 stream bucket has been seen (no more input at the connection) or when
@@ -455,25 +467,38 @@ that transforms the data which has been read from the bucket before
 it's inserted to the outgoing brigade.
 
 We will skip the filter discussion here, since we are going to talk in
-depth about filters in the dedicated to filters sections. But all you
-need to know at this stage is that the data sent from the connection
-handler is filtered by the outgoing filter and which transforms it to
-be all lowercase.
+depth about filters in L<the dedicated to filters
+tutorial|docs::2.0::user::handlers::filter>. But all you need to know
+at this stage is that the data sent from the connection handler is
+filtered by the outgoing filter and which transforms it to be all
+lowercase.
 
-Also it's worth mentioning
-C<L<fflush()|docs::2.0::api::Apache::Filter/C_fflush_>>, which can
-replace 3 lines of code:
+And here is the simplified version of this handler, which doesn't
+attempt to do any transformation, but simply passes the data though:
 
-          my $b = APR::Bucket::flush_create($c->bucket_alloc);
-          $bb_out->insert_tail($b);
-          $c->output_filters->pass_brigade($bb_out);
-
-with just one line:
-
-          $c->output_fiilters->fflush($bb_out);
-
-
-
+  sub handler {
+      my $c = shift;
+  
+      $c->client_socket->opt_set(APR::SO_NONBLOCK => 0);
+  
+      my $bb = APR::Brigade->new($c->pool, $c->bucket_alloc);
+  
+      while (1) {
+          my $rc = $c->input_filters->get_brigade($bb,
+                                                  Apache::MODE_GETLINE);
+          if ($rc != APR::SUCCESS && $rc != APR::EOF) {
+              my $error = APR::Error::strerror($rc);
+              warn __PACKAGE__ . ": get_brigade: $error\n";
+              last;
+          }
+  
+          $c->output_filters->fflush($bb);
+      }
+  
+      $bb->destroy;
+  
+      Apache::OK;
+  }
 
 
 
