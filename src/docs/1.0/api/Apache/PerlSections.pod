@@ -36,7 +36,7 @@ Example:
      Options => "ExecCGI",
   };
  
-  @DocumentIndex = qw(index.htm index.html);
+  @DirectoryIndex = qw(index.htm index.html);
  
   $VirtualHost{"www.foo.com"} = {
      DocumentRoot => "/tmp/docs",
@@ -64,7 +64,7 @@ This will print something like this:
   
   #arrays:
   
-  @DocumentIndex = (
+  @DirectoryIndex = (
     'index.htm',
     'index.html'
   );
