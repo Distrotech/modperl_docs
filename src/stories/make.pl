@@ -128,7 +128,7 @@ use vars qw(@c);
 
       title => "Extraordinaire Technologie",
 
-      abstract => "A single picture is worth a thousand words...",
+      abstract => "Read reports from people using mod_perl",
 
       body => {
           bot => 'index_bot.html',
