@@ -2378,15 +2378,27 @@ test is running under the same interpreter.
 
 =head2 Helper Functions
 
-C<Apache::TestUtil> provides several helper functions for writing
-tests, such as: C<t_cmp()>, C<t_debug()>, C<t_append_file()>,
-C<t_write_file()>, C<t_open_file()>, C<t_mkdir()>, C<t_rmtree()>, and
-C<t_is_equal()>, C<t_server_log_error_is_expected()>,
-C<t_server_log_warn_is_expected()>,
-C<t_client_log_error_is_expected()>,
-C<t_client_log_warn_is_expected()>. See the
-C<L<Apache::TestUtil|docs::2.0::api::Apache::TestUtil>> manpage for
-more information.
+C<Apache::TestUtil> provides other helper functions, useful for
+writing tests, not mentioned in this tutorial:
+
+  t_cmp()
+  t_debug()
+  t_append_file()
+  t_write_file()
+  t_open_file()
+  t_mkdir()
+  t_rmtree()
+  t_is_equal()
+  t_write_perl_script()
+  t_write_shell_script()
+  t_chown()
+  t_server_log_error_is_expected()
+  t_server_log_warn_is_expected()
+  t_client_log_error_is_expected()>
+  t_client_log_warn_is_expected()>
+
+See the C<L<Apache::TestUtil|docs::2.0::api::Apache::TestUtil>>
+manpage for more information.
 
 =head2 Auto Configuration
 
