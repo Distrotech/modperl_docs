@@ -22,16 +22,14 @@ C<Apache::RequestRec> provides the Perl API for Apache request object.
 Function arguments (if any) and return values are shown in the
 function's synopsis.
 
-=over
-
-=item * server()
+=head2 server()
 
   $s = $r->server;
 
 Gets the C<Apache::Server> object for the server the request C<$r> is
 running under.
 
-=item * dir_config()
+=head2 dir_config()
 
 dir_config() provides an interface for the per-directory variable
 specified by the C<PerlSetVar> and C<PerlAddVar> directives, and also
@@ -75,7 +73,7 @@ If C<$val> is I<undef> the unset() operation will happen: all existing
 values associated with the key C<$key> (and the key itself) will be
 deleted.
 
-=item * ap_auth_type()
+=head2 ap_auth_type()
 
 C<$r-E<gt>ap_auth_type> gets or sets the I<ap_auth_type> slot in the
 request record.
@@ -96,9 +94,17 @@ mechanism then you will have to populate I<ap_auth_type> yourself.
 Note that C<$r-E<gt>ap_auth_type> was C<$r-E<gt>connection-E<gt>auth_type>
 in the mod_perl 1.0 API.
 
-=item *
+=head2 main()
 
-=back
+  $main_r = $r->main;
+
+If the current request is a sub-request, this method returns a blessed
+reference to the main request structure. If the current request is the
+main request, then this method returns undef.
+
+To figure out whether you are inside a main request or a
+sub-request/internal redirect, use
+C<L<$r-E<gt>is_initial_req|docs::2.0::api::Apache::RequestUtil/is_initial_req__>>.
 
 
 =cut

@@ -17,48 +17,42 @@ META: complete
 Function arguments (if any) and return values are shown in the
 function's synopsis.
 
-=head2 FUNCTIONS
+=head1 FUNCTIONS
 
-=over
-
-=item * Apache-E<gt>request()
-
-=back
+=head2 * Apache-E<gt>request()
 
 
-=head2 METHODS
+=head1 METHODS
 
-=over
+=head2 new()
 
-=item * new()
+=head2 get_server_name()
 
-=item * get_server_name()
+=head2 get_server_port()
 
-=item * get_server_port()
+=head2 dir_config()
 
-=item * dir_config()
+=head2 get_status_line()
 
-=item * get_status_line()
+=head2 is_initial_req()
 
-=item * is_initial_req()
+=head2 method_register()
 
-=item * method_register()
+=head2 add_config()
 
-=item * add_config()
+=head2 location()
 
-=item * location()
+=head2 location_merge()
 
-=item * location_merge()
+=head2 no_cache()
 
-=item * no_cache()
+=head2 pnotes()
 
-=item * pnotes()
+=head2 set_basic_credentials()
 
-=item * set_basic_credentials()
+=head2 as_string()
 
-=item * as_string()
-
-=item * push_handlers()
+=head2 push_handlers()
 
   $r->push_handlers(PerlResponseHandler => \&handler);
   $r->push_handlers(PerlResponseHandler => [\&handler, \&handler2]);
@@ -66,12 +60,8 @@ function's synopsis.
   # XXX: not implemented yet
   $r->push_handlers(PerlResponseHandler => sub {...});
 
-=item * add_handlers()
+=head2 add_handlers()
 
-=item * get_handlers()
-
-
-=back
-
+=head2 get_handlers()
 
 =cut
