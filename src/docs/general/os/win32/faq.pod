@@ -187,6 +187,18 @@ application. If you would like to take output from that application then
 you should write to STDOUT all text you want the perl application to see 
 as a return value from your C<qx> or `` (backticks) call.
 
+=head2 My server crashes when trying to use DBI.
+
+Try upgrading to the newest version of DBI, and also the
+appropriate DBD::* driver. If this doesn't help, it may
+mean that the database driver may need some changes to work
+in a multi-threaded environment.
+
+=head2 An error about not being able to load a file results when using DBD::mysql.
+
+Try putting the path to your mysql DLLs (eg, F<D:\mysql\lib\opt>) in
+your I<PATH> environment variable.
+
 =head1 See Also
 
 The discussion of 
