@@ -45,7 +45,7 @@ C<Apache::Directive> allows its users to search and navigate the
 internal Apache configuration.
 
 Internally, this information is stored in a tree structure. Each node
-in the tree has a reference to it's parent (if it's not the root), its
+in the tree has a reference to its parent (if it's not the root), its
 first child (if any), and to its next sibling.
 
 =head1 Class Methods
@@ -68,7 +68,7 @@ function's synopsis.
 
   $node = $node->next;
 
-Returns the next sibbling of C<$node>, C<undef> otherwise
+Returns the next sibling of C<$node>, C<undef> otherwise
 
 =head2 C<first_child()>
 
