@@ -1404,9 +1404,12 @@ For more information refer to the perlfunc manpage.
 
 use(), just like require(), loads and compiles files containing Perl
 code, but it works with
-L<modules|guide::perl/Modules__Libraries_and_Program_Files> only.  The only way to
-pass a module to load is by its module name and not its filename.  If
-the module is located in I<MyCode.pm>, the correct way to use() it is:
+L<modules|guide::perl/Modules__Libraries_and_Program_Files> only and
+is executed at compile time.
+
+The only way to pass a module to load is by its module name and not
+its filename.  If the module is located in I<MyCode.pm>, the correct
+way to use() it is:
 
   use MyCode
 
@@ -1755,7 +1758,7 @@ In the I<startup.pl> we might have the following code:
   my $base_dir      = $s->dir_config('FooBaseDir')      || '';
   my $config_module = $s->dir_config('FooConfigModule') || '';
   die "FooBaseDir and FooConfigModule aren't set in httpd.conf" 
-    unless $base_dir and $config_module;
+      unless $base_dir and $config_module;
   
   # build the real path to the config module
   my $path = "$base_dir/$config_module";
