@@ -1,16 +1,36 @@
+=head1 NAME
+
+perl.apache.org site's Images Specs
+
+=head1 DESCRIPTION
+
 This document explains how images were created so new images of the
 same look-n-feel can be added.
 
-* favicon.ico:
+=head1 The Logo:
 
-  created as:
+  font: Trebuchet MS
+  size: ???
 
-  pmtowinicon -output favicon.ico favicon.pnm
+It's a free truetype font from MS. You can grab it from this page:
 
-  pnm is 16x16px image (included here)
+  http://www.microsoft.com/typography/fontpack/default.htm
 
-* navigation images:
+The "mod" is the regular style and the "perl" is in bold.
 
-  are all created using:
-  font:
-  size:
+=head1 The Navigation Images
+
+Are all created using:
+
+  font: ???
+  size: ???
+
+=head1 favicon.ico
+
+Created as:
+
+  % pmtowinicon -output favicon.ico favicon.pnm
+
+pnm is 16x16px image (included here)
+
+=cut
