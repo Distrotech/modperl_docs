@@ -278,7 +278,7 @@ Subroutines|guide::perl/Remedies_for_Inner_Subroutines>' discusses
 many other possible workarounds for this problem.
 
 You shouldn't be intimidated by this issue at all, since Perl is your
-friend. Just keep the warnings mode B<On> and Perl will gladly tell
+friend. Just keep the warnings mode C<On> and Perl will gladly tell
 you whenever you have this effect, by saying:
 
   Variable "$counter" will not stay shared at ...[snipped]
@@ -357,7 +357,7 @@ difficulty noticing and locating real problems--and on a production
 server you'll soon run out of disk space if your site is popular.
 
 Of course none of the warnings will be reported if the warning
-mechanism is not turned B<On>. Refer to the section "L<Tracing
+mechanism is not turned C<On>. Refer to the section "L<Tracing
 Warnings Reports|guide::perl/Tracing_Warnings_Reports>" to learn about
 warnings in general and to the "L<Warnings|guide::porting/Warnings>" section
 to learn how to turn them on and off under mod_perl.
@@ -463,7 +463,7 @@ The obvious fix is:
 
 =head2 Regular Expression Memory
 
-Another good example is usage of the B</o> regular expression
+Another good example is usage of the C</o> regular expression
 modifier, which compiles a regular expression once, on its first
 execution, and never compiles it again. This problem can be difficult
 to detect, as after restarting the server each request you make will
@@ -473,7 +473,7 @@ happens to be served by a child which has already cached the regex
 will you see the problem.  Generally you miss that. When you press
 reload, you see that it works (with a new, fresh child). Eventually it
 doesn't, because you get a child that has already cached the regex
-and won't recompile because of the B</o> modifier.
+and won't recompile because of the C</o> modifier.
 
 An example of such a case would be:
 
@@ -485,7 +485,7 @@ An example of such a case would be:
 To make sure you don't miss these bugs always test your CGI in
 L<single process mode|guide::control/Running_a_Server_in_Single_Process_Mode>.
 
-To solve this particular B</o> modifier problem refer to L<Compiled
+To solve this particular C</o> modifier problem refer to L<Compiled
 Regular Expressions|guide::perl/Compiled_Regular_Expressions>.
 
 =head1 Script's name space
@@ -501,7 +501,7 @@ The basic Perl C<@INC> behaviour is explained in section L<use(), require(),
 do(), %INC and @INC Explained|guide::perl/use_require_do_INC_and>.
 
 When running under mod_perl, once the server is up C<@INC> is frozen
-and cannot be updated.  The only opportunity to B<temporarily> modify
+and cannot be updated.  The only opportunity to I<temporarily> modify
 C<@INC> is while the script or the module are loaded and compiled for
 the first time.  After that its value is reset to the original
 one. The only way to change C<@INC> permanently is to modify it at
@@ -735,7 +735,7 @@ This module is available from L<CPAN|guide::download/CPAN_Downloads>.
 
 =head2 Configuration Files: Writing, Dynamically Updating and Reloading
 
-Checking all the modules in B<%INC> on every request can add a large
+Checking all the modules in C<%INC> on every request can add a large
 overhead to server response times, and you certainly would not want
 the C<Apache::StatINC> module to be enabled in your production site's
 configuration. But sometimes you want a configuration file reloaded
@@ -1744,7 +1744,7 @@ It is interesting that the following scenario will fail too!
   ./tool/tool1.pl
   ./tool/tool2.pl
 
-where C<tool1.pl> and C<tool2.pl> both require() the B<same>
+where C<tool1.pl> and C<tool2.pl> both require() the I<same>
 C<config.pl>.
 
 =back
@@ -1840,7 +1840,7 @@ will be inaccessible from outside the package.
 
 You can leave your scripts unchanged if you import the names of the
 global variables and subroutines into the namespace of package
-B<main::> like this:
+C<main::> like this:
 
   use Module qw(:mysubs sub_b $var1 :myvars);
 
@@ -2388,7 +2388,7 @@ HTTP/1.0 header, the same way it happens with CGI scripts running
 under mod_cgi.  This allows you to keep your CGI scripts unmodified.
 
 You can use C<$ENV{PERL_SEND_HEADER}> to find out whether
-C<PerlSendHeader> is B<On> or B<Off>. You use it in your module
+C<PerlSendHeader> is C<On> or C<Off>. You use it in your module
 like this:
 
  if($ENV{PERL_SEND_HEADER}) {
@@ -2661,10 +2661,10 @@ environment, the interpreter does not exit until the server
 shuts down. However, mod_perl does make a special case for
 C<Apache::Registry> scripts.
 
-Normally, C<END> blocks are executed by Perl during its B<perl_run()>
+Normally, C<END> blocks are executed by Perl during its C<perl_run()>
 function. This is called once each time the Perl program is executed,
 i.e. under mod_cgi, once per invocation of the CGI script. However,
-mod_perl only calls B<perl_run()> once, during server startup. Any
+mod_perl only calls C<perl_run()> once, during server startup. Any
 C<END> blocks encountered during main server startup, i.e. those
 pulled in by the C<PerlRequire> or by any C<PerlModule>, are
 suspended.
@@ -2700,14 +2700,14 @@ performed when the server is stopped or restarted.
 =head1 CHECK And INIT Blocks
 
 These blocks run when compilation is complete, but before the program
-starts. B<CHECK> can mean "checkpoint" or "double-check" or even just
-"stop". B<INIT> stands for "initialization". The difference is subtle;
-B<CHECK> blocks are run just after the compilation ends, B<INIT> just
+starts. C<CHECK> can mean "checkpoint" or "double-check" or even just
+"stop". C<INIT> stands for "initialization". The difference is subtle;
+C<CHECK> blocks are run just after the compilation ends, C<INIT> just
 before the runtime begins. (Hence the C<-c> command-line flag to perl
-runs B<CHECK> blocks but not B<INIT> blocks.)
+runs C<CHECK> blocks but not C<INIT> blocks.)
 
 Perl only calls these blocks during perl_parse(), which mod_perl calls
-once at startup time.  Therefore B<CHECK> and B<INIT> blocks don't work
+once at startup time.  Therefore C<CHECK> and C<INIT> blocks don't work
 for the same reason these don't:
 
   % perl -e 'eval qq(CHECK { print "ok\n" })'
@@ -2739,9 +2739,9 @@ Setting:
 
   PerlWarn On
 
-in C<httpd.conf> will turn warnings B<On> in any script.
+in C<httpd.conf> will turn warnings C<On> in any script.
 
-You can then fine tune your code, turning warnings B<Off> and B<On> by
+You can then fine tune your code, turning warnings C<Off> and C<On> by
 using the C<warnings> pragma in your scripts (or by setting the C<$^W>
 variable, if you prefer to be compatible with older, pre-5.6, perls).
 
@@ -2749,13 +2749,13 @@ variable, if you prefer to be compatible with older, pre-5.6, perls).
 
   #!/usr/bin/perl -w
 
-will turn warnings B<On> for the scope of the script.  You can turn
-them B<Off> and B<On> in the script with C<no warnings;> and C<use
+will turn warnings C<On> for the scope of the script.  You can turn
+them C<Off> and C<On> in the script with C<no warnings;> and C<use
 warnings;> as noted above.
 
 =item * Locally to a block
 
-This code turns warnings mode B<On> for the scope of the block.
+This code turns warnings mode C<On> for the scope of the block.
 
   {
     use warnings;
@@ -2763,7 +2763,7 @@ This code turns warnings mode B<On> for the scope of the block.
   }
   # back to the previous mode here
 
-This turns it B<Off>:
+This turns it C<Off>:
 
   {
     no warnings;
@@ -2771,7 +2771,7 @@ This turns it B<Off>:
   }
   # back to the previous mode here
 
-This turns B<Off> only the warnings from the listed categories :
+This turns C<Off> only the warnings from the listed categories :
 (warnings categories are explicited in the C<perldiag> manpage.)
 
   {
@@ -2789,8 +2789,8 @@ at the beginning of the file.
 
 =back
 
-While having warning mode turned B<On> is essential for a development
-server, you should turn it globally B<Off> in a production server,
+While having warning mode turned C<On> is essential for a development
+server, you should turn it globally C<Off> in a production server,
 since, for example, if every served request generates only one
 warning, and your server serves millions of requests per day, your log
 file will eat up all of your disk space and your system will die.
@@ -2798,7 +2798,7 @@ file will eat up all of your disk space and your system will die.
 =head2 Taint Mode
 
 Perl's C<-T> switch enables I<Taint> mode. (META: Link to security
-chapter). If you aren't forcing all your scripts to run under B<Taint>
+chapter). If you aren't forcing all your scripts to run under C<Taint>
 mode you are looking for trouble from malicious users. (See the
 I<perlsec> manpage for more information)
 
@@ -3030,7 +3030,7 @@ Under perl 5.6.0 we can do this instead:
 
 =head1 Code has been changed, but it seems the script is running the old code
 
-Files pulled in via B<use> or B<require> statements are not
+Files pulled in via C<use> or C<require> statements are not
 automatically reloaded when they change on disk. See L<Reloading Modules
 and Required Files|guide::porting/Reloading_Modules_and_Required_F> for more
 info.
