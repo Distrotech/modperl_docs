@@ -6,11 +6,14 @@ mod_perl and Related Books
 
 This document presents the published mod_perl and related books.
 
-=head1 mod_perl books
+=head1 Learn mod_perl
 
 These are the mod_perl specific books.
 
 =head2 Writing Apache Modules with Perl and C
+
+=for html <img src="../../images/books/wrapmod.jpg" alt="Writing
+Apache Modules with Perl and C" align="right">
 
 http://www.modperl.com is the home site of The Apache Modules Book, a book
 about creating Web server modules using the Apache API, written by
@@ -28,6 +31,9 @@ as:
   746 pages, $34.95
 
 =head2 The mod_perl Developer's Cookbook
+
+=for html <img src="../../images/books/modperlcookbook.jpg" alt="The
+mod_perl Developer's Cookbook" align="right">
 
 Home site: http://www.modperlcookbook.org
 
@@ -51,6 +57,9 @@ E<lt>info {at} modperlbook.comE<gt>.
 
 =head2 mod_perl Pocket Reference
 
+=for html <img src="../../images/books/modperlpr.jpg" alt="mod_perl
+Pocket Reference" align="right">
+
 The I<mod_perl Pocket Reference> by Andrew Ford was published by
 O'Reilly and Associates http://www.oreilly.com/catalog/modperlpr/
 
@@ -67,12 +76,16 @@ http://www.oreilly.com/catalog/apachepr/
 See also Andrew's collection of reference cards for Apache and other
 programs at http://www.refcards.com.
 
+=head1 Learn about a technology using mod_perl
+
 =head2 Embedding Perl in HTML with Mason
 
-While not dealing with mod_perl exclusively, I<Embedding Perl in HTML
-with Mason> discusses Mason, a toolkit for web programming that runs
-under mod_perl, and is therefore very relevant to mod_perl
-programmers.
+=for html <img src="../../images/books/masonbook.jpg" alt="Embedding
+Perl in HTML with Mason" align="right">
+
+I<Embedding Perl in HTML with Mason> discusses Mason
+(http://www.masonhq.com), a toolkit for web programming that runs
+under mod_perl.
 
   Embedding Perl in HTML with Mason
   By Dave Rolsky, Ken Williams
@@ -86,7 +99,30 @@ book as well!), as well as example code and errata. You might also
 want to check out O'Reilly's catalog page for the book:
 http://www.oreilly.com/catalog/perlhtmlmason/
 
-=head1 Books talking about mod_perl
+=head2 Running Weblogs with Slash
+
+=for html <img src="../../images/books/runblogslash.jpg" alt="Running
+Weblogs with Slash" align="right">
+
+Slash (http://www.slashcode.org/) is the open-source software system
+that drives the hugely popular Slashdot (http://www.slashdot.org/) web
+site and many others. Slash implements the kind of web site that has
+come to be called a "weblog": a moderated list, in
+reverse-chronological order, of timely items, with links to further
+discussion on-site, or to further information off-site. Anyone who
+wants to get a weblog site up and running will want to read I<Running
+Weblogs with Slash>.
+
+Slash, like all good things, runs under mod_perl.
+
+See http://www.oreilly.com/catalog/runblogslash/.
+
+  By chromatic, Brian Aker, David Krieger
+  February 2002
+  0-596-00100-2, Order Number: 1002
+  272 pages, $34.95 US, $52.95 CA, £24.95 UK
+
+=head1 Books mentioning mod_perl
 
 Some books mention mod_perl, usually because they have to do with
 Apache, Perl or Linux in a web environment, and as such are required
