@@ -373,4 +373,12 @@ locally.
 Contributions are very welcome, see the same page for details on how
 to submit patches.
 
+
+
+
+=head1 Related Links
+
+"How To Ask Questions The Smart Way" by Eric Steven Raymond and Rick
+Moen: http://www.catb.org/~esr/faqs/smart-questions.html
+
 =cut
