@@ -68,10 +68,10 @@ connection output filters before it's sent to the client. We will talk
 about filters in detail later in this chapter.
 
 Before discussing each handler in detail remember that if you use
-stacked handlers feature (META: add link to where it's discussed [go
-read 1.0 docs for now, as it works the same]) all handlers in the
-chain will be run as long as they return C<Apache::OK> or
-C<Apache::DECLINED>. Because stacked handlers is a special case. So
+L<the stacked handlers
+feature|docs::2.0::user::handlers::intro/Stacked_Handlers> all
+handlers in the chain will be run as long as they return C<Apache::OK>
+or C<Apache::DECLINED>. Because stacked handlers is a special case. So
 don't be surprised if you've returned C<Apache::OK> and the next
 handler was still executed. This is a feature, not a bug.
 
