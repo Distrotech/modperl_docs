@@ -2250,7 +2250,37 @@ they are used. Use my() scoped variables wherever you can.
 
 You should be especially careful with L<Perl Special
 Variables|general::perl_reference::perl_reference/The_Scope_of_the_Special_Perl_Variables> which cannot be
-lexically scoped.  You have to use local() instead.
+lexically scoped.  You have to use C<local()> instead.
+
+Here is an example with Perl hash variables, which store the iteration
+state in the hash variable and that state persists between requests
+unless explicitly reset. Consider the following registry script:
+
+  #file:hash_iteration.pl
+  #----------------------
+  our %hash;
+  %hash = map {$_ => 1 } 'a'..'c' unless %hash;
+  
+  print "Content-type: text/plain\n\n";
+  
+  for (my ($k, $v) = each %hash) {
+      print "$k $v\n";
+      last;
+  }
+
+That script prints different values on the first 3 invocations and
+prints nothing on the 4th, and then repeats the loop. (when you run
+with httpd -X). There are 3 hash key/value pairs in the global
+variable C<%hash>.
+
+In order to get the iteration state to its initial state at the
+beginning of each request, you need to reset the iterator as explained
+in the manpage for the C<each()> operator. So adding:
+
+  keys %hash;
+
+before using C<%hash> solves the problem for the current example.
+
 
 =head1 Generating correct HTTP Headers
 
