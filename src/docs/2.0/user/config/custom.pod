@@ -728,6 +728,322 @@ keys.
   NotifyErrorEmail email_address
 
 
+=head1 Examples
+
+=head2 Merging at Work
+
+In the following example we are going to demonstrate in details how
+merging works, by showing various merging technique.
+
+
+
+  package MyApache::CustomDirectives;
+  
+  use strict;
+  use warnings FATAL => 'all', NONFATAL => 'redefine';
+  
+  use Apache::CmdParms ();
+  use Apache::Module ();
+  use Apache::ServerUtil ();
+  
+  use Apache::Const -compile => qw(OK);
+  
+  our @APACHE_MODULE_COMMANDS = (
+      { name => 'MyPlus' },
+      { name => 'MyList' },
+      { name => 'MyAppend' },
+      { name => 'MyOverride' },
+  );
+  
+  sub MyPlus     { set_val('MyPlus',     @_) }
+  sub MyAppend   { set_val('MyAppend',   @_) }
+  sub MyOverride { set_val('MyOverride', @_) }
+  sub MyList     { push_val('MyList',    @_) }
+  
+  sub DIR_MERGE    { merge(@_) }
+  sub SERVER_MERGE { merge(@_) }
+  
+  sub set_val {
+      my($key, $self, $parms, $arg) = @_;
+      $self->{$key} = $arg;
+      unless ($parms->path) {
+          my $srv_cfg = Apache::Module->get_config($self, $parms->server);
+          $srv_cfg->{$key} = $arg;
+      }
+  }
+  
+  sub push_val {
+      my($key, $self, $parms, $arg) = @_;
+      push @{ $self->{$key} }, $arg;
+      unless ($parms->path) {
+          my $srv_cfg = Apache::Module->get_config($self, $parms->server);
+          push @{ $srv_cfg->{$key} }, $arg;
+      }
+  }
+  
+  sub merge {
+      my($base, $add) = @_;
+  
+      my %mrg = ();
+      for my $key (keys %$base, %$add) {
+          next if exists $mrg{$key};
+          if ($key eq 'MyPlus') {
+              $mrg{$key} = ($base->{$key}||0) + ($add->{$key}||0);
+          }
+          elsif ($key eq 'MyList') {
+              push @{ $mrg{$key} },
+                  @{ $base->{$key}||[] }, @{ $add->{$key}||[] };
+          }
+          elsif ($key eq 'MyAppend') {
+              $mrg{$key} = join " ", grep defined, $base->{$key}, $add->{$key};
+          }
+          else {
+              # override mode
+              $mrg{$key} = $base->{$key} if exists $base->{$key};
+              $mrg{$key} = $add->{$key}  if exists $add->{$key};
+          }
+      }
+  
+      return bless \%mrg, ref($base);
+  }
+  
+  
+  1;
+  __END__
+
+
+  PerlLoadModule MyApache::CustomDirectives
+  MyPlus 5
+  MyList     "MainServer"
+  MyAppend   "MainServer"
+  MyOverride "MainServer"
+  Listen 8081
+  <VirtualHost _default_:8081>
+      MyPlus 2
+      MyList     "VHost"
+      MyAppend   "VHost"
+      MyOverride "VHost"
+      <Location /custom_directives_test>
+          MyPlus 3
+          MyList     "Dir"
+          MyAppend   "Dir"
+          MyOverride "Dir"
+          SetHandler modperl
+          PerlResponseHandler MyApache::CustomDirectivesTest
+      </Location>
+      <Location /custom_directives_test/subdir>
+          MyPlus 1
+          MyList     "SubDir"
+          MyAppend   "SubDir"
+          MyOverride "SubDir"
+      </Location>
+  </VirtualHost>
+  <Location /custom_directives_test>
+      SetHandler modperl
+      PerlResponseHandler MyApache::CustomDirectivesTest
+  </Location>
+
+  package MyApache::CustomDirectivesTest;
+  
+  use strict;
+  use warnings FATAL => 'all', NONFATAL => 'redefine';
+  
+  use Apache::RequestRec ();
+  use Apache::RequestIO ();
+  use Apache::Server ();
+  use Apache::ServerUtil ();
+  use Apache::Module ();
+  
+  use Apache::Const -compile => qw(OK);
+  
+  sub get_config {
+      Apache::Module->get_config('MyApache::CustomDirectives', @_);
+  }
+  
+  sub handler {
+      my($r) = @_;
+      my %secs = ();
+  
+      $r->content_type('text/plain');
+  
+      my $s = $r->server;
+      my $dir_cfg = get_config($s, $r->per_dir_config);
+      my $srv_cfg = get_config($s);
+  
+      if ($s->is_virtual) {
+          $secs{"1: Main Server"}  = get_config(Apache->server);
+          $secs{"2: Virtual Host"} = $srv_cfg;
+          $secs{"3: Location"}     = $dir_cfg;
+      }
+      else {
+          $secs{"1: Main Server"}  = $srv_cfg;
+          $secs{"2: Location"}     = $dir_cfg;
+       }
+  
+      $r->printf("Processing by %s.\n", 
+          $s->is_virtual ? "virtual host" : "main server");
+  
+      for my $sec (sort keys %secs) {
+          $r->print("\nSection $sec\n");
+          for my $k (sort keys %{ $secs{$sec}||{} }) {
+              my $v = exists $secs{$sec}->{$k} ? $secs{$sec}->{$k} : 'UNSET';
+              $v = '[' . (join ", ", map {qq{"$_"}} @$v) . ']'
+                  if ref($v) eq 'ARRAY';
+              $r->printf("%-10s : %s\n", $k, $v);
+          }
+      }
+  
+      return Apache::OK;
+  }
+  
+  1;
+  __END__
+
+
+
+
+  % GET http://localhost:8002/custom_directives_test/
+  
+  Processing by main server.
+  
+  Section 1: Main Server
+  MyAppend   : MainServer
+  MyList     : ["MainServer"]
+  MyOverride : MainServer
+  MyPlus     : 5
+  
+  Section 2: Location
+  MyAppend   : MainServer
+  MyList     : ["MainServer"]
+  MyOverride : MainServer
+  MyPlus     : 5
+
+
+
+  % GET http://localhost:8081/custom_directives_test/
+  
+  Processing by virtual host.
+  
+  Section 1: Main Server
+  MyAppend   : MainServer
+  MyList     : ["MainServer"]
+  MyOverride : MainServer
+  MyPlus     : 5
+  
+  Section 2: Virtual Host
+  MyAppend   : MainServer VHost
+  MyList     : ["MainServer", "VHost"]
+  MyOverride : VHost
+  MyPlus     : 7
+  
+  Section 3: Location
+  MyAppend   : MainServer VHost Dir
+  MyList     : ["MainServer", "VHost", "Dir"]
+  MyOverride : Dir
+  MyPlus     : 10
+
+  % GET http://localhost:8081/custom_directives_test/subdir/
+  
+  Processing by virtual host.
+  
+  Section 1: Main Server
+  MyAppend   : MainServer
+  MyList     : ["MainServer"]
+  MyOverride : MainServer
+  MyPlus     : 5
+  
+  Section 2: Virtual Host
+  MyAppend   : MainServer VHost
+  MyList     : ["MainServer", "VHost"]
+  MyOverride : VHost
+  MyPlus     : 7
+  
+  Section 3: Location
+  MyAppend   : MainServer VHost Dir SubDir
+  MyList     : ["MainServer", "VHost", "Dir", "SubDir"]
+  MyOverride : SubDir
+  MyPlus     : 11
+
+
+
+
+=head3 Merging Entries Whose Values Are References
+
+When merging entries whose values are references and not scalars, it's
+important to make a deep copy and not a shallow copy, when the
+references gets copied. In our example we merged two references to
+lists, by explicitly extracting the values of each list:
+
+  push @{ $mrg{$key} },
+      @{ $base->{$key}||[] }, @{ $add->{$key}||[] };
+
+While seemingly the following snippet is doing the same:
+
+  $mrg{$key} = $base->{$key};
+  push @{ $mrg{$key} }, @{ $add->{$key}||[] };
+
+it won't do what you expect if the same merge (with the same C<$base>
+and C<$add> arguments) is called more than once, which is the case in
+certain cases. What happens in the latter implementation, is that the
+first line makes both C<$mrg{$key}> and C<$base-E<gt>{$key}> point to
+the same reference. When the second line expands the C<@{ $mrg{$key}
+}>, it also affects C<@{ $base-E<gt>{$key} }>. Therefore when the same
+merge is called second time, the C<$base> argument is not the same
+anymore.
+
+Certainly we could workaround this problem in the mod_perl core, by
+freezing the arguments before the merge call and restoring them
+afterwards, but this will incur a performance hit. One simply has to
+remember that the arguments and the references they point to, should
+stay unmodified through the function call, and then the right code can
+be supplied.
+
+=head3 Merging Order Consequences
+
+Sometimes the merging logic can be influenced by the order of merging.
+It's desirable that the logic will work properly regardless of the
+merging order.
+
+In Apache 1.3 the merging was happening in the following order:
+
+  (((base_srv -> vhost) -> section) -> subsection)
+
+Whereas as of this writing Apache 2.0 performs:
+
+  ((base_srv -> vhost) -> (section -> subsection))
+
+A product of subsections merge (which happen during the request) is
+merged with the product of the server and vhost merge (which happens
+at the startup time). This change was done to improve the
+configuration merging performance.
+
+So for example, if you implement a directive C<MyExp> which performs
+the exponential: C<$mrg=$base**$add>, and let's say there directive is
+used four times in I<httpd.conf>:
+
+  MyExp 5
+  <VirtualHost _default_:8001>
+       MyExp 4
+       <Location /section>
+           MyExp 3
+       </Location>
+       <Location /section/subsection>
+           MyExp 2
+       </Location>
+
+The merged configuration for a request
+I<http://localhost/:8001/section/subsection> will see:
+
+  (5 ** 4) ** (3 ** 2)  = 1.45519152283669e+25
+
+under Apache 2.0, whereas under Apache 1.3 the result would be:
+
+  ( (5 ** 4) ** 3) ** 2 = 5.96046447753906e+16
+
+which is not quite the same.
+
+Chances are that your merging rules work identically, regardless of
+the merging order. But you should be aware of this behavior.
 
 
 =head1 Maintainers
