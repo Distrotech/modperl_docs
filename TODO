@@ -55,7 +55,7 @@ Content:
 
 =for html <hr>
 <p><b>
-$Id: TODO,v 1.79 2002/08/02 02:29:46 stas Exp $
+$Id: TODO,v 1.80 2002/10/14 09:36:15 pereinar Exp $
 </b></p>
 
 =cut
@@ -175,7 +175,6 @@ Later:
   Igor :-)
 
 - mod_perl history page in About section [Per Einar]
-  "How to pronounce mod_perl"
 
 - Figure out a way to get the SecuritySpace statistics as a nice graph
   on our page, looks more impressive if it's locally hosted like the
