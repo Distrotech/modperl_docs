@@ -61,6 +61,10 @@ http://marc.theaimsgroup.com/?l=apache-modperl&r=1&w=2#apache-modperl
 
 http://msgs.securepoint.com/cgi-bin/get/apache-current.html 
 
+=item * aspn.activestate.com
+
+http://aspn.activestate.com/ASPN/Mail/Browse/Threaded/modperl 
+
 =item * groups.yahoo.com
 
 http://groups.yahoo.com/group/modperl/ 
