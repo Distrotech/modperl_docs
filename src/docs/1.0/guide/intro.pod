@@ -503,6 +503,8 @@ Credits of course go to ( alphabetically sorted ):
 
 =item * Andrew Ford
 
+=item * Andrew McNaughton
+
 =item * Anthony D. Ettinger
 
 =item * Artur Zambrzycki
@@ -665,6 +667,8 @@ Credits of course go to ( alphabetically sorted ):
 
 =item * Joshua Chamas
 
+=item * Karl Olson
+
 =item * Kavitha
 
 =item * Kees Vonk
@@ -684,6 +688,8 @@ Credits of course go to ( alphabetically sorted ):
 =item * Leslie Mikesell
 
 =item * Lincoln Stein
+
+=item * Louis Semprini
 
 =item * Lupe Christoph
 
@@ -743,9 +749,13 @@ Credits of course go to ( alphabetically sorted ):
 
 =item * Patrick
 
+=item * Paul Buder
+
 =item * Paul Cotter
 
 =item * Pavel Shmidt
+
+=item * Per Einar Ellefsen
 
 =item * Perrin Harkins
 
@@ -762,6 +772,8 @@ Credits of course go to ( alphabetically sorted ):
 =item * Philip Newton
 
 =item * Radu Greab
+
+=item * Rafael Garcia-Suarez
 
 =item * Ralf Engelschall
 
@@ -820,6 +832,10 @@ Credits of course go to ( alphabetically sorted ):
 =item * Terry West
 
 =item * Tim Bunce
+
+=item * Tim Noll
+
+=item * Thomas Klausner
 
 =item * Todd Finney
 
