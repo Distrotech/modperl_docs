@@ -31,14 +31,39 @@ server.
 
 =head2 SegFaults During Startup
 
+Possible reasons and solutions:
+
+=over
+
+=item *
+
 You have to build mod_perl with the same compiler as Perl was built
 with. Otherwise you may see segmentation faults and other weird things
 happen.
 
-However if this is not the situation and you still experience
-segmentation faults, please refer to the I<SUPPORT> file in the
-mod_perl source distribution and post the trace from the core file as
-explained there.
+=item *
+
+This could be the XSLoader vs. DynaLoader problem, where the list of
+dl_handles created by XSLoader is wiped out by DynaLoader.  Try
+adding:
+
+  use DynaLoader (); 
+
+to your I<startup.pl> before any other module is loaded.
+
+This has been resolved in perl 5.8.0. For earlier versions of Perl you
+need to comment out:
+
+  #@dl_librefs         = ();       # things we have loaded
+  #@dl_modules         = ();       # Modules we have loaded
+
+in I<DynaLoader.pm>.
+
+=back
+
+However if none of this cases applies and you still experience
+segmentation faults, please report the problem using the L<following
+guidelines|guide::help/How_to_Report_Problems>.
 
 =head2 libexec/libperl.so: open failed: No such file or directory
 
