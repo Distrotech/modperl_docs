@@ -155,12 +155,13 @@ available from CPAN. If you know of other modules that have been
 ported but not listed here, please contact L<the modperl
 list|maillist::modperl>, so we can update this information:
 
-  CGI
-  CGI::Cookie
-  Apache::Peek
+  Apache::AuthExpire
   Apache::AuthNetLDAP
   Apache::AuthzNetLDAP
   Apache::Clean
+  Apache::Peek
+  CGI
+  CGI::Cookie
 
 =head1 Porting in Process
 
