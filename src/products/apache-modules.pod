@@ -155,26 +155,30 @@ available from CPAN. If you know of other modules that have been
 ported but not listed here, please contact L<the modperl
 list|maillist::modperl>, so we can update this information:
 
-  Module Name                 Required Dist Package
-  -------------------------------------------------
-  Apache::ASP                Apache-ASP-2.55
-  Apache::AuthExpire         Apache-AuthExpire-0.38
-  Apache::AuthNetLDAP        Apache-AuthNetLDAP-0.25
-  Apache::AuthPerLDAP        Apache-AuthPerLDAP-2.01
-  Apache::AuthenNIS          Apache-AuthenNIS-0.11
-  Apache::AuthenNTLM         Apache-AuthenNTLM-2.04
-  Apache::AuthenPasswd       Apache-AuthenPasswd-0.12
-  Apache::AuthenSmb          Apache-AuthenSmb-0.70
-  Apache::AuthzNIS           Apache-AuthzNIS-0.11
-  Apache::AuthzNetLDAP       Apache-AuthzNetLDAP-0.07
-  Apache::AuthzPasswd        Apache-AuthzPasswd-0.11
-  Apache::Clean              Apache-Clean-2.00_4
-  Apache::GeoIP              Apache-GeoIP-1.215
-  Apache::PAR                Apache-PAR-0.30
-  Apache::Peek               Apache-Peek-1.01
-  Apache::SessionManager     Apache-SessionManager 1.00
-  CGI                        CGI.pm-2.93
-  CGI::Cookie                CGI.pm-2.93 (comes in the CGI dist)
+  Module Name                        Required Dist Package
+  --------------------------------------------------------
+  Apache::ASP                       Apache-ASP-2.55
+  Apache::AuthExpire                Apache-AuthExpire-0.38
+  Apache::AuthNetLDAP               Apache-AuthNetLDAP-0.25
+  Apache::AuthPerLDAP               Apache-AuthPerLDAP-2.01
+  Apache::AuthenNIS                 Apache-AuthenNIS-0.11
+  Apache::AuthenNTLM                Apache-AuthenNTLM-2.04
+  Apache::AuthenPasswd              Apache-AuthenPasswd-0.12
+  Apache::AuthenSmb                 Apache-AuthenSmb-0.70
+  Apache::AuthzNIS                  Apache-AuthzNIS-0.11
+  Apache::AuthzNetLDAP              Apache-AuthzNetLDAP-0.07
+  Apache::AuthzPasswd               Apache-AuthzPasswd-0.11
+  Apache::Clean                     Apache-Clean-2.00_4
+  Apache::Filter::HTTPHeadersFixup  Apache-Filter-HTTPHeadersFixup-0.01
+  Apache::GeoIP                     Apache-GeoIP-1.215
+  Apache::PAR                       Apache-PAR-0.30
+  Apache::Peek                      Apache-Peek-1.01
+  Apache::Scoreboard                Apache-Scoreboard-2.01
+  Apache::SessionManager            Apache-SessionManager 1.00
+  Apache::VMonitor                  Apache-VMonitor-2.0
+  CGI                               CGI.pm-2.93
+  CGI::Cookie                       CGI.pm-2.93 (comes in the CGI dist)
+
 
 
 =head1 Porting in Process
@@ -192,8 +196,6 @@ and testing.
   ----------------------------------
   Apache::MP3                Stas Bekman <stas AT stason.org>
                              Clemens Schrimpe <csch AT Kiez.NET>
-  Apache::Scoreboard         Stas Bekman <stas AT stason.org>
-  Apache::VMonitor           Stas Bekman <stas AT stason.org>
   Apache::Request            http://httpd.apache.org/apreq/
   Apache::Language           Philippe M. Chiasson <gozer AT cpan.org>
   Apache::AutoIndex          Philippe M. Chiasson <gozer AT cpan.org>
