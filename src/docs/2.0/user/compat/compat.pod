@@ -222,6 +222,21 @@ options can be passed. See the
 C<L<ModPerl::RegistryLoader|docs::2.0::api::ModPerl::RegistryLoader>>
 manpage for more information.
 
+=head1 Special Environment Variables
+
+=head2 C<$ENV{GATEWAY_INTERFACE}>
+
+The environment variable C<$ENV{GATEWAY_INTERFACE}> is deprecated in
+mod_perl 2.0. Instead use C<$ENV{MOD_PERL}>, which is set to something
+like this:
+
+  mod_perl/1.99_03-dev
+
+However to check the version it's better to use C<$mod_perl::VERSION>:
+
+  use mod_perl;
+  use constant MP2 => ($mod_perl::VERSION >= 1.99);
+
 
 =head1 C<Apache::Constants>
 
