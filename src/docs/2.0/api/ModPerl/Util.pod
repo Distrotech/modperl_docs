@@ -163,8 +163,8 @@ how to properly untaint variables refer to the I<perlsec> manpage.
 
 =head2 C<unload_module>
 
-Unloads a module from the current perl interpreter in the safest
-way possible.
+Unloads a module from the current perl interpreter in the safest way
+possible.
 
   ModPerl::Util::unload_module($module);
 
@@ -172,7 +172,7 @@ way possible.
 
 =item arg1: C<$module> (scalar)
 
-The name of the module to unload
+The package (stash) name to unload.
 
 =item ret: no return value
 
@@ -180,12 +180,12 @@ The name of the module to unload
 
 =back
 
-Unloading a module from Perl is a complicated business. This function 
+Unloading a module from Perl is a complicated business. This function
 tries very hard to do the right thing. After calling this module, it
 should be safe to C<use> a new version of the module.
 
-References to module elements (function, variables, etc) that were taken
-from outside the unloaded module will still be valid.
+References to module elements (function, variables, etc) that were
+taken from outside the unloaded module will still be valid.
 
 
 
