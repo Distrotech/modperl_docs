@@ -8,14 +8,6 @@ Apache -- A ghost mod_perl 2.0 class
 
 There is no Apache class per se.
 
-There are several modules that put their functions into the
-C<Apache::> namespace. For example
-C<L<ModPerl::Util|docs::2.0::api::ModPerl::Util>> defines a function
-C<L<Apache::current_callback()|docs::2.0::api::ModPerl::Util/C_current_callback_>>:
-
-  use ModPerl::Util;
-  my $callback = Apache::current_callback();
-
 There are several modules that require the I<Apache> class as the
 first argument to the class methods that they define. For example
 C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>> defines a

@@ -10,7 +10,7 @@ ModPerl::Util - Helper mod_perl Functions
   use ModPerl::Util;
   
   # e.g. PerlResponseHandler
-  $callback = Apache::current_callback;
+  $callback = ModPerl::Util::current_callback;
   
   # exit w/o killing the interpreter
   ModPerl::Util::exit();
@@ -46,7 +46,7 @@ C<ModPerl::Util> provides the following functions and/or methods:
 Returns the currently running callback name,
 e.g. C<'PerlResponseHandler'>.
 
-  $callback = Apache::current_callback();
+  $callback = ModPerl::Util::current_callback();
 
 =over 4
 

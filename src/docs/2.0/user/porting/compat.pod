@@ -780,8 +780,8 @@ generations.
 =head2 C<$r-E<gt>current_callback>
 
 C<$r-E<gt>current_callback> is now simply a
-C<Apache::current_callback> and can be called for any of the phases,
-including those where C<$r> simply doesn't exist.
+C<ModPerl::Util::current_callback> and can be called for any of the
+phases, including those where C<$r> simply doesn't exist.
 
 C<L<Apache::compat|docs::2.0::api::Apache::compat>> implements
 C<$r-E<gt>current_callback> for backwards compatibility.
