@@ -1193,6 +1193,20 @@ C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 META: examples are needed (for now mod_perl 1.0 docs apply)
 
+=head1 Handling HEAD Requests
+
+In order to avoid the overhead of sending the data to the client when
+the request is of type HEAD in mod_perl 1.0 we L<used to return
+early|docs::1.0::guide::porting/Generating_correct_HTTP_Headers> from
+the handler:
+
+  return OK if $r->header_only;
+
+This logic is no longer needed in mod_perl 2.0, because Apache 2.0
+automatically discards the response body for HEAD requests. (You can
+also read the comment in for C<ap_http_header_filter()> in
+I<modules/http/http_protocol.c> in the Apache 2.0 source.)
+
 =head1 Extending HTTP Protocol
 
 Extending HTTP under mod_perl is a trivial task.  Look at L<the
