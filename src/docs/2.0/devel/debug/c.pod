@@ -665,6 +665,56 @@ pointer will always cause the Segmentation fault).
 
 =head2 Obtaining core Files under Solaris
 
+There are two ways to get core files under Solaris. The first is by
+configuring the system to allow core dumps, the second is by stopping
+the process when it receives the SIGSEGV signal and "manually"
+obtaining the core file.
+
+=head3 Configuring Solaris to Allow core Dumps
+
+
+By default, Solaris 8 won't allow a setuid process to write a core
+file to the file system. Since apache starts as root and spawns
+children as 'nobody', core dumps won't produce core files unless you
+modify the system settings.
+
+To see the current settings, run the coreadm command with no
+parameters and you'll see:
+
+  % coreadm
+      global core file pattern:
+        init core file pattern: core
+             global core dumps: disabled
+        per-process core dumps: enabled
+       global setid core dumps: disabled
+  per-process setid core dumps: disabled
+      global core dump logging: disabled
+
+These settings are stored in the I</etc/coreadm.conf> file, but you
+should set them with the coreadm utility. As super-user, you can run
+coreadm with -g to set the pattern and path for core files (you can
+use a few variables here) and -e to enable some of the disabled
+items. After setting a new pattern, enabling global, global-setid, and
+log, and rebooting the system (reboot is required), the new settings
+look like:
+
+  % coreadm
+      global core file pattern: /usr/local/apache/cores/core.%f.%p
+        init core file pattern: core
+             global core dumps: enabled
+        per-process core dumps: enabled
+       global setid core dumps: enabled
+  per-process setid core dumps: disabled
+      global core dump logging: enabled
+
+Now you'll start to see core files in the designated cores directory
+and they will look like I<core.httpd.2222> where httpd is the name of
+the executable and the 2222 is the process id. The new core files will
+be read/write for root only to maintain some security, and you should
+probably do this on development systems only.
+
+=head3 Manually Obtaining core Dumps
+
 On Solaris the following method can be used to generate a core file.
 
 =over
