@@ -480,11 +480,6 @@ Perl.
 C<chdir()> is not a thread-safe function, therefore
 C<$r-E<gt>chdir_file> is gone from the API.
 
-=head2 C<$r-E<gt>connection-E<gt>user>
-
-This method is deprecated in mod_perl 1.0 and C<$r-E<gt>user> should
-be used instead, for both versions of mod_perl. C<$r-E<gt>user()>
-method is available since mod_perl version 1.24_01.
 
 =head2 C<$r-E<gt>is_main>
 
@@ -626,6 +621,8 @@ I<modules/http/http_protocol.c>.
 
 =head1 C<Apache::Connection>
 
+
+
 =head2 C<$connection-E<gt>auth_type>
 
 The record I<auth_type> doesn't exist in the Apache 2.0's connection
@@ -640,7 +637,9 @@ to set it up for earlier stages than response handler.
 
 =head2  C<$connection-E<gt>user>
 
-See C<L<$connection-E<gt>auth_type|/C__connection_E_gt_auth_type_>>.
+This method is deprecated in mod_perl 1.0 and C<$r-E<gt>user> should
+be used instead for both versions of mod_perl. C<$r-E<gt>user()>
+method is available since mod_perl version 1.24_01.
 
 =head1 C<Apache::File>
 
