@@ -15,6 +15,7 @@ Apache::Command - Perl API for accessing Apache module command information
   while ($cmd) {
     $cmd->args_how();
     $cmd->errmsg();
+    $cmd->name();
     $cmd->req_override();
     $cmd = $cmd->next();
   }
@@ -26,12 +27,8 @@ Apache::Command - Perl API for accessing Apache module command information
 
 =head1 Description
 
-Each Apache module can define a list of configuration commands it
-offers.  This interface gives access to information about these
-configuration commands.  Each module contains a chained-list of
-C<Apache::Command> objects, each representing a single directive.
-
-For example, C<PerlRequire> is a command offered by mod_perl.
+C<Apache::Command> provides the Perl API for accessing Apache module
+command information
 
 
 
@@ -51,16 +48,17 @@ C<Apache::Command> provides the following functions and/or methods:
 
 What the command expects as arguments
 
-  $obj->args_how();
+  $how = $obj->args_how();
 
 =over 4
 
 =item obj: C<$obj>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
-=item ret: ( integer )
+=item ret: C<$how> ( C<L<Apache::Const :cmd_how
+constant|docs::2.0::api::Apache::Const/C__cmd_how_>> )
 
-The flag value representing the type of command (i.e. ITERATE/TAKE2)
+The flag value representing the type of this command (i.e. ITERATE/TAKE2)
 
 =item since: 1.99_12
 
@@ -74,14 +72,14 @@ The flag value representing the type of command (i.e. ITERATE/TAKE2)
 
 'usage' message for that command, in case of syntax errors
 
-  $obj->errmsg();
+  $error = $obj->errmsg();
 
 =over 4
 
 =item obj: C<$obj>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
-=item ret: ( string )
+=item ret: C<$error> ( string )
 
 The error message
 
@@ -99,14 +97,14 @@ The error message
 
 Name of this command
 
-  $name      = $obj->name();
+  $name = $obj->name();
 
 =over 4
 
 =item obj: C<$obj>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
-=item ret: ( string )
+=item ret: C<$name> ( string )
 
 The command name
 
@@ -122,15 +120,18 @@ The command name
 
 The next command in the chain of commands for this module
 
-  $ret = $cmd->next();
+  $next = $cmd->next();
 
 =over 4
 
 =item obj: C<$cmd>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
-=item ret: C<$ret>
+=item ret: C<$next>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
+
+Returns the next command in the chain for this module, undef for
+the last command.
 
 =item since: 1.99_12
 
@@ -147,14 +148,15 @@ The next command in the chain of commands for this module
 
 What overrides need to be allowed to enable this command.
 
-  $obj->req_override
+  $override = $obj->req_override
 
 =over 4
 
 =item obj: C<$obj>
 ( C<L<Apache::Command object|docs::2.0::api::Apache::Command>> )
 
-=item ret: ( integer )
+=item ret: C<$override> ( C<L<Apache::Const :override
+constant|docs::2.0::api::Apache::Const/C__override_>> )
 
 The bit mask representing the overrides this command is allowed in (i.e OR_ALL/ACCESS_CONF)
 
