@@ -182,15 +182,15 @@ C<Apache::Constants> has been replaced by three classes:
 
 =over
 
-=item C<Apache::Const>
+=item C<L<Apache::Const>>
 
 Apache constants
 
-=item C<APR::Const>
+=item C<L<APR::Const>>
 
 Apache Portable Runtime constants
 
-=item C<ModPerl::Const>
+=item C<L<ModPerl::Const>>
 
 mod_perl specific constants
 
@@ -206,8 +206,9 @@ C<Apache::compat> doesn't provide a complete back compatibility layer.
 =head2 Deprecated Constants
 
 C<REDIRECT> and similar constants have been deprecated in Apache for
-years, in favor of the C<HTTP_*> names. mod_perl 2.0 API performs the
-following aliasing behind the scenes:
+years, in favor of the C<HTTP_*> names (they no longer exist Apache
+2.0). mod_perl 2.0 API performs the following aliasing behind the
+scenes:
 
      NOT_FOUND     => 'HTTP_NOT_FOUND',
      FORBIDDEN     => 'HTTP_FORBIDDEN',
