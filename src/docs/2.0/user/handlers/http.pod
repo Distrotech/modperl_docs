@@ -912,8 +912,6 @@ properly authenticated:
   use Apache::RequestUtil ();
   
   use Apache::Const -compile => qw(OK HTTP_UNAUTHORIZED);
-
-  use Apache::Access ();
   
   my %protected = (
       'admin'  => ['stas'],
