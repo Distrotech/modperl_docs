@@ -100,6 +100,28 @@ the same namespace. For example the setting:
 will monitor all modules under the namespaces C<ModPerl::> and
 C<Apache::>.
 
+=head2 Monitor Only Certain Sub Directories
+
+To reload modules only in certain directories (and their
+subdirectories) add the following to the I<httpd.conf>:
+
+  PerlModule Apache::Reload
+  PerlInitHandler Apache::Reload
+  PerlSetVar ReloadDirectories "/tmp/project1 /tmp/project2"
+
+You can further narrow the list of modules to be reloaded from the
+chosen directories with C<ReloadModules> as in:
+
+  PerlModule Apache::Reload
+  PerlInitHandler Apache::Reload
+  PerlSetVar ReloadDirectories "/tmp/project1 /tmp/project2"
+  PerlSetVar ReloadAll Off
+  PerlSetVar ReloadModules "MyApache::*"
+
+In this configuration example only modules from the namespace
+C<MyApache::> found in the directories I</tmp/project1/> and
+I</tmp/project2/> (and their subdirectories) will be reloaded.
+
 =head2 Special "Touch" File
 
 You can also declare a file, which when gets C<touch(1)>ed, causes the
