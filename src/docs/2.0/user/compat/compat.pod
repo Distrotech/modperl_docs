@@ -77,17 +77,33 @@ as early as possible:
 
 at the server startup.
 
-=head2 gensym
+=head2 Apache::gensym
 
 Since Perl 5.6.1 filehandlers are autovivified and there is no need
-for gensym() function, since now it can be done with:
+for C<Apache::gensym()> function, since now it can be done with:
 
   open my $fh, "foo" or die $!;
 
 The C function modperl_perl_gensym() is available for XS/C extension
 writers, though.
 
-=head2 Apache::File
+=head1 Apache::File
+
+
+
+
+=head1 Apache::Util
+
+A few C<Apache::Util> functions have changed their interface.
+
+=head2 Apache::Util::size_string
+
+C<Apache::Util::size_string> has been replaced with
+C<APR::String::format_size>, which returns formatted strings of only 4
+characters long. See the C<APR::String> manpage for more information.
+
+
+
 
 
 =head1 Miscellaneous
