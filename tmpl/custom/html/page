@@ -27,40 +27,12 @@
 
 <!-- left box begin -->
 <div class="leftbox">
-    <!-- menu main begin -->
 
-[%- INCLUDE menu_main
+    [%- INCLUDE left_box
         nav=doc.nav
         rel_doc_root=doc.dir.rel_doc_root;
--%]
+    -%]
 
-    <!-- menu main end -->
-
-    <br>
-
-    <!-- search begin -->
-
-[%- INCLUDE search -%]
-
-    <!-- search end -->
-
-    <br>
-
-    <!-- menu links begin -->
-
-[%- INCLUDE menu_links -%]
-
-    <!-- menu links end -->
-
-    <br>
-
-    <!-- ad begin -->
-
-[%- INCLUDE ad -%]
-
-    <!-- ad end -->
-
-    <br><br>
 </div>
 <!-- left box end -->
 
