@@ -17,7 +17,7 @@
         </tr>
 
         <tr>
-            <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+            <td class="menu-border" colspan="3" height="1"><small class="nbr"><small class="nbr"><br class="smallbr"></small></small></td>
         </tr>
 
         <tr>
@@ -35,7 +35,7 @@
         </tr>
 
         <tr>
-            <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+            <td class="menu-border" colspan="3" height="1"><small class="nbr"><br class="smallbr"></small></td>
         </tr>
 
         <tr>
@@ -53,6 +53,6 @@
         </tr>
 
         <tr>
-            <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+            <td class="menu-border" colspan="3" height="1"><small class="nbr"><br class="smallbr"></small></td>
         </tr>
 [% END %]

@@ -15,20 +15,20 @@
 -%]
 [%- IF prev_link || next_link || (rel_doc_root && rel_doc_root != '.') -%]
     [%- IF prev_link -%]
-<a href="[%- prev_link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_prev.gif" alt="previous page: [% prev.meta.title | html %]" border="0" width="48" height="20"></a>
+<a href="[%- prev_link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_prev.gif" alt="previous page: [% prev.meta.title | html %]" border="0" width="48" height="16"></a>
     [%- ELSE -%]
-<img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_noprev.gif" alt="no previous page" border="0" width="48" height="20">
+<img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_noprev.gif" alt="no previous page" border="0" width="48" height="16">
     [%- END -%]
     [%- IF rel_doc_root -%]
-<a href="[%- rel_doc_root -%]/index.html"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_parent.gif" alt="page up: [% nav.up.meta.title | html %]" border="0" height="20" width="25"></a>
+<a href="[%- rel_doc_root -%]/index.html"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_parent.gif" alt="page up: [% nav.up.meta.title | html %]" border="0" height="16" width="25"></a>
     [%- ELSE -%]
-<img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_noparent.gif" alt="no parent page" border="0" height="20" width="25">
+<img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_noparent.gif" alt="no parent page" border="0" height="16" width="25">
     [%- END -%]
     [%- IF next_link -%]
-<a href="[%- next_link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_next.gif" alt="next page: [% next.meta.title | html %]" border="0" width="48" height="20"></a>
+<a href="[%- next_link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_next.gif" alt="next page: [% next.meta.title | html %]" border="0" width="48" height="16"></a>
     [%- ELSE -%]
-<img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_nonext.gif" alt="no next page" border="0" width="48" height="20">
+<img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_nonext.gif" alt="no next page" border="0" width="48" height="16">
     [%- END -%]
 [%- ELSE -%]
-<img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif" alt="navigation" border="0" width="123" height="20">
+<!-- XXX: <img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif" alt="navigation" border="0" width="123" height="16">-->
 [%- END -%]

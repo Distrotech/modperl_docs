@@ -1,12 +1,3 @@
-[%-
-    INCLUDE navbar_local_top
-        nav=doc.nav.up
-        rel_doc_root=doc.dir.rel_doc_root;
-
-    INCLUDE title;
--%]
-
-
     <!-- content begin -->
 
 [%-
@@ -27,11 +18,5 @@
 -%]
     <br>
     
-[%-
-    INCLUDE navbar_local_bottom
-        nav=doc.nav.up
-        rel_doc_root=doc.dir.rel_doc_root;
-
--%]
 
     <!-- content end -->

@@ -11,16 +11,18 @@
     <table border="0" cellspacing="0" cellpadding="0" width="100%">
         <tr valign="top">
 
-            [%- INCLUDE logo -%]
-            [%- INCLUDE navbar_global
+            [%- INCLUDE logo;
+            
+                INCLUDE navbar_global
                     nav=doc.nav
                     rel_doc_root=doc.dir.rel_doc_root;
-            -%]
 
-            <!-- camel begin -->
-            <td align="right"><img src="[%- doc.dir.abs_doc_root -%]/images/logo/logo_blend_camel.gif" border="0" alt="mod_perl icon" width="40" height="49"></td>
-            <!-- camel end -->
-        </tr>
+                INCLUDE navbar_local_top
+                    nav=doc.nav
+                    rel_doc_root=doc.dir.rel_doc_root;
+
+                INCLUDE title;
+            -%]
     </table>
 </div>
 <!-- logobox end -->
@@ -38,15 +40,18 @@
 
 <!-- right box begin-->
 <div class="rightbox">
+
     [%- INCLUDE page_body -%]
-
-    <br>
-    <hr noshade size="1">
-
-    [%- INCLUDE tail -%]
 
 </div>
 <!-- right box end -->
+
+[%-
+    INCLUDE navbar_local_bottom
+            nav=doc.nav
+            rel_doc_root=doc.dir.rel_doc_root;
+%]
+    [%- INCLUDE tail -%]
 
 </body>
 </html>

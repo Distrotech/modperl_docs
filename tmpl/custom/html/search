@@ -18,15 +18,11 @@
     END;
 %]
 
-
-
-
-
     <table border="0" cellspacing="0" cellpadding="0" width="150" align="center">
         <tr>
-            <td class="menu-border" width="1"><br class="smallbr"></td>
-            <td class="menu-border" width="148"><br class="smallbr"></td>
-            <td class="menu-border" width="1"><br class="smallbr"></td>
+            <td class="menu-border" width="1" height="1"><small class="nbr"><br class="smallbr"></small></td>
+            <td class="menu-border" width="148"><small class="nbr"><br class="smallbr"></small></td>
+            <td class="menu-border" width="1"><small class="nbr"><br class="smallbr"></small></td>
         </tr>
 
         <tr>
@@ -38,45 +34,30 @@
         </tr>
 
         <tr>
-            <td class="menu-border" colspan="3"><br class="smallbr"></td>
+            <td class="menu-border" colspan="3" height="1"><small class="nbr"><br class="smallbr"></small></td>
         </tr>
 
         <tr>
             <td class="menu-border"><br></td>
-            <td class="non-sel-bg" align="center">
-                <div class="nonselectedmenuitem">
-                    <form method="GET" action="[% doc.dir.abs_doc_root %]/search/swish.cgi" enctype="application/x-www-form-urlencoded" name="site_search_form">
-                        [% PROCESS search_widget %]
-                    </form>
-                </div>
+            <td class="search-box-bg" align="center">
+                <form class="search-wrap" method="GET" action="[% doc.dir.abs_doc_root %]/search/swish.cgi" enctype="application/x-www-form-urlencoded" name="site_search_form">
+                    [% PROCESS search_widget %]
+                </form>
             </td>
             <td class="menu-border"><br></td>
         </tr>
 
         <tr>
-            <td class="menu-border" colspan="3" height="1"><br class="smallbr"></td>
+            <td class="menu-border" colspan="3" height="1"><small class="nbr"><br class="smallbr"></small></td>
         </tr>
     </table>
-
 
 
 [% BLOCK search_widget %]
-    <table border="0" cellspacing="0" cellpadding="1">
-
-        <tr>
-            <td align="center" nowrap="nowrap">[% search_input %]
-        </tr>
-
-        <tr>
-            <td align="center">[% search_options %]</td>
-        </tr>
-
-        <tr>
-            <td align="center">
-                <input type="submit" name="submit" value="search">
-            </td>
-        </tr>
-    </table>
+            [% search_input %]
+            [% search_options %]
+            <br>
+            <input type="submit" name="submit" value="search" class="inp-submit">
 [% END %]
 
 [% BLOCK build_results_search_widgets %]
@@ -121,7 +102,7 @@
 [% BLOCK build_std_search_widgets %]
 
     [% search_input = BLOCK %]
-        <input type="text" name="query" size="12" maxlength="200" value="">
+        <input type="text" name="query" size="12" maxlength="200" value="" class="inp-text">
     [% END %]
 
     [% search_options = BLOCK %]
@@ -131,6 +112,7 @@
                 Values  => search_areas,
                 Labels  => search_labels,
                 Default => doc.dir.path_from_base,
+                Class => 'inp-select',
                 })
         %]
     [% END %]

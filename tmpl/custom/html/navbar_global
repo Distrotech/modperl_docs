@@ -25,6 +25,8 @@
         IF rel_doc_root.defined;
             path.push(rel_doc_root);
         END;
+        
+        
         nav_not_empty = 1; 
         link = path.join("/");
         sects.push({link => "$link/index.html", text => p.index_node.stitle});
@@ -38,44 +40,52 @@
 -%]
 
 
-            <!-- breadcrumb and topline begin -->
-            <td width="100%" align="left">
-                <table border="0" cellspacing="0" cellpadding="0" width="100%">
-                    <tr valign="bottom">
-                        <td class="navbarglobal" height="31" width="100%">
-                            <!-- breadcrumb start -->
-                [%- IF nav_not_empty == 1 -%]
-                    [%- WRAPPER button 
-                            width = "100%"
-                            align = 'left'
-                    -%]
-                        [%- FOREACH sec = sects -%]
+        <!-- breadcrumb and topline begin -->
+        
+        <!-- this silly width is needed for ns4 due to its default paddings in divs, notably rightbox-div -->
+        <td width="1"><small class="nbr"><br class="smallbr"></small></td>
 
-                            <a href="[%- sec.link -%]"><b>[%- sec.text -%]</b></a> / 
-                        [%- END -%]
-                    [%- END -%]
-                [%- ELSE -%]
-                    <br>
-                [%- END -%]
+        <td class="navbarglobal" height="31" width="100%" valign="bottom">
+            <!-- breadcrumb start -->
+[%- IF nav_not_empty == 1 -%]
+    [%- WRAPPER button 
+            width = "100%"
+            align = 'left'
+    -%]
+        [%- FOREACH sec = sects -%]
 
-                            <!-- breadcrumb end -->
-                        </td>
-                    </tr>
-                    <tr valign="top">
-                        <td height="6"><br class="smallbr"></td>
-                    </tr>
-                    <!-- topline begin -->
-                    <tr valign="top">
-                        <td height="1" class="camel-line-top"><br class="smallbr"></td>
-                    </tr>
-                    <tr valign="top">
-                        <td height="1" class="camel-line-bottom"><br class="smallbr"></td>
-                    </tr>
-                    <!-- topline end -->
-                    <tr valign="top">
-                        <td height="6"><br class="smallbr"></td>
-                    </tr>
-                </table>
-            </td>
-            <!-- breadcrumb and topline end -->
+            <a href="[%- sec.link -%]"><b>[%- sec.text -%]</b></a> / 
+        [%- END -%]
+    [%- END -%]
+[%- ELSE -%]
+    <br>
+[%- END -%]
+
+            <!-- breadcrumb end -->
+        </td>
+        <!-- camel begin -->
+        <td rowspan="2" align="right" valign="bottom"><a href="http://www.perl.com"><img src="[%- doc.dir.abs_doc_root -%]/images/logo/blue_sm_camel.gif" border="0" alt="perl icon" width="27" height="37"></a></td>
+        <td rowspan="2" width="1"><small class="nbr"><br class="smallbr"></small></td>
+        <!-- camel end -->
+    </tr>
+    <tr valign="top">
+        <td colspan="2" height="6"><small class="nbr"><br class="smallbr"></small></td>
+    </tr>
+
+    <!-- topline begin -->
+    <tr valign="top">
+        <td colspan="3" height="1" class="camel-line-top"><small class="nbr"><br class="smallbr"></small></td>
+        <td><small class="nbr"><br class="smallbr"></small></td>
+   </tr>
+    <tr valign="top">
+        <td colspan="3" height="1" class="camel-line-bottom"><small class="nbr"><br class="smallbr"></small></td>
+        <td><small class="nbr"><br class="smallbr"></small></td>
+    </tr>
+    <!-- topline end -->
+
+    <tr valign="top">
+        <td height="3" colspan="4"><small class="nbr"><br class="smallbr"></small></td>
+    </tr>
+
+
 [%- END -%]

@@ -1,16 +1,4 @@
 
-
-[%-
-
-    INCLUDE navbar_local_top
-        nav=doc.nav
-        rel_doc_root=doc.dir.rel_doc_root;
-
-    INCLUDE title;
-
--%]
-
-
     <!-- content begin -->
     [%-
         INCLUDE page_toc toc=doc.toc;
@@ -27,11 +15,7 @@ FOREACH sec = doc.body;
     [%-
     sec;
     "<br><br>\n";
-    IF loop.count == loop.size;
-        INCLUDE navbar_local_bottom
-            nav=doc.nav
-            rel_doc_root=doc.dir.rel_doc_root;
-    ELSE;
+    IF loop.count != loop.size;
         INCLUDE top_link;
     END;
     -%]

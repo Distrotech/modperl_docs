@@ -6,7 +6,6 @@
     # collect the top level data
     # first go up to the absolute root
     l = nav; # remember last valid node 
-
     p = nav.up;
     WHILE p;
         l = p;
@@ -45,7 +44,7 @@
     -%]
 
 [%- WRAPPER wrap_box 
-        title = '<a href="http://perl.apache.org/">perl.apache.org</a>'
+        title = '<a href="http://perl.apache.org/">perl.apache.org</a>';
 -%]
 
 [%- FOREACH but = buttons -%]

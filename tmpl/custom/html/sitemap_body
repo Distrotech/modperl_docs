@@ -3,14 +3,6 @@
    # nav          - cache navigator object
    # rel_doc_root - relative docs path (only for chapters!)
 -%]
-[%-
-    INCLUDE navbar_local_top
-        nav=doc.nav.up
-        rel_doc_root=doc.dir.rel_doc_root;
-
-    INCLUDE title;
--%]
-
 
     <!-- content begin -->
 

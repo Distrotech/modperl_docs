@@ -2,12 +2,14 @@
     # wrap_box - create these nice wrap boxes with a header cell
     # ARGS: title, content
 -%]
+
     <table border="0" cellspacing="0" cellpadding="0" width="150" align="center">
         <tr>
-            <td class="menu-border" width="1"><br class="smallbr"></td>
-            <td class="menu-border" width="148"><br class="smallbr"></td>
-            <td class="menu-border" width="1"><br class="smallbr"></td>
+            <td class="menu-border" width="1" height="1"><small class="nbr"><br class="smallbr"></small></td>
+            <td class="menu-border" width="148"><small class="nbr"><br class="smallbr"></small></td>
+            <td class="menu-border" width="1"><small class="nbr"><br class="smallbr"></small></td>
         </tr>
+
    [%- IF title -%]
 
         <tr>
@@ -19,8 +21,9 @@
         </tr>
 
         <tr>
-            <td class="menu-border" colspan="3"><br class="smallbr"></td>
+            <td class="menu-border" colspan="3" height="1"><small class="nbr"><br class="smallbr"></small></td>
         </tr>
+
    [%- END -%]
    [%- content -%]
 
