@@ -81,7 +81,7 @@ in some test, you can ask him to run the failing test in the verbose
 mode and send you back the report. It'll be much easier to understand
 what the problem is if you get these debug printings from the user.
 
-In the section L<"Writing Tests"> several helper functions which make
+In the section L</"Writing_Tests"> several helper functions which make
 the tests writing easier are discussed.
 
 For more details about the C<Test::Harness> module please refer to its

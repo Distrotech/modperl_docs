@@ -1,7 +1,6 @@
 # things to do for mod_perl site infrastructure
 
-- Need to complete the DocSet's feature of name anchors generation
-  + split for all head[1-4], currently it happens only for head1.
+- Menu: the current page's item shouldn't be hyperlinked
 
 - Internal links (e.g. in src/docs/1.0/guide) aren't hyperlinked.
 

@@ -1,4 +1,4 @@
-[% # top level menu
+[% # top level global menu
    # expects to be set:
    # nav          - cache navigator object
    # rel_doc_root - relative docs path (only for chapters!)
