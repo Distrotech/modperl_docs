@@ -104,11 +104,14 @@ create the report by running the following:
   % perl -MApache2 -MApache::TestReportPerl \
   -le 'Apache::TestReportPerl->new->run'
 
-Now add the problem description to the report and send it to the
-L<list|maillist::modperl>.
+Now add L<the problem description|/Problem_Description> to the report
+and send it to the L<mailing list|maillist::modperl>.
 
 
 =head2 Problem Description
+
+If the problem is with the mod_perl distribution test suite, refer to
+the L<'make test' Failures|/_C_make_test___Failures> section.
 
 If the problem incurs with your own code, please try to reduce the
 code to the very minimum and include it in the bug report. Remember
@@ -124,19 +127,27 @@ Finally don't forget to copy-n-paste (not type!) the B<relevant> part
 of the I<error_log> file (not the whole file!).
 
 To further increase the chances that bugs your code exposes will be
-investigated, try using C<Apache-Test> to create a self-contained
-test that core developers can easily run.  To get you started,
-an C<Apache-Test> bug skeleton has been created:
+investigated, try using
+C<L<Apache-Test|docs::general::testing::testing>> to create a
+self-contained test that core developers can easily run.  To get you
+started, an C<Apache-Test> bug skeleton has been created:
 
 http://perl.apache.org/~geoff/bug-reporting-skeleton-mp2.tar.gz
 
-Detailed instructions are contained within the C<README>.
+Detailed instructions are contained within the C<README> file in that
+distribution.
+
+Finally, if you get a segfault with or without a core dump, refer to
+the L<Resolving Segmentation Faults|/Resolving_Segmentation_Faults>
+section.
 
 =head2 'C<make test>' Failures
 
-If when running 'make test' some of the tests fail, please re-run them
-in the verbose mode and post the output of the run and the contents of
-the I<error_log> file to the list.
+If when running C<make test> some of the tests fail, please re-run
+them in the verbose mode and post the output of that run and the
+contents of the F<t/logs/error_log> file to the list. Please B<do not
+post> the F<t/logs/error_log> file from C<make test> that runs a
+complete test suite, as it contains a lot of irrelevant information.
 
 For example if 'C<make test>' reports:
 
@@ -154,25 +165,30 @@ Do the following:
 or use an altenative way:
 
   % cd modperl-1.99_xx
-  % rm t/logs/error_log
+  % t/TEST -clean
   % t/TEST -verbose compat/apache_util.t modperl/pnotes.t
 
-If you are using the latter, remember to remove the I<error_log> file
-before running tests, so you won't have clutter from the previous
-run. C<make test> always removes the old I<error_log> file for you.
+In the latter approach, C<t/TEST -clean> cleans things up before
+starting a new test. Make sure that you don't forget to run it, before
+running the individual tests.
 
-Also please notice that there is more than one C<make test> run. The
-first one is running at the top directory, the second inside a
-sub-directory I<ModPerl-Registry/>. The first logs errors to
-I<t/logs/error_log>, the second to I<ModPerl-Registry/t/logs/error_log>.
-Therefore if you get failures in the second run, make sure to chdir()
-to that directory before you look at the I<t/logs/error_log> file and
-re-run tests in the verbose mode. For example:
+Now post to the mailing list the output of the individual tests
+running and the contents of F<t/logs/error_log>.
+
+Also please notice that there is more than one C<make test> being
+run. The first one is running at the top directory, the second in a
+sub-directory F<ModPerl-Registry/>. The first logs errors to
+F<t/logs/error_log>, the second too, but relative to
+F<ModPerl-Registry/>. Therefore if you get failures in the second run,
+make sure to C<chdir()> to that directory before you look at the
+I<t/logs/error_log> file and re-run tests in the verbose mode. For
+example:
 
   % cd modperl-1.99_xx/ModPerl-Registry
-  % rm t/logs/error_log
+  % t/TEST -clean
   % t/TEST -verbose closure.t
 
+At the moment the second test suite is not run if the first one fails.
 
 =head2 Resolving Segmentation Faults
 
