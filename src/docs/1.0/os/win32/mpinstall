@@ -10,27 +10,28 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker;
 use LWP::Simple;
-use Archive::Tar;
-use Compress::Zlib;
 use File::Copy;
 use Config;
 use Safe;
 use Digest::MD5;
 use IO::File;
 require Win32;
+require File::Spec;
 
 die "This only works for Win32" unless $^O =~ /Win32/i;
 die "No mod_perl ppm package available for this Perl" if ($] < 5.006001);
 
 my ($apache2, $apache);
+my @drives = drives();
 
 # find a possible Apache2 directory
 APACHE2: {
-    for my $drive ('C'..'G') {
+    for my $drive (@drives) {
         for my $p ('Apache2', 'Program files/Apache2', 
-                   'Program Files/Apache Group/Apache2') { 
-            if (-d "$drive:/$p") {
-                $apache2 = "$drive:/$p";
+                   'Program Files/Apache Group/Apache2') {
+            my $candidate = File::Spec->catpath($drive, $p);
+            if (-d $candidate) {
+                $apache2 = $candidate;
                 last APACHE2;
             }
         }
@@ -45,11 +46,12 @@ if ($apache2) {
 # if no Apache2, try to find Apache1
 unless ($apache2) {
   APACHE: {
-        for my $drive ('C'..'G') {
+        for my $drive (@drives) {
             for my $p ('Apache', 'Program Files/Apache', 
                        'Program Files/Apache Group/Apache') {
-                if (-d "$drive:/$p") {
-                    $apache = "$drive:/$p";
+                my $candidate = File::Spec->catpath($drive, $p);
+                if (-d $candidate) {
+                    $apache = $candidate;
                     last APACHE;
                 }
             }
@@ -106,7 +108,12 @@ else {
 
 die 'Please specify an Apache directory' unless ($apache or $apache2);
 my $theoryx5 = 'http://theoryx5.uwinnipeg.ca';
-my ($ppd, $tgz, $ppdfile, $tgzfile, $checksums);
+my $ppms = $theoryx5 . '/ppms/';
+my $ppmsx86 = $ppms . 'x86/';
+my $ppmpackages = $theoryx5 . '/ppmpackages/';
+my $ppmpackagesx86 = $ppmpackages . 'x86/';
+my ($ppd, $tgz, $ppdfile, $tgzfile, $checksums, $so_fetch, $so_fake);
+my $so = 'mod_perl.so';
 my $cs = 'CHECKSUMS';
 
 # set appropriate ppd and tar.gz files
@@ -120,15 +127,16 @@ if ($] < 5.008) {
         if ($ans =~ /^n/i) {
             $ppdfile = 'mod_perl.ppd';
             $tgzfile = 'mod_perl.tar.gz';
-            $ppd = $theoryx5 . '/ppmpackages/' . $ppdfile;
-            $tgz = $theoryx5 . '/ppmpackages/x86/' . $tgzfile;
+            $so_fake = 'mod_perl.so';
         }
         else {
             $ppdfile = 'mod_perl-eapi.ppd';
             $tgzfile = 'mod_perl-eapi.tar.gz';
-            $ppd = $theoryx5 . '/ppmpackages/' . $ppdfile;
-            $tgz = $theoryx5 . '/ppmpackages/x86/' . $tgzfile;
+            $so_fake = 'mod_perl-eapi.so';
         }
+        $ppd = $ppmpackages . $ppdfile;
+        $tgz = $ppmpackagesx86 . $tgzfile;
+        $so_fetch = $ppmpackagesx86 . $so_fake;
     }
 }
 else {
@@ -136,11 +144,26 @@ else {
     if ($apache2) {
         $ppdfile = 'mod_perl.ppd';
         $tgzfile = 'mod_perl.tar.gz';
-        $ppd = $theoryx5 . '/ppms/' . $ppdfile;
-        $tgz = $theoryx5 . '/ppms/x86/' . $tgzfile;
+        $ppd = $ppms . $ppdfile;
+        $tgz = $ppmsx86 . $tgzfile;
+        $so_fake = 'mod_perl.so';
+        $so_fetch = $ppmsx86 . $so_fake;
     }
     else {
-        die 'No mod_perl 1 package available for this perl version';
+        my $ans = prompt('Do you need EAPI support for mod_ssl?', 'no');
+        if ($ans =~ /^n/i) {
+            $ppdfile = 'mod_perl-1.ppd';
+            $tgzfile = 'mod_perl-1.tar.gz';
+            $so_fake = 'mod_perl-1.so';
+        }
+        else {
+            $ppdfile = 'mod_perl-eapi-1.ppd';
+            $tgzfile = 'mod_perl-eapi-1.tar.gz';
+            $so_fake = 'mod_perl-eapi-1.so';
+        }
+        $ppd = $ppms . $ppdfile;
+        $tgz = $ppmsx86 . $tgzfile;
+        $so_fetch = $ppmsx86 . $so_fake;
     }
 }
 
@@ -156,6 +179,10 @@ print "Fetching $tgz ...";
 getstore($tgz, $tgzfile);
 print " done!\n";
 die "Failed to fetch $tgz" unless -e $tgzfile;
+print "Fetching $so_fetch ...";
+getstore($so_fetch, $so_fake);
+print " done!\n";
+die "Failed to fetch $so_fetch" unless -e $so_fake;
 print "Fetching $checksums ...";
 getstore($checksums, $cs);
 print " done!\n";
@@ -165,6 +192,10 @@ if (-e $cs) {
     unless (verifyMD5($tgzfile)) {
         die qq{CHECKSUM check for "$tgzfile" failed.\n};
     }
+    unless (verifyMD5($so_fake)) {
+        die qq{CHECKSUM check for "$so_fake" failed.\n};
+    }
+    rename($so_fake, $so) or die "Rename of $so_fake to $so failed: $!";
 }
 else {
     die "Failed to fetch $checksums - cannot verify CHECKSUMS.";
@@ -189,14 +220,6 @@ my $ppm = $Config{bin} . '\ppm';
 my @args = ($ppm, 'install', $ppdfile);
 print "\n@args\n";
 system(@args) == 0 or die "system @args failed: $?";
-
-# extract mod_perl.so from the tar.gz file
-my $so = 'mod_perl.so';
-my $archive = Archive::Tar->new($tgzfile, 1);
-print "\nExtracting mod_perl.so ...";
-$archive->extract($so);
-die "Extraction of $so failed" unless (-e $so);
-print " done!\n";
 
 # figure out where to place mod_perl.so
 my $modules = $apache ? "$apache/modules" : "$apache2/modules";
@@ -228,7 +251,7 @@ else {
 # clean up, if desired
 my $ans = prompt("Remove temporary installation files from $tmp?", 'yes');
 if ($ans =~ /^y/i) {
-    unlink ($ppdfile, $old, $tgzfile, $cs) 
+    unlink ($ppdfile, $old, $tgzfile, $cs, $so) 
         or warn "Cannot unlink files from $tmp: $!";
 }
 
@@ -307,3 +330,15 @@ sub fix_path {
     return $file;
 }
 
+sub drives {
+    my @drives = ();
+    eval{require Win32API::File;};
+    return map {"$_:\\"} ('C' .. 'Z') if $@;
+    my @r = Win32API::File::getLogicalDrives();
+    return unless @r > 0;
+    for (@r) {
+        my $t = Win32API::File::GetDriveType($_);
+        push @drives, $_ if ($t == 3 or $t == 4);
+    }
+    return @drives > 0 ? @drives : undef;
+}

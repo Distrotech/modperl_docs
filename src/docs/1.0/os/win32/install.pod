@@ -22,18 +22,17 @@ Perl, compiled with Visual C++, is the most common one used in the Win32
 mod_perl/Apache environment; you can obtain such a prebuilt Perl
 binary from L<http://www.activestate.com/>.
 
-Note that, currently, mod_perl 1.0 does not work with an
-ActivePerl Perl in the 8xx series (based on perl-5.8), due
-to some issues with I<LARGE_FILES> support. You should either
-then use an ActivePerl Perl in the 6xx series (based on perl-5.6.1),
-or else, if you need perl-5.8, build or obtain a binary
-Perl compiled without the I<USE_LARGE_FILES> compile-time option
-(beware that such a Perl, and XS-based extensions compiled with it,
-may not be binary compatible with ActivePerl 8xx and its
-XS-based extensions). Another possibility, if you desire perl-5.8,
-is to consider trying mod_perl 2.0, which does work
-with an ActivePerl Perl in the 8xx series (and is in fact
-the minimum required Perl version) - see
+mod_perl 1 builds and tests successfully with either 
+an ActivePerl Perl in the 6xx series, based on perl-5.6.1,
+or with an ActivePerl Perl in the 8xx series, based on perl-5.8.0
+(for the latter, at the time of writing this requires the
+mod_perl cvs sources to build - see
+see the discussion on the
+L<Development Source Distribution|download::source/Development_Source_Distribution>
+for details on how to access this). If you are using perl-5.8,
+you may want to consider mod_perl 2.0, which although still
+in a development phase offers several significant performance
+improvements for Win32 - see
 L<modperl-2 in Win32|docs::2.0::os::win32::install>
 for details.
 
@@ -69,9 +68,11 @@ MSVC++ 5.0+, Apache version 1.3-dev or higher and Perl 5.004_02 or higher.
 =item *
 
 As of version 1.24_01, mod_perl will build on Win32 ActivePerls
-based on Perl-5.6.x (builds 6xx). For binary compatibility you 
-should use the same compiler in building mod_perl that was used 
-to compile your Perl binary; for ActivePerl, this means using VC++ 6.
+based on Perl-5.6.x (builds 6xx). For ActivePerl builds 8xx,
+at the time of writing you will need the mod_perl 1 cvs sources.
+For binary compatibility you should use the same compiler in 
+building mod_perl that was used to compile your Perl binary; 
+for ActivePerl, this means using VC++ 6.
 
 =back
 
@@ -177,7 +178,10 @@ and the Apache header files.
 
 This gives the location of where to install mod_perl.so
 (eg, F<\Apache\modules>). No default is assumed - if this argument
-is not given, mod_perl.so must be copied manually.
+is not given, mod_perl.so must be copied manually (in the
+current cvs mod_perl 1 sources, INSTALL_DLL, if not supplied, 
+will assume a default of F<APACHE_SRC/modules>, if this directory
+exists).
 
 =item DEBUG
 
@@ -257,11 +261,8 @@ of 5.8 (ActivePerl 8xx) is required.
 
 =head2 PPM Packages
 
-For users of ActivePerl builds 6xx I<only>, obtainable from
-L<http://www.activestate.com/>,
-there are also C<PPM> mod_perl packages available (as discussed
-in the introduction, no C<ppm> mod_perl 1.0 ppm packages for
-ActivePerl builds 8xx are presently available). For this, if you
+For ActivePerl users (or compatible), there are also C<PPM> 
+mod_perl packages available. For this, if you
 don't already have it, get and install the latest Win32 Apache binary
 from L<http://httpd.apache.org/>.
 
@@ -288,43 +289,54 @@ two lines for readability)
   C:\> ppm install
        http://theoryx5.uwinnipeg.ca/ppmpackages/mod_perl.ppd
 
-Another way, which will be useful if you plan on installing additional
-Apache modules, is to add the repository where the mod_perl package
-is kept to the C<ppm> shell utility. For C<ppm2> this may be
-done as (the C<set repository ...> command has been broken over two
-lines for readability):
+for Activeperl 6xx builds, and as
 
-   C:\> ppm
-   PPM> set repository theoryx5 
-         http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer
+  C:\> ppm install
+       http://theoryx5.uwinnipeg.ca/ppms/mod_perl-1.ppd
 
-while for C<ppm3> the appropriate command is (again broken over
-two lines for readability):
+for 8xx builds. Another way, which will be useful if you plan 
+on installing additional Apache modules, is to add the repository 
+where the mod_perl package is kept to the C<ppm> shell utility. 
+For C<ppm2> this may be done with the C<set repository alias location> 
+command, while for C<ppm3> (the default with ActivePerl 8xx) the 
+appropriate command is C<repository add alias location>; see the 
+help utility within the C<ppm> shell for details. For 6xx builds, 
+the appropriate location is
 
-   C:\> ppm3
-   PPM> repository add theoryx5 
-         http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer
+  http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer
 
-After this, you can do
+while for for 8xx builds it is
 
-   PPM> install mod_perl
-   PPM> quit
-   C:\>
+  http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer58
 
-For C<ppm2>, use the C<set save> command to save the C<theoryx5> repository 
-to your PPM configuration file, so that future PPM sessions will search this
+After this, you can, within the ppm shell, use the C<install>
+command to either install C<mod_perl>, for 6xx, or
+C<mod_perl-1>, for 8xx. For C<ppm2>, use the C<set save> command to save 
+the C<theoryx5> repository to your PPM configuration file, 
+so that future PPM sessions will search this
 repository, as well as ActiveState's, for requested packages.
 If you are running mod_ssl under Apache, then you should
-obtain the C<mod_perl-eapi.ppd> package instead.
+obtain the C<mod_perl-eapi> package for 6xx or the 
+C<mod_perl-eapi-1> package for 8xx instead.
+
+Note that, because of binary incompatibilities, one should
+I<not> install packages for ActivePerl 8xx from a repository
+containing packages for ActivePerl 6xx, and vice-versa, particularly
+if these packages contain XS-based modules.
 
 The mod_perl PPM package also includes the necessary Apache DLL
 C<mod_perl.so>; a post-installation script should be run which will
 offer to copy this file to your Apache modules directory (eg,
-I<C:\Apache\modules>). This might not occur with C<ppm3>, in
-which case you can grab F<mod_perl.tar.gz> from
-L<http://theoryx5.uwinnipeg.ca/ppmpackages/x86/>; when
-unpacked, this will contain F<mod_perl.so> in the top-level
-directory.
+I<C:\Apache\modules>). If this fails, you can grab
+the appropriate dll and install it manually. For 6xx builds,
+this is at L<http://theoryx5.uwinnipeg.ca/ppmpackages/x86/>,
+for which the relevant file is either C<mod_perl.so> or,
+for EAPI support, C<mod_perl-eapi.so>. For 8xx builds,
+the location is L<http://theoryx5.uwinnipeg.ca/ppms/x86/>,
+for which the relevant file is either C<mod_perl-1.so> or,
+for EAPI support, C<mod_perl-eapi-1.so>. You should then
+copy this file to your Apache modules directory and rename
+it as C<mod_perl.so>, if necessary.
 
 The mod_perl package available from this site will always
 use the latest mod_perl sources compiled against the latest official

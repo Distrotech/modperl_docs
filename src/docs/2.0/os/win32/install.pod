@@ -112,8 +112,8 @@ no guarantees that these packages will build and test successfully.
 
 =head2 PPM Packages
 
-The following assumes you already have ActivePerl 8xx from 
-L<http://www.activestate.com/> and a Win32 Apache 2.0 binary from 
+The following assumes you already have ActivePerl 8xx (I<not> 6xx)
+from L<http://www.activestate.com/> and a Win32 Apache 2.0 binary from 
 L<http://httpd.apache.org/>. In installing this, you might avoid
 some future problems by choosing installation directories that do
 not have spaces in their names (eg, F<C:/Apache2>).
@@ -134,26 +134,18 @@ lines for readability)
   C:\> ppm install
        http://theoryx5.uwinnipeg.ca/ppms/mod_perl.ppd
 
-for ActivePerl 8xx builds. Another way, which will be useful if you 
-plan on installing additional Apache modules, is to set the repository
+Another way, which will be useful if you plan on installing 
+additional Apache modules, is to set the repository
 within the C<ppm> shell utility to
 
    http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer58
 
-for ActivePerl 8xx builds. The repository may be set using
-
-   ppm> set repository NAME LOCATION
-
-for C<ppm2> and by
-
-   ppm> rep add NAME LOCATION
-
-for C<ppm3> - see the help utility within the C<ppm> shell for
-details. mod_perl 2.0 can then be installed as
-
-   ppm> install mod_perl
-
-This will install the necessary modules under an F<Apache2>
+using the C<repository add alias location> for I<ppm3> (the
+default with ActivePerl 8xx), and using C<set repository alias location> 
+for C<ppm2>; see the help utility within the C<ppm> shell for
+details. mod_perl 2.0 can then be installed as C<install mod_perl>
+within the ppm shell, which
+will install the necessary modules under an F<Apache2>
 subdirectory in your Perl tree, so as not to disturb a possible existing
 F<Apache> directory from mod_perl 1.0. See the section below on
 configuring mod_perl to add this directory to the C<@INC> path for
@@ -162,11 +154,9 @@ searching for modules.
 The mod_perl PPM package also includes the necessary Apache DLL
 F<mod_perl.so>; a post-installation script should be run which will
 offer to copy this file to your Apache2 modules directory (eg,
-F<C:/Apache2/modules/>). If this is not done, get
-F<mod_perl.tar.gz> from
-L<http://theoryx5.uwinnipeg.ca/ppms/x86/>; 
-when unpacked, this file
-contains F<mod_perl.so> in the top-level directory.
+F<C:/Apache2/modules/>). If this fails, you can get
+F<mod_perl.so> from L<http://theoryx5.uwinnipeg.ca/ppms/x86/>
+and install it to your Apache2 modules directory by hand. 
 
 Note that, because of binary incompatibilities, one should
 I<not> install packages for ActivePerl 8xx from a repository
@@ -189,7 +179,9 @@ before loading F<mod_perl.so>. If all else fails, a reboot may help.
 
 =head2 All in one packages
 
-At L<http://perl.apache.org/dist/win32-bin/> there is a self-extracting
+There is an IndigoPerl Perl/Apache 2 binary package available from
+L<http://www.indigostar.com/> containing mod_perl 2. As well,
+at L<http://perl.apache.org/dist/win32-bin/> there is a self-extracting
 archive F<Perl-5.8-win32-bin.exe> containing a binary version
 of perl-5.8 (compatible with ActivePerl 8xx), together with Apache 2.0
 and mod_perl 2.0. See the file F<Perl-5.8-win32-bin.readme> for
