@@ -71,9 +71,22 @@ different, so you may need to apply a different Perl one-liner.
 Update DBI to at least version 1.31.
 
 
-=head2  E<lt>PerlE<gt> directive missing closing 'E<gt>'
+=head2 E<lt>PerlE<gt> directive missing closing 'E<gt>'
 
 See the L<Apache::PerlSections|docs::2.0::api::Apache::PerlSections/E_lt_PerlE_gt__directive_missing_closing__E_gt__> manpage.
+
+
+=head2 'Invalid per-unknown PerlOption: ParseHeaders' on HP-UX 11 for PA-RISC
+
+When building mod_perl 2.0 on HP-UX 11 for PA-RISC architecture, using
+the HP ANSI C compiler, please make sure you have installed patches
+PHSS_29484 and PHSS_29485. Once installed the issue should go away.
+
+
+
+
+
+
 
 
 =head1 Shutdown and Restart
