@@ -65,7 +65,8 @@ to run, from the Start menu, C<command> or C<cmd>, as appropriate.
 If you are building mod_perl 2.0 from sources, it is probably also
 best to do the same for Apache 2.0. The Apache 2.0 sources can be
 obtained from L<http://httpd.apache.org/>, which when unpacked will
-contain at the top-level a Visual Studio project file. Choose the
+contain at the top-level a Visual Studio project file
+(make sure to obtain the I<win32-src.zip> archive). Choose the
 C<InstallBin - Win32 Release> target to build and install Apache 2.0,
 which by default will be placed in F</Apache2>.
 
