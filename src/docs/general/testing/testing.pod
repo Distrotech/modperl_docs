@@ -1060,6 +1060,12 @@ linked from I<httpd.conf>.
 
 =back
 
+Files whose name matches the following pattern:
+
+  /\.last\.(conf|pl).in$/
+
+will be included very last in I<httpd.conf>.
+
 As mentioned before the converted files are created, any special token
 in them are getting replaced with the appropriate values. For example
 the token C<@ServerRoot@> will be replaced with the value defined by
