@@ -141,6 +141,47 @@ just ask around at the mod_perl list; you are sure to get some
 assistance in naming your module! Furthermore, you should look at the
 way it's done on CPAN, and apply it under the C<Apache::> namespace.
 
+=head1 Porting CPAN modules to mod_perl 2.0 Status
+
+If you want to port your or someone else's module to mod_perl 2.0,
+please refer to the these documents: L<porting Perl modules to
+mod_perl 2.0|docs::2.0::user::porting::porting> and L<mod_perl 1.0
+compatibility reference|docs::2.0::user::porting::compat>.
+
+=head2 Ported 3rd-party Modules
+
+The following modules have already been ported to mod_perl 2.0 and are
+available from CPAN. If you know of other modules that have been
+ported but not listed here, please contact L<the modperl
+list|maillist::modperl>, so we can update this information:
+
+  CGI
+  CGI::Cookie
+  Apache::Peek
+  Apache::AuthNetLDAP
+  Apache::AuthzNetLDAP
+  Apache::Clean
+
+=head1 Porting in Process
+
+The following modules are in the process of being ported to mod_perl
+2.0. Please contact the porter if you wish to help the porting.
+
+If you have started the porting, in order to avoid duplicated efforts
+please contact L<the modperl
+list|maillist::modperl>, and let us know what module you are porting.
+This information should also help others to help you to do the porting
+and testing.
+
+  Module                     Porters
+  ----------------------------------
+  Apache::MP3                Stas Bekman <stas AT stason.org>
+                             Clemens Schrimpe <csch AT Kiez.NET>
+  Apache::Scoreboard         Stas Bekman <stas AT stason.org>
+  Apache::VMonitor           Stas Bekman <stas AT stason.org>
+  Apache::AuthPerLDAP        Shannon Eric Peevey <speeves AT unt.edu>
+
+
 =head1 Maintainers
 
 The maintainer is the person you should contact with updates,
