@@ -64,12 +64,18 @@ installs its modules in a version specific directory. For example:
 
 To require a module to run only under 2.0, simply add:
 
+  use Apache2;
   use mod_perl 2.0;
 
-to your module. You can also use the variable C<$mod_perl::VERSION>.
+to your module. You can also use the variable
+C<$mod_perl::VERSION>. But you should always load C<Apache2> first, so
+it'll adjust C<@INC>, if mod_perl 2.0 is installed on the same base
+with mod_perl 1.0.
 
-(META: Well before 2.0 is released you really have to say: 
-C<use mod_perl 1.99;>)
+META: Well before 2.0 is released you really have to say:
+
+  use Apache2;
+  use mod_perl 1.99;
 
 In the configuration file you can use a special configuration "define"
 symbol C<MODPERL2> which is enabled internally, as if the server had
