@@ -7,6 +7,8 @@
     [ "${doc.dir.abs_doc_root}/maillist/modperl.html#Searchable_Archives", 'Maillist Archives'],
     ["${doc.dir.abs_doc_root}/docs/1.0/guide/index.html", 'The 1.x guide'],
     ["${doc.dir.abs_doc_root}/download/source.html#Stable_source_distribution", 'The 1.x source'],
+    ["${doc.dir.abs_doc_root}/docs/1.0/guide/help.html#How_to_Report_Problems", 'Reporting 1.x Problems'],
+    ["${doc.dir.abs_doc_root}/docs/2.0/user/help/help.html#Reporting_Problems", 'Reporting 2.x Problems'],
        ];  
 -%]
 [%- WRAPPER wrap_box 
