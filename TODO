@@ -1,0 +1,15 @@
+# things to do for mod_perl site infrastructure
+
+- ErrorDocument (can we use .htaccess?) => /404.html
+
+- URL changes adjustments to go to src/.htaccess:
+
+# embperl
+RedirectPermanent /Embperl/ http://perl.apache.org/embperl/
+RedirectPermanent /perl/Embperl/ http://perl.apache.org/embperl/
+RedirectPermanent /embperl.html /embperl/
+
+# ASP
+Redirect /asp http://www.apache-asp.org/
+
+- Think about porting the conferences stuff
