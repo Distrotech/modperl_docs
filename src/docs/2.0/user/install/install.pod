@@ -234,6 +234,9 @@ The password is "anoncvs".
 
 =head2 Configuring mod_perl
 
+Before you proceed make sure that Apache 2.0 has been built and
+installed. mod_perl B<cannot> be built before that.
+
   % cd modperl-2.0
   % perl Makefile.PL MP_AP_PREFIX=$HOME/httpd/prefork \
     MP_INST_APACHE2=1

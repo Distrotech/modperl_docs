@@ -16,7 +16,9 @@ First, L<download|download::index> the mod_perl 2.0 source.
 
 Before installing mod_perl, you need check that you have the
 L<mod_perl 2.0
-prerequisites|docs::2.0::user::install::install/Prerequisites>.
+prerequisites|docs::2.0::user::install::install/Prerequisites> B<installed>.
+Apache and the right Perl version have to be built and installed
+B<before> you can proceed with building mod_perl.
 
 In this chapter we assume that httpd was installed under
 I<$HOME/httpd/prefork>.
