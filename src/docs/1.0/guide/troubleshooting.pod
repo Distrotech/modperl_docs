@@ -60,6 +60,74 @@ L<make test Troubleshooting|guide::install/make_test_Troubleshooting>
 This section talks about errors reported when you attempt to start the
 server.
 
+
+=head2 'relocation errors' or 'undefined symbol'
+
+Although the httpd executable was successfully built, you can still
+have make failures. The output could include the following errors:
+
+  relocation error:
+  undefined symbol: PL_dowarn
+
+This class of errors is often due to multiple installations of
+Perl. Having F<libperl.so> in I</usr/lib/> is a great reason for lots
+of obscure problems, when you have one more perl installed
+elsewhere. That's why perl puts its F<libperl.so> under its private
+tree (e.g., I</usr/lib/perl5/5.8.3/i686/CORE/>). But some
+distributions decide to put it along with the rest of system
+libraries, not expecting that users will have extra perl
+installations.
+
+To resolve the problem you need to check what perl library the
+application finds. This is easy to check with the help of C<ldd(1)>.
+
+If your mod_perl is statically linked with httpd, you need to check
+the httpd executable whether it's linked against F<libperl.so>:
+
+  % ldd /path/to/apache/bin/httpd
+
+If the output includes F<libperl.so> check that the path is to the
+version of Perl you've built mod_perl with. If your httpd executable
+is reported to link against the wrong F<libperl.so> file, you've found
+the cause of the problem. You should either ask your distributor to
+not put the perl library into the global system libs directory, or use
+some other solution to force the loading of the right library, which
+is usually very platform specific. For example on Linux one can
+preload a specific library path using the C<LD_PRELOAD> environment
+variable. So if the wanted library is located at
+I</usr/lib/perl5/5.8.3/i686/CORE/libperl.so> you can make httpd use it
+with:
+
+  % LD_PRELOAD=/usr/lib/perl5/5.8.3/i686/CORE/libperl.so httpd
+
+for more information on Linux loader referer to the C<ld.so(8)>
+C<ldconfig(8)> manpages.
+
+If mod_perl is built as DSO, you will need to check the mod_perl
+module (and not C<httpd>) with C<ldd>. Confusingly, mod_perl 1.0
+module name is the same as of Perl: F<libperl.so>. If for example the
+mod_perl module is located in I</path/to/apache/libexec/>, the command
+would be:
+
+  % ldd /path/to/apache/libexec/libperl.so
+
+There could be another variation of the problem where a Perl used to
+build mod_perl is statically linked and again, during the build time a
+wrong static archive (e.g., F</usr/lib/libperl.a>) is picked by the
+linker. If Perl is statically linked, running:
+
+  % perl -V:useshrplib
+
+will say:
+
+    useshrplib='true'
+
+Again, the solution may vary from system to system, but moving
+F</usr/lib/libperl.a> away while building mod_perl is probably the
+simplest.
+
+
+
 =head2 SegFaults During Startup
 
 Possible reasons and solutions:
