@@ -188,6 +188,8 @@ manual for CVS.  Commonly known as "the Cederqvist," the manual covers
 repositories, branches, and file maintenance, and includes reference
 material for both CVS users and CVS repository administrators.
 
+=back
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
