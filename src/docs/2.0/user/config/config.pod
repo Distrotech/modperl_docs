@@ -645,72 +645,71 @@ possible to do so on a per-virtualhost basis:
 =head1 mod_perl Directives Argument Types and Allowed Location
 
 The following table shows where in the configuration files mod_perl
-configuration directives are allowed to appear, what kind of and how
-many arguments they expect:
+configuration directives are allowed to appear, what kind and how many
+arguments they expect:
 
 General directives:
 
-    Directive                 Arguments     SRV   DIR
-  ---------------------------------------------------
-  PerlSwitches                 ITERATE       V
-  PerlRequire                  ITERATE       V
-  PerlModule                   ITERATE       V
-  PerlOptions                  ITERATE       V     V
-  PerlSetVar                   TAKE2         V     V
-  PerlAddVar                   ITERATE2      V     V
-  PerlSetEnv                   TAKE2         V     V
-  PerlPassEnv                  TAKE1         V
-  <Perl> Sections              RAW_ARGS      V
-  PerlTrace                    TAKE1         V
+    Directive                 Arguments  Scope
+  --------------------------------------------
+  PerlSwitches                 ITERATE    SRV
+  PerlRequire                  ITERATE    SRV
+  PerlModule                   ITERATE    SRV
+  PerlOptions                  ITERATE    DIR
+  PerlSetVar                   TAKE2      DIR
+  PerlAddVar                   ITERATE2   DIR
+  PerlSetEnv                   TAKE2      DIR
+  PerlPassEnv                  TAKE1      SRV
+  <Perl> Sections              RAW_ARGS   SRV
+  PerlTrace                    TAKE1      SRV
 
 Handler assignment directives:
 
-    Directive                 Arguments  TYPE     SRV   DIR
-  ---------------------------------------------------------
-  PerlOpenLogsHandler          ITERATE  RUN_ALL    V
-  PerlPostConfigHandler        ITERATE  RUN_ALL    V
-  PerlChildInitHandler         ITERATE  VOID       V
-  
-  PerlPreConnectionHandler     ITERATE  RUN_ALL    V
-  PerlProcessConnectionHandler ITERATE  RUN_FIRST  V
-  
-  PerlPostReadRequestHandler   ITERATE  RUN_ALL    V
-  PerlTransHandler             ITERATE  RUN_FIRST  V
-  PerlInitHandler              ITERATE  RUN_ALL    V     V
-  PerlHeaderParserHandler      ITERATE  RUN_ALL    V     V
-  PerlAccessHandler            ITERATE  RUN_ALL    V     V
-  PerlAuthenHandler            ITERATE  RUN_FIRST  V     V
-  PerlAuthzHandler             ITERATE  RUN_FIRST  V     V
-  PerlTypeHandler              ITERATE  RUN_FIRST  V     V
-  PerlFixupHandler             ITERATE  RUN_ALL    V     V
-  PerlResponseHandler          ITERATE  RUN_FIRST  V     V
-  PerlLogHandler               ITERATE  RUN_ALL    V     V
-  PerlCleanupHandler           ITERATE  XXX        V     V
-  
-  PerlInputFilterHandler       ITERATE  VOID       V     V
-  PerlOutputFilterHandler      ITERATE  VOID       V     V
+    Directive                 Arguments  Scope
+  --------------------------------------------
+  PerlOpenLogsHandler          ITERATE    SRV
+  PerlPostConfigHandler        ITERATE    SRV
+  PerlChildInitHandler         ITERATE    SRV
 
+  PerlPreConnectionHandler     ITERATE    SRV
+  PerlProcessConnectionHandler ITERATE    SRV
+
+  PerlPostReadRequestHandler   ITERATE    SRV
+  PerlTransHandler             ITERATE    SRV
+  PerlInitHandler              ITERATE    DIR
+  PerlHeaderParserHandler      ITERATE    DIR
+  PerlAccessHandler            ITERATE    DIR
+  PerlAuthenHandler            ITERATE    DIR
+  PerlAuthzHandler             ITERATE    DIR
+  PerlTypeHandler              ITERATE    DIR
+  PerlFixupHandler             ITERATE    DIR
+  PerlResponseHandler          ITERATE    DIR
+  PerlLogHandler               ITERATE    DIR
+  PerlCleanupHandler           ITERATE    DIR
+
+  PerlInputFilterHandler       ITERATE    DIR
+  PerlOutputFilterHandler      ITERATE    DIR
 
 Perl Interpreter management directives:
 
-    Directive                 Arguments     SRV   DIR
-  ---------------------------------------------------
-  PerlInterpStart              TAKE1         V
-  PerlInterpMax                TAKE1         V
-  PerlInterpMinSpare           TAKE1         V
-  PerlInterpMaxSpare           TAKE1         V
-  PerlInterpMaxRequests        TAKE1         V
-  PerlInterpScope              TAKE1         V     V
+    Directive                 Arguments  Scope
+  --------------------------------------------
+  PerlInterpStart              TAKE1      SRV
+  PerlInterpMax                TAKE1      SRV
+  PerlInterpMinSpare           TAKE1      SRV
+  PerlInterpMaxSpare           TAKE1      SRV
+  PerlInterpMaxRequests        TAKE1      SRV
+  PerlInterpScope              TAKE1      DIR
 
-mod_perl 1.0 back compatibility directives:
+mod_perl 1.0 back-compatibility directives:
 
-    Directive                 Arguments     SRV   DIR
-  ---------------------------------------------------
-  PerlHandler                   ITERATE      V     V
-  PerlSendHeader                FLAG         V     V
-  PerlSetupEnv                  FLAG         V     V
-  PerlTaintCheck                FLAG         V
-  PerlWarn                      FLAG         V
+    Directive                 Arguments  Scope
+  --------------------------------------------
+  PerlHandler                   ITERATE   DIR
+  PerlSendHeader                FLAG      DIR
+  PerlSetupEnv                  FLAG      DIR
+  PerlTaintCheck                FLAG      SRV
+  PerlWarn                      FLAG      SRV
 
 The I<Arguments> column represents the type of arguments directives
 accepts, where:
@@ -743,8 +742,8 @@ The function parses the command line by itself.
 
 =back
 
-The second and the third column show the locations the directives are
-allowed to appear in:
+The I<Scope> column shows the location the directives are allowed to
+appear in:
 
 =over
 
@@ -761,6 +760,9 @@ all their regex variants (mnemonic: I<DIRectory>). These directives
 can also appear in I<.htaccess> files.  These directives are defined
 as C<OR_ALL> in the source code.
 
+These directives can also appear in the global server configuration
+and C<E<lt>VirtualHostE<gt>>.
+
 =back
 
 Apache specifies other allowed location types which are currently not
@@ -768,8 +770,39 @@ used by the core mod_perl directives and their definition can be found
 in I<include/httpd_config.h> (hint: search for C<RSRC_CONF>).
 
 
+The I<Type> column specifies a phase's behavior when there is more
+then one handler registered to run for this phase. (For C API
+declarations see I<include/ap_config.h>, which includes other types
+which aren't exposed by mod_perl.)
 
 
+=over
+
+=item * VOID
+
+Handlers of the type C<VOID> will be I<all> executed in the order they
+have been registered disregarding their return values. Though in
+mod_perl they are expected to return C<Apache::OK>.
+
+=item * RUN_FIRST
+
+Handlers of the type C<RUN_FIRST> will be executed in the order they
+have been registered until the first handler that returns something
+other than C<Apache::DECLINED>. If the return value is
+C<Apache::DECLINED>, the next handler in the chain will be run. If the
+return value is C<Apache::OK> the next phase will start. In all other
+cases the execution will be aborted.
+
+=item * RUN_ALL
+
+Handlers of the type C<RUN_ALL> will be executed in the order they
+have been registered until the first handler that returns something
+other than C<Apache::OK> or C<Apache::DECLINED>.
+
+=back
+
+Also see L<mod_perl Directives Argument Types and Allowed
+Location|user::config::config/mod_perl_Directives_Argument_Types_and_Allowed_Location>
 
 
 
