@@ -73,8 +73,8 @@ Example:
  my %data = map { Apache::Util::unescape_uri_info($_) }
               split /[=&]/, $string, -1;
 
- This would correctly translate the query string
- ``name=Fred+Flintstone&town=Bedrock'' into the hash:
+This would correctly translate the query string
+I<"name=Fred+Flintstone&town=Bedrock"> into the hash:
 
  data => 'Fred Flintstone',
  town => 'Bedrock'
