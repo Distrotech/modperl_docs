@@ -2,20 +2,17 @@
 
 - Basic
 
- o The ads crash NS4 (any version)
+ o NS4, cannot make bg-image to render
+
+ o NS4, this pages is messed up: dst_html/download/bundles.html
 
 - Menu: 
 
   o Need to try to make the menu smaller
 
-- Navigation
-
-  o The 'TOP' image should be made using the same colors as other
-    widgets.
-
 - Internal links (e.g. in src/docs/1.0/guide) aren't hyperlinked.
 
 - Think about porting the conferences stuff
 
-- /src/creation.html, should be completed and linked from somewhere
+- src/creation.html, should be completed and linked from somewhere
   (the tail?)

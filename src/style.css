@@ -102,11 +102,11 @@ div.adtext {
 }
 
 .table-head	{ }
-.table-top	{ background-color:#cccccc; }
-.table-cell	{ background-color:#eeeeee; 
+.table-top	{ background-color: #cccccc; color: #525d76;}
+.table-cell	{ background-color: #eeeeee; 
 		  vertical-align:top; }
-.table-surround	{ background-color:black; }
-.table-light	{ background-color:#00cc99; }
+.table-surround	{ background-color: black; }
+.table-light	{ background-color: #00cc99; }
 
 
 
