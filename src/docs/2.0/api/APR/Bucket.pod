@@ -8,10 +8,11 @@ APR::Bucket - Perl API for manipulating APR Buckets
 =head1 Synopsis
 
   use APR::Bucket ();
+  my $ba = $c->bucket_alloc;
   
   $b1 = APR::Bucket->new("aaa");
-  $b2 = APR::Bucket::eos_create($c->bucket_alloc);
-  $b3 = APR::Bucket::flush_create($c->bucket_alloc);
+  $b2 = APR::Bucket::eos_create($ba);
+  $b3 = APR::Bucket::flush_create($ba);
   
   $b2->is_eos;
   $b3->is_flush;
@@ -25,15 +26,31 @@ APR::Bucket - Perl API for manipulating APR Buckets
   $b1->remove();
 
 
-
-
-
-
-
 =head1 Description
 
 C<APR::Bucket> allows you to create, manipulate and delete APR
 buckets.
+
+You will probably find the various insert methods confusing, the tip
+is to read the function right to left. The following code sample helps
+to visualize the operations:
+
+  my $bb = APR::Brigade->new($r->pool, $ba);
+  my $d1 = APR::Bucket->new("d1");
+  my $d2 = APR::Bucket->new("d2");
+  my $f1 = APR::Bucket::flush_create($ba);
+  my $f2 = APR::Bucket::flush_create($ba);
+  my $e1 = APR::Bucket::eos_create($ba);
+                           # head->tail
+  $bb->insert_head(  $d1); # head->d1->tail
+  $d1->insert_after( $d2); # head->d1->d2->tail
+  $d2->insert_before($f1); # head->d1->f1->d2->tail
+  $d2->insert_after( $f2); # head->d1->f1->d2->f2->tail
+  $bb->insert_tail(  $e1); # head->d1->f1->d2->f2->e1->tail
+
+
+
+
 
 
 
