@@ -99,7 +99,7 @@ changing it to:
   no warnings 'redefine';
 
 but you probably still want to get the I<redefine> warnings, but
-reduce them to be non-fatal. The following will do the trick:
+downgrade them to be non-fatal. The following will do the trick:
 
   use warnings FATAL => 'all';
   no warnings 'redefine';
