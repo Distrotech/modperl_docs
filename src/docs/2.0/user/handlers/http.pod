@@ -53,10 +53,27 @@ is ended with C<1;> to return true when it gets loaded.
 
 Those familiar with mod_perl 1.0 will find the HTTP request cycle in
 mod_perl 2.0 to be almost identical to the mod_perl 1.0's model. The
-only difference is in the I<response> phase which now includes
-filtering. Also the C<PerlHandler> directive has been renamed to
+different things are:
+
+=over
+
+=item *
+
+a new directive C<L<PerlMapToStorageHandler|/PerlMapToStorageHandler>>
+was added to match the new phase I<map_to_storage> added by Apache
+2.0.
+
+=item *
+
+the C<PerlHandler> directive has been renamed to
 C<PerlResponseHandler> to better match the corresponding Apache phase
 name (I<response>).
+
+=item *
+
+the I<response> phase now includes filtering.
+
+=back
 
 The following diagram depicts the HTTP request life cycle and
 highlights which handlers are available to mod_perl 2.0:
@@ -66,7 +83,7 @@ highlights which handlers are available to mod_perl 2.0:
  align="middle" alt="HTTP cycle"><br><br>
 
 From the diagram it can be seen that an HTTP request is processes by
-11 phases, executed in the following order:
+12 phases, executed in the following order:
 
 =over
 
@@ -106,7 +123,8 @@ be filtered through request input filters, which are preceded by
 connection input filters if any. Similarly the generated response is
 first run through request output filters and eventually through
 connection output filters before it's sent to the client. We will talk
-about filters in detail later in this chapter.
+about filters in detail later in L<the dedicated to filters
+chapter|docs::2.0::user::handlers::filters>.
 
 Before discussing each handler in detail remember that if you use
 L<the stacked handlers
@@ -144,15 +162,16 @@ Now, let's look at an example. Consider the following registry script:
   use warnings;
   
   use Apache::ServerUtil ();
+  use Apache::RequestIO ();
   use File::Spec::Functions qw(catfile);
   
   my $r = shift;
   $r->content_type('text/plain');
   
-  my $conf_file = catfile Apache::Server::server_root_relative($r->pool, 'conf'),
-      "httpd.conf";
+  my $conf_file = catfile $r->server_root_relative,
+      "conf", "httpd.conf";
   
-  printf "$conf_file is %0.2f minutes old", 60*24*(-M $conf_file);
+  printf "$conf_file is %0.2f minutes old\n", 60*24*(-M $conf_file);
 
 This registry script is supposed to print when the last time
 I<httpd.conf> has been modified, compared to the start of the request
@@ -269,7 +288,7 @@ I<news.pl>, so you can still use the former URI mapping:
   sub handler {
       my $r = shift;
   
-      my ($date, $id, $page) = $r->uri =~ m|^/news/(\d+)/(\d+)/(.*)|;
+      my($date, $id, $page) = $r->uri =~ m|^/news/(\d+)/(\d+)/(.*)|;
       $r->uri("/perl/news.pl");
       $r->args("date=$date&id=$id&page=$page");
   
@@ -367,6 +386,7 @@ and here is the C<MyApache::SendEmail> handler:
   use Apache::RequestRec ();
   use Apache::RequestIO ();
   use Apache::RequestUtil ();
+  use APR::Table ();
   
   use Apache::Const -compile => qw(DECLINED OK);
   
@@ -378,7 +398,7 @@ and here is the C<MyApache::SendEmail> handler:
   
       return Apache::DECLINED unless $r->method eq METHOD;
   
-      Apache::Server::method_register($r->pool, METHOD);
+      Apache::method_register($r->pool, METHOD);
       $r->handler("perl-script");
       $r->push_handlers(PerlResponseHandler => \&send_email_handler);
   
@@ -398,27 +418,43 @@ and here is the C<MyApache::SendEmail> handler:
       return Apache::OK;
   }
   
+  use APR::Brigade ();
+  use APR::Bucket ();
+  
+  use Apache::Const -compile => qw(MODE_READBYTES);
+  use APR::Const    -compile => qw(SUCCESS BLOCK_READ);
+  
+  use constant IOBUFSIZE => 8192;
+  
   sub content {
       my $r = shift;
   
-      $r->setup_client_block;
-      return '' unless $r->should_client_block;
-      my $len = $r->headers_in->get('content-length');
-      my $buf;
-      $r->get_client_block($buf, $len);
+      my $bb = APR::Brigade->new($r->pool, $r->connection->bucket_alloc);
   
-      return $buf;
-  }
+      my $data = '';
+      my $seen_eos = 0;
+      do {
+          $r->input_filters->get_brigade($bb,
+              Apache::MODE_READBYTES, APR::BLOCK_READ, IOBUFSIZE);
   
-  sub send_email {
-      my($rh_headers, $r_body) = @_;
+          while (!$bb->is_empty) {
+              my $b = $bb->first;
+              $b->remove;
   
-      require MIME::Lite;
-      MIME::Lite->send("smtp", SMTP_HOSTNAME, Timeout => 60);
+              if ($b->is_eos) {
+                  $seen_eos++;
+                  last;
+              }
   
-      my $msg = MIME::Lite->new(%$rh_headers, Data => $$r_body);
-      #warn $msg->as_string;
-      $msg->send;
+              my $buf = $b->read;
+              $data .= $buf if length $buf;
+          }
+  
+      } while (!$seen_eos);
+  
+      $bb->destroy;
+  
+      return $data;
   }
   
   1;
@@ -970,6 +1006,7 @@ the file extension of the request's URI.
   
   use Apache::RequestIO ();
   use Apache::RequestRec ();
+  use Apache::RequestUtil ();
   
   use Apache::Const -compile => 'OK';
   
@@ -1131,6 +1168,8 @@ I<http://localhost/deparse> we get the following response:
 
   sub handler {
       package MyApache::Deparse;
+      use warnings;
+      use strict 'refs';
       my $r = shift @_;
       $r->content_type('text/plain');
       $r->print('sub handler ', 'B::Deparse'->new->coderef2text(\&handler));
@@ -1189,8 +1228,8 @@ URI path component. Here is the log handler that does that:
           $r->connection->remote_ip, scalar(localtime),
           $r->uri, $r->status, $r->bytes_sent;
   
-      my $log_path = Apache::Server::server_root_relative($r->pool, 
-          "logs/$username.log");
+      my $log_path = join '/', $r->server_root_relative,
+          "logs", "$username.log";
       open my $fh, ">>$log_path" or die "can't open $log_path: $!";
       flock $fh, LOCK_EX;
       print $fh $entry;

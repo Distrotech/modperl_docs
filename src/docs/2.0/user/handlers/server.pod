@@ -42,6 +42,12 @@ thread.
 From that moment on each working thread processes connections until
 it's killed by the server or the server is shutdown.
 
+
+
+
+
+
+
 =head2 Startup Phases Demonstration Module
 
 Let's look at the following example that demonstrates all the startup
@@ -67,7 +73,7 @@ phases:
   
   sub open_logs {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
-      my $log_path = Apache::Server::server_root_relative($conf_pool, $log_file);
+      my $log_path = $s->server_root_relative($log_file);
   
       $s->warn("opening the log file: $log_path");
       open $log_fh, ">>$log_path" or die "can't open $log_path: $!";
@@ -109,12 +115,14 @@ phases:
       }
   }
   
+  my $parent_pid = $$;
   END {
-      say("process $$ is shutdown\n");
+      my $msg = "process $$ is shutdown";
+      $msg .= "\n". "-" x 20 if $$ == $parent_pid;
+      say($msg);
   }
   
   1;
-
 
 And the I<httpd.conf> configuration section:
 
@@ -142,34 +150,48 @@ perform:
 
 the following is getting logged to I<logs/startup_log>:
 
-  [Thu May 29 13:11:08 2003] - open_logs  : process 21823 is born to reproduce
-  [Thu May 29 13:11:08 2003] - post_config: configuration is completed
-  [Thu May 29 13:11:09 2003] - END        : process 21823 is shutdown
-  
-  [Thu May 29 13:11:10 2003] - open_logs  : process 21825 is born to reproduce
-  [Thu May 29 13:11:10 2003] - post_config: configuration is completed
-  [Thu May 29 13:11:11 2003] - child_init : process 21830 is born to serve
-  [Thu May 29 13:11:11 2003] - child_init : process 21831 is born to serve
-  [Thu May 29 13:11:11 2003] - child_init : process 21832 is born to serve
-  [Thu May 29 13:11:11 2003] - child_init : process 21833 is born to serve
-  [Thu May 29 13:11:12 2003] - child_exit : process 21833 now exits
-  [Thu May 29 13:11:12 2003] - child_exit : process 21832 now exits
-  [Thu May 29 13:11:12 2003] - child_exit : process 21831 now exits
-  [Thu May 29 13:11:12 2003] - child_exit : process 21830 now exits
-  [Thu May 29 13:11:12 2003] - END        : process 21825 is shutdown
+  [Sun Jun  6 01:50:06 2004] - open_logs  : process 24189 is born to reproduce
+  [Sun Jun  6 01:50:06 2004] - post_config: configuration is completed
+  [Sun Jun  6 01:50:07 2004] - END        : process 24189 is shutdown
+  --------------------
+  [Sun Jun  6 01:50:08 2004] - open_logs  : process 24190 is born to reproduce
+  [Sun Jun  6 01:50:08 2004] - post_config: configuration is completed
+  [Sun Jun  6 01:50:09 2004] - child_init : process 24192 is born to serve
+  [Sun Jun  6 01:50:09 2004] - child_init : process 24193 is born to serve
+  [Sun Jun  6 01:50:09 2004] - child_init : process 24194 is born to serve
+  [Sun Jun  6 01:50:09 2004] - child_init : process 24195 is born to serve
+  [Sun Jun  6 01:50:10 2004] - child_exit : process 24193 now exits
+  [Sun Jun  6 01:50:10 2004] - END        : process 24193 is shutdown
+  [Sun Jun  6 01:50:10 2004] - child_exit : process 24194 now exits
+  [Sun Jun  6 01:50:10 2004] - END        : process 24194 is shutdown
+  [Sun Jun  6 01:50:10 2004] - child_exit : process 24195 now exits
+  [Sun Jun  6 01:50:10 2004] - child_exit : process 24192 now exits
+  [Sun Jun  6 01:50:10 2004] - END        : process 24192 is shutdown
+  [Sun Jun  6 01:50:10 2004] - END        : process 24195 is shutdown
+  [Sun Jun  6 01:50:10 2004] - END        : process 24190 is shutdown
+  --------------------
 
 First of all, we can clearly see that Apache always restart itself
 after the first I<post_config> phase is over. The logs show that the
-I<post_config> phase is preceded by the I<open_logs> phase. Only
-after Apache has restarted itself and has completed the I<open_logs>
-and I<post_config> phase again the I<child_init> phase is run for each
+I<post_config> phase is preceded by the I<open_logs> phase. Only after
+Apache has restarted itself and has completed the I<open_logs> and
+I<post_config> phase again, the I<child_init> phase is run for each
 child process. In our example we have had the setting
 C<StartServers=4>, therefore you can see four child processes were
 started.
 
 Finally you can see that on server shutdown, the I<child_exit> phase
 is run for each child process and the C<END {}> block is executed by
-the parent process only.
+the parent process and each of the child processes. This is because
+that C<END> block was inherited from the parent on fork.
+
+However the presented behavior varies from MPM to MPM.  This
+demonstration was performed using prefork mpm. Other MPMs like winnt,
+may run I<open_logs> and I<post_config> more than once. Also the END
+blocks may be run more times, when threads are involved. You should be
+very careful when designing features relying on the phases covered in
+this chapter if you plan support multiple MPMs. The only thing that's
+sure is that you will have each of these phases run at least once.
 
 Apache also specifies the I<pre_config> phase, which is executed
 before the configuration files are parsed, but this is of no use to
@@ -178,6 +200,11 @@ phase.
 
 Now let's discuss each of the mentioned startup handlers and their
 implementation in the C<MyApache::StartupLog> module in detail.
+
+
+
+
+
 
 =head2 PerlOpenLogsHandler
 
@@ -205,7 +232,7 @@ the main server object:
 
   sub open_logs {
       my($conf_pool, $log_pool, $temp_pool, $s) = @_;
-      my $log_path = Apache::Server::server_root_relative($conf_pool, $log_file);
+      my $log_path = $s->server_root_relative($log_file);
   
       $s->warn("opening the log file: $log_path");
       open $log_fh, ">>$log_path" or die "can't open $log_path: $!";
@@ -274,6 +301,11 @@ anything that can be discarded before the requests processing starts.
 =back
 
 
+
+
+
+
+
 =head2 PerlPostConfigHandler
 
 The I<post_config> phase happens right after Apache has processed the
@@ -315,6 +347,14 @@ Everything that applies to
 C<L<PerlOpenLogsHandler|/PerlOpenLogsHandler>> identically applies to
 this handler.
 
+
+
+
+
+
+
+
+
 =head2 PerlChildInitHandler
 
 The I<child_init> phase happens immediately after the child process is
@@ -349,6 +389,11 @@ As you've seen in the example this handler is configured by adding to
 I<httpd.conf>:
 
   PerlChildInitHandler  MyApache::StartupLog::child_init
+
+
+
+
+
 
 =head2 PerlChildExitHandler
 
