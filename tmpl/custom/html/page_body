@@ -12,7 +12,6 @@
     INCLUDE navbar_local_top
         nav=doc.nav
         rel_doc_root=doc.dir.rel_doc_root;
-    "<hr>";
 
     INCLUDE page_toc toc=doc.toc;
 

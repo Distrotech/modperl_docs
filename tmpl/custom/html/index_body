@@ -13,7 +13,6 @@
     INCLUDE navbar_local_top
         nav=doc.nav.up
         rel_doc_root=doc.dir.rel_doc_root;
-    "<hr>";
 
     IF doc.body.top;
         "<p>${doc.body.top}</p>";
@@ -29,6 +28,7 @@
         "<p>${doc.body.bot}</p>";
     END;
 
+    "<br>";
     INCLUDE navbar_local_bottom
         nav=doc.nav.up
         rel_doc_root=doc.dir.rel_doc_root;
