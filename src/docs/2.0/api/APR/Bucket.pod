@@ -23,7 +23,15 @@ APR::Bucket - Perl API for manipulating APR Buckets
   
   $b1->insert_after($b2);
   $b1->insert_before($b3);
-  $b1->remove();
+  $b1->remove;
+  $b1->destroy;
+  
+  $b2->delete; # remove+destroy
+
+
+
+
+
 
 
 =head1 Description
@@ -58,6 +66,87 @@ to visualize the operations:
 =head1 API
 
 C<APR::Bucket> provides the following functions and/or methods:
+
+
+
+
+
+
+=head2 C<delete>
+
+Tell the bucket to remove itself from the bucket brigade it belongs
+to, and destroy itself.
+
+  $bucket->delete();
+
+=over 4
+
+=item obj: C<$bucket>
+( C<L<APR::Bucket object|docs::2.0::api::APR::Bucket>> )
+
+=item ret: no return value
+
+=item since: 1.99_16
+
+=back
+
+If the bucket is not attached to any bucket brigade then this
+operation just destroys the bucket.
+
+C<delete> is a convenience wrapper, internally doing:
+
+  $b->remove;
+  $b->destroy;
+
+Examples:
+
+Assuming that C<$bb> already exists and filled with buckets, replace
+the existing data buckets with new buckets with upcased data;
+
+  for (my $b = $bb->first; $b; $b = $bb->next($b)) {
+     if ($b->read(my $data)) {
+          my $nb = APR::Bucket->new(uc $data);
+          $b->insert_before($nb);
+          $b->delete;
+          $b = $nb;
+      }
+  }
+
+
+
+
+
+=head2 C<destroy>
+
+Free the resources used by a bucket. If multiple buckets refer to the
+same resource it is freed when the last one goes away.
+
+  $bucket->destroy();
+
+=over 4
+
+=item obj: C<$bucket>
+( C<L<APR::Bucket object|docs::2.0::api::APR::Bucket>> )
+
+=item ret: no return value
+
+=item since: 1.99_16
+
+=back
+
+A bucket needs to be destroyed if it was L<removed|/C_remove_> from a
+bucket brigade, to avoid memory leak.
+
+If a bucket is linked to a bucket brigade, it needs to be
+L<removed|/C_remove_> from it, before it can be destroyed.
+
+Usually instead of calling:
+
+  $b->remove;
+  $b->destroy;
+
+it's better to call C<L<delete|/C_delete_>> which does exactly that.
+
 
 
 
@@ -428,7 +517,8 @@ operation doesn't do anything.
 
 When the bucket is removed, it's not not destroyed. Usually this is
 done in order to move the bucket to another bucket brigade. Or to copy
-the data way before destroying the bucket.
+the data way before destroying the bucket.  If the bucket wasn't moved
+to another bucket brigade it must be L<destroyed|/C_destroy_>.
 
 Examples:
 
