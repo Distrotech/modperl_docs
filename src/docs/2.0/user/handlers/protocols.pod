@@ -709,22 +709,26 @@ C<Apache::Connection> object as the first argument.  Again, we will be
 directly accessing the client socket via the I<client_socket> method.
 The I<login> subroutine is called to check if access by this client
 should be allowed.  This routine makes up for what we lost with the
-core HTTP protocol handler bypassed.  First we call the
-C<Apache::RequestRec> I<new> method, which returns a I<request_rec>
-object, just like that which is passed at request time to L<HTTP
-protocol|docs::2.0::user::handlers::http> C<Perl*Handlers> and
-returned by the subrequest API methods, I<lookup_uri> and
-I<lookup_file>.  However, this "fake request" does not run handlers
-for any of the phases, it simply returns an object which we can use to
-do that ourselves.  The C<location_merge()> method is passed the
-C<location> for this request, it will look up the
-C<E<lt>LocationE<gt>> section that matches the given name and merge it
-with the default server configuration.  For example, should we only
-wish to allow access to this server from certain locations:
+core HTTP protocol handler bypassed.
+
+First we call the C<Apache::RequestRec> C<new()> method, which returns
+a I<request_rec> object, just like that, which is passed at request
+time to L<HTTP protocol|docs::2.0::user::handlers::http>
+C<Perl*Handlers> and returned by the subrequest API methods,
+I<lookup_uri> and I<lookup_file>.  However, this "fake request" does
+not run handlers for any of the phases, it simply returns an object
+which we can use to do that ourselves.
+
+The C<location_merge()> method is passed the C<location> for this
+request, it will look up the C<E<lt>LocationE<gt>> section that
+matches the given name and merge it with the default server
+configuration.  For example, should we only wish to allow access to
+this server from certain locations:
 
   <Location MyApache::CommandServer>
-      deny from all
-      allow from 10.*
+      Order Deny,Allow
+      Deny from all
+      Allow from 10.*
   </Location>
 
 The C<location_merge()> method only looks up and merges the
@@ -742,9 +746,10 @@ true.  This would be false given the previous configuration example,
 but would be true in the presence of a C<require> directive, such as:
 
   <Location MyApache::CommandServer>
-      deny from all
-      allow from 10.*
-      require user dougm
+      Order Deny,Allow
+      Deny from all
+      Allow from 10.*
+      Require user dougm
   </Location>
 
 Given this configuration, C<some_auth_required()> will return true.
@@ -779,12 +784,16 @@ Let's use this configuration:
       PerlProcessConnectionHandler MyApache::CommandServer
   
       <Location MyApache::CommandServer>
-          allow from 127.0.0.1
-          require user dougm
-          satisfy any
+          Order Deny,Allow
+          Allow from 127.0.0.1
+          Require user dougm
+          Satisfy any
           AuthUserFile /tmp/basic-auth
       </Location>
   </VirtualHost>
+
+Since we are using C<mod_auth> directives here, you need to make sure
+that it's available and loaded for this example to work as explained.
 
 The auth file can be created with the help of C<htpasswd> utility
 coming bundled with the Apache server. For example to create a file
