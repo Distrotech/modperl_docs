@@ -8,7 +8,7 @@ DocSet - documentation projects builder in HTML, PS and PDF formats
 
 =head1 SYNOPSIS
 
-  pod2hpp [options] base_full_path relative_to_base_configuration_file_location
+  docset_build [options] base_full_path relative_to_base_config_file_location
 
 Options:
 
@@ -80,63 +80,94 @@ format to generate nice slides in I<conf/html2ps-slides.conf>.
 
 =item 1
 
-META: not ported yet!
-
 If you turn the slides mode on, it automatically turns the C<-i> (C<*>
-preprocessing) mode and does a page break before each =head tag.
+bullets preprocessing) mode and does a page break before each =head
+tag.
+
+=back
+
+=head2 Examples
+
+The package includes two fully working examples in the I<examples/>
+directory.
+
+=over
+
+=item site
+
+This example demonstrates a shrinked version of perl.apache.org (which
+is genrated entirely by DocSet), with many docs removed or reduced to
+the mininumum. There are still quite a lot of documents left so you
+can see the big picture. Read I<examples/site/README> for more
+information.
+
+=item presentation
+
+This example demonstrates how to build presentations handouts and
+slides using DocSet. Read I<examples/presentation/README> for more
+information.
 
 =back
 
 =head2 Look-n-Feel Customization
 
 You can customise the look and feel of the ouput by adjusting the
-templates in the directory I<example/tmpl/custom>.
+templates in the directory I<examples/site/tmpl/custom>.
 
 You can change look and feel of the PS (PDF) versions by modifying
-I<example/conf/html2ps.conf>.  Be careful that if your documentation
-that you want to put in one PS or PDF file is very big and you tell
-html2ps to put the TOC at the beginning you will need lots of memory
-because it won't write a single byte to the disk before it gets all
-the HTML markup converted to PS.
+I<examples/site/conf/html2ps.conf>.  Be careful that if your
+documentation that you want to put in one PS or PDF file is very big
+and you tell html2ps to put the TOC at the beginning you will need
+lots of memory because it won't write a single byte to the disk before
+it gets all the HTML markup converted to PS.
 
 
 =head1 CONFIGURATION
 
 All you have to prepare is a single config file that you then pass as
-an argument to C<pod2hpp>:
+an argument to C<docset_build>:
 
-  pod2hpp [options] /abs/project/root/path /full/path/to/config/file
+  % docset_build [options] base_full_path relative_to_base_config_file_location
 
 Every directory in the source tree may have a configuration file,
 which designates a docset's root. See the I<config> files for
-examples. Usually the file in the root (I<example/src>) sets
+examples. Usually the file in the root (I<examples/site/src>) sets
 operational directories and other arguments, which you don't have to
-repeat in sub-docsets. Modify these files to suit your documentation
-project layout.
+repeat in sub-docsets. You want to redefine the build attributes in
+nested docsets if you want to override certain configuration
+attributes. Modify these files to suit your documentation project
+layout.
 
-Note that I<example/bin/build> script automatically locates your
-project's directory, so you can move your project around filesystem
-without changing anything.
+Note that the smart I<examples/site/bin/build> script automatically
+locates your project's directory, so you can move your project around
+filesystem without changing anything. So you really build with:
 
-I<example/README> explains the layout of the directories.
+  % bin/build [options]
+
+I<examples/site/README> explains the layout of the directories.
 
 C<DocSet::Config> manpage explains the layout of the configuration
 file.
 
+=head1 Extending
+
+Read the other manpages for more information about how to extend
+Docset.
+
 =head1 PREREQUISITES
 
-All these are not required if all you want is to generate only the
-html version.
+The following are the optional prerequisites:
 
 =over 4
 
 =item * ps2pdf
 
-Needed to generate the PDF version
+Needed to generate the PDF version.
 
 =item * Storable
 
-Perl module available from CPAN (http://cpan.org/)
+Available from CPAN (http://cpan.org/) and is a part of the core Perl
+distribution of the Perl 5.8.0 and higher.
 
 Allows source modification control, so if you modify only one file you
 will not have to rebuild everything to get the updated HTML/PS/PDF
@@ -146,18 +177,24 @@ files.
 
 =head1 SUPPORT
 
-Notice that this tool relies on two tools (ps2pdf and html2ps) which I
-don't support. So if you have any problem first make sure that it's
-not a problem of these tools.
+Notice that this tool relies on two tools (C<ps2pdf> and C<html2ps>)
+which I don't support, since I didn't write them. So if you have any
+problem first make sure that it's not a problem of these tools.
 
 Note that while C<html2ps> is included in this distribution, it's
 written in the old style Perl, so if you have patches send them along,
-but I won't try to fix/modify this code otherwise. I didn't write this
-utility.
+but I won't try to fix/modify this code otherwise. For more info see:
+http://www.tdb.uu.se/~jan/html2ps.html
 
 =head1 BUGS
 
 Huh? Probably many...
+
+=head1 QUESTIONS
+
+Questions can be asked at the template-docset mailing list. For
+mailing list archives and subscription information please see:
+http://template-toolkit.org/mailman/listinfo/template-docset
 
 =head1 AUTHORS
 
@@ -165,7 +202,7 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =head1 SEE ALSO
 
-perl(1), Pod::HTML(3), html2ps(1), ps2pod(1), Storable(3)
+perl(1), Pod::POM(3), Pod::HTML(3), html2ps(1), ps2pod(1), Storable(3)
 
 =head1 COPYRIGHT
 

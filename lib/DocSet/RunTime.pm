@@ -23,12 +23,6 @@ my %src_docs = ();
 my %exts     = ();
 my $render_obj;
 
-# = (
-#          'docs/2.0' => {
-#                         'devel/core_explained/core_explained.pod' => 1,
-#                        },
-#         );
-
 sub registers_reset {
     %registers = ();
 }
@@ -107,7 +101,8 @@ sub scan_src_docs {
     my %seen;
     for my $rel_path (@search_paths) {
         my $full_base_path = catdir $base, $rel_path;
-        die "$full_base_path is not a dir" unless -d $full_base_path;
+        die "'search_paths' attr: $full_base_path is not a dir" 
+            unless -d $full_base_path;
 
         my @seen_pattern = map {"^".quotemeta($_)} keys %seen;
         my $rsub_skip_seen = build_matchmany_sub(\@seen_pattern);

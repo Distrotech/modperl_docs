@@ -20,19 +20,19 @@ my %ext2mime = (
 
 my %conv_class = (
     'text/pod'  => {
-                    'text/html'   => 'DocSet::Doc::POD2HTML',
-                    'text/htmlps' => 'DocSet::Doc::POD2HTMLPS',
-                    'text/ps'     => 'DocSet::Doc::POD2PS',
-                   },
+        'text/html'   => 'DocSet::Doc::POD2HTML',
+        'text/htmlps' => 'DocSet::Doc::POD2HTMLPS',
+        'text/ps'     => 'DocSet::Doc::POD2PS',
+    },
     'text/html' => {
-                    'text/html'   => 'DocSet::Doc::HTML2HTML',
-                    'text/htmlps' => 'DocSet::Doc::HTML2HTMLPS',
-                    'text/ps'     => 'DocSet::Doc::HTML2PS',
-                   },
+        'text/html'   => 'DocSet::Doc::HTML2HTML',
+        'text/htmlps' => 'DocSet::Doc::HTML2HTMLPS',
+        'text/ps'     => 'DocSet::Doc::HTML2PS',
+    },
     'text/plain' => {
-                    'text/html'   => 'DocSet::Doc::Text2HTML',
-                    'text/pdf'    => 'DocSet::Doc::Text2PDF',
-                   },
+        'text/html'   => 'DocSet::Doc::Text2HTML',
+        'text/pdf'    => 'DocSet::Doc::Text2PDF',
+    },
 );
 
 sub ext2mime {
@@ -54,12 +54,13 @@ sub conv_class {
 
 my %node_attr   = map {$_ => 1} qw(chapters docsets links sitemap);
 my %hidden_attr = map {$_ => 1} qw(chapters docsets);
-# the rest of the valid attributes in addition to 'hidden', 'changes'
+# the rest of the valid attributes in addition to 'hidden', 'changes',
 # and %node_attr
 my %other_attr  = map {$_ => 1} qw(id stitle title abstract body
-                                   copy_glob copy_skip dir file);
+                                   options copy_glob copy_skip dir
+                                   file);
 sub read_config {
-    my($self, $config_file) = @_;
+    my($self, $config_file, $parent_o) = @_;
     die "Configuration file is not specified" unless defined $config_file;
 
     $self->{config_file} = $config_file;
@@ -67,6 +68,8 @@ sub read_config {
     my $package = path2package($config_file);
     $self->{package} = $package;
 
+    $parent_o->croak("can't read $config_file: $!") 
+        unless -r $config_file;
     my $content;
     read_file($config_file, \$content);
 
@@ -142,6 +145,15 @@ sub read_config {
     $self->croak("Either 'title' or 'stitle' must appear in $config_file")
         unless $self->{title};
 
+
+    # XXX: some options expansion logic, consider refactoring with
+    # similar logic in docset_build 
+    # XXX: also this logic should probably go directly to
+    # DocSet::Source::POD, which is the only place it's used.
+    if ($self->{options}{slides_mode}) {
+        $self->{options}{podify_items} = 1;
+    }
+
     # merge_config will adjust this value, for nested docsets
     # so this value is relevant only for the real top parent node
     $self->{dir}{abs_doc_root} = '.';
@@ -175,10 +187,15 @@ sub merge_config {
         $self->{file}{$k} = $v unless $files->{$k};
     }
 
-    # inherit 'dir' attributes if not set in the child 
+    # inherit the 'dir' attributes if not set in the child 
     my $dirs = $self->{dir} || {};
     while ( my($k, $v) = each %{ $parent_o->{dir}||{} }) {
-        $self->{dir}{$k} = $v unless $dirs->{$k};
+        $self->{dir}{$k} = $v unless exists $dirs->{$k};
+    }
+
+    # inherit/override the 'options' attr unless explicitly set
+    while ( my($k, $v) = each %{ $parent_o->{options}||{} }) {
+        $self->{options}{$k} = $v unless exists $self->{options}{$k};
     }
 
     # a chapter object won't set this one
@@ -206,6 +223,16 @@ sub merge_config {
 
 }
 
+
+# merge the global run-time options with object scoped options by a
+# simple OR, so if any of the sides sets an option to 1, this method
+# will return 1 otherwise 0
+sub options {
+    my($self, $option) = @_;
+    $option ||= '';
+    return ($self->{options}{$option} || DocSet::RunTime::get_opts($option))
+        ? 1 : 0;
+}
 
 # this sub controls the docset's 'modified' attribute which specifies
 # whether the docset is in a "dirty" state and need to be rebuilt or
@@ -502,7 +529,9 @@ C<DocSet::Config> - A superclass that handles object's configuration and data
   $self->read_config($config_file);
   $self->merge_config($src_rel_dir);
   $self->check_duplicated_docset_ids();
-  
+
+  $self->options('slides_mode');
+
   $self->files_to_scan_copy();
   my @files = $self->files_to_copy(files_to_copy);
   my @files = $self->expand_dir();
@@ -548,6 +577,8 @@ META: to be completed (see SYNOPSIS meanwhile)
 =item * read_config
 
 =item * merge_config
+
+=item * options
 
 =item * files_to_copy
 
@@ -885,6 +916,45 @@ because it shouldn't be linked from anywhere, but once the user hit it
 perfect page with all the proper navigation widgets (I<menu>, etc) in
 it.
 
+=head2 Options
+
+Sometimes you want different docsets to be run under different command
+line options. This is impossible to accomplish from the command line,
+therefore the options that are different from the default can be set
+inside the I<config.cfg> files. For example if we have a project which
+includes two docsets: one to be rendered as slides and the other as
+handouts. Since the slides mode is off by default, all we need to do
+is to add:
+
+    options => {
+        slides_mode => 1,
+    },
+
+in the I<config.cfg> file of that docset. Now when the whole project
+is built without specifying the slides mode on the command line, this
+docset and its sub-docsets will be built using the slides mode. Of
+course sub-sets can override their parent's setting, for example in
+our example by saying:
+
+    options => {
+        slides_mode => 0,
+    },
+
+Note that merging of the global (command line options) and local
+(docset specific options) is done using the OR operator, meaning that
+if either of the two or both set an option, it's set. Otherwise it's
+not set. This works in that way, because the command line options only
+turn options on, they don't turn them off.
+
+Therefore with our example, if the slides mode will be turned on the
+command line, the whole project will be built in the slides mode. So
+essentially the command line options override the local options.
+
+META: currently the merging happens only in C<DocSet::Source::POD>,
+other places only check the global command line options. This can be
+adjusted as needed, without breaking anything. To find out the list of
+options see C<%options> in I<bin/docset_build>.
+
 =head2 Copy unmodified
 
 Usually the generated UI includes images, CSS files and of course some
@@ -957,7 +1027,9 @@ can do:
 
 any of I<top> and I<bot> sub-attributes are optional.  If these source
 docs are for example in HTML, they have to be written in a proper
-HTML, so the parser will be able to extract the body.
+HTML, so the parser will be able to extract the body. Of course these
+can be POD or other formats as well. But all is taken from these files
+are their bodies, so the title and other meta-data are ignored.
 
 =back
 

@@ -24,7 +24,7 @@ sub new {
 sub init {
     my($self, $config_file, $parent_o, $src_rel_dir) = @_;
 
-    $self->read_config($config_file);
+    $self->read_config($config_file, $parent_o);
 
     # are we inside a super docset?
     if ($parent_o and ref($parent_o)) {

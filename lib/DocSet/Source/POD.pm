@@ -128,8 +128,6 @@ sub parse_pod {
     # already parsed
     return if exists $self->{parsed_tree} && $self->{parsed_tree};
 
-    $self->podify_items() if get_opts('podify_items');
-
 #    print ${ $self->{content} };
 
     use Pod::POM;
@@ -153,7 +151,9 @@ sub src_filter {
 
     $self->extract_pod;
 
-    $self->podify_items if get_opts('podify_items');
+    $self->head2page_breaks() if $self->{docset}->options('slides_mode');
+
+    $self->podify_items() if $self->{docset}->options('podify_items');
 }
 
 sub extract_pod {
@@ -216,6 +216,34 @@ sub podify_items {
           # not a tag item
             $items = 0;
         }
+    }
+
+    my $content = join "\n\n", @paras;
+    $self->{content} = \$content;
+
+}
+
+
+# add a page break for =headX in slides mode
+sub head2page_breaks {
+    my($self) = @_;
+  
+    # we want the source in paragraphs
+    my @content = split /\n\n/, ${ $self->{content} };
+
+    my $count = 0;
+    my @paras = ();
+    foreach (@content) {
+        # add a page break starting from the third head (since the
+        # first is removed anyway, and we don't want to start a new
+        # page on the very first page)
+        if (/^=head/) {
+            $count++;
+            if ($count > 2) {
+                push @paras, qq{=for html <?page-break>};
+            }
+        }
+        push @paras, $_;
     }
 
     my $content = join "\n\n", @paras;
@@ -329,6 +357,16 @@ or
 where the second mark is which tells whether to use a ball bullet or a
 numbered item.
 
+=item head2page_breaks
+
+in the I<slides_mode> we want each =headX to start a new slide, so
+this mode inserts the page-breaks:
+
+  =for html <?page-break>
+
+starting from the second header (well actually from the third in the
+raw POD, because the first one (NAME) gets stripped before it's seen
+by the rendering engine.
 
 =back
 
