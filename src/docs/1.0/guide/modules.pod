@@ -758,6 +758,16 @@ provides methods for accessing the values from the parsed file.
 
 See the module manpage for more information.
 
+=head& Apache::Admin::Config - Object oriented access to Apache style config files
+
+C<Apache::Admin::Config> provides an object oriented interface for reading
+and writing Apache-like configuration files without affecting comments,
+indentation, or truncated lines. You can easily extract informations from
+the apache configuration, or manage htaccess files.
+
+See http://rs.rhapsodyk.net/devel/apache-admin-config/
+for more information.
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
