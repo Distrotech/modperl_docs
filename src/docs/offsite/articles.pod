@@ -100,6 +100,13 @@ http://www.linux-magazin.de/Artikel/ausgabe/1998/08/Pounder/pounder.html .
 
 =item *
 
+mod_perl articles at Perl.com
+http://www.perl.com/pub/q/Article_Archive#mod_perl (better use search
+and you will find other mod_perl articles which weren't catalogued
+under mod_perl category)
+
+=item *
+
 articles at take23.org: http://take23.org/articles/
 
 =item *
@@ -113,10 +120,7 @@ mod_perl series at ApacheWeek http://www.apacheweek.com/
 
 =item *
 
-mod_perl articles at Perl.com
-http://www.perl.com/pub/q/Article_Archive#mod_perl (better use search
-and you will find other mod_perl articles which weren't catalogued
-under mod_perl category)
+mod_perl series at Developer Shed http://www.devshed.com/
 
 =item *
 
@@ -179,6 +183,11 @@ http://www.linuxworld.com/linuxworld/lw-1999-06/lw-06-penguin_3.html
 
 C<Ariadne>, Issue 21: I<What is mod_perl?>, by Ian
 Peacock. http://www.ariadne.ac.uk/issue21/unix/
+
+=item *
+
+What's mod_perl (in Russian)
+http://www.host.ru/documentation/pro/0003.html
 
 =back
 
