@@ -1,6 +1,6 @@
 =head1 NAME
 
-Help
+perl.apache.org Site Help
 
 =head1 Description
 
