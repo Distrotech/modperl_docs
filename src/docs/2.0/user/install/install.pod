@@ -434,6 +434,12 @@ or
 
   % t/TEST -httpd /home/stas/httpd/prefork/bin/httpd
 
+=head4 MP_APR_CONFIG
+
+If APR wasn't installed under the same file tree as httpd, you may
+need to tell the build process where it can find the executable
+C<apr-config>, which can then be used to figure out where the apr
+I<include/> and I<lib> directories can be found.
 
 =head4 MP_CCOPTS
 
