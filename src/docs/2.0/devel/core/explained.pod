@@ -108,11 +108,6 @@ during C<perl Makefile.PL> to generate the XS code in the I<./WrapXS/>
 directory by the xs_generate() function. This XS code is combined of
 the Apache API Perl glue and mod_perl specific extensions.
 
-NOTE: source_scan requires C::Scan 0.75, which at the moment is
-unreleased, there is a working copy here:
-http://perl.apache.org/~dougm/Scan.pm
-
-
 If you need to skip certain unwanted C defines from being picked by
 the source scanning you can add them to the array
 C<$Apache::ParseSource::defines_unwanted> in
@@ -125,7 +120,7 @@ be run manually and the updated files ending up in the
 I<xs/tables/current/> directory should be committed to the cvs
 repository.
 
-The I<source_scan> make target is actually to run
+The I<source_scan> make target simply executes
 I<build/source_scan.pl>, which can be run directly without needing to
 create I<Makefile> first.
 
@@ -698,7 +693,7 @@ accept:
 
   aTHX_ I32 items, SP **sp, SV **MARK
 
-as their arguments. Thefore it doesn't matter what is placed in this
+as their arguments. Therefore it doesn't matter what is placed in this
 column when the C<MPXS_> function is declared. Usually for
 documentation the Perl side arguments are listed. For example you can
 say:
@@ -829,6 +824,27 @@ And of course finally we need to test that the function works in Perl:
   my $power = Apache::CoreDemo::power($a, $b);
   ok t_cmp($a ** $b, $power, "power macro");
   ...
+
+=head2 Passing aTHX for DEFINE map entries
+
+Let's say you have a function or a C macro which you want to provide a
+Perl interface for, and you don't need to write a wrapper since C
+arguments are the same as Perl arguments. For example:
+
+  char *foo(aTHX_ int bar);
+
+The map entry will look like:
+
+  MODULE=Apache::CoreDemo
+  char *:DEFINE_foo | | int:bar
+
+But there is no way to pass C<aTHX_> since this is a macro and it's an
+empty string with non-threaded Perls. Another macro comes to help:
+
+  file:xs/Apache/CoreDemo/Apache__CoreDemo.h
+  ----------------------------------------------
+  #define mpxs_Apache__CoreDemo_foo(x, y) foo(aTHX_ x, y)
+
 
 =head1 Wrappers for modperl_, apr_ and ap_ APIs
 
