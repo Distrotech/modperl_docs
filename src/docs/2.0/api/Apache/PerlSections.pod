@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache::PerlSections - Default Handler for C<E<lt>Perl E<gt>> sections
+Apache::PerlSections - Default Handler for Perl sections
 
 =head1 Synopsis
 
