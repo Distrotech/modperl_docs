@@ -271,6 +271,20 @@ I<libapreq> package available in the ActiveState repository
 will not work under mod_perl. Note that I<libapreq>
 has not yet been ported to mod_perl 2.0.
 
+=head2 My Apache2 installation did not come with the C<apxs> utility.
+
+The utilities C<apxs>, C<apr-config>, and C<apu-config> have
+not been fully ported yet to Win32 for Apache2. A development port
+is available in the F<apxs_win32.tar.gz> archive found under
+L<http://perl.apache.org/dist/win32-bin/>; installation
+instructions are found in the accompanying F<README> file.
+One can also install these utilties by running the F<install_apxs>
+script under L<http://perl.apache.org/dist/win32-bin/>. Note that
+this port does not offer yet the full functionality of
+the unix version - in particular, features enabling the utiltities
+to be used within the Apache2 sources are missing. Nevertheless,
+they may be useful for building and installing 3rd-party modules.
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
