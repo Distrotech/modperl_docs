@@ -1198,6 +1198,27 @@ reader, and hope that it won't be needed in the next mod_perl release.
 After all, it's a little awkward to need a C<LogHandler> to clean up
 after ourselves....
 
+
+=head1 Passing Arguments to a SSI script
+
+Consider the following C<Apache::Include> snippet:
+
+  <!--#perl sub="Apache::Include" arg="/perl/ssi.pl" -->
+
+Now if you want to pass arguments, you cannot do that with
+C<Apache::Include>. The solution is to define a subroutine that's
+pulled in at the startup:
+
+  sub My::ssi {
+      my($r, $one, $two, $three) = @_;
+     ...
+  }
+
+In the html file:
+
+  <!--#perl sub="My::ssi" arg="one" arg="two" arg="three" -->
+
+
 =head1 Setting Environment Variables For Scripts Called From CGI.
 
 Perl uses C<sh()> for its C<system()> and C<open()> calls.  So if you
