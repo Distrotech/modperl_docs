@@ -14,7 +14,7 @@
                     background-attachment: fixed;  /* needed for mac/ie5*/
                     color: #000000;
                     font-family: helvetica, arial, verdana, sans-serif;
-                    /* font-size: 1.0em; /*
+                    /* font-size: 1.0em; */
                     position: relative !important; /* needed for ie5*/
                 }
         </style>
