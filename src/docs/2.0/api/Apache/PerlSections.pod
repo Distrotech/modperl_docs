@@ -141,11 +141,36 @@ behaviour of C<E<lt>Perl E<gt>> sections.
 
 =head2 C<$Apache::PerlSections::Save>
 
-By default, the namespace in which C<E<lt>Perl E<gt>> sections are
-evaluated is cleared after each block closes. By setting it to a true
-value, the content of those namespaces will be preserved and will be
-available for inspection by modules like
-C<L<Apache::Status|docs::2.0::api::Apache::Status>>.
+Each C<E<lt>PerlE<gt>> section is evaluated in its unique namespace,
+by default residing in a sub-namespace of C<Apache::ReadConfig::>,
+therefore any local variables will end up in that namespace. For
+example if a C<E<lt>PerlE<gt>> section happened to be in file
+F</tmp/httpd.conf> starting on line 20, the namespace:
+C<Apache::ReadConfig::tmp::httpd_conf::line_20> will be used. Now if
+it had:
+
+  <Perl>
+    $foo     = 5;
+    my $bar  = 6;
+    $My::tar = 7;
+  </Perl>
+
+The local global variable C<$foo> becomes
+C<$Apache::ReadConfig::tmp::httpd_conf::line_20::foo>, the other
+variable remain where they are.
+
+By default, the namespace in which C<E<lt>PerlE<gt>> sections are
+evaluated is cleared after each block closes. In our example nuking
+C<$Apache::ReadConfig::tmp::httpd_conf::line_20::foo>, leaving the
+rest untouched.
+
+By setting C<$Apache::PerlSections::Save> to a true value, the content
+of those namespaces will be preserved and will be available for
+inspection by C<L<Apache::Status|docs::2.0::api::Apache::Status>> and
+C<L<Apache::PerlSections-E<gt>dump|/C_Apache__PerlSections_E_gt_dump_>>
+In our example C<$Apache::ReadConfig::tmp::httpd_conf::line_20::foo>
+will still be accessible from other perl code, after the
+C<E<lt>PerlE<gt>> section was parsed.
 
 
 
@@ -155,7 +180,7 @@ C<L<Apache::Status|docs::2.0::api::Apache::Status>>.
 
 
 
-=head2 Apache::PerlSections-E<gt>dump
+=head2 C<Apache::PerlSections-E<gt>dump>
 
 This method will dump out all the configuration variables mod_perl
 will be feeding to the apache config gears. The output is suitable to
@@ -235,7 +260,7 @@ will not be dumped.
 
 
 
-=head2 Apache::PerlSections-E<gt>store
+=head2 C<Apache::PerlSections-E<gt>store>
 
 This method will call the C<dump> method, writing the output
 to a file, suitable to be pulled in via C<require> or C<do>.
