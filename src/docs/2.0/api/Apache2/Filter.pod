@@ -1,13 +1,13 @@
 =head1 NAME
 
-Apache::Filter - Perl API for Apache 2.0 Filtering
+Apache2::Filter - Perl API for Apache 2.0 Filtering
 
 
 
 
 =head1 Synopsis
 
-  use Apache::Filter ();
+  use Apache2::Filter ();
   
   # filter attributes
   my $c = $f->c;
@@ -48,7 +48,7 @@ Apache::Filter - Perl API for Apache 2.0 Filtering
 =head1 Description
 
 
-C<Apache::Filter> provides Perl API for Apache 2.0 filtering
+C<Apache2::Filter> provides Perl API for Apache 2.0 filtering
 framework.
 
 Make sure to read C<the Filtering
@@ -74,10 +74,10 @@ filter:
 =over 4
 
 =item obj: C<$f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 =item ret: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item since: 1.99_10
 
@@ -98,7 +98,7 @@ Get/set the filter context data.
 =over 4
 
 =item obj: C<$f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 =item opt arg2: C<$ctx> ( SCALAR )
 
@@ -165,7 +165,7 @@ once during the filter's life:
 
 =head2 C<frec>
 
-Get/set the C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>
+Get/set the C<L<Apache2::FilterRec|docs::2.0::api::Apache2::FilterRec>>
 (filter record) object.
 
   $frec = $f->frec();
@@ -173,17 +173,17 @@ Get/set the C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>
 =over 4
 
 =item obj: C<$f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 =item ret: C<$frec>
-( C<L<Apache::FilterRec object|docs::2.0::api::Apache::FilterRec>> )
+( C<L<Apache2::FilterRec object|docs::2.0::api::Apache2::FilterRec>> )
 
 =item since: 1.99_10
 
 =back
 
 For example you can call
-C<L<$frec-E<gt>name|docs::2.0::api::Apache::FilterRec/C_name_>> to get
+C<L<$frec-E<gt>name|docs::2.0::api::Apache2::FilterRec/C_name_>> to get
 filter's name.
 
 
@@ -193,19 +193,19 @@ filter's name.
 
 =head2 C<next>
 
-Return the C<Apache::Filter> object of the next filter in chain.
+Return the C<Apache2::Filter> object of the next filter in chain.
 
   $next_f = $f->next;
 
 =over 4
 
 =item obj: C<$f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The current filter object
 
 =item ret: C<$next_f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The next filter object in chain
 
@@ -223,7 +223,7 @@ the behavior is undefined.
 
 The next filter can be a mod_perl one or not, it's easy to tell which
 one is that by calling
-C<L<$f-E<gt>frec-E<gt>name|docs::2.0::api::Apache::FilterRec/C_name_>>.
+C<L<$f-E<gt>frec-E<gt>name|docs::2.0::api::Apache2::FilterRec/C_name_>>.
 
 
 
@@ -240,10 +240,10 @@ Inside an HTTP request filter retrieve the current request object:
 =over 4
 
 =item obj: C<$f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 =item ret: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item since: 1.99_10
 
@@ -269,7 +269,7 @@ request or connection).
 =over 4
 
 =item obj: C<$f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 =item ret: no return value
 
@@ -280,7 +280,7 @@ request or connection).
 Notice that you should either complete the current filter invocation
 normally (by calling C<L<get_brigade|/C_get_brigade_>> or
 C<L<pass_brigade|/C_pass_brigade_>> depending on the filter kind) or
-if nothing was done, return C<Apache::DECLINED> and mod_perl will take
+if nothing was done, return C<Apache2::DECLINED> and mod_perl will take
 care of passing the current bucket brigade through unmodified to the
 next filter in chain.
 
@@ -291,11 +291,11 @@ in Apache and then make sure to require the minimum Apache version if
 you rely on.
 
 Remember that if the connection is
-C<L<$c-E<gt>keepalive|docs::2.0::api::Apache::Connection/C_keepalive_>>
+C<L<$c-E<gt>keepalive|docs::2.0::api::Apache2::Connection/C_keepalive_>>
 ) and the connection filter is removed, it won't be added until the
 connection is closed. Which may happen after many HTTP requests. You
 may want to keep the filter in place and pass the data through
-unmodified, by returning C<Apache::DECLINED>. If you need to reset the
+unmodified, by returning C<Apache2::DECLINED>. If you need to reset the
 whole or parts of the filter context between requests, use the
 L<technique based on C<$c-E<gt>keepalives>
 counting|docs::2.0::user::handler::filters>.
@@ -331,12 +331,12 @@ Flush a bucket brigade down the filter stack.
 =over 4
 
 =item obj: C<$f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The current filter
 
 =item arg1: C<$bb>
-( C<L<Apache::Brigade object|docs::2.0::api::APR::Brigade>> )
+( C<L<Apache2::Brigade object|docs::2.0::api::APR::Brigade>> )
 
 The brigade to flush
 
@@ -385,14 +385,14 @@ bucket brigade from the upstream input filter.
 =over 4
 
 =item obj: C<$next_f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The next filter in the filter chain.
 
 Inside L<filter handlers|docs::2.0::user::handlers::filters> it's
 usually C<L<$f-E<gt>next|/C_next_>>. Inside L<protocol
 handlers|docs::2.0::user::handlers::protocols>:
-C<L<$c-E<gt>input_filters|docs::2.0::api::Apache::Connection/C_input_filters_>>.
+C<L<$c-E<gt>input_filters|docs::2.0::api::Apache2::Connection/C_input_filters_>>.
 
 
 =item arg1: C<$bb>
@@ -414,8 +414,8 @@ may contain nothing if there was no more data to read. The return
 status tells the outcome.
 
 
-=item opt arg2: C<$mode> ( C<L<Apache::Const :input_mode
-constant|docs::2.0::api::Apache::Const/C__input_mode_>> )
+=item opt arg2: C<$mode> ( C<L<Apache2::Const :input_mode
+constant|docs::2.0::api::Apache2::Const/C__input_mode_>> )
 
 The filter mode in which the data should be read.
 
@@ -425,7 +425,7 @@ that was passed to the filter handler (the third argument).
 At the end of this section the available modes are presented.
 
 If the argument C<$mode> is not passed,
-C<L<Apache::MODE_READBYTES|docs::2.0::api::Apache::Const/C_Apache__MODE_READBYTES_>>
+C<L<Apache2::MODE_READBYTES|docs::2.0::api::Apache2::Const/C_Apache2__MODE_READBYTES_>>
 is used as a default value.
 
 
@@ -469,7 +469,7 @@ In case of a failure -- a failure code is returned, in which case
 normally it should be returned to the caller.
 
 If the bottom-most filter doesn't read from the network, then
-C<Apache::NOBODY_READ> is returned (META: need to add this constant).
+C<Apache2::NOBODY_READ> is returned (META: need to add this constant).
 
 Inside L<protocol handlers|docs::2.0::user::handlers::protocols> the
 return code can also be C<APR::EOF>, which is success as well.
@@ -501,31 +501,31 @@ are:
 
 =over
 
-=item * C<L<Apache::MODE_READBYTES|docs::2.0::api::Apache::Const/C_Apache__MODE_READBYTES_>>
+=item * C<L<Apache2::MODE_READBYTES|docs::2.0::api::Apache2::Const/C_Apache2__MODE_READBYTES_>>
 
 The filter should return at most readbytes data
 
-=item * C<L<Apache::MODE_GETLINE|docs::2.0::api::Apache::Const/C_Apache__MODE_GETLINE_>>
+=item * C<L<Apache2::MODE_GETLINE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_GETLINE_>>
 
 The filter should return at most one line of CRLF data.  (If a
 potential line is too long or no CRLF is found, the filter may return
 partial data).
 
-=item * C<L<Apache::MODE_EATCRLF|docs::2.0::api::Apache::Const/C_Apache__MODE_EATCRLF_>>
+=item * C<L<Apache2::MODE_EATCRLF|docs::2.0::api::Apache2::Const/C_Apache2__MODE_EATCRLF_>>
 
 The filter should implicitly eat any CRLF pairs that it sees.
 
-=item * C<L<Apache::MODE_SPECULATIVE|docs::2.0::api::Apache::Const/C_Apache__MODE_SPECULATIVE_>>
+=item * C<L<Apache2::MODE_SPECULATIVE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_SPECULATIVE_>>
 
 The filter read should be treated as speculative and any returned data
 should be stored for later retrieval in another mode.
 
-=item * C<L<Apache::MODE_EXHAUSTIVE|docs::2.0::api::Apache::Const/C_Apache__MODE_EXHAUSTIVE_>>
+=item * C<L<Apache2::MODE_EXHAUSTIVE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_EXHAUSTIVE_>>
 
 The filter read should be exhaustive and read until it can not read
 any more. Use this mode with extreme caution.
 
-=item * C<L<Apache::MODE_INIT|docs::2.0::api::Apache::Const/C_Apache__MODE_INIT_>>
+=item * C<L<Apache2::MODE_INIT|docs::2.0::api::Apache2::Const/C_Apache2__MODE_INIT_>>
 
 The filter should initialize the connection if needed, NNTP or FTP
 over SSL for example.
@@ -534,7 +534,7 @@ over SSL for example.
 
 Either compile all these constants with:
 
-  use Apache::Const -compile => qw(:input_mode);
+  use Apache2::Const -compile => qw(:input_mode);
 
 But it's a bit more efficient to compile only those constants that you
 need.
@@ -544,9 +544,9 @@ Example:
 Here is a fragment of a filter handler, that receives a bucket brigade
 from the upstream filter:
 
-  use Apache::Filter ();
+  use Apache2::Filter ();
   use APR::Const    -compile => qw(SUCCESS);
-  use Apache::Const -compile => qw(OK);
+  use Apache2::Const -compile => qw(OK);
   sub filter {
       my($f, $bb, $mode, $block, $readbytes) = @_;
       
@@ -555,7 +555,7 @@ from the upstream filter:
       
       # ... process $bb
       
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 Usually arguments C<$mode>, C<$block>, C<$readbytes> are the same as
@@ -574,7 +574,7 @@ If you decide not check the return code, you can write it as:
       
       # ... process $bb
       
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 and the error checking will be done on your behalf.
@@ -599,14 +599,14 @@ the current bucket brigade to the downstream output filter.
 =over 4
 
 =item obj: C<$next_f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The next filter in the filter chain.
 
 Inside L<output filter handlers|docs::2.0::user::handlers::filters>
 it's usually C<L<$f-E<gt>next|/C_next_>>. Inside L<protocol
 handlers|docs::2.0::user::handlers::protocols>:
-C<L<$c-E<gt>output_filters|docs::2.0::api::Apache::Connection/C_output_filters_>>.
+C<L<$c-E<gt>output_filters|docs::2.0::api::Apache2::Connection/C_output_filters_>>.
 
 =item arg1: C<$bb>
 ( C<L<APR::Brigade object|docs::2.0::api::APR::Brigade>> )
@@ -628,7 +628,7 @@ In case of a failure -- a failure code is returned, in which case
 normally it should be returned to the caller.
 
 If the bottom-most filter doesn't write to the network, then
-C<Apache::NOBODY_WROTE> is returned (META: need to add this constant).
+C<Apache2::NOBODY_WROTE> is returned (META: need to add this constant).
 
 Also refer to the C<L<get_brigade()|/C_get_brigade_>> entry to see how
 to avoid checking the errors explicitly.
@@ -652,9 +652,9 @@ Here is a fragment of a filter handler, that passes a bucket brigade
 to the downstream filter (after some potential processing of the
 buckets in the bucket brigade):
 
-  use Apache::Filter ();
+  use Apache2::Filter ();
   use APR::Const    -compile => qw(SUCCESS);
-  use Apache::Const -compile => qw(OK);
+  use Apache2::Const -compile => qw(OK);
   sub filter {
       my($f, $bb) = @_;
   
@@ -663,7 +663,7 @@ buckets in the bucket brigade):
       my $rc = $f->next->pass_brigade($bb);
       return $rc unless $rc == APR::SUCCESS;
   
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 
@@ -696,7 +696,7 @@ internal buffer).
 =over 4
 
 =item obj: C<$f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 =item arg1: C<$buffer> ( string )
 
@@ -731,7 +731,7 @@ Read data from the filter
 =over 4
 
 =item obj: C<$f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 =item arg1: C<$buffer> ( SCALAR )
 
@@ -789,7 +789,7 @@ C<L<read|/C_read_>> method.
 =over 4
 
 =item obj: C<$f>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The filter to remove
 
@@ -843,7 +843,7 @@ tests that test abnormal situations.
 =head1 Other Filter-related API
 
 Other methods which affect filters, but called on
-non-C<Apache::Filter> objects:
+non-C<Apache2::Filter> objects:
 
 
 
@@ -860,8 +860,8 @@ Add C<&callback> filter handler to input connection filter chain.
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> ) or C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> ) or C<$r>
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<&callback> (CODE ref)
 
@@ -898,8 +898,8 @@ Add C<&callback> filter handler to output connection filter chain.
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> ) or C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> ) or C<$r>
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<&callback> (CODE ref)
 
@@ -916,13 +916,13 @@ Add C<&callback> filter handler to output connection filter chain.
 
 =head1 Filter Handler Attributes
 
-Packages using filter attributes have to subclass C<Apache::Filter>:
+Packages using filter attributes have to subclass C<Apache2::Filter>:
 
-  package MyApache::FilterCool;
-  use base qw(Apache::Filter);
+  package MyApache2::FilterCool;
+  use base qw(Apache2::Filter);
 
 Attributes are parsed during the code compilation, by the function
-C<MODIFY_CODE_ATTRIBUTES>, inherited from the C<Apache::Filter>
+C<MODIFY_CODE_ATTRIBUTES>, inherited from the C<Apache2::Filter>
 package.
 
 
@@ -937,12 +937,12 @@ For example, to configure an output request filter handler, use the
 C<FilterRequestHandler> attribute in the handler subroutine's
 declaration:
 
-  package MyApache::FilterOutputReq;
+  package MyApache2::FilterOutputReq;
   sub handler : FilterRequestHandler { ... }
 
 and add the configuration entry:
 
-  PerlOutputFilterHandler MyApache::FilterOutputReq
+  PerlOutputFilterHandler MyApache2::FilterOutputReq
 
 This is the default mode. So if you are writing an HTTP request
 filter, you don't have to specify this attribute.
@@ -963,12 +963,12 @@ For example, to configure an output connection filter handler, use the
 C<FilterConnectionHandler> attribute in the handler subroutine's
 declaration:
 
-  package MyApache::FilterOutputCon;
+  package MyApache2::FilterOutputCon;
   sub handler : FilterConnectionHandler { ... }
 
 and add the configuration entry:
 
-  PerlOutputFilterHandler MyApache::FilterOutputCon
+  PerlOutputFilterHandler MyApache2::FilterOutputCon
 
 The section L<HTTP Request vs. Connection
 Filters|docs::2.0::user::handlers::filters/HTTP_Request_vs__Connection_Filters>
@@ -987,7 +987,7 @@ actually called.
   sub init : FilterInitHandler {
       my $f = shift;
       #...
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 In order to hook this filter callback, the real filter has to assign
@@ -1011,13 +1011,13 @@ C<push_handlers> the callback reference is expected, rather than a
 callback name. The used callback function has to have the
 C<L<FilterInitHandler|/C_FilterInitHandler_>> attribute. For example:
 
-  package MyApache::FilterBar;
-  use base qw(Apache::Filter);
+  package MyApache2::FilterBar;
+  use base qw(Apache2::Filter);
   sub init   : FilterInitHandler { ... }
   sub filter : FilterRequestHandler FilterHasInitHandler(\&init) {
       my ($f, $bb) = @_;
       # ...
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 For further discussion and examples refer to the L<Filter
@@ -1071,7 +1071,7 @@ C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/C_PerlSetInputFilter_>
 
 =head1 TIE Interface
 
-C<Apache::Filter> also implements a tied interface, so you can work
+C<Apache2::Filter> also implements a tied interface, so you can work
 with the C<$f> object as a hash reference.
 
 The TIE interface is mostly unimplemented and might be implemented
