@@ -365,7 +365,7 @@ or `mc' to search the .pod source directly.
 
 =head2 Finding the Guide
 
-Simply go to the <mod_perl Guide|docs::1.0::guide::index>.
+Simply go to the L<mod_perl Guide|docs::1.0::guide::index>.
 
 =head2 Corrections and Contributions
 
