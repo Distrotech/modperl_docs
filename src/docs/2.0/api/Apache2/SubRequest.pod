@@ -1,13 +1,13 @@
 =head1 NAME
 
-Apache::SubRequest - Perl API for Apache subrequests
+Apache2::SubRequest - Perl API for Apache subrequests
 
 
 
 
 =head1 Synopsis
 
-  use Apache::SubRequest ();
+  use Apache2::SubRequest ();
   
   # run internal redirects at once
   $r->internal_redirect($new_uri);
@@ -27,11 +27,11 @@ Apache::SubRequest - Perl API for Apache subrequests
 
 =head1 Description
 
-C<Apache::SubRequest> contains API for creating and running of Apache
+C<Apache2::SubRequest> contains API for creating and running of Apache
 sub-requests.
 
-C<Apache::SubRequest> is a sub-class of C<L<Apache::RequestRec
-object|docs::2.0::api::Apache::RequestRec>>.
+C<Apache2::SubRequest> is a sub-class of C<L<Apache2::RequestRec
+object|docs::2.0::api::Apache2::RequestRec>>.
 
 
 
@@ -41,7 +41,7 @@ object|docs::2.0::api::Apache::RequestRec>>.
 
 =head1 API
 
-C<Apache::SubRequest> provides the following functions and/or methods:
+C<Apache2::SubRequest> provides the following functions and/or methods:
 
 
 
@@ -55,8 +55,8 @@ Free the memory associated with a sub request:
 
 =over 4
 
-=item obj: C<$subr> ( C<L<Apache::SubRequest
-object|docs::2.0::api::Apache::SubRequest/Description>> )
+=item obj: C<$subr> ( C<L<Apache2::SubRequest
+object|docs::2.0::api::Apache2::SubRequest/Description>> )
 
 The sub request to finish
 
@@ -97,7 +97,7 @@ Redirect the current request to some other uri internally
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -113,7 +113,7 @@ The URI to replace the current request with
 
 In case that you want some other request to be served as the top-level
 request instead of what the client requested directly, call this
-method from a handler, and then immediately return C<Apache::OK>. The
+method from a handler, and then immediately return C<Apache2::OK>. The
 client will be unaware the a different request was served to her
 behind the scenes.
 
@@ -128,9 +128,9 @@ behind the scenes.
 
 Identical to C<L<internal_redirect|/C_internal_redirect_>>, plus
 automatically sets
-C<L<$r-E<gt>content_type|docs::2.0::api::Apache::RequestRec/C_content_type_>>
+C<L<$r-E<gt>content_type|docs::2.0::api::Apache2::RequestRec/C_content_type_>>
 is of the sub-request to be the same as of the main request, if
-C<L<$r-E<gt>handler|docs::2.0::api::Apache::RequestRec/C_handler_>> is
+C<L<$r-E<gt>handler|docs::2.0::api::Apache2::RequestRec/C_handler_>> is
 true.
 
   $r->internal_redirect_handler($new_uri);
@@ -138,7 +138,7 @@ true.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -176,7 +176,7 @@ inspected to find information about the requested file
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -185,12 +185,12 @@ The current request
 The file to lookup
 
 =item opt arg2: C<$next_filter>
-( C<L<Apache::Filter|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter|docs::2.0::api::Apache2::Filter>> )
 
 See C<L<$r-E<gt>lookup_uri|/C_lookup_uri_>> for details.
 
-=item ret: C<$ret> ( C<L<Apache::SubRequest
-object|docs::2.0::api::Apache::SubRequest/Description>> )
+=item ret: C<$ret> ( C<L<Apache2::SubRequest
+object|docs::2.0::api::Apache2::SubRequest/Description>> )
 
 The sub request record.
 
@@ -215,7 +215,7 @@ URI
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -228,12 +228,12 @@ The method to use in the new sub request (e.g. C<"GET">)
 The URI to lookup
 
 =item opt arg3: C<$next_filter>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 See C<L<$r-E<gt>lookup_uri|/C_lookup_uri_>> for details.
 
-=item ret: C<$ret> ( C<L<Apache::SubRequest
-object|docs::2.0::api::Apache::SubRequest/Description>> )
+=item ret: C<$ret> ( C<L<Apache2::SubRequest
+object|docs::2.0::api::Apache2::SubRequest/Description>> )
 
 The sub request record.
 
@@ -258,7 +258,7 @@ inspected to find information about the requested URI.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -267,20 +267,20 @@ The current request
 The URI to lookup
 
 =item opt arg2: C<$next_filter>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The first filter the subrequest should pass the data through.  If not
 specified it defaults to the first connection output filter for the
 main request
-C<L<$r-E<gt>proto_output_filters|docs::2.0::api::Apache::RequestRec/C_proto_output_filters_>>. So
+C<L<$r-E<gt>proto_output_filters|docs::2.0::api::Apache2::RequestRec/C_proto_output_filters_>>. So
 if the subrequest sends any output it will be filtered only once. If
 for example you desire to apply the main request's output filters to
 the sub-request output as well pass
-C<L<$r-E<gt>output_filters|docs::2.0::api::Apache::RequestRec/C_output_filters_>>
+C<L<$r-E<gt>output_filters|docs::2.0::api::Apache2::RequestRec/C_output_filters_>>
 as an argument.
 
-=item ret: C<$ret> ( C<L<Apache::SubRequest
-object|docs::2.0::api::Apache::SubRequest/Description>> )
+=item ret: C<$ret> ( C<L<Apache2::SubRequest
+object|docs::2.0::api::Apache2::SubRequest/Description>> )
 
 The sub request record
 
@@ -297,15 +297,15 @@ I</new_uri>:
       my $subr = $r->lookup_uri("/new_uri");
       $sub->run;
   
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 If let's say you have three request output filters registered to run
 for the main request:
 
-  PerlOutputFilterHandler MyApache::SubReqExample::filterA
-  PerlOutputFilterHandler MyApache::SubReqExample::filterB
-  PerlOutputFilterHandler MyApache::SubReqExample::filterC
+  PerlOutputFilterHandler MyApache2::SubReqExample::filterA
+  PerlOutputFilterHandler MyApache2::SubReqExample::filterB
+  PerlOutputFilterHandler MyApache2::SubReqExample::filterC
 
 and you wish to run them all, the code needs to become:
 
@@ -329,13 +329,13 @@ Run a sub-request
 =over 4
 
 =item obj: C<$subr>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The sub-request (e.g. returned by C<L<lookup_uri|/C_lookup_uri_>>)
 
 =item ret: C<$rc> ( integer )
 
-The return code of the handler (C<Apache::OK>, C<Apache::DECLINED>,
+The return code of the handler (C<Apache2::OK>, C<Apache2::DECLINED>,
 etc.)
 
 =item since: 1.99_12
@@ -349,7 +349,7 @@ etc.)
 
 =head1 Unsupported API
 
-C<Apache::SubRequest> also provides auto-generated Perl interface for
+C<Apache2::SubRequest> also provides auto-generated Perl interface for
 a few other methods which aren't tested at the moment and therefore
 their API is a subject to change. These methods will be finalized
 later as a need arises. If you want to rely on any of the following
@@ -373,7 +373,7 @@ Redirect the current request to a sub_req, merging the pools
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -413,7 +413,7 @@ can be inspected to find information about the requested file
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
@@ -426,8 +426,8 @@ The apr_dir_read result to lookup
 
 What type of subrequest to perform, one of;
 
-  Apache::SUBREQ_NO_ARGS     ignore r->args and r->path_info
-  Apache::SUBREQ_MERGE_ARGS  merge  r->args and r->path_info
+  Apache2::SUBREQ_NO_ARGS     ignore r->args and r->path_info
+  Apache2::SUBREQ_MERGE_ARGS  merge  r->args and r->path_info
 
 =item arg3: C<$next_filter> ( integer )
 
@@ -435,7 +435,7 @@ The first filter the sub_request should use.  If this is
 NULL, it defaults to the first filter for the main request
 
 =item ret: C<$lr>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The new request record
 
