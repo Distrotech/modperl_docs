@@ -220,20 +220,30 @@ readability)
        http://theoryx5.uwinnipeg.ca/ppmpackages/mod_perl.ppd
 
 Another way, which will be useful if you plan on installing additional
-Apache modules, is to set the repository within the C<ppm> shell
-utility as (the C<set repository ...> command has been broken over two
+Apache modules, is to add the repository where the mod_perl package
+is kept to the C<ppm> shell utility. For C<ppm2> this may be
+done as (the C<set repository ...> command has been broken over two
 lines for readability):
 
    C:\> ppm
    PPM> set repository theoryx5 
          http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer
+
+while for C<ppm3> the appropriate command is (again broken over
+two lines for readability):
+
+   C:\> ppm
+   PPM> repository add theoryx5 
+         http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer
+
+After this, you can do
+
    PPM> install mod_perl
-   PPM> set save
    PPM> quit
    C:\>
 
-The C<set save> command saves the C<theoryx5> repository to your PPM
-configuration file, so that future PPM sessions will search this
+For C<ppm2>, use the C<set save> command to save the C<theoryx5> repository 
+to your PPM configuration file, so that future PPM sessions will search this
 repository, as well as ActiveState's, for requested packages.
 If you are running mod_ssl under Apache, then you should
 obtain the C<mod_perl-eapi.ppd> package instead.
