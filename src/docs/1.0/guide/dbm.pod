@@ -392,8 +392,8 @@ does not disturb readers when putting a new read-only copy into place.
 
 =head1 DB_File::Lock2
 
-=code DB_File-Lock2.pm Here is C<DB_File::Lock2> which does the
-locking by using an external lockfile.
+Here is F<code/DB_File-Lock2.pm> which does the locking by using an
+external lockfile.
 
 This allows you to gain the lock before the file is tied.  Note that
 it's not yet on CPAN and so is linked from here in its entirety.  Note

@@ -414,7 +414,7 @@ Sample output:
 
 And the code:
 
-=code lwp-bench.pl The LWP::Parallel::UserAgent benchmark
+The LWP::Parallel::UserAgent benchmark: F<code/lwp-bench.pl>
 
 =head3 Benchmarking PerlHandlers
 

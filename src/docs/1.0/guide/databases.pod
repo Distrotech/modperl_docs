@@ -380,7 +380,7 @@ persistent database handles with mod_cgi.
 
 =head2 The My::DB module
 
-=code My-DB.pm The My::DB module
+The F<code/My-DB.pm> module
 
 (Note that you will not find this on CPAN. at least not yet :)
 

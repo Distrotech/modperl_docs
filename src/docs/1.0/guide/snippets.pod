@@ -1248,10 +1248,10 @@ course).
 Prepare the backup script and store it in a file, e.g:
 I</usr/local/sbin/mysql/mysql.backup.pl>
 
-=code mysql-3.22.29_backup.pl This is the original code 
+This is the original code F<code/mysql-3.22.29_backup.pl>
 
-=code mysql-3.22.30+_backup.pl This is the code modified to work with
-mysql-3.22.30+ 
+This is the code modified to work with mysql-3.22.30+
+F<code/mysql-3.22.30+_backup.pl>
 
 You might need to change the executable paths according to your
 system.  List the names of the databases you want to backup using
@@ -1271,10 +1271,10 @@ corrupted we have all the information to restore it to the state it
 was in at our last backup.  We restore it with the following script,
 which I put in: I</usr/local/sbin/mysql/mysql.restore.pl>
 
-=code mysql-3.22.29_restore.pl This is the original code
+This is the original code F<code/mysql-3.22.29_restore.pl> 
 
-=code mysql-3.22.30+_restore.pl This is the code modified to work with
-mysql-3.22.30+
+This is the code modified to work with mysql-3.22.30+
+F<code/mysql-3.22.30+_restore.pl>
 
 These are kinda dirty scripts, but they work... if you come up with 
 cleaner scripts, please contribute them... thanks
