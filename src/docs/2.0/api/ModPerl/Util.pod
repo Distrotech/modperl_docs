@@ -17,6 +17,9 @@ ModPerl::Util - Helper mod_perl Functions
   
   # untaint a string (do not use it! see the doc)
   ModPerl::Util::untaint($string);
+  
+  # removes a module as best as it can
+  ModPerl::Util::unload_module($module);
 
 
 
@@ -153,6 +156,37 @@ C<$tainted_var> is untainted.
 
 Do not use this function unless you know what you are doing. To learn
 how to properly untaint variables refer to the I<perlsec> manpage.
+
+
+
+
+
+=head2 C<unload_module>
+
+Unloads a module from the current perl interpreter in the safest
+way possible.
+
+  ModPerl::Util::unload_module($module);
+
+=over 4
+
+=item arg1: C<$module> (scalar)
+
+The name of the module to unload
+
+=item ret: no return value
+
+=item since 1.99_17
+
+=back
+
+Unloading a module from Perl is a complicated business. This function 
+tries very hard to do the right thing. After calling this module, it
+should be safe to C<use> a new version of the module.
+
+References to module elements (function, variables, etc) that were taken
+from outside the unloaded module will still be valid.
+
 
 
 
