@@ -312,11 +312,6 @@ sent:
   ----------------------
   1st    eos
 
-The EOS bucket may be attached to the last bucket brigade with the
-data, rather than be sent in its own brigade, therefore filters should
-never make an assumption that the EOS bucket is arriving alone in a
-bucket brigade.
-
 Notice that the EOS bucket may come attached to the last bucket
 brigade with data, instead of coming in its its own bucket brigade.
 Filters should never make an assumption that the EOS bucket is
@@ -2534,6 +2529,28 @@ Mention mod_bucketeer as filter debugging tool (in addition to FilterSnoop)
 =head1 Writing Efficient Filters
 
 META: to be written
+
+[
+
+As of this writing the network input filter reads in 8000B chunks (not
+8192B!), and making each bucket 8000B in size, so it seems that the
+most efficient reading technique is:
+
+  use constant BUFF_LEN => 8000;
+  while ($f->read(my $buffer, BUFF_LEN)) {
+      # manip $buffer
+      $f->print($buffer);
+  }
+
+however if there is some filter in between, it may change the size of
+the buckets. Also this number may change in the future.
+
+Hmm, I've also seen it read in 7819 chunks. I suppose this is not very
+reliable. But it's probably a good idea to ask at least 8k, so if a
+bucket brigade has < 8k, nothing will need to be stored in the
+internal buffer. i.e. read() will return less than asked for.
+
+]
 
 [
 
