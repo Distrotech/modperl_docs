@@ -1,0 +1,2338 @@
+=head1 NAME
+
+mod_perl Configuration
+
+
+=head1 Server Configuration
+
+The next step after building and installing your new mod_perl enabled
+Apache server is to configure the server.  There are two separate parts
+to configure: Apache and mod_perl.  Each has its own set of directives.
+
+To configure your mod_perl enabled Apache server, the only file that
+you should need to edit is I<httpd.conf>.  By default, I<httpd.conf> is
+put into the I<conf> directory under the server root directory.  The
+default server root is I</usr/local/apache/> on many UNIX platforms,
+but within reason it can be any directory you choose.  If you are new
+to Apache and mod_perl, you will probably find it helpful to keep to
+the directory layouts we use in this Guide if you can.
+
+Apache versions 1.3.4 and later are distributed with the configuration
+directives in a single file -- I<httpd.conf>.  This Guide uses the
+same approach in its examples.  Prior to version 1.3.4, the default
+Apache installation used three configuration files -- I<httpd.conf>,
+I<srm.conf>, and I<access.conf>.  If you wish you can still use all
+three files, by setting the AccessConfig and ResourceConfig directives
+in I<httpd.conf>.  You will also see later on that we use other files,
+for example I<perl.conf> and I<startup.pl>.  This is just for our
+convenience, you could still do everything in I<httpd.conf> if you
+wished.
+
+
+
+=head1 Apache Configuration
+
+Apache configuration can be confusing.  To minimize the number of
+things that can go wrong, it can be a good idea first to configure
+Apache itself without mod_perl.  This will give you the confidence
+that it works and maybe that you have some idea how to configure it.
+
+There is a warning in the I<httpd.conf> distributed with Apache about
+simply editing I<httpd.conf> and running the server, without
+understanding all the implications.  This is another warning.
+Modifying the configuration file and adding new directives can
+introduce security problems, and have performance implications.
+
+The Apache distribution comes with an extensive configuration manual,
+and in addition each section of the distributed configuration file
+includes helpful comments explaining how every directive should be
+configured and what the defaults values are.
+
+If you haven't moved Apache's directories around, the installation
+program will have configured everything for you.  You can just start
+the server and test it.  To start the server use the C<apachectl>
+utility which comes bundled with the Apache distribution.  It resides
+in the same directory as C<httpd>, the Apache server itself.  Execute:
+
+  /usr/local/apache/bin/apachectl start
+
+Now you can test the server, for example by accessing http://localhost
+from a browser running on the same host.
+
+
+=head2 Configuration Directives
+
+For a basic setup there are just a few things to configure.  If you
+have moved any directories you have to update them in I<httpd.conf>.
+There are many of them, here are just a couple of examples:
+
+  ServerRoot   "/usr/local/apache"
+  DocumentRoot "/home/httpd/docs"
+
+If you want to run it on a port other than port 80 edit the C<Port>
+directive:
+
+  Port 8080
+
+You might want to change the user and group names the server will run
+under.  Note that if started as the I<root> user (which is generally
+the case), the parent process will continue to run as I<root>, but its
+children will run as the user and group you have specified.  For
+example:
+
+  User httpd
+  Group httpd
+
+There are many other directives that you might need to configure as
+well.  In addition to directives which take a single value there are
+whole sections of the configuration (such as the C<E<lt>DirectoryE<gt>> and
+C<E<lt>LocationE<gt>> sections) which apply only to certain areas of your Web
+space.  As mentioned earlier you will find them all in I<httpd.conf>.
+
+
+=head2  .htaccess files
+
+If there is a file with the name I<.htaccess> in any directory, Apache
+scans it for further configuration directives which it then applies
+only to that directory (and its subdirectories).  The name
+I<.htaccess> is confusing because it can contain any configuration
+directives, not just those related to access to resources.  You will
+not be surprised to find that a configuration directive can change the
+names of the files used in this way.
+
+Note that if there is a
+
+  <Directory />
+    AllowOverride None
+  </Directory>
+
+directive in I<httpd.conf>, Apache will not try to look for
+I<.htaccess> at all.
+
+
+=head2 E<lt>DirectoryE<gt>, E<lt>LocationE<gt> and E<lt>FilesE<gt> Sections
+
+I'll explain just the basics of the C<E<lt>DirectoryE<gt>>, C<E<lt>LocationE<gt>> and
+C<E<lt>FilesE<gt>> sections.  Remember that there is more to know and the rest
+of the information is available in the Apache documentation.  The
+information I'll present here is just what is important for
+understanding the mod_perl configuration sections.
+
+Apache considers directories and files on your machine all to be
+resources.  For each resource you can determine a particular behaviour
+which will apply to every request for information from that particular
+resource.
+
+Obviously the directives in C<E<lt>DirectoryE<gt>> sections apply to specific
+directories on your host machine, and those in C<E<lt>FilesE<gt>> sections
+apply only to specific files (actually groups of files with names
+which have something in common).  In addition to these sections,
+Apache has the concept of a C<E<lt>LocationE<gt>>, which is also just a
+resource.  C<E<lt>LocationE<gt>> sections apply to specific URIs.  Locations
+are based at the document root, directories are based at the
+filesystem root.  For example, if you have the default server
+directory layout where the server root is I</usr/local/apache> and the
+document root is I</usr/local/apache/htdocs> then static files in the
+directory I</usr/local/apache/htdocs/pub> are in the location I</pub>.
+
+It is up to you to decide which directories on your host machine are
+mapped to which locations.  You should be careful how you do it,
+because the security of your server may be at stake.
+
+Locations do not necessarily have to refer to existing physical
+directories, but may refer to virtual resources which the server
+creates for the duration of a single browser request.  As you will
+see, this is often the case for a mod_perl server.
+
+When a browser asks for a resource from your server, Apache determines
+from its configuration whether or not to serve the request, whether to
+pass the request to another server, what (if any) authorization is
+required for access to the resource, and how to reply.  For any given
+resource, the various sections in your configuration may provide
+conflicting information.  For example you may have a C<E<lt>DirectoryE<gt>>
+section which tells Apache that authorization is required for access
+to the resource but you may have a C<E<lt>FilesE<gt>> section which says that
+it is not.  It is not always obvious which directive takes precedence
+in these cases.  This can be a trap for the unwary.
+
+
+=over
+
+=item * E<lt>Directory directoryPathE<gt> ... E<lt>/DirectoryE<gt>
+
+Can appear in server and virtual host configurations.
+
+C<E<lt>DirectoryE<gt>> and C<E<lt>/DirectoryE<gt>> are used to enclose a group of
+directives which will apply only to the named directory and
+sub-directories of that directory.  Any directive which is allowed in
+a directory context (see the Apache documentation) may be used.
+
+The path given in the C<E<lt>DirectoryE<gt>> directive is either the full path
+to a directory, or a wild-card string.  In a wild-card string, C<?>
+matches any single character, C<*> matches any sequence of characters,
+and C<[]> matches character ranges.  (This is similar to the shell's
+file globs.)  None of the wildcards will match a C</> character.
+For example:
+
+   <Directory /home/httpd/docs>
+     Options Indexes
+   </Directory>
+
+If you want to use a regular expression to match then you should use
+the syntax C<E<lt>DirectoryMatch regexE<gt>> ... C<E<lt>/DirectoryMatchE<gt>>.
+
+If multiple (non-regular expression) directory sections match the
+directory (or its parents) containing a document, then the directives
+are applied in the order of shortest match first, interspersed with
+the directives from any I<.htaccess> files.  For example, with
+
+     <Directory />
+       AllowOverride None
+     </Directory>
+
+     <Directory /home/httpd/docs/*>
+       AllowOverride FileInfo
+     </Directory>
+
+for access to the document I</home/httpd/docs/index.html> the steps are:
+
+=over
+
+=item * Apply directive C<AllowOverride None> (disabling I<.htaccess>
+files).
+
+=item * Apply directive C<AllowOverride FileInfo> for directory
+I</home/httpd/docs/> (which now enables I<.htaccess> in
+I</home/httpd/docs/> and its sub-directories).
+
+=item * Apply any C<FileInfo> directives in
+I</home/httpd/docs/.htaccess>.
+
+=back
+
+
+
+=item * C<E<lt>Files filenameE<gt>> ... C<E<lt>/FilesE<gt>>
+
+Can appear in server and virtual host configurations, and I<.htaccess>
+files as well.
+
+The C<E<lt>FilesE<gt>> directive provides for access control by
+filename.  It is comparable to the C<E<lt>DirectoryE<gt>> and
+C<E<lt>LocationE<gt>> directives.  It should be closed with the
+C<E<lt>/FilesE<gt>> directive.  The directives given within this
+section will be applied to any object with a basename (last component
+of filename) matching the specified filename.
+
+C<E<lt>FilesE<gt>> sections are processed in the order they appear in
+the configuration file, after the C<E<lt>DirectoryE<gt>> sections and
+I<.htaccess> files are read, but before C<E<lt>LocationE<gt>>
+sections. Note that C<E<lt>FilesE<gt>> can be nested inside
+C<E<lt>DirectoryE<gt>> sections to restrict the portion of the
+filesystem they apply to. C<E<lt>FilesE<gt>> cannot be nested inside
+C<E<lt>LocationE<gt>> sections however.
+
+The filename argument should include a filename, or a wild-card
+string, where C<?> matches any single character, and C<*> matches any
+sequence of characters. Extended regular expressions can also be used,
+simply place a tilde character C<~> between the directive and the
+regular expression.  The regular expression should be in quotes.  The
+dollar symbol refers to the end of the string.  The pipe character
+indicates alternatives.  Special characters in extended regular
+expressions must escaped with a backslash.  For example:
+
+   <Files ~ "\.(gif|jpe?g|png)$">
+
+would match most common Internet graphics formats.  Alternatively you
+can use the C<E<lt>FilesMatch regexE<gt>> ... C<E<lt>/FilesMatchE<gt>>
+syntax.
+
+=item * E<lt>Location URLE<gt> ... E<lt>/LocationE<gt>
+
+Can appear in server and virtual host configurations.
+
+The C<E<lt>LocationE<gt>> directive provides for access control by
+URL.  It is similar to the C<E<lt>DirectoryE<gt>> directive, and
+starts a section which is terminated with the C<E<lt>/LocationE<gt>>
+directive.
+
+C<E<lt>LocationE<gt>> sections are processed in the order they appear
+in the configuration file, after the C<E<lt>DirectoryE<gt>> sections,
+I<.htaccess> files and C<E<lt>FilesE<gt>> sections are read.
+
+The C<E<lt>LocationE<gt>> section is the directive that is used most
+often with mod_perl.
+
+URLs I<do not> have to refer to real directories or files within the
+filesystem at all, C<E<lt>LocationE<gt>> operates completely outside
+the filesystem.  Indeed it may sometimes be wise to ensure that
+C<E<lt>LocationE<gt>>s do not match real paths to avoid confusion.
+
+The URL may use wildcards.  In a wild-card string, C<?> matches any
+single character, and C<*> matches any sequences of characters, C<[]>
+groups characters to match. For regular expression matches use the
+C<E<lt>LocationMatch regexE<gt>> ... C<E<lt>/LocationMatchE<gt>>
+syntax.
+
+The C<E<lt>LocationE<gt>> functionality is especially useful when
+combined with the C<SetHandler> directive.  For example to enable
+status requests, but allow them only from browsers at I<example.com>,
+you might use:
+
+  <Location /status>
+    SetHandler server-status
+    order deny,allow
+    deny from all
+    allow from .example.com
+  </Location>
+
+
+=back
+
+
+
+
+=head2 How Directory, Location and Files Sections are Merged
+
+When configuring the server, it's important to understand the order in
+which the rules of each section apply to requests. The order of
+merging is:
+
+=over
+
+=item 1 C<E<lt>DirectoryE<gt>> (except regular expressions) and
+I<.htaccess> are processed simultaneously, with I<.htaccess>
+overriding C<E<lt>DirectoryE<gt>>
+
+=item 1 C<E<lt>DirectoryMatchE<gt>>, and C<E<lt>DirectoryE<gt>> with
+regular expressions
+
+=item 1 C<E<lt>FilesE<gt>> and C<E<lt>FilesMatchE<gt>> are processed
+simultaneously
+
+=item 1 C<E<lt>LocationE<gt>> and C<E<lt>LocationMatchE<gt>> are
+processed simultaneously
+
+=back
+
+
+Apart from C<E<lt>DirectoryE<gt>>, each group is processed in the
+order that it appears in the configuration files.
+C<E<lt>DirectoryE<gt>> (group 1 above) is processed in the order
+shortest directory component to longest.  If multiple
+C<E<lt>DirectoryE<gt>> sections apply to the same directory then they
+are processed in the configuration file order.
+
+Sections inside C<E<lt>VirtualHostE<gt>> sections are applied as if
+you were running several independent servers.  The directives inside
+C<E<lt>VirtualHostE<gt>> sections do not interact with each other.
+They are applied after first processing any sections outside the
+virtual host definition.  This allows virtual host configurations to
+override the main server configuration.
+
+Later sections override earlier ones.
+
+
+
+
+=head2 Sub-Grouping of E<lt>LocationE<gt>, E<lt>DirectoryE<gt> and E<lt>FilesE<gt> Sections
+
+Let's say that you want all files, except for a few of the files in a
+specific directory and below, to be handled in the same way.  For
+example if you want all the files in I</home/http/docs> to be served
+as plain files, but any files with ending I<.html> and I<.txt> to be
+processed by the content handler of your C<Apache::MyFilter> module.
+
+  <Directory /home/httpd/docs>
+    <FilesMatch "\.(html|txt)$">
+      SetHandler perl-script
+      PerlHandler Apache::MyFilter
+    </FilesMatch>
+  </Directory>
+
+Thus it is possible to embed sections inside sections to create
+subgroups which have their own distinct behavior.  Alternatively you
+could use a C<E<lt>FilesE<gt>> section inside an I<.htaccess> file.
+
+Note that you can't put C<E<lt>FilesE<gt>> or C<E<lt>FilesMatchE<gt>>
+sections inside a C<E<lt>LocationE<gt>> section, but you can put them
+inside a C<E<lt>DirectoryE<gt>> section.
+
+
+
+
+=head2 Options Directive
+
+Normally, if multiple C<Options> directives apply to a directory, then
+the most specific one is taken complete; the options are not merged.
+
+However if all the options on the C<Options> directive are preceded by
+a C<+> or C<-> symbol, the options are merged.  Any options preceded
+by C<+> are added to the options currently in force, and any options
+preceded by C<-> are removed.
+
+For example, without any C<+> and C<-> symbols:
+
+  <Directory /home/httpd/docs>
+    Options Indexes FollowSymLinks
+  </Directory>
+  <Directory /home/httpd/docs/shtml>
+    Options Includes
+  </Directory>
+
+then only C<Includes> will be set for the I</home/httpd/docs/shtml>
+directory.  However if the second C<Options> directive uses the C<+>
+and C<-> symbols:
+
+  <Directory /home/httpd/docs>
+    Options Indexes FollowSymLinks
+  </Directory>
+  <Directory /home/httpd/docs/shtml>
+    Options +Includes -Indexes
+  </Directory>
+
+then the options C<FollowSymLinks> and C<Includes> are set for the
+I</home/httpd/docs/shtml> directory.
+
+
+
+
+=head1 mod_perl Configuration
+
+When you have tested that the Apache server works on your machine,
+it's time to configure mod_perl.  Some of the configuration directives
+are already familiar to you, but mod_perl introduces a few new ones.
+
+It can be a good idea to keep all the mod_perl related configuration
+at the end of the configuration file, after the native Apache
+configuration directives.
+
+To ease maintenance and to simplify multiple server installations, the
+Apache/mod_perl configuration system allows you several alternative
+ways to keep your configuration directives in separate places.  The
+C<Include> directive in I<httpd.conf> allow you to include the
+contents of other files, just as if the information were all contained
+in I<httpd.conf>.  This is a feature of Apache itself. For example if
+you want all your mod_perl configuration to be placed in a separate
+file I<mod_perl.conf> you can do that by adding to I<httpd.conf> this
+directive:
+
+  Include conf/mod_perl.conf
+
+mod_perl adds two further directives: C<E<lt>PerlE<gt>> sections allow
+you to execute Perl code from within any configuration file at server
+startup time, and as you will see later, a file containing any Perl
+program can be executed (also at server startup time) simply by
+mentioning its name in a C<PerlRequire> or C<PerlModule> directive.
+
+
+=head2 Alias Configurations
+
+The C<ScriptAlias> and C<Alias> directives provide a mapping of a URI
+to a file system directory.  The directive:
+
+  Alias /foo /home/httpd/foo
+
+will map all requests starting with I</foo> onto the files starting
+with I</home/httpd/foo/>. So when Apache gets a request
+http://www.example.com/foo/test.pl the server will map this into the
+file I<test.pl> in the directory I</home/httpd/foo/>.
+
+In addition C<ScriptAlias> assigns all the requests that match the URI
+(i.e. I</cgi-bin>) to be executed under mod_cgi.
+
+  ScriptAlias /cgi-bin /home/httpd/cgi-bin
+
+is actually the same as: 
+
+  Alias /cgi-bin /home/httpd/cgi-bin
+  <Location /cgi-bin>
+    SetHandler cgi-script
+  </Location>
+
+where latter directive invokes mod_cgi. You shouldn't use the
+C<ScriptAlias> directive unless you want the request to be processed
+under mod_cgi. Therefore when you configure mod_perl sections use
+C<Alias> instead.
+
+Under mod_perl the C<Alias> directive will be followed by two further
+directives.  The first is the S<SetHandler perl-script> directive,
+which tells Apache to invoke mod_perl to run the script.  The second
+directive (for example C<PerlHandler>) tells mod_perl which handler
+(Perl module) the script should be run under, and hence for which
+phase of the request.  Refer to the section
+L<Perl*Handlers|config/Perl_Handlers> for more information about
+handlers for the various request phases.
+
+When you have decided which methods to use to run your scripts and
+where you will keep them, you can add the configuration directive(s)
+to I<httpd.conf>.  They will look like those below, but they will of
+course reflect the locations of your scripts in your file-system and
+the decisions you have made about how to run the scripts:
+
+  ScriptAlias /cgi-bin/ /home/httpd/cgi-bin/
+  Alias       /perl/    /home/httpd/perl/
+
+In the examples above all the requests issued for URIs starting with
+I</cgi-bin> will be served from the directory I</home/httpd/cgi-bin/>,
+and starting with I</perl> from the directory I</home/httpd/perl/>.
+
+=head3 Running CGI, PerlRun, and Registry Scripts Located in the Same Directory
+
+  # Typical for plain cgi scripts:
+  ScriptAlias /cgi-bin/  /home/httpd/perl/
+    
+  # Typical for Apache::Registry scripts:
+  Alias       /perl/     /home/httpd/perl/
+    
+  # Typical for Apache::PerlRun scripts:
+  Alias       /cgi-perl/ /home/httpd/perl/
+
+In the examples above we have mapped the three different URIs
+(I<http://www.example.com/perl/test.pl>
+I<http://www.example.com/cgi-bin/test.pl> and
+I<http://www.example.com/cgi-perl/test.pl>) all to the same file
+I</home/httpd/perl/test.pl>.  This means that we can have all our CGI
+scripts located at the same place in the file-system, and call the
+script in any of three ways simply by changing one component of the
+URI (I<cgi-bin|perl|cgi-perl>).
+
+This technique makes it easy to migrate your scripts to mod_perl.  If
+your script does not seem to be working while running under mod_perl,
+then in most cases you can easily call the script in straight mod_cgi
+mode or under C<Apache::PerlRun> without making any script changes.
+Simply change the URL you use to invoke it.
+
+Although in the configuration above we have configured all three
+I<Aliases> to point to the same directory within our file system, you
+can of course have them point to different directories if you prefer.
+
+You should remember that it is undesirable to run scripts in plain
+mod_cgi mode from a mod_perl-enabled server--the resource consumption
+is too high. It is better to run these on a plain Apache server.  See
+L<Standalone mod_perl Enabled Apache
+Server|strategy/Standalone_mod_perl_Enabled_Apac>.
+
+
+
+=head2 E<lt>LocationE<gt> Configuration
+
+The C<E<lt>LocationE<gt>> section assigns a number of rules which the
+server should follow when the request's URI matches the
+I<Location>. Just as it is the widely accepted convention to use
+I</cgi-bin> for your mod_cgi scripts, it is conventional to use
+I</perl> as the base URI of the perl scripts which you are running
+under mod_perl.  Let's review the following very widely used
+C<E<lt>LocationE<gt>> section:
+
+  Alias /perl/ /home/httpd/perl/
+  PerlModule Apache::Registry
+  <Location /perl>
+    SetHandler perl-script
+    PerlHandler Apache::Registry
+    Options ExecCGI
+    allow from all
+    PerlSendHeader On
+  </Location>
+
+This configuration causes all requests for URIs starting with I</perl>
+to be handled by the mod_perl Apache module with the handler from the
+C<Apache::Registry> Perl module.  Let's review the directives inside
+the C<E<lt>LocationE<gt>> section in the example:
+
+  <Location /perl>
+
+Remember the C<Alias> from the above section? We use the same C<Alias>
+here; if you were to use a C<E<lt>LocationE<gt>> that does not have
+the same C<Alias>, the server would fail to locate the script in the
+file system.  You need the C<Alias> setting only if the code that
+should be executed is located in the file.  So C<Alias> just provides
+the URI to filepath translation rule.
+
+Sometimes there is no script to be executed. Instead there is some
+module whose method is being executed, similar to I</perl-status>,
+where the code is stored in an Apache module. In such cases we don't
+need C<Alias> settings for those C<E<lt>LocationE<gt>>s.
+
+  SetHandler perl-script
+
+This assigns the mod_perl Apache module to handle the content
+generation phase.
+
+  PerlHandler Apache::Registry
+
+Here we tell Apache to use the C<Apache::Registry> Perl module for the
+actual content generation.
+
+  Options ExecCGI
+
+The C<Options> directive accepts various parameters (options), one of
+which is C<ExecCGI>.  This tells the server that the file is a program
+and should be executed, instead of just being displayed like a static
+file (like HTML file).  If you omit this option then the script will
+either be rendered as plain text or else it will trigger a I<Save-As>
+dialog, depending on the client's configuration.
+
+  allow from all
+
+This directive is used to set access control based on domain.  The
+above settings allow clients from any domain to run the script.
+
+  PerlSendHeader On
+
+C<PerlSendHeader On> tells the server to send an HTTP headers to the
+browser on every script invocation.  You will want to turn this off
+for nph (non-parsed-headers) scripts.
+
+The C<PerlSendHeader On> setting invokes the Apache's
+C<ap_send_http_header()> method after parsing the headers generated by
+the script.  It is only meant for emulation of mod_cgi behavior with
+regard to headers.
+
+To send the HTTP headers it's always better either to use the
+C<$r-E<gt>send_http_header> method using the Apache Perl API or to use
+the C<$q-E<gt>header> method from the C<CGI.pm> module.
+
+  </Location>
+
+Closes the C<E<lt>LocationE<gt>> section definition.
+
+Note that sometimes you will have to preload the module before using
+it in the C<E<lt>LocationE<gt>> section.  In the case of
+C<Apache::Registry> the configuration will look like this:
+
+  PerlModule Apache::Registry
+  <Location /perl>
+    SetHandler perl-script
+    PerlHandler Apache::Registry
+    Options ExecCGI
+    allow from all
+    PerlSendHeader On
+  </Location>
+
+C<PerlModule> is equivalent to Perl's native C<use()> function call.
+
+No changes are required to the I</cgi-bin> location (mod_cgi), since
+it has nothing to do with mod_perl.
+
+Here is another very similar example, this time using
+C<Apache::PerlRun> (For more information see
+L<Apache::PerlRun|porting/Apache__PerlRun__a_closer_look>):
+
+  <Location /cgi-perl>
+    SetHandler perl-script
+    PerlHandler Apache::PerlRun
+    Options ExecCGI
+    allow from all
+    PerlSendHeader On
+  </Location>
+
+
+The only difference from the C<Apache::Registry> configuration is the
+argument of the C<PerlHandler> directive, where C<Apache::Registry>
+has been replaced with C<Apache::PerlRun>.
+
+
+=head2 Overriding E<lt>LocationE<gt> Setting in "Sub-Location"
+
+So if you have:
+
+  <Location /foo>
+    SetHandler perl-script
+    PerlHandler My::Module
+   </Location>
+
+If you want to remove a mod_perl handler setting from a location
+beneath a location where the handler was set (i.e. I</foo/bar>), all
+you have to do is to reset it, like this:
+
+  <Location /foo/bar>
+    SetHandler default-handler
+  </Location>
+
+Now, all the requests starting with I</foo/bar> would be served by
+Apache's default handler.
+
+
+
+=head2 PerlModule and PerlRequire Directives
+
+As we saw earlier, a module should be loaded before it is used.
+C<PerlModule> and C<PerlRequire> are the two mod_perl directives which
+are used to load modules and code.  They are almost equivalent to
+Perl's C<use()> and C<require()> functions respectively and called
+from the Apache configuration file. You can pass one or more module
+names as arguments to C<PerlModule>:
+
+    PerlModule Apache::DBI CGI DBD::Mysql
+
+Generally the modules are preloaded from the startup script, which is
+usually called I<startup.pl>.  This is a file containing plain Perl
+code which is executed through the C<PerlRequire> directive.  For
+example:
+
+    PerlRequire  /home/httpd/perl/lib/startup.pl
+
+A C<PerlRequire> file name can be absolute or relative to
+C<ServerRoot> or a path in C<@INC>.
+
+As with any file with Perl code that gets C<use()>'d or
+C<require()>'d, it must return a I<true> value.  To ensure that this
+happens don't forget to add C<1;> at the end of I<startup.pl>.
+
+
+
+
+
+
+=head2 Perl*Handlers
+
+As you probably know Apache traverses a loop for each HTTP request it
+receives.
+
+After you have compiled and installed mod_perl, your Apache mod_perl
+configuration directives tell Apache to invoke the module mod_perl as
+the handler for some request which it receives.  Although it could in
+fact handle all the phases of the request loop, usually it does not.
+You tell mod_perl which phases it is to handle (and so which to leave
+to other modules, or to the default Apache routines) by putting
+C<Perl*Handler> directives in the configuration files.
+
+Because you need the Perl interpreter to be present for your Perl
+script to do any processing at all, there is a slight difference
+between the way that you configure Perl and C handlers to handle parts
+of the request loop.  Ordinarily a C module is written, compiled and
+configured to hook into a specific phase of the request loop.  For a
+Perl handler you compile mod_perl itself to hook into the appropriate
+phases, as if it were to handle the phases itself.  Then you put
+C<Perl*Handler> directives in your configuration file to tell mod_perl
+that it is to pass the responsibility for handling that part of the
+request phase to your Perl module.
+
+mod_perl is an Apache module written in C.  As most programmers will
+only need to handle the response phase, in the default compilation
+most of the C<Perl*Handler>s are disabled.  When you configure the
+I<Makefile.PL> file for its compilation, you must specify whether or
+not you will want to handle parts of the request loop other than the
+usual content generation phase.  If so you need to specify which
+parts.  See the "L<Callback Hooks|install/Callback_Hooks>" section for
+how to do this.
+
+Apache specifies about eleven phases of the request loop, namely (and
+in order of processing): Post-Read-Request, URI Translation, Header
+Parsing, Access Control, Authentication, Authorization, MIME type
+checking, FixUp, Response (also known as the Content handling phase),
+Logging and finally Cleanup.  These are the stages of a request where
+the Apache API allows a module to step in and do something.  There is
+a dedicated C<Perl*Handler> for each of these stages plus a couple of
+others which don't correspond to parts of the request loop.
+
+We call them C<Perl*Handler> directives because the names of the many
+mod_perl handler directives for the various phases of the request loop
+all follow the same format.  The C<*> in C<Perl*Handler> is a
+placeholder to be replaced by something which identifies the phase to
+be handled.  For example C<PerlLogHandler> is a Perl Handler which
+(fairly obviously) handles the logging phase.  
+
+The slight exception is C<PerlHandler>, which you can think of as
+C<PerlResponseHandler>.  It is the content generation handler and so
+it is probably the one that you will use most frequently.  
+
+Note that it is mod_perl which recognizes these directives, and not
+Apache.  They are mod_perl directives, and an ordinary Apache does not
+recognize them.  If you get error messages about these directives
+being I<"perhaps mis-spelled"> it is a sure sign that the appropriate
+part of mod_perl (or the entire mod_perl module!)  is not present in
+your copy of Apache executable.
+
+The full list of C<Perl*Handler>s follows. They are in the order that
+they are processed by Apache and mod_perl:
+
+    PerlChildInitHandler
+    PerlPostReadRequestHandler
+    PerlInitHandler
+    PerlTransHandler
+    PerlHeaderParserHandler
+    PerlAccessHandler
+    PerlAuthenHandler
+    PerlAuthzHandler
+    PerlTypeHandler
+    PerlFixupHandler
+    PerlHandler
+    PerlLogHandler
+    PerlCleanupHandler
+    PerlChildExitHandler
+    PerlDispatchHandler
+    PerlRestartHandler
+
+
+C<PerlChildInitHandler> and C<PerlChildExitHandler> do not refer to
+parts of the request loop, they are to allow your modules to
+initialize data structures and to clean up at the child process
+start-up and shutdown respectively, for example by allocating and
+deallocating memory.
+
+All C<E<lt>LocationE<gt>>, C<E<lt>DirectoryE<gt>> and
+C<E<lt>FilesE<gt>> sections contain a physical path specification.
+Like C<PerlChildInitHandler> and C<PerlChildExitHandler>, the
+directives C<PerlPostReadRequestHandler> and C<PerlTransHandler>
+cannot be used in these sections, nor in I<.htaccess> files, because
+it is not until the end of the Translation Handler
+(C<PerlTransHandler>) phase that the path translation is completed and
+a physical path is known.
+
+C<PerlInitHandler> changes its behaviour depending upon where it is
+used.  In any case it is the first handler to be invoked in serving a
+request.  If found outside any C<E<lt>LocationE<gt>>,
+C<E<lt>DirectoryE<gt>> or C<E<lt>FilesE<gt>> section (at the top
+level), it is an alias for C<PerlPostReadRequestHandler>.  When inside
+any such section it is an alias for C<PerlHeaderParserHandler>.
+
+Starting from C<PerlHeaderParserHandler> the requested URI has been
+mapped to a physical server pathname, and thus it can be used to match
+a C<E<lt>LocationE<gt>>, C<E<lt>DirectoryE<gt>> or C<E<lt>FilesE<gt>>
+configuration section, or to look in a I<.htaccess> file if such a
+file exists in the specified directory in the translated path.
+
+C<PerlDispatchHandler> and C<PerlRestartHandler> do not correspond to
+parts of the Apache API, but allow you to fine-tune the mod_perl API.
+
+The Apache documentation will tell you all about these stages and what
+your modules can do.  By default, most of these hooks are disabled at
+compile time, see the"L<Callback Hooks|install/Callback_Hooks>"
+section for information on enabling them.
+
+
+=head2 The handler subroutine
+
+By default the mod_perl API expects a subroutine called C<handler()>
+to handle the request in the registered C<Perl*Handler> module.  Thus if
+your module implements this subroutine, you can register the handler
+with mod_perl like this:
+
+  Perl*Handler Apache::Foo
+
+Replace C<Perl*Handler> with the name of a specific handler from the
+list given above.  mod_perl will preload the specified module for you.
+Please note that this approach will not preload the module at startup.
+To make sure it gets loaded you have three options: you can explicitly
+preload it with the C<PerlModule> directive:
+
+  PerlModule Apache::Foo
+
+You can preload it at the startup file:
+
+  use Apache::Foo ();
+
+Or you can use a nice shortcut that the C<Perl*Handler> syntax
+provides:
+
+  Perl*Handler +Apache::Foo
+
+Note the leading C<+> character.  This directive is equivalent to:
+
+  PerlModule Apache::Foo
+  Perl*Handler Apache::Foo
+
+If you decide to give the handler routine a name other than
+C<handler>, for example C<my_handler>, you must preload the module and
+explicitly give the name of the handler subroutine:
+
+  PerlModule Apache::Foo
+  Perl*Handler Apache::Foo::my_handler
+
+As you have seen, this will preload the module at server startup.
+
+If a module needs to know which handler is currently being run, it can
+find out with the I<current_callback> method.  This method is most
+useful to I<PerlDispatchHandlers> which wish to take action for
+certain phases only.
+
+  if($r->current_callback eq "PerlLogHandler") {
+      $r->warn("Logging request");
+  }
+
+
+
+
+
+
+
+=head2 Stacked Handlers
+
+With the mod_perl stacked handlers mechanism, during any stage of a
+request it is possible for more than one C<Perl*Handler> to be defined
+and run.
+
+C<Perl*Handler> directives (in your configuration files) can define
+any number of subroutines.  For example:
+
+  PerlTransHandler OneTrans TwoTrans RedTrans BlueTrans
+
+With the method C<Apache-E<gt>push_handlers()>, callbacks (handlers)
+can be added to a stack I<at runtime> by mod_perl scripts.
+
+C<Apache-E<gt>push_handlers()> takes the callback hook name as its
+first argument and a subroutine name or reference as its second.
+
+Here's an example:
+
+  use Apache::Constants qw(:common);
+  sub my_logger {
+    #some code here
+    return OK;
+  }
+  Apache->push_handlers("PerlLogHandler", \&my_logger);
+
+Here's another one:
+
+  use Apache::Constants qw(:common);
+  $r->push_handlers("PerlLogHandler", sub {
+      print STDERR "__ANON__ called\n";
+      return OK;
+  });
+
+After each request, this stack is erased.
+
+All handlers will be called unless a handler returns a status other
+than C<OK> or C<DECLINED>.
+
+Example uses:
+
+C<CGI.pm> maintains a global object for its plain function interface.
+Since the object is global, it does not go out of scope, C<DESTROY> is
+never called.  C<CGI-E<gt>new> can call:
+
+  Apache->push_handlers("PerlCleanupHandler", \&CGI::_reset_globals);
+
+This function will be called during the final stage of a request,
+refreshing C<CGI.pm>'s globals before the next request comes in.
+
+C<Apache::DCELogin> establishes a DCE login context which must exist
+for the lifetime of a request, so the C<DCE::Login> object is stored
+in a global variable.  Without stacked handlers, users must set
+
+  PerlCleanupHandler Apache::DCELogin::purge
+
+in the configuration files to destroy the context.  This is not
+"user-friendly".  Now, C<Apache::DCELogin::handler> can call:
+
+  Apache->push_handlers("PerlCleanupHandler", \&purge);
+
+Persistent database connection modules such as C<Apache::DBI> could
+push a C<PerlCleanupHandler> handler that iterates over C<%Connected>,
+refreshing connections or just checking that connections have not gone
+stale.  Remember, by the time we get to C<PerlCleanupHandler>, the
+client has what it wants and has gone away, so we can spend as much
+time as we want here without slowing down response time to the client
+(although the process itself is unavailable for serving new requests
+before the operation is completed).
+
+C<PerlTransHandlers> (e.g. C<Apache::MsqlProxy>) may decide, based on
+the URI or some arbitrary condition, whether or not to handle a
+request.  Without stacked handlers, users must configure it
+themselves:
+
+ PerlTransHandler Apache::MsqlProxy::translate
+ PerlHandler      Apache::MsqlProxy
+
+C<PerlHandler> is never actually invoked unless C<translate()> sees
+that the request is a proxy request (C<$r-E<gt>proxyreq>).  If it is a
+proxy request, C<translate()> sets C<$r-E<gt>handler("perl-script")>,
+and only then will C<PerlHandler> handle the request.  Now users do
+not have to specify C<PerlHandler Apache::MsqlProxy>, the
+C<translate()> function can set it with C<push_handlers()>.
+
+Imagine that you want to include footers, headers, etc., piecing
+together a document, without using SSI. The following example shows
+how to implement it. First we prepare the code as follows:
+
+  Test/Compose.pm
+  ---------------
+  package Test::Compose;
+  use Apache::Constants qw(:common);
+  
+  sub header {
+     my $r = shift;
+     $r->content_type("text/plain");
+     $r->send_http_header;
+     $r->print("header text\n");
+     return OK;
+  }
+  sub body   { shift->print("body text\n")   ; return OK}
+  sub footer { shift->print("footer text\n") ; return OK}
+  1;
+  __END__
+
+  # in httpd.conf or perl.conf
+  PerlModule Test::Compose
+  <Location /foo>
+     SetHandler "perl-script"
+     PerlHandler Test::Compose::header Test::Compose::body Test::Compose::footer   
+   </Location>
+
+Parsing the output of another PerlHandler?  This is a little more
+tricky, but consider:
+
+  <Location /foo>
+    SetHandler "perl-script"
+    PerlHandler OutputParser SomeApp
+  </Location>
+  
+  <Location /bar>
+    SetHandler "perl-script"
+    PerlHandler OutputParser AnotherApp
+  </Location>
+
+Now, C<OutputParser> goes first, but it C<untie()>'s C<*STDOUT> and
+re-C<tie()>'s it to its own package like so:
+
+  package OutputParser;
+ 
+  sub handler {
+      my $r = shift;
+      untie *STDOUT;
+      tie *STDOUT => 'OutputParser', $r;
+   }
+   
+  sub TIEHANDLE {
+      my($class, $r) = @_;
+      bless { r => $r}, $class;
+  }
+  
+  sub PRINT {
+      my $self = shift;   
+      for (@_) {
+          #do whatever you want to $_ for example:
+          $self->{r}->print($_ . "[insert stuff]");
+      }
+  }
+  
+  1;
+  __END__
+
+To build in this feature, configure with:
+
+  % perl Makefile.PL PERL_STACKED_HANDLERS=1 [ ... ]
+
+
+If you want to test whether your running mod_perl Apache can stack
+handlers, the method C<Apache-E<gt>can_stack_handlers> will return
+C<TRUE> if mod_perl was configured with C<PERL_STACKED_HANDLERS=1>,
+and C<FALSE> otherwise.
+
+
+
+
+
+
+=head2 Perl Method Handlers
+
+If a C<Perl*Handler> is prototyped with C<$$>, this handler will be
+invoked as a method.  For example:
+
+  package My;
+  @ISA = qw(BaseClass);
+   
+  sub handler ($$) {
+      my($class, $r) = @_;
+      ...;
+  }
+   
+  package BaseClass;
+   
+  sub method ($$) {
+      my($class, $r) = @_;
+      ...;
+  }
+  
+  1;
+  __END__
+
+Configuration:
+
+ PerlHandler My
+
+or
+
+ PerlHandler My->handler
+
+Since the handler is invoked as a method, it may inherit from other
+classes:
+
+ PerlHandler My->method
+
+META: requires more explanation!
+
+In this case, the C<My> class inherits this method from C<BaseClass>.
+
+To build in this feature, configure with:
+
+ % perl Makefile.PL PERL_METHOD_HANDLERS=1 [ ... ]
+
+
+
+
+
+
+
+
+
+
+
+
+=head2 PerlFreshRestart
+
+To reload C<PerlRequire>, C<PerlModule> and other C<use()>'d modules,
+and to flush the C<Apache::Registry> cache on server restart, add to 
+I<httpd.conf>:
+
+  PerlFreshRestart On
+
+Make sure you read L<Evil things might happen when using
+PerlFreshRestart|troubleshooting/Evil_things_might_happen_when_us>.
+
+Starting from mod_perl version 1.22 C<PerlFreshRestart> is ignored
+when mod_perl is compiled as a DSO.  But it almost doesn't matter,
+since mod_perl as a DSO will do a full tear-down (perl_destruct()).
+So it's still a I<FreshRestart>, just fresher than static (non-DSO)
+mod_perl :)
+
+But note that even if you have
+
+  PerlFreshRestart No
+
+and mod_perl as a DSO you will still get a I<FreshRestart>.
+
+
+
+
+=head2 PerlSetVar, PerlSetEnv and PerlPassEnv
+
+  PerlSetEnv key val
+  PerlPassEnv key
+
+C<PerlPassEnv> passes, C<PerlSetEnv> sets and passes I<ENVironment>
+variables to your scripts.  You can access them in your scripts
+through C<%ENV> (e.g. C<$ENV{"key"}>).
+
+Regarding the setting of C<PerlPassEnv PERL5LIB> in I<httpd.conf>: if
+you turn on taint checks (C<PerlTaintCheck On>), C<$ENV{PERL5LIB}>
+will be ignored (unset).  See the 'L<Switches -w,
+-T|porting/Command_Line_Switches_w_T_e>' section.
+
+C<PerlSetVar> is very similar to C<PerlSetEnv>, but you extract it
+with another method.
+
+  PerlSetVar foo bar
+
+or
+
+  push @{ $Location{"/"}->{PerlSetVar} }, [ foo => 'bar' ];
+
+and in the code you read it with:
+
+  my $r = Apache->request;
+  print $r->dir_config('foo');
+
+The above prints: 
+
+  bar
+
+Note that you cannot do this:
+
+  push @{ $Location{"/"}->{PerlSetVar} }, [ foo => \%bar ];
+
+All values are treated as strings, so you will get a stringified
+reference to a hash as a value (something which will look like
+"C<HASH(0x87a5108)>").  This cannot be turned back into a reference
+and therefore into the original hash upon retrieval.
+
+However you can use the C<PerlAddVar> directive to push more values
+into the variable, emulating arrays. For example:
+
+  PerlSetVar foo bar
+  PerlAddVar foo bar1
+  PerlAddVar foo bar2
+
+or the equal:
+
+  PerlAddVar foo bar
+  PerlAddVar foo bar1
+  PerlAddVar foo bar2
+
+To retrieve the values use the C<dir_config-E<gt>get()> method:
+
+  my @foo = $r->dir_config->get('foo');
+
+or
+
+  my %foo = $r->dir_config->get('foo');
+
+Make sure that you use an even number of elements if you store the
+retrieved values in a hash.
+
+While the Apache's C<SetEnv> and mod_perl's C<PerlSetEnv> apparently
+perform the same thing, the former doesn't happen until the fixup
+phase, the latter happens as soon as possible, so those variables are
+available before then, e.g. in C<PerlAuthenHandler> for
+C<$ENV{ORACLE_HOME}> (or another environment variable that you need in
+these early request processing stages).
+
+
+
+=head2 PerlSetupEnv
+
+See L<PerlSetupEnv Off|performance/PerlSetupEnv_Off>.
+
+
+
+
+
+=head2 PerlWarn and PerlTaintCheck
+
+For B<PerlWarn> and B<PerlTaintCheck> directives see the 'L<Switches
+-w, -T|porting/Command_Line_Switches_w_T_e>' section.
+
+
+
+
+=head2 MinSpareServers MaxSpareServers StartServers MaxClients MaxRequestsPerChild
+
+C<MinSpareServers>, C<MaxSpareServers>, C<StartServers> and
+C<MaxClients> are standard Apache configuration directives that
+control the number of servers that will be launched at server startup
+and kept alive during the server's operation.
+
+C<MaxRequestsPerChild> lets you specify the maximum number of requests
+which each child will be allowed to serve.  When a process has served
+C<MaxRequestsPerChild> requests the parent kills it and replaces it
+with a new one.  There may also be other reasons why a child is
+killed, so it does not mean that each child will in fact serve this
+many requests, only that it will not be allowed to serve more than
+that number.
+
+These five directives are very important for achieving the best
+performance from your server. The section ' L<Performance Tuning by
+Tweaking Apache
+Configuration|performance/Performance_Tuning_by_Tweaking_A>' provides
+all the details.
+
+
+
+
+
+=head1 The Startup File
+
+At server startup, before child processes are spawned to receive
+incoming requests, there is more that can be done than just preloading
+files.  You might want to register code that will initialize a
+database connection for each child when it is forked, tie read-only
+dbm files, etc.
+
+The I<startup.pl> file is an ideal place to put the code that should
+be executed when the server starts.  Once you have prepared the code,
+load it in I<httpd.conf> before the rest of the mod_perl configuration
+directives like this:
+
+    PerlRequire  /home/httpd/perl/lib/startup.pl
+
+I must stress that all the code that is run at server initialization
+time is run with root privileges if you are executing it as the root
+user (which you have to do unless you choose to run the server on an
+unprivileged port, above 1024).  This means that anyone who has write
+access to a script or module that is loaded by C<PerlModule> or
+C<PerlRequire> effectively has root access to the system.  You might
+want to take a look at the new and experimental C<PerlOpmask>
+directive and C<PERL_OPMASK_DEFAULT> compile time option to try to
+disable some of the more dangerous operations.
+
+Since the startup file is a file written in plain Perl, one can
+validate its syntax with:
+
+  % perl -c /home/httpd/perl/lib/startup.pl
+
+=head2  The Sample Startup File
+
+Let's look at a real world startup file:
+
+  startup.pl
+  ----------
+  use strict;
+  
+  # Extend @INC if needed
+  use lib qw(/dir/foo /dir/bar);
+  
+  # Make sure we are in a sane environment.
+  $ENV{MOD_PERL} or die "not running under mod_perl!";
+   
+  # For things in the "/perl" URL
+  use Apache::Registry;          
+   
+  # Load Perl modules of your choice here
+  # This code is interpreted *once* when the server starts
+  use LWP::UserAgent ();
+  use Apache::DBI ();
+  use DBI ();
+  
+  # Tell me more about warnings
+  use Carp ();
+  $SIG{__WARN__} = \&Carp::cluck;
+  
+  # Load CGI.pm and call its compile() method to precompile 
+  # (but not to import) its autoloaded methods. 
+  use CGI ();
+  CGI->compile(':all');
+  
+  # Initialize the database connections for each child
+  Apache::DBI->connect_on_init
+  ("DBI:mysql:database=test;host=localhost",
+   "user","password",
+   {
+    PrintError => 1, # warn() on errors
+    RaiseError => 0, # don't die on error
+    AutoCommit => 1, # commit executes immediately
+   }
+  );
+
+Now we'll review the code explaining why each line is used.
+
+  use strict;
+
+This pragma is worth using in every script longer than half a dozen
+lines. It will save a lot of time and debugging later on.
+
+  use lib qw(/dir/foo /dir/bar);
+
+The only chance to permanently modify C<@INC> before the server is
+started is with this command. Later the running code can modify
+C<@INC> just for the moment it C<require()>'s some file, and then
+C<@INC>'s value gets reset to what it was originally.
+
+  $ENV{MOD_PERL} or die "not running under mod_perl!";
+
+A sanity check, if Apache/mod_perl wasn't properly built, the above
+code will abort the server startup.
+
+  use Apache::Registry;          
+  use LWP::UserAgent ();
+  use Apache::DBI ();
+  use DBI ();
+
+Preload the modules that get used by our Perl code serving the
+requests. Unless you need the symbols (variables and subroutines)
+exported by the modules you preload to accomplish something within
+the startup file, don't import them, since it's just a waste of
+startup time. Instead use the empty list C<()> to tell the C<import()>
+function not to import anything.
+
+  use Carp ();
+  $SIG{__WARN__} = \&Carp::cluck;
+
+This is a useful snippet to enable extended warnings logged in the
+error_log file. In addition to basic warnings, a trace of calls is
+added.  This makes the tracking of the potential problem a much easier
+task, since you know who called whom. For example, with normal
+warnings you might see:
+
+  Use of uninitialized value at
+      /usr/lib/perl5/site_perl/5.005/Apache/DBI.pm  line 110.
+
+but you have no idea where it was called from. When we use C<Carp> as
+shown above we might see:
+
+  Use of uninitialized value at
+            /usr/lib/perl5/site_perl/5.005/Apache/DBI.pm line 110.
+      Apache::DBI::connect(undef, 'mydb::localhost', 'user',
+         'passwd', 'HASH(0x87a5108)') called at
+            /usr/lib/perl5/site_perl/5.005/i386-linux/DBI.pm line 382
+      DBI::connect('DBI', 'DBI:mysql:mydb::localhost', 'user',
+         'passwd', 'HASH(0x8375e4c)') called at
+            /usr/lib/perl5/site_perl/5.005/Apache/DBI.pm line 36
+      Apache::DBI::__ANON__('Apache=SCALAR(0x87a50c0)') called at 
+            PerlChildInitHandler subroutine 
+            `Apache::DBI::__ANON__' line 0
+      eval {...} called at PerlChildInitHandler subroutine 
+            `Apache::DBI::__ANON__' line 0
+
+we clearly see that the warning was triggered by eval()'uating the
+C<Apache::DBI::__ANON__> which called C<DBI::connect> (with the
+arguments that we see as well), which in turn called the
+C<Apache::DBI::connect> method. Now we know where to look for our
+problem.
+
+  use CGI ();
+  CGI->compile(':all');
+
+Some modules create their subroutines at run time to improve their
+load time. This helps when the module includes many subroutines, but
+only a few are actually used. C<CGI.pm> falls into this
+category. Since with mod_perl the module is loaded only once, it might
+be a good idea to precompile all or a part of its methods.
+
+C<CGI.pm>'s C<compile()> method performs this task. Notice that this is a
+proprietary function of this module, other modules can implement this
+feature or not and use this or some other name for this
+functionality. As with all modules we preload in the startup file, we
+don't import symbols from them as they will be lost when they go out
+of the file's scope.
+
+Note that starting with C<$CGI::VERSION> 2.46, the recommended method
+to precompile the code in C<CGI.pm> is:
+
+  use CGI qw(-compile :all);
+
+But the old method is still available for backward compatibility.
+
+See also the 'L<Apache::Status -- Embedded interpreter status
+information|debug/Apache_Status_Embedded_Inter>' section.
+
+
+
+
+
+
+
+=head2 What Modules You Should Add to the Startup File and Why
+
+Every module loaded at server startup will be shared among the server
+children, saving a lot of RAM on your machine.  Usually I put most of
+the code I develop into modules and preload them.
+
+You can even preload your CGI script with C<Apache::RegistryLoader>
+(See L<Preload Perl modules at server
+startup|performance/Preloading_Perl_Modules_at_Serve>) and you can get
+the children to preopen their database connections with
+C<Apache::DBI>.
+
+
+
+
+
+=head2 The Confusion with use() in the Server Startup File
+
+Some people wonder why you need to duplicate the C<use()> clause in
+the startup file and in the script itself. The confusion arises due to
+misunderstanding the C<use()> function. C<use()> normally performs two
+operations, namely C<require()> and C<import()>, called within a
+C<BEGIN> block. See the section "L<use()|perl/use__>" for a detailed
+explanation of the use(), require() and import() functions.
+
+In the startup file we don't want to import any symbols since they
+will be lost when we leave the scope of the startup file anyway,
+i.e. they won't be visible to any of the child processes which run our
+mod_perl scripts. Instead we want to preload the module in the startup
+file and then import any symbols that we actually need in each script
+individually.
+
+Normally when we write C<use MyModule;>, C<use()> will both load the
+module and import its symbols; so for the startup file we write C<use
+MyModule ();> and the empty parentheses will ensure that the module is
+loaded but that no symbols are imported. Then in the actual mod_perl
+script we write C<use()> in the standard way, e.g. C<use MyModule;>.
+Since the module has already been preloaded, the only action taken is
+to import the symbols. For example in the startup file you write:
+
+  use CGI ();
+
+since you probably don't need any symbols to be imported there. But in
+your code you would probably write:
+
+  use CGI qw(:html);
+
+For example, if you have C<use()>'d C<Apache::Constants> in the
+startup file, it does not mean you can have the following handler:
+
+  package MyModule;
+  sub {
+    my $r = shift;
+    ## Cool stuff goes here
+    return OK;
+  }
+  1;
+
+You would either need to add:
+
+  use Apache::Constants qw( OK );
+
+Or use the fully qualified name:
+
+  return Apache::Constants::OK;
+
+If you want to use the function interface without exporting the
+symbols, use fully qualified function names, e.g. C<CGI::param>. The
+same rule applies to variables, you can import variables and you can
+access them by their full name. e g. C<$My::Module::bar>. When you use
+the object oriented (method) interface you don't need to export the
+method symbols.
+
+Technically, you aren't required to supply the C<use()> statement in your
+(handler?) code if it was already loaded during server startup
+(i.e. by 'C<PerlRequire startup.pl>'). When writing your code,
+however, you should not assume the module code has been preloaded. In
+the future, you or someone else will revisit this code and will not
+understand how it is possible to use a module's methods without first
+loading the module itself.
+
+Read the C<Exporter> and C<perlmod> manpages for more information
+about C<import()>.
+
+
+
+
+
+
+
+
+
+=head1 Apache Configuration in Perl
+
+With C<E<lt>PerlE<gt>>...C<E<lt>/PerlE<gt>> sections, it is possible
+to configure your server entirely in Perl.
+
+=head2 Usage
+
+C<E<lt>PerlE<gt>> sections can contain I<any> and as much Perl code as
+you wish. These sections are compiled into a special package whose
+symbol table mod_perl can then walk and grind the names and values of
+Perl variables/structures through the Apache core configuration gears.
+Most of the configuration directives can be represented as scalars
+(C<$scalar>) or lists (C<@list>).  A C<@list> inside these sections is
+simply converted into a space delimited string for you. Here is an
+example:
+
+   httpd.conf
+  ------------
+  <Perl>
+  @PerlModule = qw(Mail::Send Devel::Peek);
+  
+  #run the server as whoever starts it
+  $User  = getpwuid($>) || $>;
+  $Group = getgrgid($)) || $); 
+  
+  $ServerAdmin = $User;
+  
+  </Perl>
+
+Block sections such as C<E<lt>LocationE<gt>>..C<E<lt>/LocationE<gt>>
+are represented in a C<%Location> hash, e.g.:
+
+  <Perl>
+  
+  $Location{"/~dougm/"} = {
+    AuthUserFile => '/tmp/htpasswd',
+    AuthType => 'Basic',
+    AuthName => 'test',
+    DirectoryIndex => [qw(index.html index.htm)],
+    Limit => {
+      METHODS => 'GET POST',
+      require => 'user dougm',
+    },
+  };
+  
+  </Perl>
+
+If an Apache directive can take two or three arguments you may push
+strings (the lowest number of arguments will be shifted off the
+C<@list>) or use an array reference to handle any number greater than
+the minimum for that directive:
+
+  push @Redirect, "/foo", "http://www.foo.com/";
+  
+  push @Redirect, "/imdb", "http://www.imdb.com/";
+  
+  push @Redirect, [qw(temp "/here" "http://www.there.com")];
+
+Other section counterparts include C<%VirtualHost>, C<%Directory> and
+C<%Files>.
+
+To pass all environment variables to the children with a single
+configuration directive, rather than listing each one via C<PassEnv>
+or C<PerlPassEnv>, a C<E<lt>PerlE<gt>> section could read in a file and:
+
+  push @PerlPassEnv, [$key => $val];
+
+or
+
+  Apache->httpd_conf("PerlPassEnv $key $val");
+
+These are somewhat simple examples, but they should give you the basic
+idea. You can mix in any Perl code you desire. See I<eg/httpd.conf.pl>
+and I<eg/perl_sections.txt> in the mod_perl distribution for more
+examples.
+
+Assume that you have a cluster of machines with similar configurations
+and only small distinctions between them: ideally you would want to
+maintain a single configuration file, but because the configurations
+aren't I<exactly> the same (e.g. the C<ServerName> directive) it's not
+quite that simple.
+
+C<E<lt>PerlE<gt>> sections come to rescue. Now you have a single
+configuration file and the full power of Perl to tweak the local
+configuration. For example to solve the problem of the C<ServerName>
+directive you might have this C<E<lt>PerlE<gt>> section:
+
+  <Perl>
+  $ServerName = `hostname`;
+  </Perl>
+
+For example if you want to allow personal directories on all machines
+except the ones whose names start with I<secure>:
+
+  <Perl>
+  $ServerName = `hostname`;
+  if ( $ServerName !~ /^secure/) {
+    $UserDir = "public.html";
+  } else {
+    $UserDir = "DISABLED";
+  }
+  </Perl>
+
+
+Behind the scenes, mod_perl defines a package called
+C<Apache::ReadConfig>.  Here it keeps all the variables that you
+define inside the C<E<lt>PerlE<gt>> sections. Therefore it's not
+necessarily to configure the server within the C<E<lt>PerlE<gt>>
+sections. Actually what you can do is to write the Perl code to
+configure the server just like you'd do in the C<E<lt>PerlE<gt>>
+sections, but instead place it into a separate file that should be
+called during the configuration parsing with either C<PerlModule> or
+C<PerlRequire> directives, or from within the startup file. All you
+have to do is to declare the package C<Apache::ReadConfig> within this
+file. Using the last example:
+
+  apache_config.pl
+  ---------------- 
+  package Apache::ReadConfig;
+  
+  $ServerName = `hostname`;
+  if ( $ServerName !~ /^secure/) {
+    $UserDir = "public.html";
+  } else {
+    $UserDir = "DISABLED";
+  }
+  
+  1;
+
+  httpd.conf
+  ----------
+  PerlRequire /home/httpd/perl/lib/apache_config.pl
+
+
+
+
+=head2 Enabling
+
+To enable C<E<lt>PerlE<gt>> sections you should build mod_perl with
+S<perl Makefile.PL PERL_SECTIONS=1 [ ... ]>.
+
+
+=head2 Caveats
+
+Be careful when you declare package names inside C<E<lt>PerlE<gt>>
+sections, for example this code has a problem:
+
+  <Perl>  
+    package My::Trans;
+    use Apache::Constants qw(:common);
+    sub handler{ OK }
+    
+    $PerlTransHandler = "My::Trans";
+  </Perl>
+
+When you put code inside a C<E<lt>PerlE<gt>> section, by default it
+actually goes into the C<Apache::ReadConfig> package, which is already
+declared for you.  This means that the C<PerlTransHandler> we have
+tried to define above is actually undefined.  If you define a
+different package name within a C<E<lt>PerlE<gt>> section you must
+make sure to close the scope of that package and return to the
+C<Apache::ReadConfig> package when you want to define the
+configuration directives, like this:
+
+  <Perl>  
+    package My::Trans;
+    use Apache::Constants qw(:common);
+    sub handler{ OK }
+    
+    package Apache::ReadConfig;  
+    $PerlTransHandler = "My::Trans";
+  </Perl>
+
+
+
+=head2 Verifying
+
+This section shows how to check and dump the configuration you have
+made with the help of C<E<lt>PerlE<gt>> sections in I<httpd.conf>.
+
+To check the C<E<lt>PerlE<gt>> section syntax outside of httpd, we
+make it look like a Perl script:
+
+  <Perl>
+  # !perl
+  # ... code here ...
+  __END__
+  </Perl>
+
+Now you may run:
+
+  perl -cx httpd.conf
+
+In a running httpd you can see how you have configured the
+C<E<lt>PerlE<gt>> sections through the URI
+L</perl-status|debug/Apache__Status____Embedded_Interpreter_Status_Information>, by choosing I<Perl
+Section Configuration> from the menu. In order to make this item show
+up in the menu you should set C<$Apache::Server::SaveConfig> to a true
+value. When you do that the I<Apache::ReadConfig> namespace (in which
+the configuration data is stored) will not be flushed, making
+configuration data available to Perl modules at request time.
+
+Example:
+
+ <Perl>
+ $Apache::Server::SaveConfig = 1;
+
+ $DocumentRoot = ...
+ ...
+ </Perl>
+
+At request time, the value of B<$DocumentRoot> can be accessed with
+the fully qualified name B<$Apache::ReadConfig::DocumentRoot>.
+
+You can dump the configuration of C<E<lt>PerlE<gt>> sections like
+this:
+
+  <Perl>
+  use Apache::PerlSections();
+  ...
+  # Configuration Perl code here
+  ...
+  print STDERR Apache::PerlSections->dump();
+  </Perl>
+
+Alternatively you can store it in a file:
+
+  Apache::PerlSections->store("httpd_config.pl");
+
+You can then C<require()> that file in some other C<E<lt>PerlE<gt>>
+section.
+
+
+=head2 Strict C<E<lt>PerlE<gt>> Sections
+
+If the Perl code doesn't compile, the server won't start.  If the
+generated Apache config is invalid, C<E<lt>PerlE<gt>> sections have
+always just logged an error and carried on, since there might be
+globals in the section that are not intended for the config.
+
+The variable C<$Apache::Server::StrictPerlSections> has been added in
+mod_perl version 1.22.  If you set this variable to a true value, for
+example
+
+  $Apache::Server::StrictPerlSections = 1;
+
+then mod_perl will not tolerate invalid Apache configuration syntax
+and will C<croak> (die) if this is the case. At the time of writing the
+default value is C<0>.
+
+
+=head2 Debugging
+
+If you compile mod_perl with C<PERL_TRACE=1> and set the environment
+variable L<MOD_PERL_TRACE|debug/Debug_Tracing> then you should see
+some useful diagnostics when mod_perl is processing C<E<lt>PerlE<gt>>
+sections.
+
+=head2 References
+
+For more info see
+http://www.modperl.com Chapter 8
+
+META: a direct link?
+
+
+
+=head1 Validating the Configuration Syntax
+
+C<apachectl configtest> tests the configuration file without starting
+the server. You can safely validate the configuration file on your
+production server, if you run this test before you restart the server
+with C<apachectl restart>.  Of course it is not 100% perfect, but it
+will reveal any syntax errors you might have made while editing the
+file.
+
+'C<apachectl configtest>' is the same as 'C<httpd -t>' and it doesn't
+just parse the code in I<startup.pl>, it actually executes it.
+C<E<lt>PerlE<gt>> configuration has always started Perl during the
+configuration read, and C<Perl{Require,Module}> do so as well.
+
+Of course we assume that the code that gets called during this test
+cannot cause any harm to your running production environment. The
+following hint shows how to prevent the code in the startup script and
+C<E<lt>PerlE<gt>> from being executed during the syntax check, if
+that's what you want.
+
+If you want your startup code to get control over the C<-t>
+(C<configtest>) server launch, start the server configuration test
+with:
+
+  httpd -t -Dsyntax_check
+
+and, if for example you want to prevent your startup code from being
+executed, at the top of the code add:
+
+  return if Apache->define('syntax_check');
+
+
+
+
+
+
+
+
+=head1 Enabling Remote Server Configuration Reports
+
+The nifty mod_info module displays the complete server configuration
+in your browser. In order to use it you have compile it in or, if the
+server was compiled with DSO mode enabled, load it as an object. Then
+just uncomment the ready-prepared section in the I<httpd.conf> file:
+
+  <Location /server-info>
+    SetHandler server-info
+    Order deny,allow
+    Deny from all
+    Allow from www.example.com
+  </Location>
+
+Now restart the server and issue the request:
+
+  http://www.example.com/server-info
+
+
+
+
+=head1 Publishing Port Numbers other than 80
+
+If you are using a two-server setup, with a mod_perl server listening
+on a high port, it is advised that you do not publish the number of
+the high port number in URLs.  Rather use a proxying rewrite rule in
+the non-mod_perl server:
+
+  RewriteEngine      On
+  RewriteLogLevel    0
+  RewriteRule       ^/perl/(.*) http://localhost:8080/perl/$1 [P]
+  ProxyPassReverse   /          http://localhost/
+
+I was told one problem with publishing high port numbers is that IE
+4.x has a bug when re-posting data to a non-port-80 URL. It drops the
+port designator, and uses port 80 anyway.
+
+Another reason is that firewalls probably will have the high port
+closed, therefore users behind the firewalls will be unable to reach
+your service, running on the blocked port.
+
+
+
+
+
+
+
+=head1 Configuring Apache + mod_perl with mod_macro
+
+mod_macro is an Apache module written by Fabien Coelho that lets you
+define and use macros in the Apache configuration file.
+
+mod_macro can be really useful when you have many virtual hosts, and
+where each virtual host has a number of scripts/modules, most of them
+with a moderately complex configuration setup.
+
+First download the latest version of mod_macro from
+http://www.cri.ensmp.fr/~coelho/mod_macro/ , and configure your Apache
+server to use this module.
+
+Here are some useful macros for mod_perl users:
+
+  # set up a registry script
+  <Macro registry>
+  SetHandler "perl-script"
+  PerlHandler Apache::Registry
+  Options +ExecCGI
+  </Macro>
+
+  # example
+  Alias /stuff /usr/www/scripts/stuff
+  <Location /stuff>
+  Use registry
+  </Location>
+
+If your registry scripts are all located in the same directory, and
+your aliasing rules consistent, you can use this macro:
+
+  # set up a registry script for a specific location
+  <Macro registry $location $script>
+  Alias /$location /home/httpd/perl/scripts/$script
+  <Location /$location>
+  SetHandler "perl-script"
+  PerlHandler Apache::Registry
+  Options +ExecCGI
+  </Location>
+  </Macro>
+
+  # example
+  Use registry stuff stuff.pl
+
+
+If you're using content handlers packaged as modules, you can use the
+following macro:
+
+  # set up a mod_perl content handler module
+  <Macro modperl $module>
+  SetHandler "perl-script"
+  Options +ExecCGI
+  PerlHandler $module
+  </Macro>
+  
+  #examples
+  <Location /perl-status>
+  PerlSetVar StatusPeek On
+  PerlSetVar StatusGraph On
+  PerlSetVar StatusDumper On
+  Use modperl Apache::Status
+  </Location>
+
+The following macro sets up a Location for use with C<HTML::Embperl>.
+Here we define all ".html" files to be processed by C<Embperl>.
+
+  <Macro embperl>
+  SetHandler "perl-script"
+  Options +ExecCGI
+  PerlHandler HTML::Embperl
+  PerlSetEnv EMBPERL_FILESMATCH \.html$
+  </Macro>
+  
+  # examples
+  <Location /mrtg>
+  Use embperl
+  </Location>
+
+Macros are also very useful for things that tend to be verbose, such
+as setting up Basic Authentication:
+
+  # Sets up Basic Authentication
+  <Macro BasicAuth $realm $group>
+  Order deny,allow
+  Satisfy any
+  AuthType Basic
+  AuthName $realm
+  AuthGroupFile /usr/www/auth/groups
+  AuthUserFile /usr/www/auth/users
+  Require group $group
+  Deny from all
+  </Macro>
+  
+  # example of use
+  <Location /stats>
+  Use BasicAuth WebStats Admin
+  </Location>
+
+Finally, here is a complete example that uses macros to set up simple
+virtual hosts.  It uses the C<BasicAuth> macro defined previously (yes,
+macros can be nested!).
+
+  <Macro vhost $ip $domain $docroot $admingroup>
+  <VirtualHost $ip>
+  ServerAdmin webmaster@$domain
+  DocumentRoot /usr/www/htdocs/$docroot
+  ServerName www.$domain
+  <Location /stats>
+  Use BasicAuth Stats-$domain $admingroup
+  </Location>
+  </VirtualHost>
+  </Macro>
+  
+  # define some virtual hosts
+  Use vhost 10.1.1.1 example.com example example-admin
+  Use vhost 10.1.1.2 example.net examplenet examplenet-admin
+
+mod_macro is also useful in a non vhost setting. Some sites for
+example have lots of scripts which people use to view various
+statistics, email settings and etc. It is much easier to read things
+like:
+
+  use /forwards email/showforwards
+  use /webstats web/showstats
+
+The actual macros for the last example are left as an exercise to
+reader. These can be easily constructed based on the examples
+presented in this section.
+
+
+
+
+
+
+=head1 General Pitfalls
+
+
+
+
+=head2 My CGI/Perl Code Gets Returned as Plain Text Instead of Being Executed by the Webserver
+
+Check your configuration files and make sure that the C<ExecCGI> is
+turned on in your configurations.
+
+  <Location /perl>
+    SetHandler perl-script
+    PerlHandler Apache::Registry
+    Options ExecCGI
+    allow from all
+    PerlSendHeader On
+  </Location>
+
+
+
+
+
+
+=head2 My Script Works under mod_cgi, but when Called via mod_perl I Get a 'Save-As' Prompt
+
+Did you put B<PerlSendHeader On> in the configuration part of the
+C<E<lt>Location fooE<gt>E<lt>/LocationE<gt>>.
+
+
+
+
+
+
+=head2 Is There a Way to Provide a Different startup.pl File for Each Individual Virtual Host
+
+No. Any virtual host will be able to see the routines from a I<startup.pl>
+loaded for any other virtual host.  
+
+
+
+
+
+=head2 Is There a Way to Modify @INC on a Per-Virtual-Host or Per-Location Basis.
+
+You can use C<PerlSetEnv PERL5LIB ...> or a C<PerlFixupHandler> with
+the C<lib> pragma (C<use lib qw(...)>).
+
+A better way is to use
+L<Apache::PerlVINC|modules/Apache__PerlVINC___Allows_Module_Versioning_in_Location_blocks_and_Virtual_Hosts>
+
+
+
+
+
+=head2 A Script From One Virtual Host Calls a Script with the Same Path From the Other Virtual Host
+
+This has been a bug before, last fixed in 1.15_01, i.e. if you are
+running 1.15, that could be the problem. You should set this variable
+in a startup file (which you load with C<PerlRequire> in
+I<httpd.conf>):
+
+  $Apache::Registry::NameWithVirtualHost = 1;
+
+But, as we know sometimes a bug turns out to be a feature. If the same
+script is running for more than one Virtual host on the same machine,
+this can be a waste, right? Set it to C<0> in a startup script if you
+want to turn it off and have this bug as a feature. (Only makes sense
+if you are sure that there will be no I<other> scripts with the same
+path/name). It also saves you some memory as well.
+
+  $Apache::Registry::NameWithVirtualHost = 0;
+
+
+
+
+
+
+
+=head2 the Server no Longer Retrieves the DirectoryIndex Files for a Directory
+
+The problem was reported by users who declared mod_perl configuration
+inside a C<E<lt>DirectoryE<gt>> section for all files matching *.pl. The
+problem went away after placing the directives in a C<E<lt>FilesE<gt>>
+section.
+
+The mod_alias and mod_rewrite are both Trans handlers in the normal
+case. So in the setup where both are used, if mod_alias runs first and
+matches it will return OK and mod_rewrite won't see the request.
+
+The opposite can happen as well, where mod_rewrite rules apply but the
+C<Alias> directives are completely ignored.
+
+The behavior is not random, but depends on the Apache modules loading
+order. Apache modules are being executed in I<reverse> order,
+i.e. module that was I<Added> first will be executed last.
+
+The solution is not to mix mod_rewrite and mod_alias.  mod_rewrite
+does everything mod_alias does--except for C<ScriptAlias> which is not
+really relevant to mod_perl anyway. Don't rely on the module ordering,
+but use explicitly disjoint URL namespaces for C<Alias> and
+C<Rewrite>. In other words any URL regex that can potentially match a
+C<Rewrite> rule should not be used in an C<Alias>, and vice
+versa. Given that mod_rewrite can easily do what mod_alias does, it's
+no problem.
+
+Here is one of the examples where C<Alias> is replaced with
+C<RedirectMatch>. This is a snippet of configuration at the light
+non-mod_perl Apache server:
+
+  RewriteEngine     on
+  RewriteLogLevel   0
+  RewriteRule       ^/(perl.*)$    http://127.0.0.1:8045/$1  [P,L]
+  RewriteRule       ^/(mail.*)$    http://127.0.0.1:8045/$1  [P,L]
+  NoCache           *
+  ProxyPassReverse  / http://www.example.com/
+  
+  RedirectMatch permanent ^/$      /pages/index
+  RedirectMatch permanent ^/foo$   /pages/bar
+
+This configuration works fine because any URI that matches one of the
+redirects will never match one of the rewrite rules.
+
+In the above setup we proxy requests starting with I</perl> or
+I</mail> to the mod_perl server, forbid proxy requests to the external
+sites, and make sure that the proxied requests will use the
+I<http://www.example.com/> as their URL on the way back to the client.
+
+The C<RedirectMatch> settings work exactly like if you'd write:
+
+  Alias /      /pages/index
+  Alias /foo   /pages/bar
+
+But as we told before we don't want to mix the two.
+
+Here is another example where the redirect is done by a rewrite rule:
+
+  RewriteEngine     on
+  RewriteLogLevel   0
+  RewriteMap        lowercase int:tolower
+  RewriteRule       ^/(perl.*)$  http://127.0.0.1:8042/$1   [P,L]
+  RewriteRule       ^/$           /pages/welcome.htm        [R=301,L]
+  RewriteRule       ^(.*)$        ${lowercase:$1}
+  NoCache           *
+  ProxyPassReverse  /  http://www.example.com/
+
+If we omit the rewrite rule that matches C<^/$>, and instead use a
+redirect, it will never be called, because the URL is still matched by
+the last rule C<^(.*)$>. This is a somewhat contrived example because
+that last regex could be rewritten as C<^(/.+)$> and all would be
+well.
+
+
+
+
+
+=head1 Configuration Security Concerns
+
+It is better not to advertise the port that mod_perl server uses to
+the outside world, for it creates a potential security risk by
+revealing which module(s) and/or OS you are running your web server
+on.
+
+For more information see L<Publishing Port Numbers other than
+80|config/Publishing_Port_Numbers_other_th>.
+
+The more modules you have in your web server, the more complex the
+code.
+
+The more complex the code in your web server, the more chances for
+bugs.
+
+The more chances for bugs, the more chance that some of those bugs may
+involve security.
+
+We never were completely sure why the default of the C<ServerTokens>
+directive in Apache is C<Full> rather than C<Minimal>. Seems like you
+would only make it C<Full> if you are debugging. Probably the reason
+for using the C<ServerTokens Full> is for a show-off, so NetCraft
+(http://netcraft.com) and other similar survey services will count
+more Apache servers, which is good for all of us, but you really want
+to reveal as little information as possible to the potential crackers.
+
+Another approach is to modify httpd sources to reveal no unwanted
+information, so all responses will return an empty or phony C<Server:>
+field.
+
+From the other point of view, security by obscurity is a lack of
+security. Any determined cracker will eventually figure out what
+version of Apache run and what third party modules you have built in.
+
+You can see what information is revealed by your server, by telneting
+to it and issuing some request. For example:
+
+  % telnet localhost 8080
+  Trying 127.0.0.1
+  Connected to localhost
+  Escape character is '^]'.
+  HEAD / HTTP1.0
+  
+  HTTP/1.1 200 OK
+  Date: Sun, 16 Apr 2000 11:06:25 GMT
+  Server: Apache/1.3.12 (Unix) mod_perl/1.22 mod_ssl/2.6.2 OpenSSL/0.9.5
+  [more lines snipped]
+
+So as you see that a lot of information is revealed and a C<Full>
+C<ServerTokens> has been used.
+
+
+
+
+
+
+
+=head1 Apache Restarts Twice On Start
+
+When the server is restarted, the configuration and module
+initialization phases are called twice in total before the children
+are forked. The second restart is done in order to ensure that future
+restarts will work correctly, by making sure that all modules can
+survive a restart (C<SIGHUP>). This is very important if you restart a
+production server.
+
+You can control what code will be executed on the start or restart by
+checking the value of C<$Apache::Server::Starting> and
+C<$Apache::Server::ReStarting> respectively. The former variable is
+I<true> when the server is starting and the latter is I<true> when
+it's restarting.
+
+For example:
+
+  <Perl>
+  print STDERR "Server is Starting\n"   if $Apache::Server::Starting;
+  print STDERR "Server is ReStarting\n" if $Apache::Server::ReStarting;
+  </Perl>
+
+The I<startup.pl> file and similar loaded via C<PerlModule> or
+C<PerlRequire> are compiled only once. Because once the module is
+compiled it enters the special C<%INC> hash. When Apache
+restarts--Perl checks whether the module or script in question is
+already registered in C<%INC> and won't try to compile it again.
+
+So the only code that you might need to protect from running on
+restart is the one in the C<E<lt>PerlE<gt>> sections. But since one
+usually uses the C<E<lt>PerlE<gt>> sections mainly for on the fly
+configuration creation, there shouldn't be a reason why it'd be
+undesirable to run the code more than once.
+
+=head1 Knowing the proxy_pass'ed Connection Type
+
+Let's say that you have a frontend server running mod_ssl, mod_rewrite
+and mod_proxy. You want to make sure that your user is using a secure
+connection for some specific actions like login information
+submission. You don't want to let the user login unless the request
+was submitted through a secure port.
+
+Since you have to proxy_pass the request between front and backend
+servers, you cannot know where the connection has come from. Neither
+is using the HTTP headers reliable.
+
+A possible solution for this problem is to have the mod_perl
+server listen on two different ports (e.g. 8000 and 8001) and have the
+mod_rewrite proxy rule in the regular server redirect to port 8000 and
+the mod_rewrite proxy rule in the SSL virtual host redirect to port
+8001. In the mod_perl server just check the C<PORT> variable to tell
+if the connection is secure.
+
+
+
+
+
+
+
+
+
+
+=head1 Adding Custom Configuration Directives 
+
+This is covered in the Eagle Book in a great detail. This is just a
+simple example, showing how to add your own Configuration directives.
+
+  Makefile.PL
+  -----------
+  package Apache::TestDirective;
+  
+  use ExtUtils::MakeMaker;
+  
+  use Apache::ExtUtils qw(command_table);
+  use Apache::src ();
+  
+  my @directives = (
+                  {   name        =>  'Directive4',
+                      errmsg      =>  'Anything',
+                      args_how    =>  'RAW_ARGS',
+                      req_override=>  'OR_ALL',
+                  },
+                 );
+    
+  command_table(\@directives);
+  
+  WriteMakefile(
+    'NAME'      => 'Apache::TestDirective',
+    'VERSION_FROM' => 'TestDirective.pm',
+    'INC'       => Apache::src->new->inc,
+  );
+
+
+
+  TestDirective.pm
+  ----------------
+  package Apache::TestDirective;
+  
+  use strict;
+  use Apache::ModuleConfig ();
+  use DynaLoader ();
+
+  if($ENV{MOD_PERL}) {
+    no strict;
+    $VERSION = '0.01';
+    @ISA = qw(DynaLoader);
+     __PACKAGE__->bootstrap($VERSION); #command table, etc.
+  }
+  
+  sub Directive4 {
+    warn "Directive4 @_\n";
+  }
+  
+  1;
+  __END__
+
+
+In the mod_perl source tree, add this to I<t/docs/startup.pl>:
+
+  use blib qw(/home/dougm/test/Apache/TestDirective);
+
+and at the bottom of I<t/conf/httpd.conf>:
+
+  PerlModule Apache::TestDirective
+  Directive4 hi
+
+Test it:
+
+  % make start_httpd
+  % make kill_httpd
+
+You should see:
+
+  Directive4 Apache::TestDirective=HASH(0x83379d0)
+  Apache::CmdParms=SCALAR(0x862b80c) hi
+
+And in the error log file:
+
+  % grep Directive4 t/logs/error_log 
+  Directive4 Apache::TestDirective=HASH(0x83119dc)
+  Apache::CmdParms=SCALAR(0x8326878) hi
+
+If it didn't work as expected try building mod_perl with C<PERL_TRACE=1>,
+then do:
+
+  setenv MOD_PERL_TRACE all
+
+before starting the server. Now you should get some useful
+diagnostics.
+
+=cut
+

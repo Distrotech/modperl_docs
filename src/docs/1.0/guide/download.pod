@@ -1,0 +1,186 @@
+=head1 NAME
+
+Appendix A: Downloading software and documentation
+
+=head1 Coverage
+
+Here you will find instructions for downloading the software and
+its related documentation.
+
+=head1 Perl
+
+Perl is probably already installed on your machine, but you should at
+least check the version you are using.  It is highly recommended that
+you have at least Perl version 5.004.  You can get the latest perl
+version from http://www.perl.com/ .  Try the direct download link
+http://www.perl.com/pace/pub/perldocs/latest.html .  You can get Perl
+documentation from the same location (although copious documentation
+is included in the downloaded Perl distribution).
+
+=head1 CPAN Downloads
+
+You can download most of the Perl modules from CPAN.  There are many
+mirrors of this site.  The main site's URL is http://cpan.org/.
+
+You may want to search the Perl modules database by using
+http://search.cpan.org/.
+
+Either use the search form, or type in the name of the package the
+module is distributed in. For example if you are looking for
+C<Apache::DumpHeaders>, you can type:
+http://search.cpan.org/search?dist=Apache-DumpHeaders .
+
+
+=head1 Apache
+
+Get the latest Apache webserver and documentation from
+http://www.apache.org .  Try the direct download link
+http://www.apache.org/dist/ .
+
+=head1 mod_perl
+
+Get the latest mod_perl sources and documentation from
+http://perl.apache.org .  Try the direct download link
+http://perl.apache.org/dist/ .
+
+Source/Binary Distributions: http://perl.apache.org/distributions.html
+
+Every Apache project rolls a new tar.gz snapshot of the latest CVS
+version every 6 hours. You can grab the latest mod_perl CVS snapshot
+from http://perl.apache.org/snapshots/modperl/, all the mod_perl
+related projects are available from http://perl.apache.org/snapshots/.
+
+
+RPM: http://perl.apache.org/rpm/
+
+Debian users will find Perl, Apache and mod_perl are available 
+as .deb files on official image CDs or from the Debian web site 
+http://www.debian.org .  The Debian distribution also contains 
+many additional Perl and Apache libraries and modules. 
+
+=head1 Squid - Internet Object Cache
+
+http://squid.nlanr.net/
+
+Squid Linux 2.x Redhat RPMs : http://home.earthlink.net/~intrep/linux/
+
+=head1 thttpd - tiny/turbo/throttling HTTP server
+
+http://www.acme.com/software/thttpd/
+
+=head1 mod_throttle_access 
+
+http://www.fremen.org/apache/mod_throttle_access.html
+
+=head1 mod_proxy_add_forward
+
+Ask Bjoern Hansen has written the C<mod_proxy_add_forward.c> module
+for Apache that sets the C<X-Forwarded-For> field when doing a
+ProxyPass, similar to what Squid does.  His module is available from
+one of these URLs: http://modules.apache.org/search?id=124,
+http://develooper.com/code/mpaf/mod_proxy_add_forward.c or
+http://www.cpan.org/authors/id/ABH/mod_proxy_add_forward.c, complete
+with instructions on how to compile it and whatnot.
+
+
+=head1 httperf -- webserver Benchmarking tool
+
+http://www.hpl.hp.com/personal/David_Mosberger/httperf.html
+
+=head1 http_load -- another webserver Benchmarking tool
+
+http://www.acme.com/software/http_load/
+
+=head1 ab -- ApacheBench
+
+ApacheBench comes with the Apache distribution.
+
+=head1 Daquiri -- yet another webserver Benchmarking tool
+
+should be available from the mod_backhand CVS tree:
+http://www.backhand.org/mod_backhand/
+
+
+=head1 High-Availability and Load Balancing Projects
+
+=head2 mod_backhand -- Load Balancing for Apache
+
+http://www.backhand.org/mod_backhand/
+
+=head2 mod_redundancy
+
+mod_redundancy is a module that works with Apache webserver. It
+creates a Master/Slave Relationship between two physical
+webservers. The Slave takes over the IP-Address(es) and the
+Webservice(s) in case of a failure of the Master. One of the clues of
+this solution is, that the Redundancy/Failover-Configuration is made
+inside the Apache-Configfile.
+
+The product is neither OSS, nor free :(
+
+The homepage of mod_redundancy is http://www.ask-the-guru.com .
+
+
+=head2 High-Availability Linux Project
+
+You will find the definitive guide to load balancing techniques 
+at the High-Availability Linux Project site --
+http://www.henge.com/~alanr/ha/
+
+=head2 lbnamed - a Load Balancing Name Server Written in Perl
+
+http://www.stanford.edu/~riepel/lbnamed/
+http://www.stanford.edu/~riepel/lbnamed/bof.talk/
+http://www.stanford.edu/~schemers/docs/lbnamed/lbnamed.html
+
+=head2 Network Address Translation and Networks: Virtual Servers (Load Balancing)
+
+http://www.csn.tu-chemnitz.de/~mha/linux-ip-nat/diplom/node4.html#SECTION00043100000000000000
+
+=head2 Linux Virtual Server Project
+
+http://www.linuxvirtualserver.org/
+
+=head2 Efficient Support for P-HTTP in Cluster-Based Web Servers
+
+(with Mohit Aron and Willy Zwaenepoel.) In Proceedings of the USENIX
+1999 Annual Technical Conference, Monterey, CA, June 1999.
+http://www.cs.rice.edu/~druschel/usenix99lard.ps.gz
+http://www.usenix.org/publications/library/proceedings/usenix99/full_papers/aron/aron_html/index.html
+
+=head2 IP Filter
+
+The latest ip filter includes some simple load balancing code, that
+allows a round-robin distribution onto several machines via
+ipnat. That may be a simple solution for a few specific load problem.
+http://coombs.anu.edu.au/~avalon/ipf3.4beta3.tgz
+
+
+
+=head1 Apache::Request
+
+The package name is I<libapreq>.
+
+Get it from your favorite CPAN mirror at $CPAN/authors/id/DOUGM/ or
+from http://perl.apache.org/dist/.
+
+=head1 DataBases
+
+Low-Cost Unix Database Differences
+http://www.toodarkpark.org/computers/dbs.html
+
+My collection of various links to databases implementations
+http://stason.org/TULARC/webmaster/db.html
+
+=head1 libgtop
+
+LibGTop is a library that fetches system related information such as
+CPU Load, Memory Usage and information about running processes. The
+module C<GTop> provides a Perl interface to this library.
+
+http://home-of-linux.org/gnome/libgtop/
+
+
+=cut
+
+
