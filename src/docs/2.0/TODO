@@ -2,6 +2,20 @@
 
 ---
 
+Add a note somewhere that explains the layout of the documentation, in
+particular:
+
+ api/ - documents the API, fully covering all options.
+
+ user/ and devel/ are tutorials and don't necessarely cover all the
+ features of a discussed module. but should instead point to the API
+ manpage for a complete info.
+
+The point is that we want to avoid duplication of the documenation, in
+order to make it easier to maintain the docs and keep them in sync.
+
+---
+
 under
 
   SetHandler modperl
