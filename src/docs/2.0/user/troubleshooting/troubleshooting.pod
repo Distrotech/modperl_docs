@@ -1,0 +1,75 @@
+=head1 NAME
+
+Troubleshooting mod_perl problems
+
+=head1 Description
+
+Frequently encountered problems (warnings and fatal errors) and their
+troubleshooting.
+
+
+
+
+
+=head1 Building and Installation
+
+
+
+
+
+
+=head1 Configuration and Startup
+
+
+
+
+
+
+=head1 Shutdown and Restart
+
+
+
+
+
+
+
+=head1 Code Parsing and Compilation
+
+
+
+
+
+
+=head1 Runtime
+
+
+
+
+
+
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * Stas Bekman
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item * Stas Bekman
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+
+=cut
