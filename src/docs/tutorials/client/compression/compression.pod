@@ -2,18 +2,85 @@
 
 Web Content Compression FAQ
 
-=head1 Description
+=head1 Basics of Content Compression
 
 Compression of outgoing traffic from web servers is beneficial for
-clients, who get quicker responses, as well as for providers who use
-less bandwith. Many solutions exist for mod_perl and Apache, and we
-discuss some of the aspects involved here.
+clients who get quicker responses, as well as for providers who experience
+less consumption of bandwidth.
 
-This FAQ is written mainly for Internet content provider management
-familiar with Internet traffic issues and network equipment and its
-cost.  This document may also be informative for ISP system
-administrators and webmasters seeking to improve throughput and
-bandwidth efficiency.
+Recently content compression for web servers has been provided mainly through use of the gzip format.
+Other (non perl) modules are available that provide
+so-called C<deflate> compression.
+Both approaches are currently very similar and use the LZ77 algorithm
+combined with Huffman coding.
+Luckily for us, there is no real need to understand all the details
+of the obscure underlying mathematics in order to compress
+outbound content.
+Apache handlers available from CPAN can usually do the dirty work for us.
+Content compression is addressed through
+the proper configuration of appropriate handlers in the httpd.conf file.
+
+Compression by its nature is a content filter:
+It always takes its input as plain ASCII data that it converts
+to another C<binary> form and outputs the result to some destination.
+That's why every content compression handler usually belongs
+to a particular chain of handlers within the content generation phase
+of the request-processing flow.
+
+A chain of handlers is one more common term that is good to know about
+when you plan to compress data.
+There are two of them recently developed for Apache 1.3.X:
+C<Apache::OutputChain> and C<Apache::Filter>.
+We have to keep in mind
+that the compression handler developed for one chain usually fails
+inside another.
+
+Another important point deals with the order of execution of handlers
+in a particular chain.
+It's pretty straightforward in C<Apache::Filter>.
+For example, when you configure
+
+  PerlModule Apache::Filter
+  <Files ~ "*\.blah">
+    SetHandler perl-script
+    PerlSetVar Filter On
+    PerlHandler Filter1 Filter2 Filter3
+  </Files>
+
+the content will go through C<Filter1> first,
+then the result will be filtered by C<Filter2>,
+and finally C<Filter3> will be invoked to make the final changes
+in outgoing data.
+
+However, when you configure
+
+  PerlModule Apache::OutputChain 
+  PerlModule Apache::GzipChain 
+  PerlModule Apache::SSIChain 
+  PerlModule Apache::PassHtml 
+  <Files *.html>
+  SetHandler perl-script
+    PerlHandler Apache::OutputChain Apache::GzipChain Apache::SSIChain Apache::PassHtml
+  </Files>
+
+execution begins with C<Apache::PassHtml>.
+Then the content will be processed with C<Apache::SSIChain>
+and finally with C<Apache::GzipChain>.
+C<Apache::OutputChain> will not be involved in content processing at all.
+It is there only for the purpose of joining other handlers within the chain.
+
+It is important to remember that the content compression handler
+should always be the last executable handler in any chain.
+
+Another important problem of practical implementation
+of web content compression deals with the fact
+that some buggy web clients declare the ability to receive
+and decompress gzipped data in their HTTP requests,
+but fail to keep their promises when an actual compressed response arrives.
+This problem is addressed through the implementation of
+the C<Apache::CompressClientFixup> handler.
+This handler serves the C<fixup> phase of the request-processing flow.
+It is compatible with all known compression handlers and is available from CPAN.
 
 =head1 Q: Why it is important to compress web content?
 
@@ -59,53 +126,250 @@ to buy a newer faster box, than it is to acquire new customers.">
 =head1 Q: How hard is it to implement content compression on an existing site?
 
 =head2 A: Implementing content compression on an existing site
-typically involves no more that installing and configuring an
-appropriate Apache handler on the Web server.
+typically involves no more than installing and configuring an
+appropriate Apache handler on the web server.
 
-This approach works in most of the cases I have seen.  In some special
+This approach works in most of the cases I have seen. In some special
 cases you will need to take extra care with respect to the global
 architecture of your web application, but such cases may generally be
 readily addressed through various techniques.  To date I have found no
-fundamental barriers to practical implementation of Web content
+fundamental barriers to practical implementation of web content
 compression.
 
-=head1 Q: Does compression work with standard Web browsers?
+=head1 Q: Does compression work with standard web browsers?
 
 =head2 A: Yes. No client side changes or settings are required.
 
 All modern browser makers claim to be able to handle compressed
 content and are able to decompress it on the fly, transparent to the
 user.  There are some known bugs in some old browsers, but these can
-be taken into account through appropriate configuration of the Web
+be taken into account through appropriate configuration of the web
 server.
+
+I strongly recommend use of the C<Apache::CompressClientFixup> handler
+in your server configuration in order to prevent compression
+for known buggy clients.
 
 =head1 Q: What software is required on the server side?
 
-=head2 A: There are six known modules/packages for the Web content
-compression available to date for Apache (in alphabetical order):
+=head2 A: There are four known mod_perl modules/packages for the web content
+compression available to date for Apache 1.3.X (in alphabetical order):
 
 =over 4
 
 =item * Apache::Compress
 
-a mod_perl handler developed by Ken Williams (U.S.) which compresses
-output through C<Apache::Filter>
+a mod_perl handler developed by Ken Williams (U.S.).
+C<Apache::Compress> is capable to gzip
+output through C<Apache::Filter>.
+This module accumulates all incoming data and then compresses
+the whole content body at once.
 
 =item * Apache::Dynagzip
 
-a family of mod_perl handlers, developed by Slava Bizyayev -- a
+a mod_perl handler, developed by Slava Bizyayev -- a
 Russian programmer residing in the U.S.
+C<Apache::Dynagzip> uses the gzip format to compress
+output through the C<Apache::Filter> or through the internal
+Unix pipe.
+
+C<Apache::Dynagzip> is most useful when one needs to compress dynamic
+outbound web content (generated on the fly from databases, XML, etc.)
+when content length is not known at the time of the request.
+
+C<Apache::Dynagzip>'s features include:
+
+=over 4
+
+=item * Support for both HTTP/1.0 and HTTP/1.1.
+
+=item * Control over the chunk size on HTTP/1.1 for on-the-fly content compression.
+
+=item * Support for Perl, Java, or C/C++ CGI applications.
+
+=item * Advanced control over the proxy cache with the
+configurable C<Vary> HTTP header.
+
+=item * Optional control over content lifetime in the client's local
+cache with the configurable C<Expires> HTTP header.
+
+=item * Optional support for server-side caching of the dynamically
+generated (and compressed) content.
+
+=item * Optional extra-light compression
+
+removal of leading blank spaces and/or blank lines,
+which works for all browsers,
+including older ones that cannot uncompress gzip format.
+
+=back
+
 
 =item * Apache::Gzip
 
 an example of mod_perl filter developed by Lincoln Stein and Doug
 MacEachern for their book I<Writing Apache Modules with Perl and C>
-(U.S.), which like C<Apache::Compress> works with C<Apache::Filter>.
+(U.S.), which like C<Apache::Compress> works through C<Apache::Filter>.
+C<Apache::Gzip> is not available from CPAN.
+The source code may be found on the book's companion web site at
+L<http://www.modperl.com/>
 
 =item * Apache::GzipChain
 
 a mod_perl handler developed by Andreas Koenig (Germany), which
-compresses output through C<Apache::OutputChain>.
+compresses output through C<Apache::OutputChain> using the gzip format.
+
+C<Apache::GzipChain> currently provides in-memory compression only.
+Using this module under C<perl-5.8> or higher is appropriate for Unicode data.
+UTF-8 data passed to C<Compress::Zlib::memGzip()> are converted to raw
+UTF-8 before compression takes place.
+Other data are simply passed through.
+
+=back
+
+=head1 Q: Is it possible to compress the output from C<Apache::Registry>
+with C<Apache::Dynagzip>?
+
+=head2 A: Yes, it is supposed to be pretty easy:
+
+If your page/application is initially configured like
+
+  <Directory /path/to/subdirectory>
+    SetHandler perl-script
+    PerlHandler Apache::Registry
+    PerlSendHeader On
+    Options +ExecCGI
+  </Directory>
+
+you might want just to replace it with the following:
+
+  PerlModule Apache::Filter
+  PerlModule Apache::Dynagzip
+  PerlModule Apache::CompressClientFixup
+  <Directory /path/to/subdirectory>
+    SetHandler perl-script
+    PerlHandler Apache::RegistryFilter Apache::Dynagzip
+    PerlSendHeader On
+    Options +ExecCGI
+    PerlSetVar Filter On
+    PerlFixupHandler Apache::CompressClientFixup
+    PerlSetVar LightCompression On
+  </Directory>
+
+You should be all set usually after that.
+
+In more common cases you need to replace the line
+
+    PerlHandler Apache::Registry
+
+in your initial configuration file with the set of the following lines:
+
+    PerlHandler Apache::RegistryFilter Apache::Dynagzip
+    PerlSetVar Filter On
+    PerlFixupHandler Apache::CompressClientFixup
+
+You might want to add optionally
+
+    PerlSetVar LightCompression On
+
+to reduce the size of the stream even for clients incapable to speak gzip
+(like I<Microsoft Internet Explorer> over HTTP/1.0).
+
+Finally, make sure you have somewhere declared
+
+  PerlModule Apache::Filter
+  PerlModule Apache::Dynagzip
+  PerlModule Apache::CompressClientFixup
+
+This basic configuration uses many defaults.
+See C<Apache::Dynagzip> POD for further thin tuning if required.
+
+=head1 Q: Is it possible to compress the output from Mason-driven application
+with C<Apache::Dynagzip>?
+
+=head2 A: Yes. C<HTML::Mason::ApacheHandler> is compatible with
+C<Apache::Filter> chain.
+
+If your application is initially configured like
+
+  PerlModule HTML::Mason::ApacheHandler
+  <Directory /path/to/subdirectory>
+    <FilesMatch "\.html$">
+      SetHandler perl-script
+      PerlHandler HTML::Mason::ApacheHandler
+    </FilesMatch>
+  </Directory>
+
+you might want just to replace it with the following:
+
+  PerlModule HTML::Mason::ApacheHandler
+  PerlModule Apache::Dynagzip
+  PerlModule Apache::CompressClientFixup
+  <Directory /path/to/subdirectory>
+    <FilesMatch "\.html$">
+      SetHandler perl-script
+      PerlHandler HTML::Mason::ApacheHandler Apache::Dynagzip
+      PerlSetVar Filter On
+      PerlFixupHandler Apache::CompressClientFixup
+      PerlSetVar LightCompression On
+    </FilesMatch>
+  </Directory>
+
+You should be all set safely after that.
+
+In more common cases you need to replace the line
+
+    PerlHandler HTML::Mason::ApacheHandler
+
+in your initial configuration file with the set of the following lines:
+
+    PerlHandler HTML::Mason::ApacheHandler Apache::Dynagzip
+    PerlSetVar Filter On
+    PerlFixupHandler Apache::CompressClientFixup
+
+You might want to add optionally
+
+    PerlSetVar LightCompression On
+
+to reduce the size of the stream even for clients incapable to speak gzip
+(like I<Microsoft Internet Explorer> over HTTP/1.0).
+
+Finally, make sure you have somewhere declared
+
+  PerlModule Apache::Dynagzip
+  PerlModule Apache::CompressClientFixup
+
+This basic configuration uses many defaults.
+See C<Apache::Dynagzip> POD for further thin tuning.
+
+=head1 Q: Why is it important to keep control over chunk size?
+
+=head2 A: It helps to reduce the latency of the response.
+
+C<Apache::Dynagzip> is the only handler to date
+that begins transmission of compressed data as soon
+as the initial uncompressed pieces of data arrive
+from their source, at a time when the source process
+may not even have completed generating the full document
+it is sending.
+Transmission can therefore be taking place concurrent
+with creation of later document content.
+
+This feature is mainly beneficial for HTTP/1.1 requests,
+because HTTP/1.0 does not support chunks.
+
+I would also mention
+that the internal buffer in C<Apache::Dynagzip>
+always prevents Apache from the creating too short chunks over HTTP/1.1,
+or from transmitting too short pieces of data over HTTP/1.0.
+
+=head1 Q: Are there any content compression solutions for vanilla Apache 1.3.X?
+
+=head2 A: Yes, There are two compression modules
+written in C that are available
+for vanilla Apache 1.3.X:
+
+=over 4
 
 =item * mod_deflate
 
@@ -118,67 +382,91 @@ Communications, Inc.> (U.S.)
 
 =back
 
-In February 2002, Nicholas Oxhøj wrote to the modperl@apache.org
-mailing list about his own experience to find the appropriate Apache
-gzipping tool for streaming outbound content:
+Both of these modules support HTTP/1.0 only.
 
-=for html <blockquote>
+=head1 Q: Can I compress the output of my site at the application level?
 
-I<"... I have been experimenting with all the different Apache
-compression modules I have been able to find, but have not been able
-to get the desired result.  I have tried C<Apache::GzipChain>,
-C<Apache::Compress>, C<mod_gzip> and C<mod_deflate>, with different
-results.  One I cannot get to work at all. Most work, but seem to
-collect all the output before compressing it and sending it to the
-browser...>
+=head2 A: Yes, if your web server is CGI/1.1 compatible and allows you
+to create specific HTTP headers from your application,
+or when you use an application framework
+that carries its own handler capable of compressing outbound data.
 
-I<... Wouldn't it be nice to have some option to specify that the
-handler should flush and send the currently compressed output every
-time it had received a certain amount of input or every time it had
-generated a certain amount of output?..>
+For example, vanilla Apache 1.3.X is CGI/1.1 compatible.
+It allows development of CGI scripts/programs that might be generating
+compressed outgoing streams accomplished with specific HTTP headers.
 
-I<... So I am basically looking for anyone who has had any success in
-achieving this kind of "streaming" compression, who could direct me at
-an appropriate Apache module.">
+Alternatively, on mod_perl enabled Apache some application environments
+carry their own compression code that could be activated through
+the appropriate configurations:
 
-=for html
-</blockquote>
+C<Apache::ASP> does this with the C<CompressGzip> setting;
 
-The C<Apache::Dynagzip> package wasn't publicly available at that
-time.
+C<Apache::AxKit> uses the C<AxGzipOutput> setting to do this.
 
-=head1 Analysis of different packages
+See particular package documentation for details.
 
-=head2 Apache::DynaGzip
+=head1 Q: Are there any content compression solutions for Apache-2?
 
-C<Apache::Dynagzip> is most useful when one needs to compress dynamic
-outbound Web content (generated on the fly from databases, XML, etc.)
-when content length is not known at the time of the request.
+=head2 A: Yes, a core compression module written in C,
+C<mod_deflate>, has recently become available for Apache-2.
 
-C<Apache::Dynagzip>'s features include:
+C<mod_deflate> for Apache-2 is written by Ian Holsman (USA).
+
+This module supports HTTP/1.1 and is filters compatible.
+
+Despite its name C<mod_deflate> for Apache-2 provides C<gzip>-encoded content.
+It contains a set of configuration options sufficient to keep control
+over all recently known buggy web clients.
+
+=head1 Q: When C<Apache::Dynagzip> is supposed to be ported to Apache-2?
+
+=head2 A: There no recent plans to port C<Apache::Dynagzip> to Apache-2:
+
+C<mod_deflate> for Apache-2 seems to be capable to provide all basic functionality
+required for dynamic content compression:
 
 =over 4
 
-=item * Support for both HTTP/1.0 and HTTP/1.1.
+=item * This module supports flushing over HTTP/1.1
 
-=item * Control over the chunk size on HTTP/1.1 for on-the-fly content compression.
+=item * It is filters compatible.
 
-=item * Support for any Perl, Java, or C/C++ CGI applications.
-
-=item * Advanced control over the proxy cache with the C<Vary> HTTP header.
-
-=item * Optional control over content lifetime in the client's local
-cache with the C<Expires> HTTP header.
-
-=item * Optional extra-light compression
-
-(removal of leading blank spaces and/or blank lines), which works for all browsers,
-including older ones that cannot uncompress gzip format.
-
-=item * Optional support for server-side caching of the dynamically
-generated (and compressed) content.
+=item * It has a set of configuration options to keep control over the buggy clients.
 
 =back
+
+The rest of the main C<Apache::Dynagzip> options could be easily addressed
+through the implementation of pretty tiny and specific accomplishing filters.
+
+=head1 Q: Where can I read the original descriptions of C<gzip>
+and C<deflate> formats?
+
+=head2 A: C<gzip> format is published as rfc1952,
+and C<deflate> format is published as rfc1951.
+
+You can find many mirrors of RFC archives on the Internet.
+Try, for instance, my favorite at L<http://www.ietf.org/rfc.html>
+
+=head1 Q: Are there any known compression problems with specific browsers?
+
+=head2 A: Yes, Netscape 4 has problems with compressed cascading style sheets
+and JavaScript files.
+
+You can use C<Apache::CompressClientFixup> to disable compression
+for these files dynamically.
+C<Apache::Dynagzip> is capable of providing
+so-called C<light compression> for these files.
+
+=head1 Q: Where can I find more information about the compression features of modern browsers?
+
+=head2 A: Michael Schroepl maintains a highly valuable site
+
+Try it at L<http://www.schroepl.net/projekte/mod_gzip/browser.htm>
+
+=head1 Acknowledgments
+
+I highly appreciate efforts of Dan Hansen
+done in order to make this text better English...
 
 =head1 Maintainers
 
