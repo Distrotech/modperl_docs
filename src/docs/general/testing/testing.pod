@@ -748,8 +748,6 @@ Run all tests through mod_proxy:
 
   % t/TEST -proxy
 
-=item * 
-
 =back
 
 The debugging options I<-debug> and I<-breakpoint> are covered in the
