@@ -469,12 +469,12 @@ arguments (e.g., C<L<$s-E<gt>log_serror|/C__s_E_gt_log_serror_>> and
 C<L<$r-E<gt>log_rerror|/C__r_E_gt_log_rerror_>>).
 
 
-=head2 C<Apache::log_pid>
+=head2 C<Apache::Log::log_pid>
 
 
 Log the current pid of the parent process
 
-  Apache::log_pid($fname);
+  Apache::Log::log_pid($pool, $fname);
 
 =over 4
 
