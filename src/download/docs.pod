@@ -19,7 +19,7 @@ server. To get it, you will need to checkout a copy. Assuming you have
 Subversion installed, run the following command from the directory you
 want to place the I<modperl-docs> directory in:
 
-  % svn co http://svn.apache.org/repos/asf/perl/modperl/docs/trunk modpe
+  % svn co http://svn.apache.org/repos/asf/perl/modperl/docs/trunk modperl-docs
 
 You will now find a directory called I<modperl-docs> in the current
 working directory which contains all the sources needed to build the
