@@ -17,18 +17,18 @@ build and install a basic mod_perl enabled Apache server on almost any
 standard flavor of Unix OS.
 
   % cd /usr/src
-  % lwp-download http://www.apache.org/dist/httpd/apache_x.x.x.tar.gz
-  % lwp-download http://perl.apache.org/dist/mod_perl-x.xx.tar.gz
-  % tar xzvf apache_x.x.x.tar.gz
-  % tar xzvf mod_perl-x.xx.tar.gz
-  % cd mod_perl-x.xx
-  % perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
+  % lwp-download http://www.apache.org/dist/httpd/apache_1.3.xx.tar.gz
+  % lwp-download http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
+  % tar xzvf apache_1.3.xx.tar.gz
+  % tar xzvf mod_perl-1.xx.tar.gz
+  % cd mod_perl-1.xx
+  % perl Makefile.PL APACHE_SRC=../apache_1.3.xx/src \
     DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
   % make && make test && make install
-  % cd ../apache_x.x.x
+  % cd ../apache_1.3.xx
   % make install
 
-Of course you should replace I<x.xx> and I<x.x.x> with the real
+Of course you should replace I<1.xx> and I<1.3.x> with the real
 version numbers of mod_perl and Apache.
 
 All that's left is to add a few configuration lines to C<httpd.conf>,
@@ -40,8 +40,8 @@ despair, the next sections will explain in detail each and every step.
 Of course there is a way of installing mod_perl in only a couple of
 minutes if you are using a Linux distribution that uses RPM packages:
 
-  % rpm -i apache-xx.xx.rpm
-  % rpm -i mod_perl-xx.xx.rpm
+  % rpm -i apache-1.3.xx.rpm
+  % rpm -i mod_perl-1.xx.rpm
 
 or apt system:
 
@@ -50,7 +50,7 @@ or apt system:
 These should set up both Apache and mod_perl correctly for your
 system. Using a packaged distribution can make installing and
 reinstalling a lot quicker and easier. (Note that the filenames will
-vary, and I<xx.xx> will differ.)
+vary, and I<xx> will differ.)
 
 Since mod_perl can be configured in many different ways (features can
 be enabled or disabled, directories can be modified, etc.) it's
@@ -224,12 +224,12 @@ If you specify neither the C<DO_HTTPD> nor the C<NO_HTTPD> parameters
 you will be asked the following question during the configuration
 stage:
 
-  Configure mod_perl with ../apache_x.x.x/src ?
+  Configure mod_perl with ../apache_1.3.xx/src ?
 
 C<APACHE_SRC> should be used to define Apache's source tree directory.
 For example:
 
-  APACHE_SRC=../apache_x.x.x/src
+  APACHE_SRC=../apache_1.3.xx/src
 
 Unless C<APACHE_SRC> is specified, I<Makefile.PL> makes an intelligent
 guess by looking at the directories at the same level as the mod_perl
@@ -249,10 +249,10 @@ build process.
 Unless any of C<DO_HTTPD>, C<NO_HTTPD> or C<PREP_HTTPD> is used, you
 will be prompted by the following question:
 
-  Shall I build httpd in ../apache_x.x.x/src for you?
+  Shall I build httpd in ../apache_1.3.xx/src for you?
 
 Answering I<'y'> will make sure an httpd binary will be built in
-I<../apache_x.x.x/src> when you run C<make>.
+I<../apache_1.3.xx/src> when you run C<make>.
 
 To avoid this prompt when the answer is I<Yes> specify the following
 argument:
@@ -260,7 +260,7 @@ argument:
   DO_HTTPD=1
 
 Note that if you set C<DO_HTTPD=1>, but do not use
-C<APACHE_SRC=../apache_x.x.x/src> then the first apache source tree
+C<APACHE_SRC=../apache_1.3.xx/src> then the first apache source tree
 found will be used to configure and build against. Therefore it's
 highly advised to always use an explicit C<APACHE_SRC> parameter, to
 avoid confusion.
@@ -274,8 +274,8 @@ a guess.
 
 To avoid the two prompts:
 
-  Configure mod_perl with ../apache_x.x.x/src ?
-  Shall I build httpd in ../apache_x.x.x/src for you?
+  Configure mod_perl with ../apache_1.3.xx/src ?
+  Shall I build httpd in ../apache_1.3.xx/src for you?
 
 and avoid building httpd, use:
 
@@ -405,14 +405,14 @@ In addition when the C<APACHE_PREFIX> option is used C<make install>
 be executed in the Apache source directory, which makes these two
 equivalent:
 
-  % perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
+  % perl Makefile.PL APACHE_SRC=../apache_1.3.xx/src \
     DO_HTTPD=1 USE_APACI=1 EVERYTHING=1 \
     APACI_ARGS='--prefix=/usr/local/httpd_perl'
   % make && make test && make install
-  % cd ../apache_x.x.x
+  % cd ../apache_1.3.xx
   % make install
 
-  % perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
+  % perl Makefile.PL APACHE_SRC=../apache_1.3.xx/src \
     DO_HTTPD=1 USE_APACI=1 EVERYTHING=1 \
     APACHE_PREFIX=/usr/local/httpd_perl
   % make && make test && make install
@@ -438,7 +438,7 @@ parameters were used in a mod_perl build.  So it's better to save them
 in a file.  For example if you create a file at
 I<~/.mod_perl_build_options>, with contents:
 
-  APACHE_SRC=../apache_x.x.x/src DO_HTTPD=1 USE_APACI=1 \
+  APACHE_SRC=../apache_1.3.xx/src DO_HTTPD=1 USE_APACI=1 \
   EVERYTHING=1
 
 You can build the server with the following command:
@@ -453,15 +453,15 @@ by I<Makefile.PL>. Parameters supplied at the command line will
 override the parameters given in this file.
 
   % ls -1 /usr/src
-  apache_x.x.x/
+  apache_1.3.xx/
   makepl_args.mod_perl
-  mod_perl-x.xx/
+  mod_perl-1.xx/
   
   % cat makepl_args.mod_perl
-  APACHE_SRC=../apache_x.x.x/src DO_HTTPD=1 USE_APACI=1 \
+  APACHE_SRC=../apache_1.3.xx/src DO_HTTPD=1 USE_APACI=1 \
   EVERYTHING=1
   
-  % cd mod_perl-x.xx
+  % cd mod_perl-1.xx
   % perl Makefile.PL
   % make && make test && make install
 
@@ -481,8 +481,8 @@ to enable experimental features to play with too!
 If you are faced with a compiled Apache and no trace of the parameters
 used to build it, you can usually still find them if the sources were
 not C<make clean>'d.  You will find the Apache specific parameters in
-C<apache_x.x.x/config.status> and the mod_perl parameters in
-C<mod_perl_x.xx/apaci/mod_perl.config>.
+C<apache_1.3.xx/config.status> and the mod_perl parameters in
+C<mod_perl-1.xx/apaci/mod_perl.config>.
 
 =head3 Discovering Whether Some Option Was Configured
 
@@ -630,7 +630,7 @@ with:
 
 Of course if when you read this a new version of the C<libgdbm>
 library will be released, you will have to adjust the version
-numbers. We didn't use the usual I<xx.xx> version replacement here, to
+numbers. We didn't use the usual I<xx> version replacement here, to
 make it easier to understand how the symbolic links should be set.
 
 =head4 About gdbm, db and ndbm libraries
@@ -649,13 +649,13 @@ using it after an upgrade.
 
 When manually building mod_perl using the shared library:
 
-  cd mod_perl-x.xx
+  cd mod_perl-1.xx
   perl Makefile.PL PREP_HTTPD=1
   make
   make test
   make install
   
-  cd ../apache_x.x.x
+  cd ../apache_1.3.xx
   ./configure --with-layout=RedHat --target=perlhttpd 
   --activate-module=src/modules/perl/libperl.a
 
@@ -854,7 +854,7 @@ install all the Perl side files:
 Then go to the Apache source tree and complete the Apache installation
 (installing the configuration files, httpd and utilities):
 
-  % cd ../apache_x.x.x
+  % cd ../apache_1.3.xx
   % make install
 
 Now the installation should be considered complete.  You may now
@@ -880,12 +880,12 @@ I<$APACHE_SRC/modules/perl/Makefile> may need to be modified to enable
 various options (e.g. C<ALL_HOOKS=1>).
 
 Optionally, instead of tweaking the options during C<perl Makefile.PL>
-you may edit I<mod_perl-x.xx/src/modules/perl/Makefile> before running
+you may edit I<mod_perl-1.xx/src/modules/perl/Makefile> before running
 C<perl Makefile.PL>.
 
 =item Configuration
 
-Add to I<apache_x.x.x/src/Configuration> :
+Add to I<apache_1.3.xx/src/Configuration> :
 
   AddModule modules/perl/libperl.a
 
@@ -906,14 +906,14 @@ Add the following to C<EXTRA_CFLAGS>:
 Return to the mod_perl directory and copy the mod_perl source files
 into the apache build directory:
 
-  % cp -r src/modules/perl apache_x.x.x/src/modules/
+  % cp -r src/modules/perl apache_1.3.xx/src/modules/
 
 =back
 
 When you have done with the configuration parts, run:
 
   % perl Makefile.PL NO_HTTPD=1 DYNAMIC=1  EVERYTHING=1\
-   APACHE_SRC=../apache_x.x.x/src
+   APACHE_SRC=../apache_1.3.xx/src
 
 C<DYNAMIC=1> enables a build of the shared mod_perl library.  Add
 other options if required.
@@ -921,11 +921,11 @@ other options if required.
   % make install
 
 Now you may proceed with the plain Apache build process.  Note that in
-order for your changes to the I<apache_x.x.x/src/Configuration> file
-to take effect, you must run C<apache_x.x.x/src/Configure> instead of
-the default I<apache_x.x.x/configure> script:
+order for your changes to the I<apache_1.3.xx/src/Configuration> file
+to take effect, you must run C<apache_1.3.xx/src/Configure> instead of
+the default I<apache_1.3.xx/configure> script:
 
-  % cd ../apache_x.x.x/src
+  % cd ../apache_1.3.xx/src
   % ./Configure
   % make
   % make install
@@ -941,13 +941,13 @@ If your goal is just to build and install Apache with mod_perl out of
 their source trees and have no special interest in further adjusting
 or enhancing Apache proceed as before:
 
-  % tar xzvf apache_x.x.x.tar.gz
-  % tar xzvf mod_perl-x.xx.tar.gz
-  % cd mod_perl-x.xx
-  % perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
+  % tar xzvf apache_1.3.xx.tar.gz
+  % tar xzvf mod_perl-1.xx.tar.gz
+  % cd mod_perl-1.xx
+  % perl Makefile.PL APACHE_SRC=../apache_1.3.xx/src \
     DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
   % make && make test && make install
-  % cd ../apache_x.x.x
+  % cd ../apache_1.3.xx
   % make install
 
 This builds Apache statically with mod_perl, installs Apache under the
@@ -967,8 +967,8 @@ other third-party Apache modules, etc.
 
 The first step is as before, extract the distributions:
 
-  % tar xvzf apache_x.x.x.tar.gz
-  % tar xzvf mod_perl-x.xx.tar.gz
+  % tar xvzf apache_1.3.xx.tar.gz
+  % tar xzvf mod_perl-1.xx.tar.gz
 
 =item 2 Install mod_perl's Perl-side and prepare the Apache-side
 
@@ -976,9 +976,9 @@ The second step is to install the Perl-side of mod_perl into the Perl
 hierarchy and prepare the C<src/modules/perl/> subdirectory inside the
 Apache source tree:
 
-  $ cd mod_perl-x.xx
+  $ cd mod_perl-1.xx
   $ perl Makefile.PL \
-      APACHE_SRC=../apache_x.x.x/src \
+      APACHE_SRC=../apache_1.3.xx/src \
       NO_HTTPD=1 \
       USE_APACI=1 \
       PREP_HTTPD=1 \
@@ -1015,7 +1015,7 @@ Finally it's time to build the Apache package and thus also the
 Apache-side of mod_perl and any other third-party modules you've
 prepared:
 
-  $ cd apache_x.x.x
+  $ cd apache_1.3.xx
   $ ./configure \
       --prefix=/path/to/install/of/apache \
       --activate-module=src/modules/perl/libperl.a \
@@ -1129,8 +1129,8 @@ binary package from your vendor).
 
 Here are the build steps:
 
-  % tar xzvf mod_perl-x.xx.tar.gz
-  % cd mod_perl-x.xx
+  % tar xzvf mod_perl-1.xx.tar.gz
+  % cd mod_perl-1.xx
   % perl Makefile.PL \
     USE_APXS=1 \
     WITH_APXS=/path/to/bin/apxs \
@@ -1192,10 +1192,10 @@ do this in a bundle with mod_perl.
 Also, notice that the links I've used below are very likely to have
 changed by the time you read this document.  That's why I have used
 the I<x.x.x> convention, instead of using hardcoded version numbers.
-Remember to replace the I<x.xx> place-holders with the version numbers
+Remember to replace the I<xx> place-holders with the version numbers
 of the distributions you are about to use.  To find out the latest
 stable version number, visit the components' sites.  So if I say
-http://perl.apache.org/dist/mod_perl-x.xx.tar.gz , go to
+http://perl.apache.org/dist/mod_perl-1.xx.tar.gz , go to
 http://perl.apache.org/dist/ in order to learn the version number of
 the latest stable release and download the appropriate file.
 
@@ -1212,15 +1212,15 @@ which is based on SSLeay from Eric A. Young and Tim J. Hudson.
 
 Download the sources:
 
-  % lwp-download http://www.apache.org/dist/apache_x.xx.tar.gz
-  % lwp-download http://perl.apache.org/dist/mod_perl-x.xx.tar.gz
+  % lwp-download http://www.apache.org/dist/apache_1.3.xx.tar.gz
+  % lwp-download http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
   % lwp-download http://www.modssl.org/source/mod_ssl-x.x.x-x.x.x.tar.gz
   % lwp-download http://www.openssl.org/source/openssl-x.x.x.tar.gz
 
 Un-pack:
 
-  % tar xvzf mod_perl-x.xx
-  % tar xvzf apache_x.x.x.tar.gz
+  % tar xvzf mod_perl-1.xx
+  % tar xvzf apache_1.3.xx.tar.gz
   % tar xvzf mod_ssl-x.x.x-x.x.x.tar.gz
   % tar xvzf openssl-x.x.x.tar.gz
 
@@ -1233,15 +1233,15 @@ Configure, build and install openssl:
 Configure mod_ssl:
 
   % cd mod_ssl-x.x.x-x.x.x
-  % ./configure --with-apache=../apache_x.x.x
+  % ./configure --with-apache=../apache_1.3.xx
 
 Configure mod_perl:
 
-  % cd ../mod_perl-x.xx
+  % cd ../mod_perl-1.xx
   % perl Makefile.PL USE_APACI=1 EVERYTHING=1 \
         DO_HTTPD=1 SSL_BASE=/usr/local/ssl \
         APACHE_PREFIX=/usr/local/apachessl \
-        APACHE_SRC=../apache_x.x.x/src \
+        APACHE_SRC=../apache_1.3.xx/src \
         APACI_ARGS='--enable-module=ssl,--enable-module=rewrite'
 
 Note: Do not forget that if you use C<csh> or C<tcsh> you may need to
@@ -1250,7 +1250,7 @@ put all the arguments to `perl Makefile.PL' on a single command line.
 Build, test and install:
 
   % make && make test && make install
-  % cd ../apache_x.x.x
+  % cd ../apache_1.3.xx
   % make certificate
   % make install
 
@@ -1269,7 +1269,7 @@ I<error_log> file:
 As in the previous section this shows an installation of mod_perl and
 mod_ssl, but this time using sources/binaries prepackaged in RPMs.
 
-As always, replace I<xxx> with the proper version numbers.  And
+As always, replace I<xx> with the proper version numbers.  And
 replace C<i386> with the identifier for your platform if it is
 different.
 
@@ -1289,7 +1289,7 @@ Source: http://www.openssl.org/
 
 =item 1
 
-  % lwp-download http://perl.apache.org/dist/mod_perl-x.xx.tar.gz
+  % lwp-download http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
 
 Source: http://perl.apache.org/dist
 
@@ -1321,15 +1321,15 @@ Source: http://www.engelschall.com/sw/mm/
 
 =item 1
 
-  % tar xvzf mod_perl-x.xx.tar.gz
+  % tar xvzf mod_perl-1.xx.tar.gz
 
 =item 1
 
-  % cd mod_perl-x.xx
+  % cd mod_perl-1.xx
 
 =item 1
 
-  % perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
+  % perl Makefile.PL APACHE_SRC=../apache_1.3.xx/src \
      DO_HTTPD=1 \
      USE_APACI=1 \
      PREP_HTTPD=1 \
@@ -1365,7 +1365,7 @@ Add or remove parameters if appropriate.
 
   % ./configure \
         --with-perl=/usr/bin/perl \
-        --with-apache=../apache_x.x.x\
+        --with-apache=../apache_1.3.xx\
         --with-ssl=SYSTEM \
         --with-mm=../mm-x.x.x \
         --with-layout=RedHat \
@@ -1408,15 +1408,15 @@ long as you retain the copyright notices.
 
 Download the sources:
 
-  % lwp-download http://www.apache.org/dist/apache_x.x.x.tar.gz
-  % lwp-download http://perl.apache.org/dist/mod_perl-x.xx.tar.gz
-  % lwp-download http://www.apache-ssl.org/.../apache_x.x.x+ssl_x.xx.tar.gz
+  % lwp-download http://www.apache.org/dist/apache_1.3.xx.tar.gz
+  % lwp-download http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
+  % lwp-download http://www.apache-ssl.org/.../apache_1.3.xx+ssl_x.xx.tar.gz
   % lwp-download http://www.openssl.org/source/openssl-x.x.x.tar.gz
 
 Un-pack:
 
-  % tar xvzf mod_perl-x.xx
-  % tar xvzf apache_x.x.x.tar.gz
+  % tar xvzf mod_perl-1.xx
+  % tar xvzf apache_1.3.xx.tar.gz
   % tar xvzf openssl-x.x.x.tar.gz
 
 Configure and install openssl:
@@ -1428,21 +1428,21 @@ Configure and install openssl:
 Patch Apache with SSLeay paths
 
   % cd apache_x.xx
-  % tar xzvf ../apache_x.x.x+ssl_x.xx.tar.gz
+  % tar xzvf ../apache_1.3.xx+ssl_x.xx.tar.gz
   % FixPatch
   Do you want me to apply the fixed-up Apache-SSL patch for you? [n] y
 
 Now edit the I<src/Configuration> file if needed and then configure:
 
-  % cd ../mod_perl-x.xx
+  % cd ../mod_perl-1.xx
   % perl Makefile.PL USE_APACI=1 EVERYTHING=1 \
         DO_HTTPD=1 SSL_BASE=/usr/local/ssl \
-        APACHE_SRC=../apache_x.x.x/src
+        APACHE_SRC=../apache_1.3.xx/src
 
 Build, test and install:
 
   % make && make test && make install
-  % cd ../apache_x.x.x
+  % cd ../apache_1.3.xx
   % make certificate
   % make install
 
@@ -1464,16 +1464,16 @@ http://www.c2.net/products/sh2/ .
 
 Having done that, download the sources:
 
-  % lwp-download http://perl.apache.org/dist/mod_perl-x.xx.tar.gz
+  % lwp-download http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
 
 Unpack:
 
-  % tar xvzf mod_perl-x.xx.tar.gz
+  % tar xvzf mod_perl-1.xx.tar.gz
 
 Configure (assuming that you have the Stronghold sources extracted at
 I</usr/local/stronghold>):
 
-  % cd mod_perl-x.xx
+  % cd mod_perl-1.xx
   % perl Makefile.PL APACHE_SRC=/usr/local/stronghold/src \
     DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
 
@@ -1516,15 +1516,15 @@ Apache server:
 
 Configure Apache.
 
-  % cd apache_x.x.xx
+  % cd apache_1.3.xx
   % ./configure --prefix=/usr/local/etc/httpd
 
 =item 1
 
 Build mod_perl.
 
-  % cd ../mod_perl-x.xx
-  % perl Makefile.PL APACHE_SRC=../apache_x.x.xx/src NO_HTTPD=1 \
+  % cd ../mod_perl-1.xx
+  % perl Makefile.PL APACHE_SRC=../apache_1.3.xxx/src NO_HTTPD=1 \
     USE_APACI=1 PREP_HTTPD=1 EVERYTHING=1
   % make
 
@@ -1533,7 +1533,7 @@ Build mod_perl.
 Build mod_php.
 
   % cd ../php-x.x.xx
-  % ./configure --with-apache=../apache_x.x.xx \
+  % ./configure --with-apache=../apache_1.3.xxx \
      --with-mysql --enable-track-vars
   % make
   % make install
@@ -1542,7 +1542,7 @@ Build mod_php.
 
 Build Apache:
 
-  % cd ../apache_x.x.xx
+  % cd ../apache_1.3.xxx
   % ./configure --prefix=/usr/local/etc/httpd \
      --activate-module=src/modules/perl/libperl.a \
      --activate-module=src/modules/php4/libphp4.a \
@@ -1554,7 +1554,7 @@ Build Apache:
 
 Test and install mod_perl
 
-  % cd ../mod_perl-x.xx
+  % cd ../mod_perl-1.xx
   % make test
   # make install.
 
@@ -1562,7 +1562,7 @@ Test and install mod_perl
 
 Complete the Apache installation.
 
-  % cd ../apache_x.x.xx
+  % cd ../apache_1.3.xxx
   # make install
 
 =back
@@ -1608,15 +1608,15 @@ to type at the prompt:
 You will see (I'll use C<x.xx> as a placeholder for real version
 numbers, since these change very frequently):
 
-  Running make for DOUGM/mod_perl-x.xx.tar.gz
+  Running make for DOUGM/mod_perl-1.xx.tar.gz
   Fetching with LWP:
-  http://www.cpan.org/authors/id/DOUGM/mod_perl-x.xx.tar.gz
+  http://www.cpan.org/authors/id/DOUGM/mod_perl-1.xx.tar.gz
   
-  CPAN.pm: Going to build DOUGM/mod_perl-x.xx.tar.gz
+  CPAN.pm: Going to build DOUGM/mod_perl-1.xx.tar.gz
   
   Enter `q' to stop search
   Please tell me where I can find your apache src
-  [../apache_x.x.x/src]
+  [../apache_1.3.xx/src]
 
 C<CPAN.pm> will search for the latest Apache sources and suggest a
 directory.  Here, unless the CPAN shell found it and suggested the
@@ -1626,13 +1626,13 @@ which resides at the root level of the unpacked Apache distribution.
 In most cases the CPAN shell will suggest the correct directory.
 
   Please tell me where I can find your apache src
-  [../apache_x.x.x/src] 
+  [../apache_1.3.xx/src] 
 
 Answer yes to all the following questions, unless you have a reason
 not to do that.
 
-  Configure mod_perl with /usr/src/apache_x.x.x/src ? [y] 
-  Shall I build httpd in /usr/src/apache_x.x.x/src for you? [y] 
+  Configure mod_perl with /usr/src/apache_1.3.xx/src ? [y] 
+  Shall I build httpd in /usr/src/apache_1.3.xx/src for you? [y] 
 
 Now we will build Apache with mod_perl enabled.  Quit the C<CPAN>
 shell, or use another terminal.  Go to the Apache sources root
@@ -1653,7 +1653,7 @@ makepl_arg> command:
 
 Just list all the parameters as if you were passing them to the
 familiar C<perl Makefile.PL>.  If you add the
-C<APACHE_SRC=/usr/src/apache_x.x.x/src> and C<DO_HTTPD=1> parameters,
+C<APACHE_SRC=/usr/src/apache_1.3.xx/src> and C<DO_HTTPD=1> parameters,
 you will not be asked a single question.  Of course you must give the
 correct path to the Apache source distribution.
 
@@ -1713,7 +1713,7 @@ under the I<site_perl> directory on another machine.
 
 This will copy all the header files from the Apache source directory
 which you configured mod_perl against, then it will C<make dist> which
-creates a mod_perl-x.xx.tar.gz, ready to unpack on another machine to
+creates a mod_perl-1.xx.tar.gz, ready to unpack on another machine to
 compile and install the Perl side of mod_perl.
 
 If you really want to make your life easy you should use one of the
@@ -1913,14 +1913,14 @@ C</usr/include/apache>.
 =item *
 
 2.1 Get the SRPM from
-C<somemirror.../redhat-x.x/SRPMS/mod_perl-x.xx-x.src.rpm>.
+C<somemirror.../redhat-x.x/SRPMS/mod_perl-1.xx-x.src.rpm>.
 
 =item *
 
 2.2 Install the SRPM.  This creates files in C</usr/src/redhat/SPECS>
 and C</usr/src/redhat/SOURCES>.  Run:
 
- % rpm -ih mod_perl-x.xx-x.src.rpm
+ % rpm -ih mod_perl-1.xx-x.src.rpm
 
 =item *
 
@@ -1951,8 +1951,8 @@ sources and applies any patches.
   + exit 0
 
 NOTE: Steps 2.1 through 2.3 are just a fancy un-packing of the source
-tree that builds the RPM into C</usr/src/redhat/BUILD/mod_perl-x.xx>.
-You could unpack the C<mod_perl-x.xx.tar.gz> file somewhere and then
+tree that builds the RPM into C</usr/src/redhat/BUILD/mod_perl-1.xx>.
+You could unpack the C<mod_perl-1.xx.tar.gz> file somewhere and then
 do the following steps on that source tree.  The method shown above is
 more "pure" because you're grabbing the header files from the same
 tree that built the RPM.  But this does not matter because RedHat is
@@ -2478,10 +2478,10 @@ Let's say you have unpacked the Apache and mod_perl sources under
 I</home/stas/src> and they look like this:
 
   % ls /home/stas/src
-  /home/stas/src/apache_x.x.x
-  /home/stas/src/mod_perl-x.xx
+  /home/stas/src/apache_1.3.xx
+  /home/stas/src/mod_perl-1.xx
 
-where I<x.xx> are the version numbers as usual.  You want the Perl
+where I<xx> are the version numbers as usual.  You want the Perl
 modules from the mod_perl package to be installed under
 I</home/stas/lib/perl5> and the Apache files to go under
 I</home/stas/apache>.  The following commands will do that for you:
@@ -2489,12 +2489,12 @@ I</home/stas/apache>.  The following commands will do that for you:
   % perl Makefile.PL \
   PREFIX=/home/stas \
   APACHE_PREFIX=/home/stas/apache \
-  APACHE_SRC=../apache_x.x.x/src \
+  APACHE_SRC=../apache_1.3.xx/src \
   DO_HTTPD=1 \
   USE_APACI=1 \
   EVERYTHING=1
   % make && make test && make install 
-  % cd ../apache_x.x.x
+  % cd ../apache_1.3.xx
   % make install
 
 If you need some parameters to be passed to the C<.configure> script,
