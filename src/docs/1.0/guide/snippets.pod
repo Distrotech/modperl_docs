@@ -438,7 +438,10 @@ you'd do in the regular Perl scripts, because it relies on the
 C<BEGIN> block it won't work under mod_perl. It's loaded and executed
 only for the first script executed inside the process, all the others
 will use the cached value, which would be probably incorrect if they
-reside in different directories.
+reside in different directories. Perl 5.9.1 provides a new function
+C<FindBin::again> which will do the right thing. Also the CPAN module
+C<FindBin::Real> provides a working alternative working under
+mod_perl.
 
 =head1 Watching the error_log File Without Telneting to the Server
 

@@ -1376,13 +1376,17 @@ modify the path. This can be painful, for example, when you move your
 scripts from development to a production server.
 
 There is a module called C<FindBin> which solves this problem in the
-plain Perl world, but unfortunately it won't work under mod_perl,
-since it's a module and as any module it's loaded only once. So the
-first script using it will have all the settings correct, but the rest
-of the scripts will not if located in a different directory from the
-first.
+plain Perl world, but unfortunately up untill perl 5.9.1 it won't work
+under mod_perl, since it's a module and as any module it's loaded only
+once. So the first script using it will have all the settings correct,
+but the rest of the scripts will not if located in a different
+directory from the first. Perl 5.9.1 provides a new function
+C<FindBin::again> which will do the right thing. Also the CPAN module
+C<FindBin::Real> provides a working alternative working under
+mod_perl.
 
-For the sake of completeness, I'll present this module anyway.
+For the sake of completeness, I'll present the C<FindBin> module
+anyway.
 
 If you use this module, you don't need to write a hard coded path. The
 following snippet does all the work for you (the file is
