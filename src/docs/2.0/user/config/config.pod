@@ -154,7 +154,7 @@ from disk if not already loaded.
 
 =item GlobalRequest
 
-Setup the global request_rec for use with Apache->request
+Setup the global request_rec for use with Apache-E<gt>request
 
 =item ParseHeaders
 

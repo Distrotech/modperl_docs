@@ -147,6 +147,7 @@ http://docx.webperf.org/
 
 =item *
 
+=back
 
 =head2 Apache Portable Runtime (APR)
 
@@ -211,7 +212,7 @@ archive: http://archive.develooper.com/perl5-changes@perl.org/
 
 =back
 
-
+=cut
 
 
 
