@@ -1587,6 +1587,24 @@ which designates the end of stream, we insert that bucket to the tail
 of the new bucket brigade and break the loop. Finally we pass the
 created brigade with modified data to the next filter and return.
 
+=head2 Filter Tips
+
+Various tips to use in filters.
+
+=head3 Altering the Content-Type
+
+Let's say that you want to modify the C<Content-Type> header in the
+request output filter:
+
+  sub handler : FilterRequestHandler {
+      my $filter = shift;
+      ...
+      $filter->r->content_type("text/html; charset=$charset");
+      ...
+
+Request filters have an access to the request object, so we simply
+modify it.
+
 
 =head1 Handler (Hook) Types
 
