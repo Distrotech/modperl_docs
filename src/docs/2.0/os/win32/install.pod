@@ -106,17 +106,7 @@ The final command,
 
 will install the necessary mod_perl 2.0 files into your Perl directory
 tree, and also copy F<src/modules/perl/mod_perl.so> into
-your F</Path/to/Apache2/modules/> directory. If you are installing
-mod_perl 2.0 on a system that also contains mod_perl 1.0, then some
-mod_perl 1.0 files will be overwritten by this procedure. This can be
-avoided by preparing the build as
-
-  C:\modperl_src> perl Makefile.PL MP_AP_PREFIX=\Path\to\Apache2 MP_INST_APACHE2=1
-
-which will subsequently lead to the mod_perl 2.0 files being installed
-under an F<Apache2> subdirectory in your Perl tree.  You will then
-have to employ either a C<use Apache2;> line in your scripts/packages
-or else a C<PerlModule Apache2> directive in Apache's F<httpd.conf>.
+your F</Path/to/Apache2/modules/> directory.
 
 If this build fails, or you want features not present in the official
 releases, you may want to try the sources obtained from cvs - see the

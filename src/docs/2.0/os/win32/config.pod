@@ -31,19 +31,18 @@ directive as, eg,
 
 where a sample start-up script F<C:/Apache2/conf/extra.pl> is
 
-  use Apache2 ();
   use ModPerl::Util ();
-  use Apache::RequestRec ();
-  use Apache::RequestIO ();
-  use Apache::RequestUtil ();
-  use Apache::ServerRec ();
-  use Apache::ServerUtil ();
-  use Apache::Connection ();
-  use Apache::Log ();
-  use Apache::Const -compile => ':common';
+  use Apache2::RequestRec ();
+  use Apache2::RequestIO ();
+  use Apache2::RequestUtil ();
+  use Apache2::ServerRec ();
+  use Apache2::ServerUtil ();
+  use Apache2::Connection ();
+  use Apache2::Log ();
+  use Apache2::Const -compile => ':common';
   use APR::Const -compile => ':common';
   use APR::Table ();
-  use Apache::compat ();
+  use Apache2::compat ();
   use ModPerl::Registry ();
   use CGI ();
   1;
@@ -52,7 +51,7 @@ The C<Apache2> module is used to add to C<@INC> the relevant
 directories underneath, eg, F</Perl/site/lib/Apache2/> used when
 building mod_perl 2.0 with an C<MP_INST_APACHE2=1> option to C<perl
 Makefile.PL> (the C<PPM> packages discussed above were built this
-way). C<Apache::compat> is used to provide backwards compatibility
+way). C<Apache2::compat> is used to provide backwards compatibility
 with mod_perl 1.0.  C<ModPerl::Registry>, named so as not to conflict
 with C<Apache::Registry> of mod_perl 1.0, is used for registry
 scripts.
@@ -132,12 +131,12 @@ of cgi scripts. Here is a simple I<Hello, World> example that
 illustrates the use of mod_perl as a content handler.  Create a file
 F<Hello.pm> as follows:
 
-  package Apache::Hello;
+  package Apache2::Hello;
   use strict;
 
-  use Apache::RequestRec ();  # for $r->content_type
-  use Apache::RequestIO ();   # for $r->puts
-  use Apache::Const -compile => ':common';
+  use Apache2::RequestRec ();  # for $r->content_type
+  use Apache2::RequestIO ();   # for $r->puts
+  use Apache2::Const -compile => ':common';
 
   sub handler {
       my $r = shift;
@@ -150,7 +149,7 @@ F<Hello.pm> as follows:
   Hello from <B>$package</B>! The time is $time.
   </BODY></HTML>
   END
-      return Apache::OK;
+      return Apache2::OK;
   }
 
   1;
@@ -159,17 +158,17 @@ and save it in, for example, the F<C:/Perl/site/lib/Apache2/Apache/>
 directory. Next put the following directives in
 F<C:/Apache2/conf/httpd.conf>:
 
-  PerlModule Apache::Hello
+  PerlModule Apache2::Hello
   <Location /hello>
     SetHandler modperl
-    PerlResponseHandler Apache::Hello
+    PerlResponseHandler Apache2::Hello
   </Location>
 
 With this, calls to
 
    http://localhost/hello
 
-will use C<Apache::Hello> to deliver the content.
+will use C<Apache2::Hello> to deliver the content.
 
 =head1 See Also
 
