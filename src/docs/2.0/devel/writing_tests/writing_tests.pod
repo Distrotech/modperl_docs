@@ -1,13 +1,13 @@
-=head1 Developing and Running Tests with C<Apache::Test> Framework
+=head1 Developing and Running Tests with the C<Apache::Test> Framework
 
 =head1 Introduction
 
 This chapter is talking about the C<Apache::Test> framework, and in
-particular explains:
+particular explains how to:
 
 =over
 
-=item * how to run existing tests
+=item * run existing tests
 
 =item * setup a testing environment
 
@@ -27,7 +27,7 @@ extensive functionality which makes the tests writing a simple and
 therefore enjoyable process.
 
 If you have ever written or looked at the tests most Perl modules come
-with, C<Apache::Test> uses the same concept. The script C<t/TEST> is
+with, C<Apache::Test> uses the same concept. The script I<t/TEST> is
 running all the files ending with I<.t> it finds in the I<t/>
 directory. When executed a typical test prints the following:
 
@@ -39,7 +39,7 @@ directory. When executed a typical test prints the following:
 Every C<ok> or C<not ok> is followed by the number which tells which
 sub-test has succeeded or failed.
 
-C<t/TEST> uses the C<Test::Harness> module which intercepts the
+I<t/TEST> uses the C<Test::Harness> module which intercepts the
 C<STDOUT> stream, parses it and at the end of the tests print the
 results of the tests running: how many tests and sub-tests were run,
 how many succeeded, skipped or failed.
@@ -78,7 +78,7 @@ in some test, you can ask him to run the failing test in the verbose
 mode and send you back the report. It'll be much easier to understand
 what the problem is if you get these debug printings from the user.
 
-In the section L<"Using Apache::TestUtil"> we discuss a few helper
+In the section L<"How to Write Tests"> we discuss a few helper
 functions which make the tests writing easier.
 
 For more details about the C<Test::Harness> module please refer to its
@@ -190,18 +190,6 @@ may want to use C<Apache::Reload> module, which will reload files
 automatically if they change between requests.
 
 META: do we include it in modperl-2.0? +document the new syntax.
-
-<ToGo when the issue with Reload is resolved>
-Or use this trick:
-
-  PerlModule Apache::Foo
-  <Location /cgi-test>
-      PerlOptions +GlobalRequest
-      SetHandler modperl
-      PerlResponseHandler "sub { delete $INC{'Apache/Foo.pm'}; require Apache::Foo; Apache::Foo::handler(shift);}"
-  </Location>
-
-</ToGo>
 
 This will force the response handler C<Apache::Foo> to be reloaded on
 every request.
@@ -519,7 +507,7 @@ write the POD sections for the C<Apache::Amazing> module, explaining
 how amazingly it works and how amazingly it can be deployed by other
 users.
 
-=head1 How to Write Tests
+=head1 Apache::Test Framework's Architecture
 
 In the previous section we have written a basic test, which doesn't do
 much. In the following sections we will explain how to write more
@@ -817,159 +805,482 @@ will generate the hooks and stuff.
 =back
 
 
-=head1 Developing Tests: Gory Details
+=head1 How to Write Tests
+
+All the communications between tests and C<Test::Harness> which
+executes them is done via STDOUT. I.e. whatever tests want to report
+they do by printing something to STDOUT. If a test wants to print some
+debug comment it should do it on a separate line starting with
+C<#>.
 
 
 
-=head2 Writing Test Methodology
+=head2 Defining How Many Sub-Tests Are to Be Run
 
-META: to be written
+Before sub-tests of a certain test can be run it has to declare how
+many sub-tests it is going to run. In some cases the test may decide
+to skip some of its sub-tests or not to run any at all. Therefore the
+first thing the test has to print is:
 
-=head2 Using C<Apache::TestUtil>
+  1..M\n
 
-META: to be written
+where M is a positive integer. So if the test plans to run 5 sub-tests
+it should do:
 
-Here we cover in details some features useful in writing tests:
+  print "1..5\n";
 
-=head2 Apache::Test functions
-
-B<Apache::Test> is a wrapper around the standard I<Test.pm> with
-helpers for testing an Apache server.
-
-META: merge with Apache::Test's inlined scarce docs
-
-=over
-
-=item * ok()
-
-Same as I<Test::ok>, see I<Test.pm> documentation.
-META: expand
-
-=item * skip()
-
-Same as I<Test::skip>, see I<Test.pm> documentation.
-META: expand
-
-=item * sok()
-
-META: to be written
-
-=item * plan()
-
-Whenever you start a new test, you have to declare how many sub-tests
-it includes.  This is done easily with:
+In C<Apache::Test> this is done as follows:
 
   use Apache::Test;
-  plan tests => 10; # run 10 tests
+  plan tests => 5;
 
-Now if you want to skip the whole test use the third argument to plan():
 
-  plan tests => $ntests, \&condition;
 
-if condition() returns false, the whole test is skipped. For example
-if some optional feature relying on 3rd party module is tested and it
-cannot be found on user's system, you can say
+=head2 Skipping a Whole Test
 
-  plan tests => $ntests, have_module 'Chatbot::Eliza';
+Sometimes when the test cannot be run, because certain prerequisites
+are missing. To tell C<Test::Harness> that the whole test is to be
+skipped do:
 
-here have_module() is used to test whether C<Chatbot::Eliza> is
-installed.
+  print "1..0 # skipped because of foo is missing\n";
 
-plan() is a wrapper around C<Test::plan>.
+The optional comment after C<# skipped> will be used as a reason for
+test's skipping. Under C<Apache::Test> the optional last argument to
+the plan() function can be used to define prerequisites and skip the
+test:
 
-C<Test::plan> accepts a hash C<%arg> as its arguments, therefore
-C<Apache::Test::plan> extends C<Test::plan>'s functionality, by
-allowing yet another argument after the normal hash. If this argument
-is supplied -- it's used to decide whether to continue with the test
-or to skip it all-together. This last argument can be:
+  use Apache::Test;
+  plan tests => 5, $test_skipping_prerequisites;
+
+This last argument can be:
 
 =over
 
 =item * a C<SCALAR>
 
-the test is skipped if the scalar has a false value.
+the test is skipped if the scalar has a false value. For example:
+
+  plan tests => 5, 0;
 
 =item * an C<ARRAY> reference
 
 have_module() is called for each value in this array. The test is
 skipped if have_module() returns false (which happens when at least
-one C or Perl module from the list cannot be found).
+one C or Perl module from the list cannot be found). For example:
+
+  plan tests => 5, [qw(mod_index mod_mime)];
 
 =item * a C<CODE> reference
 
-the tests will be skipped if the function returns false as we have
-just seen.
+the tests will be skipped if the function returns a false value. For
+example:
+
+    plan tests => 5, \&have_lwp;
+
+the test will be skipped if LWP is not available
 
 =back
 
-If the first argument to plan() is an object, such as an
-C<Apache::RequestRec> object, C<STDOUT> will be tied to it.
+There is a number of useful functions whose return value can be used
+as a last argument for plan():
 
-The I<Test.pm> global state will also be refreshed by calling
-C<Apache::Test::test_pm_refresh>.
-
-All other arguments are passed through to I<Test::plan>.
+=over
 
 =item * have_module()
 
 have_module() tests for existance of Perl modules or C modules
-I<mod_*>. Accepts a list of modules or a reference to the
-list. Returns FALSE if at least one of the modules is not found,
-returns true otherwise.
+I<mod_*>. It accepts a list of modules or a reference to the list.  If
+at least one of the modules is not found it returns a false value,
+otherwise it returns a true value. For example:
+
+  plan tests => 5, have_module qw(Chatbot::Eliza Apache::AI);
+
+will skip the whole test if both Perl modules C<Chatbot::Eliza> and
+C<Apache::AI> are not available.
 
 =item * have_perl()
 
 have_perl('foo') checks whether the value of C<$Config{foo}> or
-C<$Config{usefoo}> is equal to 'define'. So one can tell:
+C<$Config{usefoo}> is equal to I<'define'>. For example:
 
   plan tests => 2, have_perl 'ithreads';
 
-and if the Perl wasn't compiled with C<-Duseithreads> the condition
-will be false and the test will be skipped.
+if Perl wasn't compiled with C<-Duseithreads> the condition will be
+false and the test will be skipped.
 
 =item * have_lwp()
 
-META: to be written
+Tests whether the Perl module LWP is installed.
 
 =item * have_http11()
 
-META: to be written
+Tries to tell LWP that sub-tests need to be run under HTTP 1.1
+protocol. Fails if the installed version of LWP is not capable of
+doing that.
 
 =item * have_cgi()
 
-META: to be written
+tests whether mod_cgi or mod_cgid is available.
 
 =item * have_apache()
 
-META: to be written
+tests for a specific version of httpd. For example:
 
+  plan tests => 2, have_apache 2;
+
+will skip the test if not run under httpd 2.x.
 
 =back
 
 
+
+
+=head2 Reporting a Success or a Failure of Sub-tests
+
+After printing the number of planned sub-tests, and assuming that the
+test is not skipped, the tests is running its sub-tests and each
+sub-test is expected to report its success or failure by printing
+I<ok> or I<not ok> respectively followed by its sequential number and
+a new line. For example:
+
+  print "ok 1\n";
+  print "not ok 2\n";
+  print "ok 3\n";
+
+In C<Apache::Test> this is done using the ok() function which prints
+I<ok> if its argument is a true value, otherwise it prints I<not
+ok>. In addition it keeps track of how many times it was called, and
+every time it prints an incremental number, therefore you can move
+sub-tests around without needing to remember to adjust sub-test's
+sequential number, since now you don't need them at all. For example
+this test snippet:
+
+  use Apache::Test;
+  plan tests => 3;
+  ok "success";
+  print "# expecting to fail next test\n"
+  ok "";
+  ok 0;
+
+will print:
+
+  1..3
+  ok 1
+  # expecting to fail next test
+  not ok 2
+  not ok 3
+
+Most of the sub-tests perform one of the following things:
+
+=over
+
+=item *
+
+test whether some variable is defined:
+
+  ok defined $object;
+
+=item *
+
+test whether some variable is a true value:
+
+  ok $value;
+
+or a false value:
+
+  ok !$value;
+
+=item *
+
+test whether a received from somewhere value is equal to an expected
+value:
+
+  $expected = "a good value";
+  $received = get_value();
+  ok defined $received && $received eq $expected;
+
+=back
+
+
+
+
+
+
+=head2 Skipping Sub-tests
+
+If the standard output line contains the substring I< # Skip> (with
+variations in spacing and case) after I<ok> or I<ok NUMBER>, it is
+counted as a skipped test. C<Test::Harness> reports the text after I<
+# Skip\S*\s+> as a reason for skipping. So you can count a sub-test as 
+a skipped as follows:
+
+  print "ok 3 # Skip for some reason\n";
+
+or using the C<Apache::Test>'s skip() function which works similarly
+to ok():
+
+  skip $should_skip, $test_me;
+
+so if C<$should_skip> is true, the test will be reported as
+skipped. The second argument is the one that's sent to ok().
+
+C<Apache::Test> also allows to write tests in such a way that only
+selected sub-tests will be run.  The test simply needs to switch from
+using ok() to sok().  Where the argument to sok() is a CODE reference
+or a BLOCK whose return value will be passed to ok().  If sub-tests
+are specified on the command line only those will be run/passed to
+ok(), the rest will be skipped.  If no sub-tests are specified, sok()
+works just like ok().  For example, you can write this test:
+
+  skip_subtest.t
+  --------------
+  use Apache::Test;
+  plan tests => 4;
+  sok {1};
+  sok {0};
+  sok sub {'true'};
+  sok sub {''};
+
+and then ask to run only sub-tests 1 and 3 and to skip the rest.
+
+  % ./t/TEST -v skip_subtest 1 3
+  skip_subtest....1..4
+  ok 1
+  ok 2 # skip skipping this subtest
+  ok 3
+  ok 4 # skip skipping this subtest
+  ok, 2/4 skipped:  skipping this subtest
+  All tests successful, 2 subtests skipped.
+
+=head2 Todo Sub-tests
+
+In a safe fashion to skipping specific sub-tests, it's possible to
+declare some sub-tests as I<todo>. This distinction is useful when we
+know that some sub-test is failing but for some reason we want to flag
+it as a todo sub-test and not as a broken test. C<Test::Harness>
+recognizes I<todo> sub-tests if the standard output line contains the
+substring I< # TODO> after i<not ok> or I<not ok NUMBER> and is
+counted as a todo sub-test.  The text afterwards is the explanation of
+the thing that has to be done before this sub-test will succeed. For
+example:
+
+  print "not ok 42 # TODO not implemented\n";
+
+In C<Apache::Test> this can be done with passing a reference to a list
+of sub-tests numbers that should be marked as I<todo> sub-test:
+
+  plan tests => 7, todo => [3, 6];
+
+In this example sub-tests 3 and 6 will be marked as I<todo> sub-tests.
+
+
+
+
+
+=head2 Making it Easy to Debug
+
+Ideally we want all the tests to pass, reporting minimum noise or none
+at all. But when some sub-tests fail we want to know the reason for
+their failure. If you are a developer you can dive into the code and
+easily find out what's the problem, but when you have a user who has a
+problem with the test suite it'll make his and your life much easier
+if you make it easy for the user to report you the exact problem.
+
+Usually this is done by printing the comment of what the sub-test
+does, what is the expected value and what's the received value. This
+is a good example of debug friendly sub-test:
+
+  debug_comments.t
+  ----------------
+  use Apache::Test;
+  plan tests => 1;
+  
+  print "# testing feature foo\n";
+  $expected = "a good value";
+  $received = "a bad value";
+  print "# expected: $expected\n";
+  print "# received: $received\n";
+  ok defined $received && $received eq $expected;
+
+If in this example C<$received> gets assigned I<a bad value> string,
+the test will print the following:
+
+  % t/TEST debug_comments
+  debug_comments....FAILED test 1
+
+No debug help here, since in a non-verbose mode the debug comments
+aren't printed.  If we run the same test using the verbose mode,
+enabled with C<-v>:
+
+  % t/TEST -v debug_comments
+  debug_comments....1..1
+  # testing feature foo
+  # expected: a good value
+  # received: a bad value
+  not ok 1
+
+we can see exactly what's the problem, by visual expecting of the
+expected and received values.
+
+It's true that adding a few print statements for each sub tests is
+cumbersome, and adds a lot of noise, when you could just tell:
+
+  ok "a good value" eq "a bad value";
+
+but no fear, C<Apache::TestUtil> comes to help. The function t_cmp()
+does all the work for you:
+
+  use Apache::Test;
+  use Apache::TestUtil;
+  ok t_cmp(
+      "a good value",
+      "a bad value",
+      "testing feature foo");
+
+In addition it will handle undef'ined values as well, so you can do:
+
+  ok t_cmp(undef, $expected, "should be undef");
+
+
+
+
+
+=head2 Tie-ing STDOUT to a Response Handler Object
+
+It's possible to run the sub-tests in the response handler, and simply
+return them as a response to the client which in turn will print them
+out. Unfortunately in this case you cannot use ok() and other
+functions, since they print and don't return the results, therefore
+you have to do it manually. For example:
+
+  sub handler {
+      my $r = shift;
+  
+      $r->print("1..2\n");
+      $r->print("ok 1\n");
+      $r->print("not ok 2\n");
+    
+      return Apache::OK;
+  }
+
+now the client should print the response to STDOUT for
+C<Test::Harness> processing.
+
+If the response handler is configured as:
+
+  SetHandler perl-script
+
+C<STDOUT> is already tied to the request object C<$r>. Therefore you
+can now rewrite the handler as:
+
+  use Apache::Test;
+  sub handler {
+      my $r = shift;
+  
+      Apache::Test::test_pm_refresh();
+      plan tests => 2;
+      ok "true";
+      ok "";
+    
+      return Apache::OK;
+  }
+
+However to be on the safe side you also have to call
+Apache::Test::test_pm_refresh() allowing plan() and friends to be
+called more than once per-process.
+
+Under different settings C<STDOUT> is not tied to the request object.
+If the first argument to plan() is an object, such as an
+C<Apache::RequestRec> object, C<STDOUT> will be tied to it. The
+C<Test.pm> global state will also be refreshed by calling
+C<Apache::Test::test_pm_refresh>. For example:
+
+  use Apache::Test;
+  sub handler {
+      my $r = shift;
+  
+      plan $r, tests => 2;
+      ok "true";
+      ok "";
+    
+      return Apache::OK;
+  }
+
+Yet another alternative to handling the test framework printing inside
+response handler is to use C<Apache::TestToString> class.
+
+The C<Apache::TestToString> class is used to capture C<Test.pm> output
+into a string.  Example:
+
+  use Apache::Test;
+  sub handler {
+      my $r = shift;
+  
+      Apache::TestToString->start;
+  
+      plan tests => 2;
+      ok "true";
+      ok "";
+    
+      my $output = Apache::TestToString->finish;
+      $r->print($output);
+  
+      return Apache::OK;
+  }
+
+In this example C<Apache::TestToString> intercepts and buffers all the
+output from C<Test.pm> and can be retrieved with its finish()
+method. Which then can be printed to the client in one
+shot. Internally it calls Apache::Test::test_pm_refresh() to make sure
+plan(), ok() and other functions() will work correctly more than one
+test is running under the same interpreter.
+
+
+
+
+
+
 =head2 Auto Configuration
 
+If the test is comprised only from the request part, you have to
+manually configure the targets you are going to use. This is usually
+done in I<t/conf/extra.conf.in>.
+
+If your tests are comprised from the request and response parts,
 C<Apache::Test> automatically adds the configuration section for each
-response part. If you put some configuration bits into the C<__DATA__>
-section of the response part, which declares a package:
+response handler it finds. For example for the response handler:
+
+  package TestResponse::nice;
+  ... some code
+  1;
+
+it will put into I<t/conf/httpd.conf>:
+
+  <Location /TestResponse::nice>
+      SetHandler modperl
+      PerlResponseHandler TestResponse::nice
+  </Location>
+
+If you want to add some extra configuration directives, use the
+C<__DATA__> section, as in this example:
 
   package TestResponse::nice;
   ... some code
   1;
   __DATA__
-  PerlRequire "Foo.pm"
+  PerlSetVar Foo Bar
 
-these will be wrapped into the C<E<lt>LocationE<gt>> section and
-placed into configuration file for you:
+These directives will be wrapped into the C<E<lt>LocationE<gt>>
+section and placed into I<t/conf/httpd.conf>:
 
   <Location /TestResponse::nice>
-     SetHandler modperl
-     PerlResponseHandler TestResponse::nice
-     PerlRequire "Foo.pm"
+      SetHandler modperl
+      PerlResponseHandler TestResponse::nice
+      PerlSetVar Foo Bar
   </Location>
 
 If some directives are supposed to go to the base configuration,
-i.e. not to automatically wrapped into C<E<lt>LocationE<gt>> block,
+i.e. not to be automatically wrapped into C<E<lt>LocationE<gt>> block,
 you should use a special C<E<lt>BaseE<gt>>..C<E<lt>/BaseE<gt>> block:
 
   __DATA__
@@ -989,15 +1300,15 @@ Now the autogenerated section will look like this:
 
 As you can see the C<E<lt>BaseE<gt>>..C<E<lt>/BaseE<gt>> block has
 gone. As you can imagine this block was added to support our virtue of
-lazyness, since in most tests don't need to add directives to the base
-configuration and we want to keep the configuration size in test
-minimal and let Perl do the rest of the job for us.
+laziness, since most tests don't need to add directives to the base
+configuration and we want to keep the configuration sections in tests
+to a minimum and let Perl do the rest of the job for us.
 
 META: Virtual host?
 
 META: to be completed
 
-=head2 Tests with Non-threads perl versus threaded Perl
+=head2 Threaded versus Non-threaded Perl Test's Compatibility
 
 Since the tests are supposed to run properly under non-threaded and
 threaded perl, you have to worry to enclose the threaded perl specific
@@ -1014,8 +1325,8 @@ For example C<PerlOptions +Parent> is valid only for the threaded
 perl, therefore you have to write:
 
   <IfDefine PERL_USEITHREADS>
-     # a new interpreter pool
-     PerlOptions +Parent
+      # a new interpreter pool
+      PerlOptions +Parent
   </IfDefine>
 
 Just like the configuration, the test's code has to work for both
@@ -1028,8 +1339,47 @@ threaded perl into:
 
 which is essentially does a lookup in $Config{useithreads}.
 
+=head1 Debugging Tests
 
-=head1 When Tests Should Be Written
+Sometimes your tests won't run properly or even worse will
+segfault. There are cases where it's possible to debug broken tests
+with simple print statements but usually it's very time consuming and
+ineffective. Therefore it's a good idea to get yourself familiar with
+Perl and C debuggers, and this knowledge will save you a lot of time
+and grief in a long run.
+
+=head2 Under C debugger
+
+META: to be written
+
+=head2 Under Perl debugger
+
+When the Perl code misbehaves it's the best to run it under the Perl
+debugger. Normally started as:
+
+  % perl -d program.pl
+
+the flow control gets passed to the Perl debugger, which allows you to
+run the program in single steps and examine its states and variables
+after every executed statement. Of course you can set up breakpoints
+and watches to skip irrelevant code sections and watch after certain
+variables. The I<perldebug> and the I<perldebtut> manpages are
+covering the Perl debugger in fine details.
+
+The C<Apache::Test> framework extends the Perl debugger and plugs in
+C<LWP>'s debug features, so you can debug the requests. Let's take
+test I<apache/read> from mod_perl 2.0 and present the features as we
+go:
+
+META: to be completed
+
+
+=head1 Writing Tests Methodology
+
+META: to be completed
+
+
+=head2 When Tests Should Be Written
 
 =over
 
