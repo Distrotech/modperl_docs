@@ -137,6 +137,54 @@ PHSS_29484 and PHSS_29485. Once installed the issue should go away.
 
 =head1 Shutdown and Restart
 
+Issues happening during server shutdown and restart, or during
+specific interpreter shutdown at runtime with threaded mpm.
+
+
+
+
+=head2 Subroutines in E<lt>perlE<gt> sections under threaded mpm
+
+If you have defined a subroutine inside a E<lt>perlE<gt> section,
+under threaded mpm (or under perl with enabled ithreads which spawn
+its own ithreads), like so:
+
+  <Perl>
+    sub foo {}
+  </Perl>
+
+At the server shutdown, or when any interprter quits you will see the
+following error in the I<error_log>:
+
+  Attempt to free temp prematurely: SV 0x91b8e74,
+  Perl interpreter: 0x8547698 during global destruction.
+  Scalars leaked: 1
+
+This is a bug in Perl and as of Perl 5.8.4 it's not resolved. For more
+information see:
+
+http://rt.perl.org:80/rt3/Ticket/Display.html?id=29018
+
+
+
+
+=head2 Modules using C<Scalar::Util::weaken> under threaded mpm
+
+Modules using C<Scalar::Util::weaken> under threaded mpm may get:
+
+  Attempt to free unreferenced scalar SV 0x8154f74.
+
+when each interprter exits.
+
+This is a bug in Perl and as of Perl 5.8.4 it's not resolved. For more
+information see:
+
+http://rt.perl.org:80/rt3/Ticket/Display.html?id=24660
+
+
+
+
+
 
 
 
