@@ -272,7 +272,8 @@ things it does:
 
 =item *
 
-C<PerlOptions +GlobalRequest> is in effect unless:
+C<PerlOptions +GlobalRequest> is in effect only during the
+PerlResponseHandler phase unless:
 
   PerlOptions -GlobalRequest
 
@@ -540,10 +541,9 @@ in our example.
 =head3 C<GlobalRequest>
 
 Setup the global C<request_rec> for use with C<Apache-E<gt>request>.
-This setting is needed for example if you use C<CGI.pm> to process the
-incoming request.
 
-This setting is enabled by default for sections configured as:
+This setting is enabled by default during the PerlResponseHandler
+phase for sections configured as:
 
   <Location ...>
       SetHandler perl-script
@@ -558,7 +558,47 @@ And can be disabled with:
       ...
   </Location>
 
+Notice that if you need the global request object during other phases,
+you will need to explicitly enable it in the configuration file.
 
+You can also set that global object from the handler code, like so:
+
+  sub handler {
+      my $r = shift;
+      Apache->request($r);
+      ...
+  }
+
+The C<+GlobalRequest> setting is needed for example if you use older
+versions of C<CGI.pm> to process the incoming request. Starting from
+version 2.93, C<CGI.pm> optionally accepts C<$r> as an argument to
+C<new()>, like so:
+
+  sub handler {
+      my $r = shift;
+      my $q = CGI->new($r);
+      ...
+  }
+
+Remember that inside registry scripts you can always get C<$r> at the
+beginning of the script, since it gets wrapped inside a subroutine and
+accepts C<$r> as the first and the only argument. For example:
+
+  #!/usr/bin/perl
+  use CGI;
+  my $r = shift;
+  my $q = CGI->new($r);
+  ...
+
+of course you won't be able to run this under mod_cgi, so you may need
+to do:
+
+  #!/usr/bin/perl
+  use CGI;
+  my $q = $ENV{MOD_PERL} ? CGI->new(shift @_) : CGI->new();
+  ...
+
+in order to have the script running under mod_perl and mod_cgi.
 
 =head3 C<ParseHeaders>
 
