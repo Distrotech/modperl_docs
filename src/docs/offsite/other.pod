@@ -11,17 +11,38 @@ developers and users.
 
 =over
 
-=item * The Perl FAQ
+=item * The Perl Documentation
 
-http://www.perl.com/CPAN/doc/FAQs/FAQ/PerlFAQ.html
+http://www.perldoc.com/
 
 =item * The Perl Home Page
 
 http://www.perl.com/
 
+=item * The Perl Monks
+
+http://www.perlmonks.org/
+
+What Perl Monks is: Our attempt to make learning Perl as
+nonintimidating and easy to use as possible. A place for you and
+others to polish, improve, and showcase your Perl skills. A community
+which allows everyone to grow and learn from each other.
+
 =item * The Perl Journal
 
 http://www.tpj.com/
+
+=item * The Perl Review
+
+http://theperlreview.com/
+
+The Perl Review is a magazine for the Perl community by the Perl
+community produced with open source tools.
+
+=item * CPAN - Comprehensive Perl Archive Network
+
+http://cpan.org and http://search.cpan.org/
+
 
 =item * Perl Module Mechanics
 

@@ -11,6 +11,14 @@ The most recent changes are listed first.
 
 =head1 Ongoing
 
+* add http://cpan.org and http://search.cpan.org/ [Stas]
+
+* add theperlreview.com [Stas]
+
+* add permonks.org [Stas]
+
+* replace a link to perl FAQ with a link to www.perldoc.com [Stas]
+
 * added "Further reading" [Thomas Klausner]
 
 * articles : Search Google for I<mod_perl article> and added
