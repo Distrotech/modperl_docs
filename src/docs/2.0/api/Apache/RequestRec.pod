@@ -1065,8 +1065,9 @@ C<L<$r-E<gt>meets_conditions|docs::2.0::api::Apache::Response/C_meets_conditions
 
 =head2 C<notes>
 
-Get/set text notes that can be passed from one module to another (not
-only mod_perl, but modules in any other language):
+Get/set text notes for the duration of this request. These notes can
+be passed from one module to another (not only mod_perl, but modules
+in any other language):
 
   $notes      = $r->notes();
   $prev_notes = $r->notes($new_notes);
@@ -1917,7 +1918,8 @@ META: APR::ArrayHeader is not available at the moment
 
 =head2 C<request_config>
 
-Notes on *this* request
+Config vector containing pointers to request's per-server config
+structures
 
   $ret = $r->request_config($newval);
 

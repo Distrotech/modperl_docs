@@ -317,7 +317,7 @@ method
 
 Unescape URLs
 
-  unescape_url($url);
+  Apache::URI::unescape_url($url);
 
 =over 4
 
