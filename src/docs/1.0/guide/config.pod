@@ -2157,6 +2157,19 @@ the last rule C<^(.*)$>. This is a somewhat contrived example because
 that last regex could be rewritten as C<^(/.+)$> and all would be
 well.
 
+=head2 Do Perl* Directives Affect Code Running under mod_cgi?
+
+No, they don't.
+
+So for example if you do:
+
+  PerlSetEnv foo bar
+
+It'll be seen from mod_perl, but not mod_cgi or any other module.
+
+
+
+
 =head1 Configuration Security Concerns
 
 The more modules you have in your web server, the more complex the
