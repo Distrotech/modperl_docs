@@ -26,6 +26,7 @@ Today, the PMC consists of:
 
 =back
 
+=for html
 For more information on the role of the PMC see
 <a href="http://www.apache.org/foundation/how-it-works.html#pmc-members">How
 How the ASF works</a>
