@@ -334,7 +334,7 @@ change it to be:
 
 
 
-=head2 E<lt>PerlE<gt>[...]> was not closed.
+=head2 E<lt>PerlE<gt>[...] was not closed.
 
 On encountering a one-line E<lt>PerlE<gt> block, 
 httpd's configuration parser will cause a startup
