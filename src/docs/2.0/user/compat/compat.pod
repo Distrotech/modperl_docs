@@ -157,7 +157,7 @@ C<Apache::compat> doesn't provide a complete back compatibility layer.
 
 =head2 C<args()>
 
-$r-E<gt>args() in 2.0 returns the query string without parsing and
+C<$r-E<gt>args()> in 2.0 returns the query string without parsing and
 splitting it into an array. You can also set the query string by
 passing a string to this method.
 
@@ -173,13 +173,13 @@ mpms, since chdir is not thread-safe.
 
 =head2 C<$r-E<gt>connection-E<gt>user>
 
-This method is deprecated in 1.x and $r-E<gt>user should be used
+This method is deprecated in 1.x and C<$r-E<gt>user> should be used
 instead for both versions of mod_perl. C<Apache::user()> method is
 available since mod_perl version 1.24_01.
 
 =head2 C<content()>
 
-$r-E<gt>content() is not available in 2.0. 
+C<$r-E<gt>content()> is not available in 2.0. 
 
 XXX: the reason?
 
