@@ -634,7 +634,7 @@ META: expand
 
 META: to be written
 
-=item * plan() and test_module()
+=item * plan()
 
 Whenever you start a new test, you have to declare how many sub-tests
 it includes.  This is done easily with:
@@ -650,18 +650,42 @@ if condition() returns false, the whole test is skipped. For example
 if some optional feature relying on 3rd party module is tested and it
 cannot be found on user's system, you can say
 
-  plan tests => $ntests, test_module 'Chatbot::Eliza';
+  plan tests => $ntests, have_module 'Chatbot::Eliza';
 
-here test_module() is used to test whether C<Chatbot::Eliza> is
+here have_module() is used to test whether C<Chatbot::Eliza> is
 installed.
 
-plan() is a wrapper around C<Test::plan>.  If the first argument is an
-object, such as an C<Apache::RequestRec> object, C<STDOUT> will be
-tied to it.
+plan() is a wrapper around C<Test::plan>.
 
-If the last argument is a B<CODE> reference, the tests will be skipped
-if the function returns false as we have just seen. The I<Test.pm>
-global state will also be refreshed by calling
+C<Test::plan> accepts a hash C<%arg> as its arguments, therefore
+C<Apache::Test::plan> extends C<Test::plan>'s functionality, by
+allowing yet another argument after the normal hash. If this argument
+is supplied -- it's used to decide whether to continue with the test
+or to skip it all-together. This last argument can be:
+
+=over
+
+=item * a C<SCALAR>
+
+the test is skipped if the scalar has a false value.
+
+=item * an C<ARRAY> reference
+
+have_module() is called for each value in this array. The test is
+skipped if have_module() returns false (which happens when at least
+one C or Perl module from the list cannot be found).
+
+=item * a C<CODE> reference
+
+the tests will be skipped if the function returns false as we have
+just seen.
+
+=back
+
+If the first argument to plan() is an object, such as an
+C<Apache::RequestRec> object, C<STDOUT> will be tied to it.
+
+The I<Test.pm> global state will also be refreshed by calling
 C<Apache::Test::test_pm_refresh>.
 
 All other arguments are passed through to I<Test::plan>.
@@ -672,19 +696,6 @@ have_module() tests for existance of Perl modules or C modules
 I<mod_*>. Accepts a list of modules or a reference to the
 list. Returns FALSE if at least one of the modules is not found,
 returns true otherwise.
-
-=item * test_module()
-
-A condition to Apache::Test::plan() must be passed as a last argument
-and must be a reference. If it's not the arguments are passed to
-C<Test::plan()> as is. Therefore if we want to test use have_module,
-we either have to do:
-
-  plan tests => 1 + @test_strings, [have_module 'Chatbot::Eliza'];
-
-or to use test_module() that passes the reference for us:
-
-  plan tests => 1 + @test_strings, test_module 'Chatbot::Eliza';
 
 =item * have_lwp()
 
