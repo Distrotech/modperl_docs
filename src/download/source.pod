@@ -93,7 +93,7 @@ http://search.cpan.org/dist/mod_perl/
 
 =item * The latest SVN snapshot
 
-http://cvs.apache.org/snapshots/modperl-2.0/
+http://svn.apache.org/snapshots/modperl-2.0/
 
 =item * SVN Access
 
