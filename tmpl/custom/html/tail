@@ -1,5 +1,6 @@
 
         <div class="footer">
+			[%- INCLUDE changes_link -%]
             <hr noshade size="1">
             <!-- footer (tail )-->
             <p class="modified">Last modified [% doc.last_modified %]</p>

@@ -15,9 +15,7 @@
             </td>
            <td width="1"><br></td>
            <td align="left" nowrap>[%- INCLUDE top_link -%]</td>
-           <td width="50%"><br></td>
-           <td align="center" nowrap>[%- INCLUDE changes_link -%]</td>
-           <td width="50%"><br></td>
+           <td width="100%"><br></td>
            <td align="right" nowrap>[%- INCLUDE prev_next_link -%]</td>
            <td width="1"><br></td>
         </tr>
