@@ -347,19 +347,27 @@ same name.  This example will create two I<parent> Perl interpreters,
 one for each C<E<lt>VirtualHostE<gt>>, each with its own namespace and
 pointing to a different paths in C<@INC>:
 
-META: is -Mblib portable? (problems with -Mlib on Darwin/5.6.0?)
+META: is -Mlib portable? (problems with -Mlib on Darwin/5.6.0?)
 
   <VirtualHost ...>
       ServerName dev1
       PerlOptions +Parent
-      PerlSwitches -Mblib=/home/dev1/lib/perl
+      PerlSwitches -Mlib=/home/dev1/lib/perl
+      PerlModule Apache2
   </VirtualHost>
 
   <VirtualHost ...>
       ServerName dev2
       PerlOptions +Parent
-      PerlSwitches -Mblib=/home/dev2/lib/perl
+      PerlSwitches -Mlib=/home/dev2/lib/perl
+      PerlModule Apache2
   </VirtualHost>
+
+Remember that C<+Parent> gives you a completely new Perl interpreters
+pool, so all your modifications to C<@INC> and preloading of the
+modules should be done again. Consider using L<PerlOptions
++Clone|/C_Clone_> if you want to inherit from the parent Perl
+interpreter.
 
 Or even for a given location, for something like "dirty" cgi scripts:
 
