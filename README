@@ -26,6 +26,12 @@ the docs-dev-subscribe@perl.apache.org address and remove the
 -subscribe part from it. Please don't advertise the list's direct
 address so we won't get spammed. Thanks.
 
+Currently there are no searchable/browsable mailing list archives, but
+the raw mbox-format archives can be downloaded from:
+
+  http://perl.apache.org/mail/docs-dev
+  http://perl.apache.org/mail/docs-cvs
+
 There is also rsync interface for those who want to keep local mirrors
 and hopefull offload the main apache.org servers:
 
