@@ -56,9 +56,6 @@
                                     <input type="submit" name="submit" value="Search!">
                                 </td>
                             </tr>
-                            <tr>
-                                <td colspan="2" height="5"><br class="smallbr"></td>
-                            </tr>
                         </table>
                     </form>
                 </div>
