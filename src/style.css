@@ -28,8 +28,11 @@ a:hover   { color: #0000ff; font-family: helvetica, verdana, sans-serif;}
 
 pre { 
         font-family: courier new, courier, monospace;
-        padding: 5px;
-        background-color: #eeeeee;
+        padding: 3px;
+        border: 6px;
+        border-style: solid;
+        border-color: #ffffff;
+        background-color: #ddffff;
 }
 
 code { 
