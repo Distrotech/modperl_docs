@@ -37,11 +37,14 @@ Check whether the connection is still open
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$status> (number)
 
 true if the connection has been aborted, false if still open
+
+=item since: 1.99_12
 
 =back
 
@@ -58,9 +61,12 @@ Physical vhost this connection came in on
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$base_server> (C<L<Apache::Server|docs::2.0::api::Apache::ServerRec>>)
+
+=item since: 1.99_12
 
 =back
 
@@ -78,9 +84,12 @@ The bucket allocator to use for all bucket/brigade creations
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$ba> (C<L<APR::BucketAlloc|docs::2.0::api::APR::BucketAlloc>>)
+
+=item since: 1.99_12
 
 =back
 
@@ -98,9 +107,12 @@ Notes on *this* connection
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$ret> (C<L<Apache::ConfVector|docs::2.0::api::Apache::ConfVector>>)
+
+=item since: 1.99_12
 
 =back
 
@@ -118,9 +130,12 @@ ID of this connection; unique at any point in time
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$id> (integer)
+
+=item since: 1.99_12
 
 =back
 
@@ -130,19 +145,35 @@ ID of this connection; unique at any point in time
 
 =head2 C<input_filters>
 
-A list of input filters to be used for this connection
+Get/set the first filter in a linked list of protocol level input
+filters:
 
-  $input_filters = $c->input_filters();
+  $input_filters      = $r->input_filters();
+  $prev_input_filters = $r->input_filters($new_input_filters);
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
-=item ret: C<$input_filters> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item opt arg1: C<$new_input_filters>
+
+Set a new value
+
+=item ret: C<$input_filters>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
 The first filter in the connection input filters chain.
 
+If C<$new_input_filters> was passed, returns the previous value.
+
+=item since: 1.99_12
+
 =back
+
+For an example see: L<Bucket Brigades-based Protocol
+Module|docs::2.0::user::handlers::protocols/Bucket_Brigades_based_Protocol_Module>
+
 
 
 
@@ -158,7 +189,8 @@ alive for another HTTP request after the current request is completed?
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item arg1 opt: C<$new_status> (C<L<:conn_keepalive
 constant|docs::2.0::api::Apache::Const/C__conn_keepalive_>>)
@@ -221,7 +253,8 @@ How many requests were already served over the current connection.
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item obj opt: C<$new_served> (integer)
 
@@ -265,9 +298,12 @@ Get this connection's local socket address
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$sa> (C<L<APR::SockAddr|docs::2.0::api::APR::SockAddr>>)
+
+=item since: 1.99_12
 
 =back
 
@@ -284,9 +320,12 @@ used for ap_get_server_name when UseCanonicalName is set to DNS
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$local_host> (string)
+
+=item since: 1.99_12
 
 =back
 
@@ -304,9 +343,12 @@ server IP address
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$local_ip> (string)
+
+=item since: 1.99_12
 
 =back
 
@@ -325,11 +367,14 @@ requests on this conn
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item arg1: C<$notes> (C<L<APR::Table|docs::2.0::api::APR::Table>>)
 
 =item ret:
+
+=item since: 1.99_12
 
 =back
 
@@ -339,21 +384,36 @@ requests on this conn
 
 =head2 C<output_filters>
 
-META: Autogenerated - needs to be reviewed/completed
-
-A list of output filters to be used for this connection
+Get the first filter in a linked list of protocol level output
+filters:
 
   $output_filters = $c->output_filters();
+  $prev_output_filters = $r->output_filters($new_output_filters);
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
-=item ret: C<$output_filters> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item opt arg1: C<$new_output_filters>
+
+Set a new value
+
+=item ret: C<$output_filters>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
 The first filter in the connection output filters chain.
 
+If C<$new_output_filters> was passed, returns the previous value.
+
+=item since: 1.99_12
+
 =back
+
+For an example see: L<Bucket Brigades-based Protocol
+Module|docs::2.0::user::handlers::protocols/Bucket_Brigades_based_Protocol_Module>
+
+
 
 
 
@@ -366,9 +426,12 @@ Pool associated with this connection
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+
+=item since: 1.99_12
 
 =back
 
@@ -386,9 +449,12 @@ Get this connection's remote socket address
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$sa> (C<L<APR::SockAddr|docs::2.0::api::APR::SockAddr>>)
+
+=item since: 1.99_12
 
 =back
 
@@ -404,9 +470,12 @@ Client's IP address
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$remote_ip> (string)
+
+=item since: 1.99_12
 
 =back
 
@@ -424,9 +493,12 @@ get_remote_host()
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$remote_host> (string)
+
+=item since: 1.99_12
 
 =back
 
@@ -443,9 +515,12 @@ get_remote_logname()
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$remote_logname> (string)
+
+=item since: 1.99_12
 
 =back
 
@@ -463,9 +538,12 @@ handle to scoreboard information for this connection
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
 =item ret: C<$sbh> (XXX)
+
+=item since: 1.99_12
 
 =back
 
