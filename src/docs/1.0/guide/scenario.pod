@@ -1653,6 +1653,11 @@ back-end server can do secure transactions.
 
 =head1 mod_rewrite Examples
 
+Example code for using mod_rewrite with mod_perl application
+servers. Several examples were taken from the mailing list.
+
+=head2 Rewriting Requests Based on File Extension
+
 In the mod_proxy + mod_perl servers scenario, C<ProxyPass> was used to
 redirect all requests to the mod_perl server, by matching the
 beginning of the relative URI (e.g. I</perl>). What should you do if
@@ -1686,15 +1691,19 @@ This is the configuration of the logging facilities.
 It says: log all the rewrites thru the pipe to the C<rotatelogs>
 utility which will rotate the logs every 2 hours (86400 secs).
 
-More examples:
+=head2 Internet Exporer 5 favicon.ico 404
 
 Redirect all those IE5 requests for I<favicon.ico> to a central image:
 
   RewriteRule .*favicon.ico /wherever/favicon.ico [PT,NS]
 
+=head2 Hiding Extensions for Dynamic Pages
+
 A quick way to make dynamic pages look static:
 
   RewriteRule ^/wherever/([a-zA-Z]+).html /perl-bin/$1.cgi [PT]
+
+=head2 Serving Static Content Locally and Rewriting Everything Else
 
 Instead of keeping all your Perl scripts in I</perl> and your static
 content everywhere else, you could keep your static content in special
@@ -1737,6 +1746,45 @@ above setup we get:
   RewriteRule ^/(images|style) - [L]
   RewriteRule ^/(.*) http://www.example.com:8080/$1 [P]
   ProxyPassReverse / http://www.example.com/
+
+=head2 Upgrading mod_perl Heavy Application Instances
+
+When using a light/heavy separation method one of the challenges of
+running a production environment is being able to upgrade to newer
+versions of mod_perl or your own application. The following method can
+be used without having to do a server restart.
+
+Add the following rewrite rule to your httpd.conf file:
+
+  RewriteEngine On
+  RewriteMap maps txt:/etc/httpd.maps
+  RewriteRule ^(.*) http://${maps:appserver}$1 [proxy]
+
+Create the file /etc/httpd.maps and add the following entry:
+
+  appserver foo.com:9999
+
+Mod_rewrite rereads (or checks the mtime of) the file on every request
+so the change takes effect immediately. To seamlessly upgrade your
+application server to a new version, install a new version on a
+different port. After checking for a quality installation, edit
+/etc/httpd.maps to point to the new server. After the file is written
+the next request the server processes will be redirected to the new
+installation.
+
+=head2 Blocking IP Addresses
+
+The following rewrite code blocks IP addresses:
+
+  RewriteCond /web/site/var/blocked/REMOTE_ADDR-%{REMOTE_ADDR} -f
+  RewriteRule .* http://YOUR-HOST-BLOCKED-FOR-EXCESSIVE-CONSUMPTION [redirect,last]
+
+To block IP address 10.1.2.3, simply touch
+
+  /web/site/var/blocked/REMOTE_ADDR-10.1.2.3
+
+This has an advantage over Apache parsing a long file of addresses in
+that the OS is better at a file lookup.
 
 =head1 Caching in mod_proxy
 
