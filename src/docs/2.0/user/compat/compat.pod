@@ -331,21 +331,33 @@ manpage.
 Avalable via C<Apache::compat>. To get handlers for the server level,
 mod_perl 2.0 code should use:
 
-  Apache->server->get_handlers();
+  $s->get_handlers(...);
+
+or:
+
+  Apache->server->get_handlers(...);
 
 =head2 C<Apache-E<gt>push_handlers>
 
 Avalable via C<Apache::compat>. To push handlers at the server level,
 mod_perl 2.0 code should use:
 
-  Apache->server->push_handlers();
+  $s->push_handlers(...);
+
+or:
+
+  Apache->server->push_handlers(...);
 
 =head2 C<Apache-E<gt>set_handlers>
 
 Avalable via C<Apache::compat>. To set handlers at the server level,
 mod_perl 2.0 code should use:
 
-  Apache->server->set_handlers();
+  $s->set_handlers(...);
+
+or:
+
+  Apache->server->set_handlers(...);
 
 =head2 C<Apache::exit()>
 
