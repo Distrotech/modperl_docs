@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl -w
 use strict;
-use Storable;
+use Storable 'nstore';
 
 =head1 NAME  
 
@@ -130,7 +130,7 @@ ITEMS
 #use Data::Dumper;
 #print Dumper $check_box_array;
 
-    store( $check_box_array, $CHECKBOX_DATA );  # store for swish.cgi
+    nstore( $check_box_array, $CHECKBOX_DATA );  # store for swish.cgi
 
     # Now write out the search_options
     open FH, ">$SEARCH_OPTIONS" or die "Failed to open '$SEARCH_OPTIONS': $!";

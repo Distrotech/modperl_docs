@@ -3,7 +3,7 @@
 # *** Automatically generated file.  Do not edit.  Modify ./make.pl instead! ***
 #    File: 'search_options'
 #     Use: generating the sidebar select options for searching
-# Created: Mon Jul  1 00:10:28 2002
+# Created: Sun Jun 30 09:28:31 2002
 #--------------------------------------------------------------------------------------
 
     search_areas = [
