@@ -165,6 +165,7 @@ that I</home/httpd/httpd-2.0/perl/> is in C<@INC>, via a startup file
 which includes just:
 
   use lib qw(/home/httpd/httpd-2.0/perl);
+  1;
 
 and loaded from I<httpd.conf>:
 
