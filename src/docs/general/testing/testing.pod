@@ -933,11 +933,11 @@ F<Makefile.PL> file to use C<Apache::TestMM>:
      "Apache::Test" => "", # any version will do
     );
   my @scripts = qw(t/TEST);
-
+  
   # accept the configs from command line
   Apache::TestMM::filter_args();
   Apache::TestMM::generate_script('t/TEST');
-
+  
   WriteMakefile(
       NAME         => 'Apache::Amazing',
       VERSION_FROM => 'lib/Apache/Amazing.pm',
@@ -972,10 +972,10 @@ delete the F<Makefile.PL> file and create F<Build.PL> instead. It should
 look somethiing like this:
 
   use Module::Build:
-
+  
   my $build_pkg = eval { require Apache::TestMB }
       ? 'Apache::TestMB' : 'Module::Build';
-
+  
   my $build = $build_pkg->new(
       module_name        => 'Apache::Amazing',
       license            => 'perl',
@@ -1163,7 +1163,7 @@ test, and install the module with F<Makefile.PL>, do this:
   % perl Makefile.PL -apxs ~/httpd/prefork/bin/apxs
   % make
   % make test
-
+  
   basic...........ok
   All tests successful.
   Files=1, Tests=2,  1 wallclock secs ( 0.52 cusr +  0.02 csys =  0.54 CPU)
@@ -1185,11 +1185,11 @@ The same process can be accomplished with F<Buiild.PL> like so:
   # perl Build.PL -apxs ~/httpd/prefork/bin/apxs
   % ./Build
   % ./Build test
-
+  
   basic...........ok
   All tests successful.
   Files=1, Tests=2,  1 wallclock secs ( 0.52 cusr +  0.02 csys =  0.54 CPU)
-
+  
   % ./Build install
   % ./Build dist
 
@@ -1480,15 +1480,15 @@ like this:
   #--------------------
   use strict;
   use warnings FATAL => 'all';
-
+  
   use Apache::Test;
   use Apache::TestUtil;
   use Apache::TestRequest 'GET_BODY';
-
+  
   plan tests => 1; # plan one test.
-
+  
   Apache::TestRequest::module('default');
-
+  
   my $config   = Apache::Test::config();
   my $hostport = Apache::TestRequest::hostport($config) || '';
   t_debug("connecting to $hostport");
@@ -1648,7 +1648,7 @@ random_chunk:
 
 You should:
 
-  #include "apache_httpd_test.h" 
+  #include "apache_httpd_test.h"
 
 which should be preceded by an:
 
@@ -2082,7 +2082,7 @@ But this won't hint the reason for skipping therefore it's better to
 use C<have()>:
 
   plan tests => 5,
-      have 'LWP', 
+      have 'LWP',
            { "not Win32" => sub { $^O eq 'MSWin32'} };
 
 =item * an C<ARRAY> reference
