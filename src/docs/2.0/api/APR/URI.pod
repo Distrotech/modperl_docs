@@ -19,6 +19,7 @@ APR::URI - Perl API for URI manipulations
   print $parsed->hostname;
   print $parsed->port;
   print $parsed->path;
+  print $parsed->rpath;
   print $parsed->query;
   print $parsed->fragment;
   
@@ -272,6 +273,32 @@ Get/set the request path
 =item ret: C<$oldval> ( string or undef )
 
 C<"/"> if only C<scheme://host>
+
+=item since: 1.99_15
+
+=back
+
+
+
+
+
+=head2 C<rpath>
+
+Gets the C<L<path>> minus the 
+C<L<path_info|docs::2.0::api::Apache::RequestRec/C_path_info_>>
+
+  $rpath =  $parsed->rpath();
+
+=over 4
+
+=item obj: C<$parsed>
+( C<L<APR::URI object|docs::2.0::api::APR::URI>> )
+
+=item opt arg1: C<$newval> ( string or undef )
+
+=item ret: C<$oldval> ( string or undef )
+
+The path minus the I<path_info>
 
 =item since: 1.99_15
 

@@ -304,8 +304,6 @@ The parsed uri
 
 =back
 
-META: this object is suitable for a currently non-existing rpath()
-method
 
 
 
