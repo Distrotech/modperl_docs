@@ -48,8 +48,6 @@ td.non-sel-bg { background-color: #eeeeee; }
 /* dark blue bg-color for selected menu-items */
 td.sel-bg { background-color: #525d76; }
 
-li.search { list-style: none; }
-
 div.nonselectedmenuitem {
     padding: 3px;
     background-color: #eeeeee;
