@@ -55,6 +55,7 @@
 
 [% BLOCK search_widget %]
             [% search_input %]
+			<br class="smallbr">
             [% search_options %]
             <br>
             <input type="submit" name="submit" value="search" class="inp-submit">
