@@ -8,7 +8,7 @@
 
 
 [%- PROCESS search_options -%]
-[%- USE CGI('-no_debug') -%]
+[%- USE CGI('-no_debug -no_xhtml') -%]
 
 [%
     IF doc.meta.link == 'search/searchresults.html';
