@@ -7,16 +7,14 @@ Binary mod_perl distributions
 This document includes links to various binary mod_perl distributions.
 
 If you know about a distribution that isn't listed here, please tell
-us (by announcing it at the mod_perl list).
+us (by announcing it at the L<mod_perl list|maillist::list-modperl>).
 
 See also L<the source distributions|download::source> and the
 L<bundles|download::bundles>.
 
 =head1 How to get pre-compiled mod_perl
 
-=over
-
-=item *
+=head2 Win32 mod_perl 1.x
 
 Win32 mod_perl Binaries (made by Randy Kobes) -
 ftp://theoryx5.uwinnipeg.ca/pub/other/. Grab a perl-win32-bin-x.x.exe
@@ -24,7 +22,9 @@ self-extracting file. There's accompanying readme files with more details
 on the particular versions of packages included. These all include Perl
 and some common modules, so are largish.
 
-=item *
+For more information please read the L<Win32 Documentation|docs::1.0::win32::index> 
+
+=head2 Win32 mod_perl 2.x (BETA)
 
 An experimental mod_perl-2.0 win32 binary package is available at
 ftp://theoryx5.uwinnipeg.ca/pub/other/Apache2.tar.gz for those Win32
@@ -52,7 +52,7 @@ docs at http://httpd.apache.org/docs-2.0/, and for modperl-2, see the
 information at http://perl.apache.org/ on subscribing to the "dev"
 mailing list.
 
-=item *
+=head2 Win32 Active Perl
 
 Win32 ActivePerl mod_perl ppms - suitable for builds 6xx.  You can install
 this by, within the ppm shell, setting the repository to
@@ -64,24 +64,22 @@ earlier versions are available
 (http://theoryx5.uwinnipeg.ca/ppmpackages/mod_perl-legacy/), as are some
 ppms of other Apache modules (http://theoryx5.uwinnipeg.ca/ppmpackages/).
 
-=item *
+=head2 RedHat Linux
 
 Static mod_perl and libapreq (Apache::Request) RPMs and SRPMs (made by
 David Harris ) http://www.davideous.com/modperlrpm/distrib/. Mirrored at
 http://perl.apache.org/rpm/.
 
-=item *
+=head2 RedHat Linux (including php3)
 
 i386 RPMs + SRPM (RedHat) of Apache with mod_perl and php3 built
 staticaly. (made by Vladimir Ivaschenko)
 http://www.hazard.maks.net/apache/
 
-=item *
+=head2 other OS
 
 OS vendors may supply their own pre-compiled version of mod_perl.
 Refer to your OS vendor to figure out if they provide a binary version
 of mod_perl.
-
-=back
 
 =cut
