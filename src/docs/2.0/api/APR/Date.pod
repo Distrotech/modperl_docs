@@ -61,7 +61,7 @@ or if the date is invalid.
 
 =back
 
-Remember to multiply the return value by 1_000_000 if you need it in
+Remember to divide the return value by 1_000_000 if you need it in
 seconds.
 
 
@@ -103,7 +103,7 @@ or if the date is invalid.
 
 =back
 
-Remember to multiply the return value by 1_000_000 if you need it in
+Remember to divide the return value by 1_000_000 if you need it in
 seconds.
 
 
