@@ -1,6 +1,6 @@
 =head1 NAME
 
-CHANGES
+Changes
 
 =head1 Description
 
@@ -8,6 +8,15 @@ Refer to this document to learn what changes were made to the
 documents, since you've read these last time.
 
 The most recent changes are listed first.
+
+=head1 Sat Apr 20 11:41:00 CET 2002
+
+Per Einar Ellefsen:
+
+* Added C<Apache::*> modules from core to complete the API. Reviewed
+  the content, added right tags and indentation where needed.
+
+* Apache::File: added synopsis.
 
 =head1 Thu Apr 18 12:28:00 CET 2002
 

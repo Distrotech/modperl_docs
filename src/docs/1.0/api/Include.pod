@@ -1,0 +1,68 @@
+=head1 NAME
+
+Apache::Include - Utilities for mod_perl/mod_include integration
+
+=head1 Synopsis
+
+  <!--#perl sub="Apache::Include" arg="/perl/ssi.pl" -->
+
+
+=head1 Description
+
+The C<Apache::Include> module provides a handler, making it simple to
+include C<Apache::Registry> scripts with the mod_include perl
+directive.
+
+C<Apache::Registry> scripts can also be used in mod_include parsed
+documents using 'virtual include'.
+
+=head1 Methods
+
+=over 4
+
+=item Apache::Include-E<gt>virtual($uri)
+
+The C<virtual> method may be called to include the output of a given
+uri in your Perl scripts.  Example:
+
+  use Apache::Include ();
+  
+  print "Content-type: text/html\n\n";
+  
+  print "before include\n";
+  
+  my $uri = "/perl/env.pl";
+  
+  Apache::Include->virtual($uri);
+  
+  print "after include\n";
+
+=back
+
+=head1 See Also
+
+perl(1), mod_perl(3), mod_include
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * The L<documentation mailing list|maillist::list-docs-dev>
+
+=back
+
+=head1 Authors
+
+=over
+
+=item * Doug MacEachern
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+=cut

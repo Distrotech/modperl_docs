@@ -1,0 +1,55 @@
+=head1 NAME
+
+Apache::Symdump - Symbol table snapshots
+
+=head1 Synopsis
+
+  PerlLogHandler Apache::Symdump
+
+=head1 Description
+
+C<Apache::Symdump> will record snapshots of the Perl symbol table for you to look at later.
+
+It records them in C<ServerRoot/logs/symdump.$$.$n>.  Where C<$$> is
+the process id and C<$n> is incremented each time the handler is run.
+The C<diff> utility can be used to compare snapshots and get an idea
+of what might be making a process grow.  Normally, new symbols come
+from modules or scripts that were not preloaded, the Perl method
+cache, etc.
+
+  % diff -u symdump.$$.0 symdump.$$.1
+
+=head1 Caveats
+
+C<Apache::Symdump> does not cleanup up its snapshot files, do so
+simply by:
+
+  % rm logs/symdump.* logs/incdump.*
+
+=head1 See Also
+
+Devel::Symdump(3), Apache::Leak(3)
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item * The L<documentation mailing list|maillist::list-docs-dev>
+
+=back
+
+=head1 Authors
+
+=over
+
+=item * Doug MacEachern
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+=cut
