@@ -97,7 +97,7 @@ files).
 
 Rebuilding the PDF version is just as easy, just run:
 
-  ai% bin/build -d
+  % bin/build -d
 
 There are some times however when a simple rebuild will not be enough:
 usually when there are changes made to the design or to I<config.cfg>
