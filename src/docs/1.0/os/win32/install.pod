@@ -6,25 +6,21 @@ mod_perl 1.0 Win32 Installation Instructions
 
 This document discusses how to install mod_perl 1.0 under Win32, both
 in building from sources and in installing pre-compiled binary
-packages. Unless you are using an all-in-one package, you should
+packages. 
+
+=head1 Synopsis
+
+Unless you are using an all-in-one package, you should
 first install Perl and Apache, either from the sources or as binaries.
-The Perl sources are available from
-
-    http://www.cpan.org/src/
-
+The Perl sources are available from L<http://www.cpan.org/src/>,
 with directions for building contained in F<README.win32>.
 ActiveState also makes the sources available for their binary
-builds at
-
-    ftp://ftp.activestate.com/ActivePerl/src/
-
+builds at L<ftp://ftp.activestate.com/ActivePerl/src/>,
 which may contain, in particular, Win32-specific fixes not in the
 CPAN Perl sources. As a binary, at present, an ActivePerl-compatible 
 Perl, compiled with Visual C++, is the most common one used in the Win32 
 mod_perl/Apache environment; you can obtain such a prebuilt Perl
-binary from
-
-    http://www.activestate.com/
+binary from L<http://www.activestate.com/>.
 
 Note that, currently, mod_perl 1.0 does not work with an
 ActivePerl Perl in the 8xx series (based on perl-5.8), due
@@ -40,8 +36,7 @@ L<modperl-2 in Win32|docs::2.0::os::win32::install>
 for details.
 
 The Apache sources and binaries are available at
-
-   http://httpd.apache.org/
+L<http://httpd.apache.org/>.
 
 When installing Perl or other related binaries, subtleties may arise
 in using path names that have spaces in them - you may, for example, 
@@ -78,10 +73,8 @@ to compile your Perl binary; for ActivePerl, this means using VC++ 6.
 
 =back
 
-Obtain the mod_perl sources from CPAN:
-
-  http://www.cpan.org/authors/id/D/DO/DOUGM/mod_perl-1.xx.tar.gz
-
+Obtain the mod_perl sources (F<mod_perl-1.xx.tar.gz>) from CPAN
+under L<http://www.cpan.org/authors/id/D/DO/DOUGM/>.
 When unpacked, using Winzip or similar tools, a subdirectory
 F<mod_perl-1.xx> will be created.
 
@@ -210,6 +203,20 @@ This latter method of building mod_perl will also install the
 Apache and mod_perl header files, which can then be accessed
 through the Apache::src module.
 
+If this build fails, you may want to try the sources obtained
+from cvs (you may also want to use the Apache cvs sources). 
+To do this, first obtain a Win32 cvs client from, for example,
+L<http://www.cvshome.org/>. The cvs sources may be obtained as
+
+  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apache-1.3
+  C:\src> cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl
+
+The build then proceeds as above. Be aware, though,
+that as well as providing bug fixes, there may be new features being
+added and tested in the cvs versions, so at any given time there are
+no guarantees that these packages will build and test successfully.
+
 =head1 Binaries
 
 There are two major types of binary packages
@@ -219,11 +226,11 @@ binaries, and mod_perl ppm (Perl Package Manager) packages.
 =head2 All-in-one packages
 
 There are at least two binary packages for Win32 that contain the
-necessary Perl and Apache binaries:
-
-  http://www.indigostar.com/
-  
-  ftp://theoryx5.uwinnipeg.ca/pub/other/perl-win32-bin.exe
+necessary Perl and Apache binaries: IndigoPerl from
+L<http://www.indigostar.com/>, and the self-extracting archive
+F<perl-win32-bin.exe> from
+L<ftp://theoryx5.uwinnipeg.ca/pub/other/> (see the file
+F<perl-win32-bin.readme> for a description).
 
 As well as including a number of non-core modules, both of these
 packages contain mod_perl. See the documentation on the web sites and
@@ -241,16 +248,12 @@ bugs are most likely present.
 =head2 PPM Packages
 
 For users of ActivePerl builds 6xx I<only>, obtainable from
-
-   http://www.activestate.com/
-
+L<http://www.activestate.com/>,
 there are also C<PPM> mod_perl packages available (as discussed
 in the introduction, no C<ppm> mod_perl-1 ppm packages for
 ActivePerl builds 8xx are presently available). For this, if you
 don't already have it, get and install the latest Win32 Apache binary
-from
-
-   http://httpd.apache.org/
+from L<http://httpd.apache.org/>.
 
 Both ActivePerl and Apache binaries are available as C<MSI> files for
 use by the Microsoft Installer - as discussed on the ActiveState site,
@@ -309,7 +312,7 @@ C<mod_perl.so>; a post-installation script should be run which will
 offer to copy this file to your Apache modules directory (eg,
 I<C:\Apache\modules>). This might not occur with C<ppm3>, in
 which case you can grab F<mod_perl.tar.gz> from
-http://theoryx5.uwinnipeg.ca/ppmpackages/x86/; when
+L<http://theoryx5.uwinnipeg.ca/ppmpackages/x86/>; when
 unpacked, this will contain F<mod_perl.so> in the top-level
 directory.
 
@@ -331,7 +334,9 @@ before loading F<mod_perl.so>. If all else fails, a reboot may help.
 
 The directions for L<configuring mod_perl 1.0 on
 Win32|docs::1.0::os::win32::config>, the L<mod_perl
-documentation|docs::index>, and http://take23.org/.
+documentation|docs::index>, L<http://take23.org/>.
+Help is also available through the archives of and subscribing to
+the L<mod_perl mailing list|maillist::modperl>.
 
 =head1 Maintainers
 

@@ -120,13 +120,15 @@ install the module - see C<perldoc CPAN> for details. You will need
 the B<nmake> utility for this, download it from
 http://download.microsoft.com/download/vc15/Patch/1.52/W95/EN-US/Nmake15.exe
 (it's a self extracting archive, so run it and then copy the files
-into your F<Windows> directory).
+to somewhere in your I<PATH> environment variable).
 
 =head1 See Also
 
 The directions for L<installing mod_perl 1.0 on
 Win32|docs::1.0::os::win32::install>, the L<mod_perl
-documentation|docs::index>, and http://take23.org/.
+documentation|docs::index>, L<http://take23.org/>.
+Help is also available through the archives of and subscribing to
+the L<mod_perl mailing list|maillist::modperl>.
 
 =head1 Maintainers
 

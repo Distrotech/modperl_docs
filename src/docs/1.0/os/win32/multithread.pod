@@ -102,8 +102,11 @@ regrettably, no longer available.)
 
 =head1 See Also
 
-http://perl.apache.org and http://httpd.apache.org, especially the
+The L<mod_perl
+documentation|docs::index> and L<http://httpd.apache.org/>, especially the
 discussion of Apache-2 and modperl-2.
+Help is also available through the archives of and subscribing to
+the L<mod_perl mailing list|maillist::modperl>.
 
 =head1 Maintainers
 

@@ -186,11 +186,11 @@ will use C<Apache::Hello> to deliver the content.
 
 The directions for L<installing mod_perl 2.0 on
 Win32|docs::2.0::os::win32::install>, the L<mod_perl
-documentation|docs::index>, http://perl.apache.org/,
-http://take23.org/, http://httpd.apache.org/, and
-http://www.activestate.com/.  Help on setting up and configuring
-mod_perl 2.0 can be found by subscribing to the mod_perl mailing list,
-details of which are at http://perl.apache.org/.
+documentation|docs::index>, L<http://perl.apache.org/>,
+L<http://take23.org/>, L<http://httpd.apache.org/>, and
+L<http://www.activestate.com/>.  
+Help is also available through the archives of and subscribing to
+the L<mod_perl mailing list|maillist::modperl>.
 
 =head1 Maintainers
 
