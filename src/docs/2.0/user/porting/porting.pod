@@ -184,9 +184,7 @@ C<content_type()> can't be found. So we use C<ModPerl::MethodLookup>
 to figure out which module provides this method. We can just run this
 from the command line:
 
-  % perl -MApache2 -MModPerl::MethodLookup -le \
-    'print((ModPerl::MethodLookup::lookup_method(shift))[0])' \
-    content_type
+  % perl -MApache2 -MModPerl::MethodLookup -e print_method content_type
 
 This prints:
 
@@ -204,6 +202,13 @@ alias|docs::2.0::api::ModPerl::MethodLookup/Command_Line_Lookups>>. Once
 defined the last command line lookup can be accomplished with:
 
   % lookup content_type
+
+C<L<ModPerl::MethodLookup|docs::2.0::api::ModPerl::MethodLookup>> also
+provides helper functions for finding C<L<which methods are defined in
+a given
+module|docs::2.0::api::ModPerl::MethodLookup/C_lookup_module___>>, or
+C<L<which methods can be invoked on a given
+object|docs::2.0::api::ModPerl::MethodLookup/C_lookup_object___>>.
 
 =head3 Handling Methods Existing In More Than One Package
 

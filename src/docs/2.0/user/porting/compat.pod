@@ -161,7 +161,7 @@ have to be loaded first. The module
 C<L<ModPerl::MethodLookup|docs::2.0::api::ModPerl::MethodLookup>> can
 be used to find out which modules need to be used. This module also
 provides a function
-C<L<preload_all_modules()|docs::2.0::api::ModPerl::MethodLookup/preload_all_modules__>>
+C<L<preload_all_modules()|docs::2.0::api::ModPerl::MethodLookup/C_preload_all_modules___>>
 that will load all mod_perl 2.0 modules, implementing their API in XS,
 which is useful when one starts to port their mod_perl 1.0 code,
 though preferrably avoided in the production environment if you want

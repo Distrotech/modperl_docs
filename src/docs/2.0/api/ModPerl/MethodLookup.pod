@@ -1,12 +1,12 @@
 =head1 NAME
 
-ModPerl::MethodLookup -- An API for finding modules that include mod_perl 2.0 methods
+ModPerl::MethodLookup -- Map mod_perl 2.0 modules, objects and methods
 
 =head1 Synopsis
 
   use ModPerl::MethodLookup;
   
-  # return all module names containing method 'print'
+  # return all module names containing XS method 'print'
   my($hint, @modules) =
       ModPerl::MethodLookup::lookup_method('print');
   
@@ -15,9 +15,32 @@ ModPerl::MethodLookup -- An API for finding modules that include mod_perl 2.0 me
   # (here $filter is an Apache::Filter object)
   my($hint, @modules) =
       ModPerl::MethodLookup::lookup_method('print', $filter);
+  # or
+  my($hint, @modules) =
+      ModPerl::MethodLookup::lookup_method('print', 'Apache::Filter');
+  
+  # what XS methods defined by module 'Apache::Filter'
+  my($hint, @methods) =
+      ModPerl::MethodLookup::lookup_module('Apache::Filter');
+  
+  # what XS methods can be invoked on the object $r (or a ref)
+  my($hint, @methods) =
+      ModPerl::MethodLookup::lookup_object($r);
+  # or
+  my($hint, @methods) =
+      ModPerl::MethodLookup::lookup_object('Apache::RequestRec');
   
   # preload all mp2 modules in startup.pl
   ModPerl::MethodLookup::preload_all_modules();
+  
+  # command line shortcuts
+  % perl -MApache2 -MModPerl::MethodLookup -e print_module \
+    Apache::RequestRec Apache::Filter
+  % perl -MApache2 -MModPerl::MethodLookup -e print_object Apache
+  % perl -MApache2 -MModPerl::MethodLookup -e print_method \
+    get_server_built request
+  % perl -MApache2 -MModPerl::MethodLookup -e print_method read
+  % perl -MApache2 -MModPerl::MethodLookup -e print_method read APR::Bucket
 
 =head1 Description
 
@@ -25,35 +48,172 @@ mod_perl 2.0 provides many methods, which reside in various
 modules. One has to load each of the modules before using the desired
 methods. C<ModPerl::MethodLookup> provides the Perl API for finding
 module names which contain methods in question and other helper
-functions.
+functions, like figuring out what methods defined by some module, or
+what methods can be called on a given object.
 
-=head1 Api
+=head1 API
 
-=head2 lookup_method()
+=head2 C<lookup_method()>
 
   my($hint, @modules) =
-      ModPerl::MethodLookup::lookup_method('print');
+      ModPerl::MethodLookup::lookup_method($method_name);
 
-The C<lookup_method()> accepts the method name as an argument.
+The C<lookup_method()> function accepts the method name as the first
+argument.
 
 The first returned value is a string returning a human readable lookup
 result. Normally suggesting which modules should be loaded, ready for
 copy-n-paste or explaining the failure if the lookup didn't succeed.
 
-The second returned value is an array of modules which has matched the
-query, i.e. the names of the modules which contain the requested
+The second returned value is an array of modules which have matched
+the query, i.e. the names of the modules which contain the requested
 method.
 
   my($hint, @modules) = 
-      ModPerl::MethodLookup::lookup_method('print', $object);
+      ModPerl::MethodLookup::lookup_method($method_name, $object);
 
-The C<lookup_method()> accepts a second optional argument, which is a
-blessed object. If there is more than one matches this object is used
-to return only those matches who operate on the objects of the same
-kind. This usage is useful when the AUTOLOAD is used to find
-yet-unloaded modules which include called methods.
+or:
 
-=head2 preload_all_modules()
+  my($hint, @modules) = 
+      ModPerl::MethodLookup::lookup_method($method_name, ref($object));
+
+The C<lookup_method()> function accepts a second optional argument,
+which is a blessed object or the class it's blessed into. If there is
+more than one matches this extra information is used to return only
+modules of those methods which operate on the objects of the same
+kind. This usage is useful when the C<L<AUTOLOAD|/C_AUTOLOAD_>> is used
+to find yet-unloaded modules which include called methods.
+
+Examples:
+
+Return all module names containing XS method I<print>:
+
+  my($hint, @modules) =
+      ModPerl::MethodLookup::lookup_method('print');
+
+Return only module names containing method I<print> which expects the
+first argument to be of type C<Apache::Filter>:
+
+  my $filter = bless {}, 'Apache::Filter';
+  my($hint, @modules) =
+      ModPerl::MethodLookup::lookup_method('print', $filter);
+
+or:
+
+  my($hint, @modules) =
+      ModPerl::MethodLookup::lookup_method('print', 'Apache::Filter');
+
+
+=head2 C<lookup_module()>
+
+  my($hint, @methods) =
+      ModPerl::MethodLookup::lookup_module($module_name);
+
+The C<lookup_module()> function accepts the module name as an
+argument.
+
+The first returned value is a string returning a human readable lookup
+result. Normally suggesting, which methods the given module
+implements, or explaining the failure if the lookup didn't succeed.
+
+The second returned value is an array of methods which have matched the
+query, i.e. the names of the methods defined in the requested module.
+
+Example:
+
+What XS methods defined by module C<Apache::Filter>:
+
+  my($hint, @methods) =
+      ModPerl::MethodLookup::lookup_module('Apache::Filter');
+
+=head2 C<lookup_object()>
+
+  my($hint, @methods) =
+      ModPerl::MethodLookup::lookup_object($object);
+
+or:
+
+  my($hint, @methods) =
+      ModPerl::MethodLookup::lookup_object(
+          $the_class_object_is_blessed_into);
+
+The C<lookup_object()> function accepts the object or the class name
+the object is blessed into as an argument.
+
+The first returned value is a string returning a human readable lookup
+result. Normally suggesting, which methods the given object can invoke
+(including module names that need to be loaded to use those methods),
+or explaining the failure if the lookup didn't succeed.
+
+The second returned value is an array of methods which have matched
+the query, i.e. the names of the methods that can be invoked on the
+given object (or its class name).
+
+Examples:
+
+What XS methods can be invoked on the object C<$r>:
+
+  my($hint, @methods) =
+      ModPerl::MethodLookup::lookup_object($r);
+
+or C<$r>'s class -- C<Apache::RequestRec>:
+
+  my($hint, @methods) =
+      ModPerl::MethodLookup::lookup_object('Apache::RequestRec');
+
+=head2 C<print_method()>
+
+C<print_method()> is a convenience wrapper for
+C<L<lookup_method()|/C_lookup_method___>>, mainly designed to be used
+from the command line. For example to print all the modules which
+define method I<read> execute:
+
+  % perl -MApache2 -MModPerl::MethodLookup -e print_method read
+
+Since this will return more than one module, we can narrow the query
+to only those methods which expect the first argument to be blessed
+into class C<APR::Bucket>:
+
+  % perl -MApache2 -MModPerl::MethodLookup -e print_method read APR::Bucket
+
+You can pass more than one method and it'll perform a lookup on each
+of the methods. For example to lookup methods C<get_server_built> and
+C<request> you can do:
+
+  % perl -MApache2 -MModPerl::MethodLookup -e print_method \
+    get_server_built request
+
+The function C<print_method()> is exported by default.
+
+=head2 C<print_module()>
+
+C<print_module()> is a convenience wrapper for
+C<L<lookup_module()|/C_lookup_module___>>, mainly designed to be used
+from the command line. For example to print all the methods defined in
+the module C<Apache::RequestRec>, followed by methods defined in the
+module C<Apache::Filter> you can run:
+
+  % perl -MApache2 -MModPerl::MethodLookup -e print_module \
+    Apache::RequestRec Apache::Filter
+
+The function C<print_module()> is exported by default.
+
+=head2 C<print_object()>
+
+C<print_object()> is a convenience wrapper for
+C<L<lookup_object()|/C_lookup_object___>>, mainly designed to be used
+from the command line. For example to print all the methods that can
+be invoked on object blessed into a class C<Apache::RequestRec> run:
+
+  % perl -MApache2 -MModPerl::MethodLookup -e print_object \
+    Apache::RequestRec
+
+Similar to C<L<print_object()|/C_print_object___>>, more than one
+class can be passed to this function.
+
+The function C<print_object()> is exported by default.
+
+=head2 C<preload_all_modules()>
 
 The function C<preload_all_modules()> preloads all mod_perl 2.0
 modules, which implement their API in XS. This is similar to the
@@ -71,7 +231,7 @@ indeed) in order to save memory.
 
 =head1 Applications
 
-=head2 AUTOLOAD
+=head2 C<AUTOLOAD>
 
 When Perl fails to locate a method it checks whether the package the
 object belongs to has an C<AUTOLOAD> function defined and if so, calls
@@ -143,8 +303,8 @@ module is called.
 =head2 Command Line Lookups
 
 When a method is used and mod_perl has reported a failure to find it,
-one can issue a command line query to figure out which module needs to
-be loaded. For example if when executing:
+it's often useful to use the command line query to figure out which
+module needs to be loaded. For example if when executing:
 
   $r->construct_url();
 
@@ -155,9 +315,8 @@ mod_perl complains:
 
 you can ask C<ModPerl::MethodLookup> for help:
 
-  % perl -MApache2 -MModPerl::MethodLookup -le \
-     'print((ModPerl::MethodLookup::lookup_method(shift))[0])' construct_url
-  to use method 'construct_url' add:
+  % perl -MApache2 -MModPerl::MethodLookup -e print_method construct_url
+  To use method 'construct_url' add:
           use Apache::URI ();
 
 and after copy-n-pasting the use statement in our code, the problem
@@ -166,13 +325,11 @@ goes away.
 One can create a handy alias for this technique. For example, C-style
 shell users can do:
 
-   % alias lookup "perl -MApache2 -MModPerl::MethodLookup -le \\
-     'print((ModPerl::MethodLookup::lookup_method(shift))[0])'"
+   % alias lookup "perl -MApache2 -MModPerl::MethodLookup -e print_method"
 
 For Bash-style shell users:
 
-   % alias lookup="perl -MApache2 -MModPerl::MethodLookup -le \
-     'print((ModPerl::MethodLookup::lookup_method(shift))[0])'"
+   % alias lookup="perl -MApache2 -MModPerl::MethodLookup -e print_method"
 
 Now the lookup is even easier:
 
@@ -180,6 +337,24 @@ Now the lookup is even easier:
   to use method 'construct_url' add:
           use Apache::URI;
 
+Similar aliases can be provided for
+C<L<print_object()|/C_print_object___>> and
+C<L<print_module()|/C_print_module___>>.
+
+=head1 TODO
+
+These methods aren't yet picked by this module (the extract from the
+map file):
+
+ modperl_filter_attributes     | MODIFY_CODE_ATTRIBUTES
+ modperl_spawn_proc_prog       | spawn_proc_prog
+ apr_sockaddr_ip_get           | sockaddr
+ apr_sockaddr_port_get         | sockaddr
+ apr_ipsubnet_create           | new
+
+Please report if you find any other missing methods. But remember that
+as of this moment the module reports only XS function. In the future
+we may add support for pure perl functions/methods as well.
 
 =head1 Author
 
