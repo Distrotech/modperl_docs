@@ -14,7 +14,7 @@
       [% doc.meta.title %]
     </h1>
 
-    <hr class=PAGE-BREAK>
+    <hr class="PAGE-BREAK">
 
 [% FOREACH sec = doc.body;
        sec;
