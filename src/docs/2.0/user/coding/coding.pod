@@ -441,6 +441,39 @@ response phase.
 
 
 
+=head2 Using Signal Handlers
+
+3rd party Apache 2 modules should avoid using code relying on
+signals. This is because typical signal use is not thread-safe and
+modules which rely on signals may not work portably. Certain signals
+may still work for non-threaded mpms. For example C<alarm()> can be
+used under prefork MPM, but it won't work on any other MPM. Moreover
+the Apache developers don'tq guarantee that the signals that currently
+happen to work will continue to do so in the future Apache
+releases. So use them at your own risk.
+
+It should be possible to rework the code using signals to use an
+alternative solution, which works under threads. For example if you
+were using C<alarm()> to trap potentially long running I/O, you can
+modify the I/O logic for select/poll usage (or if you use APR I/O then
+set timeouts on the apr pipes or sockets). For example, Apache 1.3 on
+Unix made blocking I/O calls and relied on the parent process to send
+the SIGALRM signal to break it out of the I/O after a timeout expired.
+With Apache 2.0, APR support for timeouts on I/O operations is used so
+that signals or other thread-unsafe mechanisms are not necessary.
+
+CPU timeout handling is another example. It can be accomplished by
+modifying the computation logic to explicitly check for the timeout at
+intervals.
+
+
+
+
+
+
+
+
+
 =head1 Perl Specifics in the mod_perl Environment
 
 In the following sections we discuss the specifics of Perl behavior
