@@ -83,6 +83,11 @@ div.download {
 }
 
 div.cbody {
+	position:absolute;
+	top:5px;
+	left:175px;
+	padding:0px;
+	margin-right:10px;
 }
 
 div.logo {
