@@ -166,11 +166,16 @@ connection record object.
   sub handler {
       my ($c) = @_;
       my $socket = $c->client_socket;
+      $socket->opt_set(APR::SO_NONBLOCK, 0);
       # ...
       return Apache::OK;
   }
 
-
+Most likely you'll need to set the socket to perform blocking IO. On
+some platforms (e.g. Linux) Apache gives us a socket which is set for
+blocking, on other platforms (.e.g. Solaris) it doesn't. Unless you
+know which platforms your application will be running on, always
+explicitly set it to the blocking mode as in the example above.
 
 Now let's look at the following two examples of connection
 handlers. The first using the connection socket to read and write the
@@ -228,12 +233,14 @@ Here is the code:
   use APR::Socket ();
   
   use Apache::Const -compile => 'OK';
+  use APR::Const    -compile => 'SO_NONBLOCK';
   
   use constant BUFF_LEN => 1024;
   
   sub handler {
       my $c = shift;
       my $socket = $c->client_socket;
+      $socket->opt_set(APR::SO_NONBLOCK, 0);
   
       my $buff;
       while (1) {
@@ -258,8 +265,10 @@ subroutine name defaults to I<handler>.  However, in the case of a
 protocol handler, the first argument is not a C<request_rec>, but a
 C<conn_rec> blessed into the C<Apache::Connection> class.  We have
 direct access to the client socket via C<Apache::Connection>'s
-I<client_socket> method.  This returns an object blessed into the
-C<APR::Socket> class.
+I<client_socket> method.  This returns an object, blessed into the
+C<APR::Socket> class. Before using the socket, we make sure that it's
+set to perform blocking IO, by using the C<APR::SO_NONBLOCK> constant,
+compiled earlier.
 
 Inside the read/send loop, the handler attempts to read C<BUFF_LEN>
 bytes from the client socket into the C<$buff> buffer.  The C<$rlen>
@@ -344,7 +353,8 @@ handlers.
       my $last = 0;
   
       while (1) {
-          my $rv = $c->input_filters->get_brigade($bb_in, Apache::MODE_GETLINE);
+          my $rv = $c->input_filters->get_brigade($bb_in,
+                                                  Apache::MODE_GETLINE);
           if ($rv != APR::SUCCESS && $rv != APR::EOF) {
               my $error = APR::strerror($rv);
               warn __PACKAGE__ . ": get_brigade: $error\n";
