@@ -9,7 +9,7 @@
 <!-- logobox begin -->
 <div class="logobox">
     <table border="0" cellspacing="0" cellpadding="0" width="100%">
-        <tr valign="top">
+        <tr valign="top" class="noPrint">
 
             [%- INCLUDE logo;
             
@@ -28,7 +28,7 @@
 <!-- logobox end -->
 
 <!-- left box begin -->
-<div class="leftbox">
+<div class="leftbox noPrint">
 
     [%- INCLUDE left_box
         nav=doc.nav

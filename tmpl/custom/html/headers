@@ -11,6 +11,7 @@
                 },
         },
         link => "<link href=\"${doc.dir.abs_doc_root}/style.css\" rel=\"stylesheet\" type=\"text/css\" title=\"refstyle\">",
+        link_print => "<link href=\"${doc.dir.abs_doc_root}/print.css\" rel=\"stylesheet\" type=\"text/css\" title=\"refstyle\" media=\"print\">",
 
 };
 
@@ -22,7 +23,7 @@ abstract = doc.meta.abstract or "Manuals, Hints, Guidelines, Scenarios, Troubles
         <base href="[% doc.headers.base | uri | html %]">
 [%- END -%]
 
-[%- "        $l\n" FOREACH l = [ doc.headers.link, default_headers.link ] -%]
+[%- "        $l\n" FOREACH l = [ doc.headers.link, default_headers.link, default_headers.link_print ] -%]
         <meta name="description" content="mod_perl documentation: [% abstract | html %]">
 [%- FOREACH m = ["name", "http-equiv"];
         SET merge = {};

@@ -28,7 +28,7 @@
             <td height="2" colspan="4"><small class="nbr"><br class="smallbr"></small></td>
         </tr>
 
-        <tr>
+        <tr class="noPrint">
             <!-- download begin -->
             <td colspan="3" align="right" valign="bottom" nowrap>[%- INCLUDE download_link -%]</td>
             <td width="1"><small class="nbr"><br class="smallbr"></small></td>

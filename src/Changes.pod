@@ -9,6 +9,12 @@ documents, since you've read these last time.
 
 The most recent changes are listed first.
 
+=head1 Ongoing
+
+Add support for "pretty print" w/o the logos and menus: [allan juul
+<lambretta /at/ inet.uni2.dk>]
+
+
 =head1 July 2, 2002
 
 The new site has been released as Release Candidate 1.

@@ -4,7 +4,7 @@
    # rel_doc_root - relative docs path
 -%]
         <!-- local navigation begin -->
-        <tr valign="top">
+        <tr valign="top" class="noPrint">
             <!-- this particular first cell is here due to a strange bug in IE5 for mac -->
             <td><small class="nbr"><br class="smallbr"></small></td>
             <td colspan="2" align="right" valign="top" height="16" nowrap>[%- INCLUDE prev_next_link -%]</td>

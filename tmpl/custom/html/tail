@@ -2,7 +2,7 @@
    # nav             - cache navigator object
    # docset_rel_root - relative docs path
 -%]
-        <div class="footer">
+        <div class="footer noPrint">
             <hr noshade size="1">
             <!-- footer (tail )-->
             <p class="modified">Last modified [% doc.last_modified %]</p>

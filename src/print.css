@@ -1,0 +1,36 @@
+/*** main elements ***/
+
+/* body specs */
+
+
+.body-margins {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    /* this border MUST be _0px_ for ns4 and others */
+    border: 0px;
+
+    padding: 0px 0px 0px 0px;
+    margin: 0px 10px 0px 10px;
+    background-image: none;
+
+}
+
+/* opera */
+body[class="body-margins"] {
+    width: auto !important;
+}
+
+.noPrint {
+    display:none;
+}
+
+div.rightbox {
+    position: inherit; /*this can not be relative, absolute or unspecifed*/
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    border: 1px; /* this border MUST be _1px_ for ns4 */
+    background-color: #ffffff;
+    color: #000000;
+}

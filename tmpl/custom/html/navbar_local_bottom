@@ -3,7 +3,7 @@
    # nav          - cache navigator object
    # rel_doc_root - relative docs path
 -%]
-   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="noPrint">
        <tr>
            <!-- this height must be 1px more than the highest gif ns6/mac -->
            <td width="195" nowrap height="17">
