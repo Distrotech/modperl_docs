@@ -38,17 +38,16 @@ local time.
 
 
 Save the above as a file file in your perl library
-(e.g. I<My/Greeting.pm>a).  Now, to return the above greeting when the
+(e.g. I<My/Greeting.pm>).  Now, to return the above greeting when the
 URL I</hello> is visited on your server:
 
-  <location /hello>
+  <Location /hello>
       SetHandler perl-script
       PerlHandler My::Greeting
-  </location>
+  </Location>
 
-For a more in-depth explanation of creating mod_perl handlers see
-L<Documentation|"../../docs/index.html">.  The L<mod_perl
-Guide|"../../docs/1.0/guide/index.html"> is also recommended reading.
+For a more in-depth explanation of creating mod_perl handlers,
+and mod_perl in general, see the L<mod_perl Guide|guide::index>.
 
 =for html
 <a class="more" href="../index.html#handler">&#171&nbsp;back</a>

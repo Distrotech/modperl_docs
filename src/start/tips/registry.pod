@@ -24,11 +24,11 @@ For example, here's an existing CGI script called I<hello.cgi>.
 This script can now be run as-is under C<Apache::Registry> by using the
 following configuration in I<httpd.conf>:
 
-  <files hello.cgi>
+  <Files hello.cgi>
       SetHandler perl-script
       PerlHandler Apache::Registry
       Options ExecCGI
-  </files>
+  </Files>
 
 That's basically it.  Your scripts do need to be well coded, but
 there's even the C<Apache::PerlRun> module to help with those "less
@@ -44,7 +44,9 @@ second with C<Apache::Registry>.
 Apache version 1.3.20</small>
 
 For more information on running CGI scripts under mod_perl please see
-L<mod_perl FAQs|"../../docs/1.0/faqs/index.html">.
+L<CGI to mod_perl FAQ|faqs::cgi_to_mod_perl> and
+L<the CGI to mod_perl Porting section|guide::porting>
+of L<The Guide|guide::index>.
 
 =for html
 <a class="more" href="../index.html#registry">&#171&nbsp;back</a>
