@@ -93,6 +93,38 @@ Content:
   through, using thr catch-phrase "Faster than a speeding bullet".
 
   Anyway, we probably need some graphic designer to make it look good.
+  
+  STATUS: Per Einar volunteered to make it a contest, as noone else
+  wanted to :) Let's hope it goes well. Will need pretty strict
+  guidelines to get what we are looking for.
+
+- A tutorial on MVC is probably very interesting. Relevant threads:
+   o http://mathforum.org/epigone/modperl/jilgygland
+   o http://mathforum.org/epigone/modperl/pahphucree
+   o http://mathforum.org/epigone/modperl/solchaxzim
+   o http://mathforum.org/epigone/modperl/lerdginspir
+   o http://mathforum.org/epigone/modperl/stremnemcland
+   o http://mathforum.org/epigone/modperl/nounumspim
+   o http://mathforum.org/epigone/modperl/blildeudrand
+   o http://mathforum.org/epigone/modperl/zhathontimp
+   o http://mathforum.org/epigone/modperl/drehkrerlnen
+ 
+  STATUS: Noone has volunteered. Perrin seemed to think he covered
+  most of it in his EToys article, but I think there are still some
+  parts missing. This one could be really complete, incorporating
+  things like bOP, how it compares to the template approach, as well
+  as other MVC techniques, pitfalls, etc.
+  
+  Jesse Erlbaum is going to write an article for a "Perl-related
+  publication", but that probably means we're not getting it ;(
+  http://mathforum.org/epigone/modperl/pahphucree/450BF163A931D4119C2B00D0B774183D3B24D5@exchange.vm.com
+
+- Waiting for Slava Bizyayev to submit tutorial on Gzip handling in
+  different browsers. See:
+   o http://mathforum.org/epigone/modperl/pendskumtwox
+   o http://mathforum.org/epigone/modperl/blexvarcho
+
+- Need to resolve prompt issue. (user/root prompt)
 
 Search:
 -------
@@ -184,4 +216,4 @@ Later:
 - we definitely should include the master PNG/SVG versions of the new
   logo on the site.
   
-  STATUS: On "Link to Us" page.
+  STATUS: On "Link to Us" page, and exists in the images dir as well.
