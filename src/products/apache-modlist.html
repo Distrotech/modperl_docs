@@ -6,7 +6,7 @@
 <h1>The Apache/Perl Module List</h1>
 
 Maintained by <a href="mailto:dougm@pobox.com">Doug MacEachern</a>,
-<br><i> $Revision: 1.1 $ $Date: 2002/01/05 19:15:41 $</i>
+<br><i> $Revision: 1.2 $ $Date: 2002/04/03 05:15:08 $</i>
 
 <h3>Contents</h3>
 <a href="#intro">Introduction</a><br>
@@ -15,7 +15,6 @@ Maintained by <a href="mailto:dougm@pobox.com">Doug MacEachern</a>,
 <a href="#where">Where Are The Modules Kept?</a><br>
 <a href="#contacts">Contacts</a><br>
 <a href="#info">More Info</a><br>
-<p>
 <h3><a name="intro">Introduction</a></h3>
 The Apache/Perl module list is here for the same reason as the
 main <a href="http://www.perl.com/CPAN/modules/00modlist.long.html">
@@ -34,10 +33,12 @@ to design such that your <b>Apache::*</b> module will make good use of the
 building blocks found on CPAN, putting together new building blocks where
 appropriate and simply glue them together with the Apache
 API, keeping the <b>Apache::*</b> modules very small.
+
 <p>
 These modules will also serve as good examples, showing you where modules
 can step in during a stage of a request with <b>Perl*Handler</b> callbacks.
 You'll also see how and when to use the Apache API methods.
+</p>
 
 <h3><a name="part">Playing Your Part</a></h3>
 Apache and Perl are world-wide collaborative efforts, naturally, the 
@@ -47,15 +48,19 @@ Please be sure you've read the
 main <a href="http://www.perl.com/CPAN/modules/00modlist.long.html">
 Perl module list</a>, all that is said there is relevant here!
 <p>
+
 If you have any additions or changes for the list, please send them to
 the Apache/Perl <a href="mailto:modperl@apache.org"> mailing list </a>
 or to <a href="mailto:dougm@pobox.com">me</a>.  
+</p>
 <p>
+
 If you wish to share you module(s) the Perl way, by putting them on CPAN,
 send a request to <a href="mailto:dougm@pobox.com">me</a> or 
 <a href="mailto:modules@perl.org">modules@perl.org</a> to get set up with a
 PAUSE user id and directory.
-<p>
+</p>
+
 <b>HINT</b>:  For a nice set of template files try this:
 <pre>
 % h2xs -AX -n Apache::YourPackageName
