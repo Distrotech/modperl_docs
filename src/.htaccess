@@ -2,12 +2,50 @@ ErrorDocument 404 /404.html
 
 ### URI remapping ###
 
-RedirectPermanent /guide/ http://perl.apache.org/docs/1.0/guide/
+# Documentation included in the old site.
+Redirect permanent /guide/ http://perl.apache.org/docs/1.0/guide/
+
+# Distributed with mod_perl
+Redirect permanent /src/mod_perl.html http://perl.apache.org/docs/1.0/faqs/mod_perl.html
+Redirect permanent /src/apache-modlist.html http://perl.apache.org/products/apache-modlist.html
+Redirect permanent /src/cgi_to_mod_perl.html http://perl.apache.org/docs/1.0/faqs/cgi_to_mod_perl.html
+Redirect permanent /src/mod_perl_traps.html http://perl.apache.org/docs/1.0/faqs/mod_perl_traps.html
+# (equivalent to those with /src above, but it seems like the dist is kept symlinked in 2 locations)
+Redirect permanent /dist/mod_perl.html http://perl.apache.org/docs/1.0/faqs/mod_perl.html
+Redirect permanent /dist/apache-modlist.html http://perl.apache.org/products/apache-modlist.html
+Redirect permanent /dist/cgi_to_mod_perl.html http://perl.apache.org/docs/1.0/faqs/cgi_to_mod_perl.html
+Redirect permanent /dist/mod_perl_traps.html http://perl.apache.org/docs/1.0/faqs/mod_perl_traps.html
+
+# FAQs
+Redirect permanent /faq/mod_perl_cgi.html http://perl.apache.org/docs/1.0/faqs/mod_perl_cgi.html
+Redirect permanent /mod_perl_cvs.html http://perl.apache.org/docs/1.0/faqs/mod_perl_cvs.html
+Redirect permanent /faq/index.html http://perl.apache.org/docs/1.0/faqs/mod_perl_faq.html
+Redirect permanent /tuning/index.html http://perl.apache.org/docs/1.0/faqs/mod_perl_tuning.html
+Redirect permanent /faq/mod_perl_api.html http://perl.apache.org/docs/1.0/faqs/mod_perl_api.html
+Redirect permanent /features/tmpl-cmp.html http://perl.apache.org/docs/2.0/world/templates/choosing.html
+Redirect permanent /perl_myth.html http://perl.apache.org/docs/1.0/faqs/perl_myth.html
+
+# Win32 docs
+Redirect permanent /win32_binaries.html http://perl.apache.org/docs/1.0/win32/binaries.html
+Redirect permanent /win32_binaries.pod http://perl.apache.org/docs/1.0/win32/binaries.pod
+Redirect permanent /win32_compile.html http://perl.apache.org/docs/1.0/win32/compile.html
+Redirect permanent /win32_compile.pod http://perl.apache.org/docs/1.0/win32/compile.pod
+Redirect permanent /win32_multithread.html http://perl.apache.org/docs/1.0/win32/multithread.html
+Redirect permanent /win32_multithread.pod http://perl.apache.org/docs/1.0/win32/multithread.pod
+
+# E-mail etiquette
+Redirect permanent /email-etiquette.html http://perl.apache.org/maillist/email-etiquette.html
+
+# Jobs
+Redirect permanent /jobs.html http://perl.apache.org/about/jobs.html
+
+# Stats
+Redirect permanent /netcraft/index.html http://perl.apache.org/outstanding/stats/netcraft.html
 
 # embperl
 Redirect permanent /Embperl/ http://perl.apache.org/embperl/
 Redirect permanent /perl/Embperl/ http://perl.apache.org/embperl/
-Redirect permanent /embperl.html http://perl.apache.org//embperl/
+Redirect permanent /embperl.html http://perl.apache.org/embperl/
 
 # ASP
 Redirect permanent /asp http://www.apache-asp.org/
