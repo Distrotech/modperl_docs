@@ -239,7 +239,7 @@ is specified.
 
 C<PerlOptions +SetupEnv> is in effect unless:
 
-  PerlOption -SetupEnv
+  PerlOptions -SetupEnv
 
 is specified.
 
