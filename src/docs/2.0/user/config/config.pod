@@ -203,6 +203,55 @@ META: a dedicated chapter with examples?
 
 
 
+
+=head2 C<=pod>, C<=over> and C<=cut>
+
+It's known that anything written between tokens C<=pod> and C<=cut> is
+ignored by the Perl parser. mod_perl allows you to use the same
+technique to make Apache ignore things in F<httpd.conf> (similar to #
+comments). With an exception to C<=over apache> and C<=over httpd>
+sections which are visible to Apache.
+
+For example the following configuration:
+
+  #file: httpd.conf
+  =pod
+  
+  PerlSetVar A 1
+  
+  =over apache
+  
+  PerlSetVar B 2
+  
+  =back
+  
+  PerlSetVar C 3
+  
+  =cut
+  
+  PerlSetVar D 4
+
+
+Apache will see:
+
+  PerlSetVar B 2
+  PerlSetVar D 4
+
+but not:
+
+  PerlSetVar A 1
+  PerlSetVar C 3
+
+C<=over httpd> is just an alias to C<=over apache>. Remember that
+C<=over> requires a corresponding C<=back>.
+
+
+
+
+
+
+
+
 =head2 C<PerlAddVar>
 
   META: to be written
