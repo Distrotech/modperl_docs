@@ -6,9 +6,15 @@ ErrorDocument 404 /404.html
 Redirect permanent /guide/ http://perl.apache.org/docs/1.0/guide/
 
 # Distributed with mod_perl
+Redirect permanent /src/mod_perl.html http://perl.apache.org/docs/index.html
 Redirect permanent /src/apache-modlist.html http://perl.apache.org/products/apache-modlist.html
+Redirect permanent /src/cgi_to_mod_perl.html http://perl.apache.org/docs/index.html
+Redirect permanent /src/mod_perl_traps.html http://perl.apache.org/docs/index.html
 # (equivalent to those with /src above, but it seems like the dist is kept symlinked in 2 locations)
+Redirect permanent /dist/mod_perl.html http://perl.apache.org/docs/index.html
 Redirect permanent /dist/apache-modlist.html http://perl.apache.org/products/apache-modlist.html
+Redirect permanent /dist/cgi_to_mod_perl.html http://perl.apache.org/docs/index.html
+Redirect permanent /dist/mod_perl_traps.html http://perl.apache.org/docs/index.html
 
 # FAQs
 Redirect permanent /faq/mod_perl_cgi.html http://perl.apache.org/docs/index.html
