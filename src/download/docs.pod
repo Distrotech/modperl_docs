@@ -134,6 +134,106 @@ When writing documentation, please make sure to read the files
 contained in I<admin/> in the CVS tree, especially I<style.pod>, to
 see what guidelines you should follow.
 
+=head1 Mirroring the Site
+
+If you want to mirror the site, it's the easiest to recreate the site
+from scratch on your mirror, rather than using the normal mirroring
+process. This is because the site is quite big and by simply copying
+it you won't get the search working.
+
+If you decided to build the site's mirror by yourself, here is the
+information about how to setup the server configuration and keep it in
+sync with the master site using the crontab jobs:
+
+Make sure to adjust the paths and other details in the following files
+before using them. That includes the URL of the site, the location of
+the source files and the location of the C<swish-e> binary, which you
+need to install if you don't have it already (you need swish-e 2.1 or
+higher).
+
+Here is the I<httpd.conf> configuration section:
+
+  Alias /modperl/ "/usr/local/modperl-docs/dst_html/"
+  <Directory "/usr/local/modperl-docs/dst_html">
+      Options Indexes MultiViews
+      AllowOverride None
+      Order allow,deny
+      Allow from all
+  </Directory>
+  <Directory "/usr/local/modperl-docs/dst_html/search">
+      SetEnv SWISH_BINARY_PATH "/usr/local/bin/swish-e"
+      SetEnv PERL5LIB "/usr/local/modperl-docs/dst_html/search/modules"
+      Options +ExecCGI
+      AddHandler cgi-script cgi
+  </Directory>
+
+Here is the cron script that updates the site (save it as
+I</usr/local/modperl-docs/bin/site_build>):
+
+  #!/usr/bin/perl -w
+  # file: site_build
+  #
+  # this script does different things depending on how it was named (or
+  # a symlink) if the name includes:
+  # force - the whole site is rebuilt
+  # pdf   - builds pdfs
+  # index - builds the index
+  #
+  # the easiest way is to use symlinks to the same script
+  #
+  # by default it only updates the changed files
+  
+  use strict;
+  
+  my $src = "/usr/local/modperl-docs";
+  
+  umask 0002;
+  
+  my $HOME = $ENV{HOME};
+  $ENV{PATH} = "/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/local/bin:/usr/X11R6/bin:$HOME";
+  
+  $ENV{PERL5LIB} = "$HOME/lib/perl5/5.00503:$HOME/lib/perl5/site_perl/5.005:$HOME/lib/perl5/site_perl:$HOME/lib/perl5";
+  
+  $ENV{MODPERL_SITE} = 'http://theoryx5.uwinnipeg.ca/modperl';
+  
+  $ENV{SWISH_BINARY_PATH} = '/usr/local/bin/swish-e';
+  
+  chdir $src;
+  # Do different things depending on our name
+  my($name) = $0 =~ m|([^/]+)$|;
+  
+  my $reindex = $name =~ /index/ ? 1 : 0;
+
+  my $flags = '';
+  $flags .= 'f' if $name =~ /force/;
+  $flags .= 'd' if $name =~ /pdf/;
+  $flags = $flags ? "-$flags" : "";
+  
+  system("cvs up -dP >/dev/null 2>&1");
+  
+  system("bin/build $flags");
+  
+  system("bin/makeindex") if $reindex;
+
+Next, create the symlinks:
+
+  % ln -s /usr/local/modperl-docs/bin/site_build \
+    /usr/local/modperl-docs/bin/site_build_force_pdf_index
+  % ln -s /usr/local/modperl-docs/bin/site_build \
+    /usr/local/modperl-docs/bin/site_build_index
+  % ln -s /usr/local/modperl-docs/bin/site_build \
+    /usr/local/modperl-docs/bin/site_build_pdf_index
+
+And finally install the crontab:
+
+  # every monday rebuild all, including pdf
+  30 05  * * 1 /usr/local/modperl-docs/bin/site_build_force_pdf_index
+  # update all (only changes/no pdf) every 6 hours
+  15 6,12,18 * * * /usr/local/modperl-docs/bin/site_build_index
+  # update all (only changes and pdfs) once a day
+  15 0 * * * /usr/local/modperl-docs/bin/site_build_pdf_index
+
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
