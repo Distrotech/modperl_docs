@@ -215,7 +215,7 @@ results and returns them to the users.  You can get the advantages of
 clustering too.
 
 There are many load balancing techniques. (See L<High-Availability
-Linux Project|guide::download/High_Availability_Linux_Project> for more info.)
+Linux Project|download::third_party/High_Availability_Linux_Project> for more info.)
 
 =item *
 
@@ -395,7 +395,7 @@ server expects to serve pages and how long it takes on average to
 serve one.  Now you can calculate how many server processes you need.
 If you know the maximum size your servers can grow to, you know how
 much memory you need.  If your OS supports L<memory
-sharing|guide::hardware/Sharing_Memory>, you can make best use of this
+sharing|general::hardware/Sharing_Memory>, you can make best use of this
 feature by preloading the modules and scripts at server startup, and
 so you will need less memory than you have calculated.
 

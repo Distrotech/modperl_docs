@@ -166,7 +166,7 @@ numbers greater than 1024.
 Another solution would be to use a setuid startup script, but think
 twice before you go with it, since if users can modify the scripts
 they will get a root access. For more information refer to the section
-"L<SUID Start-up Scripts|guide::control/SUID_Start_up_Scripts>".
+"L<SUID Start-up Scripts|general::control/SUID_Start_up_Scripts>".
 
 =item *
 

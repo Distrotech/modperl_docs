@@ -77,7 +77,7 @@ time investment as possible.
 =head2 Software Requirements
 
 Covered in the section "L<Choosing an Operating
-System|guide::hardware/Choosing_an_Operating_System>".
+System|general::hardware/Choosing_an_Operating_System>".
 
 =head2 Hardware Requirements
 
@@ -134,7 +134,7 @@ a very high hit rate, the resource requirements don't grow linearly
 but exponentially!
 
 More coverage is provided in the section "L<Choosing
-Hardware|guide::hardware/Choosing_Hardware>".
+Hardware|general::hardware/Choosing_Hardware>".
 
 =head1 Essential Tools
 
@@ -337,7 +337,7 @@ sustain.  Here is a result that one might get:
      Errors: total 299 client-timo 299 socket-timo 0 connrefused 0 connreset 0
      Errors: fd-unavail 0 addrunavail 0 ftab-full 0 other 0
 
-L<httperf download|guide::download/httperf____webserver_Benchmarking_tool>
+L<httperf download|download::third_party/httperf____webserver_Benchmarking_tool>
 
 =head4 http_load
 
@@ -380,7 +380,7 @@ complaining:
 
   ./http_load: unknown protocol - 
 
-L<http_load download|guide::download/http_load____another_webserver_Benchmarking_tool>
+L<http_load download|download::third_party/http_load____another_webserver_Benchmarking_tool>
 
 =head4 the crashme Script
 
@@ -4683,7 +4683,7 @@ If you test it in the normal mode--it's possible that some child
 processes would show only one entry or none at all, since they might
 not serve the same requests as the others.  For more hints see the
 section "L<Run the server in single
-mode|guide::control/Running_a_Server_in_Single_Proce>".
+mode|general::control/Running_a_Server_in_Single_Proce>".
 
 =head1 Improving Performance by Prevention
 
@@ -5309,7 +5309,7 @@ information.
 
 If you want to limit number of Apache children that could
 simultaneously be serving the (nearly) same resource, you should take
-a look at the L<C<mod_throttle_access>|guide::download/mod_throttle_access>
+a look at the L<C<mod_throttle_access>|download::third_party/mod_throttle_access>
 module.
 
 It solves the problem of too many concurrent request accessing the

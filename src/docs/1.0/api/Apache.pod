@@ -1029,7 +1029,7 @@ Set to true when the server is starting.
 perl,
 L<Apache::Constants>,
 L<Apache::Registry>,
-L<Apache::Debug>,
+C<Apache::Debug>,
 L<Apache::Options>,
 CGI
 

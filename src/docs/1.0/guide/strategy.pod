@@ -516,7 +516,7 @@ and it's a pretty big issue which will take a book on its own to cover
 and therefore will not be discussed here. There is a plenty of
 information available at the Internet though. For more information see
 L<'High-Availability Linux
-Project'|guide::download/High_Availability_Linux_Project>)
+Project'|download::third_party/High_Availability_Linux_Project>)
 
 =item *
 

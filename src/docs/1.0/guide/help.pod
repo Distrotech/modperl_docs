@@ -10,23 +10,24 @@ discussed here.
 
 =head1 READ ME FIRST
 
-If, after reading this guide and the L<other documents|docs::general::offsite>
-listed on this
-site, you still don't have the answers/information needed, please
-ask for help on the L<mod_perl users mailing list|maillist::list-modperl>.
-But please, first try to browse the
-L<mailing list archive|maillist::list-modperl/Searchable_Archives>.
-Most of the time you will 
-find the answer to your questions by searching the archive, since it is 
-very likely that someone else has already encountered the same problem
-and found a solution for it.  If you ignore this advice, you should not
-be surprised if your question is left unanswered - it bores people to
-answer the same question more than once.  This does not mean that you
-should avoid asking questions, but you should not abuse the available
-help and you should I<RTFM> before you call for I<HELP>.  (Remember the
-fable of the shepherd boy and the wolves).
+If, after reading this guide, the L<general docs|docs::general::index>
+and the L<other documents|docs::offsite::index> listed on this site,
+you still don't have the answers/information needed, please ask for
+help on the L<mod_perl users mailing list|maillist::list-modperl>.
+But please, first try to browse the L<mailing list
+archive|maillist::list-modperl/Searchable_Archives>.  Most of the time
+you will find the answer to your questions by searching the archive,
+since it is very likely that someone else has already encountered the
+same problem and found a solution for it.  If you ignore this advice,
+you should not be surprised if your question is left unanswered - it
+bores people to answer the same question more than once.  This does
+not mean that you should avoid asking questions, but you should not
+abuse the available help and you should I<RTFM> before you call for
+I<HELP>.  (Remember the fable of the shepherd boy and the wolves).
 
-Another possibilty is to look in the general L<Getting Help|help::index> section of this site for a commercial training or consulting company.
+Another possibilty is to look in the general L<Getting
+Help|help::index> section of this site for a commercial training or
+consulting company.
 
 =head1 How to Report Problems
 
@@ -34,8 +35,7 @@ Always send these details:
 
 =over
 
-=item * Anything in the I<error_log> file that looks suspicious and
-possibly related to the problem.
+=item * Anything in the I<error_log> file that looks suspicious and possibly related to the problem.
 
 =item * Output of C<perl -V>
 

@@ -40,7 +40,7 @@ It can be a good idea to tighten up some of your Perl programming
 practices, since mod_perl doesn't tolerate sloppy programming.
 
 This chapter relies on a certain level of Perl knowledge. Please
-read through the L<Perl Reference|guide::perl/Perl_Reference_> chapter and make sure you
+read through the L<Perl Reference|general::perl_reference/Perl_Reference_> chapter and make sure you
 know the material covered there. This will allow me to concentrate on
 pure mod_perl issues and make them more prominent to the experienced
 Perl programmer, which would otherwise be lost in the sea of Perl
@@ -136,7 +136,7 @@ when the script contains a named nested subroutine (a named - as
 opposed to anonymous - subroutine defined inside another subroutine)
 that refers to a lexically scoped variable defined outside this nested
 subroutine.  This effect is explained in L<my() Scoped Variable in
-Nested Subroutines|guide::perl/my_Scoped_Variable_in_Nested_S>.
+Nested Subroutines|general::perl_reference/my_Scoped_Variable_in_Nested_S>.
 
 Do you see a nested named subroutine in my script? I don't!  What's
 going on? Maybe it's a bug? But wait, maybe the perl interpreter sees
@@ -274,7 +274,7 @@ C<run()>.  I don't worry about nested subroutine effects anymore
 (unless I create them myself :).
 
 The section 'L<Remedies for Inner
-Subroutines|guide::perl/Remedies_for_Inner_Subroutines>' discusses 
+Subroutines|general::perl_reference/Remedies_for_Inner_Subroutines>' discusses 
 many other possible workarounds for this problem.
 
 You shouldn't be intimidated by this issue at all, since Perl is your
@@ -358,7 +358,7 @@ server you'll soon run out of disk space if your site is popular.
 
 Of course none of the warnings will be reported if the warning
 mechanism is not turned C<On>. Refer to the section "L<Tracing
-Warnings Reports|guide::perl/Tracing_Warnings_Reports>" to learn about
+Warnings Reports|general::perl_reference/Tracing_Warnings_Reports>" to learn about
 warnings in general and to the "L<Warnings|guide::porting/Warnings>" section
 to learn how to turn them on and off under mod_perl.
 
@@ -483,10 +483,10 @@ An example of such a case would be:
   }
 
 To make sure you don't miss these bugs always test your CGI in
-L<single process mode|guide::control/Running_a_Server_in_Single_Process_Mode>.
+L<single process mode|general::control/Running_a_Server_in_Single_Process_Mode>.
 
 To solve this particular C</o> modifier problem refer to L<Compiled
-Regular Expressions|guide::perl/Compiled_Regular_Expressions>.
+Regular Expressions|general::perl_reference/Compiled_Regular_Expressions>.
 
 =head1 Script's name space
 
@@ -498,7 +498,7 @@ C<Apache::ROOT::perl::test_2epl>.
 =head1 @INC and mod_perl
 
 The basic Perl C<@INC> behaviour is explained in section L<use(), require(),
-do(), %INC and @INC Explained|guide::perl/use_require_do_INC_and>.
+do(), %INC and @INC Explained|general::perl_reference/use_require_do_INC_and>.
 
 When running under mod_perl, once the server is up C<@INC> is frozen
 and cannot be updated.  The only opportunity to I<temporarily> modify
@@ -541,7 +541,7 @@ and load the startup file from the configuration file by:
 =head1 Reloading Modules and Required Files
 
 You might want to read the "L<use(), require(), do(), %INC and @INC
-Explained|guide::perl/use_require_do_INC_and>" before you proceed with this
+Explained|general::perl_reference/use_require_do_INC_and>" before you proceed with this
 section.
 
 When you develop plain CGI scripts, you can just change the code, and
@@ -571,7 +571,7 @@ library modules?  Well, there are a couple of techniques:
 
 The simplest approach is to restart the server each time you apply
 some change to your code.  See L<Server Restarting
-techniques|guide::control/Restarting_Techniques>.
+techniques|general::control/Restarting_Techniques>.
 
 After restarting the server about 100 times, you will tire of it and
 you will look for other solutions.
@@ -731,7 +731,7 @@ and restart the server. Now the problem is solved.
 
 =head3 Availability
 
-This module is available from L<CPAN|guide::download/CPAN_Downloads>. 
+This module is available from L<CPAN|download::third_party/CPAN_Downloads>. 
 
 =head2 Configuration Files: Writing, Dynamically Updating and Reloading
 
@@ -1568,7 +1568,7 @@ do() reloads C<MyTest.pm> on every request.
 =head1 Name collisions with Modules and libs
 
 This section requires an in-depth understanding of L<use(), require(),
-do(), %INC and @INC |guide::perl/use_require_do_INC_and>.
+do(), %INC and @INC |general::perl_reference/use_require_do_INC_and>.
 
 To make things clear before we go into details: each child process has
 its own C<%INC> hash which is used to store information about its
@@ -1694,7 +1694,7 @@ Both scripts call C<use Foo;>. Only the first one called will know
 about C<Foo>. When you call the second script it will not know about
 C<Foo> at all--it's like you've forgotten to write C<use Foo;>. Run
 the server in L<single server
-mode|guide::control/Running_a_Server_in_Single_Proce> to detect this kind of
+mode|general::control/Running_a_Server_in_Single_Proce> to detect this kind of
 bug immediately.
 
 You will see the following in the error_log file:
@@ -2236,7 +2236,7 @@ several requests, global variables persist inside the same process
 from request to request. This means that you must never rely on the
 value of the global variable if it wasn't initialized at the beginning
 of the request processing. See "L<Variables globally, lexically scoped
-and fully qualified|guide::perl/Variables_Globally_Lexically_Sc>" for more
+and fully qualified|general::perl_reference/Variables_Globally_Lexically_Sc>" for more
 info.
 
 You should avoid using global variables unless it's impossible without
@@ -2245,7 +2245,7 @@ have to make certain that all the variables are initialized before
 they are used. Use my() scoped variables wherever you can.
 
 You should be especially careful with L<Perl Special
-Variables|guide::perl/The_Scope_of_the_Special_Perl_Va> which cannot be
+Variables|general::perl_reference/The_Scope_of_the_Special_Perl_Va> which cannot be
 lexically scoped.  You have to use local() instead.
 
 =head1 Generating correct HTTP Headers
@@ -2565,7 +2565,7 @@ You can continue to improve this subroutine even further to handle
 additional headers, such as cookies.
 
 See also L<Correct Headers--A quick guide for mod_perl
-users|guide::correct_headers/>
+users|general::correct_headers/>
 
 =head1 NPH (Non Parsed Headers) scripts
 

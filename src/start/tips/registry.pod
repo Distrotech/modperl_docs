@@ -44,9 +44,8 @@ second with C<Apache::Registry>.
 Apache version 1.3.20</small>
 
 For more information on running CGI scripts under mod_perl please see
-L<CGI to mod_perl FAQ|faqs::cgi_to_mod_perl> and
-L<the CGI to mod_perl Porting section|guide::porting>
-of L<The Guide|guide::index>.
+L<the CGI to mod_perl Porting section|guide::porting> of L<The
+Guide|guide::index>.
 
 =for html
 <a class="more" href="../index.html#registry">&#171&nbsp;back</a>

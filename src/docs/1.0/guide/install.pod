@@ -1886,8 +1886,8 @@ and to disable mod_perl:
 
 =head2 Compiling libapreq (Apache::Request) with the RH 6.0 mod_perl RPM
 
-Libapreq provides the L<Apache::Request|guide::download/Apache__Request>
-module.
+Libapreq provides the
+L<Apache::Request|download::third_party/Apache__Request> module.
 
 Despite many reports of libapreq not working properly with various RPM
 packages, it is possible to integrate libapreq with mod_perl RPMs.  It

@@ -365,7 +365,7 @@ at runtime turn into unique anonymous variables on each scope exit.
 =head2 Additional reading references
 
 For more information see: L<Using global variables and sharing them
-between modules/packages|guide::perl/Using_Global_Variables_and_Shari> and an
+between modules/packages|general::perl_reference/Using_Global_Variables_and_Shari> and an
 article by Mark-Jason Dominus about how Perl handles variables and
 namespaces, and the difference between C<use vars()> and C<my()> -
 http://www.plover.com/~mjd/perl/FAQs/Namespaces.html .
@@ -754,7 +754,7 @@ explained in the previous section.
 First of all there is nothing to worry about, as long as you don't
 forget to turn the warnings On.  If you do happen to have the 
 "L<my() Scoped Variable in Nested 
-Subroutines|guide::perl/my_Scoped_Variable_in_Nested_S>"
+Subroutines|general::perl_reference/my_Scoped_Variable_in_Nested_S>"
 problem, Perl will always alert you.
 
 Given that you have a script that has this problem, what are the ways
@@ -1337,7 +1337,7 @@ sure that the last statement will always return I<TRUE>. That's why
 the suggestion is to put "C<1;>" at the end of file.
 
 Although you should use the real filename for most files, if the file
-is a L<module|guide::perl/Modules__Libraries_and_Program_Files>, you may use the
+is a L<module|general::perl_reference/Modules__Libraries_and_Program_Files>, you may use the
 following convention instead:
 
   require My::Module;
@@ -1404,7 +1404,7 @@ For more information refer to the perlfunc manpage.
 
 use(), just like require(), loads and compiles files containing Perl
 code, but it works with
-L<modules|guide::perl/Modules__Libraries_and_Program_Files> only and
+L<modules|general::perl_reference/Modules__Libraries_and_Program_Files> only and
 is executed at compile time.
 
 The only way to pass a module to load is by its module name and not
@@ -2480,7 +2480,7 @@ much more significant overhead, and this is used in some code
 delivering to thousands of users.
 
 For similar exception handling techniques, see the section "L<Other
-Implementations|guide::perl/Other_Implementations>".
+Implementations|general::perl_reference/Other_Implementations>".
 
 =head2 The My::Exception class in its entirety
 
@@ -2548,7 +2548,7 @@ each module for details:
 =item * Error.pm
 
 Graham Barr's excellent OO styled "try, throw, catch" module (from
-L<CPAN|guide::download/Perl>). This should be considered your best option
+L<CPAN|download::third_party/Perl>). This should be considered your best option
 for structured exception handling because it is well known and well
 supported and used by a lot of other applications.
 

@@ -42,16 +42,16 @@ document.
 
 If the number of hits is significant, you might want to consider what
 cache-friendliness means (you may also want to read
-L<[4]|guide::correct_headers/_4_>) and how you can cooperate with caches to
+L<[4]|general::correct_headers/_4_>) and how you can cooperate with caches to
 increase the performance of your site.  Especially if you use Squid in
 accelerator mode (helpful hints for Squid, see
-L<[1]|guide::correct_headers/_1_>), you will have a strong motivation to
+L<[1]|general::correct_headers/_1_>), you will have a strong motivation to
 cooperate with it.  This document may help you to do it correctly.
 
 =head1 Which Headers
 
-The HTTP standard (v 1.1 is specified in L<[3]|guide::correct_headers/_3_>, v
-1.0 in L<[2]|guide::correct_headers/_2_>) describes lots of headers.  In this
+The HTTP standard (v 1.1 is specified in L<[3]|general::correct_headers/_3_>, v
+1.0 in L<[2]|general::correct_headers/_2_>) describes lots of headers.  In this
 document, we only discuss those headers which are most relevant to
 caching.
 
@@ -123,7 +123,7 @@ this argument first.
   use Date::Parse;
   # Date::Parse parses RCS format, Apache::Util::parsedate doesn't
   $Mtime ||=
-    Date::Parse::str2time(substr q$Date: 2002/05/11 11:36:17 $, 6);
+    Date::Parse::str2time(substr q$Date: 2002/05/11 11:54:45 $, 6);
   $r->set_last_modified($Mtime);
 
 =head3 Expires and Cache-Control
@@ -531,7 +531,7 @@ possibly C<ETag>) header before calling this method.  If the return
 value of this method is anything other than C<OK>, you should return
 that value from your handler and you're done.  Apache handles the rest
 for you.  The following example is taken from
-L<[5]|guide::correct_headers/_5_>:
+L<[5]|general::correct_headers/_5_>:
 
   if((my $rc = $r->meets_conditions) != OK) {
      return $rc;

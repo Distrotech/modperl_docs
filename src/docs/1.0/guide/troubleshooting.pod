@@ -153,12 +153,12 @@ try adding this to I<httpd.conf>:
 =head2 Value of $x will not stay shared at - line 5
 
 L<my() Scoped Variable in Nested 
-Subroutines|guide::perl/my___Scoped_Variable_in_Nested_Subroutines>.
+Subroutines|general::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>.
 
 =head2 Value of $x may be unavailable at - line 5.
 
 L<my() Scoped Variable in Nested 
-Subroutines|guide::perl/my___Scoped_Variable_in_Nested_Subroutines>.
+Subroutines|general::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>.
 
 =head2 Can't locate loadable object for module XXX
 
@@ -246,8 +246,8 @@ Therefore C<$0> is set to I</dev/null> and that's what you see.
 =head2 Preventing mod_perl Processes From Going Wild
 
 See the sections "L<Non-Scheduled Emergency Log
-Rotation|guide::control/Non_Scheduled_Emergency_Log_Rotation>" and "L<All RAM
-Consumed|guide::control/All_RAM_Consumed>"
+Rotation|general::control/Non_Scheduled_Emergency_Log_Rotation>" and "L<All RAM
+Consumed|general::control/All_RAM_Consumed>"
 
 =head2 Segfaults when using XML::Parser
 
@@ -278,7 +278,7 @@ only see the rwrite messages if C<LogLevel> is set to C<debug>.
 
 There was a bug that reported this debug message regardless of the 
 value of the C<LogLevel> directive.  It was fixed in mod_perl 1.19_01 
-(L<CVS version|guide::download/mod_perl>).
+(L<CVS version|download::third_party/mod_perl>).
 
 Generally C<LogLevel> is either C<debug> or C<info>.  C<debug> logs
 everything, C<info> is the next level, which doesn't include debug
@@ -595,13 +595,13 @@ process is hanging in perl_destruct() while trying to cleanup.  This
 cleanup normally isn't a requirement, you can disable it by setting
 the PERL_DESTRUCT_LEVEL environment variable to -1.  See the section
 "L<Speeding up the Apache Termination and
-Restart|guide::control/Speeding_up_the_Apache_Termination_and_Restart>" for 
+Restart|general::control/Speeding_up_the_Apache_Termination_and_Restart>" for 
 more information.
 
 =head2 httpd keeps on growing after each restart
 
 See the I<HUP Signal> explanation at the section:
-L<Server Stopping and Restarting|guide::control/Server_Stopping_and_Restarting>
+L<Server Stopping and Restarting|general::control/Server_Stopping_and_Restarting>
 
 =head1 Windows OS specific notes
 

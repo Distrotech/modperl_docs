@@ -179,15 +179,15 @@ document. This guide tries to cover the most of the
 C<Apache::Registry> and C<Apache::PerlRun> modules. Along with
 mod_perl related topics, there are many more issues related to
 administering Apache servers, debugging scripts, using databases,
-mod_perl related Perl, code snippets and more. The L<Guide's
-Overview|guide::start/> will help you to find your way through the guide.
+mod_perl related Perl, code snippets and more.
 
 It is assumed that you know at least the basics of building and
-installing Perl and Apache. (If you do not, just read the INSTALL documents
-which are part of the distribution of each package.) However, in
-this guide you will find specific Perl and Apache installation and
-configuration notes, which will help you successfully complete the
-mod_perl installation and get the server running in a short time.
+installing Perl and Apache. (If you do not, just read the INSTALL
+documents which are part of the distribution of each package.)
+However, in this guide you will find specific Perl and Apache
+installation and configuration notes, which will help you successfully
+complete the mod_perl installation and get the server running in a
+short time.
 
 If after reading this guide and the other documents listed in
 L<Getting Help and Further Learning|guide::help/> you feel that your

@@ -1402,7 +1402,7 @@ Some people wonder why you need to duplicate the C<use()> clause in
 the startup file and in the script itself. The confusion arises due to
 misunderstanding the C<use()> function. C<use()> normally performs two
 operations, namely C<require()> and C<import()>, called within a
-C<BEGIN> block. See the section "L<use()|guide::perl/use__>" for a detailed
+C<BEGIN> block. See the section "L<use()|general::perl_reference/use__>" for a detailed
 explanation of the use(), require() and import() functions.
 
 In the startup file we don't want to import any symbols since they

@@ -240,7 +240,7 @@ details and eg/perl/ for examples.
 C<Apache::Request> and libapreq are tied tightly to the Apache API,
 to which there is no access in a process running under mod_cgi.
 
-(L<Apache::Request|guide::download/Apache__Request>)
+(L<Apache::Request|download::third_party/Apache__Request>)
 
 =head1 Apache::RequestNotes - Allow Easy, Consistent Access to Cookie and Form Data Across Each Request Phase
 

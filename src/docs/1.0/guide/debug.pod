@@ -1097,7 +1097,7 @@ case, use C<$SIG{ALRM}> to prevent the timeouts:
 
 It was recently discovered that C<local $SIG{'ALRM'}> does not restore
 the original underlying C handler.  This was fixed in mod_perl 1.19_01
-(L<CVS version|guide::download/mod_perl>).  As a matter of fact none of the
+(L<CVS version|download::third_party/mod_perl>).  As a matter of fact none of the
 C<local $SIG{FOO}> signals restores the original C handler - read
 L<Debugging Signal Handlers
 ($SIG{FOO})|guide::debug/Debugging_Signal_Handlers___SIG_FOO__> for a debug
@@ -3036,7 +3036,7 @@ server is down.  It is easy to detect this situation, attempt to
 resolve it and notify the administrator using a simple crontab
 watchdog that requests some very light script periodically.  (See
 L<Monitoring the Server. A
-watchdog.|guide::control/Monitoring_the_Server___A_watchdog_>)
+watchdog.|general::control/Monitoring_the_Server___A_watchdog_>)
 
 In the watchdog you set a timeout appropriate for your service, which
 may be anything from a few seconds to a few minutes.  If the server
@@ -3641,7 +3641,7 @@ If you work with signal handlers you should take a look at the
 C<Sys::Signal> module, which solves the problem:
 
 C<Sys::Signal> - Set signal handlers with restoration of the existing
-C sighandler.  Get it from L<CPAN|guide::download/Perl>.
+C sighandler.  Get it from L<CPAN|download::third_party/Perl>.
 
 The usage is simple.  If the original code was:
 
@@ -3913,7 +3913,7 @@ dumped or not and a function to only dump I<n%> of the transactions.
 
 For more information read the module's manpage.
 
-Download the module from L<CPAN|guide::download/CPAN_Downloads>.
+Download the module from L<CPAN|download::third_party/CPAN_Downloads>.
 
 =head1 Apache::DebugInfo - Log Various Bits Of Per-Request Data
 
