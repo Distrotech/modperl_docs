@@ -1,10 +1,10 @@
 =head1 NAME
 
-CVS Howto
+SVN Howto
 
 =head1 Description
 
-A short description how to use CVS to access the mod_perl and related
+A short description how to use SVN to access the mod_perl and related
 projects source distributions (also applies to the documentation
 project).
 
@@ -21,37 +21,33 @@ It's recommended to subscribe to the L<modperl-cvs|maillist::cvs>
 list, which is the place cvs commit logs and diffs are mailed to; at
 least if you're going to work on the code.
 
-=head1 Anonymous CVS
+=head1 Getting SVN
 
-You can get cvs here: http://www.cvshome.org/
+http://subversion.tigris.org/
 
 =head2 Checking Out
 
-To checkout a fresh copy run the following commands from the directory
-you want the sources to stay in:
+To checkout a fresh copy of modperl-2.0 run the following commands
+from the directory you want the sources to stay in:
 
-  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" login
+  % svn co https://svn.apache.org/repos/asf/perl/modperl/trunk/ mod_perl-2.0
 
-(use the password "anoncvs")
+After svn has finished downloading the files you will find a new
+directory called I<modperl-2.0> in the current working directory. Now
+you need to chdir into that directory:
 
-Next you need to checkout the cvs module you want. e.g. one of
-C<modperl-2.0>, C<modperl-docs> or C<modperl>. For example C<modperl>:
-
-  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" co modperl
-
-After cvs has finished downloading the files you will find a new
-directory called I<modperl> in the current working directory. Now you
-need to chdir into that directory:
-
-  % cd modperl
+  % cd modperl-2.0
 
 before you can start changing things.
+
+
+
 
 =head2 keeping your copy up to date
 
 To keep your local copy in sync with the repository, do
 
-  % cvs update -dP
+  % svn update -dP
 
 in the top directory of the project. You should run update evertime
 before you start working on the project.
@@ -60,12 +56,12 @@ before you start working on the project.
 
 To send a patch, first run:
 
-  % cvs diff -u
+  % svn diff -u
 
 in the top directory of the project. The output of diff will be sent
 to STDOUT, so it might be better to redirect the output to a file:
 
-  % cvs diff -u > patch
+  % svn diff -u > patch
 
 If you added files or directories to the project, do a diff against
 I</dev/null>:
@@ -84,182 +80,83 @@ instead.
 Then send your patch to the maintainer of the project, or the
 appropriate mailing list.
 
-=head2 Useful Default Parameters
 
-Here are some recommended parameters. Save them in I<~/.cvsrc>, so
-you don't have to type them everytime you use cvs.
+=head1 Getting SVN snapshots
 
-  cvs -z9
-  update -dP
-  diff -u
-
-=over
-
-=item *
-
-I<cvs -z9> sets the compression level to 9 (the highest value) to
-speed up downloading.
-
-=item *
-
-I<update -d> automatically creates directories that are missing in
-your local copy because they where added to the repository after your
-initial checkout or your last update.
-
-=item *
-
-I<update -P> automatically deletes empty directories.
-
-=item *
-
-I<diff -u> to use the unified output format so that your changes can
-be easily merged back into the repository.
-
-=back
-
-=head1 cvsup
-
-C<cvsup> has come out of the FreeBSD group. It's a client/server beast
-that offers an efficient way to sync collections of files over the
-net, and it is very CVS aware, allowing synchronisation of
-repositories or checked out files using the cvs deltas to bring the
-client side files up to date with minimal data transfer.
-
-For a FreeBSD cvsup client see
-http://www.freebsd.org/cgi/ports.cgi?query=cvsup&stype=all
-
-Others (SunOS, alpha.osf, linux, Solaris2.4, HPAA 10.2, irix):
-ftp://ftp.postgresql.org/pub/CVSup/
-
-Here's a config file for the client (cvsup) to sync modperl sources.
-
-  *default tag=.
-  # comment out the above if you want the raw cvs files
-  
-  *default host=cvs.apache.org
-  *default prefix=/path/on/this/machine/to/install/
-  # a subdir for modperl will appear here ^^^
-  
-  *default base=/path/on/this/machine/where/cvsup/will/keep/status/info
-  # you'll never need to look in the 'base' dir.
-  
-  *default release=cvs delete use-rel-suffix compress
-  
-  modperl
-  #apache-1.3
-  #apache-docs
-  #modperl-2.0
-  #httpd-2.0
-  #modperl-docs
-  #make your picks above by uncommenting the entries
-
-
-=head1 Getting CVS snapshots
-
-In case you can't get anonymous CVS access to work (or don't want to),
-there is another possibility: at http://cvs.apache.org/snapshots/ ,
-there are snapshots of the interesting CVS repositories you might
-want to download. These snapshots are extracted from CVS every 6
-hours, so might not contain the I<latest> changes, but you'll get
-pretty close. The file names contain the date and time, which you can
-also see in the directory listing. So just grab the latest one by
-date, which will get you the latest version.
+In case you can't get SVN access to work (or don't want to), there is
+another possibility: at http://cvs.apache.org/snapshots/ , there are
+snapshots of the interesting SVN repositories you might want to
+download. These snapshots are extracted from SVN every 6 hours, so
+might not contain the I<latest> changes, but you'll get pretty
+close. The file names contain the date and time, which you can also
+see in the directory listing. So just grab the latest one by date,
+which will get you the latest version.
 
 See the list of interesting repositories
 L<below|/"mod_perl_and_Related_Projects_on_cvs_apache_org"> to find
 out which snapshots you might want to download.
 
-=head1 Inspecting the CVS server with ViewCVS
+=head1 Inspecting the SVN server with ViewCVS
 
-ViewCVS is installed on the Apache CVS server. You can reach it at
-http://cvs.apache.org/viewcvs.cgi/.
+ViewCVS is installed on the Apache SVN server. You can reach it at
+http://svn.apache.org/viewcvs.cgi/.
 
 From there you can browse the list of available projects, look at the
 files contained in those projects, their logs, and do colored diffs
-between versions. This is information you can get from your CVS client
-(through C<cvs log>, C<cvs diff> and friends), but the web interface
+between versions. This is information you can get from your SVN client
+(through C<svn log>, C<svn diff> and friends), but the web interface
 makes it much easier to get a good overview of the different files.
 
-=head1 CVS+SSH access for mod_perl committers
+=head1 SVN access for mod_perl committers
 
-mod_perl committers need to use CVS over SSH. Normal SSH
-authentications mechanisms apply; you can use public key, password,
-etc. Refer to your ssh client's manpage.
+mod_perl committers need to first login to svn.apache.org and run
+svnpasswd command. Then the first time you want to commit you will be
+asked for a password, which is then will be stored in
+~/.subversion. Since all the commits require https:// checkouts, no
+password can be sniffed during the commit when it's sent to the server
+via an encrypted channel.
+
 
 =head2 Getting the Client
 
-If you don't have SSH already installed, you can get it from
-I<http://www.openssh.org/>. If your platform is not supported, this
-site provides pointers to other implementations. For example for
-Windows, you might want to look at C<Putty>,
-http://www.chiark.greenend.org.uk/~sgtatham/putty/, especially the
-C<plink> client which runs from the command line. Also see
-C<http://www.ssh.com/>.
+=head2 Working with SVN
 
-=head2 Setting Up the Environment
-
-Set your C<CVS_RSH> environment variable to C<ssh> (if your SSH
-program has a different name, such as I<plink>, use that instead). For
-example if you are using Bourne-style shell:
-
-  % export CVS_RSH=ssh
-
-You should add this your I<.bashrc> or similar file, so that it's set
-on startup. For Windows, add the line
-
-  set CVS_RSH=ssh
-
-to I<autoexec.bat>, or set the environment variable through the System
-section of the I<Control Panel> on NT systems.
-
-The CVS Root is different when using SSH. It's:
-
-  username@cvs.apache.org:/home/cvs
-
-where I<username> is your username on the I<cvs.apache.org> machine.
-
-=head2 Working with CVS
-
-For example let's say you want to work with the I<modperl-docs> cvs
+For example let's say you want to work with the I<modperl-docs> svn
 repository.
 
 To check out the repository do:
 
-  % cvs -d username@cvs.apache.org:/home/cvs checkout modperl-docs
+  % svn co http://svn.apache.org/repos/asf/perl/modperl/docs/trunk modperl-docs
 
-or the shortcut:
-
-  % cvs -d username@cvs.apache.org:/home/cvs co modperl-docs
-
-If it's a first time you ssh to cvs.apache.org, it will ask if you
-want to allow the host I<cvs.apache.org>. Answer I<yes>. Then you are
+If it's a first time you ssh to svn.apache.org, it will ask if you
+want to allow the host I<svn.apache.org>. Answer I<yes>. Then you are
 asked for your password; type it in. Now you will get a freshly
 checked out copy of the I<modperl-docs> repository.
 
 If you get permission problems, most likely your Unix group wasn't
-adjusted. Contact the person who gave you the cvs access.
+adjusted. Contact the person who gave you the svn access.
 
 To bring your repository's copy up to date, run:
 
-  % cvs update -dP
+  % svn update -dP
 
 or the shortcut:
 
-  % cvs up -dP
+  % svn up -dP
 
 The C<-d> option builds directories (if any were added since last
 update), like checkout does. The C<-P> option prunes empty directories
 if any. You can put these and other handy options into the rc
 file. For example with C<openssh> and C<ssh> clients, this is
-I<~/.cvsrc>. Usually we have the following in this file.
+I<~/.svnrc>. Usually we have the following in this file.
 
-  cvs -z9
+  svn -z9
   update -dP
   diff -u
 
 The first line tells to use the best compression level when
 communicating with the server. The last line will do a unified I<diff>
-when C<cvs diff> is used.
+when C<svn diff> is used.
 
 If you have done some changes, which weren't committed, it's possible
 that while trying to merge the differences the client will report
@@ -272,30 +169,30 @@ Normally, most changes should go through peer review first. It might
 be a good idea to discuss the intricacies of a change on the
 appropriate mailing list before committing anything. Then, to commit:
 
-  % cvs commit filename(s)
+  % svn commit filename(s)
 
 or the shortcut:
 
-  % cvs ci filename(s)
+  % svn ci filename(s)
 
-But first run C<cvs update> to avoid any problems with out of date
+But first run C<svn update> to avoid any problems with out of date
 versions of files. If you get any conflicts because of it, these must
-be changed before doing C<cvs commit>, which will incorporate any
+be changed before doing C<svn commit>, which will incorporate any
 changes into the repository. To commit only a single file, do:
 
-  % cvs commit path/to/file
+  % svn commit path/to/file
 
-If a file or a directory is not under cvs control you have to add it
-to the cvs first and then commit it:
+If a file or a directory is not under svn control you have to add it
+to the svn first and then commit it:
 
-  % cvs add path/to/file
-  % cvs ci path/to/file
+  % svn add path/to/file
+  % svn ci path/to/file
 
-Usually cvs recognizes binary files by their extensions (e.g. images),
-but if you commit a file with some unusual extension tell your cvs
+Usually svn recognizes binary files by their extensions (e.g. images),
+but if you commit a file with some unusual extension tell your svn
 client that it's a binary file with C<-kb> option:
 
-  % cvs add -kb path/to/binary/file
+  % svn add -kb path/to/binary/file
 
 Then, to add it permanently, you will have to commit it.
 
@@ -310,7 +207,7 @@ someone commits anything that doesn't work, the build will fail, and
 might break parts of the site.
 
 To avoid these problems, please make sure to run C<bin/build> on your
-working copy to test I<before> committing. Also, make sure to run C<cvs
+working copy to test I<before> committing. Also, make sure to run C<svn
 update> to check that you have added all files to the repository; it's 
 easy to forget adding the files you have created, and C<bin/build>
 will work fine your side, but will fail for others because of the
@@ -318,18 +215,18 @@ missing files the build depends on.
 
 =head2 Avoiding Typing in the Password
 
-After awhile you will get tired of typing the password for every cvs
+After awhile you will get tired of typing the password for every svn
 operation that you do. You can avoid that using the public key
 authentication and the ssh authentication agent. Refer to your ssh
 client's manpage for more information. For example for the C<openssh>
 and C<ssh> clients, the C<ssh-add> utility can be used to enter the
 password once for your private key and then it'll do the public key
-authentication for you every time you work with cvs over ssh (as long
+authentication for you every time you work with svn over ssh (as long
 as C<ssh-agent> is running). Refer to the relevant manpage for more
 info (I<ssh-agent> in this case).
 
 
-=head1 mod_perl and Related Projects on cvs.apache.org
+=head1 mod_perl and Related Projects on svn.apache.org
 
 =over
 
@@ -367,17 +264,11 @@ submit patches to the documentation.
 
 =back
 
-Or see http://cvs.apache.org/viewcvs.cgi/ for a list of all projects.
+Or see http://svn.apache.org/viewcvs.cgi/ for a list of all projects.
 
 =head1 See also
 
 =over
-
-=item * 
-
-http://httpd.apache.org/dev/anoncvs.txt
-
-For a basic introduction to Anonymous CVS on the Apache CVS server.
 
 =item * 
 
