@@ -38,7 +38,7 @@ META: to be completed
 
 
 
-=head2 C<Apache::server_root>
+=head2 C<Apache::Server::server_root>
 
 returns the value set by the C<ServerRoot> directive.
 
@@ -168,7 +168,7 @@ If C<$fname> is not specified, the value of C<ServerRoot> is returned
 with a trailing C</>. (it's the same as using C<''> as C<$fname>'s
 value).
 
-Also see the C<L<Apache::server_root|/C_Apache__server_root_>>
+Also see the C<L<Apache::Server::server_root|/C_Apache__Server__server_root_>>
 constant.
 
 

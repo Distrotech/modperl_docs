@@ -29,10 +29,10 @@ There are several modules that install constants into the C<Apache::>
 namespace. For example
 C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>> defines a
 constant
-C<L<Apache::server_root|docs::2.0::api::Apache::ServerUtil/C_Apache__server_root_>>:
+C<L<Apache::Server::server_root|docs::2.0::api::Apache::ServerUtil/C_Apache__Server__server_root_>>:
 
   use Apache::ServerUtil;
-  my $server_root = Apache::server_root;
+  my $server_root = Apache::Server::server_root;
 
 To use this functions and methods you need to load the module that
 defines them. If you aren't sure which module contains the symbol you
