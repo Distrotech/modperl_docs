@@ -183,6 +183,16 @@ written filter may ignore the orders to flush the data.
 META: add a link to the notes on how to write well-behaved filters
 at handlers/filters
 
+=head2 Sending HTTP Response Body
+
+In mod_perl 2.0 a response body can be sent only during the response
+phase. Any attempts to do that in the earlier phases will fail with an
+appropriate explanation logged into the I<error_log> file.
+
+This happens due to the Apache 2.0 HTTP architecture specifics. One of
+the issues is that the HTTP response filters are not setup before the
+response phase.
+
 =head1 Perl Specifics in the mod_perl Environment
 
 In the following sections we discuss the specifics of Perl behavior
