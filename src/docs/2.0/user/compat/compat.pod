@@ -90,6 +90,41 @@ writers, though.
 =head2 Apache::File
 
 
+=head1 Miscellaneous
+
+=head2 Method Handlers
+
+In mod_perl 1.x the method handlers could be specified by using the
+C<($$)> prototype:
+
+  package Bird;
+  @ISA = qw(Eagle);
+  
+  sub handler ($$) {
+      my($class, $r) = @_;
+      ...;
+  }
+
+Starting from Perl version 5.6 the subroutine attributes are used in
+place of subroutine prototypes:
+
+  package Bird;
+  @ISA = qw(Eagle);
+  
+  sub handler : method {
+      my($class, $r) = @_;
+      ...;
+  }
+
+see the L<attributes> manpage for additional information on subroutine
+attributes.
+
+mod_perl 2.0 doesn't support the C<($$)> prototypes, mainly because
+several callbacks in 2.0 have more arguments than C<$r>, so the
+C<($$)> prototype doesn't make sense anymore. Therefore if you want
+your code to work with both mod_perl generations, you should use the
+subroutine attributes.
+
 
 =head1 Apache::Registry and Apache::PerlRun and Other mod_cgi Emulators
 
