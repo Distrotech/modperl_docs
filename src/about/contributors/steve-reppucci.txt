@@ -1,6 +1,0 @@
-Name: Steve Reppucci
-Summary: documentation review
-
-Steve did a thorough review of the information in the 1.x user
-guide. He fixed lots of spelling and grammar errors, and made the
-guide readable to English speakers :)
