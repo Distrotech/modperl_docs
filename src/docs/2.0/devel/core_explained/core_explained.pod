@@ -441,7 +441,7 @@ In all other cases use normal functions.
 
 
 
-=head2 Adding Typemaps for new Data Types
+=head2 Adding Typemaps for new C Data Types
 
 Sometimes when a new interface is added it may include C data types
 for which we don't yet have a Perl typemap. In such a case, the first
@@ -501,7 +501,7 @@ I<typemap> file. The second file I<xs/modperl_xs_sv_convert.h>
 generates two macros. The first macro is used to convert from Perl to
 C datatype and equivalent to the I<typemap> file's C<INPUT>
 section. The second macro is used to convert from C to Perl datatype
-and equivalent to the I<typemap>'s <OUTPUT> section.
+and equivalent to the I<typemap>'s C<OUTPUT> section.
 
 Now proceed on adding the glue code for the new interface.
 
