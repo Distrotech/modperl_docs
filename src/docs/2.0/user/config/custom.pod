@@ -301,16 +301,14 @@ C<info()> method exposed by the C<Apache::CmdParms> class.
 
   use Apache::CmdParms ();
 
-  ...
-
   sub Location {
-                                                                                                    
+
     my ($cfg, $parms, $data) = @_;
-                                                                                                    
+
     # see if we were called via LocationMatch
     my $regex = $parms->info;
 
-    ...
+    # continue along
   }
 
 In case you are wondering, C<Location> and C<LocationMatch> were
