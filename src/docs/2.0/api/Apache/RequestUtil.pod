@@ -1070,7 +1070,15 @@ and friends, because the CGI scripts that it reads are considered safe
 
 A reference to a string with the contents
 
-=item since: 1.99_10
+=item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
+
+Possible error codes could be:
+C<L<APR::EACCES|docs::2.0::api::APR::Const/C_APR__EACCES_>>
+(permission problems),
+C<L<APR::ENOENT|docs::2.0::api::APR::Const/C_APR__ENOENT_>> (file not
+found) and others.
+
+=item since: 1.99_22
 
 =back
 
