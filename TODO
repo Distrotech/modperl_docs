@@ -69,6 +69,13 @@ Content:
 
 - src/about/help.pod, should be completed
 
+- how about adding a page: 'link to us', with a selection of a few
+  logos/buttons for people to reuse, including a copy-n-paste-ready
+  HTML fetching the logo. Though we probably want people to copy the
+  images rather than linking to perl.apache.org to fetch the
+  image. Could probably go into About section, which can be split into
+  a few pages, making About a DocSet.
+
 Search:
 -------
 
