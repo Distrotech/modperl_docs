@@ -55,7 +55,7 @@ http://marc.theaimsgroup.com/?l=apache-test-cvs
 
 =item * Mbox file
 
-http://perl.apache.org/mail/test-cvs/ 
+http://perl.apache.org/mail/test-commits/ 
 
 =back
 

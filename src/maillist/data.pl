@@ -281,7 +281,7 @@ DESC
 
 
      ### 
-     'test-cvs' => 
+     'test-commits' => 
      {
       title => 'Apache-Test Development SVN',
       desc  => <<"DESC",
@@ -303,7 +303,7 @@ DESC
                    },
                    {
                     title   => 'Mbox file',
-                    link    => 'http://perl.apache.org/mail/test-cvs/',
+                    link    => 'http://perl.apache.org/mail/test-commits/',
                     comment => '',
                    },
                   ],
