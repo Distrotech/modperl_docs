@@ -12,6 +12,7 @@
     ["${doc.dir.abs_doc_root}/docs/2.0/user/porting/compat.html", 'Migrating to 2.0'],
     ["${doc.dir.abs_doc_root}/docs/1.0/guide/help.html#How_to_Report_Problems", 'Report 1.0 Problems'],
     ["${doc.dir.abs_doc_root}/docs/2.0/user/help/help.html#Reporting_Problems", 'Report 2.0 Problems'],
+    ["${doc.dir.abs_doc_root}/products/apache-modules.html#Porting_CPAN_modules_to_mod_perl_2_0_Status", 'CPAN 2.0 Modules Porting Status'],
   ];  
 -%]
 [%- WRAPPER wrap_box 
