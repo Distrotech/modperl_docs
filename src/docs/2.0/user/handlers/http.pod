@@ -54,7 +54,9 @@ From the diagram it can be seen that an HTTP request is processes by
 =back
 
 It's possible that the cycle will not be completed if any of the
-phases terminates it, usually when an error happens.
+phases terminates it, usually when an error happens. In that case
+Apache skips to the logging phase (mod_perl executes all registered
+C<PerlLogHandler> handlers) and finally the cleanup phase happens.
 
 Notice that when the response handler is reading the input data it can
 be filtered through request input filters, which are preceded by

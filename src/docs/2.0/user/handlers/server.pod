@@ -93,7 +93,7 @@ phases:
       say("process $$ now exits");
       return Apache::OK;
   }
-
+  
   sub say {
       my($caller) = (caller(1))[3] =~ /([^:]+)$/;
       if (defined $log_fh) {
@@ -172,7 +172,8 @@ implementation in the C<MyApache::StartupLog> module in detail.
 The I<open_logs> phase happens just before the I<post_config> phase.
 
 Handlers registered by C<PerlOpenLogsHandler> are usually used for
-opening module-specific log files.
+opening module-specific log files (e.g., httpd core and mod_ssl open
+their log files during this phase).
 
 At this stage the C<STDERR> stream is not yet redirected to
 I<error_log>, and therefore any messages to that stream will be
