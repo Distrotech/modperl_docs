@@ -2193,8 +2193,8 @@ more efficient:
   my $pat = '^foo$';
   my $re  = qr($pat);
   foreach( @list ) {
-      print if /$re/o;
-    }
+      print if /$re/;
+  }
 
 The qr() operator compiles the pattern for each request and then use
 the compiled version in the actual match.
