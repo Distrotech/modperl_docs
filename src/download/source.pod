@@ -159,9 +159,9 @@ http://www.rpmfind.net/linux/rpm2html/search.php?query=mod_perl&submit=Search+..
 
 =back
 
-=head2 mod_perl 2.0 CVS Web Interface
+=head2 mod_perl 2.0 SVN Web Interface
 
-http://cvs.apache.org/viewcvs.cgi/modperl-2.0/
+http://svn.apache.org/viewcvs.cgi/perl/modperl/trunk/
 
 =cut
 
