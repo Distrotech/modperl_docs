@@ -1158,6 +1158,19 @@ standard C<PassEnv> or mod_perl's C<PerlPassEnv> directives.
 
   PerlPassEnv ORACLE_BASE ORACLE_HOME
 
+One thing to be aware of is that when you start Apache under a shell
+different than the one you are logged in from, the environment
+variables could be totally different, so don't be surprised if you get
+a different value when using C<Passenv>/C<PerlPassEnv> or none at
+all. Check the environment Apache is started from. Often it's started
+from a special account like I<apache>, or I<nobody>, and can be
+anything else. Check the value of C<User> variable in I<httpd.conf> to
+find out the right answer. Once you figure that out, make sure that
+the shell Apache starts from has the desired environment variables
+right. And may be it's a better idea not to rely on the shell
+variables, but instead set those explicitly using
+C<Setenv>/C<PerlSetEnv>.
+
 Regarding the setting of C<PerlPassEnv PERL5LIB> in I<httpd.conf>: if
 you turn on taint checks (C<PerlTaintCheck On>), C<$ENV{PERL5LIB}>
 will be ignored (unset).  See the 'L<Switches -w,
@@ -1169,6 +1182,9 @@ doesn't happen until the fixup phase, the latter happens as soon as
 possible, so those variables are available before then, e.g. in
 C<PerlAuthenHandler> for C<$ENV{ORACLE_HOME}> (or another environment
 variable that you need in these early request processing stages).
+
+
+
 
 
 =head2 PerlSetVar and PerlAddVar
