@@ -1,15 +1,15 @@
 =head1 NAME
 
-Mod_perl_faq - frequently asked questions about mod_perl
+Frequently Asked Questions about mod_perl
 
-=head1 DESCRIPTION
+=head1 Description
 
 Mod_perl allows an Apache Web Server to directly execute perl code.  This
 document is designed to answer questions that arise when designing new
 applications, and converting existing applications, to run in the mod_perl
 environment.
 
-=head1 QUESTIONS & ANSWERS
+=head1 Questions & Answers
 
 =head2 What is mod_perl?
 
@@ -47,48 +47,45 @@ http://www.perl.com/CPAN/modules/by-module/Apache/
 
 =item Perl
 
-http://www.perl.com/CPAN/src/latest.tar.gz
-
-Win32 users note: at the time of writing, ActiveState's Perl cannot be
-used with mod_perl, because it is based on an old version of perl
-(perl-5.003_07, build 316).
+http://www.cpan.org/src/latest.tar.gz
 
 =item Apache
 
-http://www.apache.org/dist/
+http://httpd.apache.org/dist/
 
 =back
 
 =head2 How do I install it?
 
 Here is the easiest way to proceed.  Let's assume you have the latest
-version of perl (5.004) installed.  Unpack the Apache and Mod_perl
+version of perl installed.  Unpack the Apache and Mod_perl
 tarballs next to one another under a common directory: e.g.
 
   % cd /usr/local/src
-  % zcat apache_1.2.0.tar.gz | tar xf -
-  % zcat mod_perl-0.98_12.tar.gz | tar xf -
+  % zcat apache_1.3.24.tar.gz | tar xf -
+  % zcat mod_perl-1.26.tar.gz | tar xf -
 
 You probably do not need to change anything in the apache configuration
 before compiling.  Only if you want to enable additional non-standard
-modules do you need to edit apache_1.2.0/src/Configuration.  There is no
+modules do you need to edit apache_1.3.24/src/Configuration.  There is no
 need to set CC, CFLAGS, etc., because mod_perl will override them with the
 values that were used to compile your perl.
 
 Now go to the mod_perl directory and follow the instructions in the
-INSTALL file there.  If "make test" and "make install" are successful, you
-will find the new web server in apache_1.2.0/src/httpd.  Move it to a
+I<INSTALL> file there.  If "make test" and "make install" are successful, you
+will find the new web server in apache_1.3.24/src/httpd.  Move it to a
 suitable location, make sure it has access to the correct configuration
 files, and fire it up.
 
 =head2 What documentation should I read?
 
 The mod_perl documentation in mod_perl.pod.  After you have installed
-mod_perl you can read it with the command: C<perldoc mod_perl>.
+mod_perl you can read it with the command:
+L<perldoc mod_perl|faqs::mod_perl>.
 
 If you are using mod_perl to extend the server functionality, you will
 need to read C<perldoc Apache> and the Apache API notes, which can be
-found in apache_1.2.0/htdocs/manual/misc/API.html.
+found in apache_1.3.24/htdocs/manual/misc/API.html.
 
 Existing (perl-) CGI scripts should run as-is under mod_perl.  There are a
 number of reasons why they may need to be adjusted, and these are
@@ -126,23 +123,24 @@ file.
 You will have to start a new process that runs under a suitable user-id
 (or group-id).  If all requests handled by the script will need the higher
 privileges, you might as well write it as a suid CGI script.  Read the
-documentation about suEXEC in Apache-1.2.
+documentation about suEXEC in Apache-1.3.
 
 Alternatively, pre-process the request with mod_perl and fork a suid
 helper process to handle the privileged part of the task.
 
 =head2 Why is httpd using so much memory?
 
-Read the section on "Memory Consumption" in the mod_perl.pod.
+Read the section on "Memory Consumption" in the
+L<mod_perl.pod|faqs::mod_perl/Memory_Consumption>.
 
 Make sure that your scripts are not leaking memory.  Global variables
-stay around indefinitely, lexical variables (declared with my()) are
+stay around indefinitely, lexical variables (declared with C<my()>) are
 destroyed when they go out of scope, provided there are no references
 to them from outside of that scope.
 
 To get information about the modules that have been loaded and their
-symbol-tables, use the Apache::Status module.  It is enabled by adding
-these lines to a configuration file (e.g. access.conf);
+symbol-tables, use the C<Apache::Status> module.  It is enabled by adding
+these lines to a configuration file (e.g. I<httpd.conf>);
 
   <Location /perl-status>
   SetHandler  perl-script
@@ -165,20 +163,10 @@ the call and the name of the undefined subroutine.
 
 =head2 Do I have to restart the server when I change my Perl code?
 
-Apache::Registry checks the timestamp of scripts that it has loaded
+C<Apache::Registry> checks the timestamp of scripts that it has loaded
 and reloads them if they change.  This does not happen for other
-handlers, unless you program it yourself.  One way to do this is in a
-PerlInitHandler.  If you define
-
-  sub MY::init {
-      delete $INC{"YourModule.pm"};
-      require YourModule;
-  }
-
-as an init handler, it will unconditionally reload YourModule at the
-start of each request, which may be useful while you are developing a
-new module.  It can be made more efficient by storing the timestamp of
-the file in a global variable and only reloading when necessary.
+handlers, unless you program it yourself.  You should look into the module
+C<Apache::StatINC> to do this.
 
 =head2 So how do I use mod_perl in conjunction with ErrorDocument?
 
@@ -268,8 +256,8 @@ The above is tested with mod_perl/0.98 and 0.99
 
 Open questions I could not find documentation for (except RTFS): what
 exactly is PerlSendHeaders and PerlNewSendHeaders. What is the default
-setting for those? How do these cooperate with CGI.pm, Apache.pm,
-Apache::Registry?
+setting for those? How do these cooperate with C<CGI.pm>, C<Apache.pm>,
+C<Apache::Registry>?
 
 =back
 
@@ -336,7 +324,7 @@ in a file that is pulled in by 'require' and both script1 and script2
 require it, you need to be sure that the file containing sub_foo sets
 a package name.  Otherwise, sub_foo gets defined in the namespace that
 is active the first time it is required, and the next require is a
-no-op because that file is already in %INC.
+no-op because that file is already in C<%INC>.
 
 The solution is simple, set up your require'd file something along
 these lines:
@@ -345,7 +333,7 @@ these lines:
 
   sub sub_foo {...}
 
-Now, have scripts call SomeName::sub_foo() instead of sub_foo().
+Now, have scripts call C<SomeName::sub_foo()> instead of C<sub_foo()>.
 
 =head2 What could be causing sporadic errors "in cleanup"?
 
@@ -356,10 +344,10 @@ Some people have seen error messages such as this:
 
 Doug writes:
 
-"I have yet to figure out why, but there have been a few arbitrary
-cases where Perl (in mod_perl) _insists_ on finding and/or calling a
-DESTROY method for an object.  Defining an empty sub DESTROY has been
-the bandaid for these few cases."
+  "I have yet to figure out why, but there have been a few arbitrary
+  cases where Perl (in mod_perl) _insists_ on finding and/or calling a
+  DESTROY method for an object.  Defining an empty sub DESTROY has been
+  the bandaid for these few cases."
 
 If the specific error message gives you a hint about which object is
 causing difficulty, put the C<sub DESTROY { }> in the module that
@@ -373,8 +361,8 @@ There are 2 environment variables you can test.
 
   $ENV{"GATEWAY_INTERFACE"} eq "CGI-Perl/1.1"
 
-The MOD_PERL variable gets set immediately when the perl interpreter
-starts up, whereas GATEWAY_INTERFACE may not be set yet when BEGIN
+The C<MOD_PERL> variable gets set immediately when the perl interpreter
+starts up, whereas C<GATEWAY_INTERFACE> may not be set yet when C<BEGIN>
 blocks are being processed.
 
 =head1 Maintainers
@@ -386,8 +374,11 @@ corrections and patches.
 
 =item *
 
-Frank D. Cringle E<lt>fdc@cliwe.ping.deE<gt> or the L<modperl docs
-list|maillist::list-docs-dev>
+Frank D. Cringle E<lt>fdc@cliwe.ping.deE<gt> 
+
+=item * 
+
+the L<modperl docs list|maillist::list-docs-dev>
 
 =back
 

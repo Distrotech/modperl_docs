@@ -1,8 +1,11 @@
 =head1 NAME
 
-mod_perl_traps - common/known mod_perl traps
+Common/Known mod_perl traps
 
-=head1 DESCRIPTION
+=head1 Description
+
+All the features of mod_perl bring with them some common traps. This
+document tries to tell you what they are and how to avoid them.
 
 In the CGI environment, the server starts a single external process
 (Perl interpreter) per HTTP request which runs single script in that
@@ -35,7 +38,8 @@ are run in a unique namespace based on the requested uri.
 
 =item *
 
-Apache::Registry scripts cannot contain  __END__ or __DATA__ tokens
+C<Apache::Registry> scripts cannot contain  C<__END__> or C<__DATA__>
+tokens.
 
 =item *
 
@@ -44,15 +48,15 @@ not be sent to the browser unless you Perl was configured with sfio.
 
 =item *
 
-Perl's exit() built-in function cannot be used in mod_perl scripts.
-The Apache::exit() function should be used instead.  Apache::exit()
-automatically overrides the built-in exit() for Apache::Registry
-and Apache::PerlRun scripts. 
+Perl's C<exit()> built-in function cannot be used in mod_perl scripts.
+The C<Apache::exit()> function should be used instead.  C<Apache::exit()>
+automatically overrides the built-in C<exit()> for Apache::Registry
+and C<Apache::PerlRun> scripts. 
 
 =item *
 
-Your script *will not* run from the command line if your script makes
-any direct calls to Apache-E<gt>methods.  See Apache::FakeRequest.
+Your script B<will not> run from the command line if your script makes
+any direct calls to C<Apache-E<gt>methods>.  See C<Apache::FakeRequest>.
 
 =back
 
@@ -60,7 +64,7 @@ any direct calls to Apache-E<gt>methods.  See Apache::FakeRequest.
 
 =over 4
 
-=item undefined subroutine &Apache::Registry::handler
+=item undefined subroutine C<&Apache::Registry::handler>
 
 Interaction with certain modules causes the shortcut configuration to
 break, if you see this message change your configuration from this:
@@ -86,13 +90,13 @@ To this:
 
 =item *
 
-CGI.pm users B<must> have version B<2.39> of the package or higher,
+C<CGI.pm> users B<must> have version B<2.39> of the package or higher,
 earlier versions will not work under mod_perl.
 
 =item *
 
 If you use the C<SendHeaders()> function, be sure to call
-$req_obj-E<gt>cgi-E<gt>done when you are done with a request, just as you
+C<$req_obj-E<gt>cgi-E<gt>done> when you are done with a request, just as you
 would under I<CGI::MiniSrv>. 
 
 =back
@@ -105,7 +109,7 @@ would under I<CGI::MiniSrv>.
 =item *
 
 Files pulled in via C<use> or C<require> statements are not
-automatically reloaded when changed on disk.  See the Apache::StatINC 
+automatically reloaded when changed on disk.  See the C<Apache::StatINC> 
 module to add this functionality.
 
 =item Undefined subroutines
@@ -133,17 +137,17 @@ lines:
 
  #required_file.pl
  package Test;
-
+ 
  sub some_function {...}
-
+ 
  ...
-
+ 
  __END__
 
 Now, have your scripts say:
 
  require "required_file.pl";
-
+ 
  Test::some_function();
 
 
@@ -170,17 +174,17 @@ If something goes really wrong with your code, Perl may die with an
 "Out of memory!" message and or "Callback called exit".  A common
 cause of this are never-ending loops, deep recursion or calling an
 undefined subroutine.  Here's one way to catch the problem:
-See Perl's INSTALL document for this item:
+See Perl's I<INSTALL> document for this item:
 
 =item -DPERL_EMERGENCY_SBRK
 
-If PERL_EMERGENCY_SBRK is defined, running out of memory need not be a
+If C<PERL_EMERGENCY_SBRK> is defined, running out of memory need not be a
 fatal error: a memory pool can allocated by assigning to the special
-variable $^M.  See perlvar(1) for more details.
+variable C<$^M>.  See perlvar(1) for more details.
 
-If you compile with that option and add 'use Apache::Debug level =E<gt> 4;'
-to your PerlScript, it will allocate the $^M emergency pool and the
-$SIG{__DIE__} handler will call Carp::confess, giving you a stack
+If you compile with that option and add 'C<use Apache::Debug level =E<gt> 4;>'
+to your PerlScript, it will allocate the C<$^M> emergency pool and the
+C<$SIG{__DIE__}> handler will call C<Carp::confess>, giving you a stack
 trace which should reveal where the problem is.
 
 See the B<Apache::Resource> module for prevention of spinning httpds.
@@ -191,7 +195,7 @@ If you wish to use a module that is normally linked static with your
 Perl, it must be listed in static_ext in Perl's Config.pm to be linked
 with httpd during the mod_perl build.
 
-=item Can't load '$Config{sitearchexp}/auto/Foo/Foo.so' for module Foo...
+=item Can't load 'C<$Config{sitearchexp}/auto/Foo/Foo.so>' for module Foo...
 
 When starting httpd some people have reported seeing an error along
 the lines of:
@@ -203,7 +207,7 @@ the lines of:
  Perl_sv_undef: referenced symbol not found at
  /usr/local/ap/lib/perl5/sun4-solaris/5.00404/DynaLoader.pm line 166. 
 
-Or similar for the IO module or whatever dynamic module mod_perl tries
+Or similar for the C<IO> module or whatever dynamic module mod_perl tries
 to pull in first.  The solution is to re-configure, re-build and
 re-install Perl and dynamic modules with the following flags when
 Configure asks for "additional LD flags":
@@ -220,7 +224,7 @@ Other known causes of this problem:
 
 OS distributions that ship with a (broken) binary Perl installation.
 
-The `perl' program and `libperl.a' library are somehow built with
+The `I<perl>' program and `I<libperl.a>' library are somehow built with
 different binary compatiblity flags.  
 
 The solution to these problems is to rebuild Perl and extension
@@ -230,7 +234,7 @@ override certain attributes:
 
  % ./Configure -des -Dcc=gcc ... && make test && make install
 
-Read Perl's INSTALL doc for more details.
+Read Perl's I<INSTALL> doc for more details.
 
 =back
 
@@ -258,7 +262,7 @@ If C<-lgdbm> or C<-ldb> is before C<-lndbm>, example:
 
  libs='-lnet -lnsl_s -lgdbm -lndbm -ldb -ldld -lm -lc -lndir -lcrypt';
 
-Edit B<Config.pm> and move C<-lgdbm> and C<-ldb> to the end of the
+Edit C<Config.pm> and move C<-lgdbm> and C<-ldb> to the end of the
 list.  Here's how to find B<Config.pm>:
 
  % perl -MConfig -e 'print "$Config{archlibexp}/Config.pm\n"'
@@ -268,7 +272,7 @@ is to remove the DBM and NDBM "emulation" from libgdbm.a.  Seems
 Solaris already provides its own DBM and NDBM, and there's no reason
 to build GDBM with them (for us anyway).
 
-In our Makefile for GDBM, we changed
+In our I<Makefile> for GDBM, we changed
 
   OBJS = $(DBM_OF) $(NDBM_OF) $(GDBM_OF)
 
@@ -276,13 +280,13 @@ to
 
   OBJS = $(GDBM_OF)
 
-Rebuild libgdbm, then Apache/mod_perl.  
+Rebuild I<libgdbm>, then Apache/mod_perl.  
 
 =back
 
-=head1 REGULAR EXPRESSIONS
+=head1 Regular expressions
 
-=head2 COMPILED REGULAR EXPRESSIONS
+=head2 Compiled regular expressions
 
 When using a regular expression that contains an interpolated Perl variable,
 if it is known that the variable (or variables) will not vary during the
@@ -343,7 +347,7 @@ The above code fragment becomes:
 
 The only gotcha is that the dummy match that boots the regular expression
 engine must absolutely, positively succeed, otherwise the pattern will not
-be cached, and the // will match everything. If you can't count on fixed
+be cached, and the C<//> will match everything. If you can't count on fixed
 text to ensure the match succeeds, you have two possibilities.
 
 If you can guaranteee that the pattern variable contains no meta-characters

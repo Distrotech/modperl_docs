@@ -1,8 +1,8 @@
 =head1 NAME
 
-Mod_perl_cgi - running CGI scripts under mod_perl
+Running CGI scripts under mod_perl
 
-=head1 DESCRIPTION
+=head1 Description
 
 This part of the mod_perl FAQ deals with questions surrounding CGI
 scripts.
@@ -37,8 +37,8 @@ but
 
   perl -c /path/to/my/mod_perl/scripts/foo
 
-says it is OK, you have probably used __END__ or __DATA__.  Sorry.
-Mod_perl's Apache::Registry can't deal with that.
+says it is OK, you have probably used C<__END__> or C<__DATA__>.  Sorry.
+Mod_perl's C<Apache::Registry> can't deal with that.
 
 =head1 My CGI script behaves strangely under mod_perl.  Why?
 
@@ -80,7 +80,7 @@ placing a label after the last executable statement and replacing calls to
 C<exit()> with C<goto label;>
 
 See also what mod_perl_traps says about C<Apache::exit()> and the way
-that Apache::Registry causes it to terminate the script but not the
+that C<Apache::Registry> causes it to terminate the script but not the
 httpd child.
 
 There may be exceptional circumstances in which you explicitly want to
@@ -107,7 +107,7 @@ make sure it starts like this:
 It is good for you!  It will make perl point out all variables that you
 have not explicitly declared.  You can then think about whether they need
 to be global or if they can be lexical.  Try to declare things lexically,
-with my().  These variables disappear when the block they are declared in
+with C<my()>.  These variables disappear when the block they are declared in
 ends, so they don't occupy memory when they are not in use and they also
 do not need a run-time symbol table entry.
 
@@ -158,8 +158,8 @@ Mike Guy that is included with this FAQ (mjtg-news.txt).
 =head2 Variables B<still> retain their value from one request to the next
 
 CGI.pm must pull some extra tricks when it is being used via
-Apache::Registry.  Versions of CGI.pm before 2.35 did not know this,
-and Apache::Registry will complain if you try to use an earlier
+C<Apache::Registry>.  Versions of CGI.pm before 2.35 did not know this,
+and C<Apache::Registry> will complain if you try to use an earlier
 version.
 
 CGI.pm detects that it is running under Apache::Registry by looking

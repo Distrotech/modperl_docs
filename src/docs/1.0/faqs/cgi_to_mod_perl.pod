@@ -1,22 +1,25 @@
 =head1 NAME
 
-cgi_to_mod_perl - First steps needed to use mod_perl as a CGI replacement
+First steps needed to use mod_perl as a CGI replacement
 
-=head1 DESCRIPTION
+=head1 Description
 
-As the README and other mod_perl documents explain, mod_perl as
+As the I<README> and other mod_perl documents explain, mod_perl as
 a CGI replacement is only a small piece of what the package offers.
 However, it is the most popular use of mod_perl, this document is here
 so you can cut to the chase.
 
-=head1 INSTALLATION
+META: cgi_to_mod_perl and mod_perl_cgi should probably be integrated into
+one FAQ.
 
-Read the INSTALL document, in most cases, nothing more is required
+=head1 Installation
+
+Read the I<INSTALL> document, in most cases, nothing more is required
 than:
 
  perl Makefile.PL && make && make install
 
-=head1 CONFIGURATION
+=head1 Configuration
 
 For using mod_perl as a CGI replacement, the recommended configuration
 is as follows:
@@ -49,7 +52,7 @@ file extension, use a configuration like so:
 
 Note that `ScriptAlias' does _not_ work for mod_perl.
 
-=head1 PORTING CGI SCRIPTS
+=head1 Porting CGI scripts
 
 =over 4
 
@@ -60,7 +63,7 @@ untouched.  If you're using 5.003, Perl's built-in C<read()> and
 C<print()> functions do not work as they do under CGI.  If you're
 using CGI.pm, use C<$query-E<gt>print> instead of plain 'ol C<print()>.
 
-=item HEADERS
+=item Headers
 
 By default, mod_perl does not send any headers by itself, however, you
 may wish to change this:
@@ -76,7 +79,7 @@ terminating newline, your script must send that itself, e.g.:
 If you're using CGI.pm and 'print $q-E<gt>header' you do
 _not_ need C<PerlSendHeader On>.    
 
-=item NPH SCRIPTS
+=item NPH Scripts
 
 To run a CGI `nph' script under mod_perl, simply add to your code:
 
@@ -88,7 +91,7 @@ If you normally set B<PerlSendHeader On>, add this to your httpd.conf:
  PerlSendHeader Off
  </Files>
 
-=item PROGRAMMING PRACTICE
+=item Programming Practice
 
 CGI lets you get away with sloppy programming, mod_perl does not.
 Why?  CGI scripts have the lifetime of a single HTTP request as a
@@ -105,17 +108,17 @@ not required, it B<strongly> recommended, it will save you more time
 in the long run.  And, of course, clean scripts will still run under
 CGI! 
 
-=item TRAPS
+=item Traps
 
 See L<common/known mod_perl traps|faqs::mod_perl_traps>.
 
 =back
 
-=head1 REPORTING PROBLEMS
+=head1 Reporting problems
 
 Read the I<SUPPORT> file.
 
-=head1 SEE ALSO
+=head1 See Also
 
 Apache::PerlRun(3)
 

@@ -1,41 +1,42 @@
 =head1 NAME 
 
-mod_perl_method_handlers - How to use mod_perl's MethodHandlers 
+How to use mod_perl's MethodHandlers 
 
-=head1 DESCRIPTION
+=head1 Description
 
 Described here are a few examples and hints how to use MethodHandlers
-with modperl.
+with mod_perl.
 
 This document assumes familiarity with at least the I<perltoot>
-manpage and "normal" usage of the Perl*Handlers.
+manpage and "normal" usage of the C<Perl*Handlers>.
 
-It isn't strictly modperl related, more like "what I use objects for
-in my modperl environment".
+It isn't strictly mod_perl related, more like "what I use objects for
+in my mod_perl environment".
 
-=head1 SYNOPSIS
+=head1 Synopsis
 
-If a Perl*Handler is prototyped with '$$', this handler will be
+If a B<Perl*Handler> is prototyped with 'C<$$>', this handler will be
 invoked as method, being passed a class name or blessed object as its
 first argument and the blessed I<request_rec> as the second argument,
 e.g.
 
  package My;
  @ISA = qw(BaseClass);
-
+ 
  sub handler ($$) {
      my($class, $r) = @_;
      ...;
  }
-
+ 
  package BaseClass;
-
+ 
  sub method ($$) {
      my($class, $r) = @_;
      ...;
  }
-
+ 
  __END__
+
 
 Configuration:
 
@@ -50,13 +51,13 @@ classes:
 
  PerlHandler My->method
 
-In this case, the 'My' class inherits this method from 'BaseClass'.
+In this case, the 'C<My>' class inherits this method from 'C<BaseClass>'.
 
 To build in this feature, configure with:
 
  % perl Makefile.PL PERL_METHOD_HANDLERS=1 [PERL_FOO_HOOK=1,etc]
 
-=head1 WHY?
+=head1 Why?
 
 The short version: For pretty much the same reasons we're using OO
 perl everywhere else. :-) See the I<perltoot> manpage.
@@ -64,7 +65,7 @@ perl everywhere else. :-) See the I<perltoot> manpage.
 The slightly longer version would include some about code reusage and
 more clean interface between modules.
 
-=head1 SIMPLE EXAMPLE
+=head1 Simple example
 
 Let's start with a simple example.
 
@@ -92,14 +93,14 @@ which displays:
 
  This::Class=HASH(0x8411edc) isa This::Class
 
-=head1 A LITTLE MORE ADVANCED
+=head1 A little more advanced
 
 That wasn't really useful, so let's try something little more advanced.
 
 I've a little module which creates a graphical 'datebar' for a client.
-(See C<http://www.hip.dk/date_bar>). It's reading a lot of small gifs 
-with numbers and weekdays, and keeping them in memory in GD.pm's native 
-format, ready to be copied together and served as gifs.
+It's reading a lot of small gifs with numbers and weekdays, and keeping
+them in memory in GD.pm's native format, ready to be copied together and
+served as gifs.
 
 Now I wanted to use it at another site too, but with a different
 look. Obviously something to do with a object. Hence I changed the
@@ -117,7 +118,7 @@ module to a object, and can now do a
 	 -elements  => 'wday hour min',
  );
 
-And then use $Client1::Datebar and $Client2::Datebar as PerlHandlers in my
+And then use C<$Client1::Datebar> and C<$Client2::Datebar> as PerlHandlers in my
 Apache configuration. Remember to pass them in literal quotes ('') and not
 "" which will be interpolated!
 
@@ -146,7 +147,7 @@ my embperl documents, like:
 
 Very very useful!
 
-=head1 TRAPS
+=head1 Traps
 
 mod_perl expects object handlers to be in the form of a string, which it
 will thaw for you. That means that something like 
@@ -166,7 +167,7 @@ yourself, like this:
      }
  );
 
-=head1 AUTHOR
+=head1 Author
 
 This document is written by Ask Bjoern Hansen E<lt>ask@netcetera.dkE<gt> or
 E<lt>ask@apache.orgE<gt>.  Corrections and suggestions are most
@@ -176,9 +177,9 @@ for public release.
 
 Some codesnippets is from Doug MacEachern.
 
-=head1 SEE ALSO
+=head1 See Also
 
-The L<faqs::mod_perl>, the I<Apache>, the I<perltoot> manpages (also
+The L<mod_per|faqs::mod_perl>, the I<Apache>, the I<perltoot> manpages (also
 available at C<http://www.perl.com/CPAN/doc/FMTEYEWTK/perltoot.html>)
 
 =head1 Maintainers
@@ -200,7 +201,8 @@ L<modperl docs list|maillist::list-docs-dev>
 
 =item *
 
-Doug MacEachern
+Ask Bjoern Hansen, E<lt>ask (at) netcetera.dkE<gt> or E<lt>ask (at)
+apache.orgE<gt>.
 
 =back
 

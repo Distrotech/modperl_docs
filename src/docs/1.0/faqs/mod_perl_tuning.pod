@@ -1,8 +1,8 @@
 =head1 NAME
 
-mod_perl_tuning - mod_perl performance tuning
+mod_perl performance tuning
 
-=head1 DESCRIPTION
+=head1 Description
 
 Described here are examples and hints on how to configure a mod_perl
 enabled Apache server, concentrating on tips for configuration for
@@ -22,16 +22,16 @@ setting up and running servers for handling large promotional sites,
 such as The Weather Channel's "Blimp Site-ings" game, the MSIE 4.0
 "Subscribe to Win" game, and the MSN Million Dollar Madness game.
 
-=head1 BASIC CONFIGURATION
+=head1 Basic Configuration
 
 The basic configuration for mod_perl is as follows.  In the
 F<httpd.conf> file, I add configuration parameters to make the
 C<http://www.example.com/programs> URL be the base location for all
 mod_perl programs.  Thus, access to
 C<http://www.example.com/programs/printenv> will run the printenv
-script, as we'll see below.  Also, any *.perl file will be interpreted
+script, as we'll see below.  Also, any I<*.perl> file will be interpreted
 as a mod_perl program just as if it were in the programs directory,
-and *.rperl will be mod_perl, but I<without> any HTTP headers
+and I<*.rperl> will be mod_perl, but I<without> any HTTP headers
 automatically sent; you must do this explicitly.  If you don't want
 these last two, just leave it out of your configuration.
 
@@ -158,7 +158,7 @@ F<programs> directory to test the functionality of the configuration.
 When you run this, check the value of the GATEWAY_INTERFACE variable
 to see that you are indeed running mod_perl.
 
-=head1 REDUCING MEMORY USE
+=head1 Reducing Memory Use
 
 As a side effect of using mod_perl, your HTTPD processes will be
 larger than without it.  There is just no way around it, as you have
@@ -196,7 +196,7 @@ C<kill -HUP> or C<kill -USR1> will not reload that code unless you
 have set the C<PerlFreshRestart> configuration parameter in
 F<httpd.conf> to be "On".
 
-=head1 REDUCING THE NUMBER OF LARGE PROCESSES
+=head1 Reducing the Number of Large Processes
 
 Unfortunately, simply reducing the size of each HTTPD process is not
 enough on a very busy site.  You also need to reduce the quantity of
@@ -224,7 +224,7 @@ content rather than mod_perl programs.  Log file analysis become a bit
 of a challenge when you have multiple servers running on the same
 host, since you must log to different files.
 
-=head2 TWO MACHINES
+=head2 Two Machines
 
 The simplest way is to put all static content on one machine, and all
 mod_perl programs on another.  The only trick is to make sure all
@@ -237,7 +237,7 @@ other machine.
 The drawback is that you must maintain two machines, and this can get
 expensive.  For extremely large projects, this is the best way to go.
 
-=head2 TWO IP ADDRESSES
+=head2 Two IP Addresses
 
 Similar to above, but one HTTPD runs bound to one IP address, while
 the other runs bound to another IP address.  The only difference is
@@ -250,7 +250,7 @@ This is accomplished using the F<httpd.conf> directive C<BindAddress>
 to make each HTTPD respond only to one IP address on this host.  One
 will have mod_perl enabled, and the other will not.
 
-=head2 TWO PORT NUMBERS
+=head2 Two Port Numbers
 
 If you cannot get two IP addresses, you can also split the HTTPD
 processes as above by putting one on the standard port 80, and the
@@ -269,7 +269,7 @@ HTTPD server be mod_perl enabled as well.
 
 Thanks to Gerd Knops for this idea.
 
-=head2 USING ProxyPass WITH TWO SERVERS
+=head2 Using ProxyPass with two servers
 
 To overcome the limitation of the alternate port above, you can use
 dual Apache HTTPD servers with just slight difference in
@@ -284,21 +284,21 @@ only the directory F<programs> within its DocumentRoot.  This assumes
 that you have included the mod_proxy module in your server when it was
 built.
 
-Now, when you access http://www.example.com/programs/printenv it will
+Now, when you access I<http://www.example.com/programs/printenv> it will
 internally be passed through to your HTTPD running on port 8042 as the
-URL http://localhost:8042/programs/printenv and the result relayed
+URL I<http://localhost:8042/programs/printenv> and the result relayed
 back transparently.  To the client, it all seems as if it is just one
 server running.  This can also be used on the dual-host version to
 hide the second server from view if desired.
 
-=begin html
-<P>
+=for html
+<p>
 A complete configuration example of this technique is provided by
 two HTTPD configuration files.
-<A HREF="httpd.conf.txt">httpd.conf</A> is for the main server for all
-regular pages, and <A HREF="httpd%2bperl.conf.txt">httpd+perl.conf</A> is
-for the mod_perl programs accessed in the <CODE>/programs</CODE> URL.
-</P>
+<a href="httpd.conf.txt">httpd.conf</a> is for the main server for all
+regular pages, and <a href="httpd%2bperl.conf.txt">httpd+perl.conf</a> is
+for the mod_perl programs accessed in the <code>/programs</code> URL.
+</p>
 
 The directory structure assumes that F</var/www/documents> is the
 C<DocumentRoot> directory, and the the mod_perl programs are in
@@ -308,15 +308,14 @@ follows:
  daemon httpd
  daemon httpd -f conf/httpd+perl.conf
 
-=end html
 
 Thanks to Bowen Dwelle for this idea.
 
-=head2 SQUID ACCELERATOR
+=head2 Squid Accelerator
 
 Another approach to reducing the number of large HTTPD processes on
 one machine is to use an accelerator such as Squid (which can be found
-at http://squid.nlanr.net/Squid/ on the web) between the clients and
+at http://www.squid-cache.org/ on the web) between the clients and
 your large mod_perl HTTPD processes.  The idea here is that squid will
 handle the static objects from its cache while the HTTPD processes
 will handle mostly just the mod_perl requests once the cache is
@@ -384,7 +383,7 @@ Bjørn Hansen's mod_proxy_add_forward module from
 ftp://ftp.netcetera.dk/pub/apache/ to make it insert the
 C<X-Forwarded-For> header.
 
-=head1 SUMMARY
+=head1 Summary
 
 To gain maximal performance of mod_perl on a busy site, one must
 reduce the amount of resources used by the HTTPD to fit within what

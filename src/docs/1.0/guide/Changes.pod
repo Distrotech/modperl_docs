@@ -1,6 +1,6 @@
 =head1 NAME
 
-CHANGES
+Changes
 
 =head1 Description
 

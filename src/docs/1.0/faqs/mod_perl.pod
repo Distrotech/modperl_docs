@@ -3,7 +3,7 @@
 mod_perl - Embed a Perl interpreter in the Apache HTTP server 
 
 
-=head1 DESCRIPTION
+=head1 Description
 
 The Apache/Perl integration project brings together the full power of
 the Perl programming language and the Apache HTTP server.  This is
@@ -17,14 +17,14 @@ avoids the overhead of starting an external interpreter and the
 penalty of Perl start-up (compile) time.  
 
 Without question, the most popular Apache/Perl module is
-Apache::Registry module.  This module emulates the CGI environment,
+C<Apache::Registry> module.  This module emulates the CGI environment,
 allowing programmers to write scripts that run under CGI or
 mod_perl without change.  Existing CGI scripts may require some
 changes, simply because a CGI script has a very short lifetime of one
 HTTP request, allowing you to get away with "quick and dirty"
-scripting.  Using mod_perl and Apache::Registry requires you to be
+scripting.  Using mod_perl and C<Apache::Registry> requires you to be
 more careful, but it also gives new meaning to the work "quick"!
-Apache::Registry maintains a cache of compiled scripts, which happens
+C<Apache::Registry> maintains a cache of compiled scripts, which happens
 the first time a script is accessed by a child server or once again if
 the file is updated on disk.
 
@@ -37,16 +37,18 @@ type check, fixup and logger stages of a request.
 =head1 FAQ
 
 The mod_perl FAQ is maintained by Frank Cringle
-E<lt>fdc@cliwe.ping.deE<gt>: http://perl.apache.org/faq/
+E<lt>fdc (at) cliwe.ping.deE<gt>: L<Frequently Asked Questions about
+mod_perl|faqs::mod_perl_faq>.
 
 =head1 Apache/Perl API
 
-See 'perldoc Apache' for info on how to use the Perl-Apache API.
+See 'C<perldoc Apache>' for info on how to use the Perl-Apache API.
 
 See the I<lib/> directory for example modules and
-L<products::apache-modlist> for a comprehensive list.
+L<The Apache/Perl module list|products::apache-modlist> for a
+comprehensive list.
 
-See the eg/ directory for example scripts.
+See the I<eg/> directory for example scripts.
 
 =head1 mod_perl
 
@@ -74,29 +76,29 @@ In an httpd.conf E<lt>Location /fooE<gt> or .htaccess you need:
 
     PerlHandler sub_routine_name
 
-This is the name of the subroutine to call to handle each request. 
-e.g. 
-in the PerlModule Apache::Registry this is "Apache::Registry::handler".
+This is the name of the subroutine to call to handle each request.
+e.g. in C<PerlModule Apache::Registry> this is
+C<Apache::Registry::handler>.
 
 If PerlHandler is not a defined subroutine, mod_perl assumes it is a
 package name which defines a subroutine named "handler".
 
     PerlHandler   Apache::Registry
 
-Would load Registry.pm (if it is not already) and call it's subroutine
-"handler".
+Would load I<Registry.pm> (if it is not already) and call its
+subroutine C<handler>.
 
 There are several stages of a request where the Apache API allows a
 module to step in and do something.  The Apache documentation will
 tell you all about those stages and what your modules can do.  
-By default, these hooks are disabled at compile time, see the INSTALL
+By default, these hooks are disabled at compile time, see the I<INSTALL>
 document for information on enabling these hooks.
 The following configuration directives take one argument, which is the name
 of the subroutine to call.  If the value is not a subroutine name, mod_perl
 assumes it is a package name which implements a 'handler' subroutine.
 
-    PerlChildInitHandler          (requires apache_1.3.0 or higher)
-    PerlPostReadRequestHandler    (requires apache_1.3.0 or higher)
+    PerlChildInitHandler          (requires Apache 1.3.0 or higher)
+    PerlPostReadRequestHandler    (requires Apache 1.3.0 or higher)
     PerlInitHandler
     PerlTransHandler    
     PerlHeaderParserHandler       
@@ -108,24 +110,24 @@ assumes it is a package name which implements a 'handler' subroutine.
     PerlHandler
     PerlLogHandler
     PerlCleanupHandler
-    PerlChildExitHandler          (requires apache_1.3.0 or higher)
+    PerlChildExitHandler          (requires Apache 1.3.0 or higher)
 
 Only ChildInit, ChildExit, PostReadRequest and Trans handlers are not
 allowed in .htaccess files.
 
 Modules can check if the code is being run in the parent server during
-startup by checking the $Apache::Server::Starting variable.
+startup by checking the C<$Apache::Server::Starting> variable.
 
-=head1 RESTARTING
+=head1 Restarting
 
 =over 4
 
 =item PerlFreshRestart
 
 By default, if a server is restarted 
-(ala kill -USR1 `cat logs/httpd.pid`), Perl scripts and modules are
+(ala C<kill -USR1 `cat logs/httpd.pid`>), Perl scripts and modules are
 not reloaded.  To reload B<PerlRequire>'s, B<PerlModule>'s, other
-use()'d modules and flush the B<Apache::Registry> cache, enable with 
+C<use()>'d modules and flush the B<Apache::Registry> cache, enable with 
 this command:
 
  PerlFreshRestart On  
@@ -133,7 +135,7 @@ this command:
 =item PERL_DESTRUCT_LEVEL
 
 With Apache versions 1.3.0 and higher, mod_perl will call the
-perl_destruct() Perl API function during the child exit phase.
+C<perl_destruct()> Perl API function during the child exit phase.
 This will cause proper execution of B<END> blocks found during server
 startup along with invoking the B<DESTROY> method on global objects
 who are still alive.  It is possible that this operation may take a
@@ -144,7 +146,7 @@ setting the I<PERL_DESTRUCT_LEVEL> environment variable to C<-1>.
 
 =back
 
-=head1 ENVIRONMENT
+=head1 Environment
 
 Under CGI the Perl hash C<%ENV> is magical in that it inherits
 environment variables from the parent process and will set them should
@@ -166,7 +168,7 @@ existing environment variable to Perl's C<%ENV>:
 
 =over 4
 
-=item CONFIGURATION
+=item Configuration
 
 The C<PerlSetVar> and C<PerlAddVar> directives provide a simple
 mechanism for passing information from configuration files to Perl
@@ -234,19 +236,56 @@ code.
 
 Modules and files pulled in via require/use which contain C<BEGIN>
 blocks will be executed:
-  - only once, if pulled in by the parent process
-  - once per-child process if not pulled in by the parent process
-  - an additional time, once per-child process if the module is pulled in off of disk again via Apache::StatINC
-  - an additional time, in the parent process on each restart if PerlFreshRestart is On
-  - unpredictable if you fiddle with C<%INC> yourself
+
+=over
+
+=item *
+
+only once, if pulled in by the parent process
+
+=item *
+
+once per-child process if not pulled in by the parent process
+
+=item *
+
+an additional time, once per-child process if the module is pulled in off
+of disk again via C<Apache::StatINC>
+
+=item *
+
+an additional time, in the parent process on each restart if
+I<PerlFreshRestart> is I<On>
+
+=item *
+
+unpredictable if you fiddle with C<%INC> yourself
+
+=back
 
 B<Apache::Registry> scripts which contain C<BEGIN> blocks will be
 executed: 
-  - only once, if pulled in by the parent process via B<Apache::RegistryLoader>
-  - once per-child process if not pulled in by the parent process
-  - an additional time, once per-child process if the script file has changed on disk
-  - an additional time, in the parent process on each restart if pulled in by the
-    parent process via B<Apache::RegistryLoader> and PerlFreshRestart is On
+
+=over
+
+=item *
+
+only once, if pulled in by the parent process via B<Apache::RegistryLoader>
+
+=item *
+
+once per-child process if not pulled in by the parent process
+
+=item *
+
+an additional time, once per-child process if the script file has changed on disk
+
+=item *
+
+an additional time, in the parent process on each restart if pulled in by the
+parent process via B<Apache::RegistryLoader> and PerlFreshRestart is On
+
+=back
 
 =head1 END blocks
 
@@ -272,9 +311,9 @@ running and called during C<child_exit> when the process is shutting down.
 Module authors may be wish to use C<$r-E<gt>register_cleanup> as an
 alternative to C<END> blocks if this behavior is not desirable. 
 
-=head1 MEMORY CONSUMPTION
+=head1 Memory consumption
 
-Don't be alarmed by the size of your httpd after you've linked with
+Don't be alarmed by the size of your I<httpd> after you've linked with
 mod_perl.  No matter what, your httpd will be larger than normal to start, 
 simply because you've linked with perl's runtime.
 
@@ -291,28 +330,28 @@ Now with a few random modules:
 
  10545 dougm     49    0  3732K 3340K run     0:05 54.59% 21.48% perl
 
-Here's my httpd linked with libperl.a, not having served a single request:
+Here's my I<httpd> linked with I<libperl.a>, not having served a single request:
 
  10386 dougm      5    0  1032K  324K sleep   0:00  0.12%  0.11% httpd-a
 
 You can reduce this if you configure perl 5.004+ with -Duseshrplib.
-Here's my httpd linked with libperl.sl, not having served a single request:
+Here's my I<httpd> linked with I<libperl.sl>, not having served a single request:
 
  10393 dougm      5    0   476K  368K sleep   0:00  0.12%  0.10% httpd-s
 
 Now, once the server starts receiving requests, the embedded
-interpreter will compile code for each 'require' file it has not seen
-yet, each new Apache::Registry subroutine that's compiled, along with
+interpreter will compile code for each 'C<require>' file it has not seen
+yet, each new B<Apache::Registry> subroutine that's compiled, along with
 whatever modules it's use'ing or require'ing.  Not to mention
-AUTOLOADing.  (Modules that you 'use' will be compiled when the server
-starts unless they are inside an eval block.)  httpd will grow just as
-big as our /usr/bin/perl would, or a CGI process for that matter, it
+AUTOLOADing.  (Modules that you 'C<use>' will be compiled when the server
+starts unless they are inside an eval block.)  I<httpd> will grow just as
+big as our I</usr/bin/perl> would, or a CGI process for that matter, it
 all depends on your setup.  The L<mod_perl
 tuning|faqs::mod_perl_tuning> document gives advice on how to best
 setup your mod_perl server environment.
 
-The mod_perl INSTALL document explains how to build the Apache::
-extensions as shared libraries (with 'perl Makefile.PL DYNAMIC=1').
+The mod_perl I<INSTALL> document explains how to build the C<Apache::>
+extensions as shared libraries (with 'C<perl Makefile.PL DYNAMIC=1>').
 This may save you some memory, however, it doesn't work on a few
 systems such as aix and unixware.
 
@@ -322,7 +361,7 @@ take up less real memory and preform faster than shared libraries at
 the same time.  See the L<mod_perl tuning|faqs::mod_perl_tuning>
 document for details.
 
-=head2 MEMORY TIPS
+=head2 Memory tips
 
 =over 4
 
@@ -335,14 +374,14 @@ your best bet to keep the size down.
 =item Perl Options
 
 Newer Perl versions also have other options to reduce runtime memory
-consumption.  See Perl's INSTALL file for details on C<-DPACK_MALLOC>
+consumption.  See Perl's I<INSTALL> file for details on C<-DPACK_MALLOC>
 and C<-DTWO_POT_OPTIMIZE>.  With these options, my httpd shrinks down
 ~150K. 
 
 =item Server Startup
 
 Use the B<PerlRequire> and B<PerlModule> directives to load commonly
-used modules such as CGI.pm, DBI, etc., when the server is started.
+used modules such as C<CGI.pm>, C<DBI>, etc., when the server is started.
 On most systems, server children will be able to share this space.
 
 =item Importing Functions
@@ -350,15 +389,15 @@ On most systems, server children will be able to share this space.
 When possible, avoid importing of a module functions into your
 namespace.  The aliases which are created can take up quite a bit of
 space.  Try to use method interfaces and fully qualified
-Package::function names instead.
-Here's a freshly started httpd who's served one request for a script
-using the CGI.pm method interface:
+C<Package::function> names instead.  Here's a freshly started httpd
+who's served one request for a script using the C<CGI.pm> method
+interface:
 
  TTY   PID USERNAME  PRI NI   SIZE   RES  STATE   TIME %WCPU  %CPU COMMAND
    p4  5016 dougm     154 20  3808K  2636K sleep   0:01  9.62  4.07 httpd
 
 Here's a freshly started httpd who's served one request for the same
-script using the CGI.pm function interface:
+script using the C<CGI.pm> function interface:
 
  TTY   PID USERNAME  PRI NI   SIZE   RES  STATE   TIME %WCPU  %CPU COMMAND
    p4  5036 dougm     154 20  3900K  2708K sleep   0:01  3.19  2.18 httpd
@@ -371,7 +410,7 @@ running.  It adds up!
 
 It's always a good idea to stay away from global variables when
 possible.  Some variables must be global so Perl can see them, such as
-a module's B<@ISA> or B<$VERSION> variables.  In common practice, a
+a module's C<@ISA> or C<$VERSION> variables.  In common practice, a
 combination of C<use strict> and C<use vars> keeps modules clean and
 reduces a bit of noise.  However, B<use vars> also creates aliases as
 the B<Exporter> does, which eat up more space.  When possible, try to
@@ -392,16 +431,16 @@ vs.
 
 =item Further Reading
 
-In case I forgot to mention, read Vivek Khera's L<mod_perl
+In case I forgot to mention it, read Vivek Khera's L<mod_perl
 tuning|faqs::mod_perl_tuning> document for more tips on improving
 Apache/mod_perl performance.
 
 =back
 
-=head1 SWITCHES
+=head1 Switches
 
 Normally when you run perl from the command line or have the shell
-invoke it with `#!', you may choose to pass perl switch arguments such
+invoke it with C<`#!'>, you may choose to pass perl switch arguments such
 as C<-w> or C<-T>.  Since the command line is only parsed once, when
 the server starts, these switches are unavailable to mod_perl scripts.
 However, most command line arguments have a perl special variable
@@ -424,9 +463,9 @@ The environment variable B<PERL5OPT> can be used to set additional
 perl startup flags such as B<-d> and B<-D>.  See the I<perlrun>
 manpage.
 
-=head1 PERSISTENT DATABASE CONNECTIONS
+=head1 Persistent Database Connections
 
-Another popular use of mod_perl is to take advantage of it's
+Another popular use of mod_perl is to take advantage of its
 persistance to maintain open database connections.  The basic idea
 goes like so:
 
@@ -440,7 +479,7 @@ Since C<$dbh> is a global variable, it will not go out of scope,
 keeping the connection open for the lifetime of a server process,
 establishing it during the script's first request for that process.
 
-It's recommended that you use one of the Apache::* database connection
+It's recommended that you use one of the C<Apache::*> database connection
 wrappers.  Currently for DBI users there is C<Apache::DBI> and for
 Sybase users C<Apache::Sybase::DBlib>.  These modules hide the
 peculiar code example above.  In addition, different scripts may share
@@ -453,7 +492,7 @@ a connection, minimizing resource consumption.  Example:
  my $dbh = DBI->connect(...);
 
 Although B<$dbh> shown here will go out of scope when the script ends,
-the Apache::DBI module's reference to it does not, keep the connection
+the C<Apache::DBI> module's reference to it does not, keep the connection
 open.
 
 B<WARNING:> Do not attempt to open a persistent database connection in
@@ -462,21 +501,21 @@ children will get a copy of this handle, causing clashes when the
 handle is used by two processes at the same time.  Each child must
 have it's own unique connection handle.
 
-=head1 STACKED HANDLERS
+=head1 Stacked Handlers
 
 With the mod_perl stacked handlers mechanism, it is possible for more
-than one Perl*Handler to be defined and run during each stage of a 
+than one C<Perl*Handler> to be defined and run during each stage of a 
 request.  
 
-Perl*Handler directives can define any number of subroutines,
+C<Perl*Handler> directives can define any number of subroutines,
 e.g. (in config files)
 
  PerlTransHandler OneTrans TwoTrans RedTrans BlueTrans
 
-With the method, Apache-E<gt>push_handlers, callbacks can be added to
+With the method, C<Apache-E<gt>push_handlers>, callbacks can be added to
 the stack by scripts at runtime by mod_perl scripts.
 
-Apache-E<gt>push_handlers takes the callback hook name as it's first
+C<Apache-E<gt>push_handlers> takes the callback hook name as it's first
 argument and a subroutine name or reference as it's second. e.g.:
 
  Apache->push_handlers("PerlLogHandler", \&first_one);
@@ -489,54 +528,54 @@ argument and a subroutine name or reference as it's second. e.g.:
 After each request, this stack is cleared out.
 
 All handlers will be called unless a handler returns a status other than
-OK or DECLINED, this needs to be considered more.  Post apache-1.2 will
-have a DONE return code to signal termiation of a stage, which Rob and
+C<OK> or C<DECLINED>, this needs to be considered more.  Post apache-1.2 will
+have a C<DONE> return code to signal termiation of a stage, which Rob and
 I came up with while back when first discussing the idea of stacked
 handlers.  2.0 won't come for quite sometime, so mod_perl will most
 likely handle this before then. 
 
 example uses:
 
-CGI.pm maintains a global object for it's plain function interface.
-Since the object is global, it does not go out of scope, DESTROY is
-never called.  CGI-E<gt>new can call: 
+C<CGI.pm> maintains a global object for it's plain function interface.
+Since the object is global, it does not go out of scope, C<DESTROY> is
+never called.  C<CGI-E<gt>new> can call: 
 
  Apache->push_handlers("PerlCleanupHandler", \&CGI::_reset_globals);
 
 This function will be called during the final stage of a request,
-refreshing CGI.pm's globals before the next request comes in.  
+refreshing C<CGI.pm>'s globals before the next request comes in.  
 
-Apache::DCELogin establishes a DCE login context which must exist for
-the lifetime of a request, so the DCE::Login object is stored in a
+C<Apache::DCELogin> establishes a DCE login context which must exist for
+the lifetime of a request, so the C<DCE::Login> object is stored in a
 global variable.  Without stacked handlers, users must set 
 
  PerlCleanupHandler Apache::DCELogin::purge
 
 in the configuration files to destroy the context.  This is not
-"user-friendly".  Now, Apache::DCELogin::handler can call:
+"user-friendly".  Now, C<Apache::DCELogin::handler> can call:
 
  Apache->push_handlers("PerlCleanupHandler", \&purge);
 
-Persistent database connection modules such as Apache::DBI could push
-a PerlCleanupHandler handler that iterates over %Connected, refreshing
-connections or just checking that ones have not gone stale.  Remember,
-by the time we get to PerlCleanupHandler, the client has what it wants
-and has gone away, we can spend as much time as we want here without
-slowing down response time to the client.
+Persistent database connection modules such as C<Apache::DBI> could push
+a C<PerlCleanupHandler> handler that iterates over C<%Connected>,
+refreshing connections or just checking that ones have not gone stale.
+Remember, by the time we get to C<PerlCleanupHandler>, the client has
+what it wants and has gone away, we can spend as much time as we want
+here without slowing down response time to the client.
 
 PerlTransHandlers may decide, based or uri or other condition, whether
-or not to handle a request, e.g. Apache::MsqlProxy.  Without stacked
+or not to handle a request, e.g. C<Apache::MsqlProxy>.  Without stacked
 handlers, users must configure:
 
  PerlTransHandler Apache::MsqlProxy::translate
  PerlHandler      Apache::MsqlProxy
 
-PerlHandler is never actually invoked unless translate() sees the
-request is a proxy request ($r-E<gt>proxyreq), if it is a proxy request,
-translate() set $r-E<gt>handler("perl-script"), only then will PerlHandler
-handle the request.  Now, users do not have to specify 'PerlHandler
-Apache::MsqlProxy', the translate() function can set it with
-push_handlers().
+PerlHandler is never actually invoked unless C<translate()> sees the
+request is a proxy request (C<$r-E<gt>proxyreq)>, if it is a proxy request,
+C<translate()> set C<$r-E<gt>handler("perl-script")>, only then will
+PerlHandler handle the request.  Now, users do not have to specify
+'C<PerlHandler Apache::MsqlProxy>', the C<translate()> function can set
+it with C<push_handlers()>.
 
 Includes, footers, headers, etc., piecing together a document,
 imagine (no need for SSI parsing!):
@@ -576,7 +615,7 @@ tricky, but consider:
    PerlHandler OutputParser AnotherApp
  </Location>
 
-Now, OutputParser goes first, but it untie's *STDOUT and re-tie's to
+Now, OutputParser goes first, but it unties C<*STDOUT> and re-ties to
 it's own package like so:
 
  package OutputParser;
@@ -607,20 +646,20 @@ To build in this feature, configure with:
 
  % perl Makefile.PL PERL_STACKED_HANDLERS=1 [PERL_FOO_HOOK=1,etc]
 
-Another method 'Apache-E<gt>can_stack_handlers' will return TRUE if
+Another method 'C<Apache-E<gt>can_stack_handlers>' will return TRUE if
 mod_perl was configured with PERL_STACKED_HANDLERS=1, FALSE
 otherwise. 
 
-=head1 PERL METHOD HANDLERS
+=head1 Perl Method Handlers
 
 See L<How to use mod_perl's MethodHandlers|faqs::mod_perl_method_handlers>.
 
-=head1 PERL SECTIONS
+=head1 Perl Section
 
-With E<lt>PerlE<gt>E<lt>/PerlE<gt> sections, it is possible to
+With C<E<lt>PerlE<gt>E<lt>/PerlE<gt>> sections, it is possible to
 configure your server entirely in Perl.
 
-E<lt>PerlE<gt> sections can contain *any* and as much Perl code as you
+E<lt>PerlE<gt> sections can contain C<any> and as much Perl code as you
 wish.  These sections are compiled into a special package who's symbol
 table mod_perl can then walk and grind the names and values of Perl
 variables/structures through the Apache core config gears.  Most of
@@ -671,7 +710,7 @@ C<%Files>.
 
 These are somewhat boring examples, but they should give you the basic
 idea.  You can mix in any Perl code your heart desires.
-See eg/httpd.conf.pl and eg/perl_sections.txt for some examples.
+See I<eg/httpd.conf.pl> and I<eg/perl_sections.txt> for some examples.
 
 A tip for syntax checking outside of httpd:
 
@@ -687,26 +726,28 @@ Now you may run C<perl -cx httpd.conf>.
 
 It may be the case that E<lt>PerlE<gt> sections are not completed or
 an oversight was made in an certain area.  If they do not behave as
-you expect, please send a report to the modperl mailing list.
+you expect, please send a report to the L<modperl mailing
+list|maillist::list-modperl>.
 
 To configure this feature build with 
+
  'perl Makefile.PL PERL_SECTIONS=1'
 
 =head1 mod_perl and mod_include integration
 
 As of apache 1.2.0, mod_include can handle Perl callbacks.
 
-A `sub' key value may be anything a Perl*Handler can be:
-subroutine name, package name (defaults to package::handler),
-Class-E<gt>method call or anonymous sub {}
+A `C<sub>' key value may be anything a C<Perl*Handler> can be:
+subroutine name, package name (defaults to C<package::handler>),
+C<Class-E<gt>method> call or anonymous C<sub { }>
 
 Example:
 
  Child <!--#perl sub="sub {print $$}" --> accessed
  <!--#perl sub="sub {print ++$Access::Cnt }" --> times. <br>
-
+ 
  <!--#perl sub="Package::handler" arg="one" arg="two" -->
-
+ 
  #don't forget to escape double quotes!
  Perl is
         <!--#perl sub="sub {for (0..10) {print \"very \"}}"-->
@@ -719,11 +760,11 @@ Example:
 
  <!--#perl sub="Apache::Include" arg="/perl/ssi.pl" -->
 
-You can also use 'virtual include' to include Apache::Registry scripts
-of course.  However, using #perl will save the overhead of making
+You can also use 'C<virtual include>' to include C<Apache::Registry> scripts
+of course.  However, using C<#perl> will save the overhead of making
 Apache go through the motions of creating/destroying a subrequest and
 making all the necessary access checks to see that the request would
-be allowed outside of a 'virtual include' context.
+be allowed outside of a 'C<virtual include>' context.
 
 To enable perl in mod_include parsed files, when building apache the
 following must be present in the Configuration file:
@@ -735,17 +776,20 @@ mod_perl's Makefile.PL script can take care of this for you as well:
  perl Makefile.PL PERL_SSI=1
 
 If you're interested in sprinkling Perl code inside your HTML
-documents, you'll also want to look at the Apache::Embperl
-(http://perl.apache.org/embperl/), Apache::ePerl and Apache::SSI modules. 
+documents, you'll also want to look at the C<Apache::Embperl>
+(http://perl.apache.org/embperl/), C<Apache::ePerl>
+(http://www.engelschall.com/sw/eperl/), C<Apache::ASP> 
+(http://www.apache-asp.org/), C<HTML::Mason> (http://www.masonhq.com/)
+and C<Apache::SSI> modules.
 
-=head1 DEBUGGING
+=head1 Debugging
 
 =over 4
 
 =item MOD_PERL_TRACE
 
 To enable mod_perl debug tracing configure mod_perl with the
-PERL_TRACE option:
+C<PERL_TRACE> option:
 
  perl Makefile.PL PERL_TRACE=1
 
@@ -774,7 +818,7 @@ Then issue the command line:
 
 =back
 
-=head1 PROFILING
+=head1 Profiling
 
 It is possible to profile code run under mod_perl with the
 B<Devel::DProf> module available on CPAN.  However, you must have
@@ -793,18 +837,18 @@ profiler enabled:
 
 See also: B<Apache::DProf>
 
-=head1 BENCHMARKING
+=head1 Benchmarking
 
 How much faster is mod_perl that CGI?  There are many ways to
-benchmark the two, see the C<benchmark/> directory for some examples.
+benchmark the two, see the I<benchmark/> directory for some examples.
 
 See also: B<Apache::Timeit>
 
-=head1 WARNINGS
+=head1 Warnings
 
 See L<common/known mod_perl traps|faqs::mod_perl_traps>.
 
-=head1 SUPPORT
+=head1 Support
 
 See the I<SUPPORT> file.
 
@@ -816,10 +860,6 @@ Info about win32 binary distributions of mod_perl are available
 from: 
 
  http://perl.apache.org/distributions/
-
-=head1 REVISION
-
-$Id: mod_perl.pod,v 1.3 2002/03/20 17:42:05 stas Exp $
 
 =head1 Maintainers
 
@@ -846,6 +886,5 @@ Doug MacEachern
 
 Only the major authors are listed above. For contributors see the
 Changes file.
-
 
 =cut

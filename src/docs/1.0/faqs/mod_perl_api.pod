@@ -1,8 +1,8 @@
 =head1 NAME
 
-Mod_perl_api - accessing the Apache API via mod_perl
+Accessing the Apache API via mod_perl
 
-=head1 DESCRIPTION
+=head1 Description
 
 This part of the mod_perl FAQ deals with the Apache Application
 Programmer's Interface and how to access it from perl via mod_perl.
@@ -11,7 +11,7 @@ Programmer's Interface and how to access it from perl via mod_perl.
 
 =head2 Did you enable the required hook?
 
-As described in the mod_perl/INSTALL document, the only callback hook
+As described in the I<mod_perl/INSTALL> document, the only callback hook
 enabled by default is PerlHandler.  If you want to intervene at a
 different stage of request processing you must enable the relevant
 hook.  So to add a special authentication handler, for instance, you
@@ -29,8 +29,8 @@ the Perl*Handler directives (PerlInitHandler, PerlTransHandler, etc.).
 If this directive is put in access.conf outside of any restrictive
 context, your handler will be called during the given phase of each
 request processed by the server.  You can make it more selective by
-restricting it to a directory (-hierarchy) in a E<lt>Directory ...E<gt>
-section of access.conf or by putting it in a .htaccess file.
+restricting it to a directory (-hierarchy) in a C<E<lt>Directory ...E<gt>>
+section of access.conf or by putting it in a I<.htaccess> file.
 
 Here is an example of the directives needed to call a handler during
 Apache's URI to filename translation phase:
@@ -38,7 +38,7 @@ Apache's URI to filename translation phase:
   PerlRequire         /full/path/to/script/Trans.pl
   PerlTransHandler   Trans::handler
 
-Trans.pl would start with the statement C<Package Trans;> and define a
+I<Trans.pl> would start with the statement C<package Trans;> and define a
 subroutine called C<handler>.
 
 =head1 Where can I find examples to get me started?
@@ -105,7 +105,7 @@ URL and it is automagically processed by this code...
 Ralf Engelschall writes:
 
 When you compiled one httpd with and the other without mod_perl, then
-you can simply use E<lt>IfModule mod_perl.cE<gt>...E<lt>/IfModuleE<gt>
+you can simply use C<E<lt>IfModule mod_perl.cE<gt>...E<lt>/IfModuleE<gt>>
 to surround the stuff for the httpd compiled with mod_perl. The other
 then ignores these lines. Example:
 

@@ -13,11 +13,11 @@ FUD certain bodies try to spread.
 
 =item *
 
-M = Misconception or Myth
+B<M> = Misconception or Myth
 
 =item *
 
-R = Response
+B<R> = Response
 
 =back
 
@@ -109,11 +109,11 @@ unrelated processes.
 
 =item *
 
-B<Vivek Khera's mod_perl performance tuning guide>( http://perl.apache.org/tuning/ )
+L<Vivek Khera's mod_perl performance tuning guide|faqs::mod_perl_tuning>
 
 =item *
 
-B<Stas Bekman's Performance Guide>( http://perl.apache.org/guide/performance.html )
+L<Stas Bekman's Performance Guide|guide::performance>
 
 =back
 
@@ -243,7 +243,7 @@ for some to learn, especially those with a background in C or C++.
 
 =back
 
-=head1 CREDITS
+=head1 Credits
 
 Thanks to the mod_perl list for all of the good information and
 criticism.  I'd especially like to thank,
@@ -303,7 +303,7 @@ corrections and patches.
 
 =item * 
 
-Contact the L<modperl docs list|maillist::list-docs-dev>
+Contact the L<mod_perl docs list|maillist::list-docs-dev>
 
 =back
 
