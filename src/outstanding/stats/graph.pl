@@ -15,8 +15,8 @@
 # with no other labels, but y axis. This graph should be linked to a
 # bigger one (graph.gif)
 #
-# The stats can be retrieved from http://www.netcraft.com/survey/Reports/200209/mod_perl.txt
-# (change 200209 to correct year/month as appropriate) 
+# The stats URLs are listed in their corresponding files
+# (e.g. netcraft.html, securityspace.html)
 #
 # Note: you need GD::Graph package to be installed in order to use this
 # script.
