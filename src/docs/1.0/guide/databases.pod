@@ -199,18 +199,110 @@ option:
 172800 seconds is equal to 48 hours. This change solves the problem,
 but the ping() method works properly in C<DBD::mysql> as well.
 
-=head3 Opening connections with different parameters
+=head3 Opening Connections With Different Parameters
 
-When it receives a connection request, before it decides to use an
-existing cached connection, C<Apache::DBI> insists that the new
+When C<Apache::DBI> receives a connection request, before it decides
+to use an existing cached connection it insists that the new
 connection be opened in exactly the same way as the cached
-connection. If I have one script that sets C<LongReadLen> and one that
-does not, C<Apache::DBI> will make two different connections.  So instead
-of having a maximum of 40 open connections, I can end up with 80.
+connection. If you have one script that sets C<AutoCommit> and one
+that does not, C<Apache::DBI> will make two different connections.  So
+if for example you have limited Apache to 40 servers at most, instead
+of having a maximum of 40 open connections you may end up with 80.
+
+So these two connect() calls will create two different connections:
+
+  my $dbh = DBI->connect
+      ("DBI:mysql:test:localhost", '', '',
+       {
+        PrintError => 1, # warn() on errors
+        RaiseError => 0, # don't die on error
+        AutoCommit => 1, # commit executes immediately
+       }
+      ) or die "Cannot connect to database: $DBI::errstr";
+
+  my $dbh = DBI->connect
+      ("DBI:mysql:test:localhost", '', '',
+       {
+        PrintError => 1, # warn() on errors
+        RaiseError => 0, # don't die on error
+        AutoCommit => 0, # don't commit executes immediately
+       }
+      ) or die "Cannot connect to database: $DBI::errstr";
+
+Notice that the only difference is in the value of C<AutoCommit>.
 
 However, you are free to modify the handle immediately after you get
 it from the cache. So always initiate connections using the same
-parameters and set C<LongReadLen> (or whatever) afterwards.
+parameters and set C<AutoCommit> (or whatever) afterwards. Let's
+rewrite the second connect call to do the right thing (not to create
+a new connection):
+
+  my $dbh = DBI->connect
+      ("DBI:mysql:test:localhost", '', '',
+       {
+        PrintError => 1, # warn() on errors
+        RaiseError => 0, # don't die on error
+        AutoCommit => 1, # commit executes immediately
+       }
+      ) or die "Cannot connect to database: $DBI::errstr";
+  $dbh->{AutoCommit} = 0; # don't commit if not asked to
+
+When you aren't sure whether you're doing the right thing, turn debug
+mode on.
+
+However, when the C<$dbh> attribute is altered after connect() it
+affects all other handlers retrieving this database handle. Therefore
+it's best to restore the modified attributes to their original value
+at the end of database handle usage. As of C<Apache::DBI> version 0.88
+the caller has to do it manually. The simplest way to handle this is
+to localize the attributes when modifying them:
+
+  my $dbh = DBI->connect(...) ...
+  {
+    local $dbh->{LongReadLen} = 40;
+  }
+
+Here the C<LongReadLen> attribute overrides the value set in the
+connect() call or its default value only within the enclosing block.
+
+The problem with this approach is that prior to Perl version 5.8.0
+this causes memory leaks. So the only clean alternative for older Perl
+versions is to manually restore the C<dbh>'s values:
+
+  my @attrs = qw(LongReadLen PrintError);
+  my %orig = ();
+  
+  my $dbh = DBI->connect(...) ...
+  # store the values away
+  $orig{$_} = $dbh->{$_} for @attrs;
+  # do local modifications
+  $dbh->{LongReadLen} = 40;
+  $dbh->{PrintError}  = 1;
+  # do something with the filehandle
+  # ...
+  # now restore the values
+  $dbh->{$_} = $orig{$_} for @attrs;
+
+Another thing to remember is that with some database servers it's
+possible to access more than one database using the same database
+connection. MySQL is one of those servers. It allows you to use a
+fully qualified table specification notation. So if there is a
+database I<foo> with a table I<test> and database I<bar> with its own
+table I<test>, you can always use:
+
+  SELECT from foo.test ...
+
+or:
+
+  SELECT from bar.test ...
+
+So no matter what database you have used in the database name string
+in the connect() call (e.g.: C<DBI:mysql:foo:localhost>) you can still
+access both tables by using a fully qualified syntax.
+
+Alternatively you can switch databases with C<USE foo> and C<USE bar>,
+but this approach seems less convenient, and therefore error-prone.
+
 
 =head3 Cannot find the DBI handler
 
