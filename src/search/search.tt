@@ -1,11 +1,9 @@
-
-
-[% # This is just an example -- you would want your own "page" for the wrapper %]
-
+[% # This template is used for rendering the search results
+   # It expects the search hash ref to be set.
+-%]
 [% WRAPPER searchresults.html %]
 
     [% PROCESS swish_header %]
-
 
     [% title = PROCESS title %]
 
@@ -22,52 +20,45 @@
 [% END %]
 
 
-[% # This is just an example -- you would want your own "page" to wrap around "swish" %]
-[% BLOCK page %]
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title>
-  [% title || "Welcome"  %]
-</title>
-<body>
-   [% content %]
-</body>    
-</html>    
-[% END %]
-
-
 [% BLOCK title %]
+
     [% IF ! search.results %]
         [% search.errstr || search.config('title') || "Search page" %]
-
     [% ELSE %]
         [% search.navigation('hits') %] Results for [[% search.query_simple | html %]]
     [% END %]
+
 [% END %]
+
 
 [% BLOCK swish_header %]    
 
     <table border="0" cellpadding="0" cellspacing="0">
-    <tr><td>
-        <a href="http://swish-e.org">
-        <img border="0" alt="Swish-e home page" src="http://swish-e.org/Images/swish-e.gif"></a>
-    </td><td valign="middle">
-        <font size="+3">[% search.config('title') || "Search page"  %]</font>
-    </td></tr>
+        <tr>
+            <td>
+                <a href="http://swish-e.org"><img src="http://swish-e.org/Images/swish-e.gif" 
+                   border="0" alt="Swish-e home page"></a>
+            </td>
+            <td valign="middle">
+                <font size="+3">[% search.config('title') || "Search page" %]</font>
+            </td>
+        </tr>
     </table>
 
 [% END %]    
 
+
 [% BLOCK show_message %]
+
     [% IF search.errstr %]
         <font size="+2" color="red">[% search.errstr | html %]</font>
     [% END %]
+
 [% END %]
 
 
-
 [% BLOCK search_form %]
+
     [% CGI.start_form( '-action' => CGI.script_name) %]
         [% CGI.textfield( {
             name    => 'query',
@@ -87,6 +78,7 @@
 
 
 [% BLOCK nav_bar %]
+
     [% search.stopwords_removed %]
     <table cellpadding=0 cellspacing=0 border=0 width="100%">
         <tr>
@@ -125,10 +117,12 @@
         [% END %]
 
     </table>
+
 [% END %]
 
 
 [% BLOCK results_list %]
+
     [% FOREACH item = search.results %]
         <dl>
             <dt>
@@ -151,8 +145,5 @@
             </dd>
         </dl>
     [% END %]
+
 [% END %]
-    
-
-    
-
