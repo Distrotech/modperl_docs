@@ -1,8 +1,8 @@
 [%
     changes_id = doc.nav.index_node.extra.changes;
-    IF changes_id;
+    IF changes_id && changes_id != doc.nav.id;
        changes_nav = doc.nav.by_id(changes_id);
 -%]
-<a href="[% changes_nav.meta.link %]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_changes.gif" width="60" height="16" border="0" alt="Changes file"></a>
+<a href="[% doc.dir.rel_doc_root %]/[% changes_nav.meta.link %]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_changes.gif" width="60" height="16" border="0" alt="Changes file"></a>
 <br><br>
 [%  END -%]
