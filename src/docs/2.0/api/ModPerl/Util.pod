@@ -20,7 +20,9 @@ ModPerl::Util - Helper mod_perl Functions
   
   # removes a stash (.so, %INC{$stash}, etc.) as best as it can
   ModPerl::Util::unload_package($stash);
-
+  
+  # current perl's address (0x92ac760 or 0x0 under non-threaded perl)
+  ModPerl::Util::current_perl_id();
 
 
 
@@ -58,6 +60,31 @@ e.g. C<'PerlResponseHandler'>.
 =item since: 1.99_12
 
 =back
+
+
+
+
+
+
+=head2 C<current_perl_id>
+
+Return the memory address of the perl interpreter
+
+  $perl_id = ModPerl::Util::current_perl_id();
+
+=over 4
+
+=item ret: C<$perl_id> ( string )
+
+Under threaded perl returns something like: C<0x92ac760>
+
+Under non-thread perl returns C<0x0>
+
+=item since: 1.99_18
+
+=back
+
+Mainly useful for debugging applications running under threaded-perl.
 
 
 
