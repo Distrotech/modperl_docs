@@ -2573,6 +2573,66 @@ http://www.avrasoft.com/perl/rfc/try-1136.zip
 
 =back
 
+
+=head1 Customized __DIE__ hanlder
+
+As we saw in the previous sections it's a bad idea to do:
+
+  require Carp;
+  $SIG{__DIE__} = \&Carp::confess;
+
+since it breaks the error propogations within eval {} blocks,. But
+starting from perl 5.6.x you can use another solution to trace
+errors. For example you get an error:
+
+  "exit" is not exported by the GLOB(0x88414cc) module at (eval 397) line 1
+
+and you have no clue where it comes from, you can override the exit()
+function and plug the tracer inside:
+
+  require Carp;
+  use subs qw(CORE::GLOBAL::die);
+  *CORE::GLOBAL::die = sub {
+      if ($_[0] =~ /"exit" is not exported/){
+          local *CORE::GLOBAL::die = sub { CORE::die(@_) };
+          Carp::confess(@_); # Carp uses die() internally!
+      } else {
+          CORE::die(@_); # could write &CORE::die to forward @_
+      }
+  };
+
+Now we can test that it works properly without breaking the eval {}
+blocks error propogation:
+
+  eval { foo(); }; warn $@ if $@;
+  print "\n";
+  eval { poo(); }; warn $@ if $@;
+  
+  sub foo{ bar(); }
+  sub bar{ die qq{"exit" is not exported}}
+  
+  sub poo{ tar(); }
+  sub tar{ die "normal exit"}
+
+prints:
+
+  $ perl -w test
+  Subroutine die redefined at test line 5.
+  "exit" is not exported at test line 6
+  	main::__ANON__('"exit" is not exported') called at test line 17
+  	main::bar() called at test line 16
+  	main::foo() called at test line 12
+  	eval {...} called at test line 12
+  
+  normal exit at test line 5.
+
+the 'local' in:
+
+  local *CORE::GLOBAL::die = sub { CORE::die(@_) };
+
+is important, so you won't lose the overloaded C<CORE::GLOBAL::die>.
+
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
