@@ -2602,7 +2602,7 @@ Implementations|general::perl_reference/Other_Implementations>".
 
 =head2 The My::Exception class in its entirety
 
-  package My::Exception
+  package My::Exception;
   
   use vars qw/@ISA @EXPORT $AUTOLOAD/;
   use Exporter;
@@ -2648,7 +2648,7 @@ Implementations|general::perl_reference/Other_Implementations>".
           goto &{$AUTOLOAD};
       }
       else {
-          die "No such exception class: $AUTOLOAD\n";
+          CORE::die "No such exception class: $AUTOLOAD\n";
       }
   }
   
