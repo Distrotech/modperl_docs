@@ -232,9 +232,10 @@ Directives can receive zero, one or many arguments. In order to help
 Apache validate that the number of arguments is valid, the I<args_how>
 attribute should be set to the desired value. Similar to the
 I<L<req_override|/C_req_override_>> attribute, the
-C<L<Apache::Const|docs::2.0::api::Apache::Const>>
-package provides special constants which map to the corresponding
-Apache macros.  There are L<several
+C<L<Apache::Const|docs::2.0::api::Apache::Const>> package provides a
+special C<L<:cmd_how|docs::2.0::api::Apache::Const/C__cmd_how_>>
+constants group which maps to the corresponding Apache macros.  There
+are L<several
 constants|/Directive_Syntax_Definition_Constants> to choose from.
 
 In our example, the directive C<MyParameter> accepts one or more
