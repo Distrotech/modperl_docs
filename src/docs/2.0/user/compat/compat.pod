@@ -617,8 +617,25 @@ combinations of them, including the older ones which are still
 supported. For a complete info on these see
 I<modules/http/http_protocol.c>.
 
+=head1 C<Apache::Connection>
 
-=head1 Apache::File
+=head2 C<$connection-E<gt>auth_type>
+
+The record I<auth_type> doesn't exist in the Apache 2.0's connection
+struct. It exists only in the request record struct.
+C<Apache::compat> provides a back compatibility method, though it
+relies on the availability of the global C<Apache-E<gt>request>, which
+requires the configuration to have:
+
+  PerlOptions +GlobalRequest
+
+to set it up for earlier stages than response handler.
+
+=head2  C<$connection-E<gt>user>
+
+See C<L<$connection-E<gt>auth_type|/C__connection_E_gt_auth_type_>>.
+
+=head1 C<Apache::File>
 
 The methods from mod_perl 1.0's module C<Apache::File> have been
 either moved to other packages or removed.
