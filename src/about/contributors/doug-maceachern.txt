@@ -1,13 +1,14 @@
 Name: Doug MacEachern
 Email: dougm@apache.org
-Image: doug-maceachern.jpg
-Summary: Everything :)
+Summary: Architect and lead developer
 
-Doug is, as everybody knows, mod_perl's dictator for life. It's his
-great efforts and skills that made mod_perl what it is today, and he
-is continuing along that line with great motivation. He is currently
-employed by <a href="http://www.covalent.net/">Covalent
-Technologies</a> to work on mod_perl full-time.
+Doug released mod_perl-0.50 in early 1996 and has been working on
+mod_perl in one form or another since.  He is currently employed by
+<a href="http://www.covalent.net/">Covalent Technologies</a> who
+sponsored his work fulltime on the initial design and implementation of
+mod_perl-2.0.  He is now working on other products at Covalent but
+continues to work on mod_perl in a support role at Covalent and
+development in his spare time.
 
 Doug has written most of the code and a solid part of the
 documentation for mod_perl, and has also co-authored <a
