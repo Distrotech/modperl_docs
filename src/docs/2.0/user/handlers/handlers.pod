@@ -60,7 +60,7 @@ mod_perl they are expected to return C<Apache::OK>.
 
 Handlers of the type C<RUN_FIRST> will be executed in the order they
 have been registered until the first handler that returns something
-other than C<Apache::DECLINE>. If the return value is C<Apache::OK>,
+other than C<Apache::DECLINED>. If the return value is C<Apache::OK>,
 the next handler in the chain will be run. If the return value is
 C<Apache::DECLINED> the next phase will start. In all other cases the
 execution will be aborted.
@@ -69,7 +69,7 @@ execution will be aborted.
 
 Handlers of the type C<RUN_ALL> will be executed in the order they
 have been registered until the first handler that returns something
-other than C<Apache::OK> or C<Apache::DECLINE>.
+other than C<Apache::OK> or C<Apache::DECLINED>.
 
 =back
 
@@ -226,10 +226,28 @@ served.  It gives modules an opportunity to modify the connection as
 soon as possible. The core server uses this phase to setup the
 connection record based on the type of connection that is being used.
 
+In mod_perl 1.0 during code development C<Apache::Reload> was used to
+automatically reload modified since the last request Perl modules. It
+was invoked during C<post_read_request>, the first HTTP request's
+phase. In mod_perl 2.0 I<pre_connection> is the earliest phase, so if
+we want to make sure that all modified Perl modules are reloaded for
+any protocols and its phases, it's the best to set the scope of the
+Perl interpreter to the lifetime of the connection and invoke the
+C<Apache::Reload> handler during the I<pre_connection> phase. However
+this development-time advantage can become a disadvantage in
+production--for example if a connection, handled by HTTP protocol, is
+configured as C<KeepAlive> and there are several requests coming on
+the same connection and only one handled by mod_perl and the others by
+the default images handler, the Perl interpreter won't be available to
+other threads while the images are being served.
+
 This phase is of type C<RUN_ALL>.
 
 The handler's configuration scope is C<SRV>, because it's not known
 yet which resource the request will be mapped to.
+
+
+
 
 Example:
 
@@ -271,6 +289,95 @@ connection record object.
       return Apache::OK;
   }
 
+META: the echo example doesn't work with filter, because it reads and
+writes directly from/to the socket. Here comes the echo_filter
+example.  But may be echo is not so good, use something like
+eliza/'lc' to show the retrieval of the data, here is some eliza
+protocol code plus an output lc filter.
+
+  package Apache::Eliza2;
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use Apache::Connection ();
+  use APR::Bucket ();
+  use APR::Brigade ();
+  use APR::Util ();
+  
+  require Chatbot::Eliza;
+  
+  use APR::Const -compile => qw(SUCCESS EOF);
+  use Apache::Const -compile => qw(OK MODE_GETLINE);
+  
+  my $eliza = new Chatbot::Eliza;
+  
+  sub handler {
+      my Apache::Connection $c = shift;
+  
+      my $bb_in  = APR::Brigade->new($c->pool, $c->bucket_alloc);
+      my $bb_out = APR::Brigade->new($c->pool, $c->bucket_alloc);
+      my $last = 0;
+  
+      while (1) {
+          my $rv = $c->input_filters->get_brigade($bb_in, Apache::MODE_GETLINE);
+  
+          if ($rv != APR::SUCCESS or $bb_in->empty) {
+              my $error = APR::strerror($rv);
+              unless ($rv == APR::EOF) {
+                  warn "[eliza] get_brigade: $error\n";
+              }
+              $bb_in->destroy;
+              last;
+          }
+  
+          while (!$bb_in->empty) {
+              my $bucket = $bb_in->first;
+  
+              $bucket->remove;
+  
+              if ($bucket->is_eos) {
+                  $bb_out->insert_tail($bucket);
+                  last;
+              }
+  
+              my $data;
+              my $status = $bucket->read($data);
+              return $status unless $status == APR::SUCCESS;
+  
+              if ($data) {
+                  $data =~ s/[\r\n]*$//;
+                  $last++ if $data =~ /good bye/i;
+                  $data = $eliza->transform( $data ) . "\n\n";
+                  $bucket = APR::Bucket->new($data);
+              }
+  
+              $bb_out->insert_tail($bucket);
+          }
+  
+          my $b = APR::Bucket::flush_create($c->bucket_alloc);
+          $bb_out->insert_tail($b);
+          $c->output_filters->pass_brigade($bb_out);
+          last if $last;
+      }
+  
+      Apache::OK;
+  }
+  
+  use base qw(Apache::Filter);
+  use constant BUFF_LEN => 1024;
+  
+  sub lowercase : FilterConnectionHandler {
+      my $filter = shift;
+    
+      while ($filter->read(my $buffer, BUFF_LEN)) {
+          $filter->print(lc $buffer);
+      }
+    
+      return Apache::OK;
+  }
+  
+  1;
 
 
 =head1 HTTP Request Phases
@@ -584,6 +691,21 @@ sections:
       </Location>
    
   </VirtualHost>
+
+[META: 
+
+Inside a connection filter the current connection object can be
+retrieved with:
+
+  my $c = $filter->c;
+
+Inside a request filter the current request object can be retrieved
+with:
+
+  my $r = $filter->r;
+
+This belongs to the Apache::Filter manpage and should be moved there.
+]
 
 Now let's look at the input and output filters in details.
 
