@@ -16,11 +16,13 @@
     INCLUDE page_toc toc=doc.toc;
 
     # render the content
-    menu="<a href='#top'><img src='${doc.dir.abs_doc_root}/images/top.gif' width='85' height='20' border='0' alt='TOP'></a>";
+    menu="<a href='#top'><img src='${doc.dir.abs_doc_root}/images/top.gif' width=51 height=20 border=0 alt='TOP'></a>";
     "<!-- SwishCommand index -->";
     FOREACH sec = doc.body;
         sec;
+        "<br><br>";
         menu;
+        "<br><br>";
     END;
     "<!-- SwishCommand noindex -->";
 
