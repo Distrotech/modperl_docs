@@ -13,7 +13,8 @@ Documentation mailing list
 
 =head1 Description
 
-A mailing list for discussing B<mod_perl documentation>
+A mailing list for discussing B<mod_perl documentation>. This is not a
+list to ask mod_perl questions on.
 
 Please read the mailing list L<Guidelines|maillist::email-etiquette>
 before posting.

@@ -85,7 +85,8 @@ DESC
      {
       title => 'Documentation',
       desc  => <<"DESC",
-A mailing list for discussing B<mod_perl documentation>
+A mailing list for discussing B<mod_perl documentation>. This is not a
+list to ask mod_perl questions on.
 DESC
       addr  => {
                 subscribe        => 'docs-dev-subscribe@perl.apache.org',
