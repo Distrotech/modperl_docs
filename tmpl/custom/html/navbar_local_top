@@ -5,16 +5,16 @@
 %]
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <td colspan="3" height="3"><br class="smallbr"></td>
+        <td colspan="3" height="6"><br class="smallbr"></td>
     </tr>
     <tr valign="middle">
-        <td align="left" width="33%" nowrap>
+        <td align="left" valign="top" width="33%" nowrap>
             [% INCLUDE search %]
         </td>
-        <td align="center" class="download" width="33%" nowrap>
+        <td align="center" valign="top" class="download" width="33%" nowrap>
             [% INCLUDE download_link %]
         </td>
-        <td align="right" width="33%" nowrap>
+        <td align="right" valign="top" width="33%" nowrap>
             [% INCLUDE prev_next_link %]
         </td>
     </tr>
