@@ -528,6 +528,11 @@ See the
 C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>>
 manpage.
 
+=head2 C<Apache-E<gt>can_stack_handlers>
+
+C<Apache-E<gt>can_stack_handlers> is no longer needed, as mod_perl 2.0
+can always stack handlers.
+
 =head2 C<Apache-E<gt>untaint>
 
 C<Apache-E<gt>untaint> has moved to
