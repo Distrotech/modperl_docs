@@ -56,35 +56,6 @@ The flag value representing the type of command (i.e. ITERATE/TAKE2)
 
 
 
-=head2 C<check_cmd_context>
-
-META: This probably belongs in Apache::CmdParams
-
-  $ret = $cmd->check_cmd_context($forbidden);
-
-=over 4
-
-=item obj: C<$cmd>
-(C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>>)
-
-The command to check
-
-=item arg1: C<$forbidden> (XXX)
-
-Where the command is forbidden.
-
-=item ret: C<$ret> ( string )
-
-Error string on error, C<undef> on success
-
-=item since: 1.99_12
-
-=back
-
-
-
-
-
 =head2 C<errmsg>
 
 'usage' message for that command, in case of syntax errors
