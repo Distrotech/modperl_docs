@@ -24,9 +24,6 @@ Apache::RequestRec - Perl API for Apache request record accessors
   # how many bytes were sent
   $bytes_sent = $r->bytes_sent();
   
-  # canonical filename
-  $canon_filename = $r->canonical_filename();
-  
   # client connection record
   $c = $r->connection();
   
