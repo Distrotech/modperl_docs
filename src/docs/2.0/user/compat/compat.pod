@@ -41,16 +41,16 @@ C<PerlHandler> was replaced with C<PerlResponseHandler>.
 C<PerlSendHeader> was replaced with C<PerlOptions +/-ParseHeaders>
 directive.
 
-  PerlSendHeader On  => Options +ParseHeaders
-  PerlSendHeader Off => Options -ParseHeaders
+  PerlSendHeader On  => PerlOptions +ParseHeaders
+  PerlSendHeader Off => PerlOptions -ParseHeaders
 
 =head2 C<PerlSetupEnv>
 
 C<PerlSetupEnv> was replaced with C<PerlOptions +/-SetupEnv>
 directive.
 
-  PerlSetupEnv On  => Options +SetupEnv
-  PerlSetupEnv Off => Options -SetupEnv
+  PerlSetupEnv On  => PerlOptions +SetupEnv
+  PerlSetupEnv Off => PerlOptions -SetupEnv
 
 =head2 C<PerlTaintCheck>
 
