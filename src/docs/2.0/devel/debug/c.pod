@@ -563,8 +563,8 @@ Our browser prints out:
 
 And indeed the core file appears where we were told it will be:
 
- panic% ls -l /home/httpd/bin/core.12345
- -rw-------  1 stas stas 13758464 Nov 23 18:33 /home/httpd/bin/core.12345
+  panic% ls -l /home/httpd/bin/core.12345
+  -rw-------  1 stas stas 13758464 Nov 23 18:33 /home/httpd/bin/core.12345
 
 As you can see it's about 14MB F<core> file. Notice that mod_perl was
 started as user I<stas>, which had write permission for directory
