@@ -7,8 +7,8 @@ Apache::Log - Perl API for Apache Logging Methods
 
 =head1 Synopsis
 
-  #in startup.pl
-  #-------------
+  # in startup.pl
+  #--------------
   use Apache::Log;
   
   use Apache::Const -compile => qw(OK :log);
@@ -25,8 +25,8 @@ Apache::Log - Perl API for Apache Logging Methods
   
   Apache::ServerRec::warn("routine warning");
 
-  #in a handler
-  #------------
+  # in a handler
+  #-------------
   package Foo;
   
   use strict;
@@ -59,14 +59,18 @@ Apache::Log - Perl API for Apache Logging Methods
   
       $s->log_serror(Apache::Log::LOG_MARK, Apache::LOG_ERR,
                      APR::ENOTIME, "fatal error");
-
+  
       $r->warn('routine request warning');
       $s->warn('routine server warning');
-
+  
       return Apache::OK;
   }
   1;
 
+  # in a registry script
+  # httpd.conf: PerlOptions +GlobalRequest
+  use Apache::ServerRec qw(warn); # override warn locally
+  warn "my warning";
 
 
 =head1 Description
@@ -232,6 +236,31 @@ then the logging will be:
 =head1 Server Logging Methods
 
 
+=head2 C<$s-E<gt>log>
+
+get a log handle which can be used to L<log messages of different
+levels|/LogLevel_Methods>.
+
+  my $slog = $s->log;
+
+=over 4
+
+=item obj: C<$s>
+( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
+
+=item ret: C<$slog> ( C<Apache::Log::Server> object )
+
+C<Apache::Log::Server> object to be used with L<LogLevel
+methods|/LogLevel_Methods>.
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
 
 =head2 C<$s-E<gt>log_error>
 
@@ -318,27 +347,6 @@ For example:
 
 
 
-=head2 C<$s-E<gt>log>
-
-get a log handle which can be used to L<log messages of different
-levels|/LogLevel_Methods>.
-
-  my $slog = $s->log;
-
-=over 4
-
-=item obj: C<$s>
-( C<L<Apache::ServerRec object|docs::2.0::api::Apache::ServerRec>> )
-
-=item ret: C<$slog> ( C<Apache::Log::Server> object )
-
-C<Apache::Log::Server> object to be used with L<LogLevel
-methods|/LogLevel_Methods>.
-
-=item since: 1.99_12
-
-=back
-
 
 
 =head2 C<$s-E<gt>warn>
@@ -376,6 +384,33 @@ For example:
 
 
 =head1 Request Logging Methods
+
+
+
+
+
+=head2 C<$r-E<gt>log>
+
+get a log handle which can be used to L<log messages of different
+levels|/LogLevel_Methods>.
+
+  $rlog = $r->log;
+
+=over 4
+
+=item obj: C<$r> 
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+
+=item ret: C<$rlog> ( C<Apache::Log::Request> object )
+
+C<Apache::Log::Request> object to be used with L<LogLevel
+methods|/LogLevel_Methods>.
+
+=item since: 1.99_12
+
+=back
+
+
 
 
 
@@ -439,30 +474,6 @@ For example:
                  APR::ENOTIME, "debug print");
 
 
-
-
-
-=head2 C<$r-E<gt>log>
-
-get a log handle which can be used to L<log messages of different
-levels|/LogLevel_Methods>.
-
-  $rlog = $r->log;
-
-=over 4
-
-=item obj: C<$r> 
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
-
-=item ret: C<$rlog> ( C<Apache::Log::Request> object )
-
-C<Apache::Log::Request> object to be used with L<LogLevel
-methods|/LogLevel_Methods>.
-
-=item since: 1.99_12
-
-
-=back
 
 
 
@@ -542,10 +553,6 @@ I<error> will be disabled.
 
 
 
-=head2 C<emerg>
-
-See L<LogLevel Methods|/LogLevel_Methods>.
-
 
 
 =head2 C<alert>
@@ -560,13 +567,25 @@ See L<LogLevel Methods|/LogLevel_Methods>.
 
 
 
+=head2 C<debug>
+
+See L<LogLevel Methods|/LogLevel_Methods>.
+
+
+
+=head2 C<emerg>
+
+See L<LogLevel Methods|/LogLevel_Methods>.
+
+
+
 =head2 C<error>
 
 See L<LogLevel Methods|/LogLevel_Methods>.
 
 
 
-=head2 C<warn>
+=head2 C<info>
 
 See L<LogLevel Methods|/LogLevel_Methods>.
 
@@ -577,15 +596,10 @@ See L<LogLevel Methods|/LogLevel_Methods>.
 See L<LogLevel Methods|/LogLevel_Methods>.
 
 
-=head2 C<info>
+
+=head2 C<warn>
 
 See L<LogLevel Methods|/LogLevel_Methods>.
-
-
-=head2 C<debug>
-
-See L<LogLevel Methods|/LogLevel_Methods>.
-
 
 
 
