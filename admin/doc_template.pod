@@ -1,4 +1,6 @@
-=head1 PAGE TITLE
+=head1 NAME
+
+TITLE goes here
 
 =head1 ...
 
@@ -9,11 +11,17 @@
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
-Foo Bar E<lt>foo@barE<gt>
+Foo Bar E<lt>foo (at) bar.example.comE<gt>
 
 =head1 Authors
 
-Foo Bar E<lt>foo@barE<gt>
+=over
+
+=item * Foo Bar E<lt>foo (at) bar.example.comE<gt>
+
+=item * Foo Tar E<lt>foo (at) tar.example.comE<gt>
+
+=back
 
 =cut
 
