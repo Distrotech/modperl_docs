@@ -5,7 +5,8 @@ CVS Howto
 =head1 Description
 
 A short description how to use CVS to access the mod_perl and related
-projects source distributions.
+projects source distributions (also applies to the documentation
+project).
 
 Just as cvs access to the Apache development tree, the mod_perl code
 pulled from cvs is not guaranteed to do anything, especially not

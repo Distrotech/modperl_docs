@@ -31,7 +31,7 @@ works with you.
 Before submitting a new C<Apache::> module to CPAN, please discuss it
 first on the L<mod_perl list|maillist::modperl>. It's important
 to choose a good intuitive name for your module. Also it's possible
-that a module with a similar functionality already exists and most
+that a module with similar functionality already exists and most
 likely that someone will point it out. In which case you may want to
 help developing this existing module instead and integrating your
 features into it.
