@@ -148,7 +148,7 @@ will cause the server to abort startup and report the first error.
 
 =head1 PerlSections dumping
 
-=head2 Apache::PerlSections->dump
+=head2 Apache::PerlSections-E<gt>dump
 
 This method will dump out all the configuration variables mod_perl
 will be feeding to the apache config gears. The output is suitable to
@@ -216,7 +216,7 @@ This will print something like this:
   1;
   __END__
 
-=head2 Apache::PerlSections->store
+=head2 Apache::PerlSections-E<gt>store
 
 This method will call the C<dump> method, writing the output
 to a file, suitable to be pulled in via C<require> or C<do>.
