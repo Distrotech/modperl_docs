@@ -7,6 +7,14 @@ Frequently asked questions for mod_perl on Win32
 This document discusses some questions that arise often
 with mod_perl on Win32.
 
+If you don't find a solution to your problem here, make sure to check
+the general troubleshooting documents, where non-platform specific
+problems are discussed. In particular, see the discussion of 
+L<frequent mod_perl problems|docs::1.0::guide::frequent>,
+L<debugging mod_perl|docs::1.0::guide::debug>, and
+a L<troubleshooting guide for mod_perl 
+2.0|docs::2.0::user::troubleshooting::troubleshooting>.
+
 =head1 Obtaining mod_perl
 
 =head2 Do I need Perl to use mod_perl?
@@ -187,23 +195,11 @@ application. If you would like to take output from that application then
 you should write to STDOUT all text you want the perl application to see 
 as a return value from your C<qx> or `` (backticks) call.
 
-=head2 My server crashes when trying to use DBI.
+=head2 An error about being unable to load a file results when using a DBD database driver.
 
-Try upgrading to the newest version of DBI, and also the
-appropriate DBD::* driver. If this doesn't help, it may
-mean that the database driver may need some changes to work
-in a multi-threaded environment.
-
-=head2 An error about not being able to load a file results when using DBD::mysql.
-
-Try putting the path to your mysql DLLs (eg, F<D:\mysql\lib\opt>) in
-your I<PATH> environment variable.
-
-=head2 An error about not finding I<Apache.pm> results under mod_perl
-2.0 when using I<CGI.pm>.
-
-Try upgrading CGI.pm to at least version 2.87 - earlier versions 
-were not mod_perl 2.0 aware.
+Try putting the path to your database DLLs in
+your I<PATH> environment variable. Also, make sure you are using the
+latest versions of I<DBI> and your I<DBD::*> driver.
 
 =head2 I get an error about being unable to load I<Apache::Request>.
 
@@ -218,7 +214,6 @@ has not yet been ported to mod_perl 2.0.
 
 The discussion of 
 L<frequent mod_perl problems|docs::1.0::guide::frequent>,
-the L<troubleshooting index|docs::1.0::guide::troubleshooting>,
 L<debugging mod_perl|docs::1.0::guide::debug>, and
 a L<troubleshooting guide for mod_perl 
 2.0|docs::2.0::user::troubleshooting::troubleshooting>.
