@@ -50,14 +50,21 @@ number, it is used for both soft and hard limits.
 
 To set reasonable defaults for all RLIMITs, add this to your httpd.conf:
 
- PerlSetEnv PERL_RLIMIT_DEFAULTS On
- PerlModule Apache::Resource
+  PerlSetEnv PERL_RLIMIT_DEFAULTS On
+  PerlModule Apache::Resource
 
 
 
 =head1 See Also
 
 BSD::Resource(3), setrlimit(2)
+
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 2.0.
 
 
 
