@@ -18,6 +18,11 @@ DESC
                },
       archives => [
                    {
+                    title   => 'NNTP gateway',
+                    link    => 'nntp://news.gmane.org/gmane.comp.apache.mod-perl',
+                    comment => '',
+                   },
+                   {
                     title   => 'Epigone',
                     link    => 'http://mathforum.org/epigone/modperl',
                     comment => '',
@@ -89,6 +94,11 @@ DESC
                 help             => 'docs-dev-help@perl.apache.org',
                },
       archives => [
+                   {
+                    title   => 'NNTP gateway',
+                    link    => 'nntp://news.gmane.org/gmane.comp.apache.mod-perl.devel',
+                    comment => '',
+                   },
                    {
                     title   => 'Epigone',
                     link    => 'http://mathforum.org/epigone/modperl-docs-dev',
