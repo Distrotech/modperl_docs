@@ -409,7 +409,7 @@ email!  Here is an example of sloppy code:
   
   sub authenticate{
     my ($username,$passwd) = @_;
-	# some checking
+    # some checking
     $authenticated = 1 if SOME_USER_PASSWD_CHECK_IS_OK;
   }
 
@@ -438,7 +438,7 @@ rely on the return value from the function.
   
   sub authenticate{
     my ($username,$passwd) = @_;
-	# some checking
+    # some checking
     return (SOME_USER_PASSWD_CHECK_IS_OK) ? 1 : 0;
   }
 
@@ -935,23 +935,22 @@ Now my configuration file looks like this:
   
   use vars qw(%c);
   
-  %c = 
-    (
+  %c = (
      dir => {
-	     cgi  => "/home/httpd/perl",
-	     docs => "/home/httpd/docs",
-	     img  => "/home/httpd/docs/images",
-	    },
+         cgi  => "/home/httpd/perl",
+         docs => "/home/httpd/docs",
+         img  => "/home/httpd/docs/images",
+     },
      url => {
-	     cgi  => "/perl",
-	     docs => "/",
-	     img  => "/images",
-	    },
+         cgi  => "/perl",
+         docs => "/",
+         img  => "/images",
+     },
      color => {
-	       hint   => "#777777",
-	       warn   => "#990066",
-	       normal => "#000000",
-	      },
+         hint   => "#777777",
+         warn   => "#990066",
+         normal => "#000000",
+     },
     );
 
 Good perl style suggests keeping a comma at the end of lists. That's
@@ -989,23 +988,22 @@ looks like:
   use strict;
   use vars qw(%c);
   
-  %c = 
-    (
+  %c = (
      dir => {
-	     cgi  => "/home/httpd/perl",
-	     docs => "/home/httpd/docs",
-	     img  => "/home/httpd/docs/images",
-	    },
+         cgi  => "/home/httpd/perl",
+         docs => "/home/httpd/docs",
+         img  => "/home/httpd/docs/images",
+     },
      url => {
-	     cgi  => "/perl",
-	     docs => "/",
-	     img  => "/images",
-	    },
+         cgi  => "/perl",
+         docs => "/",
+         img  => "/images",
+     },
      color => {
-	       hint   => "#777777",
-	       warn   => "#990066",
-	       normal => "#000000",
-	      },
+         hint   => "#777777",
+         warn   => "#990066",
+         normal => "#000000",
+     },
     );
 
 And the code:
@@ -1053,10 +1051,10 @@ its values before the definition is finished. So this wouldn't work:
     (
      base => "/home/httpd",
      dir => {
-	     cgi  => "$c{base}/perl",
-	     docs => "$c{base}/docs",
-	     img  => "$c{base}{docs}/images",
-	    },
+         cgi  => "$c{base}/perl",
+         docs => "$c{base}/docs",
+         img  => "$c{base}{docs}/images",
+     },
     );
 
 But nothing stops us from adding additional variables, which are
@@ -1066,10 +1064,10 @@ lexically scoped with my(). The following code is correct.
   %c =
     (
      dir => {
-	     cgi  => "$base/perl",
-	     docs => "$base/docs",
-	     img  => "$base/docs/images",
-	    },
+         cgi  => "$base/perl",
+         docs => "$base/docs",
+         img  => "$base/docs/images",
+     },
     );
 
 You have just learned how to make configuration files easily
@@ -1423,12 +1421,12 @@ META: extend on the comments:
     # print warnings if there are any invalid changes
     print $q->hr,
       $q->p($q->b(qq{Warning! These variables were changed
-  		   but found malformed, thus the original
-  		   values will be preserved.})
-  	 ),
+           but found malformed, thus the original
+           values will be preserved.})
+     ),
       join(",<BR>",
-  	 map { $q->b($vars_to_change{$_}) . " : $malformatted{$_}\n"
-  	     } keys %malformatted)
+     map { $q->b($vars_to_change{$_}) . " : $malformatted{$_}\n"
+         } keys %malformatted)
         if %malformatted;
   
     # Now complete the vars that weren't changed from the
@@ -1442,8 +1440,8 @@ META: extend on the comments:
       # escape single quotes "'" while creating a file
     my $content = join "\n",
       map { $updates{$_} =~ s/(['\\])/\\$1/g;
-  	  '$c{' . $_ . "}  =  '" . $updates{$_} . "';\n"
-  	} keys %updates;
+      '$c{' . $_ . "}  =  '" . $updates{$_} . "';\n"
+    } keys %updates;
   
       # now add '1;' to make require() happy
     $content .= "\n1;";
@@ -1452,7 +1450,7 @@ META: extend on the comments:
     eval {my $res = $content};
     if ($@) {
       print qq{Warning! Something went wrong with config file
-  	     generation!<P> The error was : <BR><PRE>$@</PRE>};
+         generation!<P> The error was : <BR><PRE>$@</PRE>};
       return;
     }
   
@@ -1464,7 +1462,7 @@ META: extend on the comments:
     open $fh, ">$dynamic_config_file.bak"
       or die "Can't open $dynamic_config_file.bak for writing :$! \n";
     flock $fh,2; # exclusive lock
-    seek $fh,0,0;	# rewind to the start
+    seek $fh,0,0;   # rewind to the start
     truncate $fh, 0; # the file might shrink!
        print $fh $content;
     close $fh;
@@ -1491,8 +1489,8 @@ META: extend on the comments:
   
     print $q->hr,
       $q->p(qq{This form allows you to dynamically update the current
-  	     configuration. You don\'t need to restart the server in
-  	     order for changes to take an effect}
+         configuration. You don\'t need to restart the server in
+         order for changes to take an effect}
            );
   
       # set the previous settings in the form's hidden fields, so we
@@ -1506,45 +1504,45 @@ META: extend on the comments:
     push @configs,
       map {
         $q->td(
-  	     $q->b("$vars_to_change{$_}:"),
-  	    ),
+         $q->b("$vars_to_change{$_}:"),
+        ),
         $q->td(
-  	     $q->textfield(-name      => $_,
-  			   -default   => $c{$_},
-  			   -override  => 1,
-  			   -size      => 20,
-  			   -maxlength => 50,
-  			  )
-  	    ),
-  	  } qw(name release);
+         $q->textfield(-name      => $_,
+               -default   => $c{$_},
+               -override  => 1,
+               -size      => 20,
+               -maxlength => 50,
+              )
+        ),
+      } qw(name release);
   
       # prepare multiline textarea entries
     push @configs,
       map {
         $q->td(
-  	     $q->b("$vars_to_change{$_}:"),
-  	    ),
+         $q->b("$vars_to_change{$_}:"),
+        ),
         $q->td(
-  	     $q->textarea(-name    => $_,
-  			  -default => $c{$_},
-  			  -override  => 1,
-  			  -rows    => 10,
-  			  -columns => 50,
-  			  -wrap    => "HARD",
-  			  )
-  	    ),
-  	  } qw(comments);
+         $q->textarea(-name    => $_,
+              -default => $c{$_},
+              -override  => 1,
+              -rows    => 10,
+              -columns => 50,
+              -wrap    => "HARD",
+              )
+        ),
+      } qw(comments);
   
     print $q->startform('POST',$q->url),"\n",
-  	$q->center($q->table(map {$q->Tr($_),"\n",} @configs),
-  		   $q->submit('','Update!'),"\n",
-  		  ),
-  	map ({$q->hidden("prev_".$_, $q->param("prev_".$_))."\n" }
-  	     keys %vars_to_change), # hidden previous values
-  	$q->br,"\n",
-  	$q->endform,"\n",
-  	$q->hr,"\n",
-  	$q->end_html;
+    $q->center($q->table(map {$q->Tr($_),"\n",} @configs),
+           $q->submit('','Update!'),"\n",
+          ),
+    map ({$q->hidden("prev_".$_, $q->param("prev_".$_))."\n" }
+         keys %vars_to_change), # hidden previous values
+    $q->br,"\n",
+    $q->endform,"\n",
+    $q->hr,"\n",
+    $q->end_html;
   
   } # end sub conf_modification_form
 
@@ -3198,9 +3196,9 @@ This is the original script's code we are going to work with:
       # change status form
     my $button_label = $status ? "Stop" : "Start";
     print qq{<HR>
-    	 <FORM>
-    	   <INPUT TYPE=SUBMIT NAME=switch VALUE=" $button_label "> 
-    	 </FORM>
+         <FORM>
+           <INPUT TYPE=SUBMIT NAME=switch VALUE=" $button_label "> 
+         </FORM>
            };
     
     print qq{</BODY></HTML>};
@@ -3528,9 +3526,9 @@ This is the new code for C<Test::Cookie2>:
       # change status form
     my $button_label = $status ? "Stop" : "Start";
     print qq{<HR>
-    	 <FORM>
-    	   <INPUT TYPE=SUBMIT NAME=switch VALUE=" $button_label "> 
-    	 </FORM>
+         <FORM>
+           <INPUT TYPE=SUBMIT NAME=switch VALUE=" $button_label "> 
+         </FORM>
            };
     
     print qq{</BODY></HTML>};

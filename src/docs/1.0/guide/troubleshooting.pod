@@ -127,7 +127,7 @@ using the configuration from a mod_perl server.
 =head2 RegistryLoader: Translation of uri [...] to filename failed
 
   RegistryLoader: Translation of uri [/home/httpd/perl/test.pl] to filename 
-		  failed [tried: /home/httpd/docs/home/httpd/perl/test.pl]
+          failed [tried: /home/httpd/docs/home/httpd/perl/test.pl]
 
 This error shows up when C<Apache::RegistryLoader> fails to translate
 the URI into the corresponding filesystem path. Most failures happen
@@ -341,8 +341,8 @@ The warning:
   /usr/apps/lib/perl5/site_perl/5.005/aix/Apache/Registry.pm 
   line 168
           Apache::Registry::compile('package
-  	Apache::ROOT::perl::tmp_2epl;use Apache qw(exit);sub han...') 
-  	called at 
+    Apache::ROOT::perl::tmp_2epl;use Apache qw(exit);sub han...') 
+    called at 
         /usr/apps/lib/perl5/site_perl/5.005/aix/Apache/Registry.pm 
         line 121
         Apache::Registry::handler('Apache=SCALAR(0x205026c0)') 

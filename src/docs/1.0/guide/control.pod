@@ -1163,11 +1163,11 @@ at times.
     # paths and add the standard Perl libs
     @INC =
       qw(/usr/lib/perl5/5.00503/i386-linux
-	 /usr/lib/perl5/5.00503
-	 /usr/lib/perl5/site_perl/5.005/i386-linux
-	 /usr/lib/perl5/site_perl/5.005
-	 .
-	);
+     /usr/lib/perl5/5.00503
+     /usr/lib/perl5/site_perl/5.005/i386-linux
+     /usr/lib/perl5/site_perl/5.005
+     .
+    );
   }
   
   use strict;

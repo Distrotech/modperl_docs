@@ -1523,7 +1523,7 @@ the file I</home/httpd/perl/test.pl> you would do the following:
 
   use Apache::RegistryLoader ();
   Apache::RegistryLoader->new->handler("/perl/test.pl",
-	 	            "/home/httpd/perl/test.pl");
+                    "/home/httpd/perl/test.pl");
 
 You should put this code either into C<E<lt>PerlE<gt>> sections or
 into a startup script.
@@ -1554,7 +1554,7 @@ the parent server, before pre-forking the child processes:
            # preload $url
          my $status = $rl->handler($url);
          unless($status == 200) {
-  	   warn "pre-load of `$url' failed, status=$status\n";
+       warn "pre-load of `$url' failed, status=$status\n";
          }
        },
        $scripts_root_dir);
@@ -2784,31 +2784,31 @@ data into tables for easier viewing.
 
 I will use the following abbreviations:
 
-  NR	= Total Number of Request
-  NC	= Concurrency
-  MC	= MaxClients
-  MRPC	= MaxRequestsPerChild
-  RPS	= Requests per second
+  NR    = Total Number of Request
+  NC    = Concurrency
+  MC    = MaxClients
+  MRPC  = MaxRequestsPerChild
+  RPS   = Requests per second
 
 Running a mod_perl script with lots of mysql queries (the script under
 test is mysqld limited)
 (http://www.example.com/perl/access/access.cgi?do_sub=query_form),
 with the configuration:
 
-  MinSpareServers  	 8
-  MaxSpareServers 	16
-  StartServers 		10
-  MaxClients 		50
+  MinSpareServers    8
+  MaxSpareServers   16
+  StartServers      10
+  MaxClients        50
   MaxRequestsPerChild 5000
 
 gives us:
 
-     NR	  NC	RPS	comment
+     NR   NC    RPS comment
   ------------------------------------------------
-     10	  10	3.33	# not a reliable figure
-    100	  10	3.94	
-   1000	  10	4.62	
-   1000	  50	4.09	
+     10   10    3.33    # not a reliable figure
+    100   10    3.94    
+   1000   10    4.62    
+   1000   50    4.09    
 
 B<Conclusions:> Here I wanted to show that when the application is
 slow (not due to perl loading, code compilation and execution, but
@@ -2824,20 +2824,20 @@ limited by perl only):
 (http://www.example.com/perl/access/access.cgi), it's the same
 script but it just returns the HTML form, without making SQL queries.
 
-  MinSpareServers  	 8
-  MaxSpareServers 	16
-  StartServers 		10
-  MaxClients 		50
+  MinSpareServers    8
+  MaxSpareServers   16
+  StartServers      10
+  MaxClients        50
   MaxRequestsPerChild 5000
 
-     NR	  NC	  RPS	comment
+     NR   NC      RPS   comment
   ------------------------------------------------
-     10	  10	26.95	# not a reliable figure
-    100	  10	30.88	
-   1000	  10	29.31
-   1000	  50	28.01
-   1000	 100	29.74
-  10000	 200	24.92
+     10   10    26.95   # not a reliable figure
+    100   10    30.88   
+   1000   10    29.31
+   1000   50    28.01
+   1000  100    29.74
+  10000  200    24.92
  100000  400    24.95
 
 B<Conclusions:> This time the script we executed was pure perl (not
@@ -2855,19 +2855,19 @@ C<MaxClients> clients alive all the time and having a big
 C<MaxRequestsPerChild>, so that no child will be killed during the
 benchmarking.
 
-  MinSpareServers  	50
-  MaxSpareServers 	50
-  StartServers 		50
-  MaxClients 		50
+  MinSpareServers   50
+  MaxSpareServers   50
+  StartServers      50
+  MaxClients        50
   MaxRequestsPerChild 5000
   
-     NR	  NC	  RPS	comment
+     NR   NC      RPS   comment
   ------------------------------------------------
-    100	  10	32.05
-   1000	  10	33.14
-   1000	  50	33.17
-   1000	 100	31.72
-  10000	 200	31.60
+    100   10    32.05
+   1000   10    33.14
+   1000   50    33.17
+   1000  100    31.72
+  10000  200    31.60
 
 Conclusion: In this scenario there is no overhead involving the parent
 server loading new children, all the servers are available, and the
@@ -2876,21 +2876,21 @@ only bottleneck is contention for the CPU.
 Now we will change C<MaxClients> and watch the results: Let's reduce
 C<MaxClients> to 10.
 
-  MinSpareServers  	 8
-  MaxSpareServers 	10
-  StartServers 		10
-  MaxClients 		10
+  MinSpareServers    8
+  MaxSpareServers   10
+  StartServers      10
+  MaxClients        10
   MaxRequestsPerChild 5000
   
-     NR	  NC	  RPS	comment
+     NR   NC      RPS   comment
   ------------------------------------------------
-     10	  10	23.87   # not a reliable figure
-    100	  10	32.64 
-   1000	  10	32.82
-   1000	  50	30.43
-   1000	 100	25.68
-   1000	 500	26.95
-   2000	 500	32.53
+     10   10    23.87   # not a reliable figure
+    100   10    32.64 
+   1000   10    32.82
+   1000   50    30.43
+   1000  100    25.68
+   1000  500    26.95
+   2000  500    32.53
 
 B<Conclusions:> Very little difference!  Ten servers were able to
 serve almost with the same throughput as 50 servers.  Why?  My guess
@@ -2902,35 +2902,35 @@ that the performance will be better.  You have just seen the numbers!
 
 Now we will start drastically to reduce C<MaxRequestsPerChild>:
 
-  MinSpareServers  	 8
-  MaxSpareServers 	16
-  StartServers 		10
-  MaxClients 		50
+  MinSpareServers    8
+  MaxSpareServers   16
+  StartServers      10
+  MaxClients        50
 
-     NR	  NC	MRPC	 RPS	comment
+     NR   NC    MRPC     RPS    comment
   ------------------------------------------------
-    100	  10	  10	5.77 
-    100	  10	   5    3.32
-   1000	  50	  20	8.92
-   1000	  50	  10	5.47
-   1000	  50	   5    2.83
-   1000	 100	  10	6.51
+    100   10      10    5.77 
+    100   10       5    3.32
+   1000   50      20    8.92
+   1000   50      10    5.47
+   1000   50       5    2.83
+   1000  100      10    6.51
 
 B<Conclusions:> When we drastically reduce C<MaxRequestsPerChild>, the
 performance starts to become closer to plain mod_cgi. 
 
 Here are the numbers of this run with mod_cgi, for comparison:
 
-  MinSpareServers  	 8
-  MaxSpareServers 	16
-  StartServers 		10
-  MaxClients 		50
+  MinSpareServers    8
+  MaxSpareServers   16
+  StartServers      10
+  MaxClients        50
   
-     NR	  NC	RPS	comment
+     NR   NC    RPS comment
   ------------------------------------------------
-    100	  10	1.12
-   1000	  50	1.14
-   1000	 100    1.13
+    100   10    1.12
+   1000   50    1.14
+   1000  100    1.13
 
 B<Conclusion>: mod_cgi is much slower. :) In the first test, when
 NR/NC was 100/10, mod_cgi was capable of 1.12 requests per second.  In
@@ -3099,22 +3099,22 @@ C<MaxClients>).
 Let's try some numbers.  For a heavily loaded web site and a dedicated
 machine I would think of (note 400Mb is just for example):
 
-  Available to webserver RAM: 	400Mb
+  Available to webserver RAM:   400Mb
   Child's memory size bounded:  10Mb
-  MaxClients:			400/10 = 40 (larger with mem sharing)
-  StartServers:			20
-  MinSpareServers: 		20
-  MaxSpareServers:		35
+  MaxClients:           400/10 = 40 (larger with mem sharing)
+  StartServers:         20
+  MinSpareServers:      20
+  MaxSpareServers:      35
 
 However if I want to use the server for many other tasks, but make it
 capable of handling a high load, I'd think of:
 
-  Available to webserver RAM: 	400Mb
+  Available to webserver RAM:   400Mb
   Child's memory size bounded:  10Mb
-  MaxClients:			400/10 = 40
-  StartServers:			5
-  MinSpareServers: 		5
-  MaxSpareServers:		10
+  MaxClients:           400/10 = 40
+  StartServers:         5
+  MinSpareServers:      5
+  MaxSpareServers:      10
 
 These numbers are taken off the top of my head, and shouldn't be used
 as a rule, but rather as examples to show you some possible scenarios.
@@ -3458,23 +3458,23 @@ as well.
 This is a typical generated trace.
 
   stat("/home/httpd/docs/foo/test", 0xbffff8fc) = -1 ENOENT 
-	(No such file or directory)
+    (No such file or directory)
   stat("/home/httpd/docs/foo",      0xbffff8fc) = -1 ENOENT 
-	(No such file or directory)
+    (No such file or directory)
   stat("/home/httpd/docs", 
-	{st_mode=S_IFDIR|0755, st_size=1024, ...}) = 0
+    {st_mode=S_IFDIR|0755, st_size=1024, ...}) = 0
   open("/.htaccess", O_RDONLY)                 = -1 ENOENT 
-	(No such file or directory)
+    (No such file or directory)
   open("/home/.htaccess", O_RDONLY)            = -1 ENOENT 
-	(No such file or directory)
+    (No such file or directory)
   open("/home/httpd/.htaccess", O_RDONLY)      = -1 ENOENT 
-	(No such file or directory)
+    (No such file or directory)
   open("/home/httpd/docs/.htaccess", O_RDONLY) = -1 ENOENT 
-	(No such file or directory)
+    (No such file or directory)
   stat("/home/httpd/docs/test", 0xbffff774)    = -1 ENOENT 
-	(No such file or directory)
+    (No such file or directory)
   stat("/home/httpd/docs", 
-	{st_mode=S_IFDIR|0755, st_size=1024, ...}) = 0
+    {st_mode=S_IFDIR|0755, st_size=1024, ...}) = 0
 
 Now we modify the C<E<lt>DirectoryE<gt>> entry and add S<AllowOverride None>,
 which among other things disables I<.htaccess> files and will not try
@@ -3487,15 +3487,15 @@ to open them.
 We see that the four open() calls for I<.htaccess> have gone.
 
   stat("/home/httpd/docs/foo/test", 0xbffff8fc) = -1 ENOENT 
-	(No such file or directory)
+    (No such file or directory)
   stat("/home/httpd/docs/foo",      0xbffff8fc) = -1 ENOENT 
-	(No such file or directory)
+    (No such file or directory)
   stat("/home/httpd/docs", 
-	{st_mode=S_IFDIR|0755, st_size=1024, ...}) = 0
+    {st_mode=S_IFDIR|0755, st_size=1024, ...}) = 0
   stat("/home/httpd/docs/test", 0xbffff774)    = -1 ENOENT 
-	(No such file or directory)
+    (No such file or directory)
   stat("/home/httpd/docs", 
-	{st_mode=S_IFDIR|0755, st_size=1024, ...}) = 0
+    {st_mode=S_IFDIR|0755, st_size=1024, ...}) = 0
 
 Let's try to shortcut the I<foo> location with:
 
@@ -3989,15 +3989,15 @@ All three scripts were preloaded at the server startup:
   Apache::RegistryLoader->new->handler(
                             "/perl/processing_with_cgi_pm.pl",
             "[ROOT_DIR]/httpd/perl/processing_with_cgi_pm.pl"
-  				    );
+                    );
   Apache::RegistryLoader->new->handler(
                             "/perl/processing_with_apache_request.pl",
             "[ROOT_DIR]/httpd/perl/processing_with_apache_request.pl"
-  				    );
+                    );
   Apache::RegistryLoader->new->handler(
                             "/perl/processing_with_apache_args.pl",
             "[ROOT_DIR]/httpd/perl/processing_with_apache_args.pl"
-  				    );
+                    );
   </Perl>
 
 And the results:
@@ -4772,7 +4772,7 @@ module):
 
   $sth->execute;
   while(@row_ary  = $sth->fetchrow_array) {
-	# do DB accumulation into some variable
+    # do DB accumulation into some variable
   }
   # print the output using the data returned from the DB
 
@@ -4866,7 +4866,7 @@ fields and restrictions.
   
     print "SQL: $do_sql \n" if $debug;
   
-    $dbh->{RaiseError} = 1;	# do this, or check every call for errors
+    $dbh->{RaiseError} = 1; # do this, or check every call for errors
     $sth = $dbh->prepare($do_sql);
     $sth->execute;
       # Bind perl variables to columns.
@@ -4905,32 +4905,32 @@ callback closure for formatting the rows to print:
   
     sub {
           # Header
-	if (@_ and !$header){
-	  print "<TABLE>\n";
-	  print $q->Tr(map{ $q->td($_) } @fields );
-	  $header = 1; 
-	}
-	
-	  # Body
-	if (@_) {
-	  print $q->Tr(map{$q->td($_)} @_ );
-	  $counter++;
-	  return; 
-	}
-	
+    if (@_ and !$header){
+      print "<TABLE>\n";
+      print $q->Tr(map{ $q->td($_) } @fields );
+      $header = 1; 
+    }
+    
+      # Body
+    if (@_) {
+      print $q->Tr(map{$q->td($_)} @_ );
+      $counter++;
+      return; 
+    }
+    
           # Tail, will be printed only at the end
-	if ($header and !($tail or @_)){
-	  print "</TABLE>\n $counter records found";
-	  $tail = 1;
-	  return;
-	}
-	
+    if ($header and !($tail or @_)){
+      print "</TABLE>\n $counter records found";
+      $tail = 1;
+      return;
+    }
+    
           # No record found
-	unless ($header){
-	  print $q->p($q->center($q->b("No record was found!\n")));
-	}
+    unless ($header){
+      print $q->p($q->center($q->b("No record was found!\n")));
+    }
   
-      }	 #  end of sub {}
+      }  #  end of sub {}
   };  #  end of my $rsub = eval {
 
 You might also want to check the section L<Preventing Your Processes
@@ -5437,14 +5437,14 @@ connection overhead on the very first request of every child.
 
   use Apache::DBI ();
   Apache::DBI->connect_on_init("DBI:mysql:test",
-			       "login",
-			       "passwd",
-			       {
-				RaiseError => 1,
-				PrintError => 0,
-				AutoCommit => 1,
-			       }
-			      );
+                   "login",
+                   "passwd",
+                   {
+                RaiseError => 1,
+                PrintError => 0,
+                AutoCommit => 1,
+                   }
+                  );
 
 This is a simple way to have Apache children establish connections on
 server startup.  This call should be in a startup file C<require()d>
@@ -5508,38 +5508,38 @@ every request.  A portion of the source code might look like this:
 
   # ...
   my $dbh = DBI->connect('dbi:Oracle:host', 'user', 'pass')
-	|| die $DBI::errstr;
+    || die $DBI::errstr;
   
   my $baz = $r->param('baz');
   
   eval {
-	my $sth = $dbh->prepare(qq{
-		SELECT foo 
-	          FROM bar 
-        	 WHERE baz = $baz
-	});
-	$sth->execute;
+    my $sth = $dbh->prepare(qq{
+        SELECT foo 
+              FROM bar 
+             WHERE baz = $baz
+    });
+    $sth->execute;
   
-	while (my @row = $sth->fetchrow_array) {
-		# do HTML stuff
-	}
-	
-	$sth->finish;
+    while (my @row = $sth->fetchrow_array) {
+        # do HTML stuff
+    }
+    
+    $sth->finish;
   
-	my $sph = $dbh->prepare(qq{
-		BEGIN
-			my_procedure(
-				arg_in => $baz
-			);
-		END;
-	});
-	$sph->execute;
-	$sph->finish;
-	
-	$dbh->commit;
+    my $sph = $dbh->prepare(qq{
+        BEGIN
+            my_procedure(
+                arg_in => $baz
+            );
+        END;
+    });
+    $sph->execute;
+    $sph->finish;
+    
+    $dbh->commit;
   };
   if ($@) {
-	$dbh->rollback;
+    $dbh->rollback;
   }
   
   $dbh->disconnect;
@@ -5631,40 +5631,40 @@ Here is the updated code fragment which employs this optimization:
 
   # ...
   my $dbh = DBI->connect('dbi:Oracle:host', 'user', 'pass')
-	|| die $DBI::errstr;
+    || die $DBI::errstr;
   
   my $baz = $r->param('baz');
   
   eval {
-	my $sth = $dbh->prepare(qq{
-		SELECT foo 
-	          FROM bar 
-        	 WHERE baz = :baz
-	});
-	$sth->bind_param(':baz', $baz);
-	$sth->execute;
+    my $sth = $dbh->prepare(qq{
+        SELECT foo 
+              FROM bar 
+             WHERE baz = :baz
+    });
+    $sth->bind_param(':baz', $baz);
+    $sth->execute;
   
-	while (my @row = $sth->fetchrow_array) {
-		# do HTML stuff
-	}
-	
-	$sth->finish;
+    while (my @row = $sth->fetchrow_array) {
+        # do HTML stuff
+    }
+    
+    $sth->finish;
   
-	my $sph = $dbh->prepare(qq{
-		BEGIN
-			my_procedure(
-				arg_in => :baz
-			);
-		END;
-	});
-	$sph->bind_param(':baz', $baz);
-	$sph->execute;
-	$sph->finish;
-	
-	$dbh->commit;
+    my $sph = $dbh->prepare(qq{
+        BEGIN
+            my_procedure(
+                arg_in => :baz
+            );
+        END;
+    });
+    $sph->bind_param(':baz', $baz);
+    $sph->execute;
+    $sph->finish;
+    
+    $dbh->commit;
   };
   if ($@) {
-	$dbh->rollback;
+    $dbh->rollback;
   }
   # ...
 
@@ -5710,38 +5710,38 @@ Here is an example of such a package:
   use DBI ();
   
   sub connect {
-	if (defined $My::DB::conn) {
-		eval {
-			$My::DB::conn->ping;
-		};
-		if (!$@) {
-			return $My::DB::conn;
-		}
-	}
+    if (defined $My::DB::conn) {
+        eval {
+            $My::DB::conn->ping;
+        };
+        if (!$@) {
+            return $My::DB::conn;
+        }
+    }
   
-	$My::DB::conn = DBI->connect(
-		'dbi:Oracle:server', 'user', 'pass', {
-			PrintError => 1,
-			RaiseError => 1,
-			AutoCommit => 0
-		}
-	) || die $DBI::errstr; #Assume application handles this
+    $My::DB::conn = DBI->connect(
+        'dbi:Oracle:server', 'user', 'pass', {
+            PrintError => 1,
+            RaiseError => 1,
+            AutoCommit => 0
+        }
+    ) || die $DBI::errstr; #Assume application handles this
   
-	$My::DB::select = $My::DB::conn->prepare(q{
-		SELECT foo
-		  FROM bar
-		 WHERE baz = :baz
-	});
-	
-	$My::DB::procedure = $My::DB::conn->prepare(q{
-		BEGIN
-			my_procedure(
-				arg_in => :baz
-			);
-		END;
-	});
+    $My::DB::select = $My::DB::conn->prepare(q{
+        SELECT foo
+          FROM bar
+         WHERE baz = :baz
+    });
+    
+    $My::DB::procedure = $My::DB::conn->prepare(q{
+        BEGIN
+            my_procedure(
+                arg_in => :baz
+            );
+        END;
+    });
   
-	return $My::DB::conn;
+    return $My::DB::conn;
   }
   
   1;
@@ -5754,22 +5754,22 @@ Now the example program needs to be modified to use this package.
   my $baz = $r->param('baz');
   
   eval {
-	my $sth = $My::DB::select;
-	$sth->bind_param(':baz', $baz);
-	$sth->execute;
+    my $sth = $My::DB::select;
+    $sth->bind_param(':baz', $baz);
+    $sth->execute;
   
-	while (my @row = $sth->fetchrow_array) {
-		# do HTML stuff
-	}
+    while (my @row = $sth->fetchrow_array) {
+        # do HTML stuff
+    }
   
-	my $sph = $My::DB::procedure;
-	$sph->bind_param(':baz', $baz);
-	$sph->execute;
-	 
-	$dbh->commit;
+    my $sph = $My::DB::procedure;
+    $sph->bind_param(':baz', $baz);
+    $sph->execute;
+     
+    $dbh->commit;
   };
   if ($@) {
-	$dbh->rollback;
+    $dbh->rollback;
   }
   # ...
 

@@ -1608,7 +1608,7 @@ that was one week ago.  Here it is:
           # there are 29 days in February in a leap year
         $month_len[1] =  
           (($year % 4 or $year % 100 == 0) and $year % 400 )
-	? 28 : 29;
+    ? 28 : 29;
   
           # set $day to be the last day of the previous month 
         $day = $month_len[$month - 1]; 
@@ -1668,7 +1668,7 @@ C<$month> variable:
           # there are 29 days in February in a leap year
         $month_len[1] =  
           (($year % 4 or $year % 100 == 0) and $year % 400 )
-	? 28 : 29;
+    ? 28 : 29;
   
           # set $day to be the last day of the previous month 
         $day = $month_len[$month - 1]; 
@@ -1730,9 +1730,9 @@ our rescue.  For example if we create this complex data structure:
     {
      array => [qw(a b c d)],
      hash  => {
-	       foo => "oof",
-	       bar => "rab",
-	      },
+           foo => "oof",
+           bar => "rab",
+          },
     };
 
 How do we print it out?  Very easily:
@@ -2717,10 +2717,10 @@ code should be registered for it to exit on completion?  To replace
 the original C<Apache::DB> cleanup code, as:
 
     if (ref $r) {
-	$SIG{INT} = \&DB::catch;
-	$r->register_cleanup(sub { 
-	    $SIG{INT} = \&DB::ApacheSIGINT();
-	});
+    $SIG{INT} = \&DB::catch;
+    $r->register_cleanup(sub { 
+        $SIG{INT} = \&DB::ApacheSIGINT();
+    });
     }
 
 Any Perl/Tk guru to assist???

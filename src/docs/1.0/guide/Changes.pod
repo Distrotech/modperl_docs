@@ -1377,11 +1377,11 @@ The most recent changes are listed first.
 
 * warnings.pod was renamed to troubleshooting.pod and now it's
   categorized by the following sections:
-	Building and Installation
+    Building and Installation
         Configuration and Startup 
         Code Parsing and Compilation 
         Runtime
-	Shutdown and Restart 
+    Shutdown and Restart 
 
 * porting: the following sections were moved to debug.pod:
   "Finding the Line Number the Error/Warning has been Triggered at",
@@ -1583,7 +1583,7 @@ The most recent changes are listed first.
 
 * porting: Wrote a whole new section "Configuration Files: Writing,
   Modifying and Reloading.", which consist of 3 big parts:
-	      Writing Configuration Files 
+          Writing Configuration Files 
               Reloading Configuration Files 
               Dynamically updating configuration files 
 
@@ -1714,18 +1714,18 @@ The most recent changes are listed first.
 * A complete review, which included corrections, verifications,
   extensions and clarifications was done to the following pods during
   the preparation of the tutorial for the 3rd apache conference:
-	start.pod     
-	intro.pod     
-	porting.pod   
-	performance.pod
-	strategy.pod  
-	scenario.pod  
-	config.pod    
-	install.pod   
-	control.pod   
-	databases.pod 
-	multiuser.pod  
-	help.pod      
+    start.pod     
+    intro.pod     
+    porting.pod   
+    performance.pod
+    strategy.pod  
+    scenario.pod  
+    config.pod    
+    install.pod   
+    control.pod   
+    databases.pod 
+    multiuser.pod  
+    help.pod      
 
 =head1 06.19.1999 ver 1.13
 
@@ -2020,9 +2020,9 @@ The most recent changes are listed first.
 
 * new in scenario.pod: "mod_perl and proxy server" 
 
-	Incentives 
+    Incentives 
         Squid proxy server in httpd accelerator mode 
-		Running a squid and 2 webservers scenario 
+        Running a squid and 2 webservers scenario 
                 Running a squid and 1 mod_perl apache server scenario
 
   (Reviewed and modified according to notes by
@@ -2189,7 +2189,7 @@ ScriptAlias typos at config.html.
   performance.html#Limiting_the_request_rate_speed_
 
 * modified: register_cleanup in Registry scripts (END{} blocks)
-	based on the last week tread
+    based on the last week tread
 
 * new: obvious.html#Handling_the_User_pressed_Stop_
 
@@ -2229,7 +2229,7 @@ All the above are based on the Doug's answers this weekend :)
   MaxClients MaxRequestsPerChild (actually a pointer to the next item)
 
 * new: performance: 
-	Tuning the Apache's configuration variables for the best performance 
+    Tuning the Apache's configuration variables for the best performance 
         Tuning with ab - ApacheBench 
         Tuning with crashme script 
         Choosing MaxClients 

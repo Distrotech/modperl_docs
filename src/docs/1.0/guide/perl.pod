@@ -577,18 +577,18 @@ Here's how to tell if a subroutine is a closure or not:
 which generates:
 
   anon normal:
-  CODE(0x80568e4)	
-  CODE(0x80568e4)	
-  CODE(0x80568e4)	
-  CODE(0x80568e4)	
-  CODE(0x80568e4)	
+  CODE(0x80568e4)   
+  CODE(0x80568e4)   
+  CODE(0x80568e4)   
+  CODE(0x80568e4)   
+  CODE(0x80568e4)   
   
   anon closure:
-  CODE(0x804b4c0)	
-  CODE(0x8056b54)	
-  CODE(0x8056bb4)	
-  CODE(0x80594d8)	
-  CODE(0x8059538)	
+  CODE(0x804b4c0)   
+  CODE(0x8056b54)   
+  CODE(0x8056bb4)   
+  CODE(0x80594d8)   
+  CODE(0x8059538)   
 
 Note how each code reference from the non-closure is identical, but
 the closure form must generate distinct coderefs to point at the
@@ -613,18 +613,18 @@ And now the same with named subroutines:
 which generates:
 
   anon normal:
-  CODE(0x80568c0)	
-  CODE(0x80568c0)	
-  CODE(0x80568c0)	
-  CODE(0x80568c0)	
-  CODE(0x80568c0)	
+  CODE(0x80568c0)   
+  CODE(0x80568c0)   
+  CODE(0x80568c0)   
+  CODE(0x80568c0)   
+  CODE(0x80568c0)   
   
   anon closure:
-  CODE(0x8056998)	
-  CODE(0x8056998)	
-  CODE(0x8056998)	
-  CODE(0x8056998)	
-  CODE(0x8056998)	
+  CODE(0x8056998)   
+  CODE(0x8056998)   
+  CODE(0x8056998)   
+  CODE(0x8056998)   
+  CODE(0x8056998)   
 
 We can see that both versions has generated the same code
 reference. For the subroutine I<a> it's easy, since it doesn't include

@@ -405,14 +405,14 @@ modules need to be re-compiled against the latest header files.
 
   % /usr/bin/perl Makefile.PL \
         APACHE_SRC=../apache_x.x.x/src \
-	DO_HTTPD=1 USE_APACI=1 EVERYTHING=1 \
+    DO_HTTPD=1 USE_APACI=1 EVERYTHING=1 \
         APACHE_PREFIX=/usr/local/httpd_perl \
-	APACI_ARGS='--prefix=/usr/local/httpd_perl'
+    APACI_ARGS='--prefix=/usr/local/httpd_perl'
 
 If you need to pass any other configuration options to Apache's
 C<configure>, add them after the I<--prefix> option. e.g:
 
-	APACI_ARGS='--prefix=/usr/local/httpd_perl \
+    APACI_ARGS='--prefix=/usr/local/httpd_perl \
                     --enable-module=status'
 
 Notice that B<all> C<APACI_ARGS> (above) must be passed as one long
@@ -1431,7 +1431,7 @@ The back-end (heavy) server configuration:
   Listen 4077
   <VirtualHost localhost:4077>
     ServerName www.example.com
-    DocumentRoot /home/httpd/docs/www.example.com	
+    DocumentRoot /home/httpd/docs/www.example.com   
     DirectoryIndex index.shtml index.html
   </VirtualHost>
   
