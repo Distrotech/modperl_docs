@@ -33,7 +33,7 @@ happened in version 1.00b1, released in June of 1997.  This port
 enabled mod_perl to compile and run in a threaded windows environment,
 with one major caveat: only one concurrent mod_perl request could be
 handled at any given time.  This was due to the fact that Perl did not
-introduce thread safe interpreters until version 5.6.0, released in
+introduce thread-safe interpreters until version 5.6.0, released in
 March of 2000.  Contrary to popular belief, the "threads support"
 implemented in Perl 5.005 (released July 1998), did not make Perl
 thread-safe internally.  Well before that version, Perl had the notion
@@ -245,7 +245,7 @@ containing its own symbol tables, stacks and other Perl runtime
 mechanisms, it is possible for any number of threads in the same
 process to concurrently callback into Perl.  This of course requires
 each thread to have its own C<PerlInterpreter> object, or at least
-that each instance is only access by one thread at any given time.
+that each instance is only accessed by one thread at any given time.
 
 mod_perl-1.xx has only a single C<PerlInterpreter>, which is
 contructed by the parent process, then inherited across the forks to
@@ -264,28 +264,28 @@ should reduce the overall mod_perl memory footprint.
 =head2 New mod_perl Directives for Threaded MPMs
 
 Rather than create a C<PerlInterperter> per-thread by default,
-mod_perl creates a pool of interpreters.  The pool mechanism helps cut 
-down memory usage a great deal.  As already mentioned, the syntax tree 
+mod_perl creates a pool of interpreters.  The pool mechanism helps cut
+down memory usage a great deal.  As already mentioned, the syntax tree
 is shared between all cloned interpreters.  If your server is serving
 more than mod_perl requests, having a smaller number of
 PerlInterpreters than the number of threads will clearly cut down on
 memory usage.  Finally and perhaps the biggest win is memory reuse.
 That is, as calls are made into Perl subroutines, memory allocations
 are made for variables when they are used for the first time.
-Subsequent use of variables may allocate more memory, e.g. if the
-string needs to hold a larger than it did before, or an array more
-elements than in the past.  As an optimization, Perl hangs onto these
-allocations, even though their values "go out of scope".  With the
-1.xx model, random children would be hit with these allocations.  With 
-2.0, mod_perl has much better control over which PerlInterpreters are
-used for incoming requests.  The intepreters are stored in two linked
-lists, one for available interpreters one for busy.  When needed to
-handle a request, one is taken from the head of the available list and
-put back into the head of the list when done.  This means if you have,
-say, 10 interpreters configured to be cloned at startup time, but no
-more than 5 are ever used concurrently, those 5 continue to reuse
-Perls allocations, while the other 5 remain much smaller, but ready to 
-go if the need arises.
+Subsequent use of variables may allocate more memory, e.g. if a scalar
+variable needs to hold a longer string than it did before, or an array
+more elements than in the past.  As an optimization, Perl hangs onto
+these allocations, even though their values "go out of scope".  With
+the 1.xx model, random children would be hit with these allocations.
+With 2.0, mod_perl has much better control over which PerlInterpreters
+are used for incoming requests.  The intepreters are stored in two
+linked lists, one for available interpreters, one for busy.  When
+needed to handle a request, one is taken from the head of the
+available list and put back into the head of the list when done.  This
+means if you have, say, 10 interpreters configured to be cloned at
+startup time, but no more than 5 are ever used concurrently, those 5
+continue to reuse Perl's allocations, while the other 5 remain much
+smaller, but ready to go if the need arises.
 
 Various attributes of the pools are configurable with the following
 configuration directives:
@@ -944,11 +944,11 @@ protocol.  In this case, one where a command is sent by the client to
 be executed on the server side, with results sent back to the client.
 
 The C<Apache::CommandServer> handler will support four commands:
-C<motd>, C<date>, C<who> and C<quit>.  These are probably not
-commands which can be exploited, but should we add such commands,
-we'll want to limit access based on ip address/hostname,
-authentication and authorization.  Protocol handlers need to take care 
-of these tasks themselves, since we bypass the HTTP protocol handler.
+C<motd>, C<date>, C<who> and C<quit>.  These are probably not commands
+which can be exploited, but should we add such commands, we'll want to
+limit access based on ip address/hostname, authentication and
+authorization.  Protocol handlers need to take care of these tasks
+themselves, since we bypass the HTTP protocol handler.
 
 As with all C<PerlProcessConnectionHandlers>, we are passed an
 C<Apache::Connection> object as the first argument.  Again, we will be
@@ -992,19 +992,19 @@ such as:
       require user dougm
   </Location>
 
-Given this configuration, I<some_auth_required> will return true.
-The I<user> method is then called, which will return false if we have
-not yet authenticated.  A I<prompt> utility is called to read the
-username and password, which are then injected into the I<headers_in>
-table using the I<set_basic_credentials> method.  The I<Authenticate>
-field in this table is set to a base64 encoded value of the
+Given this configuration, I<some_auth_required> will return true.  The
+I<user> method is then called, which will return false if we have not
+yet authenticated.  A I<prompt> utility is called to read the username
+and password, which are then injected into the I<headers_in> table
+using the I<set_basic_credentials> method.  The I<Authenticate> field
+in this table is set to a base64 encoded value of the
 username:password pair, exactly the same format a browser would send
 for I<Basic authentication>.  Next time through the loop
 I<run_check_user_id> is called, which will in turn invoke any
 authentication handlers, such as I<mod_auth>.  When I<mod_auth> calls
 the I<ap_get_basic_auth_pw()> API function (as all Basic auth modules
-do), it will get back the username and password we injected.
-If we fail authentication a B<401> status code is returned which we
+do), it will get back the username and password we injected.  If we
+fail authentication a B<401> status code is returned which we
 propagate up.  Otherwise, authorization handlers are run via
 I<run_auth_checker>.  Authorization handlers normally need the I<user>
 field of the I<request_rec> for its checks and that field was filled
@@ -1013,7 +1013,7 @@ in when I<mod_auth> called I<ap_get_basic_auth_pw()>.
 Provided login is a success, a welcome message is printed and main
 request loop entered.  Inside the loop the I<getline> function returns
 just one line of data, with newline characters stripped.  If the
-string sent by the client is in our command table, the command is then 
+string sent by the client is in our command table, the command is then
 invoked, otherwise a usage message is sent.  If the command does not
 return a true value, we break out of the loop.  Let's give it a try
 with this configuration:

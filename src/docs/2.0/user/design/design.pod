@@ -504,14 +504,14 @@ of it.  However, it is often the case that these strings are never
 written to.  It would be possible to implement copy-on-write strings
 in the Perl core with little performance overhead.
 
-=head2 Compile time method lookups
+=head2 Compile-time method lookups
 
 A known disadvantage to Perl method calls is that they are slower than
 direct function calls.  It is possible to resolve method calls at
 compile time, rather than runtime, making method calls just as fast as
 subroutine calls.  However, there is certain information required for
 method look ups that are only known at runtime.  To work around this,
-compile time hints can be used, for example:
+compile-time hints can be used, for example:
 
  my Apache::Request $r = shift;
 
