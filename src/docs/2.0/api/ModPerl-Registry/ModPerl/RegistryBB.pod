@@ -11,7 +11,7 @@ ModPerl::RegistryBB - Run unaltered CGI scripts persistently under mod_perl
       SetHandler perl-script
       PerlResponseHandler ModPerl::RegistryBB
       #PerlOptions +ParseHeaders
-      #PerlOptions +GlobalRequest
+      #PerlOptions -GlobalRequest
       Options +ExecCGI
   </Location>
 

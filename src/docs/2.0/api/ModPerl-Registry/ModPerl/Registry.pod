@@ -11,7 +11,7 @@ ModPerl::Registry - Run unaltered CGI scripts persistently under mod_perl
       SetHandler perl-script
       PerlResponseHandler ModPerl::Registry
       #PerlOptions +ParseHeaders
-      #PerlOptions +GlobalRequest
+      #PerlOptions -GlobalRequest
       Options +ExecCGI
   </Location>
 
@@ -35,6 +35,10 @@ For example:
   $r->print("mod_perl rules!");
 
 XXX: STOPPED here
+
+META: document that for now we don't chdir() into the script's dir,
+because it affects the whole process under threads.
+
 
 This module emulates the CGI environment, allowing programmers to
 write scripts that run under CGI or mod_perl without change.  Existing
