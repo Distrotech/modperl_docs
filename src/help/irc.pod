@@ -10,9 +10,9 @@ channel.
 
 =head1 The IRC Channel
 
-Although there is nothing "official" about, mod_perl people usually
-hang out on the I<irc.rhizomatic.net> IRC server (on port 6667), on
-the channel I<#modperl>.
+Although there is nothing "official" about it, mod_perl people usually
+hang out on the I<irc.perl.org> or I<irc.rhizomatic.net> IRC servers
+(on port 6667), in the channel I<#modperl>.
 
 You might also want to check in at the I<#axkit-dahut> channel where
 many mod_perl people hang out for non-serious talk, and the I<#axkit>
