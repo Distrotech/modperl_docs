@@ -91,8 +91,8 @@ email to: modperl-help@perl.apache.org
 I<Posting> to the list is just sending a message to the address which
 you will be given after you subscribe.
 
-Your message will not be accepted unless you have first L<To Get On
-The List|maillist::modperl>.
+To keep the list safe from spam, any message posted from an unsubscribed
+email address is sent to a moderator for manual approval.
 
 Do not post to modperl-subscribe@perl.apache.org, except to subscribe
 to the list!  Please do not post to the list itself to attempt to
