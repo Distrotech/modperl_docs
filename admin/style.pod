@@ -149,6 +149,8 @@ Use the head tags:
 
 Code examples:
 
+META: not implemented yet! Currently use F<>
+
 A new pod tag:
 
   =example 1.1 This is a title
@@ -160,6 +162,8 @@ becomes:
 =item *
 
 Figures (images):
+
+META: not implemented yet! Currently use =for html
 
 A new pod tag:
 
@@ -174,11 +178,15 @@ The index is extracted automatically from the file name.
 
 =item *
 
+META: not implemented yet!
+
 Footnotes. These aren't defined in the current perlpod yet. So please
 use [F] footnote [/F] semantics and later we will come up with some
 way to make it a correct footnote.
 
 =item *
+
+META: not implemented yet!
 
 Sidebars. Just like footnotes - it's not defined yet. Use [S] sidebar
 [/S] for now.
