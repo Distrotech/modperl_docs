@@ -202,7 +202,8 @@ To test is this server dynamically loaded mod_perl:
       [...]
   }
 
-To test if C<L<Apache::Status>> is loaded:
+To test if C<L<Apache::Status|docs::2.0::api::Apache::Status>> is
+loaded:
 
   if (Apache::Module::loaded('Apache::Status')) {
       [...]
