@@ -1157,7 +1157,7 @@ argument. For example:
 =head2 C<Apache::Util::unescape_uri()>
 
 C<Apache::Util::unescape_uri()> has been replaced with
-C<Apache::unescape_url()>.
+C<Apache::URI::unescape_url()>.
 
 =head2 C<Apache::Util::escape_html()>
 
