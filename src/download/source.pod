@@ -109,6 +109,13 @@ To get the cutting edge Apache/APR projects:
 For more information on using CVS see L<the CVS
 Howto|contribute::cvs_howto>
 
+=item * RPMs
+
+Some RPM packages for the bleeding mod_perl versions can be searched
+for using rpmfind services, e.g.:
+
+http://www.rpmfind.net/linux/rpm2html/search.php?query=mod_perl&submit=Search+...
+
 =back
 
 =head2 mod_perl 2.0 CVS Web Interface
