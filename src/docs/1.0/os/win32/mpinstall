@@ -266,9 +266,11 @@ Apache httpd.conf file (under $ap/conf):
 LoadFile "$dll"
 LoadModule perl_module modules/$so
 
-in the section where other apache modules are loaded,
-and then fire up the server. You may also have to add 
-$Config{bin} to your PATH environment variable. 
+in the section where other apache modules are loaded.
+You should also either have a directive 'PerlModule Apache2'
+in httpd.conf or put in a 'use Apache2 ();' in a startup
+script. You may also have to add $Config{bin}
+to your PATH environment variable.
     
 For more information, visit http://perl.apache.org/.
 
