@@ -93,6 +93,9 @@ div.ad {
         padding: 5px;
         border-style: none;
        /* background-color: #ffffff;*/
+}
+
+div.adtext {
         font-size: x-small;
         text-align:center;
 }

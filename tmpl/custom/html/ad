@@ -1,7 +1,8 @@
+<div class='ad'>
 [% WRAPPER wrap_box 
            title = 'Books'
 -%]
-<div class='ad' align="center">
+<div class="adtext">
     <a href="http://www.modperl.com/">
         Writing Apache Modules with Perl and C<br><br>
         <img src="[% doc.dir.abs_doc_root %]/images/ads/wrapmod.jpg" 
@@ -18,7 +19,7 @@
 [% WRAPPER wrap_box 
            title = ''
 -%]
-<div class='ad' align="center">
+<div class="adtext">
    <br>
     <a href="http://www.modperlcookbook.org/">
         The mod_perl Developer's Cookbook</b><br><br>
@@ -34,7 +35,7 @@
  [% WRAPPER wrap_box 
            title = ''
 -%]
-<div class='ad' align="center">
+<div class="adtext">
     <br>
     <a href="http://www.oreilly.com/catalog/modperlpr/">
          mod_perl Pocket Reference</b><br><br>
@@ -46,3 +47,6 @@
 </div>
 
 [% END %]
+</div>
+
+
