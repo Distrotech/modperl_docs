@@ -273,6 +273,11 @@ DESC
                     comment => '',
                    },
                    {
+                    title   => 'gmain.com',
+                    link    => 'http://thread.gmane.org/gmane.comp.apache.httpd.test.devel/',
+                    comment => '',
+                   },
+                   {
                     title   => 'Mbox file',
                     link    => 'http://httpd.apache.org/mail/test-dev/',
                     comment => '',

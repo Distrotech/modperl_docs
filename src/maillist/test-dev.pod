@@ -58,6 +58,10 @@ http://www.apachelabs.org/test-dev/
 
 http://marc.theaimsgroup.com/?l=apache-test-dev 
 
+=item * gmain.com
+
+http://thread.gmane.org/gmane.comp.apache.httpd.test.devel/ 
+
 =item * Mbox file
 
 http://httpd.apache.org/mail/test-dev/ 
