@@ -2,7 +2,7 @@
 
 Running and Developing Tests with the Apache::Test Framework
 
-=head1 DESCRIPTION
+=head1 Description
 
 The C<Apache::Test> framework was designed for creating test suits for
 products running on Apache httpd webserver (not necessarily
@@ -22,7 +22,7 @@ particular explains how to:
 
 =back
 
-But first let's introduce the C<Apache::Test> framework.
+=head1 Basics of Perl Modules Testing
 
 The tests themselves are written in Perl. The framework provides an
 extensive functionality which makes the tests writing a simple and
@@ -55,8 +55,6 @@ prerequisites are not installed on the system, but this is not
 critical for the usefulness of the test. Once you test that you cannot
 proceed with the tests and it's not a must pass test, you just skip
 it.
-
-=head2 Verbose Testing
 
 By default print() statements in the test script are filtered out by
 C<Test::Harness>.  if you want the test to print what it does (if you
