@@ -175,28 +175,6 @@ registry family now live in the C<ModPerl::> namespace. In mod_perl
 namespace, similar to C<APR::> and C<Apache::> which are used for apr
 and apache features, respectively.
 
-To run the C<Apache::Registry> module from mod_perl 1.0 you have to
-load C<Apache::compat> at the startup:
-
-  file:startup.pl:
-  ----------------
-  use Apache2; # if you have 1.0 and 2.0 installed
-  use Apache::compat ();
-  #use lib ...; # to find 1.0x Apache::Registry
-
-then in I<httpd.conf>:
-
-  Alias /perl /path/to/perl/scripts
-  <Location /perl>
-     SetHandler perl-script
-     PerlResponseHandler Apache::Registry
-     Options +ExecCGI
-     PerlOptions +ParseHeaders
-  </Location>
-
-Notice that C<Apache::compat> has to be loaded before C<CGI.pm> if the
-latter module is used.
-
 At this moment C<ModPerl::Registry> (and others) doesn't C<chdir()>
 into the script's dir like C<Apache::Registry> does, because
 C<chdir()> affects the whole process under threads. This should be
@@ -243,7 +221,7 @@ Adjust your I<httpd.conf> to have:
   Alias /perl /path/to/perl/scripts
   <Location /perl>
      SetHandler perl-script
-     PerlResponseHandler Apache::RegistryPrefork
+     PerlResponseHandler ModPerl::RegistryPrefork
      Options +ExecCGI
      PerlOptions +ParseHeaders
   </Location>
