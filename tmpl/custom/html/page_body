@@ -11,11 +11,7 @@
 
     INCLUDE page_toc toc=doc.toc;
 
-    # prepare section sub-menus
-    buttons = [
-        { link => '#top', text => 'TOP'},
-    ];
-    menu = INCLUDE splash/domm_menu size=-1;
+    menu="<a href='#top'><img src='${doc.dir.abs_doc_root}/images/top.gif' width=54 heigth=21 border='0' alt='TOP'></a>";
 
     # render the content
     FOREACH sec = doc.body;
