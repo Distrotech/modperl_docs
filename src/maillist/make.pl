@@ -22,7 +22,7 @@ while (my($k,$v) = each %data) {
 sub generate {
     my($node, $data) = @_;
 
-    my $filename = "list-$node.pod";
+    my $filename = "$node.pod";
     print "generating $filename\n";
 
     #  use Data::Dumper;

@@ -89,7 +89,7 @@ PostScript and PDF files.
 Now that you have a working copy of the mod_perl site, you will want
 to keep your documentation up to date. It is updated quite frequently,
 so you might want to follow the L<docs-cvs mailing
-list|maillist::list-docs-cvs> to see when changes are made.
+list|maillist::docs-cvs> to see when changes are made.
 
 Once you see a change is made, you need to update your CVS working
 copy, and re-build the site (although it will only rebuilt modified
@@ -146,7 +146,7 @@ corrections and patches.
 
 =item *
 
-the L<documentation mailing list|maillist::list-docs-dev>
+the L<documentation mailing list|maillist::docs-dev>
 
 =back
 

@@ -7,7 +7,7 @@ Binary mod_perl distributions
 This document includes links to various binary mod_perl distributions.
 
 If you know about a distribution that isn't listed here, please tell
-us (by announcing it at the L<mod_perl list|maillist::list-modperl>).
+us (by announcing it at the L<mod_perl list|maillist::modperl>).
 
 See also L<the source distributions|download::source> and the
 L<bundles|download::bundles>.

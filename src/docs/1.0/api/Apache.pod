@@ -1045,7 +1045,7 @@ corrections and patches.
 =item * 
 
 Adam Pisoni E<lt>adam@cnation.comE<gt>, 
-but contact L<modperl docs list|maillist::list-docs-dev>
+but contact L<modperl docs list|maillist::docs-dev>
 
 =back
 

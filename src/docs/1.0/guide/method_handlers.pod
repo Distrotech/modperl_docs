@@ -191,7 +191,7 @@ corrections and patches.
 
 =item * 
 
-L<modperl docs list|maillist::list-docs-dev>
+L<modperl docs list|maillist::docs-dev>
 
 =back
 

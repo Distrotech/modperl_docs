@@ -8,10 +8,10 @@ Having a hard time getting mod_perl into your organization? We have
 collected some arguments you can use to convince your boss why the
 organization wants mod_perl.
 
-You can contact the L<mod_perl advocacy list|maillist::list-advocacy>
+You can contact the L<mod_perl advocacy list|maillist::advocacy>
 if you have any more questions, or good arguments you have used (any
 success-stories are also welcome to L<the docs-dev
-list|maillist::list-docs-dev>).
+list|maillist::docs-dev>).
 
 Also see L<Popular Perl Complaints and Myths|docs::general::perl_myth>.
 

@@ -151,7 +151,7 @@ corrections and patches.
 
 =over
 
-=item * The L<documentation mailing list|maillist::list-docs-dev>
+=item * The L<documentation mailing list|maillist::docs-dev>
 
 =back
 

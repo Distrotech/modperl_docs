@@ -378,7 +378,7 @@ Frank D. Cringle E<lt>fdc@cliwe.ping.deE<gt>
 
 =item * 
 
-the L<modperl docs list|maillist::list-docs-dev>
+the L<modperl docs list|maillist::docs-dev>
 
 =back
 

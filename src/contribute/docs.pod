@@ -39,7 +39,7 @@ submit this information for the inclusion in the documentation.
 
 The documentation contributions and corrections are to be sent to the
 mod_perl documentation mailing list,
-L<docs-dev|maillist::list-docs-dev>
+L<docs-dev|maillist::docs-dev>
 
 If the correction is minor, please specify the full URL you are
 talking about.

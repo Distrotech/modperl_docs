@@ -303,7 +303,7 @@ corrections and patches.
 
 =item * 
 
-Contact the L<mod_perl docs list|maillist::list-docs-dev>
+Contact the L<mod_perl docs list|maillist::docs-dev>
 
 =back
 

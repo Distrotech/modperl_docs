@@ -81,7 +81,7 @@ corrections and patches.
 
 =item * Ask Bjoern Hanse E<lt>ask (at) netcetera.dkE<gt>
 
-=item * The L<documentation mailing list|maillist::list-docs-dev>
+=item * The L<documentation mailing list|maillist::docs-dev>
 
 =back
 

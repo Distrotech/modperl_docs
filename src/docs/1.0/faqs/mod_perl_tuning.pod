@@ -411,7 +411,7 @@ corrections and patches.
 
 =item *
 
-The L<modperl docs list|maillist::list-docs-dev>
+The L<modperl docs list|maillist::docs-dev>
 
 =back
 

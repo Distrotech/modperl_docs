@@ -8,7 +8,7 @@ There are many mod_perl articles published on the web and printed
 media. This document tries to partially cover these resources.
 
 If you know of any other resources not listed on this page please let
-us know at the L<users|maillist::list-modperl> mailing list.
+us know at the L<users|maillist::modperl> mailing list.
 
 =head1 Printed Media
 
@@ -245,7 +245,7 @@ First, you should find out if your information might be better suited
 as documentation for mod_perl. We try to maintain a big knowledge base
 here, and additions are always welcome. Please contact L<the docs-dev
 mailing
-list|maillist::list-docs-dev> with patches or additions.
+list|maillist::docs-dev> with patches or additions.
 
 If it doesn't fit into the documentation, Take23 (
 http://www.take23.org ), the mod_perl news site, always welcomes new

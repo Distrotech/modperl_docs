@@ -77,7 +77,7 @@ L<here|outstanding::index>.
 =head1 Contact Info
 
 If you've read the L<FAQ|/"FAQ"> and you still have a problem, please
-email L<docs-dev (at) perl.apache.org|maillist::list-docs-dev> and supply as
+email L<docs-dev (at) perl.apache.org|maillist::docs-dev> and supply as
 much information as possible to help us solve your problem.
 
 =head1 How this site was created

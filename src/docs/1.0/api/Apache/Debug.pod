@@ -18,7 +18,7 @@ rather that the error log.
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
-The L<mod_perl docs list|maillist::list-docs-dev>.
+The L<mod_perl docs list|maillist::docs-dev>.
 
 =head1 Authors
 
