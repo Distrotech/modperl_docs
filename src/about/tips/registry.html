@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>Apache::Registry Example</title> 
+    <meta name="Description" content="Apache::Registry Example">
+</head>
+<body bgcolor="white">
+
+
+<h1>Running CGI scripts with mod_perl</h1>
+
+Existing CGI scripts will run much faster under mod_perl.
+And converting existing CGI scripts to run under mod_perl is easy.
+
+For example, here's an existing CGI script called <tt>hello.cgi</tt>.
+
+<pre>
+    #!/usr/local/bin/perl -w
+    use strict;
+    use CGI;
+    my $q = CGI->new;
+    print $q->header,
+          $q->start_html,
+          $q->h1('Hello World!'),
+          $q->end_html;
+</pre>
+
+This script can now be run as-is under Apache::Registry by using the
+following configuration in httpd.conf:
+
+<pre>
+    &lt;files hello.cgi&gt;
+        SetHandler perl-script
+        PerlHandler Apache::Registry
+        Options ExecCGI
+    &lt;/files&gt;
+</pre>
+
+<p>
+That's basically it.  Your scripts do need to be well coded, but there's even the
+Apache::PerlRun module to help with those "less clean" programs.
+<p>
+For more information on running CGI scripts under mod_perl please see <a href="../../docs/1.0/faqs/index.html">mod_perl FAQs</a>.
+
+
+</body>
+</html>

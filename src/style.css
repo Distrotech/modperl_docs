@@ -32,6 +32,13 @@ a:visited { color: #993333;}
 a:active  { color: #666666;}
 a:hover   { color: #666666;}
 
+a.more {
+    font-size: 0.8em;
+    color: red;
+    text-decoration: none;
+}
+
+
 /* light blue bg-color for menu-titles */
 td.menu-title-bg { background-color: #828da6; }
 
