@@ -23,11 +23,31 @@ META: to be completed
 
 
 
-=head1 Functions API
+=head1 Class methods API
 
-=head2 C<Apache-E<gt>request()>
+=head2 C<request>
 
-  $request = Apache->request;
+Retrieve the
+(C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>) object
+for the current request.
+
+  $r = Apache->request;
+
+=over 4
+
+=item arg1: C<Apache> (class name)
+
+The Apache class
+
+=item ret: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+
+=item since: 1.99_10
+
+=back
+
+This method is only available if C<L<PerlOptions
++GlobalRequest|docs::2.0::user::config::config/C_GlobalRequest_>> is
+in effect.
 
 
 =head1 Methods API
