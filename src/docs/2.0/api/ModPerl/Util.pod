@@ -16,6 +16,19 @@ ModPerl::Util -- Helper mod_perl 2.0 Functions
 
 C<ModPerl::Util> provides mod_perl 2.0 util functions.
 
-META: complete
+=head1 API
+
+=over
+
+=item * current_callback
+
+Returns the currently running callback, like 'PerlResponseHandler'
+
+=item * exit
+
+Used internally to replace CORE::exit and terminate the request,
+not the whole children.
+
+=back
 
 =cut
