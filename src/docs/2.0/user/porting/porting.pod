@@ -583,7 +583,7 @@ C<warnings> pragma was added):
   --- Apache/MP3.pm.orig 2003-06-03 18:44:21.000000000 +1000
   +++ Apache/MP3.pm      2003-06-03 18:44:47.000000000 +1000
   @@ -2,6 +2,9 @@
-   # $Id: porting.pod,v 1.6 2003/06/10 23:47:28 stas Exp $
+   # $Id: porting.pod,v 1.7 2003/06/10 23:58:19 stas Exp $
   
    use strict;
   +use warnings;
@@ -852,7 +852,7 @@ of code to I<Apache/MP3.pm>:
   +++ Apache/MP3.pm       2003-06-06 16:21:14.000000000 +1000
   @@ -1,6 +1,10 @@
    package Apache::MP3;
-   # $Id: porting.pod,v 1.6 2003/06/10 23:47:28 stas Exp $
+   # $Id: porting.pod,v 1.7 2003/06/10 23:58:19 stas Exp $
   
   +BEGIN {
   +    die "Apache::compat is loaded loaded" if $INC{'Apache/compat.pm'};
@@ -1251,6 +1251,19 @@ use of the variable C<$mod_perl::VERSION>:
   my $fh = MP2 ? Symbol::gensym : Apache->gensym;
   open $fh, $file or die "Can't open $file: $!";
 
+Though, make sure that you don't use C<$mod_perl::VERSION> string
+anywhere in the code before you have declared your module's own
+C<$VERSION>, since PAUSE will pick the wrong version when you submit
+the module on CPAN. It requires that module's C<$VERSION> will be
+declared first. You can verify whether it'll pick the I<Foo.pm>'s
+version correctly, by running this code:
+
+  % perl -MExtUtils::MakeMaker -le 'print MM->parse_version(shift)' Foo.pm
+
+There is more information about this issue here:
+http://pause.perl.org/pause/query?ACTION=pause_04about#conventions
+
+
 Here's another way to find out the mod_perl version. In the server
 configuration file you can use a special configuration "define" symbol
 C<MODPERL2>, which is magically enabled internally, as if the server
@@ -1285,6 +1298,8 @@ Relevant links to other places in the porting documents:
 L<mod_perl 1.0 and 2.0 Constants Coexistence|docs::2.0::user::compat/mod_perl_1_0_and_2_0_Constants_Coexistence>
 
 =back
+
+
 
 
 =head1 Maintainers
