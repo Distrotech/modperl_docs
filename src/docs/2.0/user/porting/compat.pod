@@ -858,8 +858,7 @@ better in C<Apache::Request>.
 =item *
 
 if one wishes to simply read POST data, there is the more modern
-C<{setup,should,get}_client_block> API, and even more modern filter
-API, along with continued support for C<read(STDIN, ...)> and
+filter API, along with continued support for C<read(STDIN, ...)> and
 C<$r-E<gt>read($buf, $r-E<gt>headers_in-E<gt>{'content-length'}>)
 
 =back
@@ -1019,8 +1018,9 @@ Use C<L<Apache-E<gt>request|/__Apache___gt_request_>>.
 
 =head2 C<$r-E<gt>send_fd>
 
-Apache 2.0 provides a new method C<sendfile()> instead of C<send_fd>,
-so if your code used to do:
+mod_perl 2.0 provides a new method
+C<L<sendfile()|docs::2.0::api::Apache::RequestIO/C_sendfile_>> instead
+of C<send_fd>, so if your code used to do:
 
   open my $fh, "<$file" or die "$!";
   $r->send_fd($fh);
@@ -1028,19 +1028,16 @@ so if your code used to do:
 
 now all you need is:
 
-  $r->sendfile($fh);
+  $r->sendfile($file);
 
-There is also a compatibility implementation in pure perl in
-C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
+There is also a compatibility implementation of send_fd in pure perl
+in C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
+XXX: later we may provide a direct access to the real send_fd. That
+will be possible if we figure out how to portably convert PerlIO/FILE
+into apr_file_t (with help of apr_os_file_put, which expects a native
+filehandle, so I'm not sure whether this will work on win32).
 
-=head2 C<$r-E<gt>send_fd_length>
-
-currently available only in the 1.0 compatibility layer. The problem
-is that Apache has changed the API and its functionality. See the
-implementation in C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
-
-XXX: needs a better resolution
 
 =head2 C<$r-E<gt>send_http_header>
 
