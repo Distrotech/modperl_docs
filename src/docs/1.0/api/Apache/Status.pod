@@ -48,7 +48,7 @@ This single directive will enable all of the options described below.
 
 =item StatusDumper
 
-When browsing symbol tables, the values of arrays, hashes ans calars
+When browsing symbol tables, the values of arrays, hashes ans scalars
 can be viewed via C<Data::Dumper> if this configuration variable is
 set to On:
 
