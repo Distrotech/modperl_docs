@@ -316,7 +316,6 @@ It's already enabled for:
       ...
   </Location>
 
-
 =head2 C<Apache-E<gt>define>
 
 C<Apache-E<gt>define> has been replaced with
@@ -326,6 +325,27 @@ C<Apache::ServerUtil>.
 See the
 C<L<Apache::ServerUtil|docs::2.0::api::Apache::ServerUtil>>
 manpage.
+
+=head2 C<Apache-E<gt>get_handlers>
+
+Avalable via C<Apache::compat>. To get handlers for the server level,
+mod_perl 2.0 code should use:
+
+  Apache->server->get_handlers();
+
+=head2 C<Apache-E<gt>push_handlers>
+
+Avalable via C<Apache::compat>. To push handlers at the server level,
+mod_perl 2.0 code should use:
+
+  Apache->server->push_handlers();
+
+=head2 C<Apache-E<gt>set_handlers>
+
+Avalable via C<Apache::compat>. To set handlers at the server level,
+mod_perl 2.0 code should use:
+
+  Apache->server->set_handlers();
 
 =head2 C<Apache::exit()>
 
