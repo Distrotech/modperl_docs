@@ -2521,6 +2521,19 @@ The C<:uri> group is for XXX constants.
 
 
 
+=head2 Other Constants
+
+
+=head3 C<APR::PerlIO::PERLIO_LAYERS_ARE_ENABLED>
+
+=over
+
+=item since: 1.99_10
+
+=back
+
+See C<L<APR::PerlIO::Constants|docs::2.0::api::APR::PerlIO/Constants>>)
+
 
 
 

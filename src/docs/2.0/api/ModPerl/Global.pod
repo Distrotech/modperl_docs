@@ -1,6 +1,6 @@
 =head1 NAME
 
-ModPerl::Global - Perl API for manipulating special Perl lists
+ModPerl::Global -- Perl API for manipulating special Perl lists
 
 
 

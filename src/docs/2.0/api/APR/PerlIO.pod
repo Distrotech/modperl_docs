@@ -1,6 +1,6 @@
 =head1 NAME
 
-APR::PerlIO -- An APR Perl IO layer
+APR::PerlIO -- Perl IO layer for APR
 
 =head1 Synopsis
 
@@ -30,7 +30,7 @@ APR::PerlIO -- An APR Perl IO layer
 =head1 Description
 
 C<APR::PerlIO> implements a Perl IO layer using APR's file
-manipulation as its internals.
+manipulation API internally.
 
 Why do you want to use this? Normally you shouldn't, probably it won't
 be faster than Perl's default layer. It's only useful when you need to
@@ -51,7 +51,7 @@ to APR. But you can use APR Perl IO directly if you want.
 =head2 APR::PerlIO::PERLIO_LAYERS_ARE_ENABLED
 
 Before using the Perl IO APR layer one has to check whether it's
-supported by the used perl build.
+supported by the used APR/Perl build.
 
   die "This Perl build doesn't support PerlIO layers"
       unless APR::PerlIO::PERLIO_LAYERS_ARE_ENABLED;
@@ -68,7 +68,11 @@ builds not supporting Perl IO layers.
 
 =head1 API
 
-Perl Interface:
+Most of the API is as in normal perl IO with a few nuances listed in
+the following sections.
+
+
+
 
 =head2 C<open>
 
@@ -78,11 +82,11 @@ Open a file via APR Perl IO layer.
 
 =over 4
 
-=item arg1: C<$fh> (GLOB filehandle)
+=item arg1: C<$fh> ( GLOB filehandle )
 
 The filehandle.
 
-=item arg2: C<$mode> (string)
+=item arg2: C<$mode> ( string )
 
 The mode to open the file, constructed from two sections separated by
 the C<:> character: the first section is the mode to open the file
@@ -90,15 +94,19 @@ under (E<gt>, E<lt>, etc) and the second section must be a string
 I<APR>. For more information refer to the I<open> entry in the
 I<perlfunc> manpage.
 
-=item arg3: C<$filename> (string)
+=item arg3: C<$filename> ( string )
 
 The path to the filename to open
 
-=item arg4: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+=item arg4: C<$p> ( C<L<APR::Pool|docs::2.0::api::APR::Pool>> )
 
 The pool object to use to allocate APR::PerlIO layer.
 
-=item ret: success or failure
+=item ret: ( integer )
+
+success or failure value (true/false).
+
+=item since: 1.99_10
 
 =back
 
@@ -107,9 +115,9 @@ The pool object to use to allocate APR::PerlIO layer.
 
 
 
-=head2 seek()
+=head2 C<seek>
 
-Sets C<$fh>'s position, just like the C<seek()> perl call:
+Sets C<$fh>'s position, just like the C<seek()> Perl call:
 
   seek($fh, $offset, $whence);
 
@@ -122,6 +130,13 @@ cannot fit into a non-largefile size C<apr_off_t>.
 
 To solve the problem, rebuild Perl with C<-Uuselargefiles>. Currently
 there is no way to force APR to build with large files support.
+
+=over 4
+
+=item since: 1.99_10
+
+=back
+
 
 
 

@@ -18,6 +18,9 @@ APR::Error - Perl API for APR/Apache/mod_perl exceptions
 
 =head1 Description
 
+C<APR::Error> handles APR/Apache/mod_perl exceptions for you, while
+leaving you in control.
+
 Apache and APR API return status code for almost all methods, so if
 you didn't check the return code and handled any possible problems,
 you may have silent failures which may cause all kind of obscure
