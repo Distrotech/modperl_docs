@@ -109,7 +109,8 @@ behaviour of C<E<lt>Perl E<gt>> sections.
 By default, the namespace in which C<E<lt>Perl E<gt>> sections are
 evaluated is cleared after each block closes. By setting it to a true
 value, the content of those namespaces will be preserved and will be
-available for inspection by modules like L<Apache::Status>
+available for inspection by modules like
+C<L<Apache::Status|docs::2.0::api::Apache::Status>>.
 
 =head2 C<$Apache::Server::StrictPerlSections>
 
@@ -146,12 +147,13 @@ invoked with 3 arguments
 
 C<$self> is self-explanatory
 
-C<$parms> is the L<Apache::CmdParms> for this Container, for example,
-you might want to call C<$parms>-E<gt>server() to get the current
-server.
+C<$parms> is the
+C<L<Apache::CmdParms|docs::2.0::api::Apache::CmdParms>> for this
+Container, for example, you might want to call C<$parms>-E<gt>server()
+to get the current server.
 
-C<$args> is a L<APR::Table> of the section arguments, the 2 guaranteed
-ones will be:
+C<$args> is an C<L<APR::Table|docs::2.0::api::APR::Table>> object of
+the section arguments, the 2 guaranteed ones will be:
 
   $args->{'handler'} = 'My::PerlSection::Handler';
   
@@ -169,7 +171,7 @@ for example:
 
   $parms->server->add_config("Alias /foo /bar");
 
-Would create a new alias. The source code of L<Apache::PerlSections>
+Would create a new alias. The source code of C<Apache::PerlSections>
 is a good place to look for a practical example.
 
 =cut
