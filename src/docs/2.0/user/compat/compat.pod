@@ -812,8 +812,29 @@ If C<Class-E<gt>method> syntax is used for a C<Perl*Handler>, the
 C<:method> attribute is not required.
 
 
+=head1 C<Apache::src>
 
+For those who write 3rd party modules using XS, this module was used
+to supply mod_perl specific include paths, defines and other things,
+needed for building the extensions. mod_perl 2.0 makes things
+transparent with C<ModPerl::MM>.
 
+Here is how to write a simple I<Makefile.PL> for modules wanting to
+build XS code against mod_perl 2.0:
+
+  use Apache2;
+  use mod_perl 1.99;
+  use ModPerl::MM ();
+  
+  ModPerl::MM::WriteMakefile(
+      NAME => "Foo",
+  );
+
+and everything will be done for you.
+
+META: we probably will have a compat layer at some point.
+
+META: move this section to the devel/porting and link there instead
 
 =head1 C<Apache::Table>
 
