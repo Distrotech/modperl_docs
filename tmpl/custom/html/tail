@@ -3,6 +3,7 @@
             <hr noshade size="1">
             <!-- footer (tail )-->
             <p class="modified">Last modified [% doc.last_modified %]</p>
+           <div class="changes">[%- INCLUDE changes_link -%]</div>
             <p class="copyright">Use of the Camel for Perl is a trademark of
                 <a href="http://www.ora.com">O'Reilly &amp; Associates</a>, 
                 and is used by permission.
@@ -11,4 +12,5 @@
             <br><br>
         </div>
         
+
 
