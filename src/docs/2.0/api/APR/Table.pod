@@ -264,13 +264,13 @@ param C<$flag>: How to compress C<$table>.
 
 When C<$flag> == C<APR::OVERLAP_TABLES_SET>, each key will be 
 set to the last value seen for that key.  For example, given
-key/value pairs 'foo => bar' and 'foo => baz', 'foo' would
+key/value pairs 'foo =E<gt> bar' and 'foo =E<gt> baz', 'foo' would
 have a final value of 'baz' after compression - the 'bar'
 value would be lost.
 
 When C<$flag> == C<APR::OVERLAP_TABLES_MERGE>, multiple values
 for the same key are flattened into a comma-separated list.
-Given key/value pairs 'foo => bar' and 'foo => baz', 'foo'
+Given key/value pairs 'foo =E<gt> bar' and 'foo =E<gt> baz', 'foo'
 would have a final value of 'bar, baz' after compression.
 
 =back
