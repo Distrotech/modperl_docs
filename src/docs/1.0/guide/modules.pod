@@ -243,6 +243,120 @@ to which there is no access in a process running under mod_cgi.
 
 (L<Apache::Request|download::third_party/Apache__Request>)
 
+=head1 Apache::Cookie example: Login Pages by Setting Cookies and Refreshing
+
+On occassion you will need to set a cookie and then redirect the user
+to another page.  This is probably most common when you want a
+Location to be password protected, and if the user is unauthenticated,
+display to them a login page, otherwise display another page, but both
+at the same URL.
+
+=head2 Logic
+
+The logic goes something like this: 
+
+=over 4
+
+=item * 
+
+Check for login cookie
+
+=item * 
+
+If found, display the page
+
+=item * 
+
+If not found, display a login page
+
+=item * 
+
+Get username/password from a POST
+
+=item * 
+
+Authenticate username/password
+
+=item * 
+
+If the authentication failed, re-display the login page
+
+=item * 
+
+If the authentication passed, set a cookie and redirect to the same
+page, and display
+
+=back
+
+=head2 Example Situation
+
+Let's say that we are writing a handler for the location I</dealers>
+which is a protected area to be accessed only by people who can pass a
+username / password authentication check.
+
+We will use C<Apache::Cookie> here as it runs pretty fast under
+mod_perl, but C<CGI::Cookie> has pretty much the same syntax, so you
+can use that if you prefer.
+
+For the purposes of this example, we'll assume that we already have
+any passed parameters in a I<%params> hash, the C<authenticate()>
+routine returns B<true> or B<false>, I<display_login()> shows the
+username and password prompt, and I<display_main_page()> displays the
+protected content.
+
+=head3 Code
+
+  if( $params{user} and $params{pass} ) {
+      if(!authenticate(%params)) {
+
+Authentication failed, send them back to the login page.  B<NOTE:>
+It's a good idea to use C<no_cache()> to make sure that the client
+browser doesn't cache the login page.
+
+          $r->content_type('text/html');
+          $r->no_cache(1);
+          $r->send_http_header;
+          display_login();
+      } else {
+
+The user is authenticated, create the cookie with C<Apache::Cookie>
+
+          my $c = Apache::Cookie->new( $r,
+              -name => 'secret',
+              -value => 'foo'
+              -expires => '+3d',
+              -path => '/dealers'
+          );
+
+B<NOTE:> when setting the 'expires' tag you must set 
+it with I<either> a leading B<+> or B<->, as if either
+of these is missing, it will be put literally into the 
+cookie header.
+
+Now send them on their way via the authenticated page
+
+          $r->content_type('text/html');
+          $c->bake;
+          $r->header_out("Refresh"=>"0;url=/dealers");
+          $r->no_cache(1);
+          $r->send_http_header;
+          $r->print( "Authenticated... heading to main page! );
+
+The above code will set the headers to refresh (this is the same
+syntax as for the HTML meta tag) after 0 seconds.  The page that is
+flashed on the screen will have the text in the C<$r-E<gt>print>
+
+      }
+  } 
+  elsif( $cookies{secret} ) {
+
+If they already have a secret cookie, display the main (protected) page.  Don't 
+forget to check the validity of cookie data!
+
+      display_main_page();
+  }
+
+
 =head1 Apache::RequestNotes - Allow Easy, Consistent Access to Cookie and Form Data Across Each Request Phase
 
 C<Apache::RequestNotes> provides a simple interface allowing all
@@ -773,6 +887,10 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 =item *
 
 Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=item *
+
+Alan Bailward, E<lt>alan (at) ufies.orgE<gt>
 
 =back
 
