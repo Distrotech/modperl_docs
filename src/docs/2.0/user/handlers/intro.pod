@@ -213,69 +213,6 @@ several categories:
 
 
 
-=head1 Bucket Brigades
-
-Apache 2.0 allows multiple modules to filter both the request and the
-response. Now one module can pipe its output as an input to another
-module as if another module was receiving the data directly from the
-TCP stream. The same mechanism works with the generated response.
-
-With I/O filtering in place, simple filters, like data compression and
-decompression, can be easily implemented and complex filters, like
-SSL, are now possible without needing to modify the the server code
-which was the case with Apache 1.3.
-
-In order to make the filtering mechanism efficient and avoid
-unnecessary copying, while keeping the data abstracted, the I<Bucket
-Brigades> technology was introduced. It's also used in L<protocol
-handlers|docs::2.0::user::handlers::protocols>.
-
-A bucket represents a chunk of data.  Buckets linked together comprise
-a brigade. Each bucket in a brigade can be modified, removed and
-replaced with another bucket. The goal is to minimize the data copying
-where possible.  Buckets come in different types, such as files, data
-blocks, end of stream indicators, pools, etc. To manipulate a bucket
-one doesn't need to know its internal representation.
-
-The stream of data is represented by bucket brigades.  When a filter
-is called it gets passed the brigade that was the output of the
-previous filter. This brigade is then manipulated by the filter (e.g.,
-by modifying some buckets) and passed to the next filter in the stack.
-
-The following figure depicts an imaginary bucket brigade:
-
-=for html
-<img src="bucket_brigades.gif" width="590" height="400" 
- align="middle" alt="bucket brigades"><br><br>
-
-The figure tries to show that after the presented bucket brigade has
-passed through several filters some buckets were removed, some
-modified and some added. Of course the handler that gets the brigade
-cannot tell the history of the brigade, it can only see the existing
-buckets in the brigade.
-
-Bucket brigades are discussed in detail in the L<protocol
-handlers|docs::2.0::user::handlers::protocols> and L<I/O
-filtering|docs::2.0::user::handlers::filters> chapters.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -399,6 +336,62 @@ run this hook last, after EVERYTHING.
 META: more information in mod_example.c talking about
 position/predecessors, etc.
 
+
+
+
+
+
+
+
+
+
+
+
+
+=head1 Bucket Brigades
+
+Apache 2.0 allows multiple modules to filter both the request and the
+response. Now one module can pipe its output as an input to another
+module as if another module was receiving the data directly from the
+TCP stream. The same mechanism works with the generated response.
+
+With I/O filtering in place, simple filters, like data compression and
+decompression, can be easily implemented and complex filters, like
+SSL, are now possible without needing to modify the the server code
+which was the case with Apache 1.3.
+
+In order to make the filtering mechanism efficient and avoid
+unnecessary copying, while keeping the data abstracted, the I<Bucket
+Brigades> technology was introduced. It's also used in L<protocol
+handlers|docs::2.0::user::handlers::protocols>.
+
+A bucket represents a chunk of data.  Buckets linked together comprise
+a brigade. Each bucket in a brigade can be modified, removed and
+replaced with another bucket. The goal is to minimize the data copying
+where possible.  Buckets come in different types, such as files, data
+blocks, end of stream indicators, pools, etc. To manipulate a bucket
+one doesn't need to know its internal representation.
+
+The stream of data is represented by bucket brigades.  When a filter
+is called it gets passed the brigade that was the output of the
+previous filter. This brigade is then manipulated by the filter (e.g.,
+by modifying some buckets) and passed to the next filter in the stack.
+
+The following figure depicts an imaginary bucket brigade:
+
+=for html
+<img src="bucket_brigades.gif" width="590" height="400" 
+ align="middle" alt="bucket brigades"><br><br>
+
+The figure tries to show that after the presented bucket brigade has
+passed through several filters some buckets were removed, some
+modified and some added. Of course the handler that gets the brigade
+cannot tell the history of the brigade, it can only see the existing
+buckets in the brigade.
+
+Bucket brigades are discussed in detail in the L<protocol
+handlers|docs::2.0::user::handlers::protocols> and L<I/O
+filtering|docs::2.0::user::handlers::filters> chapters.
 
 
 
