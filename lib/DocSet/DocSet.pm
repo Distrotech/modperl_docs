@@ -279,7 +279,6 @@ sub scan_copy_the_rest {
 #        # some OSs's File::Find returns files with no dir prefix root
 #        # (that's what ()* is for
 #        $dst_path =~ s/(?:$src_root)*/$dst_root/; 
-#        $dst_path =~ s/$src_root/$dst_root/;
         $dst_path =~ s/\Q$src_root/$dst_root/;
 
         # to rebuild or not to rebuild

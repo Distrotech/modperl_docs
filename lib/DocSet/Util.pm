@@ -280,19 +280,17 @@ sub expand_dir {
 # Parts borrowed from modperl-2.0/lib/Apache/Build.pm and modified to
 # take into account Win32 PATHEXT
 ########################
-my @path_ext = ();
+my @path_ext = ('');
 if (IS_WIN32 and $ENV{PATHEXT}) {
-    @path_ext = split ';', $ENV{PATHEXT};
+    push @path_ext, split ';', $ENV{PATHEXT};
 }
 sub which {
-    foreach (map { catfile $_, $_[0] } File::Spec->path()) {
-        return $_ if -x;
-        if(IS_WIN32 and @path_ext) { # AFAIK, Win9x doesn't have PATHEXT
-            foreach my $ext (@path_ext) {
-                return $_.$ext if -x $_.$ext;
-            }
+    for my $base (map { catfile $_, $_[0] } File::Spec->path()) {
+        for my $ext (@path_ext) {
+            return $base.$ext if -x $base.$ext;
         }
     }
+    return '';
 }
 
 sub dumper {

@@ -87,7 +87,7 @@ sub parse {
                 return;
             }
 
-            # escape thpse that include link elements
+            # escape those that include link elements
             accum_h($self, qq{<$tagname});
             for (keys %$attr) {
                 accum_h($self, qq{ $_="});
@@ -95,7 +95,7 @@ sub parse {
                 if ($tag_attr{"$tagname $_"}) {
                     $val = HTML::Entities::encode($val, ENCODE_CHARS);
                 }
-                accum_h($self, $val);
+                accum_h($self, qq{$val"});
             }
             accum_h($self, qq{">});
         }
