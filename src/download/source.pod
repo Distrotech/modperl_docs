@@ -80,10 +80,10 @@ Release http://perl.apache.org/dist/
 =item * CPAN
 
 Currently the released versions include C<_> in them (e.g.,
-mod_perl-1.99_08.tar.gz), so they are invisible via C<CPAN.pm> or
-http://search.cpan.org/. But they are available from Doug's CPAN dir:
+mod_perl-1.99_17.tar.gz), so they are invisible via C<CPAN.pm> or
+http://search.cpan.org/. But they are available from CPAN dir:
 
-http://www.cpan.org/modules/by-module/Apache/DOUGM/
+http://search.cpan.org/dist/mod_perl/
 
 =back
 
