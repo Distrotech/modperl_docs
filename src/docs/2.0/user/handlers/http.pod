@@ -1399,7 +1399,7 @@ Similarly to the first handler, we add the configuration:
       PerlResponseHandler MyApache::Cleanup2
   </Location>
 
-And now when requesting </cleanup2> we still get the same output --
+And now when requesting I</cleanup2> we still get the same output --
 the listing of the current directory -- but this time this code will
 work correctly in the multi-processes/multi-threaded environment and
 temporary files get cleaned up as well.
