@@ -14,10 +14,10 @@ here.
 =head1 Sending Cookies in REDIRECT Response (ModPerl::Registry)
 
   use CGI::Cookie ();
-  use Apache::RequestRec ();
+  use Apache2::RequestRec ();
   use APR::Table ();
   
-  use Apache::Const -compile => qw(REDIRECT);
+  use Apache2::Const -compile => qw(REDIRECT);
   
   my $location = "http://example.com/final_destination/";
   
@@ -29,9 +29,9 @@ here.
   
       $r->err_headers_out->add('Set-Cookie' => $cookie);
       $r->headers_out->set(Location => $location);
-      $r->status(Apache::REDIRECT);
+      $r->status(Apache2::REDIRECT);
   
-      return Apache::REDIRECT;
+      return Apache2::REDIRECT;
   }
   1;
 
@@ -39,10 +39,10 @@ here.
 =head1 Sending Cookies in REDIRECT Response (handlers)
 
   use CGI::Cookie ();
-  use Apache::RequestRec ();
+  use Apache2::RequestRec ();
   use APR::Table ();
   
-  use Apache::Const -compile => qw(REDIRECT);
+  use Apache2::Const -compile => qw(REDIRECT);
   
   my $location = "http://example.com/final_destination/";
   
@@ -55,7 +55,7 @@ here.
       $r->err_headers_out->add('Set-Cookie' => $cookie);
       $r->headers_out->set(Location => $location);
   
-      return Apache::REDIRECT;
+      return Apache2::REDIRECT;
   }
   1;
 

@@ -68,15 +68,15 @@ on the pool object of choice. Here are some examples of its usage:
 
 To run something at the server shutdown and restart use a cleanup
 handler registered on
-C<L<server_shutdown_cleanup_register()|docs::2.0::api::Apache::ServerUtil/C_server_shutdown_cleanup_register_>>
+C<L<server_shutdown_cleanup_register()|docs::2.0::api::Apache2::ServerUtil/C_server_shutdown_cleanup_register_>>
 in F<startup.pl>:
 
   #PerlPostConfigRequire startup.pl
-  use Apache::ServerUtil ();
+  use Apache2::ServerUtil ();
   use APR::Pool ();
   
   warn "parent pid is $$\n";
-  Apache::ServerUtil::server_shutdown_cleanup_register((\&cleanup);
+  Apache2::ServerUtil::server_shutdown_cleanup_register((\&cleanup);
   sub cleanup { warn "server cleanup in $$\n" }
 
 This is usually useful when some server-wide cleanup should be
@@ -85,7 +85,7 @@ performed when the server is stopped or restarted.
 To run a cleanup at the end of each connection phase, assign a cleanup
 callback to the connection pool object:
 
-  use Apache::Connection ();
+  use Apache2::Connection ();
   use APR::Pool ();
   
   my $pool = $c->pool;
@@ -173,10 +173,10 @@ Any of these environment variables can be accessed via C<%ENV>.
 
 If the code needs to behave differently depending on whether it's
 running under one of the threaded MPMs, or not, the class method
-C<Apache::MPM-E<gt>is_threaded> can be used. For example:
+C<Apache2::MPM-E<gt>is_threaded> can be used. For example:
 
-  use Apache::MPM ();
-  if (Apache::MPM->is_threaded) {
+  use Apache2::MPM ();
+  if (Apache2::MPM->is_threaded) {
       require APR::OS;
       my $tid = APR::OS::thread_current();
       print "current thread id: $tid (pid: $$)";
@@ -202,8 +202,8 @@ things under different mpms.
 If you don't develop CPAN modules, it's perfectly fine to develop your
 project to be run under a specific MPM.
 
-  use Apache::MPM ();
-  my $mpm = lc Apache::MPM->show;
+  use Apache2::MPM ();
+  my $mpm = lc Apache2::MPM->show;
   if ($mpm eq 'prefork') {
       # prefork-specific code
   }
@@ -225,39 +225,39 @@ project to be run under a specific MPM.
 
 
 
-=head2 Auto-Reloading Modified Modules with Apache::Reload
+=head2 Auto-Reloading Modified Modules with Apache2::Reload
 
-META: need to port Apache::Reload notes from the guide here. but the
+META: need to port Apache2::Reload notes from the guide here. but the
 gist is:
 
-  PerlModule Apache::Reload
-  PerlInitHandler Apache::Reload
-  #PerlPreConnectionHandler Apache::Reload
+  PerlModule Apache2::Reload
+  PerlInitHandler Apache2::Reload
+  #PerlPreConnectionHandler Apache2::Reload
   PerlSetVar ReloadAll Off
-  PerlSetVar ReloadModules "ModPerl::* Apache::*"
+  PerlSetVar ReloadModules "ModPerl::* Apache2::*"
 
 Use:
 
-  PerlInitHandler Apache::Reload
+  PerlInitHandler Apache2::Reload
 
 if you need to debug HTTP protocol handlers. Use:
 
-  PerlPreConnectionHandler Apache::Reload
+  PerlPreConnectionHandler Apache2::Reload
 
 for any handlers.
 
 Though notice that we have started to practice the following style in
 our modules:
 
-  package Apache::Whatever;
+  package Apache2::Whatever;
   
   use strict;
   use warnings FATAL => 'all';
 
 C<FATAL =E<gt> 'all'> escalates all warnings into fatal errors. So
-when C<Apache::Whatever> is modified and reloaded by C<Apache::Reload>
+when C<Apache2::Whatever> is modified and reloaded by C<Apache2::Reload>
 the request is aborted. Therefore if you follow this very healthy
-style and want to use C<Apache::Reload>, flex the strictness by
+style and want to use C<Apache2::Reload>, flex the strictness by
 changing it to:
 
   use warnings FATAL => 'all';
@@ -299,27 +299,27 @@ relevant to mod_perl developers.
 =head3 Generating HTTP Response Headers
 
 The best approach for generating HTTP response headers is by using the
-L<mod_perl API|docs::2.0::api::Apache::RequestRec>. Some common
+L<mod_perl API|docs::2.0::api::Apache2::RequestRec>. Some common
 headers have dedicated methods, others are set by manipulating the
-C<L<headers_out|docs::2.0::api::Apache::RequestRec/C_headers_out_>>
+C<L<headers_out|docs::2.0::api::Apache2::RequestRec/C_headers_out_>>
 table directly.
 
 For example to set the I<Content-type> header you should call
-C<L<$r-E<gt>content_type|docs::2.0::api::Apache::RequestRec/C_content_type_>>:
+C<L<$r-E<gt>content_type|docs::2.0::api::Apache2::RequestRec/C_content_type_>>:
 
-  use Apache::RequestRec ();
+  use Apache2::RequestRec ();
   $r->content_type('text/html');
 
 To C<L<set|docs::2.0::api::APR::Table/C_set_>> a custom header
 I<My-Header> you should call:
 
-  use Apache::RequestRec ();
+  use Apache2::RequestRec ();
   use APR::Table;
   $r->headers_out->set(My-Header => "SomeValue");
 
 If you are inside a registry script L<you can still
 access|docs::2.0::user::coding::coding/Getting_the_C__r__Object> the
-C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>> object.
+C<L<Apache2::RequestRec|docs::2.0::api::Apache2::RequestRec>> object.
 
 Howerever you can choose a slower method of generating headers by just
 printing them out before printing any response. This will work only if
@@ -378,7 +378,7 @@ section, you won't encounter any of these problems.
 Finally, If you don't want Apache to send its own headers and you want
 to send your own set of headers (non-parsed headers handlers) use
 explain the
-C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache::RequestRec/C_assbackwards_>>
+C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache2::RequestRec/C_assbackwards_>>
 method. Notice that registry handlers will do that for you if the
 script's name start with the C<nph-> prefix.
 
@@ -410,7 +410,7 @@ setting the I<Content-Type> header, following by an immediate flush:
       $r->rflush; # send the headers out
   
       $r->print(long_operation());
-      return Apache::OK;
+      return Apache2::OK;
   }
 
 If this doesn't work, check whether you have configured any
@@ -562,7 +562,7 @@ the parent process.
 
 An additional time, once per each child process or Perl interpreter if
 the module is reloaded off disk again via
-C<L<Apache::Reload|docs::2.0::api::Apache::Reload>>.
+C<L<Apache2::Reload|docs::2.0::api::Apache2::Reload>>.
 
 =item *
 
@@ -728,7 +728,7 @@ It then executes it as:
 
   foo_bar_baz::handler($r);
 
-passing the C<L<$r|docs::2.0::api::Apache::RequestRec>> object as the
+passing the C<L<$r|docs::2.0::api::Apache2::RequestRec>> object as the
 only argument to the C<handler()> function.
 
 Depending on the used registry handler the package is made of the file
@@ -767,7 +767,7 @@ methods, e.g. rewriting the script as:
 
 If you are deep inside some code and can't get to the entry point to
 reach for C<$r>, you can use
-C<L<Apache-E<gt>request|docs::2.0::api::Apache::RequestUtil/C_request_>>.
+C<L<Apache2-E<gt>request|docs::2.0::api::Apache2::RequestUtil/C_request_>>.
 
 
 
