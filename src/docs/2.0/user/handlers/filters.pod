@@ -19,45 +19,45 @@ used to wear a dust filter mask:
 
 =for html
 <img src="filter_life_mask.jpg" width="150" height="159"
- align="center" valign="middle" alt="dust mask"><br><br>
+ align="middle"  alt="dust mask"><br><br>
 
 If you are smoker, chances are that you smoke cigarettes with filters:
 
 =for html
 <img src="filter_life_cigarrette.jpg" width="95" height="116"
- align="center" valign="middle" alt="cigarrette filter"><br><br>
+ align="middle" alt="cigarrette filter"><br><br>
 
 If you are a coffee gourmand, you have certainly tried a filter coffee:
 
 =for html
 <img src="filter_life_coffee.jpg" width="179" height="190" 
- align="center" valign="middle" alt="coffee machine"><br><br>
+ align="middle" alt="coffee machine"><br><br>
 
 The shower that you use, may have a water filter:
 
 =for html
 <img src="filter_life_shower.jpg" width="180" height="168"
- align="center" valign="middle" alt="shower filter"><br><br>
+ align="middle" alt="shower filter"><br><br>
 
 When the sun is too bright, you protect your eyes by wearing sun
 goggles with UV filter:
 
 =for html
 <img src="filter_life_goggles.jpg" width="200" height="86" 
- align="center" valign="middle" alt="sun goggles"><br><br>
+ align="middle" alt="sun goggles"><br><br>
 
 If are a photographer you can't go a step without using filter lenses:
 
 =for html
 <img src="filter_life_camera.jpg" width="191" height="160"
- align="center" valign="middle" alt="photo camera"><br><br>
+ align="middle" alt="photo camera"><br><br>
 
 If you love music, you might be unaware of it, but your super-modern
 audio system is literally loaded with various electronic filters:
 
 =for html
 <img src="filter_life_player.jpg" width="277" height="150" 
- align="center" valign="middle" alt="LP player"><br><br>
+ align="middle" alt="LP player"><br><br>
 
 There are many more places in our lives where filters are used. The
 purpose of all filters is to apply some transformation to what's
@@ -365,7 +365,7 @@ The following diagram depicts all three parts:
 
 =for html
 <img src="filter_logic.gif" width="620" height="356" 
- align="center" valign="middle" alt="filter flow logic"><br><br>
+ align="middle" alt="filter flow logic"><br><br>
 
 Let's explain each part using this pseudo-filter.
 
@@ -558,7 +558,7 @@ in addition to the program control flow.
 
 =for html
 <img src="in_filter_stream.gif" width="659" height="275" 
- align="center" valign="middle" alt="input filter data flow"><br><br>
+ align="middle" alt="input filter data flow"><br><br>
 
 The black- and white-headed arrows show when the control is switched
 from one filter to another. In addition the black-headed arrows show
@@ -617,7 +617,7 @@ in addition to the program control flow:
 
 =for html
 <img src="out_filter_stream.gif" width="575" height="261" 
- align="center" valign="middle" alt="output filter data flow"><br><br>
+ align="middle" alt="output filter data flow"><br><br>
 
 Similar to the input filters chain diagram, the arrows show the
 program control flow and in addition the black-headed arrows show the

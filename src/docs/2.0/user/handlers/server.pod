@@ -22,7 +22,7 @@ highlights which handlers are available to mod_perl 2.0:
 
 =for html
 <img src="server_life_cycle.gif" width="561" height="537" 
- align="center" valign="middle" alt="server life cycle"><br><br>
+ align="middle" alt="server life cycle"><br><br>
 
 Apache 2.0 starts by parsing the configuration file.  After the
 configuration file is parsed, the C<PerlOpenLogsHandler> handlers are

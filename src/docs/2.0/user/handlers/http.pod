@@ -22,7 +22,7 @@ highlights which handlers are available to mod_perl 2.0:
 
 =for html
 <img src="http_cycle.gif" width="600" height="560" 
- align="center" valign="middle" alt="HTTP cycle"><br><br>
+ align="middle" alt="HTTP cycle"><br><br>
 
 From the diagram it can be seen that an HTTP request is processes by
 11 phases, executed in the following order:

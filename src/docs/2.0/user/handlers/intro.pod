@@ -191,7 +191,7 @@ The following figure depicts an imaginary bucket brigade:
 
 =for html
 <img src="bucket_brigades.gif" width="590" height="400" 
- align="center" valign="middle" alt="bucket brigades"><br><br>
+ align="middle" alt="bucket brigades"><br><br>
 
 The figure tries to show that after the presented bucket brigade has
 passed through several filters some buckets were removed, some

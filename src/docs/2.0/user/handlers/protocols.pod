@@ -22,7 +22,7 @@ which handlers are available to mod_perl 2.0:
 
 =for html
 <img src="connection_cycle.gif" width="598" height="498" 
- align="center" valign="middle" alt="connection cycle"><br><br>
+ align="middle" alt="connection cycle"><br><br>
 
 When a connection is issued by a client, it's first run through
 C<PerlPreConnectionHandler> and then passed to the
@@ -37,7 +37,7 @@ cycle mapped to the time scale:
 
 =for html
 <img src="connection_cycle_time.gif" width="599" height="300"
- align="center" valign="middle" alt="connection cycle timing"><br><br>
+ align="middle" alt="connection cycle timing"><br><br>
 
 The arrows show the program control. In addition, the black-headed
 arrows also show the data flow. This diagram matches an interactive
