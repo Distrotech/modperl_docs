@@ -1,0 +1,67 @@
+=head1 NAME
+
+Workarounds for some known bugs in browsers.
+
+=head1 Description
+
+Unfortunately for web programmers, browser bugs are not uncommon, and
+sometimes we have to deal with them; refer to this chapter for some
+known bugs and how you can work around them.
+
+
+=head1 Preventing QUERY_STRING from getting corrupted because of &entity key names
+
+In a URL which contains a query string, if the string has multiple
+parts separated by ampersands and it contains a key named "reg", for
+example C<http://example.com/foo.pl?foo=bar&reg=foobar>, then some
+browsers will interpret C<&reg> as an SGML entity and encode it as
+C<&reg;>.  This will result in a corrupted C<QUERY_STRING>. If you
+encounter this problem, then either you should avoid using such keys
+or you should separate parameter pairs with C<;> instead of C<&>.
+C<CGI.pm>, C<Apache::Request> and C<$r-E<gt>args()> support a semicolon
+instead of an ampersand as a separator.  So your URI should look like
+this: C<http://example.com/foo.pl?foo=bar;reg=foobar>.
+
+Note that this is only an issue when you are building your own URLs
+with query strings.  It is not a problem when the URL is the result 
+of submitting a form because the browsers I<have> to get that right.
+
+=head1 IE 4.x does not re-post data to a non-port-80 URL
+
+One problem with publishing 8080 port numbers (or so I have been 
+told) is that IE 4.x has a bug when re-posting data to a non-port-80 
+URL.  It drops the port designator and uses port 80 anyway.
+
+See L<Publishing Port Numbers other than
+80|guide::config/Publishing_Port_Numbers_other_than_80>.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+
+=cut
+
