@@ -165,7 +165,15 @@ Finally as usual the I<startup.pl> file must be terminated with C<1;>.
 
 =head2 C<E<lt>PerlE<gt>> Sections
 
-  META: to be written. probably needs a dedicated chapter.
+With C<E<lt>PerlE<gt>>...C<E<lt>/PerlE<gt>> sections, it is possible
+to configure your server entirely in Perl.
+
+Please refer to the
+L<Apache::PerlSections|docs::2.0::api::Apache::PerlSections> manpage
+for more information.
+
+META: a dedicated chapter with examples?
+
 
 
 =head2 C<PerlSwitches>
