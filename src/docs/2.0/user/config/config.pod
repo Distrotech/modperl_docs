@@ -846,9 +846,13 @@ C<Apache::exists_config_define()>, for example:
 
 
 
+=head1 Perl Interface to the Apache Configuration Tree
 
+META:
 
+Apache::Directive
 
+t/response/TestApache/conftree.pm
 
 
 
