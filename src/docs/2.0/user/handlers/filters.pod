@@ -133,9 +133,7 @@ was invoked during a single request:
       my $ctx = $filter->ctx;
       $ctx->{invoked}++;
       $filter->ctx($ctx);
-      if ($filter->seen_eos) {
-          warn "filter was invoked $ctx->{invoked} times\n";
-      }
+      warn "filter was invoked $ctx->{invoked} times\n";
   
       return Apache::DECLINED;
   }
