@@ -61,7 +61,7 @@ here.
 
 note that this example differs from the Registry example
 only in that it does not attempt to fiddle with 
-C<$r->status()> - C<ModPerl::Registry> uses C<$r->status()>
+C<$r-E<gt>status()> - C<ModPerl::Registry> uses C<$r-E<gt>status()>
 as a hack, but handlers should never manipulate the
 status field in the request record.
 
