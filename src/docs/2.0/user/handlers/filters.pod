@@ -7,6 +7,196 @@ Input and Output Filters
 This chapter discusses mod_perl's input and output filter handlers.
 
 
+=head1 Your First Filter
+
+You certainly already know how filters work. That's because you
+encounter filters so often in the real life. If you are unfortunate to
+live in smog-filled cities like Saigon or Bangkok you are probably
+used to wear a dust filter mask:
+
+=for html
+<img src="filter_life_mask.jpg" width="150" height="159"
+ align="center" valign="middle" alt="dust mask"><br><br>
+
+If you are smoker, chances are that you smoke cigarettes with filters:
+
+=for html
+<img src="filter_life_cigarrette.jpg" width="95" height="116"
+ align="center" valign="middle" alt="cigarrette filter"><br><br>
+
+If you are a coffee gourmand, you have certainly tried a filter coffee:
+
+=for html
+<img src="filter_life_coffee.jpg" width="179" height="190" 
+ align="center" valign="middle" alt="coffee machine"><br><br>
+
+The shower that you use, may have a water filter:
+
+=for html
+<img src="filter_life_shower.jpg" width="180" height="168"
+ align="center" valign="middle" alt="shower filter"><br><br>
+
+When the sun is too bright, you protect your eyes by wearing sun
+goggles with UV filter:
+
+=for html
+<img src="filter_life_goggles.jpg" width="200" height="86" 
+ align="center" valign="middle" alt="sun goggles"><br><br>
+
+If are a photographer you can't go a step without using filter lenses:
+
+=for html
+<img src="filter_life_camera.jpg" width="191" height="160"
+ align="center" valign="middle" alt="photo camera"><br><br>
+
+If you love music, you might be unaware of it, but your super-modern
+audio system is literally loaded with various electronic filters:
+
+=for html
+<img src="filter_life_player.jpg" width="277" height="150" 
+ align="center" valign="middle" alt="LP player"><br><br>
+
+There are many more places in our lives where filters are used. The
+purpose of all filters is to apply some transformation to what's
+coming into the filter, letting something different out of the
+filter. Certainly in some cases it's possible to modify the source
+itself, but that makes things unflexible, and but most of the time we
+have no control over the source. The advantage of using filters to
+modify something is that they can be replaced when requirements change
+Filters also can be stacked, which allows us to make each filter do
+simple transformations. For example by combining several different
+filters, we can apply multiple transformations. In certain situations
+combining several filters of the same kind let's us achieve a better
+quality output.
+
+The mod_perl filters are not any different, they receive some data,
+modify it and send it out. In the case of filtering the output of the
+response handler, we could certainly change the response handler's
+logic to do something different, since we control the response
+handler. But this may make the code unnecessary complex. If we can
+apply transformations to the response handler's output, it certainly
+gives us more flexibility and simplifies things. For example if a
+response needs to be compressed before sent out, it'd be very
+inconvenient and inefficient to code in the response handler
+itself. Using a filter for that purpose is a perfect
+solution. Similarly, in certain cases, using an input filter to
+transform the incoming request data is the most wise solution. Think
+of the same example of having the incoming data coming compressed.
+
+Just like with real life filters, you can pipe several filters to
+modify each other's output. You can also customize a selection of
+different filters at run time.
+
+Without much further ado, let's write a simple but useful obfuscation
+filter for our HTML documents.
+
+We are going to use a very simple obfuscation -- turn the document
+into a one liner, which will make it harder to read the source
+code. To accomplish that we are going to remove characters \012
+(C<\n>) and \015 (C<\r>).
+
+And here is the code:
+
+  #file:MyApache/FilterObfuscate.pm
+  #--------------------------
+  package MyApache::FilterObfuscate;
+  
+  use strict;
+  use warnings;
+  
+  use Apache::Filter ();
+  
+  use Apache::Const -compile => qw(OK);
+  
+  use constant BUFF_LEN => 1024;
+  
+  sub handler {
+      my $f = shift;
+  
+      unless ($f->ctx) {
+          $f->r->headers_out->unset('Content-Length');
+          $f->ctx(1);
+      }
+  
+      while ($f->read(my $buffer, BUFF_LEN)) {
+          $buffer =~ s/[\r\n]//g;
+          $f->print($buffer);
+      }
+  
+      Apache::OK;
+  }
+  1;
+
+Next we add it to the configuration file:
+
+  <Files ~ "\.html">
+      PerlOutputFilterHandler MyApache::FilterObfuscate
+  </Files>
+
+restart the server, and now whenever a file with an I<".html">
+extension is requested, its content will be passed through the
+C<MyApache::FilterObfuscate> filter.
+
+The filter handler is similar to HTTP handlers, as it's expected to
+return C<Apache::OK> or C<Apache::DECLINED>, but it receives the
+filter object C<$f> as the first argument and not the request object
+C<$r> as is the case with HTTP handlers.
+
+The core of this filter is the read-modify-print expression which
+happens in the while loop. The logic is very simple: read at most
+C<BUFF_LEN> characters of data into C<$buffer>, apply the regex to
+remove any occurences of C<\n> and C<\r> in it, and print the
+resulting data out. The input data may come from a response handler,
+or from an upstream filter. The output data goes to the next filter in
+the output chain. Even though in this example we haven't configured
+any more filters, internally Apache by itself uses several core
+filters to manipulate the data and send it out to the client.
+
+The second important chunk of logic is the unsetting of the
+C<Content-Length> response header. Since the
+C<MyApache::FilterObfuscate> filter modifies the length of the data
+(shrinks it), if the response handler has set the C<Content-Length>
+header the client may have problems receiving the data since it'd
+expect more data then we have sent.
+
+As we are going to explain in great detail in the next sections, the
+same filter may be called many times during a single requests, every
+time receiving a chunk of data. For example if the HTML page is 64k
+long, a filter could be invoked 4 times, each time receiving 16k of
+data. The while loop that we just saw is going to read these 16k in 16
+calls, since it requests 1k on every read() call. Since it's enough to
+unset the C<Content-Length> header when the filter is called the first
+time, we need to have some flag telling us whether we have done the
+job. The method C<ctx> provides this functionality:
+
+      unless ($f->ctx) {
+          $f->r->headers_out->unset('Content-Length');
+          $f->ctx(1);
+      }
+
+the unset() call will be made only on the first filter call for each
+request. Of course you can store any perl data structures in
+C<$f-E<gt>ctx> and retrieve it later in future filter invocations. We
+will show plenty of examples using this method in the following
+sections.
+
+Of course the C<MyApache::FilterObfuscate> filter logic should take
+into account situations where removing new line characters will break
+the correct rendering, as is the case if there are multi-line
+C<E<lt>preE<gt>>...C<E<lt>/preE<gt>> entries, but since it escalates
+the complexity of the filter, we will disregard this requirement for
+now. A positive side effect of this obfuscation algorithm is in
+shrinking the length of the data sent to the client. If you want to
+look at the production ready implementation, which takes into account
+the HTML markup specifics, the C<Apache::Clean> module, available from
+CPAN, does just that.
+
+mod_perl I/O filtering follows the Perl's principle of making simple
+things easy and difficult things possible. You have seen that it's
+trivial to write simple filters. As you read through this tutorial you
+will see that much more difficult things are possible, even though a
+more elaborated code will be needed.
+
 =head1 I/O Filtering Concepts
 
 Before introducing the APIs, mod_perl provides for Apache Filtering,
