@@ -376,7 +376,7 @@ This will work in both mod_perl generations.
 
 C<Apache::Constants::SERVER_VERSION()> has been replaced with:
 
-  Apache::get_server_version();
+  Apache::Server::get_server_version();
 
 =head2 C<export()>
 
