@@ -1,17 +1,16 @@
 =head1 NAME
 
-Apache mod_perl-1.xx compilation instructions for Win32
+Apache mod_perl-1.xx installation instructions for Win32
 
 =head1 Description
 
-This document discusses how to build, test, configure and
-install mod_perl under Win32.
+This document discusses how to install mod_perl under Win32,
+both in building from sources and in installing 
+pre-compiled binary packages.
 
-If you are only interested in running mod_perl, it might be a better idea
-to L<get and install one of the binary
-packages|win32::binaries>.
+=head1 Building from sources
 
-=head1 Prerequisites
+You will need
 
 =over
 
@@ -31,8 +30,6 @@ should use the same compiler in building mod_perl that was used
 to compile your Perl binary; for ActivePerl, this means using VC++ 6.
 
 =back
-
-=head1 Building
 
 Obtain the mod_perl sources from CPAN:
 
@@ -110,7 +107,7 @@ be copied to your Apache modules directory (eg, F<C:\Apache\modules>).
 
 =back
 
-=head2 Building with arguments to C<perl Makefile.PL>
+=head2 Building with Makefile.PL arguments
 
 Generating the Makefile as, for example,
 
@@ -161,25 +158,96 @@ This latter method of building mod_perl will also install the
 Apache and mod_perl header files, which can then be accessed
 through the Apache::src module.
 
-=head1 Configuration
+=head1 Binaries
 
-Add this line to F<C:\Apache\conf\httpd.conf>:
+There are two major types of binary packages
+available for Win32 mod_perl - all-in-one Perl/Apache/mod_perl
+binaries, and mod_perl ppm (Perl Package Manager) packages.
 
- LoadModule perl_module modules/mod_perl.so
+=head2 All-in-one packages
 
-Be sure that the path to your Perl binary (eg, F<C:\Perl\bin>)
-is in your C<PATH> environment variable. If you have a C<ClearModuleList> 
-directive enabled in F<httpd.conf>, you may also need to add
+There are at least two binary packages for Win32 that contain the
+necessary Perl and Apache binaries:
 
- AddModule mod_perl.c
+  http://www.indigostar.com/
+  
+  ftp://theoryx5.uwinnipeg.ca/pub/other/perl-win32-bin.exe
 
-See the descriptions of the C<ClearModuleList> and C<AddModule>
-directives in the Apache documents for more details, especially
-concerning the relative order of these and the C<LoadModule> directive.
+As well as including a number of non-core modules, both of these
+packages contain mod_perl. See the documentation on the web sites and
+that included with the packages for installation instructions. Both of
+these also include an ActiveState-compatible C<ppm> (Perl Package
+Manager) utility for adding and upgrading modules.
+
+For the adventuresome who want a taste of things to come, a 
+mod_perl-2.0/Apache-2.0 binary distribution based on cvs 
+sources is available - see the discussion of
+L<modperl-2 on Win32|docs::2.0::os::win32::install>
+for details. Be aware though that, being a pre-release version,
+bugs are most likely present.
+
+=head2 PPM Packages
+
+For users of ActivePerl, available from
+
+   http://www.activestate.com/
+
+there are also C<PPM> mod_perl packages available. For this, if you
+don't already have it, get and install the latest Win32 Apache binary
+from
+
+   http://httpd.apache.org/
+
+Both ActivePerl and Apache binaries are available as C<MSI> files for
+use by the Microsoft Installer - as discussed on the ActiveState site,
+users of Windows 95 and 98 may need to obtain this.  In installing
+these packages, you may find it convenient when transcribing any
+Unix-oriented documentation to choose installation directories that do
+not have spaces in their names (eg, F<C:\Perl> and F<C:\Apache>).
+
+After installing Perl and Apache, you can then install mod_perl via
+the PPM utility. ActiveState does not maintain mod_perl in the ppm
+repository, so you must get it from a different location other than
+ActiveState's site. One way is simply as (broken over two lines for
+readability)
+
+  C:\> ppm install
+       http://theoryx5.uwinnipeg.ca/ppmpackages/mod_perl.ppd
+
+Another way, which will be useful if you plan on installing additional
+Apache modules, is to set the repository within the C<ppm> shell
+utility as (the C<set repository ...> command has been broken over two
+lines for readability):
+
+   C:\> ppm
+   PPM> set repository theoryx5 
+         http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer
+   PPM> install mod_perl
+   PPM> set save
+   PPM> quit
+   C:\>
+
+The C<set save> command saves the C<theoryx5> repository to your PPM
+configuration file, so that future PPM sessions will search this
+repository, as well as ActiveState's, for requested packages.
+
+The mod_perl PPM package also includes the necessary Apache DLL
+C<mod_perl.so>; a post-installation script should be run which will
+offer to copy this file to your Apache modules directory (eg,
+I<C:\Apache\modules>).
+
+Note that the mod_perl package available from this site will always
+use the latest mod_perl sources compiled against the latest official
+Apache release; depending on changes made in Apache, you may or may
+not be able to use an earlier Apache binary. However, in the Apache
+Win32 world it is particularly a good idea to use the latest version,
+for bug and security fixes.
 
 =head1 See Also
 
-The L<mod_perl documentation|docs::index>, and http://take23.org/.
+The directions for
+<configuring mod_perl-1 on Win32|docs::1.0::os::win32::config>, 
+the L<mod_perl documentation|docs::index>, and http://take23.org/.
 
 =head1 Maintainers
 
