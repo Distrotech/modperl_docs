@@ -1,0 +1,64 @@
+perl.apache.org site's STATUS:
+     Last modified at [$Date: 2002/07/12 11:03:03 $]
+
+Release:
+--------
+
+   2.0: Jul 02, 2002
+
+The site's usability figures by platform/browser:
+-------------------------------------------------
+ +2 = perfect
+ +1 = good, 
+  0 = usable, but looks bad
+ -1 = unusable
+ -2 = browser crashes
+
+Graphic Browsers:
+
+Name/Version     Linux WinXP  Win98  MacOSX  MacOS
+--------------------------------------------------
+Opera 6.02       +2     +2     ..      ..     ..
+IE 6.0           --     +2     ..      ..     ..
+IE 5.0           --     ..     +2      ..     ..
+Mozilla 1.0      +2     +2     ..      ..     ..
+Konqueror 2.2.2  +1.5   --     --      ..     --
+Netscape 4.x     +1   
+
+Text Browsers:
+
+Name/Version     Linux WinXX MacOS Cygwin
+-----------------------------------------
+links/0.96-6mdk   +1    ..     ..    +1
+lynx-2.8.5-0.3mdk +1    ..     ..    +1
+
+Notes:
+
+- Galleon uses the same engine (gecko) as Mozilla so the rendering is
+  the same.
+
+Rendering errors:
+-----------------
+
+- konqueror 3.0.2: the camel line includes some colored noise
+  Reported by: Stas Bekman
+  Status: Allan says it's a bug it's probably a bug in konqueror's
+          rendering engine
+
+- IE 5.1/Mac OSX: When a search also turns up in the title-line in 
+  the results, that whole titlle-line link get a black colour 
+  instead of the deafult link colour. (example "toolkits")
+  Reported by: allan
+  Status: Allan says it's clearly a bug in that browser setup. 
+  however we should one day fix the color values for all the span 
+  tags. We only specfiy a colour because we must (to validate) 
+  because we must have a background-color. If we specify 
+    color: inherit;
+  netscape 4 turns the colour to green (!)
+
+General usability
+-----------------
+
+- Must fix logos in "Link to us" pages to fit w/ new logo from Mike.
+  Reported by: Mark Fowler <mark (at) astray.com>
+  STATUS: we need some toned down logos from Mike first.
