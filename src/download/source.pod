@@ -12,8 +12,9 @@ L<bundles|download::bundles>.
 
 =head1 How to build the source distribution
 
-Be sure to read the I<README> and I<INSTALL> documents first and the
-longer L<the installation guide|guide::install>.
+Be sure to read the I<README> and I<INSTALL> documents (in the
+distribution package) and the longer L<the installation
+guide|guide::install>.
 
 =head1 How to get the stable source distribution
 
@@ -45,6 +46,9 @@ by Vladimir Ivaschenko: http://www.hazard.maks.net/apache/
 =item *
 
 The latest CVS snapshot: http://cvs.apache.org/snapshots/
+
+For more information about using the cvs distribution refer to the
+L<mod_perl_cvs|faqs::mod_perl_cvs> document.
 
 =item *
 
