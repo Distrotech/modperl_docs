@@ -612,9 +612,6 @@ The C<:socket> group is for XXX constants.
 =head3 C<APR::SO_SNDBUF>
 
 
-=head3 C<APR::SO_TIMEOUT>
-
-
 
 
 =head2 C<:table>
