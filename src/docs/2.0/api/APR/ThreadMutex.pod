@@ -30,12 +30,12 @@ C<APR::ThreadMutex> provides the following functions and/or methods:
 
 =head1 Unsupported API
 
-C<APR::ThreadMutex> also provides auto-generated perl interface for a
+C<APR::ThreadMutex> also provides auto-generated Perl interface for a
 few other methods which aren't tested at the moment and therefore
 their API is a subject to change. These methods will be finalized
 later as a need arises. If you want to rely on any of the following
 methods please contact the L<the mod_perl development mailing
-list|maillist::dev> so we can help eachother take the steps necessary
+list|maillist::dev> so we can help each other take the steps necessary
 to shift the method to an officially supported API.
 
 
