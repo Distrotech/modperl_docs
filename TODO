@@ -15,11 +15,6 @@ Basic Layout:
 DocSet:
 -------
 
-- There is some bug with resolving L<> which happens only on
-  apache.org. L<docs::index> gets resolved as docs/1.0/api/index.html
-  See:
-  http://perl.apache.org/release/maillist/email-etiquette.html#The_mod_perl_documentation
-
 - need to be able to copy elements from the <head> section of the
   source html into the target file. Since this may cause collisions
   with preset headers, need to override the preset header's elements
@@ -85,10 +80,6 @@ Content:
   + also they need to add theperlreview.com
 
 - Need to resolve prompt issue. (user/root prompt)
-
-- Complete the "Contribute" section with information on *how* to
-  contribute (style.pod, etc for docs, and other things for devel and
-  maillists)
 
 Search:
 -------
@@ -166,6 +157,8 @@ Later:
 - Think about porting the conferences stuff.
   when we have an internal resource, link to it from
   src/help/index_top.html
+  Integrate the Talks links from Offsite Resources into that.
+  Also Lincoln's talks on CGI and mod_perl are at our disposal (HTML).
 
 
 - add feather in the tail
@@ -229,3 +222,8 @@ Later:
    o http://mathforum.org/epigone/modperl/blexvarcho
 
 - mod_perl history page in About section [Per Einar]
+
+- Figure out a way to get the SecuritySpace statistics as a nice graph
+  on our page, looks more impressive if it's locally hosted like the
+  Netcraft one: either fetch results and build our own graph, or just
+  fetch their graph.
