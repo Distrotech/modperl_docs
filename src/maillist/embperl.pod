@@ -53,6 +53,10 @@ mailto:embperl-help@perl.apache.org
 
 http://www.ecos.de/~mailarc/embperl/ 
 
+=item * gossamer-threads.com
+
+http://www.gossamer-threads.com/archive/mod_perl_C1/embperl_F6/ 
+
 =item * geocrawler.com
 
 http://www.geocrawler.com/lists/3/Web/187/0/ 

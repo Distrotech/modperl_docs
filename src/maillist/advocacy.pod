@@ -52,6 +52,10 @@ mailto:advocacy-help@perl.apache.org
 
 http://www.mail-archive.com/advocacy@perl.apache.org/ 
 
+=item * gossamer-threads.com
+
+http://www.gossamer-threads.com/archive/mod_perl_C1/advocacy_F1/ 
+
 =item * Mbox file
 
 http://perl.apache.org/mail/advocacy/ 

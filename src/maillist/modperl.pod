@@ -57,6 +57,10 @@ http://mathforum.org/epigone/modperl
 
 http://marc.theaimsgroup.com/?l=apache-modperl&r=1&w=2#apache-modperl 
 
+=item * gossamer-threads.com
+
+http://www.gossamer-threads.com/archive/mod_perl_C1/modperl_F7/ 
+
 =item * msgs.securepoint.com
 
 http://msgs.securepoint.com/cgi-bin/get/apache-current.html 

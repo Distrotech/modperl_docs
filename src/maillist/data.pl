@@ -28,6 +28,11 @@ DESC
                     comment => '',
                    },
                    {
+                    title   => 'gossamer-threads.com',
+                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/modperl_F7/',
+                    comment => '',
+                   },
+                   {
                     title   => 'msgs.securepoint.com',
                     link    => 'http://msgs.securepoint.com/cgi-bin/get/apache-current.html',
                     comment => '',
@@ -90,6 +95,11 @@ DESC
                     comment => '',
                    },
                    {
+                    title   => 'gossamer-threads.com',
+                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/docs-dev_F5/',
+                    comment => '',
+                   },
+                   {
                     title   => 'Mbox file',
                     link    => 'http://perl.apache.org/mail/docs-dev/',
                     comment => '',
@@ -145,6 +155,11 @@ DESC
                    {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-dev&r=1&w=2#apache-modperl-dev',
+                    comment => '',
+                   },
+                   {
+                    title   => 'gossamer-threads.com',
+                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/dev_F4/',
                     comment => '',
                    },
                    {
@@ -290,6 +305,11 @@ DESC
                     comment => '',
                    },
                    {
+                    title   => 'gossamer-threads.com',
+                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/advocacy_F1/',
+                    comment => '',
+                   },
+                   {
                     title   => 'Mbox file',
                     link    => 'http://perl.apache.org/mail/advocacy/',
                     comment => '',
@@ -317,6 +337,11 @@ DESC
                 help             => 'announce-help@perl.apache.org',
                },
       archives => [
+                   {
+                    title   => 'gossamer-threads.com',
+                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/announce_F2/',
+                    comment => '',
+                   },
                    {
                     title   => 'Mbox file',
                     link    => 'http://perl.apache.org/mail/announce/',
@@ -347,6 +372,11 @@ DESC
                    {
                     title   => 'ecos.de',
                     link    => 'http://www.ecos.de/~mailarc/embperl/',
+                    comment => '',
+                   },
+                   {
+                    title   => 'gossamer-threads.com',
+                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/embperl_F6/',
                     comment => '',
                    },
                    {
@@ -381,6 +411,11 @@ DESC
                 help             => 'asp-help@perl.apache.org',
                },
       archives => [
+                   {
+                    title   => 'gossamer-threads.com',
+                    link    => 'http://www.gossamer-threads.com/archive/mod_perl_C1/asp_F3/',
+                    comment => '',
+                   },
                    {
                     title   => 'mail-archive.com',
                     link    => 'http://www.mail-archive.com/asp%40perl.apache.org/',

@@ -51,6 +51,10 @@ mailto:docs-dev-help@perl.apache.org
 
 http://mathforum.org/epigone/modperl-docs-dev 
 
+=item * gossamer-threads.com
+
+http://www.gossamer-threads.com/archive/mod_perl_C1/docs-dev_F5/ 
+
 =item * Mbox file
 
 http://perl.apache.org/mail/docs-dev/ 

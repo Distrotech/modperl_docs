@@ -56,6 +56,10 @@ http://mathforum.org/epigone/modperl-dev
 
 http://marc.theaimsgroup.com/?l=apache-modperl-dev&r=1&w=2#apache-modperl-dev 
 
+=item * gossamer-threads.com
+
+http://www.gossamer-threads.com/archive/mod_perl_C1/dev_F4/ 
+
 =item * www.mail-archive.com
 
 http://www.mail-archive.com/dev%40perl.apache.org/ 

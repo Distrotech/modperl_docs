@@ -47,6 +47,10 @@ mailto:asp-help@perl.apache.org
 
 =over
 
+=item * gossamer-threads.com
+
+http://www.gossamer-threads.com/archive/mod_perl_C1/asp_F3/ 
+
 =item * mail-archive.com
 
 http://www.mail-archive.com/asp%40perl.apache.org/ 

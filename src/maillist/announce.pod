@@ -48,6 +48,10 @@ mailto:announce-help@perl.apache.org
 
 =over
 
+=item * gossamer-threads.com
+
+http://www.gossamer-threads.com/archive/mod_perl_C1/announce_F2/ 
+
 =item * Mbox file
 
 http://perl.apache.org/mail/announce/ 
