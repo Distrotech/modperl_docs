@@ -978,7 +978,7 @@ the default I<apache_x.x.x/configure> script:
 
 
 
-=head1 Installation Scenarios for Standalone mod_perl 
+=head1 Installation Scenarios for Standalone mod_perl
 
 There are various ways available to build Apache with the new hybrid
 build environment (using C<USE_APACI=1>):
@@ -2156,19 +2156,14 @@ be up and running.
 
 Some people have reported that even when the server responds
 positively to the L<How can I tell whether mod_perl is
-running|install/How_can_I_tell_whether_mod_perl_> tests, the mod_perl
-API will not function properly.  You may want to run the following script
-to verify the availability of the mod_perl API.
+running|install/How_can_I_tell_whether_mod_perl_is_running_> tests,
+the mod_perl API will not function properly.  You may want to run the
+following script to verify the availability of the mod_perl API.
 
-	use strict;
-	my $r = shift;
-	$r->send_http_header('text/html');
-	$r->print("It worked!!!\n");
-
-
-
-
-
+  use strict;
+  my $r = shift;
+  $r->send_http_header('text/html');
+  $r->print("It worked!!!\n");
 
 
 
