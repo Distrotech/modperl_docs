@@ -2,7 +2,7 @@
 
 mod_perl and Related Books
 
-=head1 DESCRIPTION
+=head1 Description
 
 This document presents the published mod_perl and related books.
 
@@ -67,6 +67,48 @@ http://www.oreilly.com/catalog/apachepr/
 See also Andrew's collection of reference card for Apache and other
 programs: http://www.refcards.com.
 
+=head1 Books talking about mod_perl
+
+Some books mention mod_perl, usually because they have to do with
+Apache, Perl or Linux in a web environment, and as such are required
+to talk about mod_perl:
+
+=over
+
+=item * Perl for the Web
+
+By Chris Radcliff. B<Perl for the Web> talks about mod_perl and
+related technologies in some of its chapters. It is available verbatim
+online: http://www.globalspin.com/thebook/
+
+=item * Professional Linux Deployment
+
+B<Chapter 5: Deploying Web and FTP Servers> of I<Professional Linux
+Deployment> by Mike Banahan I<et al.> (Wrox) contains a section about
+mod_perl. It is available online:
+http://www.networkcomputing.com/netdesign/1111web.html .
+
+=item * Programming Perl, 3rd Edition
+
+By Larry Wall, Tom Christiansen & Jon Orwant.
+http://www.ora.com/catalog/pperl3/
+
+=item * Learning Perl, 3rd Edition
+
+By Randal L. Schwartz, Tom Phoenix.
+http://www.oreilly.com/catalog/lperl3/
+
+=item * Apache: The Definitive Guide, 2nd Edition
+
+By Ben Laurie, Peter Laurie.  http://www.oreilly.com/catalog/apache2/
+
+=item * Webmaster in a Nutshell, 2nd Edition
+
+By Stephen Spainhour, Robert Eckstein.
+http://www.oreilly.com/catalog/webmaster2/
+
+=back
+
 
 =head1 Apache books
 
@@ -78,7 +120,7 @@ order. http://httpd.apache.org/info/apache_books.html
 
 There are gazillions of Perl and CGI/Perl books out there. We couldn't
 find a single resource covering them all. Here are some of the places
-to start from:
+to start from.
 
 These resources provide listing of Perl books plus 3rd party reviews:
 
