@@ -39,6 +39,21 @@ any bug reports.
 
 META: mod_perl-1.99_xx is mod_perl 2.0 to-be.
 
+
+
+=head2 Using the Wrong Compiler
+
+To build mod_perl, you B<must> also use the same compiler that Perl
+was built with. You can find that out by running C<perl -V> and
+looking at the C<Compiler:> section. If you have used a different
+compiler and have encountered problems (which most likely will be the
+case) recompile Perl with the same compiler and then recompile
+mod_perl again.
+
+
+
+
+
 =head2 Before Posting a Report
 
 Before you post the report, make sure that you've checked the

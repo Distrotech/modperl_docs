@@ -309,6 +309,10 @@ http://cvs.apache.org/snapshots/modperl-2.0/
 Before you proceed make sure that Apache 2.0 has been built and
 installed. mod_perl B<cannot> be built before that.
 
+To build mod_perl, you B<must> also use the same compiler that Perl
+was built with. You can find that out by running C<perl -V> and
+looking at the C<Compiler:> section.
+
 Like any other Perl module, mod_perl is configured via the
 I<Makefile.PL> file, but requires one or more configuration options:
 
