@@ -23,7 +23,7 @@ Apache::porting -- a helper module for mod_perl 1.0 to mod_perl 2.0 porting
 
 C<Apache::porting> helps to port mod_perl 1.0 code to run under
 mod_perl 2.0. It doesn't provide any back-compatibility functionality,
-however it knows trap calls to methods that are no longer in the
+however it knows to trap methods calls that are no longer in the
 mod_perl 2.0 API and tell what should be used instead if at all. If
 you attempts to use mod_perl 2.0 methods without first loading the
 modules that contain them, it will tell you which modules you need to
