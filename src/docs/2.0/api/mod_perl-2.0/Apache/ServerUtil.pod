@@ -1,17 +1,13 @@
 =head1 NAME
 
-Apache::RequestRec -- A Perl API for Apache request object
+Apache::ServerUtil -- Methods for work with Apache::Server object
 
 =head1 SYNOPSIS
 
-  use Apache::RequestRec;
-  sub handler{
-      my $r = shift;
-      
-      my $s = $r->server;
-      my $dir_config = $r->dir_config;
-      ...
-  }
+  use Apache::ServerUtil;
+  
+  $s = Apache->server;
+  my $srv_cfg = $s->dir_config;
 
 =head1 DESCRIPTION
 
@@ -26,20 +22,21 @@ function's synopsis.
 
 =item * server()
 
-  $s = $r->server;
+The main server's object can be retrieved with:
 
-Gets the C<Apache::Server> object for the server the request C<$r> is
-running under.
+  $s = Apache->server;
+
+Gets the C<Apache::Server> object for the main server.
 
 =item * dir_config()
 
-dir_config() provides an interface for the per-directory variable
+dir_config() provides an interface for the per-server variables
 specified by the C<PerlSetVar> and C<PerlAddVar> directives, and also
 can be manipulated via the C<APR::Table> methods.
 
 The keys are case-insensitive.
 
-  $apr_table = $r->dir_config();
+  $t = $s->dir_config();
 
 dir_config() called in a scalar context without the C<$key> argument
 returns a I<HASH> reference blessed into the I<APR::Table> class. This
@@ -75,7 +72,11 @@ If C<$val> is I<undef> the unset() operation will happen: all existing
 values associated with the key C<$key> (and the key itself) will be
 deleted.
 
-=item *
+=item * push_handlers()
+
+=item * add_handlers()
+
+=item * get_handlers()
 
 =back
 
