@@ -264,9 +264,6 @@ the PMC consists of:
 
 =back
 
-CPAST: Comprehensive Perl Arcana Society Tapestry,
-http://history.perl.org/
-
 In March 2000, Perl 5.6.0 was released, bringing many new features to
 Perl and mod_perl programmers the world over.
 
