@@ -10,6 +10,13 @@ Apache::CmdParms - Perl API for Apache command parameters object
   use Apache::CmdParms ();
   use Apache::Const -compile => qw(NOT_IN_LOCATION);
   
+  our @APACHE_MODULE_COMMANDS = (
+    {
+      name => 'MyDirective',
+      cmd_data => 'some extra data',
+    },
+  );
+  
   sub MyDirective {
       my($self, $parms, $args) = @_;
   
