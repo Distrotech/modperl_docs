@@ -1,13 +1,13 @@
 =head1 NAME
 
-Apache::Connection - Perl API for Apache connection object
+Apache2::Connection - Perl API for Apache connection object
 
 
 
 
 =head1 Synopsis
 
-  use Apache::Connection ();
+  use Apache2::Connection ();
   
   # is connection still open?
   $status = $c->aborted;
@@ -61,7 +61,7 @@ Apache::Connection - Perl API for Apache connection object
 
 =head1 Description
 
-C<Apache::RequestRec> provides the Perl API for Apache connection
+C<Apache2::RequestRec> provides the Perl API for Apache connection
 record object.
 
 
@@ -70,7 +70,7 @@ record object.
 
 =head1 API
 
-C<Apache::Connection> provides the following functions and/or methods:
+C<Apache2::Connection> provides the following functions and/or methods:
 
 
 
@@ -85,7 +85,7 @@ Check whether the connection is still open
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$status> ( boolean )
 
@@ -111,10 +111,10 @@ Physical server this connection came in on (main server or vhost):
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$base_server>
-( C<L<Apache::Server object|docs::2.0::api::Apache::ServerRec>> )
+( C<L<Apache2::Server object|docs::2.0::api::Apache2::ServerRec>> )
 
 =item since: 1.99_12
 
@@ -135,7 +135,7 @@ The bucket allocator to use for all bucket/brigade creations
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$ba>
 ( C<L<APR::BucketAlloc object|docs::2.0::api::APR::BucketAlloc>> )
@@ -163,7 +163,7 @@ Get/set the client socket
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item opt arg1: C<$new_socket>
 ( C<L<APR::Socket object|docs::2.0::api::APR::Socket>> object )
@@ -197,51 +197,51 @@ Lookup the client's DNS hostname or IP address
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 The current connection
 
 =item opt arg1: C<$type> ( C<L<:remotehost
-constant|docs::2.0::api::Apache::Const/C__remotehost_>> )
+constant|docs::2.0::api::Apache2::Const/C__remotehost_>> )
 
 The type of lookup to perform:
 
 =over
 
-=item C<Apache::REMOTE_DOUBLE_REV>
+=item C<Apache2::REMOTE_DOUBLE_REV>
 
 will always force a DNS lookup, and also force a double reverse
 lookup, regardless of the C<HostnameLookups> setting.  The result is
 the (double reverse checked) hostname, or undef if any of the lookups
 fail.
 
-=item C<Apache::REMOTE_HOST>
+=item C<Apache2::REMOTE_HOST>
 
 returns the hostname, or C<undef> if the hostname lookup fails.  It
 will force a DNS lookup according to the C<HostnameLookups> setting.
 
-=item C<Apache::REMOTE_NAME>
+=item C<Apache2::REMOTE_NAME>
 
 returns the hostname, or the dotted quad if the hostname lookup fails.
 It will force a DNS lookup according to the C<HostnameLookups>
 setting.
 
-=item C<Apache::REMOTE_NOLOOKUP>
+=item C<Apache2::REMOTE_NOLOOKUP>
 
-is like C<Apache::REMOTE_NAME> except that a DNS lookup is never
+is like C<Apache2::REMOTE_NAME> except that a DNS lookup is never
 forced.
 
 =back
 
-Default value is C<Apache::REMOTE_NAME>.
+Default value is C<Apache2::REMOTE_NAME>.
 
 =item opt arg2: C<$dir_config>
-( C<L<Apache::ConfVector object|docs::2.0::api::Apache::ConfVector>> )
+( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
 
 The directory config vector from the request. It's needed to find the
 container in which the directive C<HostnameLookups> is set. To get one
 for the current request use
-C<L<$r-E<gt>per_dir_config|docs::2.0::api::Apache::RequestRec/C_per_dir_config_>>.
+C<L<$r-E<gt>per_dir_config|docs::2.0::api::Apache2::RequestRec/C_per_dir_config_>>.
 
 By default, C<undef> is passed, in which case it's the same as if
 C<HostnameLookups> was set to C<Off>.
@@ -277,7 +277,7 @@ ID of this connection; unique at any point in time
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$id> (integer)
 
@@ -300,14 +300,14 @@ filters:
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item opt arg1: C<$new_input_filters>
 
 Set a new value
 
 =item ret: C<$input_filters>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The first filter in the connection input filters chain.
 
@@ -336,24 +336,24 @@ alive for another HTTP request after the current request is completed?
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item opt arg1: C<$new_status> ( C<L<:conn_keepalive
-constant|docs::2.0::api::Apache::Const/C__conn_keepalive_>> )
+constant|docs::2.0::api::Apache2::Const/C__conn_keepalive_>> )
 
 Normally you should not mess with setting this option when handling
 the HTTP protocol. If you do (for example when sending your own
 headers set with
-C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache::RequestRec/C_assbackwards_>>)
+C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache2::RequestRec/C_assbackwards_>>)
 -- take a look at the ap_set_keepalive() function in
 F<httpd-2.0/modules/http/http_protocol.c>.
 
 =item ret: C<$status> ( C<L<:conn_keepalive
-constant|docs::2.0::api::Apache::Const/C__conn_keepalive_>> )
+constant|docs::2.0::api::Apache2::Const/C__conn_keepalive_>> )
 
 The method does B<not> return true or false, but one of the states
 which can be compared against (C<L<:conn_keepalive
-constants|docs::2.0::api::Apache::Const/C__conn_keepalive_>>).
+constants|docs::2.0::api::Apache2::Const/C__conn_keepalive_>>).
 
 =item since: 1.99_13
 
@@ -364,19 +364,19 @@ protocols, it's only relevant for HTTP requests.
 
 For example:
 
-  use Apache::RequestRec ();
-  use Apache::Connection ();
+  use Apache2::RequestRec ();
+  use Apache2::Connection ();
   
-  use Apache::Const -compile => qw(:conn_keepalive);
+  use Apache2::Const -compile => qw(:conn_keepalive);
   ...
   my $c = $r->connection;
-  if ($c->keepalive == Apache::CONN_KEEPALIVE) {
+  if ($c->keepalive == Apache2::CONN_KEEPALIVE) {
       # do something
   }
-  elsif ($c->keepalive == Apache::CONN_CLOSE) {
+  elsif ($c->keepalive == Apache2::CONN_CLOSE) {
       # do something else
   }
-  elsif ($c->keepalive == Apache::CONN_UNKNOWN) {
+  elsif ($c->keepalive == Apache2::CONN_UNKNOWN) {
       # do yet something else
   }
   else {
@@ -400,14 +400,14 @@ How many requests were already served over the current connection.
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item opt arg1: C<$new_served> (integer)
 
 Set the number of served requests over the current
 connection. Normally you won't do that when handling HTTP
 requests. (But see below a note regarding
-C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache::RequestRec/C_assbackwards_>>).
+C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache2::RequestRec/C_assbackwards_>>).
 
 =item ret: C<$served> (integer)
 
@@ -428,7 +428,7 @@ headers are sent and it decides that the connection should not be
 closed (see C<ap_set_keepalive()>).
 
 If you send your own set of HTTP headers with
-C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache::RequestRec/C_assbackwards_>>,
+C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache2::RequestRec/C_assbackwards_>>,
 which includes the C<Keep-Alive> HTTP response header, you must make
 sure to increment the C<keepalives> counter.
 
@@ -447,7 +447,7 @@ Get this connection's local socket address
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$local_sa>
 ( C<L<APR::SockAddr object|docs::2.0::api::APR::SockAddr>> )
@@ -472,7 +472,7 @@ used for ap_get_server_name when UseCanonicalName is set to DNS
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$local_host> (string)
 
@@ -481,7 +481,7 @@ used for ap_get_server_name when UseCanonicalName is set to DNS
 =back
 
 META: you probably shouldn't use this method, but (
-C<L<get_server_name|docs::2.0::api::Apache::RequestUtil/C_get_server_name_>>
+C<L<get_server_name|docs::2.0::api::Apache2::RequestUtil/C_get_server_name_>>
 ) if inside request and C<$r> is available.
 
 
@@ -497,7 +497,7 @@ server IP address
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$local_ip> (string)
 
@@ -523,7 +523,7 @@ in any other language):
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item opt arg1: C<$new_notes>
 ( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
@@ -540,7 +540,7 @@ if the C<$new_notes> argument was passed, returns the previous value.
 =back
 
 Also see
-C<L<$r-E<gt>notes|docs::2.0::api::Apache::RequestRec/C_notes_>>
+C<L<$r-E<gt>notes|docs::2.0::api::Apache2::RequestRec/C_notes_>>
 
 
 
@@ -559,14 +559,14 @@ filters:
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item opt arg1: C<$new_output_filters>
 
 Set a new value
 
 =item ret: C<$output_filters>
-( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+( C<L<Apache2::Filter object|docs::2.0::api::Apache2::Filter>> )
 
 The first filter in the connection output filters chain.
 
@@ -593,7 +593,7 @@ Pool associated with this connection
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$p>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
@@ -617,7 +617,7 @@ Get this connection's remote socket address
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$remote_sa>
 ( C<L<APR::SockAddr object|docs::2.0::api::APR::SockAddr>> )
@@ -642,7 +642,7 @@ Client's IP address
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item opt arg1: C<$new_remote_ip> ( string )
 
@@ -674,7 +674,7 @@ Client's DNS name:
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$remote_host> ( string/undef )
 
@@ -696,7 +696,7 @@ instead of directly accessing this variable.
 
 =head1 Unsupported API
 
-C<Apache::Connection> also provides auto-generated Perl interface for
+C<Apache2::Connection> also provides auto-generated Perl interface for
 a few other methods which aren't tested at the moment and therefore
 their API is a subject to change. These methods will be finalized
 later as a need arises. If you want to rely on any of the following
@@ -720,10 +720,10 @@ structures
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$ret>
-( C<L<Apache::ConfVector object|docs::2.0::api::Apache::ConfVector>> )
+( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
 
 =item since: 1.99_12
 
@@ -744,7 +744,7 @@ handle to scoreboard information for this connection
 =over 4
 
 =item obj: C<$c>
-( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$sbh> (XXX)
 
@@ -753,7 +753,7 @@ handle to scoreboard information for this connection
 =back
 
 META: Not sure how this can be used from mod_perl at the
-moment. Unless C<Apache::Scoreboard> is extended to provide a hook to
+moment. Unless C<Apache2::Scoreboard> is extended to provide a hook to
 read from this variable.
 
 
