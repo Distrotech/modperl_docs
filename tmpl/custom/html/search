@@ -18,7 +18,7 @@
         <td class="menu-border" width="1"><br class="smallbr"></td>
         <td class="search" width="2" align="center">
             <input type="submit" name="submit" value="Search" class="submit-but">
-            <input type="hidden" name="sbm" value="&quot;[% doc.dir.path_from_base %]&quot;">
+            <input type="hidden" name="sbm" value="[% doc.dir.path_from_base %]">
          </td>
         <td class="menu-border" width="1"><br class="smallbr"></td>
     </tr>
@@ -26,3 +26,4 @@
         <td class="menu-border" colspan="5" height="1"><br class="smallbr"></td>
     </tr>
 </table>
+</form>

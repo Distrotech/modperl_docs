@@ -216,6 +216,46 @@ td.headline {
     font-size: 1.2em;
 }
 
+
+/* Search Results */
+
+div.searchform {
+    font-size: 0.8em;
+}
+
+td.searchheader {
+    background-color: #525a73;
+    font-family: verdana, arial, helvetica, sans-serif;
+    color: #ffffff;
+    font-size: 0.8em;
+}
+
+td.searchtimes {
+    background-color: #525a73;
+    font-family: verdana, arial, helvetica, sans-serif;
+    color: #ffffff;
+    font-size: 0.6em;
+}
+
+
+td.searchnav {
+    background-color: #eeeeee;
+    font-family: verdana, arial, helvetica, sans-serif;
+    color: #000000;
+    font-size: 0.8em;
+}
+
+dd.searchsummary {
+    font-size: 0.8em;
+}
+
+dd.searchprops {
+    font-size: 0.6em;
+    color: green;
+}
+
+
+
 code { 
     font-family: courier new, courier, monospace;
 }

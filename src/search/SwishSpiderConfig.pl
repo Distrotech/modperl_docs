@@ -51,11 +51,10 @@ sub split_page {
     @params{ qw/ uri server response content / } = @_;
     $params{found} = 0;
 
-
     my $tree = HTML::TreeBuilder->new;
     $tree->store_comments(1);
 
-        $tree->parse( ${$params{content}} );  # Why not allow a scalar ref?
+    $tree->parse( ${$params{content}} );  # Why not allow a scalar ref?
     $tree->eof;
 
 
@@ -68,8 +67,16 @@ sub split_page {
         for $tree->look_down( '_tag', 'div', 'class', 'index_section' );
 
 
+    ## If a page doesn't have an "index_section" then it's probably a table of contents (index.html)
+    ## so don't index it.
+    return 0;
+   
+
+
     # Indexed the page in sections, just return
     return 0 if $params{found};
+
+    
 
     # No sections found, so index the entire page (probably index.html)
 
@@ -92,33 +99,44 @@ sub create_page {
 
     my $uri = $params->{uri};
 
-    my $section_name = 'Unknown_Section';
-    my $name = $section->look_down( '_tag', 'a',
-                                    sub { defined($_[0]->attr('name')) } );
 
+    # Grab the section link, and create a new title
+
+    my $name = $section->look_down( '_tag', 'a', sub { defined($_[0]->attr('name')) } );
+
+    my @a_content = ('Unknown title');
+    
     if ( $name ) {
-        $section_name = $name->attr('name');
+        my $section_name = $name->attr('name');
         $uri->fragment( $section_name );
+
+        $section_name =~ tr/_//d;
+
+        @a_content = $name->content_list ? $name->content_list : ( $section_name );
     }
 
-    my $text_title = $section_name;
-    $text_title =~ tr/_/ /s;
 
+    # Modify or create the title
+    
     my $title = $head->look_down('_tag', 'title');
 
     if ( $title ) {
-        $title->push_content(": $text_title");
+        $title->push_content( ': ', @a_content );
     } else {
         my $title = HTML::Element->new('title');
-        $title->push_content(": $text_title");
+        $title->push_content(  @a_content );
         $head->push_content( $title );
     }
 
+
+
+
     # Extract out part of the path to use for limiting searches to parts of the document tree.
+
 
     if ( $uri =~ m!$base_path/(.+)$! ) {
         my $path = $1;
-        $path =~ s{[^/]$}{};  # remove file name, if one
+        $path =~ s{/?[^/]+$}{};  # remove file name, if one
         my $meta = HTML::Element->new('meta', name=> 'section', content => $path);
         $head->push_content( $meta );
     }
@@ -132,12 +150,12 @@ sub create_page {
     $doc->push_content( $head, $body );
 
     # If we want to stip the base_path
-    #my $url = $uri->as_string;
-    #$url =~ s/$base_path//;
+    my $url = $uri->as_string;
+    $url =~ s[$base_path/][];
 
     my $new_content = $doc->as_HTML(undef,"\t");
     output_content( $params->{server}, \$new_content,
-                    $uri, $params->{response} );
+                    $url, $params->{response} );
 
     $uri->fragment(undef);
 
