@@ -59,6 +59,10 @@ http://marc.theaimsgroup.com/?l=apache-modperl-docs-dev&r=1&w=2
 
 http://mathforum.org/epigone/modperl-docs-dev 
 
+=item * gossamer-threads.com
+
+http://gossamer-threads.com/lists/modperl/docs-dev/ 
+
 =item * Mbox file
 
 http://perl.apache.org/mail/docs-dev/ 

@@ -52,6 +52,10 @@ mailto:docs-cvs-help@perl.apache.org
 
 http://marc.theaimsgroup.com/?l=apache-modperl-docs-cvs&r=1&w=2 
 
+=item * gossamer-threads.com
+
+http://gossamer-threads.com/lists/modperl/docs-cvs/ 
+
 =item * Mbox file
 
 http://perl.apache.org/mail/docs-cvs/ 

@@ -110,13 +110,17 @@ DESC
                     comment => '',
                    },
                    {
+                    title   => 'gossamer-threads.com',
+                    link    => 'http://gossamer-threads.com/lists/modperl/docs-dev/',
+                    comment => '',
+                   },
+                   {
                     title   => 'Mbox file',
                     link    => 'http://perl.apache.org/mail/docs-dev/',
                     comment => '',
                    },
                   ],
      },
-
 
      ### 
      'docs-cvs' => 
@@ -136,6 +140,11 @@ DESC
                    {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-docs-cvs&r=1&w=2',
+                    comment => '',
+                   },
+                   {
+                    title   => 'gossamer-threads.com',
+                    link    => 'http://gossamer-threads.com/lists/modperl/docs-cvs/',
                     comment => '',
                    },
                    {
