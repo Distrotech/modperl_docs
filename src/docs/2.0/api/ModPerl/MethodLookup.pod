@@ -56,8 +56,9 @@ yet-unloaded modules which include called methods.
 =head2 preload_all_modules()
 
 The function C<preload_all_modules()> preloads all mod_perl 2.0
-modules. This is similar to the mod_perl 1.0 behavior which has most
-of its methods loaded at the startup.
+modules, which implement their API in XS. This is similar to the
+mod_perl 1.0 behavior which has most of its methods loaded at the
+startup.
 
 CPAN modules developers should make sure their distribution loads each
 of the used mod_perl 2.0 modules explicitly, and not use this

@@ -4,59 +4,73 @@ Apache::compat -- 1.0 backward compatibility functions deprecated in 2.0
 
 =head1 SYNOPSIS
 
+  # either add at the very beginning of startup.pl
+  use Apache2
   use Apache::compat;
+  # or httpd.conf
+  PerlModule Apache2
+  PerlModule Apache::compat
 
 =head1 DESCRIPTION
 
-C<Apache::compat> provides mod_perl 1.0 compatibility layer.
+C<Apache::compat> provides mod_perl 1.0 compatibility layer and can be
+used to smooth the transition process to mod_perl 2.0.
 
-It includes most of the functions that are deprecated in mod_perl
-2.0. If your code uses any of these functions you should just load
-this module at the server startup, and chances are that everything
-should work as it did in 1.0.
+It includes functions that have changed their API or were removed in
+mod_perl 2.0. If your code uses any of those functions, you should
+load this module at the server startup, and everything should work as
+it did in 1.0. If it doesn't please L<report the
+bug|docs::2.0::user::help::help/Reporting_Problems>, but before you
+do that please make sure that your code does work properly under
+mod_perl 1.0.
 
-However, certain functionality is not optimized and therefore it's the
-best to try to port your code not to use deprecated functions and stop
-using the compatibility layer.
+However, remember, that it's implemented in pure Perl and not C,
+therefore its functionality is not optimized and it's the best to try
+to L<port your
+code|docs::2.0::devel::porting::porting> not to use deprecated
+functions and stop using the compatibility layer.
+
+=head1 Use in CPAN Modules
+
+The short answer: B<Do not use> C<Apache::compat> in CPAN modules.
+
+The long answer:
+
+C<Apache::compat> is useful during the mod_perl 1.0 code
+porting. Though remember that it's implemented in pure Perl. In
+certain cases it overrides mod_perl 2.0 methods, because their API is
+very different and doesn't map 1:1 to mod_perl 1.0. So if anything,
+not under user's control, loads C<Apache::compat> user's code is
+forced to use the potentially slower method. Which is quite bad.
+
+Some users may choose to keep using C<Apache::compat> in production
+and it may perform just fine. Other users will choose not to use that
+module, by porting their code to use mod_perl 2.0 API. However it
+should be users' choice whether to load this module or not and not to
+be enforced by CPAN modules.
+
+If you port your CPAN modules to work with mod_perl 2.0, you should
+follow the L<porting guidelines|docs::2.0::devel::porting::porting>.
+
+Users that are stuck with CPAN modules preloading C<Apache::compat>,
+can prevent this from happening by adding
+
+  $INC{'Apache/compat.pm'} = __FILE__;
+
+at the very beginning of their I<startup.pl>. But this will most
+certainly break the module that needed this module.
 
 =head1 API
 
-META: complete
+You should be reading the mod_perl 1.0 L<API
+docs|docs::1.0::api::index> for usage of the methods and functions
+in this package, since what this module is doing is providing a
+backwards compatibility and it makes no sense to duplicate
+documentation.
 
-Function arguments (if any) and return values are shown in the
-function's synopsis.
-
-=over
-
-=item * $r-E<gt>header_in()
-
-  $r->header_in( $header_name, [$value] )
-
-Return the value of a client header:
-
-   $ct = $r->header_in($key);
-
-Set or modify the value of a client header:
-
-   $r->header_in($key, $val);
-
-=item * $r-E<gt>header_out()
-
-  $r->header_out( $header, $value )
-
-Return the value of a response header:
-
-   $ct = $r->header_out($key);
-
-Set or modify the value of a response header:
-
-   $r->header_out($key, $val);
-
-You should not define any I<"Content-XXX"> headers by calling this
-method, because these headers use their own specific methods.
-
-=item *
-
-=back
+Another important document to read is: L<Migrating from mod_perl 1.0
+to mod_perl 2.0|docs::2.0::user::compat::compat> which covers all
+mod_perl 1.0 constants, functions and methods that have changed in
+mod_perl 2.0.
 
 =cut
