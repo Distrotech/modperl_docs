@@ -231,8 +231,9 @@ subroutine:
     my $info = $parms->info;
   }
 
-In this example C<$info> will either be 'One' or 'Two' depending on 
-wether the directive was called as I<MyDirective1> or I<MyDirective2>
+In this example C<$info> will either be C<'One'> or C<'Two'> depending
+on whether the directive was called as I<MyDirective1> or
+I<MyDirective2>.
 
 
 
