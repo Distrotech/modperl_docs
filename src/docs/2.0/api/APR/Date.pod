@@ -52,6 +52,9 @@ The date string can be in one of the following formats:
   Sunday, 06-Nov-94 08:49:37 GMT ; RFC 850, obsoleted by RFC 1036
   Sun Nov  6 08:49:37 1994       ; ANSI C's asctime() format
 
+refer to RFC2616 for the details (GMT is assumed, regardless of the
+used timezone).
+
 =item ret: C<$date_parsed> ( number )
 
 the number of microseconds since 1 Jan 1970 GMT, or 0 if out of range
