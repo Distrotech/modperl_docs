@@ -5,7 +5,7 @@
    # toc - an array ref with keys: link, title, abstract, subs
    #       (subs is optional and includes a similar array)
 -%]
-[%- IF toc.size -%]
+[%- IF toc.size && toc.0.title -%]
 
     <h3>Table of Contents</h3>
     <div class="toc">
