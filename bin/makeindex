@@ -47,7 +47,7 @@ chdir "$Bin/../dst_html/search";
 # index
 my $command = "$swish_binary -S prog -c swish.conf";
 #print $command;
-system($command);
+CORE::system($command);
 
 chdir $cwd;
 
