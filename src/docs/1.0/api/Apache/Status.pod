@@ -142,7 +142,7 @@ The C<Devel::Symdump> module, version B<2.00> or higher.
 
 =head1 See Also
 
-perl(1), Apache(3), Devel::Symdump(3), Data::Dumper(3), B(3), B::Graph(3)
+perl, L<Apache>, C<Devel::Symdump>, C<Data::Dumper>, C<B>, C<B::Graph>
 
 =head1 Maintainers
 

@@ -112,7 +112,7 @@ Example:
 
 =head1 See Also
 
-mod_perl(1), Data::Dumper(3), Devel::Symdump(3)
+mod_perl, C<Data::Dumper>, C<Devel::Symdump>
 
 =head1 Maintainers
 

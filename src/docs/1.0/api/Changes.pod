@@ -9,7 +9,7 @@ documents, since you've read these last time.
 
 The most recent changes are listed first.
 
-=head1 Sat Apr 20 11:41:00 CET 2002
+=head1 ???
 
 Per Einar Ellefsen:
 
@@ -17,6 +17,15 @@ Per Einar Ellefsen:
   the content, added right tags and indentation where needed.
 
 * Apache::File: added synopsis.
+
+* Added various other modules that were left-over. Some don't have
+  much documentation, but that doesn't matter, the synopsis is usually
+  enough.
+
+* Fixed all module names in "See Also" sections to link to the correct
+  place if possible.
+
+* Reorganized everything into groups.
 
 =head1 Thu Apr 18 12:28:00 CET 2002
 

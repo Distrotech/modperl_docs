@@ -28,7 +28,7 @@ simply by:
 
 =head1 See Also
 
-Devel::Symdump(3), Apache::Leak(3)
+C<Devel::Symdump>, L<Apache::Leak>
 
 =head1 Maintainers
 

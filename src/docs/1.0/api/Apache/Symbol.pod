@@ -94,7 +94,7 @@ being re-compiled.
 
 =head1 See Also
 
-perlsub(1), Devel::Symdump(3)
+perlsub, C<Devel::Symdump>
 
 =head1 Maintainers
 

@@ -41,7 +41,7 @@ uri in your Perl scripts.  Example:
 
 =head1 See Also
 
-perl(1), mod_perl(3), mod_include
+perl, mod_perl, mod_include
 
 =head1 Maintainers
 

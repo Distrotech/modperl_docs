@@ -1,0 +1,39 @@
+=head1 NAME
+
+Apache::FakeRequest - fake request object for debugging
+
+=head1 Synopsis
+
+  use Apache::FakeRequest;
+  my $request = Apache::FakeRequest->new(method_name => 'value', ...);
+
+
+=head1 Description
+
+C<Apache::FakeRequest> is used to set up an empty Apache request
+object that can be used for debugging.  
+
+The C<Apache::FakeRequest> methods just set internal variables of the
+same name as the method and return the value of the internal
+variables.  Initial values for methods can be specified when the
+object is created.  The C<print> method prints to STDOUT.
+
+Subroutines for Apache constants are also defined so that using
+C<Apache::Constants> while debugging works, although the values of the
+constants are hard-coded rather than extracted from the Apache source
+code.
+
+  #!/usr/bin/perl
+  
+  use Apache::FakeRequest ();
+  use mymodule ();
+  
+  my $request = Apache::FakeRequest->new('get_remote_host'=>'foobar.com');
+  mymodule::handler($request);
+
+=head1 Authors
+
+Doug MacEachern, with contributions from Andrew Ford
+E<lt>A.Ford@ford-mason.co.ukE<gt>.
+
+=cut

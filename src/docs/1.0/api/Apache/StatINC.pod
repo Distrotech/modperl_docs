@@ -70,7 +70,7 @@ The only used debug level is currently 1.
 
 =head1 SEE ALSO
 
-mod_perl(3)
+mod_perl
 
 =head1 Maintainers
 

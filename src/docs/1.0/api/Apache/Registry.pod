@@ -110,7 +110,7 @@ compilation.
 
 =head1 See Also
 
-perl(1), mod_perl(3), Apache(3), Apache::Debug(3)
+perl, mod_perl, L<Apache>, L<Apache::Debug>
 
 =head1 Maintainers
 

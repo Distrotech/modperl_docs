@@ -48,7 +48,7 @@ your httpd.conf:
 
 =head1 See Also
 
-perl(1), mod_perl(3), Apache::Registry(3)
+perl, mod_perl, L<Apache::Registry>
 
 =head1 Maintainers
 

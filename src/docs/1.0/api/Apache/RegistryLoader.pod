@@ -98,6 +98,6 @@ Changes file.
 
 =head1 See Also
 
-Apache::Registry(3), Apache(3), mod_perl(3)
+L<Apache::Registry>, L<Apache>, mod_perl
 
 =cut

@@ -121,6 +121,6 @@ Changes file.
 
 =head1 See Also
 
-Apache(3), mod_perl(3)
+L<Apache>, mod_perl
 
 =cut

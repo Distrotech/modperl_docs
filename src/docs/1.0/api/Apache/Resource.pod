@@ -69,6 +69,6 @@ Changes file.
 
 =head1 SEE ALSO
 
-BSD::Resource(3), setrlimit(2)
+C<BSD::Resource>, C<setrlimit(2)>
 
 =cut

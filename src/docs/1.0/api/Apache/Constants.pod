@@ -14,6 +14,7 @@ Server constants used by apache modules are defined in
 B<httpd.h> and other header files, this module gives Perl access
 to those constants.
 
+
 =head1 Export Tags
 
 =over 4
@@ -178,6 +179,41 @@ directives.
  NO_ARGS
 
 =back
+
+=head1 Warnings
+
+You should be aware of the issues relating to using constant
+subroutines in Perl. For example, look at this example:
+
+  $r->custom_response(FORBIDDEN => "File size exceeds quota.");
+
+This will not set a custom response for C<FORBIDDEN>, but for the
+string C<"FORBIDDEN">, which clearly isn't what is expected. You'll
+get an error like this:
+
+  [Tue Apr 23 19:46:14 2002] null: Argument "FORBIDDEN" isn't numeric in subroutine entry at ...
+
+Therefore, you can avoid this by not using the hash notation for
+things that don't require it.
+
+  $r->custom_response(FORBIDDEN,  "File size exceeds quota.");
+
+Another important note is that you should be using the correct
+constants defined here, and not direct HTTP codes. For example:
+
+  sub handler {
+      return 200;
+  }
+
+Is not correct. The correct use is:
+
+  use Apache::Constants qw(OK);
+  
+  sub handler {
+      return OK;
+  }
+
+Also remember that C<OK != HTTP_OK>.
 
 =head1 Maintainers
 

@@ -1,0 +1,34 @@
+=head1 NAME
+
+Apache::Debug - Utilities for debugging embedded perl code
+
+=head1 Synopsis
+
+    use Apache::Debug ();
+
+    Apache::Debug::dump($r, SERVER_ERROR, "Uh Oh!");
+
+=head1 Description
+
+This module sends what may be helpful debugging info to the client
+rather that the error log.
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+The L<mod_perl docs list|maillist::list-docs-dev>.
+
+=head1 Authors
+
+=over
+
+=item * Rob Hartill
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+=cut
