@@ -1,11 +1,11 @@
 =head1 NAME
 
-mod_perl Code Development Style Guide
+mod_perl Coding Style Guide
 
 =head1 Description
 
 This document explains the coding style used in the core mod_perl
-development.
+development and which should be followed by all core developers.
 
 =head1 Coding Style Guide
 

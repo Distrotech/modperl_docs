@@ -4,14 +4,14 @@ mod_perl 2.0 Source Code Explained
 
 =head1 Description
 
-This document explains the how to navigate around the mod_perl source
-code, modify and rebuild the existing code and of course how to write
-new code and easily plug it in.
+This document explains how to navigate the mod_perl source code,
+modify and rebuild the existing code and most important: how to add
+new functionality.
 
-=head1 Project's Layout
+=head1 Project's Filesystem Layout
 
-In its pristine state the project is comprised of the following root
-directories and files:
+In its pristine state the project is comprised of the following
+directories and files residing at the root directory of the project:
 
   Apache-Test/      - test kit for mod_perl and Apache::* modules
   ModPerl-Registry/ - ModPerl::Registry sub-project
