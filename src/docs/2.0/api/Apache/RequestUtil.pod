@@ -101,8 +101,7 @@ object|docs::2.0::api::Apache::RequestRec> utilities API.
 Dynamically add Apache configuration at request processing runtime:
 
   $r->add_config($lines);
-  $r->add_config($lines, $path);
-  $r->add_config($lines, $path, $override);
+  $r->add_config($lines, $override);
 
 =over 4
 
@@ -114,12 +113,7 @@ Dynamically add Apache configuration at request processing runtime:
 An ARRAY reference containing configuration lines per element, without
 the new line terminators.
 
-=item opt arg2: C<$path> ( SCALAR )
-
-This argument is only useful to tell whether a command is being called
-in a dir context. By default C<$r-E<gt>filename> is passed.
-
-=item opt arg3: C<$override> ( C<L<APR::Const status
+=item opt arg2: C<$override> ( C<L<APR::Const status
 constant|docs::2.0::api::APR::Const>> )
 
 Which allow-override bits are set
