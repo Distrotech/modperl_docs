@@ -37,13 +37,52 @@ sub complete {
     note "\n";
     banner("[render] HTML DocSet: " . $self->get('title') );
 
+    $self->write_sitemap_file() if $self->sitemap;
+
     $self->write_index_file();
+}
+
+# generate the sitemap.html of the docset below the current root
+##################################
+sub write_sitemap_file {
+    my($self) = @_;
+
+    my $cache = $self->cache;
+
+    my $dir = {
+        abs_doc_root   => $self->get_dir('abs_doc_root'),
+        rel_doc_root   => $self->get_dir('rel_parent_root'),
+        path_from_base => $self->get_dir('path_from_base'),
+    };
+
+    my $meta = $self->sitemap;
+    my $file = exists $meta->{link} ? $meta->{link} : "sitemap.html";
+
+    my $navigator = DocSet::NavigateCache->new($self->cache->path, $self->get('id'));
+    my %args = (
+         nav      => $navigator,
+         meta     => $meta,
+         dir      => $dir,
+         version  => $self->get('version')||'',
+         date     => get_date(),
+         last_modified => get_timestamp(),
+    );
+
+    my $dst_root  = $self->get_dir('dst_html');
+    my $dst_file = "$dst_root/$file";
+    my $mode = $self->get('tmpl_mode');
+    my $tmpl_file = 'sitemap';
+    my $vars = { doc => \%args };
+    my $tmpl_root = $self->get_dir('tmpl');
+    my $content = proc_tmpl($tmpl_root, $tmpl_file, $mode, $vars);
+    note "+++ Creating $dst_file";
+    DocSet::Util::write_file($dst_file, $content);
 }
 
 # generate the index.html based on the doc entities it includes, in
 # the following order: docsets, books, chapters
 #
-# Using the same template file create the long and the short index
+# XXX: Using the same template file create the long and the short index
 # html files
 ##################################
 sub write_index_file {

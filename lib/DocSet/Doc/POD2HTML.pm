@@ -136,6 +136,19 @@ sub view_seq_file {
     return -e $file ? qq{<a href="$path">$path</a>} : qq{<i>$path</i>};
 }
 
+#sub view_for {
+#    my $self = shift;
+#    my ($for) = @_;
+#    return $self->SUPER::view_for(@_) if $for->format() =~ /\bhtml\b/;
+#    if ($for->format() =~ /\btt2\b/) {
+#        my $text = $for->text();
+#print "$text\n";
+#return $text;
+##        "WHOOOOOOOOOOOOOOOOOOOOOOO";   
+##        $self->parse_sequence($text);
+#    }
+#}
+
 *anchor        = \&DocSet::Doc::Common::pod_pom_html_anchor;
 *view_verbatim = \&DocSet::Doc::Common::pod_pom_html_view_verbatim;
 *view_seq_link_transform_path = \&DocSet::Doc::Common::pod_pom_html_view_seq_link_transform_path;

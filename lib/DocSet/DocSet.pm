@@ -121,7 +121,9 @@ sub scan {
         } elsif ($type eq 'links') {
             $self->link_scan_n_cache($data, $hidden);
             # we don't need to process links
-
+        } elsif ($type eq 'sitemap') {
+            $self->sitemap_cache($data, $hidden);
+            # we don't need to process links
         } else {
             # nothing
         }
@@ -187,7 +189,7 @@ sub docset_scan_n_cache {
     my $docset = $self->new($config_file, $self, $src_rel_dir);
     $docset->scan;
 
-    # cache the children meta data
+    # cache the child docset's meta data
     my $id = $docset->get('id');
     $self->cache->add($id);
     my $meta = {
@@ -195,8 +197,16 @@ sub docset_scan_n_cache {
                 title    => $docset->get('title'),
                 link     => "$src_rel_dir/index.html",
                 abstract => $docset->get('abstract'),
+                rel_path => $src_rel_dir,
                };
     $self->cache->set($id, 'meta', $meta, $hidden);
+
+    # add the location of the cache file, so later we can traverse the
+    # nodes, by just reading the cache files, which are linked to each
+    # other both ways.
+    my $mode = $self->get('tmpl_mode');
+    my $child_cache_path = "$src_root/$src_rel_dir/cache.$mode.dat";
+    $self->cache->set($id, 'child_cache_path', $child_cache_path);
 
     note "\n"; # mark the end of scan
 
@@ -215,6 +225,21 @@ sub link_scan_n_cache {
     $self->cache->set($id, 'meta', \%meta, $hidden);
 }
 
+sub sitemap_cache {
+    my($self, $link, $hidden) = @_;
+    my %meta = %$link; # make a copy
+    my $id = delete $meta{id};
+    $meta{title} = $meta{stitle} unless exists $meta{title};
+    $meta{stitle} = $meta{title} unless exists $meta{stitle};
+    $self->cache->add($id);
+    $self->cache->set($id, 'meta', \%meta, $hidden);
+
+    # we will need to raise this flag to render the doc
+    # XXX: consider creating a Sitemap class, so we can handle this
+    # generically as chapters and docsets
+    $self->{sitemap} = \%meta;
+    # see Config::sitemap method
+}
 
 sub chapter_scan_n_cache {
     my($self, $src_file, $hidden) = @_;

@@ -8,7 +8,7 @@ use DocSet::Util;
 use Storable;
 use Carp;
 
-my %attrs = map {$_ => 1} qw(toc meta order);
+my %attrs = map {$_ => 1} qw(toc meta order child_cache_path);
 
 sub new {
     my($class, $path, $update) = @_;
@@ -230,6 +230,16 @@ sub parent_node {
                $self->{cache}{_parent}{rel_path})
             : (undef, undef, undef);
     }
+}
+
+# get the child node's cache if any
+sub child_cache_path {
+    my($self, $id) = @_;
+    croak "must specify a id"  unless defined $id;
+
+    return exists $self->{cache}{$id}{child_cache_path}
+            ? $self->{cache}{$id}{child_cache_path}
+            : undef;
 }
 
 

@@ -16,7 +16,7 @@ use vars qw(%CACHE);
 use DocSet::Cache ();
 #@ISA = qw(DocSet::Cache);
 
-use constant OBJ         => 0;
+use constant CACHE       => 0;
 use constant ID          => 1;
 use constant CUR_PATH    => 2;
 use constant REL_PATH    => 3;
@@ -26,14 +26,16 @@ sub new {
     my($class, $cache_path, $id, $rel_path) = @_;
 
     croak "no cache path specified" unless defined $cache_path;
-    croak "no id specified"         unless defined $id;
 
     my $cache = get_cache($cache_path);
     my $self = bless [], ref($class)||$class;
-    $self->[OBJ]         = $cache;
+    $self->[CACHE]       = $cache;
     $self->[CUR_PATH]    = $cache_path;
     $self->[REL_PATH]    = $rel_path if $rel_path;
-    $self->[ID]          = $id;
+
+    # get the first (#0) node if id wasn't provided
+    $self->[ID] = defined $id ? $id : $cache->seq2id(0);
+    return undef unless defined $self->[ID]; # an empty docset
 
     return $self;
 }
@@ -46,7 +48,7 @@ sub parent_rel_path {
 # get next item's object or undef if there are no more
 sub next {
     my($self) = @_;
-    my $cache    = $self->[OBJ];
+    my $cache    = $self->[CACHE];
 
     my $seq      = $cache->id2seq($self->[ID]);
     my $last_seq = $cache->total_ids - 1;
@@ -70,7 +72,7 @@ sub next {
 # get prev node's object or undef if there are no more
 sub prev {
     my($self) = @_;
-    my $cache = $self->[OBJ];
+    my $cache = $self->[CACHE];
     my $seq = $cache->id2seq($self->[ID]);
 
     # if the current node is hidden, it's like there is no prev
@@ -94,7 +96,7 @@ sub prev {
 # get the object of the first item on the same level
 sub first {
     my($self) = @_;
-    my $cache    = $self->[OBJ];
+    my $cache    = $self->[CACHE];
 
     # it's possible that the whole docset is made of hidden objects.
     # since the hidden objects, if any, are always coming last
@@ -117,13 +119,13 @@ sub first {
 # the index node of the current level
 sub index_node {
     my($self) = @_;
-    return $self->[OBJ]->index_node;
+    return $self->[CACHE]->index_node;
 }
 
 # get the object of the parent
 sub up {
     my($self) = @_;
-    my($path, $id, $rel_path) = $self->[OBJ]->parent_node;
+    my($path, $id, $rel_path) = $self->[CACHE]->parent_node;
 
     $rel_path = "." unless defined $rel_path;
     if (defined $self->[REL_PATH] && length $self->[REL_PATH]) {
@@ -145,18 +147,30 @@ sub up {
     }
 }
 
+# get the first child node
+sub down {
+    my($self) = @_;
+
+    if (my $path = $self->[CACHE]->child_cache_path($self->[ID])) {
+        return $self->new($path);
+    }
+    else {
+        return undef;
+    }
+}
+
 # retrieve the meta data of the current node
 sub meta {
     my($self) = @_;
-    return $self->[OBJ]->get($self->[ID], 'meta');
+    return $self->[CACHE]->get($self->[ID], 'meta');
 }
 
 # retrieve the node groups
 sub node_groups {
     my($self) = @_;
 #print "OK: "; 
-#dumper $self->[OBJ]->node_groups;
-    return $self->[OBJ]->node_groups;
+#dumper $self->[CACHE]->node_groups;
+    return $self->[CACHE]->node_groups;
 }
 
 sub id {
@@ -207,6 +221,10 @@ C<DocSet::NavigateCache> - Navigate the DocSet's caches in a readonly mode
       $p = $p->up;
   }
 
+  # access the docsets of the child nodes
+  $child_docset = $nav->down()
+
+
 =head1 DESCRIPTION
 
 C<DocSet::NavigateCache> navigates the cache created by docset objects
@@ -244,7 +262,10 @@ META: to be completed (see SYNOPSIS meanwhile)
 
 C<$cache_path> is the path of the cache file to read.
 
-C<$id> is the id of the current node.
+C<$id> is the id of the current node. if not specified the id for the
+first item (0) is retrieved.
+
+If the docset is empty (no items) new returns undef.
 
 C<$rel_path> is optional and passed if an object has a parent node. It
 contains a relative path from the current node to its parent.
@@ -258,6 +279,8 @@ contains a relative path from the current node to its parent.
 =item * first
 
 =item * up
+
+=item * down
 
 =item * index_node
 
