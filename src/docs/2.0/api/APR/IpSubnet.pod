@@ -1,6 +1,6 @@
 =head1 NAME
 
-APR::IpSubnet - Perl API for XXX
+APR::IpSubnet - Perl API for accessing APRs ip_subnet structures
 
 
 
@@ -8,15 +8,20 @@ APR::IpSubnet - Perl API for XXX
 =head1 Synopsis
 
   use APR::IpSubnet ();
+  
+  my $ipsub = APR::IpSubnet->new($pool, "127.0.0.1");
+  $ok = $ipsub->test($sock_addr);
 
-META: to be completed
 
 
 
 
 =head1 Description
 
-META: to be completed
+C<APR::IpSubnet> object represents a range of IP addresses
+(IPv4/IPv6). An socket connection can be matched against this range to
+test whether the IP it's coming from is inside or outside of this
+range.
 
 
 
@@ -29,8 +34,41 @@ C<APR::IpSubnet> provides the following functions and/or methods:
 
 =head2 C<new>
 
-META: to be completed: It really belongs to APR::IpSubnet which
-doesn't exist as a module!
+Create an IP subnet represenation object
+
+  $ipsubnet = APR::IpSubnet->new($pool, $ip);
+  $ipsubnet = APR::IpSubnet->new($pool, $ip, $mask_or_numbits);
+
+=over 4
+
+=item obj: C<APR::IpSubnet> (class name)
+
+=item arg1: C<$pool>
+( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
+
+=item arg2: C<$ip> ( string )
+
+IP address in one of the two formats: IPv4 (e.g. I<"127.0.0.1">) or
+IPv6 (e.g. I<"::1">). IPv6 addresses are accepted only if APR has the
+IPv6 support enabled.
+
+=item opt arg3: C<$mask_or_numbits> ( string )
+
+An optional IP mask (e.g. I<"255.0.0.0">) or number of bits
+(e.g. I<"15">).
+
+If none provided, the default is not to mask off.
+
+=item ret: C<$ret>
+( C<L<APR::IpSubnet object|docs::2.0::api::APR::IpSubnet>> )
+
+The IP-subnet object
+
+=item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
+
+=item since: 1.99_14
+
+=back
 
 
 =head2 C<test>
@@ -52,18 +90,30 @@ The ip-subnet representation
 
 The socket address to test
 
-=item ret: C<$ret> (integer)
+=item ret: C<$ret> ( true/false )
 
-non-zero if the socket address is within the subnet, 0 otherwise
+true if the socket address is within the subnet, false otherwise
 
-=item since: subject to change
+=item since: 1.99_10
 
 =back
 
 This method is used for testing whether or not an address is within a
-subnet.
+subnet. It's used by module C<mod_access> to check whether the client
+IP fits into the IP range, supplied by C<Allow>/C<Deny> directives.
 
-META: add the example from the test
+Example:
+
+Allow accesses only from the localhost (IPv4):
+
+  use APR::IpSubnet ();
+  use Apache::Connection ();
+  use Apache::RequestRec ();
+  my $ipsub = APR::IpSubnet->new($r->pool, "127.0.0.1");
+  ok $ipsub->test($r->connection->remote_addr);
+
+
+
 
 
 
