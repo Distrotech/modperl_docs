@@ -19,6 +19,10 @@ DocSet:
   it's not a doc.
   STATUS: need to extend pod parser with U<title (url|relative url)>
 
+- DocSet doesn't check if there are two indentical fragment anchors on
+  the same page. need to do that checking and unconditionally complain
+  when this happens.
+
 Menu: 
 -----
 
@@ -75,6 +79,9 @@ Content:
 
 Search:
 -------
+
+- looks that the search checkboxes are messed up! offsite and
+  tutorials are in the 1.0 group
 
  - consider adding auto-focus feature:
 
