@@ -84,8 +84,8 @@ of the I<error_log> file (not the whole file!).
 
 If during C<make test> or the use of mod_perl you get a segmentation
 fault you should send to the list a stack backtrace. This
-L<section|devel::debug_c::debug_c/Analyzing_Dumped_Core_Files>
-explains how to extract this backtrace.
+L<section|devel::debug::c/Analyzing_Dumped_Core_Files> explains how to
+extract this backtrace.
 
 Of course to generate a useful backtrace you need to have mod_perl
 with debugging symbols in it (and probably perl and/or httpd too).
