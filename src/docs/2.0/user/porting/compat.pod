@@ -253,11 +253,38 @@ mod_perl specific constants
 =back
 
 See the manpages of the respective modules to figure out which
-constants they provide. (XXX: not all manpages exist yet.)
+constants they provide.
 
 META: add the info how to perform the transition. XXX: may be write a
 script, which can tell you how to port the constants to 2.0? Currently
 C<Apache::compat> doesn't provide a complete back compatibility layer.
+
+=head2 mod_perl 1.0 and 2.0 Constants Coexistence
+
+If the same codebase is used for both mod_perl generations, the
+following technique can be used for using constants:
+
+  package MyApache::Foo;
+  use mod_perl;
+  use constant MP2 => $mod_perl::VERSION >= 1.99;
+  BEGIN {
+      if (MP2) {
+          require Apache::Const;
+          Apache::Const->import(-compile => qw(OK DECLINED));
+      }
+      else {
+          require Apache::Constants;
+          Apache::Constants->import(qw(OK DECLINED));
+      }
+  }
+  
+  sub handler {
+      # ...
+      return MP2 ? Apache::OK : Apache::Constants::OK;
+  }
+  1;
+
+
 
 =head2 Deprecated Constants
 
