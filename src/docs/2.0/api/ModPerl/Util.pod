@@ -154,26 +154,27 @@ The Perl stash to unload. e.g. C<MyApache::MyData>.
 
 =back
 
-Unloading a Perl stash is a complicated business. This function tries
-very hard to do the right thing. After calling this module, it should
-be safe to C<use> a new version of the module.
+Unloading a Perl stash (package) is a complicated business. This
+function tries very hard to do the right thing. After calling this
+function, it should be safe to C<use()> a new version of the module
+that loads the wiped package.
 
-References to module elements (function, variables, etc) that were
-taken from outside the unloaded module will still be valid.
+References to stash elements (functions, variables, etc.) taken from
+outside the unloaded package will still be valid.
 
 This function may wipe off things loaded by other modules, if the
 latter have inserted things into the C<$stash> it was told to unload.
 
-C<unload_package()> takes care not to delete sub-stashes when deleting
-the requested stash. So for example if C<CGI> and C<CGI::Carp> are
-loaded, calling C<unload_package('CGI')> won't affect C<CGI::Carp>.
-
-If the module's stash had a corresponding XS shared object loaded it
-will be unloaded as well.
+If a stash had a corresponding XS shared object (.so) loaded it will
+be unloaded as well.
 
 If the stash had a corresponding entry in C<%INC>, it will be removed
 from there.
 
+C<unload_package()> takes care to leave sub-stashes intact while
+deleting the requested stash. So for example if C<CGI> and
+C<CGI::Carp> are loaded, calling C<unload_package('CGI')> won't affect
+C<CGI::Carp>.
 
 
 
