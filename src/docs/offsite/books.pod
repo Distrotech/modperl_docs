@@ -140,6 +140,11 @@ to talk about mod_perl:
 
 =over
 
+=item * Core Perl
+
+Chapter 17 of I<Core Perl> By Reuven Lerner provides an introduction
+to mod_perl: http://www.lerner.co.il/coreperl/
+
 =item * Perl for the Web
 
 By Chris Radcliff. B<Perl for the Web> talks about mod_perl and
