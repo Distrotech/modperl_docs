@@ -80,7 +80,7 @@ Do:
        else {
            $self->foo("one", 2, "...");
        }
-
+  
        return $self;
    }
 
@@ -323,11 +323,11 @@ Stas Bekman E<lt>stas *at* stason.orgE<gt>
 
 =over
 
-=item * Stas Bekman E<lt>stas *at* stason.orgE<gt>
+=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
-=item * Doug MacEachernE<lt>dougm *at* covalent.netE<gt>
+=item * Doug MacEachernE<lt>dougm (at) covalent.netE<gt>
 
-=item * Tim Henigan E<lt>t.henigan *at* verizon.netE<gt>
+=item * Tim Henigan E<lt>t.henigan (at) verizon.netE<gt>
 
 =back
 
