@@ -674,8 +674,8 @@ META: complete the details, which are new to 2.0.
 
 To retrieve the contents of a custom "container" directive, use the
 C<L<Apache::Directive>> object's methods 
-C<L<as_hash|Apache::Directive/C_as_hash_>>
-or C<L<as_string|Apache::Directive/C_as_string_>> :
+C<L<as_hash|docs::2.0::api::Apache::Directive/C_as_hash_>>
+or C<L<as_string|docs::2.0::api::Apache::Directive/C_as_string_>> :
 
   sub MyParameter {
       my($self, $parms, $val) = @_;
