@@ -27,7 +27,10 @@ The site is being updated automatically from the crontab. So all you
 have to do is to commit your changes and wait for them to be picked up
 by the update system.
 
-This is the current crontab:
+This is the current crontab
+
+% crontab -l
+MAILTO=docs-dev@perl.apache.org
 
 # every monday rebuild all, including pdf
 30 05  * * 1 /home/perlwww/apache.org/modperl-docs/bin/site_build_force_pdf_index
