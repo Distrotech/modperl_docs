@@ -140,8 +140,11 @@ sub scan {
 
         } elsif ($type eq 'chapters') {
             my $chapter = $self->chapter_scan_n_cache($data, $hidden);
-            $self->object_store($chapter)
-                if defined $chapter and ref $chapter;
+            if (defined $chapter and ref $chapter) {
+                # modified chapter --> modified docset
+                $self->modified(1);
+                $self->object_store($chapter)
+            }
 
         } else {
             # nothing
