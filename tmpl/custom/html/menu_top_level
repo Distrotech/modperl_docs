@@ -32,12 +32,10 @@
    WHILE p;
        count = count + 1;
        link = INCLUDE link prefix=prefix link=p.meta.link;
+       buttons.push({link => link, text => p.meta.stitle});
        IF p.id == current.id;
-           style = 'activenav';
-       ELSE;
-           style = 'notactivenav';
+           selected = count;
        END;
-       buttons.push({link => link, text => p.meta.stitle, style=> style });
        p = p.next; # next node
    END;
 -%]
