@@ -20,8 +20,11 @@ prerequisites|docs::2.0::user::install::install/Prerequisites> B<installed>.
 Apache and the right Perl version have to be built and installed
 B<before> you can proceed with building mod_perl.
 
-In this chapter we assume that httpd was installed under
-I<$HOME/httpd/prefork>.
+In this chapter we assume that httpd and all helper files were
+installed under I<$HOME/httpd/prefork>, if your distribution doesn't
+install all the files under the same tree, please refer to L<the
+complete installation
+instructions|docs::2.0::user::install::install/Installing_mod_perl_from_Source>.
 
 Now, configure mod_perl:
 

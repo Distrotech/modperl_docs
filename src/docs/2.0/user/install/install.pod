@@ -194,11 +194,25 @@ Now build it:
 
 =back
 
+=head1 Installing mod_perl from Binary Packages
+
+As of this writing only the binaries for the Win32 platform are
+available, kindly prepared and maintained by Randy Kobes.
+See the documentation on L<Win32 binaries|docs::2.0::os::win32::install>
+for details.
+
+Some RPM packages can be found using rpmfind services, e.g.:
+
+http://www.rpmfind.net/linux/rpm2html/search.php?query=mod_perl&submit=Search+...
+However if you have problems using them, you have to contact those who
+have created them.
+
 
 =head1 Installing mod_perl from Source
 
 Building from source is the best option, because it ensures a binary
-compatibility with Apache and Perl.
+compatibility with Apache and Perl. However it's possible that your
+distribution provides a solid binary mod_perl 2.0 package.
 
 For Win32 specific details, see the documentation on
 L<Win32 installation|docs::2.0::os::win32::install>.
@@ -237,6 +251,10 @@ The password is "anoncvs".
 
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co modperl-2.0
 
+You can also try the latest CVS snapshot:
+
+http://cvs.apache.org/snapshots/modperl-2.0/
+
 =back
 
 
@@ -246,15 +264,42 @@ The password is "anoncvs".
 Before you proceed make sure that Apache 2.0 has been built and
 installed. mod_perl B<cannot> be built before that.
 
+Like any other Perl module, mod_perl is configured via the
+I<Makefile.PL> file, but requires one or more configuration options:
+
+  % perl Makefile.PL <options>
+
+where I<options> is an optional list of (key,value) pairs.  Usually
+you need to use only the C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option to
+complete the build. This and other options are discussed in the
+following sections.
+
+If all Apache 2.0 files were installed under the same directory,
+mod_perl 2.0's build only needs to know the path to that directory,
+passed via the C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option:
+
   % cd modperl-2.0
   % perl Makefile.PL MP_AP_PREFIX=$HOME/httpd/prefork \
     MP_INST_APACHE2=1
 
-XXX: MP_INST_APACHE2=1 should become the default
+XXX: MP_INST_APACHE2=1 should become the default, but for now add it
+too.
 
-I<options> an optional list of (key,value) pairs.  Usually you need to
-use only the C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option to complete the
-build. This and other options are discussed in the following sections.
+However if the Apache 2.0 files are spread under different locations,
+which is the case on many distributions that provide the binary Apache
+2.0 package, other options may need to be provided. For example RedHat
+Linux system installs the httpd binary, the apxs and apr-config
+scripts all in different locations, therefore they configure mod_perl
+2.0 as:
+
+  % perl Makefile.PL MP_APXS=/path/to/apxs \
+    MP_APR_CONFIG=/another/path/to/apr-config <other options>
+
+In this case there is no need to specify the
+C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option, since paths to the scripts
+specified by C<L<MP_APXS|/MP_APXS>> and
+C<L<MP_APR_CONFIG|/MP_APR_CONFIG>> can be used to retrieve the rest of
+the information.
 
 =head3 Boolean Build Options
 
@@ -449,8 +494,8 @@ or
 
 If APR wasn't installed under the same file tree as httpd, you may
 need to tell the build process where it can find the executable
-C<apr-config>, which can then be used to figure out where the apr
-I<include/> and I<lib> directories can be found.
+C<apr-config>, which can then be used to figure out where the apr and
+aprutil I<include/> and I<lib/> directories can be found.
 
 =head4 MP_CCOPTS
 
@@ -545,14 +590,12 @@ Once the test suite has passed, it's a time to install mod_perl.
   % make install
 
 If you install mod_perl system wide, you probably need to become
-I<root> prior to doing the installation.
+I<root> prior to doing the installation:
 
-=head1 Installing mod_perl from Binary Packages
+  % su
+  # make install
 
-As of this writing only the binaries for the Win32 platform are
-available, kindly prepared and maintained by Randy Kobes.
-See the documentation on L<Win32 binaries|docs::2.0::os::win32::install>
-for details.
+
 
 =head1 If Something Goes Wrong
 
