@@ -80,7 +80,7 @@ sub process {
 
 sub generate {
     my($filename, $data) = @_;
-    print "+++ generating $filename\n";
+    print "+++ writing $filename\n";
 
     #  print Dumper \@search_path;
     my $vars = {story => $data};
