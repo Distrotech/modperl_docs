@@ -17,4 +17,9 @@
         "<br>";
     END;    
 -%]
-[%- BLOCK src_doc -%]<a href="[%- doc.src_doc.link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_src.gif" width="48" height="20" border="0" alt="Source version of the document ([%- doc.src_doc.size -%])"></a>[%- END -%][%- BLOCK pdf_doc -%]<a href="[%- doc.pdf_doc.link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_pdf.gif" width="48" height="20" border="0" alt="PDF version of the document ([%- doc.pdf_doc.size -%])"></a>[%- END -%]
+[%- BLOCK src_doc -%]
+<a href="[%- doc.src_doc.link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_src.gif" width="48" height="20" border="0" alt="Source version of the document ([%- doc.src_doc.size -%])"></a>
+[%- END -%]
+[%- BLOCK pdf_doc -%]
+<a href="[%- doc.pdf_doc.link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_pdf.gif" width="48" height="20" border="0" alt="PDF version of the document ([%- doc.pdf_doc.size -%])"></a>
+[%- END -%]
