@@ -212,8 +212,6 @@ If you find incorrect details or mistakes in my grammar, or you want
 to contribute to this document please feel free to send me an email at
 stas@stason.org .
 
-=back
-
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
