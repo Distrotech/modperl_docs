@@ -1192,18 +1192,28 @@ C<APR::Date::parse_http()>.
 
 =head2 C<Apache::Util::ht_time()>
 
-C<Apache::Util::ht_time()> has been replaced (temporary?) with
-C<Apache::Util::format_time()>, which requires a pool object as a
-forth argument. All four arguments are now required.
+C<Apache::Util::ht_time()> now requires a
+C<L<pool|docs::2.0::api::APR::Pool>> object as a first argument.
 
 For example:
 
    use Apache::Util ();
    $fmt = '%a, %d %b %Y %H:%M:%S %Z';
    $gmt = 1;
-   $fmt_time = Apache::Util::format_time(time(), $fmt, $gmt, $r->pool);
+   $fmt_time = Apache::Util::ht_time($r->pool, time(), $fmt, $gmt);
 
-See the L<Apache::Util> manpage.
+See the L<Apache::Util|docs::2.0::api::Apache::Util> manpage.
+
+It's also possible to adjust the mod_perl 1.0 code using
+Apache::compat's
+L<overriding|docs::2.0::api::Apache::compat/Compatibility_Functions_Colliding_with_mod_perl_2_0_API>.
+
+For example:
+
+  use Apache::compat;
+  Apache::compat::override_mp2_api('Apache::Util::ht_time');
+  $fmt_time = Apache::Util::ht_time(time(), $fmt, $gmt);
+  Apache::compat::restore_mp2_api('Apache::Util::ht_time');
 
 
 =head2 C<Apache::Util::validate_password()>
