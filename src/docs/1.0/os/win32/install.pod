@@ -89,7 +89,12 @@ You may see some harmless warnings, which can be reduced (along with
 the size of the DLL), by setting:
 
  "Project -> Settings -> [C/C++] -> Category: [Code Generation] -> 
-  Use runtime library: [Multithreaded DLL]
+  Use runtime library: [Multithreaded DLL]"
+
+As well, if you are using a mod_ssl enabled Apache, you
+should add I<EAPI> to the list of preprocessor definitions under
+
+ "Project -> Settings -> [C/C++]"
 
 =item Testing
 
