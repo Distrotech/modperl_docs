@@ -2,9 +2,6 @@ body {
         font-family: helvetica, arial, verdana, sans-serif; 
         font-size: 0.8em;
         color: #000000; 
-        /* background-color: #000066; */
-        background-image:url(images/bgline.gif);
-        background:url(images/bgline.gif); /* NS4 */
 }
 
 .headline {

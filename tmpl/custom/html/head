@@ -9,5 +9,5 @@
 <title>[% doc.meta.title %]</title>
 [% INCLUDE headers -%]
 </head>
-<body>
+<body background="[% doc.dir.abs_doc_root %]/images/bgline.gif" >
 <a name="top"></a>
