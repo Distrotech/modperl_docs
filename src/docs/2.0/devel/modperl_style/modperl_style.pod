@@ -33,31 +33,36 @@ style.
 
 =over 4
 
-=item Indentation
+=item Indentation and Tabs
 
 Do use 4 characters indentation.
 
-emacs: cperl-mode: .xemacs/custom.el
+Do NOT use tabs.
 
+Here is how to setup your editor to do the right thing:
+
+=over
+
+=item * x?emacs: cperl-mode
+
+  .xemacs/custom.el:
+  ------------------
   (custom-set-variables
      '(cperl-indent-level 4)
      '(cperl-continued-statement-offset 4)
-  )
-
-vi: ???
-
-=item Tabs
-
-Do NOT use tabs.
-
-emacs: cperl-mode: .xemacs/custom.el
-
-  (custom-set-variables
      '(cperl-tab-always-indent t)
      '(indent-tabs-mode nil)
   )
 
-vi: ???
+=item * vim
+
+  .vimrc:
+  -------
+  set expandtab " replaces any tab keypress with the appropriate number of spaces
+  set tabstop=4 " sets tabs to 4 spaces
+
+=back
+
 
 =item Block Braces
 
@@ -312,12 +317,19 @@ This is OK:
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
-Stas Bekman E<lt>stas@stason.orgE<gt>
+Stas Bekman E<lt>stas *at* stason.orgE<gt>
 
 =head1 Authors
 
-Stas Bekman E<lt>stas@stason.orgE<gt>
-Doug MacEachern
+=over
+
+=item * Stas Bekman E<lt>stas *at* stason.orgE<gt>
+
+=item * Doug MacEachernE<lt>dougm *at* covalent.netE<gt>
+
+=item * Tim Henigan E<lt>t.henigan *at* verizon.netE<gt>
+
+=back
 
 =cut
 
