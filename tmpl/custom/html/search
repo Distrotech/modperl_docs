@@ -33,7 +33,8 @@
                             </tr>
                             <tr>
                                 <td colspan="2" align="center">
-                                    <input type="text" name="query" size="15" maxlength="200" value="">
+                                    <!-- cannot more than 12 for NS to render properly! -->
+                                    <input type="text" name="query" size="12" maxlength="200" value="">
                                 </td>
                             </tr>
                             <tr>
