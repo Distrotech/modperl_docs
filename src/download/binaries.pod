@@ -22,7 +22,8 @@ self-extracting file. There's accompanying readme files with more details
 on the particular versions of packages included. These all include Perl
 and some common modules, so are largish.
 
-For more information please read the L<Win32 Documentation|docs::1.0::win32::index> 
+For more information please read the L<Win32
+Documentation|docs::1.0::os::win32::index>
 
 =head2 Win32 mod_perl 2.x (BETA)
 
