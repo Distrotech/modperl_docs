@@ -3109,7 +3109,8 @@ drops below a specified limit or unshared memory size crosses a
 specified threshold.
 
 See also L<Preload Perl modules at server
-startup|guide::performance/Preloading_Perl_Modules_at_Serve> and L<Sharing
+startup|guide::performance/Preloading_Perl_Modules_at_Server_Startup>
+and L<Sharing
 Memory|guide::performance/Sharing_Memory>. 
 
 =head2 Choosing MinSpareServers, MaxSpareServers and StartServers
