@@ -245,17 +245,18 @@ sub format_bytes {
   if ($bytes < KBYTE) {
       return sprintf "%5dB", $bytes;
   }
-  elsif (KBYTE < $bytes  and $bytes < MBYTE) {
+  elsif (KBYTE <= $bytes  and $bytes < MBYTE) {
       return sprintf "%4.@{[int($bytes/KBYTE) < 10 ? 1 : 0]}fKiB", $bytes/KBYTE;
   }
-  elsif (MBYTE < $bytes  and $bytes < GBYTE) {
+  elsif (MBYTE <= $bytes  and $bytes < GBYTE) {
       return sprintf "%4.@{[int($bytes/MBYTE) < 10 ? 1 : 0]}fMiB", $bytes/MBYTE;
   }
-  elsif (GBYTE < $bytes) {
+  elsif (GBYTE <= $bytes) {
       return sprintf "%4.@{[int($bytes/GBYTE) < 10 ? 1 : 0]}fGiB", $bytes/GBYTE;
   }
   else {
       # shouldn't happen
+      die "cannot handle formatting of $bytes"
   }
 }
 
