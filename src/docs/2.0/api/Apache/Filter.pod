@@ -30,7 +30,7 @@ can be retrieved with:
 =head2 C<ctx>
 
 A filter context is created before the filter is called for the first
-time and its destroyed at the end of the request. The context is
+time and it's destroyed at the end of the request. The context is
 preserved between filter invocations of the same request. So if a
 filter needs to store some data between invocations it should use the
 filter context for that.  The filter context is initialized with the
