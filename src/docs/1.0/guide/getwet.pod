@@ -441,7 +441,7 @@ The distribution comes with a ready-made configuration file for
 mod_perl which we'll use to start Apache. From the C<C:\Apache>
 directory, start Apache:
 
-  C:\Apache> apache.exe -f conf\httpd.conf-perl
+  C:\Apache> apache.exe
 
 Now issuing a request for I<http://localhost/> displays the usual
 Apache C<It Worked> page.
