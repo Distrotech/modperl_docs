@@ -9,6 +9,9 @@ what steps you should take to make your code working under mod_perl
 2.0 while still preserving 1.0 compatibility. This document attempts
 to answer some of the questions related to this issue.
 
+API changes are listed in L<the back compatibility
+document|docs::2.0::user::compat::compat/>.
+
 =head1 Should the Module Name Be Changed?
 
 While you can change the name of the module, it's the best to try to
@@ -91,7 +94,8 @@ deprecated in 2.0 can be enabled by adding:
 
   use Apache::compat();
 
-in the code or I<startup.pl>.
+in the code or I<startup.pl>. The API changes are documented in L<the
+back compatibility document|docs::2.0::user::compat::compat/>.
 
 The variable C<$mod_perl::VERSION> should be used in conditionals to
 use the appropriate code for 1.0 or 2.0. You can use it to load
@@ -100,6 +104,10 @@ C<Apache::compat> if running under mod_perl 2.0:
   if ($mod_perl::VERSION >= 2.0) {
       require Apache::compat;
   }
+
+META: while 2.0 is not released, use:
+
+  $mod_perl::VERSION >= 1.99
 
 XS modules will need I<Makefile.PL>/C<#ifdef> logic to work with both
 versions.  But the applications that use them should not need to know

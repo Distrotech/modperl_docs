@@ -23,6 +23,9 @@ You should be able to find the destiny of the functions that you
 cannot find any more or which behave differently now under the package
 names the functions belong in mod_perl 1.0.
 
+See also L<additional porting
+notes|docs::2.0::devel::porting::porting>, mainly oriented for the 3rd
+party module and core developers.
 
 =head1 Configuration Files Porting
 
@@ -78,8 +81,6 @@ If you need to use the same I<httpd.conf> for 1.0 and 2.0, use:
   <IfDefine !MODPERL2>
       PerlFreshRestart
   </IfDefine>
-
-
 
 
 
@@ -559,15 +560,22 @@ either moved to other packages or removed.
 
 =head2 C<open()> and C<close()>
 
-See the implementation in the module C<Apache::compat>.
+The methods C<open()> and C<close()> were removed. See the back
+compatibility implementation in the module C<Apache::compat>.
 
 =head2 C<tmpfile()>
 
-See C<File::Temp>, or the implementation in the module
-C<Apache::compat>.
+The method C<tmpfile()> was removed since Apache 2.0 doesn't have the
+API for this method anymore.
 
-It was removed since Apache 2.0 doesn't have the API for this method
-anymore.
+See C<File::Temp>, or the back compatibility implementation in the
+module C<Apache::compat>.
+
+With Perl v5.8.0 you can create anonymous temporary files:
+
+   open $fh, "+>", undef or die $!;
+
+That is a literal C<undef>, not an undefined value.
 
 =head2 C<mtime()>
 
@@ -741,7 +749,10 @@ C<Apache::Table> has been renamed to C<APR::Table>.
 
 
 
+=head1 C<Apache::SIG>
 
+C<Apache::SIG> currently exists only C<Apache::compat> and it does
+nothing.
 
 
 
@@ -759,6 +770,8 @@ with:
 
 However C<Apache::Reload> provides an extra functionality, covered in
 the module's manpage.
+
+
 
 =head1 Maintainers
 
