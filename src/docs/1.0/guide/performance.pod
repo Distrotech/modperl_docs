@@ -2591,7 +2591,7 @@ waiting.
 There are very important OS parameters that you might want to change
 in order to improve the server performance. This topic is 
 discussed in the section: L<Setting the Buffering Limits on Various
-OSes|guide::scenario/Setting_the_Buffering_Limits_on_>
+OSes|guide::scenario/Setting_the_Buffering_Limits_on_Various_OSs>
 
 =head1 Performance Tuning by Tweaking Apache Configuration
 
@@ -2985,12 +2985,12 @@ It's important to understand how much real memory a child occupies.
 Your children can share memory between them when the OS supports that.
 You must take action to allow the sharing to happen - See L<Preload
 Perl modules at server
-startup|guide::performance/Preloading_Perl_Modules_at_Serve>.  If you do
-this, the chances are that your C<MaxClients> can be even higher.  But
-it seems that it's not so simple to calculate the absolute number.  If
-you come up with a solution please let us know!  If the shared memory
-was of the same size throughout the child's life, we could derive a
-much better formula:
+startup|guide::performance/Preloading_Perl_Modules_at_Server_Startup>.
+If you do this, the chances are that your C<MaxClients> can be even
+higher.  But it seems that it's not so simple to calculate the
+absolute number.  If you come up with a solution please let us know!
+If the shared memory was of the same size throughout the child's life,
+we could derive a much better formula:
 
                Total_RAM + Shared_RAM_per_Child * (MaxClients - 1)
   MaxClients = ---------------------------------------------------
@@ -4497,10 +4497,11 @@ good chunk of memory if the above call must not be called with a
 reference to an object, but even then it can be passed by value.
 
 I strongly endorse L<Apache::Request (libapreq) - Generic Apache
-Request Library|guide::modules/Apache_Request_libapreq_Gen>.  Its core is
-written in C, giving it a significant memory and performance benefit.
-It has all the functionality of C<CGI.pm> except the HTML generation
-functions.
+Request
+Library|guide::modules/Apache__Request__libapreq____Generic_Apache_Request_Library>.
+Its core is written in C, giving it a significant memory and
+performance benefit.  It has all the functionality of C<CGI.pm> except
+the HTML generation functions.
 
 =head2 Interpolation, Concatenation or List
 
@@ -4683,7 +4684,7 @@ If you test it in the normal mode--it's possible that some child
 processes would show only one entry or none at all, since they might
 not serve the same requests as the others.  For more hints see the
 section "L<Run the server in single
-mode|general::control/Running_a_Server_in_Single_Proce>".
+mode|general::control/Running_a_Server_in_Single_Process_Mode>".
 
 =head1 Improving Performance by Prevention
 
@@ -4974,7 +4975,7 @@ You might also want to check the section L<Preventing Your Processes
 from
 Growing|guide::performance/Preventing_Your_Processes_from_Growing> and
 L<Limiting Other Resources Used by Apache Child
-Processes|guide::performance/Limiting_Other_Resources_Used_by>.
+Processes|guide::performance/Limiting_Other_Resources_Used_by_Apache_Child_Processes>.
 
 =head2 Preventing Your Processes from Growing
 
@@ -5366,7 +5367,7 @@ configuration file to plug these modules in.
 =head2 Sending Plain HTML as Compressed Output
 
 See L<Apache::GzipChain - compress HTML (or anything) in the
-OutputChain|guide::modules/Apache_GzipChain_compress_HTM>
+OutputChain|guide::modules/Apache__GzipChain___compress_HTML__or_anything__in_the_OutputChain>
 
 =head2 Caching Components with HTML::Mason
 
@@ -5856,7 +5857,7 @@ Let's take a look at a few of these.
 
 Proxy gives you a great performance increase in most cases. It's
 discussed in the section L<Adding a Proxy Server in http Accelerator
-Mode|guide::strategy/Adding_a_Proxy_Server_in_http_Ac>.
+Mode|guide::strategy/Adding_a_Proxy_Server_in_http_Accelerator_Mode>.
 
 =head1 Upload and Download of Big Files
 
@@ -5872,7 +5873,7 @@ If some particular script's main functionality is the uploading or
 downloading of big files, you probably want it to be executed on a
 plain apache server under mod_cgi (i.e. performing this operation on
 the front-end server, if you use L<a dual-server
-setup|guide::scenario/One_Plain_and_One_mod_perl_enabl>.
+setup|guide::scenario/One_Plain_and_One_mod_perl_enabled_Apache_Servers>.
 
 This of course assumes that the script requires none of the
 functionality of the mod_perl server, such as custom authentication
