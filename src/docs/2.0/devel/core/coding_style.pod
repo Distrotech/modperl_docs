@@ -221,7 +221,7 @@ to avoid any import, e.g.:
 
   use IO::File ();
 
-(explain how to use Apache::Status to find imported/exported
+(explain how to use Apache2::Status to find imported/exported
 functions)
 
 =back
