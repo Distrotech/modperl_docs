@@ -171,7 +171,14 @@ is required.
 
 =head2 I get a "Save-As" dialogue box when calling a script.
 
-See the discussion about 
+If the extension of the file being called is C<pl>, or some
+other common extension, and if the problem happens with a
+browser on Windows, it may be that there is a file association
+set up within Windows for that extension. Try changing the
+extension of the file to something for which a file association
+is normally not present, such as C<cgi>.
+
+If this doesn't help, see the discussion about 
 L<PerlSendHeader|docs::1.0::guide::config/My_Script_Works_under_mod_cgi__but_when_Called_via_mod_perl_I_Get_a__Save_As__Prompt>; note that for mod_perl 2.0, 
 there is a L<different
 syntax|docs::2.0::user::porting::compat/C_PerlSendHeader_>.
