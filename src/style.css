@@ -226,8 +226,8 @@ span.searchhighlight { background-color: #ffff99; }
 
 code { font-family: courier new, courier, monospace; }
 pre {
-    font-family: helvetica, arial, verdana, sans-serif;
-	font-size: 1.0em;
+    font-family: courier new, courier, monospace;
+    font-size: 1.0em;
     color: #000000;
 }
 
