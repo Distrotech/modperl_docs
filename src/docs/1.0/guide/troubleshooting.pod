@@ -466,10 +466,11 @@ INSTALL document for this item:
   variable $^M.  See perlvar(1) for more details.
 
 If you compile with that option and add 'C<use Apache::Debug level
-=E<gt> 4;>' to your PerlScript, it will allocate the C<$^M> emergency
+=E<gt> 4;>' to your Perl script, it will allocate the C<$^M> emergency
 pool and the C<$SIG{__DIE__}> handler will call C<Carp::confess>,
 giving you a stack trace which should reveal where the problem is.
-See the C<Apache::Resource> module for ways to control httpd processes.
+See the C<Apache::Resource> module for ways to control httpd
+processes.
 
 Note that Perl 5.005 and later have C<PERL_EMERGENCY_SBRK> turned on 
 by default.
