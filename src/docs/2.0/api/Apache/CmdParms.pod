@@ -125,7 +125,7 @@ C<undef>.
 =back
 
 For example here is how to check whether a command is allowed in the
-E<lt>LocationE<gt> container:
+C<E<lt>LocationE<gt>> container:
 
   use Apache::Const -compile qw(NOT_IN_LOCATION);
   if (my $error = $parms->check_cmd_context(Apache::NOT_IN_LOCATION)) {
@@ -169,7 +169,7 @@ This command's directive object in the configuration tree
 =item obj: C<$parms>
 ( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
 
-=item ret: C<$newval>
+=item ret: C<$directive>
 ( C<L<Apache::Directive object|docs::2.0::api::Apache::Directive>> )
 
 The current directive node in the configuration tree
@@ -185,8 +185,8 @@ The current directive node in the configuration tree
 
 =head2 C<info>
 
-The extra information passed thru C<cmd_data> in
-C<L<@APACHE_MODULE_COMMANDS|docs::2.0::user::config::custom/C_cmd_data_>>
+The extra information passed through C<cmd_data> in
+C<L<@APACHE_MODULE_COMMANDS|docs::2.0::user::config::custom/C_cmd_data_>>.
 
   $info = $parms->info;
 
@@ -229,8 +229,8 @@ The name of the method to check for
 
 =back
 
-For example, to check if the C<GET> method is being E<lt>LimitE<gt>ed
-in the current scope, do:
+For example, to check if the C<GET> method is being
+C<E<lt>LimitE<gt>>ed in the current scope, do:
 
   if ($parms->method_is_limited('GET') {
       die "...";
@@ -290,7 +290,7 @@ The current pathname/location/match of the block this command is in
 =item obj: C<$parms>
 ( C<L<Apache::CmdParms object|docs::2.0::api::Apache::CmdParms>> )
 
-=item ret: C<$path> ( string / undef )
+=item ret: C<$path> ( string / C<undef> )
 
 If configuring for a block like E<lt>LocationE<gt>,
 E<lt>LocationMatchE<gt>, E<lt>DirectoryE<gt>, etc., the pathname part
@@ -300,9 +300,13 @@ of that directive. Otherwise, C<undef> is returned.
 
 =back
 
+For example for a container definition:
 
+  <Location /foo>
+  ...
+  </Location>
 
-
+I<'/foo'> will be returned.
 
 
 
