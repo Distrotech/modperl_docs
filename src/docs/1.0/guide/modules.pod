@@ -175,7 +175,7 @@ The main advantage of this module is that it reduces the need to
 telnet to the machine in order to monitor it.  Indeed it provides information
 about mod_perl processes that cannot be acquired from telneting to the
 machine.
- 
+
 =head3 Configuration
 
   # Configuration in httpd.conf
