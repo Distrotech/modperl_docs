@@ -1,0 +1,45 @@
+=head1 NAME
+
+mod_perl 1.x versus mod_perl 2.x compatibility issues
+
+=head1 Code Porting from 1.x to 2.x
+
+mod_perl 2.x is trying hard to be back compatible with mod_perl
+1.x. However some things (mostly APIs) have been changed. In order to
+gain a complete compatibilty with 1.x while running under 2.x, you
+should simply load the compatibility module:
+
+  use Apache::compat;
+
+at the server startup. And unless there are forgotten things or bugs,
+your code should work without any changes under 2.x series.
+
+However, unless you want to keep the 1.x compatibility, you should try
+to remove the compatibility layer and adjust your code to work under
+2.x without it. You want to do it mainly for the performance
+improvement.
+
+This document explains what APIs have changed and what new APIs should
+be used instead.
+
+=head1 Apache::Registry and Apache::PerlRun
+
+=head1 Apache::File
+
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=head1 Authors
+
+=over
+
+=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
+
+=cut
