@@ -327,7 +327,7 @@ td.search-nav {
 span.search-result-title {
     font-family: helvetica, arial, verdana, sans-serif;
    /* font-size: 1.0em;*/
-    background-color: #ffffff;
+    background-color: transparent;
     color: #000000;
 }
 
@@ -409,7 +409,7 @@ div.quotation {
     font-family: helvetica, arial, verdana, sans-serif;
     font-size: 0.9em;
     color: #004080;
-    background-color: #ffffff;
+    background-color: transparent;
     text-align: justify;
     padding-top: 10px;
     padding-right: 40px;
@@ -427,7 +427,7 @@ div.quote-details {
     font-weight: normal;
     font-size: 0.85em;
     color: #004080;
-    background-color: #ffffff;
+    background-color: transparent;
     text-align: right;
     margin-top: 5px;
     margin-right: 60px;
