@@ -61,34 +61,36 @@ there after will be faster.  If your scripts are large and/or make use
 of many Perl modules, this difference should be noticeable to the
 human eye.
 
-=head1 SECURITY
+=head1 Security
 
 Apache::Registry::handler will preform the same checks as mod_cgi
 before running the script.
 
-=head1 ENVIRONMENT
+=head1 Environment
 
 The Apache function `exit' overrides the Perl core built-in function.
 
 The environment variable B<GATEWAY_INTERFACE> is set to C<CGI-Perl/1.1>.
 
-=head1 COMMANDLINE SWITCHES IN FIRST LINE
+=head1 Commandline Switches In First Line
 
 Normally when a Perl script is run from the command line or under CGI,
 arguments on the `#!' line are passed to the perl interpreter for processing.
 
-Apache::Registry currently only honors the B<-w> switch and will turn
-on warnings using the C<$^W> global variable.  Another common switch
-used with CGI scripts is B<-T> to turn on taint checking.  This can
-only be enabled when the server starts with the configuration
-directive:
+C<Apache::Registry> currently only honors the B<-w> switch and will
+enable the C<warnings> pragma in such case.
 
- PerlTaintCheck On
+Another common switch used with CGI scripts is B<-T> to turn on taint
+checking.  This can only be enabled when the server starts with the
+configuration directive:
 
-However, if taint checking is not enabled, but the B<-T> switch is seen,
-Apache::Registry will write a warning to the error_log.
+ PerlSwitches -T
 
-=head1 DEBUGGING
+However, if taint checking is not enabled, but the B<-T> switch is
+seen, C<Apache::Registry> will write a warning to the I<error_log>
+file.
+
+=head1 Debugging
 
 You may set the debug level with the $Apache::Registry::Debug bitmask
 
@@ -96,7 +98,7 @@ You may set the debug level with the $Apache::Registry::Debug bitmask
  2 => Apache::Debug::dump in case of $@
  4 => trace pedantically
 
-=head1 CAVEATS
+=head1 Caveats
 
 Apache::Registry makes things look just the CGI environment, however, you
 must understand that this *is not CGI*.  Each httpd child will compile
@@ -106,7 +108,7 @@ cleaning out the entire process space.  Many times you have heard
 This is more important here than anywhere else!
 
 Your scripts cannot contain the __END__ or __DATA__ token to terminate
-compilation.
+compilation. (META: works in 2.0).
 
 
 =head1 Authors
