@@ -15,7 +15,7 @@
         rel_doc_root=doc.dir.rel_doc_root;
 
     IF doc.body.top;
-        "<p>${doc.body.top}</p>";
+        "${doc.body.top}";
     END;
 
     IF doc.meta.abstract;
@@ -25,7 +25,7 @@
     PROCESS index_toc toc=doc.toc;
 
     IF doc.body.bot;
-        "<p>${doc.body.bot}</p>";
+        "${doc.body.bot}";
     END;
 
     "<br>";
