@@ -670,6 +670,19 @@ L<Server Stopping and Restarting|general::control::control/Server_Stopping_and_R
 
 =head1 OS Specific Notes
 
+=head2 RedHat Linux
+
+=head3 RH 8 and 9 Locale Issues
+
+RedHat 8 and 9 ship Perl with a locale setting that breaks perl. To
+solve the problem either change the locale to en_US.ISO8859-1 or
+simply remove the UTF8 part.
+
+For more information refer to:
+http://twiki.org/cgi-bin/view/Codev/UsingPerl58OnRedHat8
+http://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=87682
+
+
 =head2 OpenBSD
 
 =head3 Issues Caused by httpd being C<chroot>'ed
