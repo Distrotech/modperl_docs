@@ -477,6 +477,29 @@ regression tests.
 
 It's available from CPAN.
 
+=item * C<Webstone>
+
+This tool is somewhat complex to set up, but once you get it running
+it gives you stats that you could only duplicate with ab or http_load
+if you did quite a bit of extra scripting around them.  It also allows
+multiple client machines to be used for providing heavy loads.  This tool
+is useful if you need to know things like at what point people start
+finding your sight slow, as opposed to at what point the server becomes
+unresponsive.
+
+L<Webstone download|download::third_party/Webstone____another_webserver_Benchmarking_tool>
+
+=item * C<Flood>
+
+Flood is a load-tester being developed through the Apache Software
+Foundation.  From the Flood FAQ:
+
+"Flood is a profile-driven HTTP load tester. In layman's terms, it means
+that flood is capable of generating large amounts of web traffic.
+Flood's flexibility and power arises in its configuration syntax.
+It is able to work well with dynamic content."
+
+L<Flood download|download::third_party/Flood____another_webserver_Benchmarking_tool>
 
 =back
 

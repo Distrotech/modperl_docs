@@ -68,6 +68,14 @@ http://www.hpl.hp.com/personal/David_Mosberger/httperf.html
 
 http://www.acme.com/software/http_load/
 
+=head1 Webstone -- another webserver Benchmarking tool
+
+http://www.mindcraft.com/webstone/
+
+=head1 Flood -- another webserver Benchmarking tool
+
+http://httpd.apache.org/test/flood/
+
 =head1 ab -- ApacheBench
 
 ApacheBench comes with the Apache distribution.
