@@ -2278,7 +2278,7 @@ So now the code would look like this:
   
   defined (my $kid = fork) or die "Cannot fork: $!\n";
   if ($kid) {
-    print "Parent has finished\n";
+      print "Parent has finished\n";
   } else {
       # do something time-consuming
       CORE::exit(0);
