@@ -8,6 +8,9 @@ mod_perl users:
         PGP:
             pgp < KEYS
 
+        PGP 5:
+            pgpk -a KEYS
+
         GnuPG:
             gpg --import KEYS 
 
@@ -15,6 +18,9 @@ mod_perl users:
 
         PGP:
             pgp mod_perl-x.xx.tar.gz.asc
+
+        PGP 5:
+            pgpv mod_perl-x.xx.tar.gz.asc
 
         GnuPG:
             gpg --verify mod_perl-x.xx.tar.gz.asc
@@ -27,14 +33,22 @@ mod_perl developers/maintainers:
             pgp -kv <your name> >> this file
             pgp -kxa <your name> and append it to this file
 
+        PGP 5:
+            pgpk -l  <your name> >> this file
+            pgpk -xa <your name> and append it to this file
+            
+
         GnuPG
             gpg --list-keys <your name>
-            gpg --armor --export <your name>) >> this file.
+            gpg --armor --export <your name> >> this file.
 
     signing a release
 
         PGP:
             pgp -sba mod_perl-x.xx.tar.gz
+
+        PGP 5:
+            pgps -b --armor mod_perl-1.99_11.tar.gz
 
         GnuPG
             gpg --detach-sign --armor mod_perl-x.xx.tar.gz 
