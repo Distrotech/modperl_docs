@@ -46,7 +46,7 @@ And the templates are:
 
 =head2 @func: function()
 
-   ($foo, $bar) = function($a, \@b)
+   ($foo, $bar) = function($a, \@b);
 
 =over
 
@@ -75,7 +75,7 @@ Description notes
 
 =head2 function()
 
- ($foo, $bar) = function($a, \@b)
+ ($foo, $bar) = function($a, \@b);
 
 Arguments:
 
