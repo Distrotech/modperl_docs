@@ -11,48 +11,16 @@ Apache::Filter -- A Perl API for Apache 2.0 Filtering
 C<Apache::Filter> provides the Perl API for Apache 2.0 filtering
 framework
 
-=head1 Configuration Directives
-
-META: consider moving the config specs here and point here instead
-from filters.pod.
-
-=head2 C<PerlInputFilterHandler>
-
-See
-C<L<PerlInputFilterHandler|docs::2.0::user::handlers::filters/PerlInputFilterHandler>>.
-
-
-=head2 C<PerlOutputFilterHandler>
-
-See
-C<L<PerlOutputFilterHandler|docs::2.0::user::handlers::filters/PerlOutputFilterHandler>>.
-
-
-=head2 C<PerlSetInputFilter>
-
-See
-C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/PerlSetInputFilter>>.
-
-
-=head2 C<PerlSetOutputFilter>
-
-
-See
-C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/PerlSetInputFilter>>.
-
-
-
-
 
 =head1 Common Filter API
 
-The following methods can be called from any filter:
+The following methods can be called from any filter handler:
 
 
 =head2 C<c>
 
-Inside a connection filter the current connection object can be
-retrieved with:
+Inside a connection or a request filter the current connection object
+can be retrieved with:
 
   my $c = $f->c;
 
@@ -151,8 +119,11 @@ if nothing was done, return C<Apache::DECLINED> and mod_perl will take
 care of passing the current bucket brigade through unmodified to the
 next filter in chain.
 
-
-
+note: calling remove() on the very top connection filter doesn't
+affect the filter chain due to a bug in Apache 2.0.46 and lower (may
+be fixed in 2.0.47). So don't use it with connection filters, till it
+gets fixed in Apache and then make sure to require the minimum Apache
+version if you rely on it.
 
 
 =head1 Bucket Brigade Filter API
@@ -248,6 +219,14 @@ code. If you need to do that, either your filter or one of the
 upstream filters is badly written (e.g. doesn't propogate the EOS
 bucket, or sends more buckets after the EOS bucket).
 
+When this flag is prematurely set (before the real EOS bucket has
+arrived) in the current filter invocation, instead of invoking the
+filter again, mod_perl will create and send the EOS bucket to the next
+filter, ignoring any other bucket brigades that may have left to
+consume. As mentioned earlier this special behavior is useful in
+writing special tests that test abnormal situations.
+
+
 
 =head2 C<read>
 
@@ -306,28 +285,64 @@ Adds C<&callback> filter handler to output connection filter chain.
 
 =head1 Filter Handler Attributes
 
-To use attributes the package they are defined in, has to subclass
-C<Apache::Filter>:
+Packages using filter attributes have to subclass C<Apache::Filter>:
 
+  package MyApache::FilterCool;
   use base qw(Apache::Filter);
 
-Attributes are parsed during the code compilation, by
-C<MODIFY_CODE_ATTRIBUTES>, inherited from the C<Apache::Filter> class.
+Attributes are parsed during the code compilation, by the function
+C<MODIFY_CODE_ATTRIBUTES>, inherited from the C<Apache::Filter>
+package.
 
 =head2 C<FilterRequestHandler>
 
 The C<FilterRequestHandler> attribute tells mod_perl to insert the
-filter into an HTTP request filter chain.
+filter into an HTTP request filter chain. 
+
+For example, to configure an output request filter handler, use the
+C<FilterRequestHandler> attribute in the handler subroutine's
+declaration:
+
+  package MyApache::FilterOutputReq;
+  sub handler : FilterRequestHandler { ... }
+
+and add the configuration entry:
+
+  PerlOutputFilterHandler MyApache::FilterOutputReq
 
 This is the default mode. So if you are writing an HTTP request
 filter, you don't have to specify this attribute.
+
+The section L<HTTP Request vs. Connection
+Filters|docs::2.0::user::handlers::filters/HTTP_Request_vs__Connection_Filters>
+delves into more details.
 
 =head2 C<FilterConnectionHandler>
 
 The C<FilterConnectionHandler> attribute tells mod_perl to insert this
 filter into a connection filter chain.
 
+For example, to configure an output connection filter handler, use the
+C<FilterConnectionHandler> attribute in the handler subroutine's
+declaration:
+
+  package MyApache::FilterOutputCon;
+  sub handler : FilterConnectionHandler { ... }
+
+and add the configuration entry:
+
+  PerlOutputFilterHandler MyApache::FilterOutputCon
+
+The section L<HTTP Request vs. Connection
+Filters|docs::2.0::user::handlers::filters/HTTP_Request_vs__Connection_Filters>
+delves into more details.
+
 =head2 C<FilterInitHandler>
+
+The attribute C<FilterInitHandler> marks the function suitable to be
+used as a filter initialization callback, which is called immediately
+after a filter is inserted to the filter chain and before it's
+actually called.
 
   sub init : FilterInitHandler {
       my $filter = shift;
@@ -335,24 +350,15 @@ filter into a connection filter chain.
       return Apache::OK;
   }
 
-The attribute C<FilterInitHandler> marks the function suitable to be
-used as a filter initialization callback, which is called immediately
-after a filter is inserted to the filter chain and "long" before it's
-actually called.
-
-For example you may decide to remove the filter before it had a chance
-to run.
-
-  sub init : FilterInitHandler {
-      my $filter = shift;
-      $filter->remove() if should_remove_filter();
-      return Apache::OK;
-  }
-
 In order to hook this filter callback, the real filter has to assign
 this callback using the
 C<L<FilterHasInitHandler|/C_FilterHasInitHandler_>> which accepts a
 reference to the callback function.
+
+For further discussion and examples refer to the L<Filter
+Initialization
+Phase|docs::2.0::user::handlers::filters/Filter_Initialization_Phase>
+tutorial section.
 
 =head2 C<FilterHasInitHandler>
 
@@ -362,7 +368,7 @@ C<push_handlers> the callback reference is expected, rather than a
 callback name. The used callback function has to have the
 C<L<FilterInitHandler|/C_FilterInitHandler_>> attribute. For example:
 
-  package MyFilter;
+  package MyApache::FilterBar;
   use base qw(Apache::Filter);
   sub init   : FilterInitHandler { ... }
   sub filter : FilterRequestHandler FilterHasInitHandler(\&init) {
@@ -371,27 +377,45 @@ C<L<FilterInitHandler|/C_FilterInitHandler_>> attribute. For example:
       return Apache::OK;
   }
 
-While attributes are parsed during the code compilation (it's really a
-sort of source filter), the argument to the C<FilterHasInitHandler()>
-attribute is compiled at a later stage once the module is compiled.
+For further discussion and examples refer to the L<Filter
+Initialization
+Phase|docs::2.0::user::handlers::filters/Filter_Initialization_Phase>
+tutorial section.
 
-The argument to C<FilterHasInitHandler()> can be any perl code which
-when C<eval()>'ed returns a reference to a function. For example:
+=head1 Configuration
 
-  package MyFilter;
-  sub get_pre_handler { \&MyOtherfilter::init }
-  sub filter : FilterHasInitHandler(get_pre_handler()) { ... }
+mod_perl 2.0 filters configuration is explained in the L<filter
+handlers
+tutorial|docs::2.0::user::handlers::filters/mod_perl_Filters_Declaration_and_Configuration>.
 
-Notice that the argument to C<FilterHasInitHandler()> is always
-C<eval()>'ed in the package of the real filter handler (not the init
-handler). So the above code leads to the following evaluation:
+=head2 C<PerlInputFilterHandler>
 
-  $init_handler_sub = eval "package MyFilter; get_pre_handler()";
+See
+C<L<PerlInputFilterHandler|docs::2.0::user::handlers::filters/C_PerlInputFilterHandler_>>.
 
-though, this is done in C, using the C<eval_pv> C call.
 
-META: currently only one initialization callback can be registered per
-filter handler. If the need to register more than one arises it should
-be very easy to do.
+=head2 C<PerlOutputFilterHandler>
+
+See
+C<L<PerlOutputFilterHandler|docs::2.0::user::handlers::filters/C_PerlOutputFilterHandler_>>.
+
+
+=head2 C<PerlSetInputFilter>
+
+See
+C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/C_PerlSetInputFilter_>>.
+
+
+=head2 C<PerlSetOutputFilter>
+
+
+See
+C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/C_PerlSetInputFilter_>>.
+
+=head1 See Also
+
+The L<filter handlers tutorial|docs::2.0::user::handlers::filters> and
+the C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>> manpage.
+
 
 =cut

@@ -626,17 +626,36 @@ See C<L<PerlProcessConnectionHandler|docs::2.0::user::handlers::protocols/PerlPr
 
 =head1 Filter Handlers Directives
 
-See L<Filter handlers|docs::2.0::user::handlers::filters/>.
+mod_perl filters are described in the L<filter handlers
+tutorial|docs::2.0::user::handlers::filters>, 
+C<L<Apache::Filter|docs::2.0::api::Apache::Filter>> and
+C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>> manpages.
 
-
+The following filter handler configuration directives are available:
 
 =head2 C<PerlInputFilterHandler>
 
-See C<L<PerlInputFilterHandler|docs::2.0::user::handlers::filters/PerlInputFilterHandler>>.
+See
+C<L<PerlInputFilterHandler|docs::2.0::user::handlers::filters/C_PerlInputFilterHandler_>>.
 
 =head2 C<PerlOutputFilterHandler>
 
-See C<L<PerlOutputFilterHandler|docs::2.0::user::handlers::filters/PerlOutputFilterHandler>>.
+See
+C<L<PerlOutputFilterHandler|docs::2.0::user::handlers::filters/C_PerlOutputFilterHandler_>>.
+
+
+=head2 C<PerlSetInputFilter>
+
+See
+C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/C_PerlSetInputFilter_>>.
+
+
+=head2 C<PerlSetOutputFilter>
+
+
+See
+C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/C_PerlSetInputFilter_>>.
+
 
 
 
@@ -885,6 +904,8 @@ Handler assignment directives:
   
   PerlInputFilterHandler       ITERATE    DIR
   PerlOutputFilterHandler      ITERATE    DIR
+  PerlSetInputFilter           ITERATE    DIR
+  PerlSetOutputFilter          ITERATE    DIR
 
 Perl Interpreter management directives:
 

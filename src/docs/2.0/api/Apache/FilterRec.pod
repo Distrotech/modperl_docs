@@ -32,4 +32,9 @@ META: to be written
 
 META: to be written
 
+=head1 See Also
+
+The L<filter handlers tutorial|docs::2.0::user::handlers::filters> and
+the C<L<Apache::Filter|docs::2.0::api::Apache::Filter>> manpage.
+
 =cut

@@ -6,11 +6,14 @@ Input and Output Filters
 
 This chapter discusses mod_perl's input and output filter handlers.
 
+If all you need is to lookup the filtering API proceed directly to the
+C<L<Apache::Filter|docs::2.0::api::Apache::Filter>> and
+C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>> manpages.
 
 =head1 Your First Filter
 
 You certainly already know how filters work. That's because you
-encounter filters so often in the real life. If you are unfortunate to
+encounter filters so often in real life. If you are unfortunate to
 live in smog-filled cities like Saigon or Bangkok you are probably
 used to wear a dust filter mask:
 
@@ -90,15 +93,17 @@ different filters at run time.
 Without much further ado, let's write a simple but useful obfuscation
 filter for our HTML documents.
 
-We are going to use a very simple obfuscation -- turn the document
-into a one liner, which will make it harder to read the source
-code. To accomplish that we are going to remove characters \012
-(C<\n>) and \015 (C<\r>).
+We are going to use a very simple obfuscation -- turn an HTML document
+into a one liner, which will make it harder to read its source without
+a special processing. To accomplish that we are going to remove
+characters \012 (C<\n>) and \015 (C<\r>), which depending on the
+platform alone or as a combination represent the end of line and a
+carriage return.
 
-And here is the code:
+And here is the filter handler code:
 
   #file:MyApache/FilterObfuscate.pm
-  #--------------------------
+  #--------------------------------
   package MyApache::FilterObfuscate;
   
   use strict;
@@ -127,69 +132,70 @@ And here is the code:
   }
   1;
 
-Next we add it to the configuration file:
+Next we configure Apache to apply the C<MyApache::FilterObfuscate>
+filter to all requests that get mapped to files with an I<".html">
+extension:
 
   <Files ~ "\.html">
       PerlOutputFilterHandler MyApache::FilterObfuscate
   </Files>
 
-restart the server, and now whenever a file with an I<".html">
-extension is requested, its content will be passed through the
-C<MyApache::FilterObfuscate> filter.
+Filter handlers are similar to HTTP handlers, they are expected to
+return C<Apache::OK> or C<Apache::DECLINED>, but instead of receiving
+C<$r> (the request object) as the first argument, they receive C<$f>
+(the filter object).
 
-The filter handler is similar to HTTP handlers, as it's expected to
-return C<Apache::OK> or C<Apache::DECLINED>, but it receives the
-filter object C<$f> as the first argument and not the request object
-C<$r> as is the case with HTTP handlers.
+The filter starts by unsetting of the C<Content-Length> response
+header, because it modifies the length of the response body (shrinks
+it). If the response handler had set the C<Content-Length> header and
+the filter hasn't unset it, the client may have problems receiving the
+response since it'd expect more data than it was sent.
 
-The core of this filter is the read-modify-print expression which
-happens in the while loop. The logic is very simple: read at most
-C<BUFF_LEN> characters of data into C<$buffer>, apply the regex to
-remove any occurences of C<\n> and C<\r> in it, and print the
-resulting data out. The input data may come from a response handler,
-or from an upstream filter. The output data goes to the next filter in
-the output chain. Even though in this example we haven't configured
-any more filters, internally Apache by itself uses several core
-filters to manipulate the data and send it out to the client.
-
-The second important chunk of logic is the unsetting of the
-C<Content-Length> response header. Since the
-C<MyApache::FilterObfuscate> filter modifies the length of the data
-(shrinks it), if the response handler has set the C<Content-Length>
-header the client may have problems receiving the data since it'd
-expect more data then we have sent.
+The core of this filter is a read-modify-print expression in a while
+loop. The logic is very simple: read at most C<BUFF_LEN> characters of
+data into C<$buffer>, apply the regex to remove any occurences of
+C<\n> and C<\r> in it, and print the resulting data out. The input
+data may come from a response handler, or from an upstream filter. The
+output data goes to the next filter in the output chain. Even though
+in this example we haven't configured any more filters, internally
+Apache by itself uses several core filters to manipulate the data and
+send it out to the client.
 
 As we are going to explain in great detail in the next sections, the
 same filter may be called many times during a single requests, every
 time receiving a chunk of data. For example if the HTML page is 64k
-long, a filter could be invoked 4 times, each time receiving 16k of
-data. The while loop that we just saw is going to read these 16k in 16
-calls, since it requests 1k on every read() call. Since it's enough to
-unset the C<Content-Length> header when the filter is called the first
-time, we need to have some flag telling us whether we have done the
-job. The method C<ctx> provides this functionality:
+long, a filter could be invoked 8 times, each time receiving 8k of
+data. The while loop that we just saw is going to read each of these
+8k in 8 calls, since it requests 1k on every read() call.
+
+Since it's enough to unset the C<Content-Length> header when the
+filter is called the first time, we need to have some flag telling us
+whether we have done the job. The method C<ctx()> provides this
+functionality:
 
       unless ($f->ctx) {
           $f->r->headers_out->unset('Content-Length');
           $f->ctx(1);
       }
 
-the unset() call will be made only on the first filter call for each
-request. Of course you can store any perl data structures in
-C<$f-E<gt>ctx> and retrieve it later in future filter invocations. We
-will show plenty of examples using this method in the following
-sections.
+the C<unset()> call will be made only on the first filter call for
+each request. Of course you can store any kind of a Perl data
+structure in C<$f-E<gt>ctx> and retrieve it later in subsequent filter
+invocations of the same request. We will show plenty of examples using
+this method in the following sections.
 
 Of course the C<MyApache::FilterObfuscate> filter logic should take
 into account situations where removing new line characters will break
 the correct rendering, as is the case if there are multi-line
 C<E<lt>preE<gt>>...C<E<lt>/preE<gt>> entries, but since it escalates
 the complexity of the filter, we will disregard this requirement for
-now. A positive side effect of this obfuscation algorithm is in
-shrinking the length of the data sent to the client. If you want to
-look at the production ready implementation, which takes into account
-the HTML markup specifics, the C<Apache::Clean> module, available from
-CPAN, does just that.
+now.
+
+A positive side effect of this obfuscation algorithm is in shortening
+the amount of the data sent to the client. If you want to look at the
+production ready implementation, which takes into account the HTML
+markup specifics, the C<Apache::Clean> module, available from CPAN,
+does just that.
 
 mod_perl I/O filtering follows the Perl's principle of making simple
 things easy and difficult things possible. You have seen that it's
@@ -209,7 +215,10 @@ information, disregarding their kind and source or storage
 methods. These data chunks are stored in I<buckets>, which form
 L<bucket
 brigades|docs::2.0::user::handlers::intro/Bucket_Brigades>. Input and
-output filters massage the data in I<bucket brigades>.
+output filters massage the data in I<bucket brigades>. Response and
+protocol handlers also receive and send data using bucket brigades,
+though in most cases this is hidden behind wrappers, such as C<read()>
+and C<print()>.
 
 mod_perl 2.0 filters can directly manipulate the bucket brigades or
 use the simplified streaming interface where the filter object acts
@@ -299,10 +308,18 @@ sent:
   ----------------------
   1st    eos
 
-In our example the filter will be invoked three times.  Notice that
-sometimes the EOS bucket comes attached to the last bucket brigade
-with data and sometimes in its own bucket brigade. This should be
-transparent to the filter logic, as we will see shortly.
+The EOS bucket may be attached to the last bucket brigade with the
+data, rather than be sent in its own brigade, therefore filters should
+never make an assumption that the EOS bucket is arriving alone in a
+bucket brigade.
+
+Notice that the EOS bucket may come attached to the last bucket
+brigade with data, instead of coming in its its own bucket brigade.
+Filters should never make an assumption that the EOS bucket is
+arriving alone in a bucket brigade.  Therefore the first output filter
+will be invoked two or three times (three times if EOS is coming in
+its own brigade), depending on the number of bucket brigades sent by
+the response handler.
 
 A user may install an upstream filter, and that filter may decide to
 insert extra bucket brigades or collect all the data in all bucket
@@ -314,23 +331,24 @@ is going to come in. Therefore a typical filter handler may need to
 split its logic in three parts.
 
 Jumping ahead we will show some pseudo-code that represents all three
-parts. This is how a typical filter looks like:
+parts. This is how a typical stream-oriented filter handler looks
+like:
 
   sub handler {
-      my $filter = shift;
+      my $f = shift;
   
       # runs on first invocation
-      unless ($filter->ctx) {
-          init($filter);
-          $filter->ctx(1);
+      unless ($f->ctx) {
+          init($f);
+          $f->ctx(1);
       }
   
       # runs on all invocations
-      process($filter);
+      process($f);
   
       # runs on the last invocation
-      if ($filter->seen_eos) {
-          finalize($filter);
+      if ($f->seen_eos) {
+          finalize($f);
       }
   
       return Apache::OK;
@@ -358,12 +376,12 @@ that task. For each new request the filter context is created before
 the filter is called for the first time and its destroyed at the end
 of the request.
 
-      unless ($filter->ctx) {
-          init($filter);
-          $filter->ctx(1);
+      unless ($f->ctx) {
+          init($f);
+          $f->ctx(1);
       }
 
-When the filter is invoked for the first time C<$filter-E<gt>ctx>
+When the filter is invoked for the first time C<$f-E<gt>ctx>
 returns C<undef> and the custom function init() is called. This
 function could, for example, retrieve some configuration data, set in
 I<httpd.conf> or initialize some datastructure to its default value.
@@ -372,18 +390,18 @@ To make sure that init() won't be called on the following invocations,
 we must set the filter context before the first invocation is
 completed:
 
-          $filter->ctx(1);
+          $f->ctx(1);
 
 In practice, the context is not just served as a flag, but used to
 store real data.  For example the following filter handler counts the
 number of times it was invoked during a single request:
 
   sub handler {
-      my $filter = shift;
+      my $f = shift;
   
-      my $ctx = $filter->ctx;
+      my $ctx = $f->ctx;
       $ctx->{invoked}++;
-      $filter->ctx($ctx);
+      $f->ctx($ctx);
       warn "filter was invoked $ctx->{invoked} times\n";
   
       return Apache::DECLINED;
@@ -391,9 +409,19 @@ number of times it was invoked during a single request:
 
 Since this filter handler doesn't consume the data from the upstream
 filter, it's important that this handler returns C<Apache::DECLINED>,
-in which case mod_perl passes the bucket brigades to the next
+in which case mod_perl passes the current bucket brigade to the next
 filter. If this handler returns C<Apache::OK>, the data will be simply
-lost.
+lost. And if that data included a special EOS token, this may wreck
+havoc.
+
+Unsetting the C<Content-Length> header for filters that modify the
+response body length is a good example of the code to be used in the
+initialization phase:
+
+  unless ($f->ctx) {
+      $f->r->headers_out->unset('Content-Length');
+      $f->ctx(1);
+  }
 
 We will see more of initialization examples later in this chapter.
 
@@ -401,7 +429,7 @@ We will see more of initialization examples later in this chapter.
 
 The next part:
 
-      process($filter);
+      process($f);
 
 is unconditionally invoked on every filter invocation. That's where
 the incoming data is read, modified and sent out to the next filter in
@@ -410,9 +438,9 @@ characters passing through:
 
   use constant READ_SIZE  => 1024;
   sub process {
-      my $filter = shift;
-      while ($filter->read(my $data, READ_SIZE)) {
-          $filter->print(lc $data);
+      my $f = shift;
+      while ($f->read(my $data, READ_SIZE)) {
+          $f->print(lc $data);
       }
   }
 
@@ -443,24 +471,25 @@ time, in order to perform various cleanups and/or flush any remaining
 data. As mentioned earlier, Apache indicates this event by a special
 end of stream "token", represented by a bucket of type C<EOS>.  If the
 filter is using the streaming interface, rather than manipulating the
-bucket brigades directly, it can check whether this is the last time
-it's invoked, using the C<$filter-E<gt>seen_eos> method:
+bucket brigades directly, and it was calling read() in a while loop,
+it can check whether this is the last time it's invoked, using the
+C<$f-E<gt>seen_eos> method:
 
-      if ($filter->seen_eos) {
-          finalize($filter);
+      if ($f->seen_eos) {
+          finalize($f);
       }
 
 This check should be done at the end of the filter handler, because
 sometimes the EOS "token" comes attached to the tail of data (the last
 invocation gets both the data and EOS) and sometimes it comes all
-alone (the last invocation gets only EOS). So if this test is performed
-at the beginning of the handler and the EOS bucket was sent in
-together with the data, the EOS event may be missed and filter won't
-function properly.
+alone (the last invocation gets only EOS). So if this test is
+performed at the beginning of the handler and the EOS bucket was sent
+in together with the data, the EOS event may be missed and filter
+won't function properly.
 
 Jumping ahead, filters, directly manipulating bucket brigades, have to
-look for a bucket whose type is C<EOS> to accomplish the same. We will
-see examples later in the chapter.
+look for a bucket whose type is C<EOS> to accomplish this. We will see
+examples later in the chapter.
 
 =back
 
@@ -517,7 +546,7 @@ call to return. When this call returns all upstream filters have
 already completed finishing their filtering task.
 
 As mentioned earlier, the streaming interface hides these details,
-however the first call C<$filter-E<gt>read()> will block as underneath
+however the first call C<$f-E<gt>read()> will block as underneath
 it performs the C<get_brigade()> call.
 
 The diagram shows a part of the actual input filter chain for an HTTP
@@ -559,10 +588,51 @@ filters.
 
 Now let's see how mod_perl filters are declared and configured.
 
-=head2 PerlInputFilterHandler
 
-The C<PerlInputFilterHandler> handler registers a filter for input
-filtering.
+=head2 Filter Priority Types
+
+When Apache filters are configured they are inserted into the filters
+chain according to their priority/type. In most cases when using one
+or two filters things will just work, however if you find that the
+order of filter invocation is wrong, the filter priority type should
+be consulted. Unfortunately this information is available only by
+consulting the source code, unless it's documented in the module man
+pages. Numerical definitions of priority types, such as
+C<AP_FTYPE_CONTENT_SET>, C<AP_FTYPE_RESOURCE>, can be found in
+I<include/util_filter.h>.
+
+As of this writing Apache comes with two core filters: C<DEFLATE> and
+C<INCLUDES>. For example in the following configuration:
+
+  SetOutputFilter DEFLATE
+  SetOutputFilter INCLUDES
+
+the C<DEFLATE> filter will be inserted in the filters chain after the
+C<INCLUDES> filter, even though it was configured before it. This is
+because the C<DEFLATE> filter is of type C<AP_FTYPE_CONTENT_SET> (20),
+whereas the C<INCLUDES> filter is of type C<AP_FTYPE_RESOURCE> (10).
+
+As of this writing mod_perl provides two kind of filters with fixed
+priority type:
+
+  Handler                  Priority           Value
+  -------------------------------------------------
+  FilterRequestHandler     AP_FTYPE_RESOURCE    10
+  FilterConnectionHandler  AP_FTYPE_PROTOCOL    30
+
+Therefore C<FilterRequestHandler> filters (10) will be always invoked
+before the C<DEFLATE> filter (20), whereas C<FilterConnectionHandler>
+filters (30) after it. The C<INCLUDES> filter (10) has the same
+priority as C<FilterRequestHandler> filters (10), and therefore it'll
+be inserted according to the configuration order, when
+C<L<PerlSetOutputFilter|/PerlSetOutputFilter>> or
+C<L<PerlSetInputFilter|/PerlSetInputFilter>> is used.
+
+=head2 C<PerlInputFilterHandler>
+
+The C<PerlInputFilterHandler> directive registers a filter, and
+inserts it into the L<relevant|/HTTP_Request_vs__Connection_Filters>
+input filters chain.
 
 This handler is of type
 C<L<VOID|docs::2.0::user::handlers::intro/item_VOID>>.
@@ -573,10 +643,11 @@ C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 The following sections include several examples that use the
 C<PerlInputFilterHandler> handler.
 
-=head2 PerlOutputFilterHandler
+=head2 C<PerlOutputFilterHandler>
 
-The C<PerlOutputFilterHandler> handler registers and configures output
-filters.
+The C<PerlOutputFilterHandler> directive registers a filter, and
+inserts it into the L<relevant|/HTTP_Request_vs__Connection_Filters>
+output filters chain.
 
 This handler is of type
 C<L<VOID|docs::2.0::user::handlers::intro/item_VOID>>.
@@ -587,7 +658,198 @@ C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 The following sections include several examples that use the
 C<PerlOutputFilterHandler> handler.
 
-=head2 Connection vs. HTTP Request Filters
+
+
+
+=head2 C<PerlSetInputFilter>
+
+The C<SetInputFilter> directive, documented at
+I<http://httpd.apache.org/docs-2.0/mod/core.html#setinputfilter> sets
+the filter or filters which will process client requests and POST
+input when they are received by the server (in addition to any filters
+configured earlier).
+
+To mix mod_perl and non-mod_perl input filters of the L<same
+priority|/Filter_Priority_Types> nothing special should be done. For
+example if we have an imaginary Apache filter C<FILTER_FOO> and
+mod_perl filter C<MyApache::FilterInputFoo>, this configuration:
+
+  SetInputFilter FILTER_FOO
+  PerlInputFilterHandler MyApache::FilterInputFoo
+
+will add both filters, however the order of their invocation might be
+not the one that you've expected. To make the invocation order the
+same as the insertion order replace C<SetInputFilter> with
+C<PerlSetInputFilter>, like so:
+
+  PerlSetInputFilter FILTER_FOO
+  PerlInputFilterHandler MyApache::FilterInputFoo
+
+now C<FILTER_FOO> filter will be always executed before the
+C<MyApache::FilterInputFoo> filter, since it was configured before
+C<MyApache::FilterInputFoo> (i.e., it'll apply its transformations on
+the incoming data last). Here is a diagram input filters chain and the
+data flow from the network to the response handler for the presented
+configuration:
+
+       response handler
+             /\
+             ||
+         FILTER_FOO
+             /\
+             ||
+   MyApache::FilterInputFoo
+             /\
+             ||
+     core input filters
+             /\
+             ||
+           network
+
+As explained in the section L<Filter Priority
+Types|/Filter_Priority_Types> this directive won't affect filters of 
+different priority. For example assuming that
+C<MyApache::FilterInputFoo> is a C<FilterRequestHandler> filter, the
+configurations:
+
+  PerlInputFilterHandler MyApache::FilterInputFoo
+  PerlSetInputFilter DEFLATE
+
+and
+
+  PerlSetInputFilter DEFLATE
+  PerlInputFilterHandler MyApache::FilterInputFoo
+
+are equivalent, because mod_deflate's C<DEFLATE> filter has a higher
+priority than C<MyApache::FilterInputFoo>, thefore it'll always be
+inserted into the filter chain after C<MyApache::FilterInputFoo>,
+(i.e. the C<DEFLATE> filter will apply its transformations on the
+incoming data first). Here is a diagram input filters chain and the
+data flow from the network to the response handler for the presented
+configuration:
+
+      response handler
+             /\
+             ||
+   MyApache::FilterInputFoo
+             /\
+             ||
+          DEFLATE
+             /\
+             ||
+     core input filters
+             /\
+             ||
+           network
+
+C<SetInputFilter>'s C<;> semantics are supported as well. For
+example, in the following configuration:
+
+  PerlInputFilterHandler MyApache::FilterInputFoo
+  PerlSetInputFilter FILTER_FOO;FILTER_BAR
+
+C<MyApache::FilterOutputFoo> will be executed first, followed by
+C<FILTER_FOO> and finally by C<FILTER_BAR> (again, assuming that all
+three filters have the same priority).
+
+The C<PerlSetInputFilter> directives's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+
+
+
+=head2 C<PerlSetOutputFilter>
+
+The C<SetOutputFilter> directive, documented at
+I<http://httpd.apache.org/docs-2.0/mod/core.html#setoutputfilter> sets
+the filters which will process responses from the server before they
+are sent to the client (in addition to any filters configured
+earlier).
+
+To mix mod_perl and non-mod_perl output filters of the L<same
+priority|/Filter_Priority_Types> nothing special should
+be done. This configuration:
+
+  SetOutputFilter INCLUDES
+  PerlOutputFilterHandler MyApache::FilterOutputFoo
+
+will add all two filters to the filter chain, however the order of
+their invocation might be not the one that you've expected. To
+preserve the insertion order replace C<SetOutputFilter> with
+C<PerlSetOutputFilter>, like so:
+
+  PerlSetOutputFilter INCLUDES
+  PerlOutputFilterHandler MyApache::FilterOutputFoo
+
+now mod_include's C<INCLUDES> filter will be always executed before
+the C<MyApache::FilterOutputFoo> filter. Here is a diagram input
+filters chain and the data flow from the response handler to the
+network for the presented configuration:
+
+      response handler
+             ||
+             \/
+          INCLUDES
+             ||
+             \/
+   MyApache::FilterOutputFoo
+             ||
+             \/
+     core output filters
+             ||
+             \/
+           network
+
+C<SetOutputFilter>'s C<;> semantics are supported as well. For
+example, in the following configuration:
+
+  PerlOutputFilterHandler MyApache::FilterOutputFoo
+  PerlSetOutputFilter INCLUDES;FILTER_FOO
+
+C<MyApache::FilterOutputFoo> will be executed first, followed by
+C<INCLUDES> and finally by C<FILTER_FOO> (again, assuming that all
+three filters have the same priority).
+
+Just as explained in the C<L<PerlSetInputFilter|/PerlSetInputFilter>>
+section, if filters have different priorities, the insertion order
+might be different. For example in the following configuration:
+
+  PerlSetOutputFilter DEFLATE
+  PerlSetOutputFilter INCLUDES
+  PerlOutputFilterHandler MyApache::FilterOutputFoo
+
+mod_include's C<INCLUDES> filter will be always executed before the
+C<MyApache::FilterOutputFoo> filter. The latter will be followed by
+mod_deflate's C<DEFLATE> filter, even though it was configured before
+the other two filters. This is because it has a L<higher
+priority|/Filter_Priority_Types>. And the corresponding diagram looks
+like so:
+
+      response handler
+             ||
+             \/
+          INCLUDES
+             ||
+             \/
+   MyApache::FilterOutputFoo
+             ||
+             \/
+           DEFLATE
+             ||
+             \/
+     core output filters
+             ||
+             \/
+           network
+
+The C<PerlSetOutputFilter> directives's configuration scope is
+C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+
+
+
+
+=head2 HTTP Request vs. Connection Filters
 
 mod_perl 2.0 supports connection and HTTP request filtering. mod_perl
 filter handlers specify the type of the filter using the method
@@ -601,12 +863,12 @@ input and output filters skeleton:
   use base qw(Apache::Filter);
   
   sub input  : FilterRequestHandler {
-      my($filter, $bb, $mode, $block, $readbytes) = @_;
+      my($f, $bb, $mode, $block, $readbytes) = @_;
       #...
   }
   
   sub output : FilterRequestHandler {
-      my($filter, $bb) = @_;
+      my($f, $bb) = @_;
       #...
   }
   
@@ -640,12 +902,12 @@ output filters.
   use base qw(Apache::Filter);
   
   sub input  : FilterConnectionHandler {
-      my($filter, $bb, $mode, $block, $readbytes) = @_;
+      my($f, $bb, $mode, $block, $readbytes) = @_;
       #...
   }
   
   sub output : FilterConnectionHandler {
-      my($filter, $bb) = @_;
+      my($f, $bb) = @_;
       #...
   }
   
@@ -676,26 +938,101 @@ Notice that for HTTP requests the only difference between connection
 filters and request filters is that the former see everything: the
 headers and the body, whereas the latter see only the body.
 
-[META: This belongs to the Apache::Filter manpage and should be moved
-there when this page is created.
-
-Inside a connection filter the current connection object can be
-retrieved with:
-
-  my $c = $filter->c;
-
-Inside an HTTP request filter the current request object can be
-retrieved with:
-
-  my $r = $filter->r;
-
-]
-
 mod_perl provides two interfaces to filtering: a direct bucket
 brigades manipulation interface and a simpler, stream-oriented
 interface.  The examples in the following sections will help you to
 understand the difference between the two interfaces.
 
+
+
+=head2 Filter Initialization Phase
+
+Like in any cool application, there is a hidden door, that let's you
+do cool things. mod_perl is not an exception. 
+
+where you can plug yet another callback. This I<init> callback runs
+immediately after the filter handler is inserted into the filter
+chain, before it was invoked for the first time. Here is a skeleton of
+an init handler:
+
+  sub init : FilterInitHandler {
+      my $filter = shift;
+      #...
+      return Apache::OK;
+  }
+
+The attribute C<FilterInitHandler> marks the Perl function suitable to
+be used as a filter initialization callback, which is called
+immediately after a filter is inserted to the filter chain and before
+it's actually called.
+
+For example you may decide to dynamically remove a filter before it
+had a chance to run, if some condition is true:
+
+  sub init : FilterInitHandler {
+      my $filter = shift;
+      $filter->remove() if should_remove_filter();
+      return Apache::OK;
+  }
+
+Not all C<Apache::Filter> methods can be used in the init handler,
+because it's not a filter. Hence you can use methods that L<operate on
+the filter
+itself|docs::2.0::api::Apache::Filter/Common_Filter_API>, such as
+C<L<remove()|docs::2.0::api::Apache::Filter/C_remove_>> and
+C<L<ctx()|docs::2.0::api::Apache::Filter/C_ctx_>> or retrieve request
+information, such as C<L<r()|docs::2.0::api::Apache::Filter/C_r_>> and
+C<L<c()|docs::2.0::api::Apache::Filter/C_c_>>. But not methods that
+operate on data, such as
+C<L<read()|docs::2.0::api::Apache::Filter/C_read_>> and
+C<L<print()|docs::2.0::api::Apache::Filter/C_print_>>.
+
+In order to hook an init filter handler, the real filter has to assign
+this callback using the C<FilterHasInitHandler> which accepts a
+reference to the callback function, similar to C<push_handlers()>. The
+used callback function has to have the C<FilterInitHandler>
+attribute. For example:
+
+  package MyApache::FilterBar;
+  use base qw(Apache::Filter);
+  sub init   : FilterInitHandler { ... }
+  sub filter : FilterRequestHandler FilterHasInitHandler(\&init) {
+      my ($filter, $bb) = @_;
+      # ...
+      return Apache::OK;
+  }
+
+While attributes are parsed during the code compilation (it's really a
+sort of source filter), the argument to the C<FilterHasInitHandler()>
+attribute is compiled at a later stage once the module is compiled.
+
+The argument to C<FilterHasInitHandler()> can be any Perl code which
+when C<eval()>'ed returns a code reference. For example:
+
+  package MyApache::OtherFilter;
+  use base qw(Apache::Filter);
+  sub init  : FilterInitHandler { ... }
+  
+  package MyApache::FilterBar;
+  use MyApache::OtherFilter;
+  use base qw(Apache::Filter);
+  sub get_pre_handler { \&MyApache::OtherFilter::init }
+  sub filter : FilterHasInitHandler(get_pre_handler()) { ... }
+
+Here the C<MyApache::FilterBar::filter> handler is configured to run
+the C<MyApache::OtherFilter::init> init handler.
+
+Notice that the argument to C<FilterHasInitHandler()> is always
+C<eval()>'ed in the package of the real filter handler (not the init
+handler). So the above code leads to the following evaluation:
+
+  $init_sub = eval "package MyApache::FilterBar; get_pre_handler()";
+
+though, this is done in C, using the C<eval_pv()> C call.
+
+META: currently only one initialization callback can be registered per
+filter handler. If the need to register more than one arises it should
+be very easy to extend the functionality.
 
 
 =head1 All-in-One Filter
@@ -795,7 +1132,7 @@ Now let's write the snooping filter:
   
   sub snoop {
       my $type = shift;
-      my($filter, $bb, $mode, $block, $readbytes) = @_; # filter args
+      my($f, $bb, $mode, $block, $readbytes) = @_; # filter args
   
       # $mode, $block, $readbytes are passed only for input filters
       my $stream = defined $mode ? "input" : "output";
@@ -803,14 +1140,14 @@ Now let's write the snooping filter:
       # read the data and pass-through the bucket brigades unchanged
       if (defined $mode) {
           # input filter
-          my $rv = $filter->next->get_brigade($bb, $mode, $block, $readbytes);
+          my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
           return $rv unless $rv == APR::SUCCESS;
           bb_dump($type, $stream, $bb);
       }
       else {
           # output filter
           bb_dump($type, $stream, $bb);
-          my $rv = $filter->next->pass_brigade($bb);
+          my $rv = $f->next->pass_brigade($bb);
           return $rv unless $rv == APR::SUCCESS;
       }
   
@@ -855,7 +1192,7 @@ off C<@_> and the rest of the C<@_> are the arguments that were
 originally passed to the filter handler.
 
 It's easy to know whether a filter handler is running in the input or
-the output mode. The arguments C<$filter> and C<$bb> are always
+the output mode. The arguments C<$f> and C<$bb> are always
 passed, whereas the arguments C<$mode>, C<$block>, and C<$readbytes>
 are passed only to input filter handlers.
 
@@ -1102,11 +1439,11 @@ the bucket brigades:
   use APR::Const    -compile => ':common';
   
   sub handler : FilterConnectionHandler {
-      my($filter, $bb, $mode, $block, $readbytes) = @_;
+      my($f, $bb, $mode, $block, $readbytes) = @_;
   
-      return Apache::DECLINED if $filter->ctx;
+      return Apache::DECLINED if $f->ctx;
   
-      my $rv = $filter->next->get_brigade($bb, $mode, $block, $readbytes);
+      my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
       return $rv unless $rv == APR::SUCCESS;
   
       for (my $b = $bb->first; $b; $b = $bb->next($b)) {
@@ -1119,7 +1456,7 @@ the bucket brigades:
               my $bn = APR::Bucket->new($data);
               $b->insert_after($bn);
               $b->remove; # no longer needed
-              $filter->ctx(1); # flag that that we have done the job
+              $f->ctx(1); # flag that that we have done the job
               last;
           }
       }
@@ -1166,7 +1503,7 @@ in the next example we will see the first technique.
 Our filter has to perform the substitution of only one HTTP header
 (which normally resides in one bucket), so we have to make sure that
 no other data gets mangled (e.g. there could be POSTED data and it may
-match C</^GET/> in one of the buckets). We use C<$filter-E<gt>ctx> as
+match C</^GET/> in one of the buckets). We use C<$f-E<gt>ctx> as
 a flag here. When it's undefined the filter knows that it hasn't done
 the required substitution, though once it completes the job it sets
 the context to 1.
@@ -1175,30 +1512,30 @@ To optimize the speed, the filter immediately returns
 C<Apache::DECLINED> when it's invoked after the substitution job has
 been done:
 
-    return Apache::DECLINED if $filter->ctx;
+    return Apache::DECLINED if $f->ctx;
 
 In that case mod_perl will call C<get_brigade()> internally which will
 pass the bucket brigade to the downstream filter. Alternatively the
 filter could do:
 
-    my $rv = $filter->next->get_brigade($bb, $mode, $block, $readbytes);
+    my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
     return $rv unless $rv == APR::SUCCESS;
-    return Apache::OK if $filter->ctx;
+    return Apache::OK if $f->ctx;
 
 but this is a bit less efficient.
 
-[META: finally, once the API for filters removal will be in place, the
-most efficient thing to do will be to remove the filter itself once
-the job is done, so it won't be even invoked after the job has been
-done.
+[META: the most efficient thing to do is to remove the filter itself
+once the job is done, so it won't be even invoked after the job has
+been done.
 
-  if ($filter->ctx) {
-      $filter->remove;
+  if ($f->ctx) {
+      $f->remove;
       return Apache::DECLINED;
   }
 
-I'm not sure if that would be the syntax, but you get the idea.
-]
+However, this can't be used with Apache 2.0.46 and lower, since it has
+a bug when trying to remove the edge connection filter (it doesn't
+remove it). Don't know if it's going to be fixed in 2.0.47]
 
 If the job wasn't done yet, the filter calls C<get_brigade>, which
 populates the C<$bb> bucket brigade. Next, the filter steps through
@@ -1331,11 +1668,11 @@ request's body: C<MyApache::InputRequestFilterLC>:
   use APR::Const    -compile => ':common';
   
   sub handler : FilterRequestHandler {
-      my($filter, $bb, $mode, $block, $readbytes) = @_;
+      my($f, $bb, $mode, $block, $readbytes) = @_;
   
-      my $c = $filter->c;
+      my $c = $f->c;
       my $bb_ctx = APR::Brigade->new($c->pool, $c->bucket_alloc);
-      my $rv = $filter->next->get_brigade($bb_ctx, $mode, $block, $readbytes);
+      my $rv = $f->next->get_brigade($bb_ctx, $mode, $block, $readbytes);
       return $rv unless $rv == APR::SUCCESS;
   
       while (!$bb_ctx->empty) {
@@ -1428,10 +1765,10 @@ stream-oriented API.
   use constant BUFF_LEN => 1024;
   
   sub handler : FilterRequestHandler {
-      my $filter = shift;
+      my $f = shift;
   
-      while ($filter->read(my $buffer, BUFF_LEN)) {
-          $filter->print(lc $buffer);
+      while ($f->read(my $buffer, BUFF_LEN)) {
+          $f->print(lc $buffer);
       }
   
       Apache::OK;
@@ -1576,12 +1913,12 @@ API:
   use constant BUFF_LEN => 1024;
   
   sub handler : FilterRequestHandler {
-      my $filter = shift;
+      my $f = shift;
   
-      while ($filter->read(my $buffer, BUFF_LEN)) {
+      while ($f->read(my $buffer, BUFF_LEN)) {
           for (split "\n", $buffer) {
-              $filter->print(scalar reverse $_);
-              $filter->print("\n");
+              $f->print(scalar reverse $_);
+              $f->print("\n");
           }
       }
   
@@ -1619,8 +1956,8 @@ The reversing filter is quite simple: in the loop it reads the data in
 the I<readline()> mode in chunks up to the buffer length (1024 in our
 example), and then prints each line reversed while preserving the new
 line control characters at the end of each line.  Behind the scenes
-C<$filter-E<gt>read()> retrieves the incoming brigade and gets the
-data from it, and C<$filter-E<gt>print()> appends to the new brigade
+C<$f-E<gt>read()> retrieves the incoming brigade and gets the
+data from it, and C<$f-E<gt>print()> appends to the new brigade
 which is then sent to the next filter in the stack. C<read()> breaks
 the I<while> loop, when the brigade is emptied or the end of stream is
 received.
@@ -1687,9 +2024,9 @@ to accomplish exactly the same task as the first filter.
   use APR::Const -compile => ':common';
   
   sub handler : FilterRequestHandler {
-      my($filter, $bb) = @_;
+      my($f, $bb) = @_;
   
-      my $c = $filter->c;
+      my $c = $f->c;
       my $bb_ctx = APR::Brigade->new($c->pool, $c->bucket_alloc);
   
       while (!$bb->empty) {
@@ -1715,7 +2052,7 @@ to accomplish exactly the same task as the first filter.
           $bb_ctx->insert_tail($bucket);
       }
   
-      my $rv = $filter->next->pass_brigade($bb_ctx);
+      my $rv = $f->next->pass_brigade($bb_ctx);
       return $rv unless $rv == APR::SUCCESS;
   
       Apache::OK;
@@ -1761,6 +2098,284 @@ foolproof should be trivial by porting a better matching rule and
 using the C<$leftover> buffer from the previous section is trivial and
 left as an exercise to the reader.
 
+=head1 Filter Applications
+
+The following sections provide various filter applications and their
+implementation.
+
+=head2 Handling Data Underruns
+
+Sometimes filters need to read at least N bytes before they can apply
+their transformation. It's quite possible that reading one bucket
+brigade is not enough. But two or more are needed. This situation is
+sometimes referred to as an I<underrun>.
+
+Let's take an input filter as an example.  When the filter realizes
+that it doesn't have enough data in the current bucket brigade, it can
+store the read data in the filter context, and wait for the next
+invocation of itself, which may or may not satisfy its
+needs. Meanwhile it must return an empty bb to the upstream input
+filter. This is not the most efficient technique to resolve underruns.
+
+Instead of returning an empty bb, the input filter can initiate the
+retrieval of extra bucket brigades, until the underrun condition gets
+resolved. Notice that this solution is absolutely transparent to any
+filters before or after the current filter.
+
+Consider this HTTP request:
+
+  % perl -MLWP::UserAgent -le ' \
+    $r = LWP::UserAgent->new()->post("http://localhost:8011/", \
+         [content => "x" x (40 * 1024 + 7)]); \
+    print $r->is_success ? $r->content : "failed: " . $r->code'
+  read 40975 chars
+
+This client POSTs just a little bit more than 40kb of data to the
+server. Normally Apache splits incoming POSTed data into 8kb chunks,
+putting each chunk into a separate bucket brigade. Therefore we expect
+to get 5 brigades of 8kb, and one brigade with just a few bytes (a
+total of 6 bucket brigades).
+
+Now let's say that the filter needs to have 1024*16 + 5 bytes to have
+a complete token and then it can start its processing. The extra 5
+bytes are just so we don't perfectly fit into 8bk bucket brigades,
+making the example closer to real situations. Having 40975 bytes of
+input and a token size of 16389 bytes, we will have 2 full tokens and
+8197 remainder.
+
+Jumping ahead let's look at the filter debug output:
+
+  filter called
+  asking for a bb
+  asking for a bb
+  asking for a bb
+  storing the remainder: 7611 bytes
+  
+  filter called
+  asking for a bb
+  asking for a bb
+  storing the remainder: 7222 bytes
+ 
+  filter called
+  asking for a bb
+  seen eos, flushing the remaining: 8197 bytes
+
+So we can see that the filter was invoked three times. The first time
+it has consumed three bucket brigades, collecting one full token of
+16389 bytes and has a remainder of 7611 bytes to be processed on the
+next invocation. The second time it needed only two more bucket
+brigades and this time after completing the second token, 7222 bytes
+have remained. Finally on the third invocation it has consumed the
+last bucket brigade (total of six, just as we have expected), however
+it didn't have enough for the third token and since EOS has been seen
+(no more data expected), it has flushed the remaining 8197 bytes as we
+have calculated earlier.
+
+It is clear from the debugging output that the filter was invoked only
+three times, instead of six times (there were six bucket
+brigades). Notice that the upstread input filter (if any) wasn't aware
+that there were six bucket brigades, since it saw only three. Our
+example filter didn't do much with those tokens, so it has only
+repackaged data from 8kb per bucket brigade, to 16389 bytes per bucket
+brigade. But of course in real world some transformation is applied on
+these tokens.
+
+Now you understand what did we want from the filter, it's time for the
+implementation details. First let's look at the C<response()> handler
+(the first part of the module):
+
+  #file:MyApache/Underrun.pm
+  #-------------------------
+  package MyApache::Underrun;
+  
+  use strict;
+  use warnings;
+  
+  use constant IOBUFSIZE => 8192;
+  
+  use Apache::Const -compile => qw(MODE_READBYTES OK M_POST);
+  use APR::Const    -compile => qw(SUCCESS BLOCK_READ);
+  
+  sub response {
+      my $r = shift;
+  
+      $r->content_type('text/plain');
+  
+      if ($r->method_number == Apache::M_POST) {
+          my $data = read_post($r);
+          #warn "HANDLER READ: $data\n";
+          my $length = length $data;
+          $r->print("read $length chars");
+      }
+  
+      return Apache::OK;
+  }
+  
+  sub read_post {
+      my $r = shift;
+      my $debug = shift || 0;
+  
+      my @data = ();
+      my $seen_eos = 0;
+      my $filters = $r->input_filters();
+      my $ba = $r->connection->bucket_alloc;
+      my $bb = APR::Brigade->new($r->pool, $ba);
+  
+      do {
+          my $rv = $filters->get_brigade($bb,
+              Apache::MODE_READBYTES, APR::BLOCK_READ, IOBUFSIZE);
+          if ($rv != APR::SUCCESS) {
+              return $rv;
+          }
+  
+          while (!$bb->empty) {
+              my $buf;
+              my $b = $bb->first;
+  
+              $b->remove;
+  
+              if ($b->is_eos) {
+                  warn "EOS bucket:\n" if $debug;
+                  $seen_eos++;
+                  last;
+              }
+  
+              my $status = $b->read($buf);
+              warn "DATA bucket: [$buf]\n" if $debug;
+              if ($status != APR::SUCCESS) {
+                  return $status;
+              }
+              push @data, $buf;
+          }
+  
+          $bb->destroy;
+  
+      } while (!$seen_eos);
+  
+      return join '', @data;
+  }
+
+The C<response()> handler is trivial -- it reads the POSTed data and
+prints how many bytes it has read. C<read_post()> sucks all POSTed
+data without parsing it.
+
+Now comes the filter (which lives in the same package):
+
+  #file:MyApache/Underrun.pm (continued)
+  #-------------------------------------
+  use Apache::Filter ();
+  
+  use Apache::Const -compile => qw(OK M_POST);
+  
+  use constant TOKEN_SIZE => 1024*16 + 5; # ~16k
+  
+  sub filter {
+      my($filter, $bb, $mode, $block, $readbytes) = @_;
+      my $ba = $filter->r->connection->bucket_alloc;
+      my $ctx = $filter->ctx;
+      my $buffer = defined $ctx ? $ctx : '';
+      $ctx = '';  # reset
+      my $seen_eos = 0;
+      my $data;
+      warn "\nfilter called\n";
+  
+      # fetch and consume bucket brigades untill we have at least TOKEN_SIZE
+      # bytes to work with
+      do {
+          my $tbb = APR::Brigade->new($filter->r->pool, $ba);
+          my $rv = $filter->next->get_brigade($tbb, $mode, $block, $readbytes);
+          warn "asking for a bb\n";
+          ($data, $seen_eos) = flatten_bb($tbb);
+          $tbb->destroy;
+          $buffer .= $data;
+      } while (!$seen_eos && length($buffer) < TOKEN_SIZE);
+  
+      # now create a bucket per chunk of TOKEN_SIZE size and put the remainder
+      # in ctx
+      for (split_buffer($buffer)) {
+          if (length($_) == TOKEN_SIZE) {
+              $bb->insert_tail(APR::Bucket->new($_));
+          }
+          else {
+              $ctx .= $_;
+          }
+      }
+  
+      my $len = length($ctx);
+      if ($seen_eos) {
+          # flush the remainder
+          $bb->insert_tail(APR::Bucket->new($ctx));
+          $bb->insert_tail(APR::Bucket::eos_create($ba));
+          warn "seen eos, flushing the remaining: $len bytes\n";
+      }
+      else {
+          # will re-use the remainder on the next invocation
+          $filter->ctx($ctx);
+          warn "storing the remainder: $len bytes\n";
+      }
+  
+      return Apache::OK;
+  }
+  
+  # split a string into tokens of TOKEN_SIZE bytes and a remainder
+  sub split_buffer {
+      my $buffer = shift;
+      if ($] < 5.007) {
+          my @tokens = $buffer =~ /(.{@{[TOKEN_SIZE]}}|.+)/g;
+          return @tokens;
+      }
+      else {
+          # available only since 5.7.x+
+          return unpack "(A" . TOKEN_SIZE . ")*", $buffer;
+      }
+  }
+  
+  sub flatten_bb {
+      my ($bb) = shift;
+  
+      my $seen_eos = 0;
+  
+      my @data;
+      for (my $b = $bb->first; $b; $b = $bb->next($b)) {
+          $seen_eos++, last if $b->is_eos;
+          $b->read(my $bdata);
+          $bdata = '' unless defined $bdata;
+          push @data, $bdata;
+      }
+      return (join('', @data), $seen_eos);
+  }
+  
+  1;
+
+The filter calls C<get_brigade()> in a do-while loop till it reads
+enough data or sees EOS. Notice that it may get underruns for several
+times, and then suddenly receive a lot of data at once, which will be
+enough for more than one minimal size token, so we have to take care
+this into an account. Once the underrun condition is satisfied (we
+have at least one complete token) the tokens are put into a bucket
+brigade and returned to the upstream filter for processing, keeping
+any remainders in the filter context, for the next invocations or
+flushing all the remaining data if EOS has been seen.
+
+Notice that this won't be possible with streaming filters where every
+invocation gives the filter exactly one bucket brigade to work with
+and provides not facilities to fetch extra brigades. (META: however
+this can be fixed, by providing a method which will fetch the next
+bucket brigade, so the read in a while loop can be repeated)
+
+And here is the configuration for this setup:
+
+  PerlModule MyApache::Underrun
+  <Location />
+    PerlInputFilterHandler MyApache::Underrun::filter
+    SetHandler modperl
+    PerlResponseHandler MyApache::Underrun::response
+  </Location>
+
+
+
+
+
 =head1 Filter Tips and Tricks
 
 Various tips to use in filters.
@@ -1771,9 +2386,9 @@ Let's say that you want to modify the C<Content-Type> header in the
 request output filter:
 
   sub handler : FilterRequestHandler {
-      my $filter = shift;
+      my $f = shift;
       ...
-      $filter->r->content_type("text/html; charset=$charset");
+      $f->r->content_type("text/html; charset=$charset");
       ...
 
 Request filters have an access to the request object, so we simply
@@ -1782,6 +2397,45 @@ modify it.
 
 
 =head1 Writing Well-Behaving Filters
+
+Filter writers must follow the following rules:
+
+=head2 Adjusting HTTP Headers
+
+The following information is relevant for HTTP filters
+
+=over
+
+=item * Unsetting the Content-Length header
+
+HTTP response filters modifying the length of the body they process
+must unset the C<Content-Length> header. For example, a compression
+filter modifies the body length, whereas a lowercasing filter doesn't;
+therefore the former has to unset the header, and the latter doesn't
+have to.
+
+The header must be unset before any output is sent from the filter. If
+this rule is not followed, an HTTP response header with incorrect
+C<Content-Length> value might be sent.
+
+Since you want to run this code once during the multiple filter
+invocations, use the C<ctx()> method to set the flag:
+
+  unless ($f->ctx) {
+      $f->r->headers_out->unset('Content-Length');
+      $f->ctx(1);
+  }
+
+=item *
+
+META: Same goes for last-modified/etags, which may need to be unset,
+"vary" might need to be added if you want caching to work properly
+(depending on what your filter does.
+
+
+=back
+
+=head2 Other issues
 
 META: to be written. Meanwhile collecting important inputs from
 various sources.
@@ -1810,20 +2464,7 @@ destroy the rest of the incoming bb. need to check on this issue.
 
 ]
 
-[
 
-HTTP request output filters should probably also unset the C-L header,
-if they change the size of the data that goes through it. (e.g. lc()
-filter shouldn't do it). However need to check if Apache core output
-filters don't do that already.
-
-  $filter->r->headers_out->unset('Content-Length');
-
-Same goes for last-modified/etags, which may need to be unset, "vary"
-might need to be added if you want caching to work properly (depending
-on what your filter does.
-
-]
 
 [
 

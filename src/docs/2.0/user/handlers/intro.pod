@@ -6,6 +6,7 @@ Introducing mod_perl Handlers
 
 This chapter provides an introduction into mod_perl handlers.
 
+
 =head1 What are Handlers?
 
 Apache distinguishes between numerous phases for which it provides
@@ -107,9 +108,9 @@ several categories:
 
 =over
 
-=item * C<L<PerlInputFilterHandler|docs::2.0::user::handlers::filters/PerlInputFilterHandler>>
+=item * C<L<PerlInputFilterHandler|docs::2.0::user::handlers::filters/C_PerlInputFilterHandler_>>
 
-=item * C<L<PerlOutputFilterHandler|docs::2.0::user::handlers::filters/PerlOutputFilterHandler>>
+=item * C<L<PerlOutputFilterHandler|docs::2.0::user::handlers::filters/C_PerlOutputFilterHandler_>>
 
 =back
 
