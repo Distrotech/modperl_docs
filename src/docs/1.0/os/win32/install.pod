@@ -372,8 +372,7 @@ for builds 6xx.
 
 The directions for L<configuring mod_perl 1.0 on
 Win32|docs::1.0::os::win32::config>, the L<mod_perl
-documentation|docs::index>, L<http://take23.org/>,
-and the
+documentation|docs::index>, and the
 L<FAQs for mod_perl on Win32|docs::general::os::win32::faq>.
 Help is also available through the archives of and subscribing to
 the L<mod_perl mailing list|maillist::modperl>.

@@ -117,10 +117,6 @@ Articles by David E. Wheeler: http://www.oreillynet.com/pub/au/1059
 
 =item *
 
-articles at take23.org: http://take23.org/articles/
-
-=item *
-
 mod_perl series at ApacheToday (now WWW.ServerWatch.com)
 http://apachetoday.com/search.php3?author=Stas:Bekman
 

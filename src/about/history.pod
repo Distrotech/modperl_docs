@@ -235,7 +235,8 @@ alternative site for mod_perl, because of the back-and-forth
 discussions about re-designing the I<perl.apache.org> site weren't
 going anywhere at that time. It collected news and articles about
 mod_perl and also related issues such as other interesting Apache
-modules.
+modules. It wasn't maintained for several years, and somewhere in 2003
+it has disappeared.
 
 Also in October 2000, Geoffrey Young got the idea to begin a mod_perl
 mailing list digest (see
