@@ -89,8 +89,14 @@ for C<Apache::gensym()> function, since now it can be done with:
 
   open my $fh, "foo" or die $!;
 
-The C function modperl_perl_gensym() is available for XS/C extension
-writers, though.
+Though the C function modperl_perl_gensym() is available for XS/C
+extension writers.
+
+=head2 $r-E<gt>err_header_out
+
+err_header_out() is not available in 2.x. Use err_headers_out()
+instead.
+
 
 =head1 Apache::File
 
