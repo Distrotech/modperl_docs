@@ -825,8 +825,10 @@ manpage.
 =head2 C<$r-E<gt>finfo>
 
 As Apache 2.0 doesn't provide an access to the stat structure, but
-hides it in the opaque object you need to use the
-C<L<APR::Finfo|docs::2.0::api::APR::Finfo>> accessor methods.
+hides it in the opaque object C<$r-E<gt>finfo> now returns an
+C<L<APR::Finfo|docs::2.0::api::APR::Finfo>> object. You can then
+invoke the C<L<APR::Finfo|docs::2.0::api::APR::Finfo>> accessor
+methods on it.
 
 It's also possible to to adjust the mod_perl 1.0 code using
 Apache::compat's
