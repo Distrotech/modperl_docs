@@ -78,6 +78,9 @@ Apache::RequestUtil - Perl API for Apache request record utils
   
   # slurp the contents of $r->filename
   my $content = ${ $r->slurp_filename() };
+  
+  # terminate the current child after this request
+  $r->child_terminate();
 
 
 
@@ -165,6 +168,27 @@ Dumps various request and response headers (mainly useful for
 debugging)
 
 
+
+
+=head2 C<child_terminate>
+
+Terminate the current worker process as soon as the current request is
+over
+
+  $r->child_terminate();
+
+=over 4
+
+=item obj: C<$r>
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+
+=item ret: no return value
+
+=item since: 1.99_18
+
+=back
+
+This method is not supported in threaded MPMs
 
 
 
