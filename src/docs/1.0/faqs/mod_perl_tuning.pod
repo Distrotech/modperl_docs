@@ -26,9 +26,9 @@ such as The Weather Channel's "Blimp Site-ings" game, the MSIE 4.0
 
 The basic configuration for mod_perl is as follows.  In the
 F<httpd.conf> file, I add configuration parameters to make the
-C<http://www.domain.com/programs> URL be the base location for all
+C<http://www.example.com/programs> URL be the base location for all
 mod_perl programs.  Thus, access to
-C<http://www.domain.com/programs/printenv> will run the printenv
+C<http://www.example.com/programs/printenv> will run the printenv
 script, as we'll see below.  Also, any *.perl file will be interpreted
 as a mod_perl program just as if it were in the programs directory,
 and *.rperl will be mod_perl, but I<without> any HTTP headers
@@ -284,7 +284,7 @@ only the directory F<programs> within its DocumentRoot.  This assumes
 that you have included the mod_proxy module in your server when it was
 built.
 
-Now, when you access http://www.domain.com/programs/printenv it will
+Now, when you access http://www.example.com/programs/printenv it will
 internally be passed through to your HTTPD running on port 8042 as the
 URL http://localhost:8042/programs/printenv and the result relayed
 back transparently.  To the client, it all seems as if it is just one

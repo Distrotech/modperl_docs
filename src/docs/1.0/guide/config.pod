@@ -488,7 +488,7 @@ You should remember that it is undesirable to run scripts in plain
 mod_cgi mode from a mod_perl-enabled server--the resource consumption
 is too high. It is better to run these on a plain Apache server.  See
 L<Standalone mod_perl Enabled Apache
-Server|guide::strategy/Standalone_mod_perl_Enabled_Apac>.
+Server|guide::strategy/Standalone_mod_perl_Enabled_Apache_Server>.
 
 =head2 E<lt>LocationE<gt> Configuration
 
@@ -1031,7 +1031,7 @@ I<httpd.conf>:
   PerlFreshRestart On
 
 Make sure you read L<Evil things might happen when using
-PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_us>.
+PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_using_PerlFreshRestart>.
 
 Starting from mod_perl version 1.22 C<PerlFreshRestart> is ignored
 when mod_perl is compiled as a DSO.  But it almost doesn't matter,
@@ -1057,7 +1057,7 @@ through C<%ENV> (e.g. C<$ENV{"key"}>).
 Regarding the setting of C<PerlPassEnv PERL5LIB> in I<httpd.conf>: if
 you turn on taint checks (C<PerlTaintCheck On>), C<$ENV{PERL5LIB}>
 will be ignored (unset).  See the 'L<Switches -w,
--T|guide::porting/Command_Line_Switches_w_T_e>' section.
+-T|guide::porting/Command_Line_Switches___w___T__etc_>' section.
 
 C<PerlSetVar> is very similar to C<PerlSetEnv>, but you extract it
 with another method.
@@ -1124,7 +1124,7 @@ See L<PerlSetupEnv Off|guide::performance/PerlSetupEnv_Off>.
 =head2 PerlWarn and PerlTaintCheck
 
 For B<PerlWarn> and B<PerlTaintCheck> directives see the 'L<Switches
--w, -T|guide::porting/Command_Line_Switches_w_T_e>' section.
+-w, -T|guide::porting/Command_Line_Switches___w___T__etc_>' section.
 
 =head2 MinSpareServers MaxSpareServers StartServers MaxClients MaxRequestsPerChild
 
@@ -1144,8 +1144,8 @@ that number.
 These five directives are very important for achieving the best
 performance from your server. The section ' L<Performance Tuning by
 Tweaking Apache
-Configuration|guide::performance/Performance_Tuning_by_Tweaking_A>' provides
-all the details.
+Configuration|guide::performance/Performance_Tuning_by_Tweaking_Apache_Configuration>'
+provides all the details.
 
 =head1 The Startup File
 
@@ -1310,7 +1310,8 @@ to precompile the code in C<CGI.pm> is:
 But the old method is still available for backward compatibility.
 
 See also the 'L<Apache::Status -- Embedded interpreter status
-information|guide::debug/Apache_Status_Embedded_Inter>' section.
+information|guide::debug/Apache__Status____Embedded_Interpreter_Status_Information>' 
+section.
 
 =head2 What Modules You Should Add to the Startup File and Why
 
@@ -1320,9 +1321,9 @@ the code I develop into modules and preload them.
 
 You can even preload your CGI script with C<Apache::RegistryLoader>
 (See L<Preload Perl modules at server
-startup|guide::performance/Preloading_Perl_Modules_at_Serve>) and you can get
-the children to preopen their database connections with
-C<Apache::DBI>.
+startup|guide::performance/Preloading_Perl_Modules_at_Server_Startup>)
+and you can get the children to preopen their database connections
+with C<Apache::DBI>.
 
 =head2 The Confusion with use() in the Server Startup File
 
@@ -1977,7 +1978,7 @@ revealing which module(s) and/or OS you are running your web server
 on.
 
 For more information see L<Publishing Port Numbers other than
-80|guide::config/Publishing_Port_Numbers_other_th>.
+80|guide::config/Publishing_Port_Numbers_other_than_80>.
 
 The more modules you have in your web server, the more complex the
 code.

@@ -49,7 +49,7 @@ However as of the current implementation if more than value for the
 same key is requested, the whole table it lineary searched, which is
 very inefficient unless the table is very small.
 
-C<APR::Table> provides a L<TIE Interface>.
+C<APR::Table> provides a L<TIE Interface|/TIE_Interface>.
 
 See I<apr/include/apr_tables.h> in ASF's I<apr> project for low level
 details.

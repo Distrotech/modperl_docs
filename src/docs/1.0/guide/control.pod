@@ -28,10 +28,10 @@ This will produce a list of all the C<httpd_perl> (parent and
 children) processes.  You are looking for the parent process. If you
 run your server as root, you will easily locate it since it belongs to
 root. If you run the server as some other user (when you L<don't have
-root access|guide::install/Installation_Without_Superuser_P>, the processes
-will belong to that user unless defined differently in I<httpd.conf>.
-It's still easy to find which is the parent--usually it's the process
-with the smallest PID.
+root access|guide::install/nstallation_Without_Superuser_Privileges>,
+the processes will belong to that user unless defined differently in
+I<httpd.conf>.  It's still easy to find which is the parent--usually
+it's the process with the smallest PID.
 
 You will see several C<httpd> processes running on your system, but you
 should never need to send signals to any of them except the parent,
@@ -124,7 +124,7 @@ directive in I<httpd.conf>:
   PerlFreshRestart On
 
 Make sure you read L<Evil things might happen when using
-PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_us>.
+PerlFreshRestart|guide::troubleshooting/Evil_things_might_happen_when_using_PerlFreshRestart>.
 
 =head1 Speeding up the Apache Termination and Restart
 
@@ -304,8 +304,8 @@ If you do nothing, the user will see either the grey C<An Error has
 happened> message or perhaps a customized error message if you have
 added code to trap and customize the errors.  See L<Redirecting Errors
 to the Client instead of to the
-error_log|guide::snippets/Redirecting_Errors_to_the_Client> for the latter
-case.
+error_log|guide::snippets/Redirecting_Errors_to_the_Client_Instead_of_error_log>
+for the latter case.
 
 A much friendlier approach is to confess to your users that you are
 doing some maintenance work and plead for patience, promising (keep
@@ -910,11 +910,11 @@ And the watchdog itself:
 
 Often while developing new code, you will want to run the server in
 single process mode.  See L<Sometimes it works Sometimes it does
-Not|guide::porting/Sometimes_it_Works_Sometimes_it> and L<Names collisions
-with Modules and libs|guide::porting/Name_collisions_with_Modules_and>.
-Running in single process mode inhibits the server from "daemonizing",
-and this allows you to run it under the control of a debugger more
-easily.
+Not|guide::porting/Sometimes_it_Works__Sometimes_it_Doesn_t> and 
+L<Names collisions with Modules and
+libs|guide::porting/Name_collisions_with_Modules_and_libs>.  Running in
+single process mode inhibits the server from "daemonizing", and this
+allows you to run it under the control of a debugger more easily.
 
   % /usr/local/sbin/httpd_perl/httpd_perl -X
 
@@ -1583,7 +1583,7 @@ be handy.
 
 For swapping monitoring techniques see the section 'L<Apache::VMonitor
 -- Visual System and Apache Server
-Monitor|guide::debug/Apache_VMonitor_Visual_Syste>'.
+Monitor|guide::debug/Apache__VMonitor____Visual_System_and_Apache_Server_Monitor>'.
 
 =head1 Preventing mod_perl Processes From Going Wild
 

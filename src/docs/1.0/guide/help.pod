@@ -709,7 +709,7 @@ http://www.linux-ha.org/
 =item * Memory system management and architecture:
 
 The Solaris memory system, sizing, tools and architecture:
-http://www.sun.com/solutions/third-party/global/SAS/pdf/vmsizing.pdf
+http://www.sun.com/sun-on-net/performance/vmsizing.pdf
 
 =item * 
 

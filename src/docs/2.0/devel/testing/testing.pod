@@ -81,7 +81,7 @@ in some test, you can ask him to run the failing test in the verbose
 mode and send you back the report. It'll be much easier to understand
 what the problem is if you get these debug printings from the user.
 
-In the section L</"Writing_Tests"> several helper functions which make
+In the section L<Writing Tests|/"Writing_Tests"> several helper functions which make
 the tests writing easier are discussed.
 
 For more details about the C<Test::Harness> module please refer to its
@@ -676,7 +676,7 @@ Run all tests through mod_proxy:
 =back
 
 The debugging options I<-debug> and I<-breakpoint> are covered in the
-L</Debugging> section.
+L<Debugging Tests|/Debugging_Tests> section.
 
 For a complete list of available switches see the output of C<t/TEST
 -help>.
@@ -1211,7 +1211,7 @@ like this:
            "testing TestApache::cool",
             );
 
-See the L<Apache::TestUtil> manpage for more info on the t_cmp()
+See the C<Apache::TestUtil> manpage for more info on the t_cmp()
 function (e.g. it works with regexs as well).
 
 And the corresponding response part:

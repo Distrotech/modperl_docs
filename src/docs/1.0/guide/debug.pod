@@ -1323,7 +1323,7 @@ Apache
 =head2 Apache::VMonitor -- Visual System and Apache Server Monitor
 
 This module is covered in the section "L<Apache::* 
-Modules|guide::modules/Apache_VMonitor_Visual_Syste>"
+Modules|guide::modules/Apache__VMonitor____Visual_System_and_Apache_Server_Monitor>"
 
 =head1 Sometimes My Script Works, Sometimes It Does Not
 

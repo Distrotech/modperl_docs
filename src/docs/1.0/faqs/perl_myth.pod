@@ -138,7 +138,7 @@ B<CitySearch>, B<Internet Movie Database>( http://imdb.com ), B<Value
 Click> ( http://valueclick.com ), B<Paramount Digital Entertainment>,
 B<CMP> ( http://cmpnet.com ), B<HotBot Mail>/B<HotBot Homepages>, and
 B<DejaNews> to name a few.  Even B<Microsoft> has taken interest in
-Perl, ( http://www.activestate.com/press/releases/Microsoft.htm ).
+Perl via http://www.activestate.com/.
 
 =back
 
@@ -292,9 +292,7 @@ Adam Pisoni
 
 email: adam@cnation.com
 
-WWW: http://sm.pm.org/
-
-WWW: http://www.cnation.com
+www: http://www.cnation.com
 
 =head1 VERSION
 

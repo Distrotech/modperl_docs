@@ -383,7 +383,7 @@ The sources are available from CPAN and other mirrors:
 http://www.cpan.org/authors/id/S/ST/STAS/
 
 
-=head2 Corrections And Contributions
+=head2 Corrections and Contributions
 
 Corrections and additions to the Guide are welcome.  The original is
 kept in .pod format, and it is converted to other formats by Perl
