@@ -161,7 +161,7 @@ dedicated virtual hosts.
 
 A I<process_connection> handler accepts a connection record object as
 its only argument, a socket object can be retrieved from the
-connection record object.
+connection record object. Here is a simplified handler skeleton:
 
   sub handler {
       my ($c) = @_;
@@ -175,7 +175,10 @@ Most likely you'll need to set the socket to perform blocking IO. On
 some platforms (e.g. Linux) Apache gives us a socket which is set for
 blocking, on other platforms (.e.g. Solaris) it doesn't. Unless you
 know which platforms your application will be running on, always
-explicitly set it to the blocking mode as in the example above.
+explicitly set it to the blocking IO mode as in the example
+above. Alternatively, you could query whether the socket is already
+set to a blocking IO mode with help of C<L<the opt_get()
+method|docs::2.0::api::APR::Socket/C_opt_get_>>.
 
 Now let's look at the following two examples of connection
 handlers. The first using the connection socket to read and write the
@@ -240,7 +243,9 @@ Here is the code:
   sub handler {
       my $c = shift;
       my $socket = $c->client_socket;
-      $socket->opt_set(APR::SO_NONBLOCK, 0);
+      my $oldval = $socket->opt_set(APR::SO_NONBLOCK, 0);
+      die "failed to set the socket to a blocking IO mode: $ARP::err"
+          unless defined $oldval;
   
       my $buff;
       while (1) {
