@@ -243,9 +243,7 @@ Here is the code:
   sub handler {
       my $c = shift;
       my $socket = $c->client_socket;
-      my $oldval = $socket->opt_set(APR::SO_NONBLOCK, 0);
-      die "failed to set the socket to a blocking IO mode: $ARP::err"
-          unless defined $oldval;
+      $socket->opt_set(APR::SO_NONBLOCK, 0);
   
       my $buff;
       while (1) {
