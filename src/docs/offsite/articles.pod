@@ -189,6 +189,12 @@ Peacock. http://www.ariadne.ac.uk/issue21/unix/
 What's mod_perl (in Russian)
 http://www.host.ru/documentation/pro/0003.html
 
+=item *
+
+"Understanding mod_perl", the tutorial, presented by Benoit Beauséjour
+at the Montreal Perl Mongers meeting.
+http://www.flatlineconstruct.com/talk/understanding_mod_perl/index.html
+
 =back
 
  META: more articles are welcome
