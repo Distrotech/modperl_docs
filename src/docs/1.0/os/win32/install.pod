@@ -27,11 +27,13 @@ ActivePerl Perl in the 8xx series (based on perl-5.8), due
 to some issues with I<LARGE_FILES> support. You should either
 then use an ActivePerl Perl in the 6xx series (based on perl-5.6.1),
 or else, if you need perl-5.8, build or obtain a binary
-Perl compiled without the I<USE_LARGE_FILES> compile-time option.
-Another possibility, if you desire perl-5.8,
+Perl compiled without the I<USE_LARGE_FILES> compile-time option
+(beware that such a Perl, and XS-based extensions compiled with it,
+may not be binary compatible with ActivePerl 8xx and its
+XS-based extensions). Another possibility, if you desire perl-5.8,
 is to consider trying mod_perl 2.0, which does work
 with an ActivePerl Perl in the 8xx series (and is in fact
-the recommended Perl version) - see
+the minimum required Perl version) - see
 L<modperl-2 in Win32|docs::2.0::os::win32::install>
 for details.
 
@@ -208,8 +210,7 @@ If this build fails, you may want to try the sources obtained
 from cvs you may want to try the sources obtained
 from cvs - see the discussion on the
 L<Development Source Distribution|download::source/Development_Source_Distribution>
-for details.
-Be aware, though,
+for details. Be aware, though,
 that as well as providing bug fixes, there may be new features being
 added and tested in the cvs versions, so at any given time there are
 no guarantees that these packages will build and test successfully.
@@ -247,11 +248,12 @@ For the adventuresome who want a taste of things to come,
 or for those who want to avoid the 
 L<multithreading limitations of mod_perl
 1.0|docs::1.0::os::win32::multithread>, a 
-mod_perl-2.0/Apache-2.0 binary distribution
+mod_perl-2.0/Apache-2.0 binary distribution 
 is available - see the discussion of
 L<modperl-2 on Win32|docs::2.0::os::win32::install>
 for details. Be aware though that mod_perl 2.0 is
-still in a development phase.
+still in a development phase, and that a minimum Perl version
+of 5.8 (ActivePerl 8xx) is required.
 
 =head2 PPM Packages
 
@@ -324,7 +326,7 @@ L<http://theoryx5.uwinnipeg.ca/ppmpackages/x86/>; when
 unpacked, this will contain F<mod_perl.so> in the top-level
 directory.
 
-Note that the mod_perl package available from this site will always
+The mod_perl package available from this site will always
 use the latest mod_perl sources compiled against the latest official
 Apache release; depending on changes made in Apache, you may or may
 not be able to use an earlier Apache binary. However, in the Apache

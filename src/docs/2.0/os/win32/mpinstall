@@ -58,7 +58,7 @@ unless ($apache2) {
 }
 if ($apache) {
     $apache = fix_path($apache);
-    my $ans = prompt(qq{Install mod_perl-1 for "$apache"?}, 'yes');
+    my $ans = prompt(qq{Install mod_perl 1 for "$apache"?}, 'yes');
     $apache = undef unless ($ans =~ /^y/i);
 }
 
@@ -83,11 +83,11 @@ else {
     $dir = fix_path($dir);
     die qq{"$dir" does not exist} unless (-d $dir);
     if ($dir =~ /Apache2/) {
-        my $ans = prompt(qq{Install mod_perl-2 for "$dir"?}, 'yes');
+        my $ans = prompt(qq{Install mod_perl 2 for "$dir"?}, 'yes');
         $apache2 = $dir if ($ans =~ /^y/i);
     }
     else {
-        my $ans = prompt(qq{Install mod_perl-1 for "$dir"?}, 'yes');
+        my $ans = prompt(qq{Install mod_perl 1 for "$dir"?}, 'yes');
         $apache = $dir if ($ans =~ /^y/i);
     }
     unless ($apache or $apache2) {
@@ -113,10 +113,7 @@ my $cs = 'CHECKSUMS';
 if ($] < 5.008) {
     $checksums = $theoryx5 . '/ppmpackages/x86/' . $cs;
     if ($apache2) {
-        $ppdfile = 'mod_perl-2.ppd';
-        $tgzfile = 'mod_perl-2.tar.gz';
-        $ppd = $theoryx5 . '/ppmpackages/' . $ppdfile;
-        $tgz = $theoryx5 . '/ppmpackages/x86/' . $tgzfile;
+        die 'No mod_perl 2 package available for this perl version';
     }
     else {
         my $ans = prompt('Do you need EAPI support for mod_ssl?', 'no');
@@ -143,7 +140,7 @@ else {
         $tgz = $theoryx5 . '/ppms/x86/' . $tgzfile;
     }
     else {
-        die 'No mod_perl-1 package available for this perl version';
+        die 'No mod_perl 1 package available for this perl version';
     }
 }
 

@@ -17,11 +17,10 @@ addressed in the multi-thread/multi-process approach of mod_perl
 2.0/Apache 2.0.
 
 Note that there are some threading issues in perl-5.6
-(upon which ActivePerl builds 6xx are based) which may cause
-problems with mod_perl 2.0. Because of this, it is (I<strongly>)
-recommended
-that perl-5.8 (ActivePerl builds 8xx) be used with mod_perl 2.0
-on Win32.
+(upon which ActivePerl builds 6xx are based) which cause
+problems with mod_perl 2.0 on Win32. Consequently, the minimum
+required perl version is 5.8 (ActivePerl builds 8xx) 
+for use with mod_perl 2.0 on Win32.
 
 =head1 Installing
 
@@ -41,10 +40,8 @@ The Apache sources and binaries are available at
 L<http://httpd.apache.org/>.
 
 As of this writing, mod_perl 2.0 is known to compile and work
-with an ActivePerl-compatible Perl, both for builds 6xx, based
-on perl-5.6.1, and builds 8xx, based on perl-5.8.0. However,
-because of improved threading support, perl-5.8 is recommended 
-for Win32 mod_perl 2.0. See the section on Apache/mod_perl binaries 
+with an ActivePerl-compatible perl-5.8.0 (ActivePerl build 8xx). 
+See the section on Apache/mod_perl binaries 
 below for details on a suitable repository containing mod_perl
 ppm packages, and also how to obtain other Win32 binary packages.
 
@@ -70,8 +67,7 @@ C<InstallBin - Win32 Release> target to build and install Apache 2.0,
 which by default will be placed in F</Apache2>.
 
 Having built and installed Apache 2.0, 
-next obtain the mod_perl 2.0
-First obtain the 
+next obtain the mod_perl 2.0 sources. First obtain the 
 L<mod_perl 2.0 sources|download::source/2_0_Development_Source_Distribution>
 as a C<tar.gz> file -
 when unpacked, using Winzip or similar tools, a subdirectory
@@ -116,8 +112,7 @@ no guarantees that these packages will build and test successfully.
 
 =head2 PPM Packages
 
-The first, for ActivePerl users, is through C<PPM> - this assumes you
-already have ActivePerl (build 8xx is recommended) from 
+The following assumes you already have ActivePerl 8xx from 
 L<http://www.activestate.com/> and a Win32 Apache 2.0 binary from 
 L<http://httpd.apache.org/>. In installing this, you might avoid
 some future problems by choosing installation directories that do
@@ -137,21 +132,11 @@ The direct way to install mod_perl via ppm is simply as (broken over two
 lines for readability)
 
   C:\> ppm install
-       http://theoryx5.uwinnipeg.ca/ppmpackages/mod_perl-2.ppd
-
-for ActivePerl 6xx builds, and
-
-  C:\> ppm install
        http://theoryx5.uwinnipeg.ca/ppms/mod_perl.ppd
 
-for ActivePerl 8xx builds (at present, this latter repository does not
-contain a mod_perl-1 package). Another way, which will be useful if you 
+for ActivePerl 8xx builds. Another way, which will be useful if you 
 plan on installing additional Apache modules, is to set the repository
 within the C<ppm> shell utility to
-
-   http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer
-
-for ActivePerl 6xx builds, and to
 
    http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer58
 
@@ -166,16 +151,10 @@ for C<ppm2> and by
 for C<ppm3> - see the help utility within the C<ppm> shell for
 details. mod_perl 2.0 can then be installed as
 
-   ppm> install mod_perl-2
-
-for builds 6xx and as
-
    ppm> install mod_perl
 
-for builds 8xx.
-
 This will install the necessary modules under an F<Apache2>
-subdirectory in your Perl tree, so as not to disturb an existing
+subdirectory in your Perl tree, so as not to disturb a possible existing
 F<Apache> directory from mod_perl 1.0. See the section below on
 configuring mod_perl to add this directory to the C<@INC> path for
 searching for modules.
@@ -185,8 +164,6 @@ F<mod_perl.so>; a post-installation script should be run which will
 offer to copy this file to your Apache2 modules directory (eg,
 F<C:/Apache2/modules/>). If this is not done, get either
 F<mod_perl-2.tar.gz> from
-L<http://theoryx5.uwinnipeg.ca/ppmpackages/x86/>, for builds 6xx, or
-F<mod_perl.tar.gz> from
 L<http://theoryx5.uwinnipeg.ca/ppms/x86/>, for builds 8xx; 
 when unpacked, this file
 contains F<mod_perl.so> in the top-level directory.
@@ -196,7 +173,7 @@ I<not> install packages for ActivePerl 8xx from a repository
 containing packages for ActivePerl 6xx, and vice-versa, particularly
 if these packages contain XS-based modules.
 
-Note that the mod_perl package available from this site will always
+The mod_perl package available from this site will always
 use the latest mod_perl sources compiled against the latest official
 Apache release; depending on changes made in Apache, you may or may
 not be able to use an earlier Apache binary. However, in the Apache
