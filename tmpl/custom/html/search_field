@@ -1,0 +1,79 @@
+[%- # search widget
+    # this template expects these vars to be set:
+    # doc.dir.abs_doc_root - doc root
+    # doc.dir.path_from_base
+-%]
+
+[% PROCESS search_options %]
+
+[% USE CGI %]
+
+    <form method="post" action="[% doc.dir.abs_doc_root %]/search/swish.cgi" enctype="application/x-www-form-urlencoded" name="site_search_form">
+        [%
+            IF doc.meta.link == 'search/searchresults.html';
+                PROCESS results_search_widget;
+            ELSE;
+                PROCESS std_search_widget;
+            END;
+        %]
+    </form>
+
+
+[% BLOCK results_search_widget %]
+
+    [%
+        stag = "[\%"
+        etag = "%\]"
+    %]
+
+    <table border="0" cellspacing="0" cellpadding="2">
+        <tr>
+            <td valign="top" nowrap class="searchtitle">Search</td>
+       
+            <td valign="top" nowrap>
+                [% stag %] CGI.textfield( {
+                        name    => 'query',
+                        size    => 12,
+                        maxlength => 200,
+                    } ) [% etag %]
+            </td>
+
+            <td valign="top" nowrap>
+                [% stag %] CGI.popup_menu( {
+                        Name    => 'sbm',
+                        Values  => search_areas,
+                        Labels  => search_labels,
+                        })
+                [% etag %]
+            </td>
+            
+            <td nowrap="nowrap"><input type="image" src="[% doc.dir.abs_doc_root %]/images/go.gif" border="0" hspace="0" alt="search" /></td>
+        </tr>
+    </table>
+[% END %]
+
+
+[% BLOCK std_search_widget %]
+    <table border="0" cellspacing="0" cellpadding="2">
+        <tr>
+            <td valign="top" nowrap  class="searchtitle">Search</td>
+
+            <td valign="top" nowrap>
+                <input type="text" name="query" size="12" maxlength="200" value="">
+            </td>
+
+            <td valign="top" nowrap>
+                [% CGI.popup_menu( {
+                        Name    => 'sbm',
+                        Values  => search_areas,
+                        Labels  => search_labels,
+                        Default => doc.dir.path_from_base,
+                        })
+                %]
+            </td>
+            <td nowrap="nowrap"><input type="image" src="[% doc.dir.abs_doc_root %]/images/go.gif" width="29" height="20" border="0" hspace="0" alt="search" /></td>
+        </tr>
+
+    </table>
+[% END %]
+
