@@ -139,13 +139,17 @@ state of the distribution package, execute the following commands:
 
 The password is "anoncvs". Now extract the C<APACHE_2_0_BRANCH> branch
 of httpd-2.0.xx. If you don't use this branch you will get
-httpd-2.1.xx which at this moment is not supported.
+httpd-2.1.xx which at this moment is not supported. Similarly you need
+C<APR_BRANCH_0_9> and C<APU_BRANCH_0_9> cvs branches for apr and
+apr-util projects, respectively.
 
   % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
     -r APACHE_2_0_BRANCH -d httpd-2.0 httpd-2.0
   % cd httpd-2.0/srclib
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apr
-  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co apr-util
+  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
+    -r APR_0_9_BRANCH -d apr apr
+  % cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co \
+    -r APU_0_9_BRANCH -d apr-util apr-util
   % cd ..
   % ./buildconf
 
