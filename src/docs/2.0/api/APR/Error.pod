@@ -129,6 +129,50 @@ C<confess> is an equivalent of C<Carp::confess> that works with
 C<APR::Error> exception objects.
 
 
+=head2 C<strerror>
+
+Convert APR error code to its string representation.
+
+  $error_str = APR::Error::strerror($rc);
+
+=over 4
+
+=item ret: C<$rc> ( C<L<APR::Const status
+constant|docs::2.0::api::APR::Const>> )
+
+The numerical value for the return (error) code
+
+=item ret: C<$error_str> ( string )
+
+The string error message corresponding to the numerical value inside
+C<$rc>.  (Similar to the C function C<strerror(3)>)
+
+=item since: 1.99_14
+
+=back
+
+Example:
+
+Try to retrieve the bucket brigade, and if the return value doesn't
+indicate success or end of file (usually in protocol handlers) die,
+but give the user the human-readable version of the error and not just
+the code.
+
+  my $rc = $c->input_filters->get_brigade($bb_in,
+                                          Apache::MODE_GETLINE);
+  if ($rc != APR::SUCCESS && $rc != APR::EOF) {
+      my $error = APR::Error::strerror($rc);
+      die "get_brigade error: $rc: $error\n";
+  }
+
+It's probably a good idea not to omit the numerical value in the error
+message, in case the error string is generated with non-English
+locale.
+
+
+
+
+
 =head1 See Also
 
 L<mod_perl 2.0 documentation|docs::2.0::index>.
