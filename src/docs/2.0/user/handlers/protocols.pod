@@ -165,8 +165,8 @@ connection record object. Here is a simplified handler skeleton:
 
   sub handler {
       my ($c) = @_;
-      my $socket = $c->client_socket;
-      $socket->opt_set(APR::SO_NONBLOCK, 0);
+      my $sock = $c->client_socket;
+      $sock->opt_set(APR::SO_NONBLOCK, 0);
       # ...
       return Apache::OK;
   }
@@ -242,20 +242,21 @@ Here is the code:
   
   sub handler {
       my $c = shift;
-      my $socket = $c->client_socket;
-      $socket->opt_set(APR::SO_NONBLOCK, 0);
+      my $sock = $c->client_socket;
   
-      my $buff;
+      # set the socket to the blocking mode
+      $sock->opt_set(APR::SO_NONBLOCK => 0);
+  
       while (1) {
-          my $rlen = BUFF_LEN;
-          $socket->recv($buff, $rlen);
+          # read from the socket
+          my $buff = $sock->recv(BUFF_LEN);
+          my $rlen = length $buff;
+          last if $rlen == 0; # EOF
+          last if $buff =~ /^[\r\n]+$/;
   
-          last if $rlen <= 0 or $buff =~ /^[\r\n]+$/;
-  
-          my $wlen = $rlen;
-          $socket->send($buff, $wlen);
-  
-          last if $wlen != $rlen;
+          # write to the socket
+          my $wlen = $sock->send($buff);
+          last if $wlen != $rlen; # shouldn't happen
       }
   
       Apache::OK;
@@ -273,14 +274,12 @@ C<APR::Socket> class. Before using the socket, we make sure that it's
 set to perform blocking IO, by using the C<APR::SO_NONBLOCK> constant,
 compiled earlier.
 
-Inside the read/send loop, the handler attempts to read C<BUFF_LEN>
-bytes from the client socket into the C<$buff> buffer.  The C<$rlen>
-parameter will be set to the number of bytes actually read.  The
-C<APR::Socket::recv()> method returns an APR status value, but we need
-only to check the read length to break out of the loop if it is less
-than or equal to C<0> bytes. The handler also breaks the loop after
-processing an input including nothing but new lines characters, which
-is how we abort the connection in the interactive mode.
+Inside the recv/send loop, the handler attempts to read C<BUFF_LEN>
+bytes from the client socket into the C<$buff> buffer. The handler
+breaks the loop if the returned buffer is empty, (there was nothing
+more to read (EOF)) or if the buffer contains nothing but new line
+character(s), which is how we know to abort the connection in the
+interactive mode.
 
 If the handler receives some data, it sends it unmodified back to the
 client with the C<APR::Socket::send()> method. When the loop is
