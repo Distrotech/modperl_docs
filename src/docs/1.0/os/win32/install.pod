@@ -352,6 +352,12 @@ variable, or try adding the Apache directive
 
 before loading F<mod_perl.so>. If all else fails, a reboot may help.
 
+If the I<theoryx5.uwinnipeg.ca> repository is down, you can
+access these packages at L<http://perl.apache.org/dist/win32-bin/ppms/>,
+for builds 8xx, and
+L<http://perl.apache.org/dist/win32-bin/ppmpackages/>,
+for builds 6xx.
+
 =head1 See Also
 
 The directions for L<configuring mod_perl 1.0 on
