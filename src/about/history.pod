@@ -223,42 +223,7 @@ still a must-have for any serious mod_perl programmer.
 At ApacheCon in Orlando in 1999, mod_perl officially became an Apache
 Software Foundation project, and Ask Bjørn Hansen, Eric Cholet and
 Stas Bekman were voted in as ASF members in addition to Doug
-MacEachern. Together they formed the mod_perl PMC (Project Management
-Committee) which is a group of committers to mod_perl who take
-responsibility for the long-term direction of the project).  Today,
-the PMC consists of:
-
-=over
-
-=item *
-
-Stas Bekman
-
-=item *
-
-Philippe Chiasson
-
-=item *
-
-Ask Bjørn Hansen
-
-=item *
-
-Randy Kobes
-
-=item *
-
-Doug MacEachern
-
-=item *
-
-Joe Schaefer
-
-=item *
-
-    Geoffrey Young
-
-=back
+MacEachern. Together they formed L<the mod_perl PMC|about::pmc>.
 
 In March 2000, Perl 5.6.0 was released, bringing many new features to
 Perl and mod_perl programmers the world over.

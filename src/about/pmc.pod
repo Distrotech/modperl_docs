@@ -1,0 +1,33 @@
+=head1 NAME
+
+The mod_perl Project Management Committee
+
+=head1 Description
+
+the mod_perl Project Management Committee (PMC) is a group of mod_perl
+committers who take responsibility for the long-term direction of the
+project.
+
+Today, the PMC consists of:
+
+=over
+
+=item * Ask Bjørn Hansen
+
+=item * Doug MacEachern
+
+=item * Geoffrey Young
+
+=item * Joe Schaefer
+
+=item * Philippe Chiasson
+
+=item * Randy Kobes
+
+=item * Stas Bekman
+
+=back
+
+
+
+=cut
