@@ -358,8 +358,6 @@ handlers.
           while (!$bb_in->is_empty) {
               my $b = $bb_in->first;
   
-              $b->remove;
-  
               if ($b->is_eos) {
                   $bb_out->insert_tail($b);
                   last;
@@ -371,6 +369,7 @@ handlers.
                   $b = APR::Bucket->new($data);
               }
   
+              $b->remove;
               $bb_out->insert_tail($b);
           }
   
@@ -446,6 +445,56 @@ stream status code (C<APR::EOF>) has been received (no more input at
 the connection) or when the received data contains nothing but new
 line characters which we used to to tell the server to terminate the
 connection.
+
+Now that you've learned how to move buckets from one brigade to
+another, let's see how the presented handler can be reimplemented
+using a single bucket brigade. Here is the modified code:
+
+  sub handler {
+      my $c = shift;
+  
+      $c->client_socket->opt_set(APR::SO_NONBLOCK, 0);
+  
+      my $bb = APR::Brigade->new($c->pool, $c->bucket_alloc);
+  
+      while (1) {
+          my $rc = $c->input_filters->get_brigade($bb,
+                                                  Apache::MODE_GETLINE);
+          last if $rc == APR::EOF;
+          die APR::Error::strerror($rc) unless $rc == APR::SUCCESS;
+  
+          for (my $b = $bb->first; $b; $b = $bb->next($b)) {
+  
+              last if $b->is_eos;
+  
+              if ($b->read(my $data)) {
+                  last if $data =~ /^[\r\n]+$/;
+                  my $nb = APR::Bucket->new(uc $data);
+                  # head->...->$nb->$b ->...->tail
+                  $b->insert_before($nb);
+                  $b->remove;
+              }
+          }
+  
+          $c->output_filters->fflush($bb);
+      }
+  
+      $bb->destroy;
+  
+      Apache::OK;
+  }
+
+This code is shorter and simpler. Since it sends out the same bucket
+brigade it got from the incoming filters, it only needs to replace
+buckets that get modified, which is probably the only tricky part
+here. The code:
+
+                  # head->...->$nb->$b ->...->tail
+                  $b->insert_before($nb);
+                  $b->remove;
+
+inserts a new bucket in front of the currently processed bucket, so
+that when the latter removed the former takes place of the latter.
 
 Notice that this handler could be much simpler, since we don't modify
 the data. We could simply pass the whole brigade unmodified without
