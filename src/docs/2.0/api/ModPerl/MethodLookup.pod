@@ -359,8 +359,6 @@ map file):
 
  modperl_filter_attributes     | MODIFY_CODE_ATTRIBUTES
  modperl_spawn_proc_prog       | spawn_proc_prog
- apr_sockaddr_ip_get           | sockaddr
- apr_sockaddr_port_get         | sockaddr
  apr_ipsubnet_create           | new
 
 Please report if you find any other missing methods. But remember that
