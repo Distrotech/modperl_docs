@@ -2413,6 +2413,8 @@ prevent clashes within main configuration.
 
 =back
 
+=head3 Forcing Configuration Sections into the Top Level
+
 If some directives are supposed to go to the base configuration,
 i.e. not to be automatically wrapped into C<E<lt>LocationE<gt>> block,
 you should use a special C<E<lt>BaseE<gt>>..C<E<lt>/BaseE<gt>> block:
@@ -2438,6 +2440,29 @@ laziness, since most tests don't need to add directives to the base
 configuration and we want to keep the configuration sections in tests
 to a minimum and let Perl do the rest of the job for us.
 
+=head3 Bypassing Auto-Configuration
+
+In more complicated cases, usually when virtual hosts containers are
+involved, the auto-configuration might stand in a way and you will
+simply want to bypass it. If that's the case, put the configuration
+inside the C<E<lt>NoAutoConfigE<gt>>..C<E<lt>/NoAutoConfigE<gt>>
+container. For example:
+
+  <NoAutoConfig>
+      <VirtualHost TestPreConnection::note>
+          PerlPreConnectionHandler TestPreConnection::note
+  
+          <Location /TestPreConnection::note>
+              SetHandler modperl
+              PerlResponseHandler TestPreConnection::note::response
+          </Location>
+      </VirtualHost>
+  </NoAutoConfig>
+
+Notice, that the internal sections will be still parsed, tokens
+C<@var@> will be substituted and C<VirtualHost> sections will be
+rewritten with an automatically assigned port number and
+C<ServerName>.
 
 =head3 Virtual Hosts
 
