@@ -143,7 +143,7 @@ C<B::Graph> (version 0.03 or higher) module to be installed along with
 the C<dot> program.
 
 Dot is part of the graph visualization toolkit from AT&T:
-C<http://www.research.att.com/sw/tools/graphviz/>).
+http://www.graphviz.org/.
 
 B<WARNING>: Some graphs may produce very large images, some graphs may
 produce no image if C<B::Graph>'s output is incorrect.
