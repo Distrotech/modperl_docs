@@ -5,22 +5,22 @@ Apache::SubProcess -- Executing SubProcesses from mod_perl
 =head1 SYNOPSIS
 
   use Apache::SubProcess ();
-
+  
   use Config;
   use constant PERLIO_IS_ENABLED => $Config{useperlio};
-
+  
   # pass @ARGV / read from the process
   $command = "/tmp/argv.pl";
   @argv = qw(foo bar);
   $out_fh = Apache::SubProcess::spawn_proc_prog($r, $command, \@argv);
   $output = read_data($out_fh);
-
+  
   # pass environment / read from the process
   $command = "/tmp/env.pl";
   $r->subprocess_env->set(foo => "bar");
   $out_fh = Apache::SubProcess::spawn_proc_prog($r, $command);
   $output = read_data($out_fh);
-
+  
   # write to/read from the process
   $command = "/tmp/in_out_err.pl";
   ($in_fh, $out_fh, $err_fh) = 
@@ -28,7 +28,7 @@ Apache::SubProcess -- Executing SubProcesses from mod_perl
   print $in_fh "hello\n";
   $output = read_data($out_fh);
   $error  = read_data($err_fh);
-
+  
   # helper function to work w/ and w/o perlio-enabled Perl
   sub read_data {
       my($fh) = @_;
