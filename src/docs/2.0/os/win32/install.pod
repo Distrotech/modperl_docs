@@ -201,12 +201,31 @@ for builds 6xx.
 
 =head2 All in one packages
 
-Perl/Apache 2 binary packages containing mod_perl 2 are available from
-L<http://www.indigostar.com/> and
-L<http://www.devside.net/>. As well,
-at L<http://www.apache.org/dyn/closer.cgi/perl/win32-bin/> 
-there is a self-extracting
-archive F<Perl-5.8-win32-bin.exe> containing a binary version
+There are a number of binary packages for Win32 that contain the
+necessary Perl and Apache binaries:
+
+=over
+
+=item *
+
+IndigoPerl from
+L<http://www.indigostar.com/>, 
+
+=item *
+
+XAMPP for Windows from
+L<http://www.apachefriends.org/en/xampp-windows.html>
+
+=item *
+
+DeveloperSide.NET for Windows at
+L<http://www.devside.net/web/server/free/software>
+
+=back
+
+As well, at L<http://www.apache.org/dyn/closer.cgi/perl/win32-bin/> 
+there is a package
+F<Perl-5.8-win32-bin.exe> containing a binary version
 of perl-5.8 (compatible with ActivePerl 8xx), together with Apache 2.0
 and mod_perl 2.0. See the file F<Perl-5.8-win32-bin.readme> for
 a description. If you have trouble

@@ -236,9 +236,29 @@ binaries, and mod_perl ppm (Perl Package Manager) packages.
 
 =head2 All-in-one packages
 
-There are at least two binary packages for Win32 that contain the
-necessary Perl and Apache binaries: IndigoPerl from
-L<http://www.indigostar.com/>, and the self-extracting archive
+There are a number of binary packages for Win32 that contain the
+necessary Perl and Apache binaries:
+
+=over
+
+=item *
+
+IndigoPerl from
+L<http://www.indigostar.com/>, 
+
+=item *
+
+XAMPP for Windows from
+L<http://www.apachefriends.org/en/xampp-windows.html>
+
+=item *
+
+DeveloperSide.NET for Windows at
+L<http://www.devside.net/web/server/free/software>
+
+=back
+
+As well, there is a package
 F<perl-win32-bin.exe> from
 L<http://www.apache.org/dyn/closer.cgi/perl/win32-bin/> - see the file
 F<perl-win32-bin.readme> for a description. If you have trouble
