@@ -787,8 +787,9 @@ Next adjust or create the I<Makefile.PL> file:
     (
      "Apache::Test" => "", # any version will do
     );
+  my @scripts = qw(t/TEST);
 
-  # accept the configs from comman line
+  # accept the configs from command line
   Apache::TestMM::filter_args();
   Apache::TestMM::generate_script('t/TEST');
 
@@ -843,7 +844,7 @@ Assuming that C<Apache::Test> is already installed on your system and
 Perl can find it. If not you should tell Perl where to find it. For
 example you could add:
 
-  use lib qw(../Apache-Test/lib);
+  use lib qw(Apache-Test/lib);
 
 to I<t/TEST.PL>, if C<Apache::Test> is located in a parallel
 directory.
@@ -955,9 +956,9 @@ should enter the distribution including the I<MANIFEST> file itself:
   README
   MANIFEST
 
-That's it. Now we can build the package. But we need to know where
-C<apxs> utility from the installed on our system Apache is located. We
-pass its path as an option:
+That's it. Now we can build the package. But we need to know the
+location of the C<apxs> utility from the installed httpd server. We
+pass its path as an option to I<Makefile.PL>:
 
   % perl Makefile.PL -apxs ~/httpd/prefork/bin/apxs
   % make
@@ -1572,6 +1573,8 @@ Request part:
    Apache::TestRequest::module($module);
    my $config = Apache::Test::config();
    my $hostport = Apache::TestRequest::hostport($config);
+
+How to get the request object?
 
 =head2 Starting Multiple Servers
 
