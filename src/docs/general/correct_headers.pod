@@ -9,21 +9,20 @@ considerable performance gain, setting a number of HTTP headers is of
 a vital importance. This document explains which headers you need to
 pay attention to, and how to work with them.
 
-=head1 SYNOPSIS
-
 As there is always more than one way to do it, I'm tempted to
 believe one must be the best.  Hardly ever am I right.
 
 =head1 The Origin of this Chapter
 
-This chapter has been contributed to the Guide by Andreas Koenig.  You
-will find the references and other related info at the bottom of this
-page. It was previously distributed from CPAN, but this Guide is now its
-official resting-place.
+This chapter has been contributed to the documentation by Andreas
+Koenig.  You will find the references and other related info at the
+bottom of this page. It was previously distributed from CPAN, but this
+documentation is now its official resting-place.
 
 If you have any questions regarding this specific document only,
 please refer to Andreas, since he is the guru on this subject.  On any
-other matter please contact the mod_perl mailing list.
+other matter please contact the L<mod_perl mailing
+list|maillist::modperl>.
 
 
 =head1 Why Headers
@@ -123,7 +122,7 @@ this argument first.
   use Date::Parse;
   # Date::Parse parses RCS format, Apache::Util::parsedate doesn't
   $Mtime ||=
-    Date::Parse::str2time(substr q$Date: 2002/05/11 11:54:45 $, 6);
+    Date::Parse::str2time(substr q$Date: 2002/05/29 05:03:41 $, 6);
   $r->set_last_modified($Mtime);
 
 =head3 Expires and Cache-Control
