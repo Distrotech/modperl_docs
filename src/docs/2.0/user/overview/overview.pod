@@ -2,6 +2,10 @@
 
 Overview of mod_perl 2.0
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
 =head1 Introduction
 
 mod_perl was introduced in early 1996, both Perl and Apache have
@@ -1211,5 +1215,8 @@ Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
 =item * Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
 
 =back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 =cut

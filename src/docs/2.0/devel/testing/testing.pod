@@ -4,6 +4,8 @@ Running and Developing Tests with the Apache::Test Framework
 
 =head1 Description
 
+The title is self-explanatory :)
+
 The C<Apache::Test> framework was designed for creating test suits for
 products running on Apache httpd webserver (not necessarily
 mod_perl). Originally designed for the mod_perl Apache module, it was
@@ -2638,16 +2640,25 @@ See also other sites linked from these URLs.
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
+=over
+
+=item *
+
 Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
 
 =head1 Authors
 
 =over
 
-=item * Gary Benson E<lt>gbenson (at) redhat.comE<gt>
+=item *
 
-=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 =cut

@@ -1,0 +1,33 @@
+=head1 NAME
+
+User Help
+
+=head1 Description
+
+FIXME: DESCRIPTION
+
+=head1 Maintainers
+
+Maintainer is the person(s) you should contact with updates,
+corrections and patches.
+
+=over
+
+=item *
+
+=back
+
+
+=head1 Authors
+
+=over
+
+=item *
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
+
+=cut

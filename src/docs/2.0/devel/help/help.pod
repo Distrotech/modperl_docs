@@ -2,12 +2,12 @@
 
 Getting Help with mod_perl 2.0 Core Development
 
-=head1 Introduction
+=head1 Description
 
 This document covers the resources available to the mod_perl 2.0 core
 developer. Please notice that you probably want to read the L<user's
 help documentation|user::help::help> if you have problems using
-mod_perl.
+mod_perl 2.0.
 
 The following mailing lists and resources can be of a major interest
 to the mod_perl 2.0 developers.
@@ -233,10 +233,15 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =over
 
-=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =item * 
 
 =back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 =cut

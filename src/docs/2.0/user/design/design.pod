@@ -2,13 +2,9 @@
 
 mod_perl_design - notes on the design and goals of mod_perl-2.0
 
-=head1 SYNOPSIS
+=head1 Description
 
- perldoc mod_perl_design
-
-=head1 DESCRIPTION
-
-notes on the design and goals of mod_perl-2.0
+Notes on the design and goals of mod_perl-2.0
 
 =head1 Introduction
 
@@ -469,7 +465,7 @@ re-usable pieces to subclass Apache::Registry like behavior.
 
 =head1 Perl Enhancements
 
-As Perl 5.8.0 is current in development and Perl 6.0 is a long ways
+As Perl 5.8.0 is currently in development and Perl 6.0 is a long ways
 off, it is possible and reasonable to add enhancements to Perl which
 will benefit mod_perl.  While these enhancements do not preclude the
 design of mod_perl-2.0, they will make an impact should they be
@@ -582,5 +578,8 @@ Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
 =item * Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
 
 =back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 =cut

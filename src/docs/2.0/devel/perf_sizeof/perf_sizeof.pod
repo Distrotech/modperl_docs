@@ -2,7 +2,7 @@
 
 Measure C<sizeof> of Perl's C Structures
 
-=head1 DESCRIPTION
+=head1 Description
 
 This document describes the I<sizeof> various structures, as
 determined by I<util/sizeof.pl>.  These measurements are mainly for
@@ -190,13 +190,21 @@ http://gisle.aas.no/perl/illguts/
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
+=over
+
+=item *
+
 Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
+
+=back
 
 =head1 Authors
 
 =over
 
-=item * Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
+=item *
+
+Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
 
 =back
 

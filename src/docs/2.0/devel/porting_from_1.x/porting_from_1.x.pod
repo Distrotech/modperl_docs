@@ -2,7 +2,7 @@
 
 Porting Modules from mod_perl 1.x to 2.x
 
-=head1 Introduction
+=head1 Description
 
 If you have released an C<Apache::Foo> module on CPAN you may wonder
 what steps you should take to make your code working under 2.x while
@@ -97,10 +97,17 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =over 
 
-=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+=item *
 
-=item * Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=item *
+
+Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
 
 =back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 =cut

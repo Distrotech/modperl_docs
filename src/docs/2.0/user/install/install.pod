@@ -2,6 +2,10 @@
 
 Installing mod_perl
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
 =head1 Prerequisites
 
 Lots of prerequisites
@@ -230,21 +234,33 @@ chdir to the mod_perl source directory and run:
 
 =head1 Installing from Binary Packages
 
+
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
+=over
+
+=item *
+
 Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
 
 =head1 Authors
 
 =over
 
-=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
 
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 
 =cut

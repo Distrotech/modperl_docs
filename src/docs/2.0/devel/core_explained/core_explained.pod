@@ -2,6 +2,12 @@
 
 mod_perl 2.0 Source Code Explained
 
+=head1 Description
+
+This document explains the how to navigate around the mod_perl source
+code, modify and rebuild the existing code and of course how to write
+new code and easily plug it in.
+
 =head1 Project's Layout
 
 In its pristine state the project is comprised of the following root
@@ -1093,8 +1099,13 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =over 
 
-=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 =cut

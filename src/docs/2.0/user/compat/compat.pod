@@ -2,6 +2,10 @@
 
 mod_perl 1.x versus mod_perl 2.x compatibility issues
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
 =head1 Code Porting from 1.x to 2.x
 
 mod_perl 2.x is trying hard to be back compatible with mod_perl
@@ -180,14 +184,25 @@ C<Apache::StatINC> has been replaced by C<Apache::Reload>.
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
+=over
+
+=item *
+
 Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
 
 =head1 Authors
 
 =over
 
-=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 =cut

@@ -2,6 +2,11 @@
 
 Choosing a Templating System
 
+=head1 Description
+
+Everything you wanted to know about templating systems and didn't dare
+to ask. Well, not everything....
+
 =head1 Introduction
 
 Go on, admit it: you've written a templating system.  It's okay,
@@ -1086,11 +1091,28 @@ by Perrin Harkins
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
-Perrin Harkins E<lt>perrin@elem.comE<gt>.
+=over
+
+=item * 
+
+Perrin Harkins E<lt>perrin (at) elem.comE<gt>.
+
+=back
+
 
 =head1 Authors
 
-Perrin Harkins E<lt>perrin@elem.comE<gt>.
+=over
+
+=item *
+
+Perrin Harkins E<lt>perrin (at) elem.comE<gt>.
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut
 

@@ -2,6 +2,10 @@
 
 Debugging mod_perl C Internals
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
 =head1 Debug notes
 
 META: needs more organization
@@ -720,12 +724,14 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =over
 
-=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+=item *
 
-=item * Kyle Oppenheim E<lt>kyleo (at) tellme.comE<gt>
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
 
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 =cut
 

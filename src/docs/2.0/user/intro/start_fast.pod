@@ -2,6 +2,11 @@
 
 Getting Your Feet Wet with mod_perl
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
+
 =head1 A Quick Guide to Getting Started with mod_perl
 
 =head1 Maintainers
@@ -9,6 +14,23 @@ Getting Your Feet Wet with mod_perl
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
+=over
+
+=item *
+
+=back
+
+
 =head1 Authors
+
+=over
+
+=item *
+
+=back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
+
 
 =cut

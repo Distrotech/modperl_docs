@@ -2,6 +2,10 @@
 
 mod_perl Server Configuration
 
+=head1 Description
+
+FIXME: DESCRIPTION
+
 =head1 mod_perl configuration directives
 
 =head2 Installing handlers
@@ -231,14 +235,25 @@ server has been started in a single mode:
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
+=over
+
+=item *
+
 Stas Bekman E<lt>stas (at) stason.orgE<gt>
+
+=back
 
 =head1 Authors
 
 =over
 
-=item * Stas Bekman E<lt>stas (at) stason.orgE<gt>
+=item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 =cut
