@@ -26,6 +26,12 @@ the docs-dev-subscribe@perl.apache.org address and remove the
 -subscribe part from it. Please don't advertise the list's direct
 address so we won't get spammed. Thanks.
 
+There is also rsync interface for those who want to keep local mirrors
+and hopefull offload the main apache.org servers:
+
+  rsync://cvs.apache.org/modperl-docs     modperl-docs CVS tree, exported  (updated 4x/day)
+  rsync://cvs.apache.org/modperl-docs-cvs modperl-docs CVS Repository.
+
 If you are interested in helping us creating great documentation by
 reviewing what gets committed and submitting new docs and patches,
 please subscribe to these two mailing list.
