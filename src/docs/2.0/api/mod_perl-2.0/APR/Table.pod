@@ -22,6 +22,8 @@ C<APR::Table> -- A Perl API for manipulating paque string-content table
   overlap($table_a, $table_b, $flags);
   $new_table = overlay($table_base, $table_overlay, $pool);
   
+  $table->do(sub {print "key $_[0], value $_[1]\n"}, @valid_keys);
+  
   #Tied Interface
   $value = $table->{$key};
   $table->{$key} = $value;
@@ -144,7 +146,22 @@ param C<$val>: The value to add.
 
 =item * do()
 
-  META: ???
+  $table->do(sub {[...]}, [@filter]);
+
+Iterate over all the elements of the table, invoking provided
+subroutine for each element.  The subroutine gets passed as argument,
+a key-value pair.
+
+The subroutine can abort the iteration by returning 0 and should
+always return 1 otherwise.
+
+param C<sub>: A subroutine reference or name to be called on each item
+in the table
+
+param C<@filter>: Only keys matching one of the entries in the filter
+will be processed
+ 
+
 
 =item * get()
 
@@ -245,7 +262,10 @@ remark: C<APR::Table> can hold more than one key-value pair sharing
 the same key, so when using a table through the tied interface, the
 first entry found with the right key will be used, completely
 disregarding possible other entries with the same key.  The only
-exception to this is if you iterate over the list with I<each>.
+exception to this is if you iterate over the list with I<each>, then
+you can access all key-value pairs that share the same key.
+
+
 
 =cut
 
