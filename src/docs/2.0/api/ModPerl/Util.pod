@@ -173,7 +173,7 @@ possible.
 
 =item arg1: C<$stash> ( string )
 
-The Perl stash to unload. e.g. C<MyApache::MyData>.
+The Perl stash to unload. e.g. C<MyApache2::MyData>.
 
 =item ret: no return value
 

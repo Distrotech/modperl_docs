@@ -11,36 +11,36 @@ ModPerl::MethodLookup -- Lookup mod_perl modules, objects and methods
       ModPerl::MethodLookup::lookup_method('print');
   
   # return only module names containing method 'print' which
-  # expects the first argument to be of type 'Apache::Filter'
-  # (here $filter is an Apache::Filter object)
+  # expects the first argument to be of type 'Apache2::Filter'
+  # (here $filter is an Apache2::Filter object)
   my($hint, @modules) =
       ModPerl::MethodLookup::lookup_method('print', $filter);
   # or
   my($hint, @modules) =
-      ModPerl::MethodLookup::lookup_method('print', 'Apache::Filter');
+      ModPerl::MethodLookup::lookup_method('print', 'Apache2::Filter');
   
-  # what XS methods defined by module 'Apache::Filter'
+  # what XS methods defined by module 'Apache2::Filter'
   my($hint, @methods) =
-      ModPerl::MethodLookup::lookup_module('Apache::Filter');
+      ModPerl::MethodLookup::lookup_module('Apache2::Filter');
   
   # what XS methods can be invoked on the object $r (or a ref)
   my($hint, @methods) =
       ModPerl::MethodLookup::lookup_object($r);
   # or
   my($hint, @methods) =
-      ModPerl::MethodLookup::lookup_object('Apache::RequestRec');
+      ModPerl::MethodLookup::lookup_object('Apache2::RequestRec');
   
   # preload all mp2 modules in startup.pl
   ModPerl::MethodLookup::preload_all_modules();
   
   # command line shortcuts
-  % perl -MApache2 -MModPerl::MethodLookup -e print_module \
-    Apache::RequestRec Apache::Filter
-  % perl -MApache2 -MModPerl::MethodLookup -e print_object Apache
-  % perl -MApache2 -MModPerl::MethodLookup -e print_method \
+  % perl -MModPerl::MethodLookup -e print_module \
+    Apache2::RequestRec Apache2::Filter
+  % perl -MModPerl::MethodLookup -e print_object Apache2
+  % perl -MModPerl::MethodLookup -e print_method \
     get_server_built request
-  % perl -MApache2 -MModPerl::MethodLookup -e print_method read
-  % perl -MApache2 -MModPerl::MethodLookup -e print_method read APR::Bucket
+  % perl -MModPerl::MethodLookup -e print_method read
+  % perl -MModPerl::MethodLookup -e print_method read APR::Bucket
 
 
 
@@ -110,16 +110,16 @@ Return all module names containing XS method I<print>:
       ModPerl::MethodLookup::lookup_method('print');
 
 Return only module names containing method I<print> which expects the
-first argument to be of type C<Apache::Filter>:
+first argument to be of type C<Apache2::Filter>:
 
-  my $filter = bless {}, 'Apache::Filter';
+  my $filter = bless {}, 'Apache2::Filter';
   my($hint, @modules) =
       ModPerl::MethodLookup::lookup_method('print', $filter);
 
 or:
 
   my($hint, @modules) =
-      ModPerl::MethodLookup::lookup_method('print', 'Apache::Filter');
+      ModPerl::MethodLookup::lookup_method('print', 'Apache2::Filter');
 
 
 
@@ -157,10 +157,10 @@ the methods defined in the requested module.
 
 Example:
 
-What XS methods defined by module C<Apache::Filter>:
+What XS methods defined by module C<Apache2::Filter>:
 
   my($hint, @methods) =
-      ModPerl::MethodLookup::lookup_module('Apache::Filter');
+      ModPerl::MethodLookup::lookup_module('Apache2::Filter');
 
 
 
@@ -205,7 +205,7 @@ we can't programmatically deduct the objects they are invoked on,
 because these methods are written in pure XS and manipulate the
 arguments stack themselves. Currently these are mainly XS functions,
 not methods, which of course aren't invoked on objects. There are also
-logging function wrappers (C<Apache::Log>).
+logging function wrappers (C<Apache2::Log>).
 
 Examples:
 
@@ -214,10 +214,10 @@ What XS methods can be invoked on the object C<$r>:
   my($hint, @methods) =
       ModPerl::MethodLookup::lookup_object($r);
 
-or C<$r>'s class -- C<Apache::RequestRec>:
+or C<$r>'s class -- C<Apache2::RequestRec>:
 
   my($hint, @methods) =
-      ModPerl::MethodLookup::lookup_object('Apache::RequestRec');
+      ModPerl::MethodLookup::lookup_object('Apache2::RequestRec');
 
 
 
@@ -255,19 +255,19 @@ C<L<lookup_method()|/C_lookup_method___>>, mainly designed to be used
 from the command line. For example to print all the modules which
 define method I<read> execute:
 
-  % perl -MApache2 -MModPerl::MethodLookup -e print_method read
+  % perl -MModPerl::MethodLookup -e print_method read
 
 Since this will return more than one module, we can narrow the query
 to only those methods which expect the first argument to be blessed
 into class C<APR::Bucket>:
 
-  % perl -MApache2 -MModPerl::MethodLookup -e print_method read APR::Bucket
+  % perl -MModPerl::MethodLookup -e print_method read APR::Bucket
 
 You can pass more than one method and it'll perform a lookup on each
 of the methods. For example to lookup methods C<get_server_built> and
 C<request> you can do:
 
-  % perl -MApache2 -MModPerl::MethodLookup -e print_method \
+  % perl -MModPerl::MethodLookup -e print_method \
     get_server_built request
 
 The function C<print_method()> is exported by default.
@@ -286,11 +286,11 @@ The function C<print_method()> is exported by default.
 C<print_module()> is a convenience wrapper for
 C<L<lookup_module()|/C_lookup_module___>>, mainly designed to be used
 from the command line. For example to print all the methods defined in
-the module C<Apache::RequestRec>, followed by methods defined in the
-module C<Apache::Filter> you can run:
+the module C<Apache2::RequestRec>, followed by methods defined in the
+module C<Apache2::Filter> you can run:
 
-  % perl -MApache2 -MModPerl::MethodLookup -e print_module \
-    Apache::RequestRec Apache::Filter
+  % perl -MModPerl::MethodLookup -e print_module \
+    Apache2::RequestRec Apache2::Filter
 
 The function C<print_module()> is exported by default.
 
@@ -309,10 +309,10 @@ The function C<print_module()> is exported by default.
 C<print_object()> is a convenience wrapper for
 C<L<lookup_object()|/C_lookup_object___>>, mainly designed to be used
 from the command line. For example to print all the methods that can
-be invoked on object blessed into a class C<Apache::RequestRec> run:
+be invoked on object blessed into a class C<Apache2::RequestRec> run:
 
-  % perl -MApache2 -MModPerl::MethodLookup -e print_object \
-    Apache::RequestRec
+  % perl -MModPerl::MethodLookup -e print_object \
+    Apache2::RequestRec
 
 Similar to C<L<print_object()|/C_print_object___>>, more than one
 class can be passed to this function.
@@ -406,7 +406,7 @@ what module should be loaded, when a method from the not-yet-loaded
 module is called.
 
 A similar technique is used by
-C<L<Apache::porting|docs::2.0::api::Apache::porting>>.
+C<L<Apache2::porting|docs::2.0::api::Apache2::porting>>.
 
 
 META: there is a better version of AUTOLOAD discussed on the dev
@@ -428,13 +428,13 @@ module needs to be loaded. For example if when executing:
 mod_perl complains:
 
   Can't locate object method "construct_url" via package
-  "Apache::RequestRec" at ...
+  "Apache2::RequestRec" at ...
 
 you can ask C<ModPerl::MethodLookup> for help:
 
-  % perl -MApache2 -MModPerl::MethodLookup -e print_method construct_url
+  % perl -MModPerl::MethodLookup -e print_method construct_url
   To use method 'construct_url' add:
-          use Apache::URI ();
+          use Apache2::URI ();
 
 and after copy-n-pasting the use statement in our code, the problem
 goes away.
@@ -442,17 +442,17 @@ goes away.
 One can create a handy alias for this technique. For example, C-style
 shell users can do:
 
-   % alias lookup "perl -MApache2 -MModPerl::MethodLookup -e print_method"
+   % alias lookup "perl -MModPerl::MethodLookup -e print_method"
 
 For Bash-style shell users:
 
-   % alias lookup="perl -MApache2 -MModPerl::MethodLookup -e print_method"
+   % alias lookup="perl -MModPerl::MethodLookup -e print_method"
 
 Now the lookup is even easier:
 
   % lookup construct_url
   to use method 'construct_url' add:
-          use Apache::URI;
+          use Apache2::URI;
 
 Similar aliases can be provided for
 C<L<print_object()|/C_print_object___>> and
@@ -502,7 +502,7 @@ L<porting XS modules|docs::2.0::devel::porting::porting>
 
 =item *
 
-C<L<Apache::porting|docs::2.0::api::Apache::porting>>
+C<L<Apache2::porting|docs::2.0::api::Apache2::porting>>
 
 =back
 

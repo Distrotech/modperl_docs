@@ -8,7 +8,7 @@ ModPerl::Global -- Perl API for manipulating special Perl lists
 =head1 Synopsis
 
   use ModPerl::Global ();
-  my $package = 'MyApache::Package';
+  my $package = 'MyApache2::Package';
   
   # make the END blocks of this package special
   ModPerl::Global::special_list_register(END => $package);

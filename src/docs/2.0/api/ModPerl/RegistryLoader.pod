@@ -21,7 +21,7 @@ ModPerl::RegistryLoader - Compile ModPerl::RegistryCooker scripts at server star
   sub trans {
       my $uri = shift;
       $uri =~ s|^/registry/|cgi-bin/|;
-      return File::Spec->catfile(Apache::ServerUtil::server_root, $uri);
+      return File::Spec->catfile(Apache2::ServerUtil::server_root, $uri);
   }
   my $rl = ModPerl::RegistryLoader->new(
       package => 'ModPerl::Registry',
@@ -133,13 +133,13 @@ the I<cgi-bin> directory relative to C<ServerRoot>.
       use DirHandle ();
       use strict;
   
-      my $dir = File::Spec->catdir(Apache::ServerUtil::server_root,
+      my $dir = File::Spec->catdir(Apache2::ServerUtil::server_root,
                                   "cgi-bin");
   
       sub trans {
           my $uri = shift; 
           $uri =~ s|^/registry/|cgi-bin/|;
-          return File::Spec->catfile(Apache::ServerUtil::server_root,
+          return File::Spec->catfile(Apache2::ServerUtil::server_root,
                                      $uri);
       }
   
@@ -180,7 +180,7 @@ registry environments.
 
 =head1 Authors
 
-The original C<Apache::RegistryLoader> implemented by Doug MacEachern.
+The original C<Apache2::RegistryLoader> implemented by Doug MacEachern.
 
 Stas Bekman did the porting to the new registry framework based on
 C<ModPerl::RegistryLoader>.

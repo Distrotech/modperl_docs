@@ -29,7 +29,7 @@ subroutine.
 
 For example:
 
-  my $r = Apache->request;
+  my $r = Apache2->request;
   $r->content_type("text/html");
   $r->send_http_header;
   $r->print("mod_perl rules!");
@@ -78,7 +78,7 @@ handlers|docs::2.0::user::coding::coding/C_BEGIN__Blocks> plus:
 =item *
 
 Only once, if pulled in by the parent process via
-C<Apache::RegistryLoader>.
+C<Apache2::RegistryLoader>.
 
 =item *
 
