@@ -376,6 +376,8 @@ Alphabetically sorted:
 
 =item * Michael Finke
 
+=item * Michael G. Schwern
+
 =item * Michael Hall
 
 =item * Michael Rendell

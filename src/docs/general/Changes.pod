@@ -17,9 +17,12 @@ The most recent changes are listed first.
 
   o inlined Mike Guy's news article about closures
 
+  o use the caller() trick instead of $^S to figure out whether we are
+    inside the eval() block. [Michael G. Schwern]
+
 * correct headers.pod
 
-  o rewrite the headers of this chapter (Per Einar Ellefsen)
+  o rewrite the headers of this chapter [Per Einar Ellefsen]
 
 * multiuser.pod
 

@@ -2232,14 +2232,27 @@ this exception:
 However this won't work under C<Apache::Registry> - you're always in
 an eval block there!
 
-The other problem with C<$SIG{__DIE__}> also relates to its global nature.
-Because you might have more than one application running under mod_perl,
-you can't be sure which has set a C<$SIG{__DIE__}> handler when and for
-what. This can become extremely confusing when you start scaling up
-from a set of simple registry scripts that might rely on CGI::Carp for
-global exception handling (which uses C<$SIG{__DIE__}> to trap exceptions)
-to having many applications installed with a variety of exception
-handling mechanisms in place.
+C<$^S> isn't totally reliable in certain Perl versions.  e.g. 5.005_03
+and 5.6.1 both do the wrong thing with it in certain situations.
+Instead, you use can use the caller() function to figure out if we are
+called in the eval() context:
+
+  $SIG{__DIE__} = sub {
+      my $in_eval = 0;
+      for(my $stack = 1;  my $sub = (CORE::caller($stack))[3];  $stack++) {
+          $in_eval = 1 if $sub =~ /^\(eval\)/;
+      }
+      my_die_handler(@_) unless $in_eval;
+  };
+
+The other problem with C<$SIG{__DIE__}> also relates to its global
+nature.  Because you might have more than one application running
+under mod_perl, you can't be sure which has set a C<$SIG{__DIE__}>
+handler when and for what. This can become extremely confusing when
+you start scaling up from a set of simple registry scripts that might
+rely on CGI::Carp for global exception handling (which uses
+C<$SIG{__DIE__}> to trap exceptions) to having many applications
+installed with a variety of exception handling mechanisms in place.
 
 You should warn people about this danger of C<$SIG{__DIE__}> and
 inform them of better ways to code. The following material is an
@@ -2255,19 +2268,20 @@ error message, and again in your exception handler to de-construct
 that string into something meaningful (unless of course all you want
 your exception handler to do is dump the error to the browser). The
 other problem is that you have no way of automatically detecting where
-the exception occurred using C<eval{}> construct. In a C<$SIG{__DIE__}>
-block you always have the use of the caller() function to detect where
-the error occurred. But we can fix that...
+the exception occurred using C<eval{}> construct. In a
+C<$SIG{__DIE__}> block you always have the use of the caller()
+function to detect where the error occurred. But we can fix that...
 
 A little known fact about exceptions in perl 5.005 is that you can
 call die with an object. The exception handler receives that object in
 C<$@>. This is how you are advised to handle exceptions now, as it
-provides an extremely flexible and scalable exceptions solution, potentially
-providing almost all of the power Java exceptions.
+provides an extremely flexible and scalable exceptions solution,
+potentially providing almost all of the power Java exceptions.
 
 [As a footnote here, the only thing that is really missing here from
 Java exceptions is a guaranteed Finally clause, although its possible
-to get about 98.62% of the way towards providing that using C<eval{}>.]
+to get about 98.62% of the way towards providing that using
+C<eval{}>.]
 
 =head3 A Little Housekeeping
 
