@@ -139,9 +139,11 @@ Site Migration process:
 - check that 404.html actually works.
 
 - move the embperl cvs, as is and make sure that it's copied over as
-is without processing
+  is without processing
 
-- move the /dist/ stuff, or symlink to its.
+- move the /dist/ stuff, or symlink to it. remove all the pods from
+  /dist/
+
 
 ====================================================================
 
