@@ -273,7 +273,7 @@ request or connection).
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 1.99_18
 
 =back
 
@@ -300,6 +300,7 @@ whole or parts of the filter context between requests, use the
 L<technique based on C<$c-E<gt>keepalives>
 counting|docs::2.0::user::handler::filters>.
 
+This method works for native Apache (non-mod_perl) filters too.
 
 
 
