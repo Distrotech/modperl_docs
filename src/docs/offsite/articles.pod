@@ -184,7 +184,7 @@ Figgins. http://www.onlamp.com/pub/a/apache/2000/03/17/modperl.html
 C<Ariadne>, Issue 21: I<What is mod_perl?>, by Ian
 Peacock. http://www.ariadne.ac.uk/issue21/unix/
 
-=item * 
+=item *
 
 Several of Stas' mod_perl articles translated to Russian by Inga
 Zakharova: http://www.providerz.ru/articles/perl/why_mod_perl.html
@@ -195,6 +195,12 @@ http://www.providerz.ru/articles/perl/mod_perl_in_30_minutes_1.html
 "Understanding mod_perl", the tutorial, presented by Benoit Beauséjour
 at the Montreal Perl Mongers meeting.
 http://www.flatlineconstruct.com/talk/understanding_mod_perl/index.html
+
+=item *
+
+"Debugging mod_perl with a symbol audit", a tutorial on how to debug
+mod_perl by looking at the symbol table.
+http://builder.com.com/5100-6371-1058784.html
 
 =back
 

@@ -203,6 +203,16 @@ Chapter 9 covers the use of mod_perl.
 
 By Kevin Meltzer and Brent Michalski.
 
+=item * Open Source Web Development with LAMP
+
+This book shows you how to use several different technologies for
+building websites.  It specifically has chapters on mod_perl, Embperl,
+and Mason.
+
+By James Lee and Brent Ware
+
+http://www.opensourcewebbook.com/
+
 =back
 
 
