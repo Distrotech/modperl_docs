@@ -10,5 +10,5 @@
         <title>[% doc.meta.title %]</title>
 [% INCLUDE headers -%]
     </head>
-<body background="[% doc.dir.abs_doc_root %]/images/bgline.gif" bgcolor="#ffffff" onLoad="document.site_search_form.query.focus()">
+<body background="[% doc.dir.abs_doc_root %]/images/bgline.gif" bgcolor="#ffffff">
 <a name="top"></a>
