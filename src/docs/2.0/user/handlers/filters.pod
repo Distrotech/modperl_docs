@@ -242,6 +242,7 @@ Now let's write the snooping filter:
   use base qw(Apache::Filter);
   use Apache::FilterRec ();
   use APR::Brigade ();
+  use APR::Bucket ();
   
   use Apache::Const -compile => qw(OK DECLINED);
   use APR::Const -compile => ':common';
