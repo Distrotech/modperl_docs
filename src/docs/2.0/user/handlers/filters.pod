@@ -1629,9 +1629,9 @@ referencing it at the same time.  (shared mem/cache/memory mapped
 files are examples on where you don't want to modify the
 data). Instead the data should be moved into a new bucket.
 
-Also it looks like we need to $b->destroy (need to add the API) in
-addition to $b->remove. Which can be done in one stroke using
-$b->delete (need to add the API).
+Also it looks like we need to $b-E<gt>destroy (need to add the API) in
+addition to $b-E<gt>remove. Which can be done in one stroke using
+$b-E<gt>delete (need to add the API).
 
 ]
 
