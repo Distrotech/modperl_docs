@@ -45,6 +45,61 @@ closed because we are about to exec a new program
 
 
 
+=head2 C<cleanup_register>
+
+Register cleanup callbacks to run
+
+  $pool->cleanup_register($callback);
+  $pool->cleanup_register($callback, $arg);
+
+=over 4
+
+=item arg1: C<$p> (C<L<APR::Pool|docs::2.0::api::APR::Pool>>)
+
+The pool object to register the cleanup for
+
+=item arg2: C<$callback> (CODE ref or SUB name)
+
+a cleanup callback CODE reference or just a name of the subroutine
+(fully qualified unless defined in the current package).
+
+=item opt arg3: C<$arg> (SCALAR)
+
+If this optional argument is passed the C<$callback> function will
+receive it as the first and only argument when executed.
+
+To pass more than one argument, use a reference to an array or a hash.
+
+=item ret: no return value
+
+=item since: 1.99_10
+
+=back
+
+Examples:
+
+No arguments, using anon sub as a cleanup callback:
+
+  $r->pool->cleanup_register(sub { warn "running cleanup" });
+
+One or more arguments using a cleanup code reference:
+
+  $r->pool->cleanup_register(\&cleanup, $r);
+  $r->pool->cleanup_register(\&cleanup, [$r, $foo]);
+  sub cleanup {
+      my @args = (@_ && ref $_[0] eq ARRAY) ? @{ +shift } : shift;
+      my $r = shift @args;
+      warn "cleaning up";
+  }
+
+
+XXX: test that we can do:
+
+  $r->pool->cleanup_register(sub { warn "running cleanup" });
+  $r->pool->cleanup_register('foo');
+
+in TestAPR/pool.pm
+
 
 =head2 C<clear>
 
