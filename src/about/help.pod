@@ -13,7 +13,7 @@ Please read this FAQ first.
 
 =head2 Q. The site looks very bad/unusable in the browser that I use.
 
-B<A>. The site was developed using the open source standards: HTML
+B<A>. The site was developed using the open standards: HTML
 4.01 and CSS 2.0. Any browser that follows these two standards
 shouldn't have a problem to properly render this site. If you are
 using some very old browser, you should upgrade it.
@@ -28,34 +28,20 @@ platform you are running it on. Preferably upload the snapshot
 somewhere and post the URL to the location of the shapshot, especially
 if the snapshot is of a big size.
 
-=head2 Q. I cannot read the PDF and source version of the documents
+=head2 Q. I cannot read the PDF version of the documents
 
-B<A>. In order to save bandwidth and make the downloads faster, all
-PDF and source versions of the documents are compressed with gzip and
-have a I<.gz> extension.
-
-If you choose to download the file, beware that some browsers strip
-the I<.gz> extension while saving the file, without uncompressing the
-file. Others uncompress the file, but forget to remove the I<.gz>
-extension. So depending on which of the buggy behaviors your browser
-implements, you either need to add the I<.gz> extension and uncompress
-the file using C<gzip(1)> or equivalent utility, or if the file was
-already uncompressed, you should simply remove the I<.gz> extension.
-
-If you choose to directly open the file in the application without
-first opening it, beware that some browser will invoke the application
-without first uncompressing the file. In this case you must download
-the file first, uncompress it and only then open it with the
-application.
+B<A>. The PDF files require a browser plugin or standalone PDF reader to be read:
+You can get the Adobe Acrobat Reader for many different platforms from L<their
+website|http://www.adobe.com/products/acrobat/readstep2.html>.
 
 =head2 Q. How the site search works
 
 B<A>. The search page reachable from the menu includes a complete
 usage documentation. But here is a short description:
 
-Each page includes a search widget which searches the current subset
-of the documents. For example if you are reading one of the documents
-in the mod_perl developers guide the search will return hits within
+In the menu on the left there is a search widget which can search the current
+subset of documents, or the whole site. For example if you are reading one of
+the documents in the mod_perl developers guide the search will return hits within
 this document subset. If you are searching at the root of all
 documentation, all documentation subsets will be searched. And finally
 if you search at the root of the site, the whole site will be
@@ -69,8 +55,8 @@ options, including the explanation of these options.
 =head1 Contact Info
 
 If you've read the L<FAQ|/"FAQ"> and you still have a problem, please
-email perl-docs (at) perl.apache.org and supply as much information as
-possible to help us solve your problem.
+email L<docs-dev (at) perl.apache.org|maillist::list-docs-dev> and supply as
+much information as possible to help us solve your problem.
 
 =head1 How this site was created
 
