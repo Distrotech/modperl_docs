@@ -110,6 +110,8 @@ And here is the filter handler code:
   use warnings;
   
   use Apache::Filter ();
+  use Apache::RequestRec();
+  use APR::Table;
   
   use Apache::Const -compile => qw(OK);
   
@@ -136,7 +138,7 @@ Next we configure Apache to apply the C<MyApache::FilterObfuscate>
 filter to all requests that get mapped to files with an I<".html">
 extension:
 
-  <Files ~ "\.html">
+  <Files ~ "\.html$">
       PerlOutputFilterHandler MyApache::FilterObfuscate
   </Files>
 
@@ -162,11 +164,13 @@ Apache by itself uses several core filters to manipulate the data and
 send it out to the client.
 
 As we are going to explain in great detail in the next sections, the
-same filter may be called many times during a single requests, every
-time receiving a chunk of data. For example if the HTML page is 64k
-long, a filter could be invoked 8 times, each time receiving 8k of
-data. The while loop that we just saw is going to read each of these
-8k in 8 calls, since it requests 1k on every read() call.
+same filter may be called many times during a single request, every
+time receiving a chunk of data. For example if the POSTed request data
+is 64k long, an input filter could be invoked 8 times, each time
+receiving 8k of data. The same may happen during response phase, where
+an upstream filter may split 64k output in 8 8k chunks. The while loop
+that we just saw is going to read each of these 8k in 8 calls, since
+it requests 1k on every C<read()> call.
 
 Since it's enough to unset the C<Content-Length> header when the
 filter is called the first time, we need to have some flag telling us
@@ -272,8 +276,8 @@ support in the future.
 
 Unlike other Apache handlers, filter handlers may get invoked more
 than once during the same request. Filters get invoked as many times
-as the number of bucket brigades sent from the upstream filter or
-content provider.
+as the number of bucket brigades sent from an upstream filter or
+a content provider.
 
 For example if a content generation handler sends a string, and then
 forces a flush, following by more data:
