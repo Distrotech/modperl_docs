@@ -220,6 +220,9 @@ http://www.bpfh.net/simes/computing/chroot-break.html
 Jails: Confining the omnipotent root:
 http://docs.freebsd.org/44doc/papers/jail/jail.html
 
+FreeBSD Developers' Handbook: The Jail Subsystem
+http://www.freebsd.org/doc/en_US.ISO8859-1/books/arch-handbook/jail.html
+
 =back
 
 =head1 DBI and SQL
@@ -289,13 +292,18 @@ http://www.cvshome.org/docs/
 
 =item * CVS Quick Reference Card
 
-http://refcards.com/refcards/cvs/index.html
+http://www.refcards.com/about/cvs.html
 
 =back
 
 =head1 Performance and Scalability
 
 =over
+
+=item * Techniques and Technologies for Scaling Internet Services mailing list.
+
+The list's address: scalable@arctic.org.
+Subscribe by sending a message to scalable-subscribe@arctic.org.
 
 =item * Solaris 2.x - Tuning Your TCP/IP Stack and More
 
