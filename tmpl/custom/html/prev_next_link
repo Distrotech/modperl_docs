@@ -13,7 +13,7 @@
        next_link = INCLUDE link prefix=rel_doc_root link=next.meta.link;
    END;
 -%]
-[% IF prev_link || rel_doc_root || next_link -%]
+[% IF prev_link || next_link || (rel_doc_root && rel_doc_root != '.') -%]
     [%- IF prev_link -%]
 <a href="[% prev_link %]"><img src="[% doc.dir.abs_doc_root %]/images/nav/page_prev.gif" alt="previous page" border="0" width="49" height="20"></a>
     [%- ELSE -%]
