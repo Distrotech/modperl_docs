@@ -56,6 +56,9 @@ The most recent changes are listed first.
 
 * config.pod
 
+  o adopt sections from the modperl faq and rewrite the whole security
+    configuration section
+
   o extended on method handlers (Per Einar Ellefsen)
 
   o show an example on how to load the mod_perl related config only

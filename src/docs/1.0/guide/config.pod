@@ -2043,14 +2043,6 @@ well.
 
 =head1 Configuration Security Concerns
 
-It is better not to advertise the port that mod_perl server uses to
-the outside world, for it creates a potential security risk by
-revealing which module(s) and/or OS you are running your web server
-on.
-
-For more information see L<Publishing Port Numbers other than
-80|guide::config/Publishing_Port_Numbers_other_than_80>.
-
 The more modules you have in your web server, the more complex the
 code.
 
@@ -2058,23 +2050,39 @@ The more complex the code in your web server, the more chances for
 bugs.
 
 The more chances for bugs, the more chance that some of those bugs may
-involve security.
+involve security breaches.
 
-We never were completely sure why the default of the C<ServerTokens>
-directive in Apache is C<Full> rather than C<Minimal>. Seems like you
-would only make it C<Full> if you are debugging. Probably the reason
-for using the C<ServerTokens Full> is for a show-off, so NetCraft
-(http://netcraft.com) and other similar survey services will count
-more Apache servers, which is good for all of us, but you really want
-to reveal as little information as possible to the potential crackers.
+=head2 Choosing User and Group
 
-Another approach is to modify httpd sources to reveal no unwanted
-information, so all responses will return an empty or phony C<Server:>
-field.
+Because mod_perl runs within an httpd child process, it runs with the
+C<User> ID and C<Group> ID specified in the I<httpd.conf> file.  This
+C<User>/C<Group> should have the lowest possible privileges.  It
+should only have access to world readable files, even better only
+files that belongs to this user.  Even so, careless scripts can give
+away information.  You would not want your I</etc/passwd> file to be
+readable over the net, for instance, even if you use shadow passwords.
 
-From the other point of view, security by obscurity is a lack of
-security. Any determined cracker will eventually figure out what
-version of Apache run and what third party modules you have built in.
+When a handler needs write permissions, make sure that only the user,
+the server is running under, has write permissions to the
+files. Sometimes you need group write permissions, but be very
+careful, because a buggy or malicious code run in the server may
+destroy files writable by the server.
+
+=head2 Taint Checking
+
+Make sure to run the server under:
+
+  PerlTaintCheck On
+
+setting in the I<httpd.conf> file. This doesn't ensure that your code
+is completely safe from external hacks, but it does prevent many
+security problems. Refer to the perlsec manpage for more information.
+
+=head2 Exposing Information About the Server's Component
+
+It is better not to expose the mod_perl server to the outside world,
+for it creates a potential security risk by revealing which Apache
+modules used by the server and the OS the server is running on.
 
 You can see what information is revealed by your server, by telneting
 to it and issuing some request. For example:
@@ -2092,6 +2100,29 @@ to it and issuing some request. For example:
 
 So as you see that a lot of information is revealed and a C<Full>
 C<ServerTokens> has been used.
+
+We never were completely sure why the default of the C<ServerTokens>
+directive in Apache is C<Full> rather than C<Minimal>. Seems like you
+would only make it C<Full> if you are debugging. Probably the reason
+for using the C<ServerTokens Full> is for a show-off, so Netcraft
+(http://netcraft.com) and other similar survey services will count
+more Apache servers, which is good for all of us, but you really want
+to reveal as little information as possible to the potential crackers.
+
+Another approach is to modify httpd sources to reveal no unwanted
+information, so all responses will return an empty or phony C<Server:>
+field.
+
+From the other point of view, security by obscurity is a lack of
+security. Any determined cracker will eventually figure out what
+version of Apache run and what third party modules you have built in.
+
+An even better approach is to completely hide the mod_perl server
+behind a
+L<front-end|guide::strategy/One_Plain_Apache_and_One_mod_perl_enabled_Apache_Servers>
+or a
+L<proxy|guide::strategy/Adding_a_Proxy_Server_in_http_Accelerator_Mode>
+server, so the server cannot be accessed directly.
 
 =head1 Apache Restarts Twice On Start
 
