@@ -15,6 +15,10 @@ Basic Layout:
 DocSet:
 -------
 
+- CacheNavigator has an edge case bug with hidden chapters. If there
+  are only hidden elements, it'll return the first hidden element
+  instead of undef.
+
 - need to be able to copy elements from the <head> section of the
   source html into the target file. Since this may cause collisions
   with preset headers, need to override the preset header's elements
@@ -50,6 +54,8 @@ Templates:
 General:
 --------
 
+- need to remove the old 1.0 win32 stuff 
+
 - Need to document the font-type and -size used for the image button,
   so in the future we can add new buttons of the same style if needed.
   STATUS: waiting for input from Allan
@@ -57,19 +63,18 @@ General:
 Content:
 --------
 
-- need to fix 404.html to include:
-
-  <base href="http://perl.apache.org/"> 
-
-  STATUS: DocSet needs to support copying of other than <title>
-  headers first.
-
 - ask perl.com to link to perl.apache.org from 'perl sites' section.
   + also they need to add theperlreview.com
 
 - Need to resolve prompt issue. (user/root prompt)
 
 - Replace occurences of 1.x and 2.x with 1.0 and 2.0
+
+- src/products/apache-modlist.html can be removed after Doug's
+  blessing
+  STATUS: Per Einar thinks that some of the material could be re-used
+  before deleting the file
+
 
 Search:
 -------
@@ -128,7 +133,9 @@ elaborate one?
 
 Site Migration process:
 
-- check that 404.html actually works.
+- 404.html:
+  s|http://perl.apache.org/release/|http://perl.apache.org/|
+  check that 404.html actually works.
 
 - move the embperl cvs, as is and make sure that it's copied over as
   is without processing
@@ -137,7 +144,7 @@ Site Migration process:
 
   o move the /dist/ stuff, or symlink to it. 
   o remove all the pods from /dist/
-  o apache-modlist.html has moved (.htaccess already redirects it)
+  o remove apache-modlist.html
 
 ====================================================================
 
