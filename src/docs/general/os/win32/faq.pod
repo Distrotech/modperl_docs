@@ -204,6 +204,16 @@ this occurs under mod_perl 2.0 and
 Perl-5.6.1, try upgrading to
 L<Perl-5.8.0|docs::2.0::os::win32::install>.
 
+=head2 I get a "Can't find "Some::Module" in @INC ..." error
+
+If this is a custom module installed outside of the system
+Perl @INC directories, see I<perldoc lib>. If this is
+a mod_perl module, and you are using mod_perl 2, try
+using the I<Apache2> module, as described in
+L<accessing mod_perl 2
+modules|docs::2.0::user::config::config/Accessing_the_mod_perl_2_0_Modules>.
+
+
 =head2 I get a "Can't locate object method ..." error.
 
 First off, if this is due to running some script from the
@@ -268,8 +278,11 @@ For mod_perl 1.0, make sure you have installed the I<libapreq> ppm package
 described for L<mod_perl 1.0 ppm
 packages|docs::1.0::os::win32::install/PPM_Packages>; the
 I<libapreq> package available in the ActiveState repository
-will not work under mod_perl. Note that I<libapreq>
-has not yet been ported to mod_perl 2.0.
+will not work under mod_perl. A development version of I<libapreq2>,
+suitable for use with mod_perl 2.0 / Apache 2.0, is available at
+L<http://www.apache.org/~joes/>, with a Win32 ppm package
+available as described for L<mod_perl 2.0 ppm
+packages|docs::2.0::os::win32::install/PPM_Packages>.
 
 =head2 My Apache2 installation did not come with the C<apxs> utility.
 
