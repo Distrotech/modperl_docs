@@ -218,43 +218,43 @@ I<Subject:> line, as well as the brief description of your post.
 Some suggested tags are:
 
   ADMIN		Stuff about running the List.
-
+  
   ADVOCACY	Promoting the use of mod_perl, printing T-shirts, stuff like
 		that.  Please don't start another discussion about whether we
 		should put this on a different list, we've been there before.
-
+  
   ANNOUNCE	Announcements of new software tools, packages and updates.
-
+  
   BENCHMARK	Apache/mod_perl performance issues.
-
+  
   BUG		Report of possible fault in mod_perl or associated software
 		- it's better if you can send a patch instead!
-
+  
   DBI		Stuff generally concerning Apache/mod_perl interaction
 		with databases.
-
+  
   FYI		For information only.
-
+  
   JOB		Any post about mod_perl jobs is welcome as long as it is
 		brief and to the point.  Note: Not "JOBS".
-
+  
   MASON		Jonathan Swartz' implementation of Perl embedded in HTML.
-
+  
   NEWS		Items of news likely to be interesting to mod_perlers.
-
+  
   OT	        Off-topic items, please try to keep traffic low.
-
+  
   PATCH		Suggested fix for fault in mod_perl or associated software.
-
+  
   QUESTION	Questions about mod_perl which is not covered by one of the
 		more specific headings.
-
+  
   RareModules	Occasional reminders about little-used modules on CPAN.
-
+  
   RFC		Requests for comment from the mod_perl community.
-
+  
   SITE		Things about running the Apache/mod_perl servers.
-
+  
   SUMMARY	After investigation and perhaps fixing a fault, and after an
 		extended discussion of a specific topic, it is helpful if
 		someone summarizes the thread.  Don't be shy, everyone will
