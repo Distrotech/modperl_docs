@@ -1475,6 +1475,17 @@ work correctly in the multi-processes/multi-threaded environment and
 temporary files get cleaned up as well.
 
 
+=head3 Possible Caveats
+
+C<PerlCleanupHandler> may fail to be completed on server
+shutdown/graceful restart since Apache will kill the registered
+handlers via SIGTERM, before they had a chance to run or even in the
+middle of its execution. See:
+http://marc.theaimsgroup.com/?t=106387845200003&r=1&w=2
+http://marc.theaimsgroup.com/?l=apache-modperl-dev&m=106427616108596&w=2
+
+
+
 =head1 Handling HEAD Requests
 
 In order to avoid the overhead of sending the data to the client when
