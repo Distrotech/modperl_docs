@@ -31,22 +31,17 @@ define gopoll
     continue
 end
 
-# threads specific, for some reason needs to go through apr_poll many
-# times before getting to the next breakpoint, so we skip these
-define bring_me_there
-    # ignoring apr_poll (bp #3) 12 times
-    ignore 3 12 
-    continue
-end
-
 define mybp
     # load Apache/Filter.so
     sharedlibrary Filter
     b mpxs_Apache__Filter_print
+    # no longer needed and they just make debugging harder under threads
+    disable 2
+    disable 3
+    continue
 end
 
 myrun
 gopoll
 mybp
-# ADJUST: uncomment for threaded mpm
-#bring_me_there
+
