@@ -1,6 +1,6 @@
 =head1 NAME
 
-C<APR:PerlIO> -- An APR Perl IO layer
+APR:PerlIO -- An APR Perl IO layer
 
 =head1 SYNOPSIS
 
@@ -28,7 +28,7 @@ Normally you won't call open() with APR layer attribute, but some
 mod_perl functions will return a filehandle which is internally hooked
 to APR. But you can use APR Perl IO directly if you want.
 
-=head1 SYNOPSIS
+=head1 METHODS
 
 Perl Interface:
 
