@@ -99,7 +99,7 @@ Install C<Apache::Test> using the familiar procedure:
 If you install mod_perl 2.x, you get C<Apache::Test> installed as
 well.
 
-=head1 How to Run Tests
+=head1 Running Tests
 
 It's much easier to copy-cat things, than creating from scratch.  It's
 much easier to develop tests, when you have some existing system that
@@ -329,7 +329,7 @@ or with any shell program if you have the C<env(1)> utility:
 
 =back
 
-=head2 Resolving Sequence Problems
+=head3 Resolving Sequence Problems
 
 When this kind of testing is used and a failure is detected there are
 two problems:
@@ -356,7 +356,7 @@ detected problem.
 
 =back
 
-=head2 Apache::TestSmoke Solution
+=head3 Apache::TestSmoke Solution
 
 C<Apache::TestSmoke> attempts to solve both problems. When it's run,
 at the end of each iteration it reports the minimal sequence of tests
@@ -366,8 +366,8 @@ cases.
 You should create a small script to drive C<Apache::TestSmoke>,
 usually I<t/SMOKE.PL>. If you don't have it already, create it:
 
-  t/SMOKE.PL
-  ----------
+  file:t/SMOKE.PL
+  ---------------
   #!perl
   
   use strict;
@@ -640,21 +640,17 @@ useful. If this doesn't work and you still get all the mess printed
 during the interactive run, set the C<APACHE_TEST_NO_COLOR=1>
 environment variable.
 
-
-
-
-
-META: a lot more stuff to go here from the pods/modperl_dev.pod and
-Apache-Test/README
-
-=head1 How to Setup Testing Environment
+=head1 Setting Up Testing Environment
 
 We will assume that you setup your testing environment even before you
-have started developing the module, which is a very smart thing to do.
+have started coding the project, which is a very smart thing to do.
 Of course it'll take you more time upfront, but it'll will save you a
-lot of time as you develop and debug your code. The L<extreme
-programming methodology|/item_extreme_programming_methodology> says
-that tests should be written before starting the code development.
+lot of time during the project developing and debugging stages. The
+L<extreme programming
+methodology|/item_extreme_programming_methodology> says that tests
+should be written before starting the code development.
+
+=head2 Basic Testing Environment
 
 So the first thing is to create a package and all the helper files, so
 later on we can distribute it on CPAN. We are going to develop an
@@ -872,7 +868,7 @@ Now we can create a simple test:
            "basic test",
           );
 
-Now create the README file.
+Now create the I<README> file.
 
   % touch README
 
@@ -890,13 +886,13 @@ with:
                ...
                );
 
-in this case C<README> will be created from the documenation POD
+in this case I<README> will be created from the documenation POD
 sections in I<lib/Apache/Amazing.pm>, but the file has to exists for
 I<make dist> to succeed.
 
-and finally we adjust or create the C<MANIFEST> file, so we can
+and finally we adjust or create the I<MANIFEST> file, so we can
 prepare a complete distribution. Therefore we list all the files that
-should enter the distribution including the C<MANIFEST> file itself:
+should enter the distribution including the I<MANIFEST> file itself:
 
   file:MANIFEST
   -------------
@@ -937,6 +933,95 @@ The only thing that we haven't done and hope that you will do is to
 write the POD sections for the C<Apache::Amazing> module, explaining
 how amazingly it works and how amazingly it can be deployed by other
 users.
+
+
+=head2 Extending Configuration Setup
+
+Sometimes you need to add extra I<httpd.conf> configuration and perl
+startup specific to your project that uses C<Apache::Test>. This can
+be accomplished by creating the desired files with an extension I<.in>
+in the I<t/conf/> directory and running:
+
+  panic% t/TEST -config
+
+which for each file with the extension I<.in> will create a new file,
+without this extension, convert any template placeholders into real
+values and link it from the main I<httpd.conf>. The latter happens
+only if the file have the following extensions:
+
+=over
+
+=item * .conf.in
+
+will add to I<t/conf/httpd.conf>:
+
+  Include foo.conf
+
+=item * .pl.in
+
+will add to I<t/conf/httpd.conf>:
+
+  PerlRequire foo.pl
+
+=item * other
+
+other files with I<.in> extension will be processed as well, but not
+linked from I<httpd.conf>.
+
+=back
+
+As mentioned before the converted files are created, any special token
+in them are getting replaced with the appropriate values. For example
+the token C<@ServerRoot@> will be replaced with the value defined by
+the C<ServerRoot> directive, so you can write a file that does the
+following:
+
+  file:my-extra.conf.in
+  ---------------------
+  PerlSwitches -Mlib=@ServerRoot@/../lib
+
+and assuming that the I<ServerRoot> is I<~/modperl-2.0/t/>, when
+I<my-extra.conf> will be created, it'll look like:
+
+  file:my-extra.conf.in
+  ---------------------
+  PerlSwitches -Mlib=~/modperl-2.0/t/../lib
+
+The valid tokens are defined in C<%Apache::TestConfig::Usage> and also
+can be seen in the output of C<t/TEST -help>'s I<configuration
+options> section. The tokens are case insensitive.
+
+=head2 Special Configuration Files
+
+Some of the files in the I<t/conf> directory have a special meaning,
+since the C<Apache::Test> framework uses them for the minimal
+configuration setup. But they can be overriden:
+
+=over
+
+=item *
+
+if the file I<t/conf/httpd.conf.in> exists, it will be used instead of
+the default template (in I<Apache/TestConfig.pm>).
+
+=item *
+
+if the file I<t/conf/extra.conf.in> exists, it will be used to
+generate I<t/conf/extra.conf> with C<@variable@> substitutions.
+
+=item *
+
+if the file I<t/conf/extra.conf> exists, it will be included by
+I<httpd.conf>.
+
+=item *
+
+if the file I<t/conf/modperl_extra.pl> exists, it will be included by
+I<httpd.conf> as a mod_perl file (PerlRequire).
+
+=back
+
+
 
 =head1 Apache::Test Framework's Architecture
 
@@ -1048,8 +1133,8 @@ of the test by yourself. It's quite easy, all you have to do is to
 generate requests and check the response. So a typical test will look
 like this:
 
-  t/apache/cool.t
-  -----------
+  file:t/apache/cool.t
+  --------------------
   use strict;
   use warnings FATAL => 'all';
 
@@ -1079,8 +1164,8 @@ function (e.g. it works with regexs as well).
 
 And the corresponding response part:
 
-  t/response/TestApache/cool.pm:
-  --------------------------
+  file:t/response/TestApache/cool.pm
+  ----------------------------------
   package TestApache::cool;
   
   use strict;
@@ -1301,8 +1386,8 @@ internally.
 Here is an example from C<ModPerl::Registry> closure tests. Using the
 counter closure problem under C<ModPerl::Registry>:
 
-  cgi-bin/closure.pl
-  ------------------
+  file:cgi-bin/closure.pl
+  -----------------------
   #!perl -w
   print "Content-type: text/plain\r\n\r\n";
   
@@ -1321,8 +1406,8 @@ gets executed by the same server instance, the first time it'll return
 makes sure that its two subsequent requests hit the same server
 instance:
 
-  closure.t
-  ---------
+  file:closure.t
+  --------------
   ...
   my $url = "/same_interp/cgi-bin/closure.pl";
   my $same_interp = Apache::TestRequest::same_interp_tie($url);
@@ -1369,7 +1454,7 @@ done by using a fixup handler which returns C<OK> only if it sees that
 its unique id matches. As you understand this technique would be very
 inefficient in production with many server instances.
 
-=head1 How to Write Tests
+=head1 Writing Tests
 
 All the communications between tests and C<Test::Harness> which
 executes them is done via STDOUT. I.e. whatever tests want to report
@@ -1538,8 +1623,8 @@ can tell it to run all but a few tests.
 
 If all files in a directory I<t/foo> should be skipped, create:
 
-  t/foo/all.t:
-  ------------
+  file:t/foo/all.t
+  ----------------
   print "1..0\n";
 
 Alternatively you can specify which tests should be skipped from a
@@ -1549,8 +1634,8 @@ the C<*> wildcharacter for multiply files matching.
 
 For example if in mod_perl 2.0 test suite we create the following file:
 
-  t/SKIP:
-  -------
+  file:t/SKIP
+  -----------
   # skip all files in protocol
   protocol
   
@@ -1722,8 +1807,8 @@ are specified on the command line only those will be run/passed to
 ok(), the rest will be skipped.  If no sub-tests are specified, sok()
 works just like ok().  For example, you can write this test:
 
-  skip_subtest_2.t
-  --------------
+  file:skip_subtest_2.t
+  ---------------------
   use Apache::Test;
   plan tests => 4;
   sok {1};
@@ -1797,8 +1882,8 @@ Usually this is done by printing the comment of what the sub-test
 does, what is the expected value and what's the received value. This
 is a good example of debug friendly sub-test:
 
-  debug_comments.t
-  ----------------
+  file:debug_comments.t
+  ---------------------
   use Apache::Test;
   use Apache::TestUtil;
   plan tests => 1;
@@ -2035,91 +2120,6 @@ META: Virtual host?
 
 META: to be completed
 
-=head2 Extending Startup Configuration for httpd and Perl
-
-Sometimes you need to add extra I<httpd.conf> configuration and perl
-startup specific to your project that uses C<Apache::Test>. This can
-be accomplished by creating the desired files with an extension I<.in>
-in the I<t/conf/> directory and running:
-
-  panic% t/TEST -config
-
-which for each file with the extension I<.in> will create a new file,
-without this extension, convert any template placeholders into real
-values and link it from the main I<httpd.conf>. The latter happens
-only if the file have the following extensions:
-
-=over
-
-=item * .conf.in
-
-will add to I<t/conf/httpd.conf>:
-
-  Include foo.conf
-
-=item * .pl.in
-
-will add to I<t/conf/httpd.conf>:
-
-  PerlRequire foo.pl
-
-=item * other
-
-other files with I<.in> extension will be processed as well, but not
-linked from I<httpd.conf>.
-
-=back
-
-As mentioned before the converted files are created, any special token
-in them are getting replaced with the appropriate values. For example
-the token C<@ServerRoot@> will be replaced with the value defined by
-the C<ServerRoot> directive, so you can write a file that does the
-following:
-
-  my-extra.conf.in
-  ----------------
-  PerlSwitches -Mlib=@ServerRoot@/../lib
-
-and assuming that the I<ServerRoot> is I<~/modperl-2.0/t/>, when
-I<my-extra.conf> will be created, it'll look like:
-
-  my-extra.conf.in
-  ----------------
-  PerlSwitches -Mlib=~/modperl-2.0/t/../lib
-
-The valid tokens are defined in C<%Apache::TestConfig::Usage> and also
-can be seen in the output of C<t/TEST -help>'s I<configuration
-options> section. The tokens are case insensitive.
-
-=head2 Special Configuration Files
-
-Some of the files in the I<t/conf> directory have a special meaning,
-since the C<Apache::Test> framework uses them for the minimal
-configuration setup. But they can be overriden:
-
-=over
-
-=item *
-
-if the file I<t/conf/httpd.conf.in> exists, it will be used instead of
-the default template (in I<Apache/TestConfig.pm>).
-
-=item *
-
-if the file I<t/conf/extra.conf.in> exists, it will be used to
-generate I<t/conf/extra.conf> with C<@variable@> substitutions.
-
-=item *
-
-if the file I<t/conf/extra.conf> exists, it will be included by
-I<httpd.conf>.
-
-=item *
-
-if the file I<t/conf/modperl_extra.pl> exists, it will be included by
-I<httpd.conf> as a mod_perl file (PerlRequire)
-
-=back
 
 =head2 Threaded versus Non-threaded Perl Test's Compatibility
 
