@@ -41,6 +41,11 @@ Apache::SubProcess -- Executing SubProcesses under mod_perl
       }
       return defined $data ? $data : '';
   }
+  
+  # pass @ARGV but don't ask for any communication channels
+  $command = "/tmp/argv.pl";
+  @argv = qw(foo bar);
+  $r->spawn_proc_prog($command, \@argv);
 
 
 
@@ -66,6 +71,8 @@ threads, e.g. that's how it's running mod_cgi on win32).
 
 Spawn a sub-process and return STD communication pipes:
 
+                               $r->spawn_proc_prog($command);
+                               $r->spawn_proc_prog($command, \@argv);
   $out_fh                    = $r->spawn_proc_prog($command);
   $out_fh                    = $r->spawn_proc_prog($command, \@argv);
   ($in_fh, $out_fh, $err_fh) = $r->spawn_proc_prog($command);
@@ -87,8 +94,11 @@ the process' C<ARGV>.
 
 =item ret: ...
 
-In SCALAR context returns the output filehandle of the spawned
-process.
+In VOID context returns no filehandles (all std streams to the spawned
+process are closed).
+
+In SCALAR context returns the output filehandle of the spawned process
+(the in and err std streams to the spawned process are closed).
 
 In LIST context returns the input, outpur and error filehandles of the
 spawned process.
@@ -137,6 +147,41 @@ normally most of the time we have lots of perl things loaded into
 memory. Most likely the best solution here is to offload the job to
 PPerl or some other daemon, with the only added complexity of
 communication.
+
+To spawn a completely independent process, which will be able to run
+after Apache has been shutdown and which won't prevent Apache from
+restarting (releasing the ports Apache is listening to) call
+spawn_proc_prog() in a void context and make the script detach and
+close/reopen its communication streams. For example, spawn a process
+as:
+
+  use Apache::SubProcess ();
+  $r->spawn_proc_prog ('/path/to/detach_script.pl', $args);
+
+and the F</path/to/detach_script.pl> contents are:
+
+  # file:detach_script.pl
+  #!/usr/bin/perl -w
+  use strict;
+  use warnings;
+  
+  use POSIX 'setsid';
+  
+  open STDIN, '/dev/null'  or die "Can't read /dev/null: $!";
+  open STDOUT, '+>>', '/path/to/apache/error_log'
+      or die "Can't write to /dev/null: $!";
+  open STDERR, '>&STDOUT'  or die "Can't dup stdout: $!";
+  setsid or die "Can't start a new session: $!";
+  
+  # run your code here or call exec to another program
+
+reopening (or closing) the STD streams and called C<setsid()> makes
+sure that the process is now fully detached from Apache and has a life
+of its own.
+
+
+
+
 
 
 
