@@ -1,7 +1,14 @@
+
+ErrorDocument 404 /404.html
+
+### URI remapping ###
+
+RedirectPermanent /guide/ /docs/1.0/guide/
+
 # embperl
 RedirectPermanent /Embperl/ http://perl.apache.org/embperl/
 RedirectPermanent /perl/Embperl/ http://perl.apache.org/embperl/
 RedirectPermanent /embperl.html /embperl/
 
 # ASP
-Redirect /asp http://www.apache-asp.org/
+RedirectPermanent /asp http://www.apache-asp.org/
