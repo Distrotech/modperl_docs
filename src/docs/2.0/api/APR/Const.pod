@@ -1016,7 +1016,7 @@ C<L<$finfo-E<gt>protection|docs::2.0::api::APR::Finfo/C_protection_>>.
 
 
 
-=head3 C<APR_FILEPROT_GEXECUTE>
+=head3 C<APR::FILEPROT_GEXECUTE>
 
 Execute by group
 
@@ -1031,7 +1031,7 @@ Execute by group
 
 
 
-=head3 C<APR_FILEPROT_GREAD>
+=head3 C<APR::FILEPROT_GREAD>
 
 Read by group
 
@@ -1044,7 +1044,7 @@ Read by group
 
 
 
-=head3 C<APR_FILEPROT_GSETID>
+=head3 C<APR::FILEPROT_GSETID>
 
 Set group id
 
@@ -1057,7 +1057,7 @@ Set group id
 
 
 
-=head3 C<APR_FILEPROT_GWRITE>
+=head3 C<APR::FILEPROT_GWRITE>
 
 Write by group
 
@@ -1070,7 +1070,7 @@ Write by group
 
 
 
-=head3 C<APR_FILEPROT_OS_DEFAULT>
+=head3 C<APR::FILEPROT_OS_DEFAULT>
 
 use OS's default permissions
 
@@ -1083,7 +1083,7 @@ use OS's default permissions
 
 
 
-=head3 C<APR_FILEPROT_UEXECUTE>
+=head3 C<APR::FILEPROT_UEXECUTE>
 
 Execute by user
 
@@ -1096,7 +1096,7 @@ Execute by user
 
 
 
-=head3 C<APR_FILEPROT_UREAD>
+=head3 C<APR::FILEPROT_UREAD>
 
 Read by user
 
@@ -1109,7 +1109,7 @@ Read by user
 
 
 
-=head3 C<APR_FILEPROT_USETID>
+=head3 C<APR::FILEPROT_USETID>
 
 Set user id
 
@@ -1122,7 +1122,7 @@ Set user id
 
 
 
-=head3 C<APR_FILEPROT_UWRITE>
+=head3 C<APR::FILEPROT_UWRITE>
 
 Write by user
 
@@ -1135,7 +1135,7 @@ Write by user
 
 
 
-=head3 C<APR_FILEPROT_WEXECUTE>
+=head3 C<APR::FILEPROT_WEXECUTE>
 
 Execute by others
 
@@ -1148,7 +1148,7 @@ Execute by others
 
 
 
-=head3 C<APR_FILEPROT_WREAD>
+=head3 C<APR::FILEPROT_WREAD>
 
 Read by others
 
@@ -1161,7 +1161,7 @@ Read by others
 
 
 
-=head3 C<APR_FILEPROT_WSTICKY>
+=head3 C<APR::FILEPROT_WSTICKY>
 
 Sticky bit
 
@@ -1174,7 +1174,7 @@ Sticky bit
 
 
 
-=head3 C<APR_FILEPROT_WWRITE>
+=head3 C<APR::FILEPROT_WWRITE>
 
 Write by others
 
