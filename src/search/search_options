@@ -36,7 +36,7 @@
                 "docs/2.0/api"      => '....API'
                 "docs/2.0/world"    => '....Related'
         "help"      => 'Getting Help'
-        "mailist"   => 'Email Lists'
+        "maillist"   => 'Mailing Lists'
         "products"  => 'Products'
         "contribute" => 'Contribute'
     }
