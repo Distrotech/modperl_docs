@@ -107,6 +107,8 @@ overriding:
 
 =item * C<Apache::Connection::remote_addr>
 
+=item * C<Apache::server_root_relative>
+
 =back
 
 
