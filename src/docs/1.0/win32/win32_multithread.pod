@@ -28,7 +28,13 @@ development. mod_perl-2.0 is being actively developed, including the
 Win32 port; if you would like a preview and/or would like to
 contribute to the development process, see the documents on obtaining
 mod_perl-2.0 by cvs, which can be obtained from mod_perl's home page
-at http://perl.apache.org/.
+at http://perl.apache.org/. Alternatively, a
+mod_perl-2.0/Apache-2.0 binary distribution based on these cvs 
+sources is available from
+ftp://theoryx5.uwinnipeg.ca/pub/other/Apache2.tar.gz.
+See the accompanying F<Apache2.readme> file in this directory for more
+details. Be aware though that, being a pre-release version,
+bugs are most likely present.
 
 =head1 Does it really matter?
 

@@ -23,6 +23,14 @@ that included with the packages for installation instructions. Both of
 these also include an ActiveState-compatible C<ppm> (Perl Package
 Manager) utility for adding and upgrading modules.
 
+For the adventuresome who want a taste of things to come, a 
+mod_perl-2.0/Apache-2.0 binary distribution based on cvs 
+sources is available from
+ftp://theoryx5.uwinnipeg.ca/pub/other/Apache2.tar.gz.
+See the accompanying F<Apache2.readme> file in this directory for more
+details. Be aware though that, being a pre-release version,
+bugs are most likely present.
+
 =head1 PPM Packages
 
 For users of ActivePerl, available from
@@ -87,7 +95,14 @@ Add this line to F<C:\Apache\conf\httpd.conf>:
  LoadModule perl_module modules/mod_perl.so
 
 Be sure that the path to your Perl binary (eg, F<C:\Perl\bin>) is in
-your C<PATH> environment variable.
+your C<PATH> environment variable. If you have a C<ClearModuleList> 
+directive enabled in F<httpd.conf>, you may also need to add
+
+ AddModule mod_perl.c
+
+See the descriptions of the C<ClearModuleList> and C<AddModule>
+directives in the Apache documents for more details, especially
+concerning the relative order of these and the C<LoadModule> directive.
 
 =head2 Registry scripts
 
