@@ -42,7 +42,7 @@ URL: http://www.mailchannels.com/opensource/
   
   IMHO, using mod_perl as a general application server is a great
   idea. For us there really was no other viable alternative. We looked
-  at POE, Sendmail's milter API, Net::Server and of course qpsmtpd but
+  at POE, Sendmail's filter API, Net::Server and of course qpsmtpd but
   the reliability, portability, and scalability of Apache was what
   caused us to go through the effort of making our bits work on
   mod_perl.
