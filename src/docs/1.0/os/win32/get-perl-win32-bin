@@ -12,48 +12,66 @@
 
 use strict;
 use warnings;
-use LWP::Simple;
+use Net::FTP;
 use Safe;
 use Digest::MD5;
 use IO::File;
 use ExtUtils::MakeMaker;
 
+die "This is intended for Win32" unless ($^O =~ /Win32/i);
+
 my $dist = 'perl-win32-bin';
 my $exe = $dist . '.exe';
-my $theoryx5 = 'ftp://theoryx5.uwinnipeg.ca/pub/other' . '/' . $dist;
-my $max = 9;
-
+my $theoryx5 = 'theoryx5.uwinnipeg.ca';
+my $bsize = 102400;
+my $kb = sprintf("%d", $bsize / 1024);
 print <<"END";
 
 This script will fetch and then join the files needed for 
 creating the Perl/Apache Win32 binary distribution
-$exe from $theoryx5/. 
+$exe from 
+  ftp://$theoryx5/pub/other/$dist/.
 
 If the file transfer is interrupted before all the neccessary
 files are joined, run the script again in the same directory;
 files successfully fetched earlier will not be downloaded again.
+
+A hash mark represents transfer of $kb kB.
 
 END
 
 my $ans = prompt("Fetch $exe?", 'yes');
 die "Installation aborted" unless ($ans =~ /^y/i);
 
-my $cs = 'CHECKSUMS';
-my $checksums = $theoryx5 . '/' . $cs;
+my $ftp = Net::FTP->new($theoryx5);
+$ftp->login('anonymous', "$dist\@perl.apache.org")
+  or die "Cannot login to $theoryx5";
+$ftp->cwd("pub/other/$dist");
 
+my $max = get_max();
+my $cs = 'CHECKSUMS';
 my $join = 'join32.exe';
-my $rjoin = $theoryx5 . '/' . $join;
+my @files = ();
 
 # fetch the CHECKSUMS file
 print "Fetching $cs ...";
-getstore($checksums, $cs);
+$ftp->ascii;
+$ftp->get($cs);
 print " done!\n";
 die "Failed to fetch $cs" unless (-e $cs);
+push @files, $cs;
+
+my $cksum;
+die "Cannot load $cs file" unless ( load_cs() );
 
 # fetch the join program
-unless (-e $join) {
+if (-e $join and verifyMD5($join)) {
+  print "Skipping $join ...\n";
+}
+else {
   print "Fetching $join ...";
-  getstore($rjoin, $join);
+  $ftp->binary;
+  $ftp->get($join);
   print " done!\n";
   die "Failed to fetch $join" unless (-e $join);
   unless (verifyMD5($join)) {
@@ -62,21 +80,29 @@ unless (-e $join) {
     die;
   }
 }
+push @files, $join;
 
 # fetch the split files
-my @files;
+print "\nFetching $max split files ....\n\n"; 
+$ftp->hash(1, $bsize);
 for (1 .. $max) {
+  local $| = 1;
   my $num = $_ < 10 ? "00$_" : "0$_";
   my $file = $dist . '.exe.' . $num;
   push @files, $file;
   if (-e $file) {
-    print "Skipping $file ...\n";
-    next;
+    if (verifyMD5($file)) {
+      print "Skipping $file ...\n";
+      next;
+    }
+    else {
+      unlink $file or warn "Could not unlink $file";
+    }
   }
-  my $rfile = $theoryx5 . '/' . $file;
-  print "Fetching $file ...";
-  getstore($rfile, $file);
-  print " done!\n";
+  my $size = sprintf("%d", $ftp->size($file) / 1024);
+  print "\nFetching $file ($size kB) ...\n";
+  $ftp->get($file);
+  print "Done!\n";
   die "Failed to fetch $file" unless (-e $file);
   unless (verifyMD5($file)) {
     print qq{CHECKSUM check for "$file" failed.\n};
@@ -84,8 +110,10 @@ for (1 .. $max) {
     die;
   }
 }
+print "\nFinished fetching split files\n";
+$ftp->quit;
 
-#now join them
+# now join them
 my @args = ('join32');
 system(@args);
 die "Joining files to create $exe failed" unless (-e $exe);
@@ -93,7 +121,7 @@ die "Joining files to create $exe failed" unless (-e $exe);
 # remove the temporary files, if desired
 $ans = prompt('Remove temporary files?', 'yes');
 if ($ans =~ /^y/i) {
-  unlink @files or warn "Cannot unlink @files: $!";
+  unlink(@files) or warn "Cannot unlink temporary files: $!";
 }
 
 # run the exe, if desired
@@ -103,15 +131,13 @@ if ($ans =~ /^y/i) {
    system(@args);
 }
 else {
-   print "Double click on $exe to install\n";
+   print "\nDouble click on $exe to install\n";
 }
 
-# routine to verify the CHECKSUMS for a file
+# routines to verify the CHECKSUMS for a file
 # adapted from the MD5 check of CPAN.pm
-sub verifyMD5 {
-  my $file = shift;
+sub load_cs {
   my $fh = IO::File->new;
-  my $cksum;
   unless (open $fh, $cs) {
     warn "Could not open $cs: $!";
     return;
@@ -126,6 +152,11 @@ sub verifyMD5 {
     warn $@;
     return;
   }
+  return 1;
+}
+
+sub verifyMD5 {
+  my $file = shift;
   my ($is, $should);
   unless (open(FILE, $file)) {
     warn "Cannot open $file: $!";
@@ -140,7 +171,7 @@ sub verifyMD5 {
   close(FILE);
   if ($should = $cksum->{$file}->{md5}) {
     my $test = $is eq $should ? 1 : 0;
-    printf qq{Checksum for "$file" is %s\n}, 
+    printf qq{  Checksum for "$file" is %s\n}, 
       ($test == 1) ? 'OK.' : 'NOT OK.';
     return $test;
   }
@@ -148,4 +179,14 @@ sub verifyMD5 {
     warn "Checksum data for $file not present in CHECKSUMS.\n";
     return;
   }
+}
+
+# get number of split files
+sub get_max {
+  my $dir = $ftp->ls();
+  my $count = 0;
+  foreach (@$dir) {
+    $count++ if m!$dist.exe.\d+!;
+  }
+  return $count;
 }
