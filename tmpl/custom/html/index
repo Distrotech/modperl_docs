@@ -13,7 +13,6 @@
             [%- INCLUDE logo -%]
             [%- INCLUDE navbar_global
                     nav=doc.nav
-                    rel_doc_root=doc.dir.rel_doc_root;
             -%]
 
             <!-- camel begin -->
