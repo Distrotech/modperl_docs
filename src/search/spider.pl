@@ -2,7 +2,7 @@
 use strict;
 
 
-# $Id: spider.pl,v 1.4 2002/04/20 06:13:05 moseley Exp $
+# $Id: spider.pl,v 1.5 2002/04/30 05:37:44 moseley Exp $
 #
 # "prog" document source for spidering web servers
 #
@@ -23,7 +23,7 @@ use HTML::LinkExtor;
 use HTML::Tagset;
 
 use vars '$VERSION';
-$VERSION = sprintf '%d.%02d', q$Revision: 1.4 $ =~ /: (\d+)\.(\d+)/;
+$VERSION = sprintf '%d.%02d', q$Revision: 1.5 $ =~ /: (\d+)\.(\d+)/;
 
 use vars '$bit';
 use constant DEBUG_ERRORS   => $bit = 1;    # program errors
@@ -73,7 +73,8 @@ sub UNIVERSAL::host_port { '' };
     }
 
 
-    print STDERR "$0: Reading parameters from '$config'\n" unless $ENV{SPIDER_QUIET};
+    print STDERR "$0: Reading parameters from '$config'\n"
+        unless $ENV{SPIDER_QUIET} || ( defined $ENV{SPIDER_VERBOSE} && !$ENV{SPIDER_VERBOSE} );
 
     my $abort;
     local $SIG{HUP} = sub { warn "Caught SIGHUP\n"; $abort++ } unless $^O =~ /Win32/i;
