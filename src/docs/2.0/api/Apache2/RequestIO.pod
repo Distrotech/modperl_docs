@@ -1,13 +1,13 @@
 =head1 NAME
 
-Apache::RequestIO - Perl API for Apache request record IO
+Apache2::RequestIO - Perl API for Apache request record IO
 
 
 
 
 =head1 Synopsis
 
-  use Apache::RequestIO ();
+  use Apache2::RequestIO ();
   
   $rc = $r->discard_request_body();
   
@@ -28,15 +28,15 @@ Apache::RequestIO - Perl API for Apache request record IO
 
 =head1 Description
 
-C<Apache::RequestIO> provides the API to perform IO on the L<Apache
-request object|docs::2.0::api::Apache::RequestRec>.
+C<Apache2::RequestIO> provides the API to perform IO on the L<Apache
+request object|docs::2.0::api::Apache2::RequestRec>.
 
 
 
 
 =head1 API
 
-C<Apache::RequestIO> provides the following functions and/or methods:
+C<Apache2::RequestIO> provides the following functions and/or methods:
 
 
 
@@ -55,14 +55,14 @@ interpreted as the next request on a persistent connection.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 The current request
 
 =item ret: C<$rc> ( integer )
 
 C<L<APR::Const status constant|docs::2.0::api::APR::Const>> if request
-is malformed, C<Apache::OK> otherwise.
+is malformed, C<Apache2::OK> otherwise.
 
 =item since: 1.99_10
 
@@ -71,9 +71,9 @@ is malformed, C<Apache::OK> otherwise.
 Since we return an error status if the request is malformed, this
 routine should be called at the beginning of a no-body handler, e.g.,
 
-   use Apache::Const -compile => qw(OK);
+   use Apache2::Const -compile => qw(OK);
    $rc = $r->discard_request_body;
-   return $rc if $rc != Apache::OK;
+   return $rc if $rc != Apache2::OK;
 
 
 
@@ -88,7 +88,7 @@ Send data to the client.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<@msg> ( ARRAY )
 
@@ -122,7 +122,7 @@ Format and send data to the client (same as C<printf>).
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<$format> ( string )
 
@@ -158,7 +158,7 @@ Send data to the client
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<@msg> ( ARRAY )
 
@@ -194,7 +194,7 @@ Read data from the client.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<$buffer> ( SCALAR )
 
@@ -237,7 +237,7 @@ Flush any buffered data to the client.
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: no return value
 
@@ -264,7 +264,7 @@ Send a file or a part of it
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<$filename> ( string )
 
@@ -318,7 +318,7 @@ Send partial string to the client
 =over 4
 
 =item obj: C<$r>
-( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item arg1: C<$buffer> ( SCALAR )
 
