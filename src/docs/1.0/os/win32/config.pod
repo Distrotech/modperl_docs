@@ -113,7 +113,7 @@ into your F<Windows> directory).
 =head1 See Also
 
 The directions for
-<installing mod_perl-1 on Win32|docs::1.0::os::win32::install>,
+L<installing mod_perl-1 on Win32|docs::1.0::os::win32::install>,
 the L<mod_perl documentation|docs::index>, and http://take23.org/.
 
 =head1 Maintainers
