@@ -9,6 +9,10 @@ use vars qw(@ISA);
 require DocSet::Source::HTML;
 @ISA = qw(DocSet::Source::HTML);
 
+use DocSet::Doc::Common ();
+*fetch_pdf_doc_ver = \&DocSet::Doc::Common::fetch_pdf_doc_ver;
+*fetch_src_doc_ver = \&DocSet::Doc::Common::fetch_src_doc_ver;
+
 sub convert {
     my($self) = @_;
 
@@ -19,6 +23,8 @@ sub convert {
                 dir  => $self->{dir},
                 nav  => $self->{nav},
                 last_modified => $self->{timestamp},
+                pdf_doc  => $self->fetch_pdf_doc_ver,
+                src_doc  => $self->fetch_src_doc_ver,
                };
     my $tmpl_file = 'page';
     my $mode = $self->{tmpl_mode};

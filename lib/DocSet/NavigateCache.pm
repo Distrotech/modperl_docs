@@ -67,23 +67,24 @@ sub next {
 
 }
 
-# get prev item's object or undef if there are no more
+# get prev node's object or undef if there are no more
 sub prev {
     my($self) = @_;
-    my $cache    = $self->[OBJ];
+    my $cache = $self->[OBJ];
     my $seq = $cache->id2seq($self->[ID]);
-    
-    # since the hidden objects, if any, are always coming last
-    # we need to go to the last of the non-hidden objects.
+
+    # if the current node is hidden, it's like there is no prev
+    # node, because we don't want hidden node to be linked to the
+    # exposed or hidden sibling nodes if any
+    if ($cache->is_hidden($self->[ID])) {
+        return undef;
+    }
+
     if ($seq) {
         my $id = $cache->seq2id($seq - 1);
-        if ($cache->is_hidden($id)) {
-            return $self->new($self->[CUR_PATH], $id)->prev();
-        }
-        else {
-            return $self->new($self->[CUR_PATH], $id);
-        }
-    } else {
+        return $self->new($self->[CUR_PATH], $id);
+    }
+    else {
         return undef;
     }
 }

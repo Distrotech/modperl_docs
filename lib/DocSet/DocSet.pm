@@ -249,8 +249,9 @@ sub chapter_scan_n_cache {
     $chapter->scan();
 
     # cache the chapter's meta and toc data
-    $self->cache->set($src_file, 'meta', $chapter->meta, $hidden);
-    $self->cache->set($src_file, 'toc',  $chapter->toc,  $hidden);
+    my $id = $src_file;
+    $self->cache->set($id, 'meta', $chapter->meta, $hidden);
+    $self->cache->set($id, 'toc',  $chapter->toc,  $hidden);
 
     return $chapter;
 
@@ -333,7 +334,7 @@ sub copy_the_rest {
 }
 
 
-# abstract classes
+# an abstract method
 sub complete {}
 
 1;

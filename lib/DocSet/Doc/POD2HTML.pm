@@ -6,10 +6,15 @@ use warnings;
 use File::Spec::Functions;
 
 use DocSet::Util;
+
 require Pod::POM;
 #require Pod::POM::View::HTML;
 #my $view_mode = 'Pod::POM::View::HTML';
 my $view_mode = 'DocSet::Doc::POD2HTML::View::HTML';
+
+use DocSet::Doc::Common ();
+*fetch_pdf_doc_ver = \&DocSet::Doc::Common::fetch_pdf_doc_ver;
+*fetch_src_doc_ver = \&DocSet::Doc::Common::fetch_src_doc_ver;
 
 use vars qw(@ISA);
 require DocSet::Source::POD;
@@ -44,8 +49,8 @@ sub convert {
                 dir  => $self->{dir},
                 nav  => $self->{nav},
                 last_modified => $self->{timestamp},
-                pdf_doc  => $self->pdf_doc,
-                src_doc  => $self->src_doc,
+                pdf_doc  => $self->fetch_pdf_doc_ver,
+                src_doc  => $self->fetch_src_doc_ver,
                };
 
     my $tmpl_file = 'page';
@@ -53,69 +58,6 @@ sub convert {
     my $tmpl_root = $self->{tmpl_root};
     $self->{output} = proc_tmpl($tmpl_root, $tmpl_file, $mode, {doc => $vars} );
 
-}
-
-# search for a pdf version in the parallel tree and copy/gzip it to
-# the same dir as the html version (we link to it from the html)
-sub pdf_doc {
-    my $self = shift;
-
-    my $dst_path = $self->{dst_path};
-    $dst_path =~ s/html$/pdf/;
-
-    my $pdf_path = $dst_path;
-
-    my $docset = $self->{docset};
-    my $ps_root = $docset->get_dir('dst_ps');
-    my $html_root = $docset->get_dir('dst_html');
-
-    $pdf_path =~ s/^$html_root/$ps_root/;
-
-#print "TRYING $dst_path $pdf_path \n";
-
-    my %pdf = ();
-    if (-e $pdf_path) {
-        copy_file($pdf_path, $dst_path);
-        gzip_file($dst_path);
-        my $gzip_path = "$dst_path.gz";
-        %pdf = (
-            size => format_bytes(-s $gzip_path),
-            link => filename($gzip_path),
-        );
-    }
-#dumper \%pdf;
-
-    return \%pdf;
-
-}
-
-# search for the source version in the source tree and copy/gzip it to
-# the same dir as the html version (we link to it from the html)
-sub src_doc {
-    my $self = shift;
-    #$self->src_uri
-
-    my $dst_path = catfile $self->{dst_root}, $self->{src_uri};
-    my $src_path = catfile $self->{src_root}, $self->{src_uri};
-
-#print "TRYING $dst_path $src_path \n";
-
-    my %src = ();
-    if (-e $src_path) {
-        # it's ok if the source file has the same name as the dest,
-        # because the final dest file wasn't created yet.
-        copy_file($src_path, $dst_path);
-        gzip_file($dst_path);
-        my $gzip_path = "$dst_path.gz";
-        %src = (
-            size => format_bytes(-s $gzip_path),
-            link => filename($gzip_path),
-        );
-    }
-#dumper \%src;
-
-    return \%src;
-die;
 }
 
 
@@ -173,68 +115,9 @@ sub view_head4 {
         $head4->content->present($self);
 }
 
-sub anchor {
-    my($self, $title) = @_;
-    my $anchor = "$title";
-    $anchor =~ s/\W/_/g;
-    my $link = $title->present($self);
-    return qq{<a name="$anchor">$link</a>};
-}
-
-
-sub view_seq_link {
-    my ($self, $link) = @_;
-
-    # full-blown URL's are emitted as-is
-    if ($link =~ m{^\w+://}s ){
-        return make_href($link);
-    }
-
-    $link =~ s/\n/ /g;   # undo word-wrapped tags
-
-    my $orig_link = $link;
-    my $linktext;
-    # strip the sub-title and the following '|' char
-    if ( $link =~ s/^ ([^|]+) \| //x ) {
-        $linktext = $1;
-    }
-    
-    # make sure sections start with a /
-    $link =~ s|^"|/"|;
-
-    my $page;
-    my $section;
-    if ($link =~ m|^ (.*?) / "? (.*?) "? $|x) { # [name]/"section"
-        ($page, $section) = ($1, $2);
-    }
-    elsif ($link =~ /\s/) {  # this must be a section with missing quotes
-        ($page, $section) = ('', $link);
-    }
-    else {
-        ($page, $section) = ($link, '');
-    }
-
-    # warning; show some text.
-    $linktext = $orig_link unless defined $linktext;
-
-    my $url = '';
-    if (defined $page && length $page) {
-        $url = $page;
-        $url =~ s|::|/|g;
-    }
-
-    # append the #section if exists
-    $url .= "#$section" if defined $section and length $section;
-
-    return make_href($url, $linktext);
-}
-
-sub make_href {
-    my($url, $title) = @_;
-    $title = $url unless defined $title;
-    return qq{<a href="$url">$title</a>};
-}
-
+*anchor        = \&DocSet::Doc::Common::pod_pom_html_anchor;
+*view_seq_link = \&DocSet::Doc::Common::pod_pom_html_view_seq_link;
+*view_verbatim = \&DocSet::Doc::Common::pod_pom_html_view_verbatim;
 
 1;
 

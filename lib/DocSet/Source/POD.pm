@@ -93,9 +93,10 @@ sub retrieve_meta_data {
 sub render_toc_level {
     my($self, $node, $level) = @_;
     my $title = $node->title;
-    my $link = "$title";  # must stringify to get the raw string
-    $link =~ s/\W/_/g;    # META: put into a sub?
-    $link = "#$link";     # prepand '#' for internal links
+    my $link = "$title";     # must stringify to get the raw string
+    $link =~ s/^\s*|\s*$//g; # strip leading and closing spaces
+    $link =~ s/\W/_/g;       # META: put into a sub? see Doc::Common::pod_pom_html_anchor
+    $link = "#$link";        # prepand '#' for internal links
 
     my %toc_entry = (
         title => $title->present($mode), # run the formatting if any

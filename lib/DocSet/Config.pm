@@ -28,7 +28,7 @@ my %conv_class = (
                    },
     'text/html' => {
                     'text/html'   => 'DocSet::Doc::HTML2HTML',
-                    'text/htmlps' => 'DocSet::Doc::HTML2HTML',
+                    'text/htmlps' => 'DocSet::Doc::HTML2HTMLPS',
                     'text/ps'     => 'DocSet::Doc::HTML2PS',
                    },
     'text/plain' => {

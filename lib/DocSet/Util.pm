@@ -29,11 +29,16 @@ use vars qw(@ISA @EXPORT);
 sub copy_file {
     my($src, $dst) = @_;
 
+    die "$src doesn't exist" unless -e $src;
+    my $mode = (stat _)[2];
+
     # make sure that the directory exist or create one
     my $base_dir = File::Basename::dirname $dst;
     create_dir($base_dir) unless (-d $base_dir);
 
-    File::Copy::copy($src, $dst);
+    # File::Copy::syscopy doesn't preserve the mode :(
+    File::Copy::syscopy($src, $dst);
+    chmod $mode, $dst;
 }
 
 # gzip_file($src_path);

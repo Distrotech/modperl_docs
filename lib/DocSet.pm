@@ -1,6 +1,6 @@
 package DocSet;
 
-$VERSION = '0.10';
+$VERSION = '0.11';
 
 =head1 NAME
 

@@ -134,8 +134,7 @@ sub id2seq {
     } 
     else {
         # this shouldn't happen!
-        die "Cannot find $id in $self->{path} cache",
-            dumper $self;
+        Carp::croak("Cannot find '$id' in $self->{path} cache");
     }
 
 }
@@ -149,8 +148,7 @@ sub seq2id {
         return $self->{cache}{_ordered_ids}->[$seq];
     }
     else {
-        die "Cannot find $seq in $self->{path} cache",
-            dumper $self;
+        Carp::croak("Cannot find '$seq' in $self->{path} cache");
     }
 }
 

@@ -4,14 +4,18 @@ use strict;
 use warnings;
 
 use DocSet::Util;
-require Pod::POM;
-#require Pod::POM::View::HTML;
-#my $view_mode = 'Pod::POM::View::HTML';
-my $view_mode = 'DocSet::Doc::POD2HTML::View::HTMLPS';
 
 use vars qw(@ISA);
 require DocSet::Source::POD;
 @ISA = qw(DocSet::Source::POD);
+
+use DocSet::Doc::Common ();
+*postprocess = \&DocSet::Doc::Common::postprocess_ps_pdf;
+
+require Pod::POM;
+#require Pod::POM::View::HTML;
+#my $view_mode = 'Pod::POM::View::HTML';
+my $view_mode = 'DocSet::Doc::POD2HTML::View::HTMLPS';
 
 my %split_by = map {"head".$_ => 1} 1..4;
 
@@ -44,30 +48,6 @@ sub convert {
     my $mode = $self->{tmpl_mode};
     my $tmpl_root = $self->{tmpl_root};
     $self->{output} = proc_tmpl($tmpl_root, $tmpl_file, $mode, {doc => $vars} );
-
-}
-
-sub postprocess {
-    my $self = shift;
-
-    # convert to ps
-    my $html2ps_exec = DocSet::RunTime::can_create_ps();
-    my $html2ps_conf = $self->{docset}->get_file('html2ps_conf');
-    my $dst_path     = $self->{dst_path};
-
-    (my $dst_base  = $dst_path) =~ s/\.html//;
-
-    my $dst_root = $self->{dst_root};
-    my $command = "$html2ps_exec -f $html2ps_conf -o ${dst_base}.ps ${dst_base}.html";
-    note "% $command";
-    system $command;
-
-    # convert to pdf
-    $command = "ps2pdf ${dst_base}.ps ${dst_base}.pdf";
-    note "% $command";
-    system $command;
-
-    # META: can delete the .ps now
 
 }
 
@@ -128,68 +108,9 @@ sub view_head4 {
         $head4->content->present($self);
 }
 
-sub anchor {
-    my($self, $title) = @_;
-    my $anchor = "$title";
-    $anchor =~ s/\W/_/g;
-    my $link = $title->present($self);
-    return qq{<a name="$anchor">$link</a>};
-}
-
-
-sub view_seq_link {
-    my ($self, $link) = @_;
-
-    # full-blown URL's are emitted as-is
-    if ($link =~ m{^\w+://}s ){
-        return make_href($link);
-    }
-
-    $link =~ s/\n/ /g;   # undo word-wrapped tags
-
-    my $orig_link = $link;
-    my $linktext;
-    # strip the sub-title and the following '|' char
-    if ( $link =~ s/^ ([^|]+) \| //x ) {
-        $linktext = $1;
-    }
-    
-    # make sure sections start with a /
-    $link =~ s|^"|/"|;
-
-    my $page;
-    my $section;
-    if ($link =~ m|^ (.*?) / "? (.*?) "? $|x) { # [name]/"section"
-        ($page, $section) = ($1, $2);
-    }
-    elsif ($link =~ /\s/) {  # this must be a section with missing quotes
-        ($page, $section) = ('', $link);
-    }
-    else {
-        ($page, $section) = ($link, '');
-    }
-
-    # warning; show some text.
-    $linktext = $orig_link unless defined $linktext;
-
-    my $url = '';
-    if (defined $page && length $page) {
-        $url = $page;
-        $url =~ s|::|/|g;
-    }
-
-    # append the #section if exists
-    $url .= "#$section" if defined $section and length $section;
-
-    return make_href($url, $linktext);
-}
-
-sub make_href {
-    my($url, $title) = @_;
-    $title = $url unless defined $title;
-    return qq{<a href="$url">$title</a>};
-}
-
+*anchor        = \&DocSet::Doc::Common::pod_pom_html_anchor;
+*view_seq_link = \&DocSet::Doc::Common::pod_pom_html_view_seq_link;
+*view_verbatim = \&DocSet::Doc::Common::pod_pom_html_view_verbatim;
 
 1;
 
