@@ -12,6 +12,8 @@
 
 use strict;
 
+require 5.005_03;
+
 use DocSet::5005compat;
 use warnings;
 require Cwd;
@@ -135,6 +137,19 @@ DocSet::RunTime::set_opt(\%options);
 
 
 ######################################
+### Create the PS/PDF DocSet
+######################################
+if (DocSet::RunTime::get_opts('generate_ps')) {
+    my $docset = DocSet::DocSet::PSPDF->new($config_file);
+    $docset->set_dir(abs_root => ".");
+    $docset->scan;
+    $docset->render;
+}
+
+# HTML DocSet is rendered last, since it may need to link to the
+# products of previously rendered DocSets, e.g. PDF files.
+
+######################################
 ### Create the HTML DocSet
 ######################################
 # scan for available configs (books/chapters)
@@ -145,19 +160,6 @@ my $docset = DocSet::DocSet::HTML->new($config_file);
 $docset->set_dir(abs_root => ".");
 $docset->scan;
 $docset->render;
-
-######################################
-### Create the PS/PDF DocSet
-######################################
-if (DocSet::RunTime::get_opts('generate_ps')) {
-    my $docset = DocSet::DocSet::PSPDF->new($config_file);
-    $docset->set_dir(abs_root => ".");
-    $docset->scan;
-    $docset->render;
-}
-
-
-
 
 
 
