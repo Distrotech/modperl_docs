@@ -8,7 +8,7 @@
 [%- FOREACH sec = subs -%]
 
             <li>
-                <a name="[%- sec.toc_link -%]"><a href="[%- sec.link -%]">[%- sec.title -%]</a>[%- IF sec.abstract -%]<br>[%- sec.abstract -%]<br><br>[%- END -%][%- IF sec.subs -%][%- PROCESS page_toc_section subs=sec.subs -%][%- END -%]
+                <a name="[%- sec.toc_link -%]"></a><a href="[%- sec.link -%]">[%- sec.title -%]</a>[%- IF sec.abstract -%]<br>[%- sec.abstract -%]<br><br>[%- END -%][%- IF sec.subs -%][%- PROCESS page_toc_section subs=sec.subs -%][%- END -%]
                 
             </li>
 [%- END -%]
