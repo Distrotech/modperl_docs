@@ -5,14 +5,16 @@ Image: stas-bekman.jpg
 Summary: Documentation, modules, mod_perl 2.0 contributions, book, articles
 
 Stas has started contributing to mod_perl in 1998 by creating the mini
-mod_perl guide, simply to reduce the rate of broken record questions
-on the mod_perl list. After a few years, some people still referred to
-the guide as mini, while it contained more than 600 pages at that
-time. As of today more than 200 users and developers helped Stas to
-write, review, improve and polish the guide.
+<a href="http://perl.apache.org/docs/1.0/guide/">mod_perl guide</a>,
+simply to reduce the rate of broken record questions on the mod_perl
+list. After a few years, some people still referred to the guide as
+mini, while it contained more than 600 pages at that time. As of today
+more than 200 users and developers helped Stas to write, review,
+improve and polish the guide.
 
-While not working on the documentation, at the remaining spare time,
-Stas has written a few Apache modules available from <a
+While not working on the documentation and developing mod_perl, at the
+remaining spare time, Stas has written a few Apache modules available
+from <a
 href="http://search.cpan.org/search?mode=author&query=Stas+Bekman">his
 CPAN directory</a> and did some work on mod_perl 1.0 series.
 
@@ -24,9 +26,16 @@ articles in popular online zines and conferences, to help with the
 mod_perl list and as usual to write a lot of documentation, mainly for
 mod_perl 2.0.
 
-He is also co-authoring <a href="http://modperlbook.org/">Practical
-mod_perl</a> with Eric Cholet, to be published soon by O'Reilly and
-Associates.
+In autumn 2002 <a href="http://www.ticketmaster.com">Ticket Master</a>
+has extended the sponsorship for one more year, and the following year
+has done it again. As Doug MacEachern has shifted his focus on other
+things at the fall of 2002, Stas took the lead to continue the
+development of mod_perl 2.0, greatly assisted by Geoffrey Young,
+Philippe M. Chiasson and other developers.
+
+Stas has co-authored <a href="http://modperlbook.org/">Practical
+mod_perl</a> with Eric Cholet, published by O'Reilly and Associates in
+May 2003.
 
 And of course, since 1998, when Stas discovered for himself mod_perl,
 he was finding ways to use it at work, even while doing x86 hardware
@@ -34,4 +43,5 @@ development and verification at Intel. He is now thinking about
 mod_perl 3.0's architecture, hopefully to be implemented solely with
 AND and OR gates, driven by the Perl 6.0 chipset for the best
 performance. Don't be surprised when you get offered a shiny Bluetooth
-mod_perl 3.0 PCI card when you shop for your new server machine.
+PCI card with embedded mod_perl when you shop for your new server
+machine.
