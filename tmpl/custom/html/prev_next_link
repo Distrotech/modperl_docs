@@ -13,7 +13,9 @@
        next_link = INCLUDE link prefix=rel_doc_root link=next.meta.link;
    END;
 -%]
-[%- IF prev_link || next_link || (rel_doc_root && rel_doc_root != '.') -%]
+
+[%- # don't add the navigation for the top level index.html
+    IF prev_link || next_link || doc.meta.id != 'home' -%]
     [%- IF prev_link -%]
 <a href="[%- prev_link -%]"><img src="[%- doc.dir.abs_doc_root -%]/images/nav/page_prev.gif" alt="previous page: [% prev.meta.title | html %]" border="0" width="48" height="16"></a>
     [%- ELSE -%]
