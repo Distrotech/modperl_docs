@@ -80,11 +80,8 @@ C<MaxRequestsPerChild> value to 6000.
 In addition to simply checking the total size of a process, this
 module can factor in how much of the memory used by the process is
 actually being shared by copy-on-write.  If you don't understand how
-memory is shared in this way, take a look at the L<mod_perl
-Guide|docs::1.0::guide::index>.
-
-
-META: change link when site is live.
+memory is shared in this way, take a look at the L<Sharing
+Memory|docs::1.0::guide::performance/Sharing_Memory> section.
 
 You can take advantage of the shared memory information by setting a
 minimum shared size and/or a maximum unshared size.  Experience on one
