@@ -63,7 +63,7 @@ http://perl.apache.org/guide/help.html
 =head2 To Get On The List
 
 There are two stages to getting on the list.  Firstly you have to send
-a mail message to: modperl-subscribe@apache.org and wait for receiving
+a mail message to: modperl-subscribe@perl.apache.org and wait for receiving
 a response from the mail server with instructions to proceed.
 
 Secondly you have to do what it says in the instructions.  After you
@@ -74,22 +74,22 @@ it.  You *can* get another copy of it, but then you'll feel silly.
 Traffic on the mod_perl list can be high at times, several hundred
 posts per week, so you might want to consider subscribing to the
 mod_perl digest list as an alternative to the mod_perl list. To do so,
-send an email to modperl-digest-subscribe@apache.org instead.
+send an email to modperl-digest-subscribe@perl.apache.org instead.
 
 
 =head2 To Get Off The List
 
 Instructions on how to unsubscribe are posted in the headers of every
 message which you receive from the List.  All you have to do is send a
-message to: modperl-unsubscribe@apache.org (or
-modperl-digest-unsubscribe@apache.org if you are on the digest list)
+message to: modperl-unsubscribe@perl.apache.org (or
+modperl-digest-unsubscribe@perl.apache.org if you are on the digest list)
 
 To prevent malicious individuals from unsubscribing other people, the
 mailing list software insists that the message requesting that an
 email address be unsubscribed comes from that same address.  If your
 email address has changed you can still unsubscribe, but you will need
 to read the help document, which can be recieved by sending an empty
-email to: modperl-help@apache.org
+email to: modperl-help@perl.apache.org
 
 
 =head1 To post to the List
@@ -100,7 +100,7 @@ you will be given after you subscribe.
 Your message will not be accepted unless you have first L<To Get On
 The List|maillist::list-users>.
 
-Do not post to modperl-subscribe@apache.org, except to subscribe to
+Do not post to modperl-subscribe@perl.apache.org, except to subscribe to
 the list!  Please do not post to the list itself to attempt to
 unsubscribe from it.
 

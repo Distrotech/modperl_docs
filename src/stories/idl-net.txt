@@ -1,6 +1,5 @@
 Date: Tue, 10 Nov 1998 23:16:31 +0100
 From: Abigaël Duesberg <abi@idl-net.com>
-To: modperl <modperl@apache.org>
 Subject: Performance increase of around 1100% compared to ASP
 
 

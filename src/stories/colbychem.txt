@@ -1,8 +1,6 @@
  Subject: ColbyChem: a free web server for ISIS/Host
     Date: Wed, 13 May 1998 10:23:31 -0400 (EDT)
     From: jwkuehne@colby.edu (John Kuehne)
-Reply-To: modperl@apache.org
-      To: modperl@apache.org
 
 Dear mod_perl gang,
 

@@ -1,4 +1,3 @@
-To: modperl@apache.org
 Subject: mod_perl at its best.
 Organization: UUNET Deutschland Web Competence Center
 Date: Fri, 05 Jun 1998 16:13:18 +0200

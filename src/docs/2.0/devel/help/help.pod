@@ -75,7 +75,7 @@ place to be if you want to see mod_perl 2.0 evolve before your eyes.
 
 =item *
 
-mailing list subscription: mailto:modperl-cvs-subscribe@apache.org
+mailing list subscription: mailto:modperl-cvs-subscribe@perl.apache.org
 
 =item *
 
@@ -125,7 +125,7 @@ archive: http://marc.theaimsgroup.com/?l=apache-new-httpd&r=1&w=
 
 =item cvs commits
 
-mailing list subscription: mailto:httpd-2.0-cvs-subscribe@apache.org
+mailing list subscription: mailto:httpd-2.0-cvs-subscribe@perl.apache.org
 
 archive: http://marc.theaimsgroup.com/?l=apache-cvs&r=1&w=2
 
@@ -159,13 +159,13 @@ comes with a partial Perl APR API.
 
 =item discussion/problems report:
 
-mailing list subscription: mailto:apr-dev-subscribe@apache.org
+mailing list subscription: mailto:apr-dev-subscribe@perl.apache.org
 
 archive: http://marc.theaimsgroup.com/?l=apr-dev&r=1&w=2
 
 =item cvs commits
 
-mailing list subscription: mailto:apr-cvs-subscribe@apache.org
+mailing list subscription: mailto:apr-cvs-subscribe@perl.apache.org
 
 archive: http://marc.theaimsgroup.com/?l=apr-cvs&r=1&w=2
 
