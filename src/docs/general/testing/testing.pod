@@ -1242,7 +1242,7 @@ The corresponding request part of the test is named just like the
 response part, using the following translation:
 
   (my $tmp = $path) =~ s{t/[^/]+/(.*).pm}{$1.t};
-  my $path = catfile 't',
+  my $client_file = catfile 't',
       map { s/^test//i; lc $_ } split '::', $tmp;
 
 Notice that the leading C</^test/> part is removed.  Here are some
