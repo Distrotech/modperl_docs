@@ -246,7 +246,7 @@ C<$ENV{SERVER_NAME}>.
 But C<%ENV> population is expensive.  Those who have moved to the Perl
 Apache API no longer need this extra C<%ENV> population, and can gain
 by disabling it. A code using the C<CGI.pm> module require
-C<PerlSetupEnv On> because that module relies on a properly populated
+C<PerlOptions +SetupEnv> because that module relies on a properly populated
 CGI environment table.
 
 This option is enabled by default for sections configured as:
@@ -261,13 +261,13 @@ this functionality you can turn it off for a certain section:
 
   <Location ...>
       SetHandler perl-script
-      Options -SetupEnv
+      PerlOptions -SetupEnv
       ...
   </Location>
 
 or globally:
 
-  Options -SetupEnv
+  PerlOptions -SetupEnv
   <Location ...>
       ...
   </Location>
@@ -278,7 +278,7 @@ sections that need this functionality.
 When this option is disabled you can still read environment variables
 set by you.  For example when you use the following configuration:
 
-  Options -SetupEnv
+  PerlOptions -SetupEnv
   PerlModule Modperl::Registry
   <Location /perl>
     PerlSetEnv TEST hi
