@@ -667,38 +667,88 @@ features that improve mod_perl and are turned on by default.
 
 See also L<Out of memory|/Out_of_memory_>
 
+
+
+
+
 =head2 Out of memory!
 
 If something goes really wrong with your code, Perl may die with an
-"Out of memory!" message and/or "Callback called exit".  Common causes of this
-are never-ending loops, deep recursion, or calling an
-undefined subroutine.  Here's one way to catch the problem: See Perl's
-INSTALL document for this item:
+"Out of memory!" message and/or "Callback called exit".  Common causes
+of this are never-ending loops, deep recursion, or calling an
+undefined subroutine.
 
-  =item -DPERL_EMERGENCY_SBRK
+If you are using perl 5.005 or later, and perl is compiled to use it's
+own malloc rutines, you can trap out of memory errors by setting aside
+an extra memory pool in the special variable C<$^M>.  By default perl
+uses the operating system malloc for many popular systems, so unless
+you build perl with 'usemymalloc=y' you probably wont be able to use
+C<$^M>.  Run:
 
-  If PERL_EMERGENCY_SBRK is defined, running out of memory need not be a
-  fatal error: a memory pool can allocated by assigning to the special
-  variable $^M.  See perlvar(1) for more details.
+  % perl -V:usemymalloc
 
-If you compile with that option and add 'C<use Apache::Debug level
-=E<gt> 4;>' to your Perl script, it will allocate the C<$^M> emergency
-pool and the C<$SIG{__DIE__}> handler will call C<Carp::confess>,
-giving you a stack trace which should reveal where the problem is.
-See the C<Apache::Resource> module for ways to control httpd
-processes.
+if your mod_perl was compiled against perl which uses internal
+C<malloc()> the answer will be 'y'.
+
+Here is an explanation of C<$^M> from the C<perlvar> manpage:
+
+  By default, running out of memory is an untrap- pable, fatal
+  error.  However, if suitably built, Perl can use the contents of
+  $^M as an emergency memory pool after die()ing.  Suppose that
+  your Perl were compiled with -DPERL_EMERGENCY_SBRK and used
+  Perl's malloc.  Then
+
+      $^M = 'a' x (1 << 16);
+
+  would allocate a 64K buffer for use in an emer- gency.  See the
+  INSTALL file in the Perl distribu- tion for information on how
+  to enable this option.  To discourage casual use of this
+  advanced feature, there is no English long name for this
+  variable.
+
+If your perl installation supports $^M and you add 'C<use
+Apache::Debug level =E<gt> 4;>' to your Perl script, it will allocate
+the C<$^M> emergency pool and the C<$SIG{__DIE__}> handler will call
+C<Carp::confess>, giving you a stack trace which should reveal where
+the problem is.  See the C<Apache::Resource> module for ways to
+control httpd processes.
 
 Note that Perl 5.005 and later have C<PERL_EMERGENCY_SBRK> turned on 
 by default.
 
-The other trick is to have a startup script initialize
-C<Carp::confess>, like so:
+Another trick is to have a startup script initialize C<Carp::confess>,
+like so:
 
   use Carp ();
   eval { Carp::confess("init") };
 
 this way, when the real problem happens, C<Carp::confess> doesn't eat
 memory in the emergency pool (C<$^M>).
+
+Some other mod_perl users have reported that this works well for them:
+
+  # Allocate 64K as an emergency memory pool for use in out of
+  # memory situation
+  $^M = 0x00 x 65536;
+
+  # Little trick to initialize this routine here so that in the case
+  # of OOM, compiling this routine doesn't eat memory from the
+  # emergency memory pool $^M
+  use CGI::Carp ();
+  eval { CGI::Carp::confess('init') };
+
+  # Importing CGI::Carp sets $main::SIG{__DIE__} = \&CGI::Carp::die;
+  # Override that to additionally give a stack backtrace
+  $main::SIG{__DIE__} = \&CGI::Carp::confess;
+
+Discussion of C<$^M> has come up on PerlMonks, and there is
+speculation that C<$^M> is a forgotten feature that's not well
+supported.  See http://perlmonks.org/index.pl?node_id=287850 for more
+information.
+
+
+
+
 
 =head2 server reached MaxClients setting, consider raising the MaxClients setting
 
