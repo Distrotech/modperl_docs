@@ -372,7 +372,7 @@ directory, passed via the C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> option:
 =head3 Static mod_perl
 
 Before you proceed make sure that Apache 2.0 has been downloaded and
-extracted. mod_perl B<cannot> be build before that.
+extracted. mod_perl B<cannot> be built before that.
 
 To enable statically linking mod_perl into Apache, use the
 C<L<MP_USE_STATIC|/MP_USE_STATIC>> flag like this:
