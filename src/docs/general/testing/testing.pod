@@ -3318,6 +3318,12 @@ Apache::Test manpage
 
 Apache-Test README
 
+=item * Bug reporting skeletons
+
+mod_perl 2: http://perl.apache.org/~geoff/Apache-Test-skeleton-mp2.tar.gz
+
+mod_perl 1: http://perl.apache.org/~geoff/Apache-Test-skeleton-mp1.tar.gz
+
 =item * extreme programming methodology
 
 Extreme Programming: A Gentle Introduction:
