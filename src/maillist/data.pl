@@ -23,6 +23,11 @@ DESC
                     comment => '',
                    },
                    {
+                    title   => 'marc.theaimsgroup.com',
+                    link    => 'http://marc.theaimsgroup.com/?l=apache-modperl&r=1&w=2#apache-modperl',
+                    comment => '',
+                   },
+                   {
                     title   => 'msgs.securepoint.com',
                     link    => 'http://msgs.securepoint.com/cgi-bin/get/apache-current.html',
                     comment => '',
@@ -45,11 +50,6 @@ DESC
                    {
                     title   => 'www.davin.ottawa.on.ca',
                     link    => 'http://www.davin.ottawa.on.ca/archive/modperl/',
-                    comment => '',
-                   },
-                   {
-                    title   => 'marc.theaimsgroup.com',
-                    link    => 'http://marc.theaimsgroup.com/?l=apache-modperl&r=1&w=2#apache-modperl',
                     comment => '',
                    },
                    {

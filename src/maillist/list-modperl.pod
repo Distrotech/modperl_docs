@@ -53,6 +53,10 @@ mailto:modperl-help@perl.apache.org
 
 http://mathforum.org/epigone/modperl 
 
+=item * marc.theaimsgroup.com
+
+http://marc.theaimsgroup.com/?l=apache-modperl&r=1&w=2#apache-modperl 
+
 =item * msgs.securepoint.com
 
 http://msgs.securepoint.com/cgi-bin/get/apache-current.html 
@@ -72,10 +76,6 @@ http://www.mail-archive.com/modperl@apache.org/
 =item * www.davin.ottawa.on.ca
 
 http://www.davin.ottawa.on.ca/archive/modperl/ 
-
-=item * marc.theaimsgroup.com
-
-http://marc.theaimsgroup.com/?l=apache-modperl&r=1&w=2#apache-modperl 
 
 =item * www.egroups.com
 
