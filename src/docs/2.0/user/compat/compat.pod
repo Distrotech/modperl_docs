@@ -172,6 +172,30 @@ META: add the info how to perform the transition. XXX: may be write a
 script, which can tell you how to port the constants to 2.0? Currently
 C<Apache::compat> doesn't provide a complete back compatibility layer.
 
+=head2 Deprecated Constants
+
+C<REDIRECT> and similar constants have been deprecated in Apache for
+years, in favor of the C<HTTP_*> names. mod_perl 2.0 API performs the
+following aliasing behind the scenes:
+
+     NOT_FOUND     => 'HTTP_NOT_FOUND',
+     FORBIDDEN     => 'HTTP_FORBIDDEN',
+     AUTH_REQUIRED => 'HTTP_UNAUTHORIZED',
+     SERVER_ERROR  => 'HTTP_INTERNAL_SERVER_ERROR',
+     REDIRECT      => 'HTTP_MOVED_TEMPORARILY',
+
+but we suggest moving to use the C<HTTP_*> names. For example if
+running in 1.0 compatibility mode change:
+
+  use Apache::Constants qw(REDIRECT);
+
+to:
+
+  use Apache::Constants qw(HTTP_MOVED_TEMPORARILY);
+
+This will work in both mod_perl generations.
+
+
 =head2 C<SERVER_VERSION()>
 
 C<Apache::Constants::SERVER_VERSION()> has been replaced with:
@@ -188,6 +212,13 @@ needed.
 
 
 =head1 C<Apache::> Methods
+
+=head2 C<Apache-E<gt>server>
+
+C<Apache-E<gt>server> now resides in C<Apache::ServerUtil>. To use it
+add:
+
+  use Apache::ServerUtil ();
 
 =head2 C<Apache-E<gt>request>
 
