@@ -36,8 +36,8 @@
   
   max_items = 3;
   num_items = books.size;
-  day_week = date.format(date.now, '%w'); # 0 == Sunday
-  first_book = day_week % num_items;
+  seconds = date.format(date.now, '%S'); 
+  first_book = seconds % num_items;
 -%]
 
 [%- WRAPPER wrap_box
@@ -68,5 +68,19 @@
         </tr>
 
 [% END %]
+
+        <tr>
+            <td class="menu-border" width="1"><br></td>
+            <td class="ad-bg">
+                <div class="adtext">
+                    <em><a href="[% doc.dir.abs_doc_root %]/docs/offsite/books.html">More mod_perl books...</a></em>
+                </div>
+            </td>
+            <td class="menu-border" width="1"><br></td>
+        </tr>
+
+        <tr>
+            <td class="menu-border" colspan="3" height="1"><small class="nbr"><small class="nbr"><br class="smallbr"></small></small></td>
+        </tr>
 
 [% END %]
