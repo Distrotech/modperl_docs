@@ -428,6 +428,64 @@ I<httpd.conf>:
   PerlChildExitHandler  MyApache::StartupLog::child_exit
 
 
+
+=head1 Startup Apache Commands
+
+Some notes on how Apache start/restart Apache commands affect
+mod_perl.
+
+META: not sure this is the best place for this section, but start some
+notes here.
+
+Apache reparses F<httpd.conf> at least once for B<each> of the
+following commands (and will run any mod_perl code found in it).
+
+
+=over
+
+=item httpd -k start
+
+No special issues here.
+
+Apache start and immediately restarts itself.
+
+
+
+=item httpd -k restart
+
+This will abort any processed requests and restart the server.
+
+All kind of problems could be encountered here, including segfaults
+and other kind of crashes. This is because when the C<SIGTERM> signal
+is sent, things in process will be aborted.
+
+Avoid using this method.
+
+Alternatively C<httpd -k restart> can be executed C<kill -HUP
+HTTPD_PID>.
+
+
+
+=item httpd -k graceful
+
+No issues here. Apache starts and restarts itself just like with
+C<start>, but it waits for the existing requests to finish before
+killing them.
+
+Alternatively C<httpd -k graceful> can be executed C<kill -USR1
+HTTPD_PID>.
+
+
+=item httpd -k stop
+
+Similarly to C<httpd -k restart> you may encounter all kind of issue
+here, due to the C<SIGTERM> signal.
+
+=back
+
+
+
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
