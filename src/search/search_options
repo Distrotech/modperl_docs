@@ -3,7 +3,7 @@
 # *** Automatically generated file.  Do not edit.  Modify ./make.pl instead! ***
 #    File: 'search_options'
 #     Use: generating the sidebar select options for searching
-# Created: Sun Jun 30 14:01:00 2002
+# Created: Mon Jul  1 00:10:28 2002
 #--------------------------------------------------------------------------------------
 
     search_areas = [
@@ -49,4 +49,26 @@
         "SecQ" => "Products" 
         "SecR" => "Contribute"         
     }
+
+    search_path_map = [
+        { path => "^docs/1.0/guide", section => "SecE" } 
+        { path => "^docs/1.0/win32", section => "SecF" } 
+        { path => "^docs/tutorials", section => "SecM" } 
+        { path => "^docs/2.0/devel", section => "SecJ" } 
+        { path => "^docs/2.0/user", section => "SecI" } 
+        { path => "^docs/offsite", section => "SecN" } 
+        { path => "^docs/2.0/api", section => "SecK" } 
+        { path => "^docs/general", section => "SecL" } 
+        { path => "^docs/1.0/api", section => "SecG" } 
+        { path => "^outstanding", section => "SecA" } 
+        { path => "^contribute", section => "SecR" } 
+        { path => "^download", section => "SecB" } 
+        { path => "^docs/1.0", section => "SecD" } 
+        { path => "^docs/2.0", section => "SecH" } 
+        { path => "^maillist", section => "SecP" } 
+        { path => "^products", section => "SecQ" } 
+        { path => "^help", section => "SecO" } 
+        { path => "^docs", section => "SecC" } 
+    ]
 -%]
+    
