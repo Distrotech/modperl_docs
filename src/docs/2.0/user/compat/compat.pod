@@ -222,20 +222,6 @@ options can be passed. See the
 C<L<ModPerl::RegistryLoader|docs::2.0::api::ModPerl::RegistryLoader>>
 manpage for more information.
 
-=head1 Special Environment Variables
-
-=head2 C<$ENV{GATEWAY_INTERFACE}>
-
-The environment variable C<$ENV{GATEWAY_INTERFACE}> is deprecated in
-mod_perl 2.0. Instead use C<$ENV{MOD_PERL}>, which is set to something
-like this:
-
-  mod_perl/1.99_03-dev
-
-However to check the version it's better to use C<$mod_perl::VERSION>:
-
-  use mod_perl;
-  use constant MP2 => ($mod_perl::VERSION >= 1.99);
 
 
 =head1 C<Apache::Constants>
@@ -302,7 +288,7 @@ C<Apache::Constants::export()> has no replacement in 2.0 as it's not
 needed.
 
 
-=head1 Environment Variables
+=head1 Issues with Environment Variables
 
 There are several thread-safety issues with setting environment
 variables.
@@ -314,6 +300,22 @@ issue|docs::2.0::user::troubleshooting::troubleshooting/C_Libraries_Don_t_See_C_
 Forked processes (including backticks) won't see CGI emulation
 environment variables. (META: This will hopefully be resolved in the
 future, it's documented in modperl_env.c:modperl_env_magic_set_all.)
+
+=head1 Special Environment Variables
+
+=head2 C<$ENV{GATEWAY_INTERFACE}>
+
+The environment variable C<$ENV{GATEWAY_INTERFACE}> is deprecated in
+mod_perl 2.0. Instead use C<$ENV{MOD_PERL}>, which is set to something
+like this:
+
+  mod_perl/1.99_03-dev
+
+However to check the version it's better to use C<$mod_perl::VERSION>:
+
+  use mod_perl;
+  use constant MP2 => ($mod_perl::VERSION >= 1.99);
+
 
 
 =head1 C<Apache::> Methods
