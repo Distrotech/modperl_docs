@@ -1538,6 +1538,9 @@ Configure Apache.
   % cd apache_1.3.xx
   % ./configure --prefix=/usr/local/etc/httpd
 
+(this step might be redundant with the recent versions of mod_php, but
+it's harmless.)
+
 =item 1
 
 Build mod_perl.
