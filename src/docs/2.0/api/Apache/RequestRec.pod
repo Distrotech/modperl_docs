@@ -15,7 +15,6 @@ Apache::RequestRec - Perl API for Apache request record accessors
       my $auth_type = $r->auth_type;
       ...
       my $s = $r->server;
-      my $dir_config = $r->dir_config;
   }
 
 META: to be completed
