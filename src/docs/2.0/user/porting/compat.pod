@@ -674,6 +674,18 @@ object|docs::2.0::api::Apache::Connection>>:
 C<$r-E<gt>get_remote_host> is available through
 C<L<Apache::compat|docs::2.0::api::Apache::compat>>.
 
+=head2 C<$r-E<gt>cleanup_for_exec>
+
+C<$r-E<gt>cleanup_for_exec> doesn't exist in the Apache 2.0 API, it is
+now being internally called by the Apache process spawning
+functions. For more information see
+C<L<Apache::SubProcess|docs::2.0::api::Apache::SubProcess>> manpage.
+
+There is C<L<$pool-E<gt>cleanup_for_exec|docs::2.0::api::APR::Pool>>,
+but it's not the same as C<$r-E<gt>cleanup_for_exec> in the mod_perl
+1.0 API.
+
+
 =head2 C<$r-E<gt>content>
 
 See the next item.
