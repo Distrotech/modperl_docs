@@ -181,6 +181,8 @@ and testing.
   Apache::VMonitor           Stas Bekman <stas AT stason.org>
   Apache::AuthPerLDAP        Shannon Eric Peevey <speeves AT unt.edu>
   Apache::Request            http://httpd.apache.org/apreq/
+  Apache::Language           Philippe M. Chiasson <gozer AT cpan.org>
+  Apache::AutoIndex          Philippe M. Chiasson <gozer AT cpan.org>
 
 =head1 Maintainers
 
