@@ -8,7 +8,7 @@ This chapter covers the mod_perl coding specifics, different from normal Perl co
 
 =head1 Prerequisites
 
-=head1 TITLE_XXX
+=head1 Goodies Toolkit
 
 =head2 Environment Variables
 
@@ -50,6 +50,26 @@ C<TZ> - Time Zone.
 =back
 
 Any of these environment variables can be accessed via C<%ENV>.
+
+=head2 Threaded MPM or not?
+
+If the code needs to behave differently depending on whether it's
+running under one of the threaded MPMs, or not, the
+C<Apache::MPM_IS_THREADED> constant can be used. For example:
+
+  if (Apache::MPM_IS_THREADED) {
+      my $id = APR::OS::thread_current();
+      print "current thread id: $id";
+  }
+  else {
+      print "current process id: $$";
+  }
+
+This code prints the current thread id if running under a threaded
+MPM, otherwise it prints the process id.
+
+
+
 
 =head1 Perl Specifics in mod_perl Environment
 
