@@ -167,7 +167,7 @@ list|maillist::modperl>, so we can update this information:
   Apache::AuthzNIS           Apache-AuthzNIS-0.11
   Apache::AuthzNetLDAP       Apache-AuthzNetLDAP-0.07
   Apache::AuthzPasswd        Apache-AuthzPasswd-0.11
-  Apache::Clean              Apache-Clean-2.00_4 (not released)
+  Apache::Clean              Apache-Clean-2.00_4
   Apache::Peek               Apache-Peek-1.01
   Apache::SessionManager     Apache-SessionManager 1.00
   CGI                        CGI.pm-2.93
@@ -194,6 +194,22 @@ and testing.
   Apache::Request            http://httpd.apache.org/apreq/
   Apache::Language           Philippe M. Chiasson <gozer AT cpan.org>
   Apache::AutoIndex          Philippe M. Chiasson <gozer AT cpan.org>
+  Apache::Template           Geoffrey Young <geoff AT modperlcookbook.org>
+
+=head1 mod_perl 2.0 Specific Modules
+
+The following modules have gone beyond the porting stage and
+are specifically designed for mod_perl 2.0 and the new features
+and functionality it brings.  Each is available from CPAN.
+If you know of other modules that have been written for
+the 2.0 API but not listed here, please contact L<the modperl
+list|maillist::modperl>, so we can update this information:
+
+  Module                     Maintainers
+  ----------------------------------
+  Apache::AuthenHook         Geoffrey Young <geoff AT modperlcookbook.org>
+  Apache::IncludeHook        Geoffrey Young <geoff AT modperlcookbook.org>
+
 
 =head1 Maintainers
 
