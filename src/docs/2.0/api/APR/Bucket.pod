@@ -354,7 +354,7 @@ constant|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>>.
 
 the read data buffer
 
-=item since: 1.99_14
+=item since: 1.99_15
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 

@@ -66,7 +66,7 @@ The IP-subnet object
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-=item since: 1.99_14
+=item since: 1.99_15
 
 =back
 
@@ -94,7 +94,7 @@ The socket address to test
 
 true if the socket address is within the subnet, false otherwise
 
-=item since: 1.99_10
+=item since: 1.99_15
 
 =back
 

@@ -50,7 +50,7 @@ Encrypted or encoded hash. See below for supported hash formats.
 
 The password either matches or not.
 
-=item since: 1.99_10
+=item since: 1.99_15
 
 =back
 

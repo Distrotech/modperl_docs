@@ -37,7 +37,7 @@ Get the name of the bucket type:
 
 =item ret: C<$bucket_type_name> ( string )
 
-=item since: 1.99_14
+=item since: 1.99_15
 
 =back
 

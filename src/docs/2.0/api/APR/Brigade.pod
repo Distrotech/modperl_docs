@@ -103,9 +103,11 @@ The bucket brigade to destroy.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-=item since: 1.99_14
+=item since: 1.99_15
 
 =back
+
+
 
 
 
@@ -122,7 +124,7 @@ Test whether the bucket brigade is empty
 
 =item ret: C<$ret> ( true/false )
 
-=item since: 1.99_10
+=item since: 1.99_15
 
 =back
 

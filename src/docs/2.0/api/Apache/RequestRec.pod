@@ -60,7 +60,7 @@ two different objects originating from C<$r-E<gt>finfo> at the same
 time. Whenever C<$r-E<gt>finfo> is updated all objects will be updated
 too to the latest value.
 
-=item since: 1.99_14
+=item since: 1.99_15
 
 =back
 
