@@ -207,6 +207,8 @@ request or connection).
 
 =item ret: no return value
 
+=item since: 1.99_10
+
 =back
 
 Notice that you should either complete the current filter invocation
