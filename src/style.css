@@ -44,7 +44,7 @@ div.nonselectedmenuitem {
     padding: 3px;
     background-color: #eeeeee;
     font-size: 0.9em;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
 }
 
 div.nonselectedmenuitem a:link, div.nonselectedmenuitem a:visited, div.nonselectedmenuitem a:active {
@@ -57,7 +57,7 @@ div.nonselectedmenuitem a:hover { color: #999999; }
 div.selectedmenuitem {
     padding: 3px;
     background-color: #525d76;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     font-size: 0.9em;
 }
 
@@ -71,7 +71,7 @@ div.selectedmenuitem a:hover { color: #cccc99; }
 div.menu-title {
     padding: 3px;
     color: #000000;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     font-size: 14px;
     font-weight: bold;
     background-color: #828da6;
@@ -88,7 +88,7 @@ td.menu-border { background-color: #525d76; }
 
 /* font specs for search box */
 .radio-font {
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     font-size: 0.9em;
     color: #000000;
 }
@@ -136,7 +136,7 @@ div.adtext {
 
 /* breadcrumb */
 td.navbarglobal {
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     color: #828da6;
     font-size: 0.85em;
 }
@@ -144,13 +144,13 @@ td.navbarglobal {
 td.navbarglobal a:link, td.navbarglobal a:visited, td.navbarglobal a:active {
     text-decoration: none;
     color: #828da6;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
 }
 
 td.navbarglobal a:hover {
     text-decoration: none;
     color: #666666;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
 }
 
 
@@ -177,7 +177,7 @@ p.copyright {
 
 div.headline {
     background-color: #525d76;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     font-weight: bold;
     color: #ffffff;
     font-size: 1.2em;
@@ -190,7 +190,7 @@ div.searchform { font-size: 1.0em; }
 
 td.searchheader {
     background-color: #525d76;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     color: #ffffff;
     font-size: 0.9em;
 /*    font-size: 0.8em; */
@@ -198,7 +198,7 @@ td.searchheader {
 
 td.searchtimes {
     background-color: #525d76;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     color: #ffffff;
     font-size: 0.7em;
 /*    font-size: 0.6em; */
@@ -206,7 +206,7 @@ td.searchtimes {
 
 td.searchnav {
     background-color: #eeeeee;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     color: #000000;
     font-size: 0.8em;
 }
