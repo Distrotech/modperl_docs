@@ -2996,6 +2996,25 @@ Similarly, if you compile a non-Perl component separately, you should
 make sure to use both the same compiler and the same options used to
 build Perl.
 
+
+=head2 Unescaping F<error_log>
+
+Starting from 1.3.30, the Apache logging API escapes everything that
+goes to F<error_log>, therefore if you're annoyed by this feature
+during the development phase (as your error messages will be all
+messed up) you can disable the escaping during the Apache build time:
+
+  % CFLAGS="-DAP_UNSAFE_ERROR_LOG_UNESCAPED" ./configure ...
+
+Or if you build a static perl
+
+  % perl Makefile.PL ... PERL_EXTRA_CFLAGS=-DAP_UNSAFE_ERROR_LOG_UNESCAPED
+
+Do B<not> use that CFLAGS in production unless you know what you are
+doing.
+
+
+
 =head1 OS Related Notes
 
 =over 3

@@ -192,9 +192,9 @@ version and rebuild, run:
 
 If you don't have the prerequisites installed yet, install them now.
 
-=over
 
-=item Perl
+
+=head3 Perl
 
   % cd perl-5.8.x
   % ./Configure -des
@@ -214,13 +214,26 @@ Now build it:
   % make && make test && make install
 
 
-=item Apache
+
+
+=head3 Apache
 
   % cd httpd-2.x.xx
   % ./configure --prefix=$HOME/httpd/prefork --with-mpm=prefork
   % make && make install
 
-=back
+Starting from 2.0.49, the Apache logging API escapes everything that
+goes to F<error_log>, therefore if you're annoyed by this feature
+during the development phase (as your error messages will be all
+messed up) you can disable the escaping during the Apache build time:
+
+  % CFLAGS="-DAP_UNSAFE_ERROR_LOG_UNESCAPED" ./configure ...
+
+Do B<not> use that CFLAGS in production unless you know what you are
+doing.
+
+
+
 
 =head1 Installing mod_perl from Binary Packages
 
