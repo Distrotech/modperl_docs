@@ -176,13 +176,22 @@ The C<:error> group is for XXX constants.
 =head3 C<APR::EOF>
 
 
+=head3 C<APR::EPATHWILD>
+
+
 =head3 C<APR::EPIPE>
+
+
+=head3 C<APR::EPROC_UNKNOWN>
 
 
 =head3 C<APR::ERELATIVE>
 
 
 =head3 C<APR::ESPIPE>
+
+
+=head3 C<APR::ESYMNOTFOUND>
 
 
 =head3 C<APR::ETIMEDOUT>
@@ -235,6 +244,16 @@ The C<:filemode> group is for XXX constants.
   use APR::Const -compile => qw(:filepath);
 
 The C<:filepath> group is for XXX constants.
+
+
+=head3 C<APR::FILEPATH_ENCODING_LOCALE>
+
+
+=head3 C<APR::FILEPATH_ENCODING_UNKNOWN>
+
+
+=head3 C<APR::FILEPATH_ENCODING_UTF8>
+
 
 =head3 C<APR::FILEPATH_NATIVE>
 
@@ -593,6 +612,7 @@ The C<:socket> group is for XXX constants.
 =head3 C<APR::SO_SNDBUF>
 
 
+=head3 C<APR::SO_TIMEOUT>
 
 
 

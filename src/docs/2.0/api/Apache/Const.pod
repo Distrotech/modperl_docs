@@ -301,6 +301,9 @@ The C<:http> group is for XXX constants.
 =head3 C<Apache::HTTP_UNSUPPORTED_MEDIA_TYPE>
 
 
+=head3 C<Apache::HTTP_UPGRADE_REQUIRED>
+
+
 =head3 C<Apache::HTTP_USE_PROXY>
 
 
