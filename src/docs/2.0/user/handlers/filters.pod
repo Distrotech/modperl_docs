@@ -911,6 +911,46 @@ C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 
 
+=head2 Adding OutFilters Dynamically
+
+If you have the need to add output filters dymically during the
+request, mod_perl 2.0 offers you the possibility to push filter
+callbacks at request time. For example here is how to add an output
+filter during the Fixup phase:
+
+  <Files *\.html >
+    PerlFixupHandler MyApache::AddFilterDyn
+  </Files>
+
+And the corresponding module:
+
+  #file:MyApache/AddFilterDyn.pm
+  package MyApache::AddFilterDyn;
+  
+  use Apache::Const -compile => qw(OK);
+  use Apache::Filter;
+  use MyApache::FilterObfuscate;
+  
+  sub handler {
+      my $r = shift;
+  
+      $r->add_output_filter(\&MyApache::FilterObfuscate::handler);
+  
+      return Apache::OK;
+  }
+  
+  1;
+
+You can also add connection filters dynamically. For more information
+referer to the C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>
+manpage:
+C<L<add_input_filter|docs::2.0::api::Apache::Filter/C_add_input_filter_>>
+and
+C<L<add_output_filter|docs::2.0::api::Apache::Filter/C_add_output_filter_>>.
+
+
+
+
 
 =head2 HTTP Request vs. Connection Filters
 
