@@ -21,6 +21,34 @@ troubleshooting.
 =head1 Configuration and Startup
 
 
+
+=head2 "mod_perl.c" is not compatible with this version of Apache
+(found 20020628, need 20020903)
+
+That error message means that mod_perl was built against Apache
+released on or post-20020628, but you are trying to load it against
+one released on or post-20020903. You will see the same error message
+for any other Apache module -- this is an error coming from Apache,
+not mod_perl.
+
+Apache bumps up a special magic number every time it does a binary
+incompatible change, and then it makes sure that all modules that it
+loads were compiled against the same compatibility generation (which
+may include only one or quite a few Apache releases).
+
+You may encounter this situation when you upgrade to a newer Apache,
+without rebuilding mod_perl. Or when you have several versions of
+Apache installed on the same system. Or when you install prepackaged
+binary versions which aren't coming from the source and aren't made
+against the same Apache version.
+
+The solution is to have mod_perl built against the same Apache
+installed on your system. So either build from source or contact your
+binary version supplier and get a proper package(s) from them.
+
+
+
+
 =head2 Server Hanging at the Startup
 
 First you need to figure out where it hangs. strace(1) or an
