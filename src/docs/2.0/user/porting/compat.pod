@@ -117,6 +117,39 @@ C<@INC>.
 =back
 
 
+=head1 Server Startup
+
+mod_perl 1.0 was always running its startup code immediately at the
+server startup. On a big setup it was causing a slow startup, since
+Apache always starts and immediately restarts itself, running the
+startup code twice. Therefore in mod_perl 2.0, by default perl won't
+be started until after the configuration phase. So, if for example you
+run:
+
+  % apachectl configtest
+
+none of your perl code will be executed.
+
+There are two cases when mod_perl 2.0 is forced to start early. First,
+is when
+C<L<PerlLoadModule|docs::2.0::user::config::config/C_PerlLoadModule_>>
+is used and the second is
+C<L<E<lt>PerlE<gt>|docs::2.0::api::Apache::PerlSections>> sections,
+both requiring a running perl, and triggering an early server startup.
+
+Therefore at the moment, if you want to trigger an early startup, like
+mod_perl 1.0 does, just add an empty
+C<L<E<lt>PerlE<gt>|docs::2.0::api::Apache::PerlSections>> section:
+
+  <Perl>
+  # trigger an early startup
+  </Perl>
+
+Right after loading the mod_perl module in F<httpd.conf> if you are
+using DSO, or just before your mod_perl configuration if you using a
+static build.
+
+
 =head1 Code Porting
 
 mod_perl 2.0 is trying hard to be back compatible with mod_perl
