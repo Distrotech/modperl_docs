@@ -18,6 +18,9 @@ Apache::Connection - Perl API for Apache connection object
   # needed for creating buckets/brigades
   $ba = $c->bucket_alloc();
   
+  # client's socket
+  $socket = $c->client_socket;
+  
   # unique connection id
   $id = $c->id();
   
@@ -37,6 +40,7 @@ Apache::Connection - Perl API for Apache connection object
   
   # local and remote hostnames
   $local_host = $c->local_host();
+  $remote_host = $c->get_remote_host();
   $remote_host = $c->remote_host();
   
   # server and remote client's IP addresses
@@ -149,6 +153,121 @@ and C<L<APR::Brigade|docs::2.0::api::APR::Brigade>> methods/functions.
 
 
 
+=head2 C<client_socket>
+
+Get/set the client socket
+
+  $socket      = $c->client_socket;
+  $prev_socket = $c->client_socket($new_socket);
+
+=over 4
+
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+
+=item opt arg1: C<$new_socket>
+( C<L<APR::Socket object|docs::2.0::api::APR::Socket>> object )
+
+If passed a new socket will be set.
+
+=item ret: C<$socket>
+( C<L<APR::Socket object|docs::2.0::api::APR::Socket>> object )
+
+current client socket
+
+if the optional argument C<$new_socket> was passed the previous socket
+object is returned.
+
+=item since: 1.99_12
+
+=back
+
+
+
+
+
+=head2 C<get_remote_host>
+
+Lookup the client's DNS hostname or IP address
+
+  $remote_host = $c->remote_host();
+  $remote_host = $c->remote_host($type);
+  $remote_host = $c->remote_host($type, $dir_config);
+
+=over 4
+
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+
+The current connection
+
+=item opt arg1: C<$type> ( C<L<:remotehost
+constant|docs::2.0::api::Apache::Const/C__remotehost_>> )
+
+The type of lookup to perform:
+
+=over
+
+=item C<Apache::REMOTE_DOUBLE_REV>
+
+will always force a DNS lookup, and also force a double reverse
+lookup, regardless of the C<HostnameLookups> setting.  The result is
+the (double reverse checked) hostname, or undef if any of the lookups
+fail.
+
+=item C<Apache::REMOTE_HOST>
+
+returns the hostname, or C<undef> if the hostname lookup fails.  It
+will force a DNS lookup according to the C<HostnameLookups> setting.
+
+=item C<Apache::REMOTE_NAME>
+
+returns the hostname, or the dotted quad if the hostname lookup fails.
+It will force a DNS lookup according to the C<HostnameLookups>
+setting.
+
+=item C<Apache::REMOTE_NOLOOKUP>
+
+is like C<Apache::REMOTE_NAME> except that a DNS lookup is never
+forced.
+
+=back
+
+Default value is C<Apache::REMOTE_NAME>.
+
+=item opt arg2: C<$dir_config>
+( C<L<Apache::ConfVector object|docs::2.0::api::Apache::ConfVector>> )
+
+The directory config vector from the request. It's needed to find the
+container in which the directive C<HostnameLookups> is set. To get one
+for the current request use
+C<L<$r-E<gt>per_dir_config|docs::2.0::api::Apache::RequestRec/C_per_dir_config_>>.
+
+By default, C<undef> is passed, in which case it's the same as if
+C<HostnameLookups> was set to C<Off>.
+
+=item ret: C<$remote_host> ( string/undef )
+
+The remote hostname.  If the configuration directive
+B<HostNameLookups> is set to off, this returns the dotted decimal
+representation of the client's IP address instead. Might return
+C<undef> if the hostname is not known.
+
+=item since: 1.99_12
+
+=back
+
+The result of C<get_remote_host> call is cached in
+C<L<$c-E<gt>remote_host|/C_remote_host_>>. If the latter is set,
+C<get_remote_host> will return that value immediately, w/o doing any
+checkups.
+
+
+
+
+
+
+
 =head2 C<id>
 
 ID of this connection; unique at any point in time
@@ -219,8 +338,8 @@ alive for another HTTP request after the current request is completed?
 =item obj: C<$c>
 ( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
-=item opt arg1: C<$new_status> (C<L<:conn_keepalive
-constant|docs::2.0::api::Apache::Const/C__conn_keepalive_>>)
+=item opt arg1: C<$new_status> ( C<L<:conn_keepalive
+constant|docs::2.0::api::Apache::Const/C__conn_keepalive_>> )
 
 Normally you should not mess with setting this option when handling
 the HTTP protocol. If you do (for example when sending your own
@@ -229,8 +348,8 @@ C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache::RequestRec/C_assbackwards_>>)
 -- take a look at the ap_set_keepalive() function in
 F<httpd-2.0/modules/http/http_protocol.c>.
 
-=item ret: C<$status> (C<L<:conn_keepalive
-constant|docs::2.0::api::Apache::Const/C__conn_keepalive_>>)
+=item ret: C<$status> ( C<L<:conn_keepalive
+constant|docs::2.0::api::Apache::Const/C__conn_keepalive_>> )
 
 The method does B<not> return true or false, but one of the states
 which can be compared against (C<L<:conn_keepalive
@@ -534,11 +653,11 @@ Client's IP address
 
 
 
+
+
 =head2 C<remote_host>
 
-Client's DNS name, if known.  NULL if DNS hasn't been checked, "" if
-it has and no address was found.  N.B. Only access this though
-get_remote_host()
+Client's DNS name:
 
   $remote_host = $c->remote_host();
 
@@ -547,11 +666,20 @@ get_remote_host()
 =item obj: C<$c>
 ( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
 
-=item ret: C<$remote_host> (string)
+=item ret: C<$remote_host> ( string/undef )
+
+If C<L<$c-E<gt>get_remote_host|/C_get_remote_host_>> was run it
+returns the cached value, which is a client DNS name or C<""> if it
+wasn't found. If the check wasn't run -- C<undef> is returned.
 
 =item since: 1.99_12
 
 =back
+
+It's best to to call C<L<$c-E<gt>get_remote_host|/C_get_remote_host_>>
+instead of directly accessing this variable.
+
+
 
 
 

@@ -368,7 +368,7 @@ The C<:config> group is for XXX constants.
 
   use Apache::Const -compile => qw(:conn_keepalive);
 
-The C<:conn_keepalive> group is used by the
+The C<:conn_keepalive> constants group is used by the
 (C<L<$c-E<gt>keepalive|docs::2.0::api::Apache::Connection/C_keepalive_>>)
 method.
 
@@ -2017,7 +2017,7 @@ The C<:mpmq> group is for querying MPM properties.
 
   use Apache::Const -compile => qw(:options);
 
-The C<:options> group is contains constants corresponding to the
+The C<:options> group contains constants corresponding to the
 C<Options> configuration directive. For examples see:
 C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
@@ -2148,7 +2148,7 @@ C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_options_>>.
 
   use Apache::Const -compile => qw(:override);
 
-The C<:override> group is contains constants corresponding to the
+The C<:override> group contains constants corresponding to the
 C<AllowOverride> configuration directive. For examples see:
 C<L<$r-E<gt>allow_options|docs::2.0::api::Apache::Access/C_allow_overrides_>>.
 
@@ -2325,7 +2325,9 @@ differ from OS to OS.
 
   use Apache::Const -compile => qw(:remotehost);
 
-The C<:remotehost> group is for XXX constants.
+The C<:remotehost> constants group is is used by the
+C<L<$c-E<gt>get_remote_host|docs::2.0::api::Apache::Connection/C_get_remote_host_>>
+method.
 
 
 
@@ -2337,7 +2339,6 @@ The C<:remotehost> group is for XXX constants.
 =item since: 1.99_12
 
 =back
-
 
 
 
