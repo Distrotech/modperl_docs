@@ -166,6 +166,14 @@ lists at: http://www.apache.org/foundation/mailinglists.html.
 
 httpd specific lists: http://httpd.apache.org/lists.html.
 
+=item * the Apache Modeling Portal
+
+http://apache.hpi.uni-potsdam.de/ - An introduction to the Apache HTTP
+Server, covering both an overview and implementation details. It
+presents results of the Apache Modelling Project done by research
+assistants and students of the Hasso-Plattner-Institute in 2001 and
+2002.
+
 =item * Apache Quick Reference Card
 
 http://www.refcards.com (other reference cards are also available 
