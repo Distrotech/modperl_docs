@@ -232,6 +232,11 @@ Supported, possibly replaced by DBI::Pool
 
 =item * Mason
 
+=item * Blosxom (L<http://www.blosxom.com/>)
+
+David Wheeler is helping in making sure version 3.0 is
+mod_perl 2.0 ready
+
 =back
 
 =head3 Numbers
