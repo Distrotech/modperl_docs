@@ -350,7 +350,9 @@ in I<httpd.conf> on your development machine and the directive
 
   PerlWarn Off
 
-on the live box.
+on the live box. Here is L<a complete
+description|docs::1.0::guide::porting/Warnings> on how to manipulate
+warning modes under mod_perl.
 
 If there is a piece of code that generates warnings and you want to
 disable them only in this code, you can do that too.  The Perl special
