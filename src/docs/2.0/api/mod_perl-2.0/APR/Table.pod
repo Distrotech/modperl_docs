@@ -21,6 +21,16 @@ C<APR::Table> -- A Perl API for manipulating paque string-content table
   $table->merge($key => $val);
   overlap($table_a, $table_b, $flags);
   $new_table = overlay($table_base, $table_overlay, $pool);
+  
+  #Tied Interface
+  $value = $table->{$key};
+  $table->{$key} = $value;
+  $table->{$key} = $value;
+  exists $table->{$key};
+  
+  foreach my $key (keys %{$table}) {
+      print "$key = $table->{$key}\n";
+  }
 
 =head1 DESCRIPTION
 
@@ -225,11 +235,17 @@ return: A new table containing all of the data from the two passed in
 
 =head2 TIE Interface
 
-APR::Table sports TIE interface, so you can work with the C<$table>
-object as a hash.
+C<APR::Table> also implements a tied interface, so you can work with the
+C<$table> object as a hash reference.
 
-META: complete
+The following tied-hash function are supported: FETCH, STORE, DELETE,
+CLEAR, EXISTS, FIRSTKEY, NEXTKEY and DESTROY.
 
+remark: C<APR::Table> can hold more than one key-value pair sharing
+the same key, so when using a table through the tied interface, the
+first entry found with the right key will be used, completely
+disregarding possible other entries with the same key.  The only
+exception to this is if you iterate over the list with I<each>.
 
 =cut
 
