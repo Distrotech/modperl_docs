@@ -730,6 +730,20 @@ L<extreme programming
 methodology|/item_extreme_programming_methodology> says that tests
 should be written before starting the code development.
 
+
+=head2 Know Your Target Environment
+
+In the following demonstration and mostly through the whole document
+we assume that the test suite is written for a module running under
+mod_perl 2.0. You may need to adjust the code and the configuration
+files to the mod_perl 1.0 syntax, if you work with that generation of
+mod_perl. If your test suite needs to work with both mod_perl
+generations refer to L<the porting to mod_perl 2.0
+chapter|docs::2.0::user::porting::porting>. Of course it's quite
+possible that what you test doesn't have mod_perl at all, in which
+case, again, you will need to make adjustments to work in the given
+environment.
+
 =head2 Basic Testing Environment
 
 So the first thing is to create a package and all the helper files, so
