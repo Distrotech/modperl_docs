@@ -107,7 +107,7 @@ retrieved with:
 
 =head2 C<remove>
 
-  $filter->remove;
+  $f->remove;
 
 Remove the current filter from the filter chain (for the current
 request).
@@ -345,7 +345,7 @@ after a filter is inserted to the filter chain and before it's
 actually called.
 
   sub init : FilterInitHandler {
-      my $filter = shift;
+      my $f = shift;
       #...
       return Apache::OK;
   }
@@ -372,7 +372,7 @@ C<L<FilterInitHandler|/C_FilterInitHandler_>> attribute. For example:
   use base qw(Apache::Filter);
   sub init   : FilterInitHandler { ... }
   sub filter : FilterRequestHandler FilterHasInitHandler(\&init) {
-      my ($filter, $bb) = @_;
+      my ($f, $bb) = @_;
       # ...
       return Apache::OK;
   }

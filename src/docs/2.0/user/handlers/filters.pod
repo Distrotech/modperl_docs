@@ -956,7 +956,7 @@ chain, before it was invoked for the first time. Here is a skeleton of
 an init handler:
 
   sub init : FilterInitHandler {
-      my $filter = shift;
+      my $f = shift;
       #...
       return Apache::OK;
   }
@@ -970,8 +970,8 @@ For example you may decide to dynamically remove a filter before it
 had a chance to run, if some condition is true:
 
   sub init : FilterInitHandler {
-      my $filter = shift;
-      $filter->remove() if should_remove_filter();
+      my $f = shift;
+      $f->remove() if should_remove_filter();
       return Apache::OK;
   }
 
@@ -997,7 +997,7 @@ attribute. For example:
   use base qw(Apache::Filter);
   sub init   : FilterInitHandler { ... }
   sub filter : FilterRequestHandler FilterHasInitHandler(\&init) {
-      my ($filter, $bb) = @_;
+      my ($f, $bb) = @_;
       # ...
       return Apache::OK;
   }
@@ -2270,9 +2270,9 @@ Now comes the filter (which lives in the same package):
   use constant TOKEN_SIZE => 1024*16 + 5; # ~16k
   
   sub filter {
-      my($filter, $bb, $mode, $block, $readbytes) = @_;
-      my $ba = $filter->r->connection->bucket_alloc;
-      my $ctx = $filter->ctx;
+      my($f, $bb, $mode, $block, $readbytes) = @_;
+      my $ba = $f->r->connection->bucket_alloc;
+      my $ctx = $f->ctx;
       my $buffer = defined $ctx ? $ctx : '';
       $ctx = '';  # reset
       my $seen_eos = 0;
@@ -2282,8 +2282,8 @@ Now comes the filter (which lives in the same package):
       # fetch and consume bucket brigades untill we have at least TOKEN_SIZE
       # bytes to work with
       do {
-          my $tbb = APR::Brigade->new($filter->r->pool, $ba);
-          my $rv = $filter->next->get_brigade($tbb, $mode, $block, $readbytes);
+          my $tbb = APR::Brigade->new($f->r->pool, $ba);
+          my $rv = $f->next->get_brigade($tbb, $mode, $block, $readbytes);
           warn "asking for a bb\n";
           ($data, $seen_eos) = flatten_bb($tbb);
           $tbb->destroy;
@@ -2310,7 +2310,7 @@ Now comes the filter (which lives in the same package):
       }
       else {
           # will re-use the remainder on the next invocation
-          $filter->ctx($ctx);
+          $f->ctx($ctx);
           warn "storing the remainder: $len bytes\n";
       }
   
