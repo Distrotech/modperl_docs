@@ -150,6 +150,15 @@ contain features, and bugs, not present in the current official
 releases. Also for this reason, these may not be binary compatible
 with other versions of Apache 2.0/mod_perl 2.0.
 
+As well, at ftp://theoryx5.uwinnipeg.ca/pub/other/ there is an
+archive F<perl-5.8-win32-bin.tar.gz> containing a binary version
+of a release candidate of perl-5.8, together with Apache 2.0
+and mod_perl 2.0. Installation instructions are contained in
+the file F<perl-5.8-win32-bin.readme>. Although at this time
+perl-5.8 is not yet stable, you may be interested in previewing
+it, as once it is stable, this will be the recommended Perl version
+for use with Win32 mod_perl 2.0.
+
 =back 
 
 =head1 See Also
