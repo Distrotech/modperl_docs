@@ -69,23 +69,55 @@ could have a completely different pattern, than the HTTP protocol
 Apache supports several other filter types, which mod_perl 2.0 may
 support in the future.
 
-=head2 Filter Handler Multiple Invocations
+=head2 Multiple Invocations of Filter Handlers
 
 Unlike other Apache handlers, filter handlers may get invoked more
-than once during the same request. For example if the content handler
-sends a string, and then forces a flush, following by more data:
+than once during the same request. Filters get invoked as many times
+as the number of bucket brigades sent from the upstream filter or
+content provider.
 
+For example if a content generation handler sends a string, and then
+forces a flush, following by more data:
+
+  # assuming buffered print ($|==0)
   $r->print("foo");
   $r->rflush;
   $r->print("bar");
 
-the output filter will be invoked once on the data sent before the
-flush, and then once more for the data after the flush.  There are
-many other situations when the filter gets invoked more than
-once. What's important to remember is when coding a filter one should
-never assume that the filter is always going to be invoked
-once. Therefore a typical filter handler may need to split its logic
-in three parts.
+Apache will generate one bucket brigade with two buckets:
+
+  bucket type   data
+  ------------------
+  1st    data   foo
+  2nd    flush
+
+and send it to the filter chain. Then assuming that no more data was
+printed, after C<print("bar")>, it will create another bucket brigade:
+
+  bucket type   data
+  ------------------
+  1st    data   bar
+
+and send it to the filter chain. Finally it'll send yet another bucket
+brigade with EOS bucket indicating that there will be no more data
+send:
+
+  bucket type   data
+  ------------------
+  1st    eos
+
+In our example the filter will be invoked three times.  Notice that
+sometimes the EOS bucket comes attached to the last bucket brigade
+with data and sometimes in its own bucket brigade. This should be
+transparent to the filter logic, as we will see shortly.
+
+A user may install another filter upstream, and that filter may decide
+to insert extra bucket brigades or collect all the data in all bucket
+brigades passing through it and send it all down in one brigade.
+What's important to remember is when coding a filter one should never
+assume that the filter is always going to be invoked once, or a fixed
+number of times. Therefore a typical filter handler may need to split
+its logic in three parts.
 
 Jumping ahead we will show some pseudo-code that represents all three
 parts. This is how a typical filter looks like:
@@ -113,6 +145,12 @@ parts. This is how a typical filter looks like:
   sub process  { ... }
   sub finalize { ... }
 
+The following diagram depicts all three parts:
+
+=for html
+<img src="filter_logic.gif" width="620" height="356" 
+ align="center" valign="middle" alt="filter flow logic"><br><br>
+
 Let's explain each part using this pseudo-filter.
 
 =over
@@ -133,8 +171,8 @@ of the request.
 
 When the filter is invoked for the first time C<$filter-E<gt>ctx>
 returns C<undef> and the custom function init() is called. This
-function could for example retrieve some configuration data set in
-I<httpd.conf> or initialize some datastructure to its defaults.
+function could, for example, retrieve some configuration data, set in
+I<httpd.conf> or initialize some datastructure to its default value.
 
 To make sure that init() won't be called on the following invocations,
 we must set the filter context before the first invocation is
@@ -142,9 +180,9 @@ completed:
 
           $filter->ctx(1);
 
-In practice, the context is used to store real data and not just as a
-flag.  For example the following filter counts the number of times it
-was invoked during a single request:
+In practice, the context is not just served as a flag, but used to
+store real data.  For example the following filter handler counts the
+number of times it was invoked during a single request:
 
   sub handler {
       my $filter = shift;
@@ -157,7 +195,13 @@ was invoked during a single request:
       return Apache::DECLINED;
   }
 
-We will see more examples later in this chapter.
+Since this filter handler doesn't consume the data from the upstream
+filter, it's important that this handler returns C<Apache::DECLINED>,
+in which case mod_perl passes the bucket brigades to the next
+filter. If this handler returns C<Apache::OK>, the data will be simply
+lost.
+
+We will see more of initialization examples later in this chapter.
 
 =item 2 Processing
 
@@ -178,13 +222,35 @@ characters passing through:
       }
   }
 
+Here the filter operates only on a single bucket brigade. Since it
+manipulates every character separately the logic is really simple.
+
+In more complicated filters the filters may need to buffer data first
+before the tranformation can be applied. For example if the filter
+operates on html tokens (e.g., 'E<lt>img src="me.jpg"E<gt>'), it's
+possible that one brigade will include the beginning of the token
+('E<lt>img ') and the remainder of the token ('src="me.jpg"E<gt>')
+will come in the next bucket brigade (on the next filter
+invocation). In certain cases it may involve more than two bucket
+brigades to get the whole token. In such a case the filter will have
+to store the remainer of unprocessed data in the filter context and
+then reuse it on the next invocation. Another good example is a filter
+that performs data compression (compression is usually effective only
+when applied to relatively big chunks of data), so if a single bucket
+brigade doesn't contain enough data, the filter may need to buffer the
+data in the filter context till it collects enough of it.
+
+We will see the implementation examples in this chapter.
+
 =item 3 Finalization
 
 Finally, some filters need to know when they are invoked for the last
 time, in order to perform various cleanups and/or flush any remaining
-data. Apache indicates this event by a special end of stream
-"token". The filter can check whether this is the last time its
-called, by calling C<$filter-E<gt>seen_eos>:
+data. As mentioned earlier, Apache indicates this event by a special
+end of stream "token", represented by a bucket of type C<EOS>.  If the
+filter is using the streaming interface, rather than manipulating the
+bucket brigades directly, it can check whether this is the last time
+it's invoked, using the C<$filter-E<gt>seen_eos> method:
 
       if ($filter->seen_eos) {
           finalize($filter);
@@ -193,19 +259,50 @@ called, by calling C<$filter-E<gt>seen_eos>:
 This check should be done at the end of the filter handler, because
 sometimes the EOS "token" comes attached to the tail of data (the last
 invocation gets both the data and EOS) and sometimes it comes all
-alone (the last invocation gets only EOS).
+alone (the last invocation gets only EOS). So if this test is peformed
+at the beginning of the handler and the EOS bucket was sent in
+together with the data, the EOS event may be missed and filter won't
+function properly.
 
-Jumping ahead, filters directly manipulating bucket brigades, have to
+Jumping ahead, filters, directly manipulating bucket brigades, have to
 look for a bucket whose type is C<EOS> to accomplish the same. We will
 see examples later in the chapter.
 
 =back
 
-
-
-
+Some filters may need to deploy all three parts of the described
+logic, others will need to do only initialization and processing, or
+processing and finalization, while the simplest filters might perform
+only the normal processing (as we saw in the example of the filter
+handler that lowers the case of the characters going through it).
 
 =head2 Blocking Calls
+
+The input and output filters chains are invoked in different fashions.
+
+When an input filter is invoked it first performs ask the up-stream
+filter for the next bucket brigade. That up-stream filter is in turn
+going to ask for the bucket brigade from the next up-stream filter in
+chain, etc. till the network filter is reached. That filter will
+consume a portion of the incoming data from the network, process it
+and send it to its down-stream filter, which will process the data and
+send it to its down-stream filter, etc. till it reaches the first
+filter. The following diagram depicts that scenario:
+
+
+=for html
+<img src="in_filter_stream.gif" width="659" height="275" 
+ align="center" valign="middle" alt="input filter data flow"><br><br>
+
+Output filters: 
+
+META: complete
+
+=for html
+<img src="out_filter_stream.gif" width="575" height="261" 
+ align="center" valign="middle" alt="output filter data flow"><br><br>
+
+
 
 
 
