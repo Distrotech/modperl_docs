@@ -697,6 +697,16 @@ I<mod_*>. Accepts a list of modules or a reference to the
 list. Returns FALSE if at least one of the modules is not found,
 returns true otherwise.
 
+=item * have_perl()
+
+have_perl('foo') checks whether the value of C<$Config{foo}> or
+C<$Config{usefoo}> is equal to 'define'. So one can tell:
+
+  plan tests => 2, have_perl 'ithreads';
+
+and if the Perl wasn't compiled with C<-Dusethreads> the condition
+will be false and the test will be skipped.
+
 =item * have_lwp()
 
 META: to be written
