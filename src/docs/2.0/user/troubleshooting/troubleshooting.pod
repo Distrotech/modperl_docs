@@ -21,6 +21,54 @@ troubleshooting.
 =head1 Configuration and Startup
 
 
+=head2 Can't locate F<TestFilter/in_str_consume.pm> in C<@INC>...
+
+Sometimes you get a problem of perl not being able to locate a certain
+Perl module. This can happen in the mod_perl test suite or in the
+normal mod_perl setup. One of the possible reasons is a low limit on
+the number of files that can be opened by a single process. To check
+whether this is the problem run the process under C<strace(1)> or an
+equivalent utility.
+
+For example on OpenBSD 3.5 the default setting for a maximum number of
+files opened by a single process seems to be 64, so when you try to
+run the mod_perl test suite, which opens a few hundreds of files, you
+will have a problem. e.g. the test suite may fail as:
+
+  [Wed Aug 25 09:49:40 2004] [info] 26 Apache:: modules loaded
+  [Wed Aug 25 09:49:40 2004] [info] 7 APR:: modules loaded
+  [Wed Aug 25 09:49:40 2004] [info] base server + 20 vhosts ready 
+  to run tests
+  [Wed Aug 25 09:49:40 2004] [error] Can't locate 
+  TestFilter/in_str_consume.pm in @INC (@INC contains: ...
+
+Running the system calls tracing program (C<ktrace(1)> on OpenBSD,
+C<strace(1)> on Linux):
+
+  % sudo ktrace -d /usr/local/apache/bin/httpd -d /tmp/mod_perl-2.0/t \
+    -f /tmp/mod_perl-2.0/t/conf/httpd.conf -DAPACHE2 -X
+
+looking at the ktrace dump reveals:
+
+ 16641 httpd    NAMI "/tmp/mod_perl-2.0/t/lib/TestFilter/in_str_consume.pmc"
+ 16641 httpd    RET   stat -1 errno 2 No such file or directory
+ 16641 httpd    CALL  open(0x3cdae100,0,0)
+ 16641 httpd    RET   open -1 errno 24 Too many open files
+
+It's clear that Perl can't load F<TestFilter/in_str_consume.pm>
+because it can't open the file.
+
+This problem can be resolved by increasing the open file limit to 128
+(or higher):
+
+ $ ulimit -n 128
+
+
+
+
+
+
+
 
 =head2 "mod_perl.c" is not compatible with this version of Apache
 (found 20020628, need 20020903)
