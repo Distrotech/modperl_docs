@@ -10,4 +10,6 @@
 <div class="toc">
     [% INCLUDE page_toc_section subs=toc %]
 </div>
+[% ELSE %]
+<br>
 [% END %]

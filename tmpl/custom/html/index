@@ -1,4 +1,4 @@
-[% INCLUDE head
+[%- INCLUDE head
     paget   = doc.meta.title
     title   = "mod_perl: $paget" 
     content = ''
@@ -8,23 +8,23 @@
 
 <!-- left box (NAV)-->
 <div class="leftbox">
-    [% INCLUDE logo %]
+    [%- INCLUDE logo -%]
     <br>
-    [% INCLUDE menu_main nav=doc.nav; %]
+    [%- INCLUDE menu_main nav=doc.nav; -%]
     <br>
-    [% INCLUDE menu_links %]
+    [%- INCLUDE menu_links -%]
     <br>
-    [% INCLUDE ad %]
+    [%- INCLUDE ad -%]
     <br><br>
 </div>
 <!-- end left box-->
 
 <!-- right box-->
 <div class="rightbox">
-    [% INCLUDE index_body %]
+    [%- INCLUDE index_body -%]
     <br>
     <hr noshade size="1">
-    [% INCLUDE tail %]
+    [%- INCLUDE tail -%]
 </div>
 <!-- end right box-->
 

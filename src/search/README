@@ -14,11 +14,15 @@ Indexing:
 
 1. Set an environment variable to the path of the site:
 
-    export MODPERL_SITE='http://perl.org'
+    export MODPERL_SITE='http://perl.apache.org'
 
 or
 
     export MODPERL_SITE='http://localhost:4000/dst_html'
+
+tcsh:
+
+   setenv MODPERL_SITE http://perl.apache.org
 
 This is used as the base for spidering, plus is used to determine
 the sections of the site (for limiting the site to those sections.
@@ -33,7 +37,7 @@ which among other things creates the dir: dst_html/search
 3. Index the site
 
   % cd dst_html/search
-  % ./swish-e -S prog -c swish.conf
+  % swish-e -S prog -c swish.conf
 
 You should see something like:
 

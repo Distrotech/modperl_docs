@@ -1,17 +1,17 @@
-[% 
-    INCLUDE navbar_global 
+<table border="0" width="100%" cellspacing="0" cellpadding="0">
+[%- INCLUDE navbar_global 
         nav=doc.nav
         rel_doc_root=doc.dir.rel_doc_root;
-%]
-
-<!-- content-->
-[%
     INCLUDE title;
+-%]
+</table>
 
+[%
     INCLUDE navbar_local_top
         nav=doc.nav
         rel_doc_root=doc.dir.rel_doc_root;
 
+    "<!-- content-->";
     INCLUDE page_toc toc=doc.toc;
 
     # render the content

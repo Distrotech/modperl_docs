@@ -2,8 +2,6 @@
 #
 # a few custom callbacks are located after the @servers definition section.
 
-
-
 my $base_path = $ENV{MODPERL_SITE} || die "must set \$ENV{MODPERL_SITE}";
 
 die "Don't use trailing slash in MODPERL_SITE" if $base_path =~ m!/$!;

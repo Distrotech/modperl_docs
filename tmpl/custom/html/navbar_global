@@ -36,18 +36,15 @@
         END;
     -%]
 
-
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-    <!--breadcrumb-->
+    <!--start breadcrumb-->
         <tr>
             <td class="navbarglobal" valign="top" height="20">
                 [%- IF nav_not_empty == 1 -%]
                     [%- WRAPPER button 
                             width = "100%"
                             align = 'left'
-                            col   = splash.style.select.col.fore
                     -%]
-                        [%- FOREACH sec = sects -%]<a href="[% sec.link %]"><b>[% sec.text %]</b></a>&nbsp;/&nbsp;[%- END -%]
+                        [%- FOREACH sec = sects -%]<a href="[% INCLUDE link link=sec.link %]"><b>[% sec.text %]</b></a>&nbsp;/&nbsp;[%- END -%]
                     [%- END -%]
                 [%- ELSE -%]
                     <br>

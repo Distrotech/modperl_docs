@@ -2,6 +2,11 @@
 
 TITLE goes here
 
+=head1 Description
+
+the first paragraph of the description will be displayed on the index
+page, so make sure to put the general overview in this first paragraph.
+
 =head1 ...
 
 =head2 ...
@@ -22,6 +27,9 @@ Foo Bar E<lt>foo (at) bar.example.comE<gt>
 =item * Foo Tar E<lt>foo (at) tar.example.comE<gt>
 
 =back
+
+Only the major authors are listed above. For contributors see the
+Changes file.
 
 =cut
 

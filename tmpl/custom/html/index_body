@@ -1,18 +1,16 @@
-[%
-    INCLUDE navbar_global nav=doc.nav;
--%]
-
-<!-- content-->
-[%
+<table border="0" width="100%" cellspacing="0" cellpadding="0">
+[%- INCLUDE navbar_global 
+        nav=doc.nav;
     INCLUDE title;
+-%]
+</table>
 
-#    INCLUDE download_link;
-#    INCLUDE search;
-
+[%-
     INCLUDE navbar_local_top
         nav=doc.nav.up
         rel_doc_root=doc.dir.rel_doc_root;
 
+    "<!-- content-->";
     IF doc.body.top;
         "${doc.body.top}";
     END;

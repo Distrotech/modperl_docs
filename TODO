@@ -30,6 +30,8 @@ Templates:
 Content:
 --------
 
+- move the jobs out of support to the main menu
+
 - need to make the content review and adjust config.cfg files to
   provide good abstracts. The same goes for src html files -- should
   use the <meta name="description" value=""> to add abstracts here.
@@ -44,6 +46,16 @@ Content:
   a few pages, making About a DocSet.
 
 - implement Changes/Contributors pages for each docset
+
+- add to the success stories: http://perl.com/pub/a/2001/10/17/etoys.html
+
+- the CVS checkout info wasn't ported. consider adding to
+  download/distributions.html or a separate page, which potentially
+  could integrate the cvs hints pod.
+
+- ask perl.com to link to perl.apache.org from 'perl sites' section.
+  + also they need to add theperlreview.com
+
 
 Search:
 -------

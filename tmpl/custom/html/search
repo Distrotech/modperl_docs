@@ -1,4 +1,11 @@
-<form method="post" action="/modperl-site/search/swish.cgi" enctype="application/x-www-form-urlencoded" name="site_search_form">
+[%- # search widget
+    #
+    # this template expects these vars to be set:
+    # doc.dir.abs_doc_root - doc root
+    # doc.dir.path_from_base
+-%]
+
+<form method="post" action="[% doc.dir.abs_doc_root %]/search/swish.cgi" enctype="application/x-www-form-urlencoded" name="site_search_form">
 <table border="0" cellspacing="0" cellpadding="0">
     <tr>
         <td class="menu-border" colspan="5" height="1"><br class="smallbr"></td>
@@ -11,6 +18,7 @@
         <td class="menu-border" width="1"><br class="smallbr"></td>
         <td class="search" width="2" align="center">
             <input type="submit" name="submit" value="Search" class="submit-but">
+            <input type="hidden" name="sbm" value="[% doc.dir.path_from_base %]">
          </td>
         <td class="menu-border" width="1"><br class="smallbr"></td>
     </tr>

@@ -17,5 +17,6 @@
    END;
    return = return.replace('/\./','/'); # clean a path like foo/.././bar
    return = return.replace('/\.$','');  # clean a path like foo/../.  
+   return = return.replace('^\./','');  # clean a path like ./foo 
 -%]   
 [%- return -%]

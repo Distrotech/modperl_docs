@@ -1,32 +1,9 @@
 [%  # button: a bar 
     #
-    #  ARGS: content, style
-    # STYLE: col, bgcol, align, width
-    #
-    SET
-        default = splash.style.default
-    ;
-    DEFAULT 
-        style   = default
-        col     = style.col.fore     or default.col.fore
-        bgcol   = style.col.back     or default.col.back
-        align   = style.button.align or default.button.align
-    ;
-    SET
-        rgbcol  = splash.rgb.$col
-        imgbase = "$splash.images/$bgcol"
-        imgsize = splash.imgsize
-        imgtype = splash.imgtype
-    ;
+    #  ARGS: content
+    #  OPT ARGS: navstyle, linebrake
 -%]
-[% IF navstyle %]<div class='[%- navstyle  -%]'>[% END %]
+[% IF navstyle %]<div class='[%- navstyle  -%]'>[% END -%]
 [%- content.length ? content : '&nbsp;' -%]
-[% IF navstyle %]</div>[% END %]
-[% IF linebrake %]<br>[% END %]
-
-
-
-
-
-
-
+[%- IF navstyle %]</div>[% END -%]
+[%- IF linebrake %]<br>[% END -%]
