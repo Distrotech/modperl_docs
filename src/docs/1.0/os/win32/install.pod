@@ -90,7 +90,7 @@ a binary build that includes the Apache libraries and header files.
 If you're building Apache yourself from sources, make sure to
 obtain the I<win32-src.zip> archive, which has the necessary
 VC++ makefiles.
- 
+
 =head2 Building with MS Developer Studio
 
 =over 3
