@@ -11,7 +11,7 @@ handlers.
 
 Developers who need to port modules using XS code, should also read
 about L<porting Apache:: XS
-modules|src::docs::2.0::devel::porting::porting>.
+modules|docs::2.0::devel::porting::porting>.
 
 =head1 Introduction
 

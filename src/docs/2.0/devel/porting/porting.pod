@@ -8,7 +8,7 @@ This document talks mainly about porting modules using XS code. It's
 also helpful to those who start developing mod_perl 2.0 packages.
 
 Also make sure to first read about L<porting Apache:: Perl
-modules|src::docs::2.0::user::porting::porting>.
+modules|docs::2.0::user::porting::porting>.
 
 =head1 Porting Makefile.PL
 
