@@ -1300,8 +1300,10 @@ argument.
 =item 2 Using C<cleanup_register()> acting on the request object's pool
 
 Since a request object pool is destroyed at the end of each request,
-we can register a cleanup callback which will be executed just before
-the pool is destroyed. For example:
+we can use
+C<L<cleanup_register|docs::2.0::api::APR::Pool/C_cleanup_register_>>
+to register a cleanup callback which will be executed just before the
+pool is destroyed. For example:
 
     $r->pool->cleanup_register(\&cleanup, $arg);
 

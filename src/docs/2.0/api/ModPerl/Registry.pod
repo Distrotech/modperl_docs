@@ -62,10 +62,65 @@ there after will be faster.  If your scripts are large and/or make use
 of many Perl modules, this difference should be noticeable to the
 human eye.
 
+
+
+=head1 Special Blocks
+
+
+=head2 C<BEGIN> Blocks
+
+C<BEGIN> blocks defined in scripts running under the
+C<ModPerl::Registry> handler behave similarly to the normal L<mod_perl
+handlers|docs::2.0::user::coding::coding/C_BEGIN__Blocks> plus:
+
+=over
+
+=item *
+
+Only once, if pulled in by the parent process via
+C<Apache::RegistryLoader>.
+
+=item *
+
+An additional time, once per child process or Perl interpreter, each
+time the script file changes on disk.
+
+=back
+
+C<BEGIN> blocks defined in modules loaded from C<ModPerl::Registry>
+scripts behave identically to the normal L<mod_perl
+handlers|docs::2.0::user::coding::coding/C_BEGIN__Blocks>, regardless
+of whether they define a package or not.
+
+
+
+=head2 C<CHECK> and C<INIT> Blocks
+
+Same as normal L<mod_perl
+handlers|docs::2.0::user::coding::coding/C_CHECK__and_C_INIT__Blocks>.
+
+
+
+=head2 C<END> Blocks
+
+C<END> blocks encountered during compilation of a script, are called
+after the script has completed its run, including subsequent
+invocations when the script is cached in memory. This is assuming that
+the script itself doesn't define a package on its own. If the script
+defines its own package, the C<END> blocks in the scope of that
+package will be executed at the end of the interpretor's life.
+
+C<END> blocks residing in modules loaded by registry script will be
+executed only once, when the interpreter exits.
+
+
+
 =head1 Security
 
-ModPerl::Registry::handler will preform the same checks as mod_cgi
-before running the script.
+C<ModPerl::Registry::handler> performs the same sanity checks as
+mod_cgi does, before running the script.
+
+
 
 =head1 Environment
 
@@ -106,8 +161,6 @@ cleaning out the entire process space.  Many times you have heard
 "always use C<-w>, always use C<-w> and 'use strict'".
 This is more important here than anywhere else!
 
-Your scripts cannot contain the __END__ or __DATA__ token to terminate
-compilation. (META: works in 2.0).
 
 
 =head1 Authors
@@ -116,7 +169,8 @@ Andreas J. Koenig, Doug MacEachern and Stas Bekman.
 
 =head1 See Also
 
-C<L<ModPerl::RegistryCooker>>, C<L<ModPerl::RegistryBB>>,
-C<L<ModPerl::PerlRun>>, Apache(3), mod_perl(3)
+C<L<ModPerl::RegistryCooker|docs::2.0::api::ModPerl::RegistryCooker>>,
+C<L<ModPerl::RegistryBB|docs::2.0::api::ModPerl::RegistryBB>> and
+C<L<ModPerl::PerlRun|docs::2.0::api::ModPerl::PerlRun>>.
 
 =cut

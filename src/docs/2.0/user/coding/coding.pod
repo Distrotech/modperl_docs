@@ -20,7 +20,11 @@ C<L<ModPerl::MethodLookup|docs::2.0::api::ModPerl::MethodLookup>> can
 be used to find out which modules need to be used.
 
 
-=head1 Method Handlers
+=head1 Techniques
+
+
+
+=head2 Method Handlers
 
 In mod_perl 2.0 method handlers are declared using the C<method>
 attribute:
@@ -43,6 +47,69 @@ keep it as a separate document. Meanwhile refer to L<that
 document|docs::1.0::guide::method_handlers>, though L<replace the C<$$> 
 prototype with the C<:method> attribute
 |docs::2.0::user::porting::compat/Method_Handlers>.
+
+
+=head2 Cleaning up
+
+It's possible to arrange for cleanups to happen at the end of various
+phases. One can't rely on C<END> blocks to do the job, since these
+L<don't get executed|/C_END__Blocks> until the interpreter quits, with
+an exception to the
+L<Registry|docs::2.0::api::ModPerl::Registry/C_END__Blocks> handlers.
+
+Module authors needing to run cleanups after each HTTP request, should
+use
+C<L<PerlCleanupHandler|docs::2.0::user::handlers::http/PerlCleanupHandler>>.
+
+Module authors needing to run cleanups at other times can always
+register a cleanup callback via
+C<L<cleanup_register|docs::2.0::api::APR::Pool/C_cleanup_register_>>
+on the pool object of choice. Here are some examples of its usage:
+
+To run something at the server shutdown and restart use
+C<$s-E<gt>pool-E<gt>cleanup_register()> in F<startup.pl>:
+
+  #PerlRequire startup.pl
+  use Apache::ServerUtil ();
+  use APR::Pool ();
+  
+  warn "parent pid is $$\n";
+  my $pool = Apache->server->pool;
+  $pool->cleanup_register(\&cleanup);
+  sub cleanup { warn "server cleanup in $$\n" }
+
+This is usually useful when some server-wide cleanup should be
+performed when the server is stopped or restarted.
+
+To run a cleanup at the end of each connection phase, assign a cleanup
+callback to the connection pool object:
+
+  use Apache::Connection ();
+  use APR::Pool ();
+  
+  my $pool = $c->pool;
+  $pool->cleanup_register(\&my_cleanup);
+  sub my_cleanup { ... }
+
+You can also create your own pool object, register a cleanup callback
+and it'll be called when the object is destroyed:
+
+  use APR::Pool ();
+  
+  {
+      my @args = 1..3;
+      my $pool = APR::Pool->new;
+      $pool->cleanup_register(\&cleanup, \@args);
+  }
+  
+  sub cleanup {
+      my @args = @{ +shift };
+      warn "cleanup was called with args: @args";
+  }
+
+In this example the cleanup callback gets called, when C<$pool> goes
+out of scope and gets destroyed. This is very similar to OO C<DESTROY>
+method.
 
 
 =head1 Goodies Toolkit
@@ -345,6 +412,111 @@ under mod_perl.
 
 
 
+=head2 C<BEGIN> Blocks
+
+Perl executes C<BEGIN> blocks as soon as possible, at the time of
+compiling the code. The same is true under mod_perl. However, since
+mod_perl normally only compiles scripts and modules once, either in
+the parent server (at the server startup) or once per-child (on the
+first request using a module), C<BEGIN> blocks in that code will only
+be run once.  As the C<perlmod> manpage explains, once a C<BEGIN>
+block has run, it is immediately undefined. In the mod_perl
+environment, this means that C<BEGIN> blocks will not be run during
+the response to an incoming request unless that request happens to be
+the one that causes the compilation of the code, i.e. if it wasn't
+loaded yet.
+
+C<BEGIN> blocks in modules and files pulled in via C<require()> or
+C<use()> will be executed:
+
+=over 4
+
+=item *
+
+Only once, if pulled in by the parent process at the server startup.
+
+=item *
+
+Once per each child process or Perl interpreter if not pulled in by
+the parent process.
+
+=item *
+
+An additional time, once per each child process or Perl interpreter if
+the module is reloaded off disk again via
+C<L<Apache::Reload|docs::2.0::api::Apache::Reload>>.
+
+=item *
+
+Unpredictable if you fiddle with C<%INC> yourself.
+
+=back
+
+The C<BEGIN> blocks behavior is different in
+C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry/C_BEGIN__Blocks>>
+and
+C<L<ModPerl::PerlRun|docs::2.0::api::ModPerl::PerlRun/C_BEGIN__Blocks>>
+handlers, and their subclasses.
+
+
+
+
+
+=head2 C<CHECK> and C<INIT> Blocks
+
+C<CHECK> and C<INIT> blocks run when the source code compilation is
+complete, but before the program starts. C<CHECK> can mean
+"checkpoint" or "double-check" or even just "stop". C<INIT> stands for
+"initialization". The difference is subtle; C<CHECK> blocks are run
+just after the compilation ends, C<INIT> just before the runtime
+begins. (Hence the C<-c> command-line perl option runs C<CHECK> blocks
+but not C<INIT> blocks.)
+
+Perl only calls these blocks during I<perl_parse()>, which mod_perl
+calls once at startup time. Under threaded mpm, these blocks will be
+called once per C<L<parent perl interpreter
+startup|docs::2.0::user::config::config/C_Parent_>>. Therefore
+C<CHECK> and C<INIT> blocks don't work after the server is started,
+for the same reason these code samples don't work:
+
+  % perl -e 'eval qq(CHECK { print "ok\n" })'
+  % perl -e 'eval qq(INIT  { print "ok\n" })'
+
+
+
+
+=head2 C<END> Blocks
+
+As the C<perlmod> manpage explains, an C<END> block is executed as
+late as possible, that is, when the interpreter exits. So for example
+mod_cgi will run its C<END> blocks on each invocation, since on every
+invocation it starts a new interpreter and then kills it when the
+request processing is done.
+
+In the mod_perl environment, the interpreter does not exit after
+serving a single request (unless it is configured to do so) and hence
+it will run its C<END> blocks only when it exits, which usually
+happens during the server shutdown, but may also happen earlier than
+that (e.g. a process exits because it has served a
+C<MaxRequestsPerChild> number of requests).
+
+mod_perl does L<make a special
+case|docs::2.0::api::ModPerl::Registry/C_END__Blocks>
+for scripts running under
+C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>> and friends.
+
+The L<Cleaning up|/Cleaning_up> section explains how to deal with
+cleanups for non-Registry handlers.
+
+C<L<ModPerl::Global|docs::2.0::api::ModPerl::Global>> API:
+C<L<special_list_register|docs::2.0::api::ModPerl::Global/C_special_list_register_>>,
+C<L<special_list_call|docs::2.0::api::ModPerl::Global/C_special_list_call_>>
+and
+C<L<special_list_clear|docs::2.0::api::ModPerl::Global/C_special_list_clear_>>,
+internally used by registry handlers, can be used to run C<END> blocks
+at arbitrary times.
+
+
 =head2 Request-localized Globals
 
 mod_perl 2.0 provides two types of C<SetHandler> handlers:
@@ -370,7 +542,9 @@ nothing is restored, so you should be especially careful to remember
 localize all special Perl variables so the local changes won't affect
 other handlers.
 
-=head2 exit()
+
+
+=head2 C<exit>
 
 In the normal Perl code exit() is used to stop the program flow and
 exit the Perl interpreter. However under mod_perl we only want the
@@ -378,9 +552,9 @@ stop the program flow without killing the Perl interpreter.
 
 You should take no action if your code includes exit() calls and it's
 OK to continue using them. mod_perl worries to override the exit()
-function with its own version which stops the program flow, and
-performs all the necessary cleanups, but doesn't kill the server. This
-is done by overriding:
+function with L<its own version|docs::2.0::api::ModPerl::Util/C_exit_>
+which stops the program flow, and performs all the necessary cleanups,
+but doesn't kill the server. This is done by overriding:
 
   *CORE::GLOBAL::exit = \&ModPerl::Util::exit;
 
@@ -389,6 +563,13 @@ what you are doing.
 
 You can still call C<CORE::exit> to kill the interpreter, again if you
 know what you are doing.
+
+One caveat is when C<exit> is called inside C<eval> -- L<the
+ModPerl::Util::exit
+documentation|docs::2.0::api::ModPerl::Util/C_exit_> explains how to
+deal with this situation.
+
+
 
 
 
