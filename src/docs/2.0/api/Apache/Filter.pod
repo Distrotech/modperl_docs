@@ -8,8 +8,39 @@ Apache::Filter - Perl API for Apache 2.0 Filtering
 =head1 Synopsis
 
   use Apache::Filter ();
+  
+  # filter attributes
+  my $c = $f->c;
+  my $r = $f->r;
+  my $frec = $f->frec();
+  my $next_f = $f->next;
+  
+  my $ctx = $f->ctx;
+  $f->ctx($ctx);
+  
+  # bucket brigade filtering API
+  $rc = $f->next->get_brigade($bb, $mode, $block, $readbytes);
+  $rc = $f->next->pass_brigade($bb);
+  $rc = $f->fflush($bb);
+  
+  # streaming filtering API
+  while ($filter->read(my $buffer, $wanted)) {
+      # transform $buffer here
+      $filter->print($buffer);
+  }
+  if ($f->seen_eos) {
+      $filter->print("filter signature");
+  }
+  
+  # filter manipulations
+  $r->add_input_filter(\&callback);
+  $c->add_input_filter(\&callback);
+  $r->add_output_filter(\&callback);
+  $c->add_output_filter(\&callback);
+  $f->remove;
 
-META: to be completed
+
+
 
 
 
@@ -17,7 +48,7 @@ META: to be completed
 =head1 Description
 
 
-C<Apache::Filter> provides the Perl API for Apache 2.0 filtering
+C<Apache::Filter> provides Perl API for Apache 2.0 filtering
 framework.
 
 Make sure to read C<the Filtering
@@ -35,40 +66,49 @@ The following methods can be called from any filter handler:
 
 =head2 C<c>
 
-The current connection object can be retrieved from a connection or a
-request filter with:
+Get the current connection object from a connection or a request
+filter:
 
   $c = $f->c;
 
 =over 4
 
-=item obj: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item obj: C<$f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
-=item ret: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>)
+=item ret: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> )
+
+=item since: 1.99_10
 
 =back
 
 
 
 
+
+
 =head2 C<ctx>
 
-Get and set the filter context data.
+Get/set the filter context data.
 
   $ctx = $f->ctx;
-  $f->ctx($ctx);
+         $f->ctx($ctx);
 
 =over 4
 
-=item obj: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item obj: C<$f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
-=item opt arg2: C<$ctx> (scalar)
+=item opt arg2: C<$ctx> ( SCALAR )
 
-Could be any perl SCALAR.
+next context
 
-=item ret: C<$ctx> (scalar)
+=item ret: C<$ctx> ( SCALAR )
 
-Could be any perl SCALAR.
+current context
+
+=item since: 1.99_10
 
 =back
 
@@ -105,14 +145,20 @@ tied variable, so if you modify it need to store it at the end:
 META: later we might make it a TIEd-variable interface, so it'll be
 stored automatically.
 
-Besides its usage to store data between filter invocations, this
-method is also useful when as a flag. For example here is how to
-ensure that something happens only once during the filter's life:
+Besides its primary purpose of storing context data across multiple
+filter invocations, this method is also useful when used as a
+flag. For example here is how to ensure that something happens only
+once during the filter's life:
 
-      unless ($f->ctx) {
-          do_something_once();
-          $f->ctx(1);
-      }
+  unless ($f->ctx) {
+      do_something_once();
+      $f->ctx(1);
+  }
+
+
+
+
+
 
 
 
@@ -122,18 +168,24 @@ ensure that something happens only once during the filter's life:
 Get/set the C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>
 (filter record) object.
 
-  my $frec = $f->frec();
-  $f->frec($frec);
+  $frec = $f->frec();
 
 =over 4
 
-=item obj: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item obj: C<$f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
-=item opt arg2: C<$frec> (C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>)
+=item ret: C<$frec>
+( C<L<Apache::FilterRec object|docs::2.0::api::Apache::FilterRec>> )
 
-=item opt ret: C<$frec> (C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>)
+=item since: 1.99_10
 
 =back
+
+For example you can call
+C<L<$frec-E<gt>name|docs::2.0::api::Apache::FilterRec/C_name_>> to get
+filter's name.
+
 
 
 
@@ -141,18 +193,25 @@ Get/set the C<L<Apache::FilterRec|docs::2.0::api::Apache::FilterRec>>
 
 =head2 C<next>
 
-Returns the C<Apache::Filter> object of the next filter in chain.
+Return the C<Apache::Filter> object of the next filter in chain.
 
   $next_f = $f->next;
 
 =over 4
 
-=item obj: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item obj: C<$f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
-=item ret: C<$next_f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+The current filter object
+
+=item ret: C<$next_f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+
+The next filter object in chain
+
+=item since: 1.99_10
 
 =back
-
 
 Since Apache inserts several core filters at the end of each chain,
 normally this method always returns an object. However if it's not a
@@ -162,12 +221,11 @@ C<L<pass_brigade|/C_pass_brigade_>>, C<L<c|/C_c_>>, C<L<r|/C_r_>>,
 C<L<frec|/C_frec_>> and C<L<next|/C_next_>>. If you call other methods
 the behavior is undefined.
 
-META: I doubt anybody will ever need to mess with other filters, from
-within a mod_perl filter. but if the need arises it's easy to tell a
-mod_perl filter from non-mod_perl one by calling
-C<$f-E<gt>frec-E<gt>name> (it'll return one of the following four
-names: I<modperl_request_output>, I<modperl_request_input>,
-I<modperl_connection_output> or I<modperl_connection_input>).
+The next filter can be a mod_perl one or not, it's easy to tell which
+one is that by calling
+C<L<$f-E<gt>frec-E<gt>name|docs::2.0::api::Apache::FilterRec/C_name_>>.
+
+
 
 
 
@@ -181,14 +239,21 @@ Inside an HTTP request filter retrieve the current request object:
 
 =over 4
 
-=item obj: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item obj: C<$f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
-=item ret: C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item ret: C<$r>
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
+
+=item since: 1.99_10
 
 =back
 
-If a sub-request adds filters, then the sub-request is the request
+If a sub-request adds filters, then that sub-request object is
 associated with the filter.
+
+
+
 
 
 
@@ -203,7 +268,8 @@ request or connection).
 
 =over 4
 
-=item obj: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item obj: C<$f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
 =item ret: no return value
 
@@ -225,13 +291,24 @@ in Apache and then make sure to require the minimum Apache version if
 you rely on.
 
 Remember that if the connection is
-C<L<$c-E<gt>keepalive|docs::2.0::api::Apache::Connection/C_keepalive_>>)
-and the connection filter is removed, it won't be added untill the
+C<L<$c-E<gt>keepalive|docs::2.0::api::Apache::Connection/C_keepalive_>>
+) and the connection filter is removed, it won't be added until the
 connection is closed. Which may happen after many HTTP requests. You
 may want to keep the filter in place and pass the data through
 unmodified, by returning C<Apache::DECLINED>. If you need to reset the
 whole or parts of the filter context between requests, use the
-L<technique based on C<$c-E<gt>keepalives> counting|docs::2.0::user::handler::filters>.
+L<technique based on C<$c-E<gt>keepalives>
+counting|docs::2.0::user::handler::filters>.
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -246,23 +323,50 @@ manipulating bucket brigades:
 
 =head2 C<fflush>
 
-Flush the C<$bb> brigade down the filter stack.
+Flush a bucket brigade down the filter stack.
 
-  $ret = $f->fflush($bb);
+  $rc = $f->fflush($bb);
 
 =over 4
 
-=item obj: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item obj: C<$f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
 The current filter
 
-=item arg1: C<$bb> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item arg1: C<$bb>
+( C<L<Apache::Brigade object|docs::2.0::api::APR::Brigade>> )
 
 The brigade to flush
 
-=item ret: XXX
+=item ret:  C<$rc> ( C<L<APR::Const status
+constant|docs::2.0::api::APR::Const>> )
+
+Refer to the C<L<pass_brigade()|/C_pass_brigade_>> entry.
+
+=item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
+
+Exceptions are thrown only when this function is called in the void
+context. Refer to the C<L<get_brigade()|/C_get_brigade_>> entry for
+details.
+
+=item since: 1.99_10
 
 =back
+
+C<fflush> is a shortcut method. So instead of doing:
+
+  my $b = APR::Bucket::flush_create($f->c->bucket_alloc);
+  $bb->insert_tail($b);
+  $f->pass_brigade($bb);
+
+one can just write:
+
+  $f->fflush($bb);
+
+
+
+
 
 
 
@@ -272,61 +376,214 @@ The brigade to flush
 This is a method to use in bucket brigade input filters. It acquires a
 bucket brigade from the upstream input filter.
 
-  $ret = $next_f->get_brigade($bb, $mode, $block, $readbytes);
+  $rc = $next_f->get_brigade($bb, $mode, $block, $readbytes);
+  $rc = $next_f->get_brigade($bb, $mode, $block);
+  $rc = $next_f->get_brigade($bb, $mode)
+  $rc = $next_f->get_brigade($bb);
 
 =over 4
 
-=item obj: C<$next_f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item obj: C<$next_f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
-The next filter in the chain
+The next filter in the filter chain.
 
-=item arg1: C<$bb> (C<L<APR::Brigade|docs::2.0::api::APR::Brigade>>)
+Inside L<filter handlers|docs::2.0::user::handlers::filters> it's
+usually C<L<$f-E<gt>next|/C_next_>>. Inside L<protocol
+handlers|docs::2.0::user::handlers::protocols>:
+C<L<$c-E<gt>input_filters|docs::2.0::api::Apache::Connection/C_input_filters_>>.
 
-The original brigade passed to get_brigade() must be empty.  On return
-it gets populated with the next bucket brigade, or nothing if there is
-no more data to read.
 
-=item arg2: C<$mode> (integer)
+=item arg1: C<$bb>
+( C<L<APR::Brigade object|docs::2.0::api::APR::Brigade>> )
 
-The way in which the data should be read
+The original bucket brigade passed to C<get_brigade()>, which must be
+empty.
 
-=item arg3: C<$block> (integer)
+Inside L<input filter
+handlers|docs::2.0::user::handlers::filters> it's usually the second
+argument to the filter handler.
 
-How the operations should be performed APR::BLOCK_READ,
-APR::NONBLOCK_READ
+Otherwise it should be created:
 
-=item arg4: C<$readbytes> (integer)
+  my $bb = APR::Brigade->new($c->pool, $c->bucket_alloc);
+
+On return it gets populated with the next bucket brigade. That brigade
+may contain nothing if there was no more data to read. The return
+status tells the outcome.
+
+
+=item opt arg2: C<$mode> ( C<L<Apache::Const :input_mode
+constant|docs::2.0::api::Apache::Const/C__input_mode_>> )
+
+The filter mode in which the data should be read.
+
+If inside the filter handler, you should normally pass the same mode
+that was passed to the filter handler (the third argument).
+
+At the end of this section the available modes are presented.
+
+If the argument C<$mode> is not passed,
+C<L<Apache::MODE_READBYTES|docs::2.0::api::Apache::Const/C_Apache__MODE_READBYTES_>>
+is used as a default value.
+
+
+=item opt arg3: C<$block> ( C<L<APR::Const :read_type
+constant|docs::2.0::api::APR::Const/C__input_mode_>> )
+
+You may ask the reading operation to be blocking:
+C<L<APR::BLOCK_READ|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>>,
+or nonblocking:
+C<L<APR::NONBLOCK_READ|docs::2.0::api::APR::Const/C_APR__NONBLOCK_READ_>>.
+
+If inside the filter handler, you should normally pass the same
+blocking mode argument that was passed to the filter handler (the
+forth argument).
+
+If the argument C<$block> is not passed,
+C<L<APR::BLOCK_READ|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>> is
+used as a default value.
+
+
+=item opt arg4: C<$readbytes> ( integer )
 
 How many bytes to read from the next filter.
 
-=item ret: C<$ret> (integer)
+If inside the filter handler, you may want the same number of bytes,
+as the upstream filter, i.e. the argument that was passed to the
+filter handler (the fifth argument).
 
-It returns C<APR::SUCCESS> on success, otherwise a failure code, in
-which case it should be returned to the caller.
+If the argument C<$block> is not passed, 8192 is used as a default
+value.
+
+
+=item ret: C<$rc> ( C<L<APR::Const status
+constant|docs::2.0::api::APR::Const>> )
+
+On success,
+C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
+returned and C<$bb> is populated (see the C<$bb> entry).
+
+In case of a failure -- a failure code is returned, in which case
+normally it should be returned to the caller.
 
 If the bottom-most filter doesn't read from the network, then
-Apache::NOBODY_READ is returned (META: need to add this constant).
+C<Apache::NOBODY_READ> is returned (META: need to add this constant).
+
+Inside L<protocol handlers|docs::2.0::user::handlers::protocols> the
+return code can also be C<APR::EOF>, which is success as well.
+
+
+=item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
+
+You don't have to ask for the return value. If this function is called
+in the void context, e.g.:
+
+  $f->next->get_brigade($bb, $mode, $block, $readbytes);
+
+mod_perl will do the error checking on your behalf, and if the return
+code is not
+C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>>, an
+C<L<APR::Error exception|docs::2.0::api::APR::Error>> will be thrown.
+The only time you want to do the error checking yourself, is when
+return codes besides
+C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> are
+considered as successful and you want to manage them by yourself.
+
+=item since: 1.99_15
 
 =back
 
-For example:
 
+Available input filter modes (the optional second argument C<$mode>)
+are:
+
+=over
+
+=item * C<L<Apache::MODE_READBYTES|docs::2.0::api::Apache::Const/C_Apache__MODE_READBYTES_>>
+
+The filter should return at most readbytes data
+
+=item * C<L<Apache::MODE_GETLINE|docs::2.0::api::Apache::Const/C_Apache__MODE_GETLINE_>>
+
+The filter should return at most one line of CRLF data.  (If a
+potential line is too long or no CRLF is found, the filter may return
+partial data).
+
+=item * C<L<Apache::MODE_EATCRLF|docs::2.0::api::Apache::Const/C_Apache__MODE_EATCRLF_>>
+
+The filter should implicitly eat any CRLF pairs that it sees.
+
+=item * C<L<Apache::MODE_SPECULATIVE|docs::2.0::api::Apache::Const/C_Apache__MODE_SPECULATIVE_>>
+
+The filter read should be treated as speculative and any returned data
+should be stored for later retrieval in another mode.
+
+=item * C<L<Apache::MODE_EXHAUSTIVE|docs::2.0::api::Apache::Const/C_Apache__MODE_EXHAUSTIVE_>>
+
+The filter read should be exhaustive and read until it can not read
+any more. Use this mode with extreme caution.
+
+=item * C<L<Apache::MODE_INIT|docs::2.0::api::Apache::Const/C_Apache__MODE_INIT_>>
+
+The filter should initialize the connection if needed, NNTP or FTP
+over SSL for example.
+
+=back
+
+Either compile all these constants with:
+
+  use Apache::Const -compile => qw(:input_mode);
+
+But it's a bit more efficient to compile only those constants that you
+need.
+
+Example:
+
+Here is a fragment of a filter handler, that receives a bucket brigade
+from the upstream filter:
+
+  use Apache::Filter ();
+  use APR::Const    -compile => qw(SUCCESS);
+  use Apache::Const -compile => qw(OK);
   sub filter {
       my($f, $bb, $mode, $block, $readbytes) = @_;
       
-      my $rv = $f->next->get_brigade($bb, $mode, $block, $readbytes);
-      return $rv unless $rv == APR::SUCCESS;
+      my $rc = $f->next->get_brigade($bb, $mode, $block, $readbytes);
+      return $rc unless $rc == APR::SUCCESS;
       
       # ... process $bb
       
       return Apache::OK;
   }
 
-Normally arguments C<$mode>, C<$block>, C<$readbytes> are the same as
+Usually arguments C<$mode>, C<$block>, C<$readbytes> are the same as
 passed to the filter itself.
 
-It returns C<APR::SUCCESS> on success, otherwise a failure code, in
-which case it should be returned to the caller.
+You can see that in case of a failure, the handler returns immediately
+with that failure code, which gets propagated to the downstream
+filter.
+
+If you decide not check the return code, you can write it as:
+
+  sub filter {
+      my($f, $bb, $mode, $block, $readbytes) = @_;
+      
+      $f->next->get_brigade($bb, $mode, $block, $readbytes);
+      
+      # ... process $bb
+      
+      return Apache::OK;
+  }
+
+and the error checking will be done on your behalf.
+
+You will find many more examples in C<the filter
+handlers|docs::2.0::user::handlers::filters> and
+C<the protocol
+handlers|docs::2.0::user::handlers::protocols> tutorials.
+
+
 
 
 
@@ -336,44 +593,82 @@ which case it should be returned to the caller.
 This is a method to use in bucket brigade output filters.  It passes
 the current bucket brigade to the downstream output filter.
 
-  $ret = $next_f->pass_brigade($bb);
+  $rc = $next_f->pass_brigade($bb);
 
 =over 4
 
-=item obj: C<$next_f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item obj: C<$next_f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
-The next filter in the chain
+The next filter in the filter chain.
 
-=item arg1: C<$bb> (C<L<APR::Brigade|docs::2.0::api::APR::Brigade>>)
+Inside L<output filter handlers|docs::2.0::user::handlers::filters>
+it's usually C<L<$f-E<gt>next|/C_next_>>. Inside L<protocol
+handlers|docs::2.0::user::handlers::protocols>:
+C<L<$c-E<gt>output_filters|docs::2.0::api::Apache::Connection/C_output_filters_>>.
 
-The current bucket brigade
+=item arg1: C<$bb>
+( C<L<APR::Brigade object|docs::2.0::api::APR::Brigade>> )
 
-=item ret: C<$ret> (integer)
+The bucket brigade to pass.
 
-It returns C<APR::SUCCESS> on success, otherwise a failure code, in
-which case it should be returned to the caller.
+Inside L<output filter
+handlers|docs::2.0::user::handlers::filters> it's usually the second 
+argument to the filter handler (after potential manipulations).
+
+=item ret: C<$rc> ( C<L<APR::Const status
+constant|docs::2.0::api::APR::Const>> )
+
+On success,
+C<L<APR::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
+returned.
+
+In case of a failure -- a failure code is returned, in which case
+normally it should be returned to the caller.
 
 If the bottom-most filter doesn't write to the network, then
-Apache::NOBODY_WROTE is returned (META: need to add this constant).
+C<Apache::NOBODY_WROTE> is returned (META: need to add this constant).
+
+Also refer to the C<L<get_brigade()|/C_get_brigade_>> entry to see how
+to avoid checking the errors explicitly.
+
+=item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
+
+Exceptions are thrown only when this function is called in the void
+context. Refer to the C<L<get_brigade()|/C_get_brigade_>> entry for
+details.
+
+=item since: 1.99_15
 
 =back
 
 The caller relinquishes ownership of the brigade (i.e. it may get
-destroyed/overwritten/etc by the callee).
+destroyed/overwritten/etc. by the callee).
 
-For example:
+Example:
 
+Here is a fragment of a filter handler, that passes a bucket brigade
+to the downstream filter (after some potential processing of the
+buckets in the bucket brigade):
+
+  use Apache::Filter ();
+  use APR::Const    -compile => qw(SUCCESS);
+  use Apache::Const -compile => qw(OK);
   sub filter {
       my($f, $bb) = @_;
       
       # ... process $bb
       
-      my $rv = $f->next->pass_brigade($bb);
-      return $rv unless $rv == APR::SUCCESS;
+      my $rc = $f->next->pass_brigade($bb);
+      return $rc unless $rc == APR::SUCCESS;
       
       # process $bb
       return Apache::OK;
   }
+
+
+
+
 
 
 
@@ -387,40 +682,140 @@ For example:
 The following methods can be called from any filter, which uses the
 simplified streaming functionality:
 
+
+
+
+
+=head2 C<print>
+
+Send the contents of C<$buffer> to the next filter in chain (via
+internal buffer).
+
+  $sent = $f->print($buffer);
+
+=over 4
+
+=item obj: C<$f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+
+=item arg1: C<$buffer> ( string )
+
+The data to send.
+
+=item ret: C<$sent> ( integer )
+
+How many characters were sent. There is no need to check, since all
+should go through and if something goes work an exception will be
+thrown.
+
+=item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
+
+=item since: 1.99_10
+
+=back
+
+This method should be used only in L<streaming
+filters|docs::2.0::user::handlers::filters>.
+
+
+
+
+
+
+=head2 C<read>
+
+Read data from the filter
+
+  $read = $f->recv($buffer, $wanted);
+
+=over 4
+
+=item obj: C<$f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
+
+=item arg1: C<$buffer> ( SCALAR )
+
+The buffer to fill. All previous data will be lost.
+
+=item opt arg2: C<$wanted> ( integer )
+
+How many bytes to attempt to read.
+
+If this optional argument is not specified -- the default 8192 will be
+used.
+
+=item ret: C<$read> ( integer )
+
+How many bytes were actually read.
+
+C<$buffer> gets populated with the string that is read. It will
+contain an empty string if there was nothing to read.
+
+=item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
+
+=item since: 1.99_10
+
+=back
+
+Reads at most C<$wanted> characters into C<$buffer>. The returned
+value C<$read> tells exactly how many were read, making it easy to use
+it in a while loop:
+
+  while ($filter->read(my $buffer, $wanted)) {
+      # transform $buffer here
+      $filter->print($buffer);
+  }
+
+This is a streaming filter method, which acquires a single bucket
+brigade behind the scenes and reads data from all its
+buckets. Therefore it can only read from one bucket brigade per filter
+invocation.
+
+If the EOS bucket is read, the C<L<seen_eos|/C_seen_eos_>> method will
+return a true value.
+
+
+
+
+
+
 =head2 C<seen_eos>
 
 This methods returns a true value when the EOS bucket is seen by the
 C<L<read|/C_read_>> method.
 
-  $ret = $f->seen_eos;
+  $ok = $f->seen_eos;
 
 =over 4
 
-=item obj: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
+=item obj: C<$f>
+( C<L<Apache::Filter object|docs::2.0::api::Apache::Filter>> )
 
 The filter to remove
 
-=item ret: C<$ret> (integer)
+=item ret: C<$ok> ( true/false )
 
-a true value if seen, otherwise a false value
+a true value if EOS has been seen, otherwise a false value
+
+=item since: 1.99_10
 
 =back
 
-This method only works in streaming filters which
-exhaustively C<L<$f-E<gt>read|/C_read_>> all the incoming data in a
-while loop, like so:
+This method only works in streaming filters which exhaustively
+C<L<$f-E<gt>read|/C_read_>> all the incoming data in a while loop,
+like so:
 
-      while ($f->read(my $buffer, $read_len)) {
+      while ($f->read(my $buffer, $wanted)) {
           # do something with $buffer
       }
       if ($f->seen_eos) {
           # do something
       }
 
-This method is useful when a streaming filter wants to append
-something to the very end of data, or do something at the end of the
-last filter invocation. After the EOS bucket is read, the filter
-should expect not to be invoked again.
+The technique in this example is useful when a streaming filter wants
+to append something to the very end of data, or do something at the
+end of the last filter invocation. After the EOS bucket is read, the
+filter should expect not to be invoked again.
 
 If an input streaming filter doesn't consume all data in the bucket
 brigade (or even in several bucket brigades), it has to generate the
@@ -444,81 +839,6 @@ tests that test abnormal situations.
 
 
 
-=head2 C<read>
-
-Read data from the filter
-
-  $ret = $f->read(my $buffer, $read_len);
-
-=over 4
-
-=item obj: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
-
-=item arg1: C<$buffer> (scalar)
-
-=item arg2: C<$read_len> (integer)
-
-=item ret: C<$ret> (number)
-
-=back
-
-Reads at most C<$read_len> characters into C<$buffer>. It returns a
-true value as long as it had something to read, or a false value
-otherwise.
-
-This is a streaming filter method, which acquires a single bucket
-brigade behind the scenes and reads data from all its
-buckets. Therefore it can only read from one bucket brigade per filter
-invocation.
-
-If the EOS bucket is read, the C<L<seen_eos|/C_seen_eos_>> method will
-return a true value.
-
-
-
-=head2 C<fputs>
-
-META: Autogenerated - needs to be reviewed/completed
-
-  $ret = $f->fputs($bb, $str);
-
-=over 4
-
-=item obj: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
-
-=item arg1: C<$bb> (C<L<APR::Brigade|docs::2.0::api::APR::Brigade>>)
-
-=item arg2: C<$str> (string)
-
-=item ret: C<$ret> (integer)
-
-=back
-
-
-
-=head2 C<print>
-
-Send the contents of C<$buffer> to the next filter in chain (via
-internal buffer).
-
-  $f->print($buffer);
-
-=over 4
-
-=item obj: C<$f> (C<L<Apache::Filter|docs::2.0::api::Apache::Filter>>)
-
-=item arg1: C<$buffer> (scalar)
-
-=item ret: XXX
-
-=back
-
-This method should be used only in streaming filters.
-
-
-
-
-
 
 =head1 Other Filter-related API
 
@@ -539,11 +859,15 @@ Add C<&callback> filter handler to input connection filter chain.
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>) or C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> ) or C<$r>
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
 =item arg1: C<&callback> (CODE ref)
 
-=item ret: XXX
+=item ret: no return value
+
+=item since: 1.99_10
 
 =back
 
@@ -573,60 +897,18 @@ Add C<&callback> filter handler to output connection filter chain.
 
 =over 4
 
-=item obj: C<$c> (C<L<Apache::Connection|docs::2.0::api::Apache::Connection>>) or C<$r> (C<L<Apache::RequestRec|docs::2.0::api::Apache::RequestRec>>)
+=item obj: C<$c>
+( C<L<Apache::Connection object|docs::2.0::api::Apache::Connection>> ) or C<$r>
+( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
 =item arg1: C<&callback> (CODE ref)
 
-=item ret: XXX
+=item ret: no return value
+
+=item since: 1.99_10
 
 =back
 
-
-
-
-
-=head1 TIE Interface
-
-C<Apache::Filter> also implements a tied interface, so you can work
-with the C<$f> object as a hash reference.
-
-META: complete
-
-
-
-=head2 C<TIEHANDLE>
-
-META: Autogenerated - needs to be reviewed/completed
-
-  $ret = TIEHANDLE($stashsv, $sv);
-
-=over 4
-
-=item obj: C<$stashsv> (scalar)
-
-=item arg1: C<$sv> (scalar)
-
-=item ret: C<$ret> (scalar)
-
-=back
-
-
-
-
-
-=head2 C<PRINT>
-
-META: Autogenerated - needs to be reviewed/completed
-
-  $ret = PRINT(...);
-
-=over 4
-
-=item obj: C<...> (XXX)
-
-=item ret: C<$ret> (integer)
-
-=back
 
 
 
@@ -780,6 +1062,62 @@ C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/C_PerlSetInputFilter_>
 
 See
 C<L<PerlSetInputFilter|docs::2.0::user::handlers::filters/C_PerlSetInputFilter_>>.
+
+
+
+
+
+
+
+=head1 TIE Interface
+
+C<Apache::Filter> also implements a tied interface, so you can work
+with the C<$f> object as a hash reference.
+
+The TIE interface is mostly unimplemented and might be implemented
+post 2.0 release.
+
+
+
+=head2 C<TIEHANDLE>
+
+  $ret = TIEHANDLE($stashsv, $sv);
+
+=over 4
+
+=item obj: C<$stashsv> ( SCALAR )
+
+=item arg1: C<$sv> ( SCALAR )
+
+=item ret: C<$ret> ( SCALAR )
+
+=item since: 1.99_10
+
+=back
+
+
+
+
+
+=head2 C<PRINT>
+
+  $ret = PRINT(...);
+
+=over 4
+
+=item obj: C<...> (XXX)
+
+=item ret: C<$ret> ( integer )
+
+=item since: 1.99_10
+
+=back
+
+
+
+
+
+
 
 
 =head1 See Also

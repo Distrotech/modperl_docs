@@ -1875,6 +1875,11 @@ the read function does not block
 
 
 
+
+
+
+
+
 =head2 C<:shutdown_how>
 
   use APR::Const -compile => qw(:shutdown_how);

@@ -460,6 +460,21 @@ need to know at this stage is that the data sent from the connection
 handler is filtered by the outgoing filter and which transforms it to
 be all lowercase.
 
+Also it's worth mentioning
+C<L<fflush()|docs::2.0::api::Apache::Filter/C_fflush_>>, which can
+replace 3 lines of code:
+
+          my $b = APR::Bucket::flush_create($c->bucket_alloc);
+          $bb_out->insert_tail($b);
+          $c->output_filters->pass_brigade($bb_out);
+
+with just one line:
+
+          $c->output_fiilters->fflush($bb_out);
+
+
+
+
 
 
 

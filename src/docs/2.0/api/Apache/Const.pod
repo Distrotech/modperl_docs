@@ -1026,6 +1026,8 @@ The C<:input_mode> group is for XXX constants.
 
 
 
+
+
 =head3 C<Apache::MODE_EATCRLF>
 
 =over
@@ -1033,6 +1035,10 @@ The C<:input_mode> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+See
+C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
+
 
 
 
@@ -1046,6 +1052,9 @@ The C<:input_mode> group is for XXX constants.
 
 =back
 
+See
+C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
+
 
 
 
@@ -1057,6 +1066,9 @@ The C<:input_mode> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+See
+C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
 
 
 
@@ -1070,6 +1082,9 @@ The C<:input_mode> group is for XXX constants.
 
 =back
 
+See
+C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
+
 
 
 
@@ -1082,6 +1097,9 @@ The C<:input_mode> group is for XXX constants.
 
 =back
 
+See
+C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
+
 
 
 
@@ -1093,6 +1111,13 @@ The C<:input_mode> group is for XXX constants.
 =item since: 1.99_12
 
 =back
+
+See
+C<L<Apache::Filter::get_brigade()|docs::2.0::api::Apache::Filter/C_get_brigade_>>.
+
+
+
+
 
 
 
