@@ -1,0 +1,83 @@
+This document explains how to setup swish-e, index and search the
+perl.apache.org site.
+
+Setting up swish-e:
+-------------------
+
+- Install the dev version of swish-e.  Currently we use SWISH-E 2.1-dev-25.
+
+- make sure that swish-e is in the PATH, so the apps will be able to
+   find it
+
+Indexing:
+---------
+
+1. normally build the site:
+
+  % bin/build -f (-d to build pdfs)
+
+which among other things creates the dir: dst_html/search
+
+2. check that swish.conf points to the right base URL, e.g.:
+
+  SwishProgParameters default http://localhost/modperl-site/
+
+3. Index the site
+
+  % cd dst_html/search
+  % swish-e -S prog -c swish.conf
+
+You should see something like:
+
+  Indexing Data Source: "External-Program"
+  Indexing "./spider.pl"
+  ./spider.pl: Reading parameters from 'default'
+  
+  Summary for: http://localhost/modperl-site/
+      Duplicates:     5,357  (281.9/sec)
+  Off-site links:     1,851  (97.4/sec)
+     Total Bytes: 8,107,112  (426690.1/sec)
+      Total Docs:       351  (18.5/sec)
+     Unique URLs:       419  (22.1/sec)
+  Removing very common words...
+  no words removed.
+  Writing main index...
+  Sorting words ...
+  Sorting 10599 words alphabetically
+  Writing header ...
+  Writing index entries ...
+    Writing word text: Complete
+    Writing word hash: Complete
+    Writing word data: Complete
+  10599 unique words indexed.
+  5 properties sorted.                                              
+  351 files indexed.  8107112 total bytes.  307356 total words.
+  Elapsed time: 00:00:20 CPU time: 00:00:02
+  Indexing done!
+
+Now you can search...
+
+Searching:
+----------
+
+1. Go to the search page: ..../search/search.html
+
+2. Search
+
+If something doesn't work check the error_log file on the server the
+swish.cgi is running on. The most common error is that the swish-e
+binary cannot be found by the swish.cgi script. Remember that CGI may
+be running under a different username and therefore may not have the
+same PATH env variable.
+
+
+Swish-e related adjustments to the template:
+--------------------------------------------
+
+- since we want to index only the real content, we use:
+  <!-- Swishcommand index -->,
+       only content here will indexed
+  <!-- Swishcommand noindex -->,
+
+
+
