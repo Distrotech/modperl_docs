@@ -163,7 +163,7 @@ be copied to your Apache modules directory (eg, F<C:\Apache\modules>).
 
 Generating the Makefile as, for example,
 
-  C:\modperl_src> perl Makefile.PL APACHE_SRC=\Apache INSTALL_DLL=\Apache\modules
+  C:\modperl_src> perl Makefile.PL APACHE_SRC=\Apache
 
 will build mod_perl (including mod_perl.so) entirely from 
 the command line. The arguments accepted include
@@ -185,6 +185,15 @@ is not given, mod_perl.so must be copied manually (in the
 current cvs mod_perl 1 sources, INSTALL_DLL, if not supplied, 
 will assume a default of F<APACHE_SRC/modules>, if this directory
 exists).
+
+=item INSTALL_LIB
+
+This option, which is presently available only in the current
+mod_perl 1 cvs sources, gives the location of where to install
+mod_perl.lib (eg, F<\Apache\libexec>). This library is needed for
+building certain 3rd party Apache modules. If this is not supplied, 
+a default of F<APACHE_SRC/libexec> will be assumed, if this directory
+exists.
 
 =item DEBUG
 
