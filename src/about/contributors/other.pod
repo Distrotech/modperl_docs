@@ -335,8 +335,6 @@ mailing lists, supporting users.
 
 =item * Mark Mills
 
-=item * Mark Mills
-
 =item * Mark Summerfield
 
 =item * Mark-Jason Dominus
@@ -532,8 +530,6 @@ mailing lists, supporting users.
 =item * Tom Hughes
 
 =item * Tom Hukins
-
-=item * Tom Mornini
 
 =item * Tom Mornini
 
