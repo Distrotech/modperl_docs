@@ -4,35 +4,39 @@ Example PerlTransHandler
 
 =head1 Using mod_perl to rewrite URLs
 
-Anyone that's looked at web logs will quickly see the usefulness of this little
-mod_perl script.  It catches all requests for favicon.ico and rewrites the request
-to point to a vaild location.  No more logs full of 404 errors.
+Anyone that's looked at web logs will quickly see the usefulness of
+this little mod_perl script.  It catches all requests for
+I<favicon.ico> and rewrites the request to point to a vaild location.
+No more logs full of 404 errors.
 
-This example is adapted from the L<mod_perl Devekioer's Cookbook|http://modperlcookbook.com>, chapter 12.
+This example is adapted from the L<mod_perl Devekioer's
+Cookbook|http://modperlcookbook.com>, chapter 12.
 
-    package Cookbook::Favicon;
-    
-    use Apache::Constants qw(DECLINED);
-    use strict;
-    
-    sub handler {
-        my $r = shift;
+  file:Cookbook/Favicon.pm
+  ------------------------
+  package Cookbook::Favicon;
+  
+  use Apache::Constants qw(DECLINED);
+  use strict;
+  
+  sub handler {
+      my $r = shift;
+  
+      $r->uri('/images/favicon.ico')
+          if $r->uri =~ m!/favicon\.ico$!
+  
+      return DECLINED;
+  }
+  1;
 
-        $r->uri('/images/favicon.ico')
-            if $r->uri =~ m!/favicon\.ico$!
-        
-        return DECLINED;
-    }
-    1;
-
-And configure in F<httpd.conf> with:
+And configure in I<httpd.conf> with:
 
     PerlModule Cookbook::Favicon
     PerlTransHandler Cookbook::Favicon
 
-Although this example could easily be accomplished with Apache's mod_rewrite module,
-this example demonstrates how easy it is to rewrite URLs programatically, using the
-power of Perl.
+Although this example could easily be accomplished with Apache's
+mod_rewrite module, this example demonstrates how easy it is to
+rewrite URLs programatically, using the power of Perl.
 
 =for html
 <a class="more" href="../index.html#handler">&#171&nbsp;back</a>

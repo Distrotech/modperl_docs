@@ -4,44 +4,47 @@ Log Handler Example
 
 =head1 Creating a PerlLogHandler
 
-Every request phase can be controlled using mod_perl.  Here's an example
-of a PerlLogHandler.  The PerlLogHandler is one of the last phases of the request
-cycle.
+Every request phase can be controlled using mod_perl.  Here's an
+example of a C<PerlLogHandler>.  The C<PerlLogHandler> is one of the
+last phases of the request cycle.
 
-This example sends mail when a request is made to the /private section of your
-web space.  A more common use of a PerlLogHandler might be to track hits on a
-specific set of URLs, or to write logging data to a relational database.
+This example sends mail when a request is made to the /private section
+of your web space.  A more common use of a C<PerlLogHandler> might be
+to track hits on a specific set of URLs, or to write logging data to a
+relational database.
 
-    package My::Notify;
-    use strict;
-    use Apache::Constants(':common');
+  file:My/Notify.pm
+  ------------------------
+  package My::Notify;
+  use strict;
+  use Apache::Constants(':common');
 
-    use Mail::Send;
+  use Mail::Send;
 
-    sub handler {
-        my $r = shift;
+  sub handler {
+      my $r = shift;
 
-        my $email = $r->server->server_admin || return DECLINED;
+      my $email = $r->server->server_admin || return DECLINED;
 
-        my $mail = Mail::Send->new(
-            To      => $email,
-            Subject => "mod_perl Notification",
-        );
-        my $file = $r->filename;
-        my $fh = $mail->open;
-        $fh->print("File '$file' was accessed");
-        $fh->close;
+      my $mail = Mail::Send->new(
+          To      => $email,
+          Subject => "mod_perl Notification",
+      );
+      my $file = $r->filename;
+      my $fh = $mail->open;
+      $fh->print("File '$file' was accessed");
+      $fh->close;
 
-        return DECLINED; # let apache write to the lot
-    }
-    1; # modules must return true
+      return DECLINED; # let apache write to the lot
+  }
+  1; # modules must return true
 
-The httpd.conf setup:
+The I<httpd.conf> setup:
 
-    <location /private>
-        SetHandler perl-script
-        PerlLogHandler My::Notify
-    </location>
+  <location /private>
+      SetHandler perl-script
+      PerlLogHandler My::Notify
+  </location>
 
 =for html
 <a class="more" href="../index.html#logging">&#171&nbsp;back</a>
