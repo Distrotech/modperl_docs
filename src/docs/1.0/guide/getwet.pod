@@ -50,9 +50,9 @@ Perl is available as an installable package, although most Unix-like
 distributions will have installed Perl by default. To check that the
 tools are available and learn about their version numbers, try:
 
-  panic% make -v
-  panic% gcc -v
-  panic% perl -v
+  % make -v
+  % gcc -v
+  % perl -v
 
 If any of these responds with C<Command not found>, it will need to be
 installed.
@@ -76,14 +76,14 @@ Move the downloaded packages into a directory of your choice, I<e.g.>,
 I</home/stas/src/>, proceed with the described steps and you will have
 mod_perl installed:
 
-  panic% cd /home/stas/src
-  panic% tar -zvxf apache_x.x.x.tar.gz
-  panic% tar -zvxf mod_perl-x.xx.tar.gz
-  panic% cd mod_perl-x.xx
-  panic% perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
+  % cd /home/stas/src
+  % tar -zvxf apache_x.x.x.tar.gz
+  % tar -zvxf mod_perl-x.xx.tar.gz
+  % cd mod_perl-x.xx
+  % perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
       APACHE_PREFIX=/home/httpd DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
-  panic% make && make test
-  panic% su
+  % make && make test
+  % su
   panic# make install
 
 That's all!
@@ -134,19 +134,19 @@ in the examples to the actual path being used.
 
 The next step is to move to the directory with the source files:
 
-  panic% cd /home/stas/src
+  % cd /home/stas/src
 
 Uncompress and untar both sources.  GNU I<tar> allows this using a
 single command per file:
 
-  panic% tar -zvxf apache_x.x.x.tar.gz
-  panic% tar -zvxf mod_perl-x.xx.tar.gz
+  % tar -zvxf apache_x.x.x.tar.gz
+  % tar -zvxf mod_perl-x.xx.tar.gz
 
 For non-GNU I<tar>'s, you may need to do this with two steps (which
 you can combine via a pipe):
 
-  panic% gzip -dc apache_x.x.x.tar.gz | tar -xvf -
-  panic% gzip -dc mod_perl-x.xx.tar.gz | tar -xvf -
+  % gzip -dc apache_x.x.x.tar.gz | tar -xvf -
+  % gzip -dc mod_perl-x.xx.tar.gz | tar -xvf -
 
 Linux distributions supply C<tar> and C<gzip> and install them by
 default; for other systems these utilities should be obtained from
@@ -159,13 +159,13 @@ versions are available for every platform that Apache supports.
 Move into the I</home/stas/src/mod_perl-x.xx/> source distribution
 directory:
 
-  panic% cd mod_perl-x.xx
+  % cd mod_perl-x.xx
 
 The next step is to create the I<Makefile>. This step is no different
 in principle from the creation of the I<Makefile> for any other Perl
 module.
 
-  panic% perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
+  % perl Makefile.PL APACHE_SRC=../apache_x.x.x/src \
     DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
 
 (Replace I<x.x.x> with the Apache distribution version number.)
@@ -186,7 +186,7 @@ An advantage to installing mod_perl with the help of the C<CPAN.pm>
 module is that all the missing modules will be installed with the
 C<Bundle::Apache> bundle:
 
-  panic% perl -MCPAN -e 'install("Bundle::Apache")'
+  % perl -MCPAN -e 'install("Bundle::Apache")'
 
 We will talk about using C<CPAN.pm> in-depth in the L<installation
 process chapter|guide::install>.
@@ -201,7 +201,7 @@ The I<httpd> executable can now be built by using the C<make>
 utility. (Note that the current working directory is still
 I</home/stas/src/mod_perl-x.xx/>):
 
-  panic% make
+  % make
 
 This command prepares the mod_perl extension files, installs them in
 the Apache source tree and builds the I<httpd> executable (the web
@@ -212,7 +212,7 @@ I</home/stas/src/mod_perl-x.xx/>.
 Running C<make test> will execute various mod_perl tests on the
 freshly built I<httpd> executable.
 
-  panic% make test
+  % make test
 
 This command starts the server on a non-standard port (8529) and tests
 whether all parts of the built server function correctly. The process
@@ -227,7 +227,7 @@ be I<root> to have permission to do this, but another user account can
 be used if the appropriate options were set on the C<perl Makefile.PL>
 command line.  To become I<root>, use the I<su> command.
 
-  panic% su
+  % su
   panic# make install
 
 If you have the proper permission, you might also chain all three
@@ -472,7 +472,7 @@ this purpose. Your mileage may vary.
 
 First create this directory if it doesn't yet exist.
 
-  panic% mkdir /home/stas/modperl
+  % mkdir /home/stas/modperl
 
 What about file permissions?  Remember that when scripts are executed
 from a shell, they are being executed with permissions of the user's
@@ -488,7 +488,7 @@ directive to run the server under your username, e.g.,
 the permissions on all files and directories should usually be
 C<rwx------>, so we can set the directory permissions to:
 
-  panic% chmod 0700 /home/stas/modperl
+  % chmod 0700 /home/stas/modperl
 
 Now, no-one, but you and the server can access the files in this
 directory. You should set the same permissions for all the files you
@@ -552,7 +552,7 @@ explained in the previous section.
 The I<mod_perl_rules1.pl> script can be tested from the command line,
 since it is essentially a regular Perl script.
 
-  panic% perl /home/stas/modperl/mod_perl_rules1.pl
+  % perl /home/stas/modperl/mod_perl_rules1.pl
 
 This should produce the following output:
 
@@ -708,7 +708,7 @@ I<root> access in order to do that.). The files should include the
 code from the above examples.  To find out what the C<@INC>
 directories are, execute:
 
-  panic% perl -le 'print join "\n", @INC'
+  % perl -le 'print join "\n", @INC'
 
 On our machine it reports:
 
@@ -838,7 +838,7 @@ international audience, must run non-stop 24x7. But at the same time
 new scripts may need to be added, old ones removed, and the server
 software will need upgrades and security fixes. And if the server goes
 down, fast recovery is essential. These issues are considered in
-the L<Controlling your server chapter|guide::control>.
+the L<Controlling your server chapter|docs::general::control>.
 
 Finally, the most important aspect of mod_perl is the Apache Perl API,
 which allows intervention at any or every stage of request

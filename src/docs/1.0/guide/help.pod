@@ -1,6 +1,6 @@
 =head1 NAME
 
-Getting Help and Further Learning
+Getting Help
 
 =head1 Description
 
@@ -8,13 +8,15 @@ If your question isn't answered by reading this guide, check this section
 for information on how to get help on mod_perl, Apache, or other topics
 discussed here.
 
-
 =head1 READ ME FIRST
 
-If, after reading this guide and the other documents listed in this
-section, you still don't have the answers/information needed, please
-ask for help on the Apache/mod_perl mailing list.  But please, first 
-try to browse the mailing list archive.  Most of the time you will 
+If, after reading this guide and the L<other documents|docs::general::offsite>
+listed on this
+site, you still don't have the answers/information needed, please
+ask for help on the L<mod_perl users mailing list|maillist::list-modperl>.
+But please, first try to browse the
+L<mailing list archive|maillist::list-modperl/Searchable_Archives>.
+Most of the time you will 
 find the answer to your questions by searching the archive, since it is 
 very likely that someone else has already encountered the same problem
 and found a solution for it.  If you ignore this advice, you should not
@@ -24,8 +26,7 @@ should avoid asking questions, but you should not abuse the available
 help and you should I<RTFM> before you call for I<HELP>.  (Remember the
 fable of the shepherd boy and the wolves).
 
-For more information See L<Get help with
-mod_perl|guide::help/Get_help_with_mod_perl>.
+Another possibilty is to look in the general L<Getting Help|help::index> section of this site for a commercial training or consulting company.
 
 =head1 How to Report Problems
 
@@ -92,9 +93,9 @@ which will:
 
 Here is a summary of how to get a backtrace:
 
-  panic% cd mod_perl-x.xx
-  panic% touch t/conf/srm.conf
-  panic% gdb ../apache_x.xx/src/httpd
+  % cd mod_perl-x.xx
+  % touch t/conf/srm.conf
+  % gdb ../apache_x.xx/src/httpd
   (gdb) run -X -f `pwd`/t/conf/httpd.conf -d `pwd`/t
   [now make request that causes core dump]
   (gdb) bt
@@ -110,15 +111,15 @@ backtrace.
 Alternatively you can also attach to an already running process like
 so:
 
-  panic% gdb httpd <process id number>
+  % gdb httpd <process id number>
 
 If the dump is happening in I<libperl> you have to rebuild Perl with
 C<-DDEBUGGING> enabled. A quick way to this is to go to your Perl
 source tree and run these commands:
 
-  panic% rm *.[oa]
-  panic% make LIBPERL=libperld.a
-  panic% cp libperld.a $Config{archlibexp}/CORE
+  % rm *.[oa]
+  % make LIBPERL=libperld.a
+  % cp libperld.a $Config{archlibexp}/CORE
 
 where C<$Config{archlibexp}> is:
 
@@ -136,14 +137,14 @@ code:
 
 While the process is spinning, send it a I<USR1> signal:
 
-  panic% kill -USR1 <process id number>
+  % kill -USR1 <process id number>
 
 and the Perl stack trace will be printed.
 
 alternatively you can use gdb to find which Perl code is causing the
 spin:
 
-  panic% gdb httpd <pid of spinning process>
+  % gdb httpd <pid of spinning process>
   (gdb) where
   (gdb) source mod_perl-x.xx/.gdbinit
   (gdb) curinfo
@@ -155,426 +156,6 @@ stuck in.
 =back
 
 Finally send all these details to the modperl mailing list.
-
-=head1 Get help with mod_perl
-
-=over
-
-=item * mod_perl home
-
-http://perl.apache.org
-
-=item * News and Resources
-
-Take23: News and Resources for the mod_perl world 
-http://take23.org
-
-=item * mod_perl Books
-
-=over
-
-=item * Writing Apache Modules with Perl and C
-
-http://www.modperl.com is the home site of The Apache Modules Book, a book
-about creating Web server modules using the Apache API, written by
-Lincoln Stein and Doug MacEachern.
-
-The book should be available from your local bookstore or from your
-favorite on-line bookseller.  O'Reilly lists this book as:
-
-  Writing Apache Modules with Perl and C
-  By Lincoln Stein & Doug MacEachern
-  1st Edition March 1999
-  2nd Edition Feb 2000
-  1-56592-567-X, Order Number: 567X
-  746 pages, $34.95
-
-=item * The mod_perl Developer's Cookbook
-
-Home site: http://www.modperlcookbook.org
-
-SAMS lists this book as:
-
-  The mod_perl Developer's Cookbook
-  By Geoffrey Young; Paul Lindner; Randy Kobes
-  ISBN: 0672322404
-  Pub. Date: Jan 17,2002
-  Price: $39.99
-  Pages: 600
-
-=item * Practical mod_perl
-
-http://www.modperlbook.com is the home site of the new mod_perl book,
-that Eric Cholet and Stas Bekman are co-authoring.  We expect
-the book to be published in 2002.
-
-Ideas, suggestions and comments are welcome. Please send them to
-info@modperlbook.com .
-
-=item * mod_perl Quick Reference Card
-
-I<mod_perl Pocket Reference> by Andrew Ford was published by O'Reilly
-and Associates http://www.oreilly.com/catalog/modperlpr/
-
-You should probably get also the I<Apache Pocket Reference> by the
-same author and the same publisher:
-http://www.oreilly.com/catalog/apachepr/
-
-See also Andrew's collection of reference card for Apache and other
-programs: http://www.refcards.com.
-
-=back
-
-=item * 
-
-L<mod_perl Guide|docs::1.0::guide::index> by Stas Bekman.
-
-=item * mod_perl FAQ
-
-by Frank Cringle at http://perl.apache.org/faq/ .
-
-=item * mod_perl performance tuning guide 
-
-by Vivek Khera at http://perl.apache.org/tuning/ .
-
-=item * mod_perl plugin reference guide 
-
-by Doug MacEachern at http://perl.apache.org/src/mod_perl.html .
-
-=item * Quick guide for moving from CGI to mod_perl
-
-at http://perl.apache.org/dist/cgi_to_mod_perl.html .
-
-=item * mod_perl_traps, common traps and solutions for mod_perl users
-
-at http://perl.apache.org/dist/mod_perl_traps.html .
-
-=item * Articles
-
-=over
-
-=item * ApacheToday
-
-http://apachetoday.com
-
-=item * Basic knowledge about Apache stages and mod_perl handlers
-article in German
-
-http://www.heise.de/ix/artikel/2000/01/156/
-
-=back
-
-=item * L<mod_perl mailing lists|maillist::index>.
-
-=back
-
-=head1 Get help with Perl
-
-=over
-
-=item * The Perl FAQ
-
-http://www.perl.com/CPAN/doc/FAQs/FAQ/PerlFAQ.html
-
-=item * The Perl Home Page
-
-http://www.perl.com/
-
-=item * The Perl Journal
-
-http://www.tpj.com/
-
-=item * Perl Module Mechanics
-
-http://world.std.com/~swmcd/steven/perl/module_mechanics.html - This
-page describes the mechanics of creating, compiling, releasing and
-maintaining Perl modules.
-
-=item * Creating (and Maintaining) Perl Modules
-
-http://www.mathforum.com/~ken/perl_modules.html
-
-=item * XS tutorials
-
-Perl manpages: I<perlguts>, I<perlxs>, and I<perlxstut> manpages.
-
-Dean Roehrich's XS CookBookA and CookBookB
-http://search.cpan.org/search?dist=CookBookA
-http://search.cpan.org/search?dist=CookBookB
-
-a series of articles by Steven McDougall:
-http://world.std.com/~swmcd/steven/perl/pm/xs/intro/index.html
-http://world.std.com/~swmcd/steven/perl/pm/xs/concepts.html
-http://world.std.com/~swmcd/steven/perl/pm/xs/tools/index.html
-http://world.std.com/~swmcd/steven/perl/pm/xs/modules/modules.html
-http://world.std.com/~swmcd/steven/perl/pm/xs/nw/NW.html
-
-I<Advanced Perl Programming> By Sriram Srinivasan. Published by
-O'Reilly & Associates. ISBN: 1-56592-220-4. Chapters 18-20.
-http://www.oreilly.com/catalog/advperl/
-
-perl-xs mailing list on perl.org (mail perl-xs-subscribe@perl.org)
-
-Take a look also at Inline.pm (CPAN) and SWIG (http://www.swig.org/)
-
-=item * Perl mailing lists
-
-A huge number of diverse Perl mailing lists is listed at
-http://lists.perl.org/.
-
-=item * perl5-porters mailing list
-
-Send an email:
-
-=over
-
-=item * 
-
-to perl5-porters-subscribe@perl.org to subscribe to this list.
-
-=item * 
-
-to perl5-porters-unsubscribe@perl.org to unsubscribe to this list.
-
-=item * 
-
-to perl5-porters-digest-subscribe@perl.org if you prefer a digest
-version.
-
-=item * 
-
-to perl5-porters-digest-unsubscribe@perl.org to unsubscribe from the
-digest.
-
-=item * 
-
-to perl5-porters-help@perl.org for more information about the
-subscription options.
-
-=back
-
-List's archive is available at
-http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/.
-
-=back
-
-=head1 Get help with Perl/CGI
-
-=over
-
-=item * Perl/CGI FAQ
-
-at http://www.perl.com/CPAN/doc/FAQs/cgi/perl-cgi-faq.html
-
-=item * Answers to some troublesome Perl and Perl/CGI questions
-
-http://stason.org/TULARC/webmaster/myfaq.html
-
-=item * Idiot's Guide to CGI programming
-
-http://www.webdeveloper.com/cgi-perl/cgi_idiots_guide_to_perl.html
-
-=item * WWW Security FAQ
-
-http://www.w3.org/Security/Faq/www-security-faq.html
-
-=item * CGI/Perl Taint Mode FAQ
-
-http://www.gunther.web66.com/FAQS/taintmode.html (by Gunther
-Birznieks)
-
-=item * cgi-list mailing list
-
-Send email to majordomo@jann.com with body:
-
-  subscribe cgi-list
-
-=back
-
-=head1 Get help with Apache 
-
-=over
-
-=item * Apache Project's Home
-
-http://www.apache.org
-
-=item * Apache Mailing Lists
-
-You will find a comprehensive list of all Apache projects' mailing
-lists at: http://www.apache.org/foundation/mailinglists.html
-
-=item * Apache Quick Reference Card
-
-http://www.refcards.com (other reference cards are also available 
-from this link)
-
-=item * The Apache FAQ
-
-http://www.apache.org/docs/misc/FAQ.html
-
-=item * Apache Server Documentation
-
-http://www.apache.org/docs/
-
-=item * Apache Handlers
-
-http://www.apache.org/docs/handler.html
-
-=item * mod_rewrite Guide
-
-http://www.engelschall.com/pw/apache/rewriteguide/
-
-=item * Security:
-
-Security and Apache: An Essential Primer
-http://linuxplanet.com/linuxplanet/print/1527/
-
-Using Apache with Suexec on Linux
-http://linuxplanet.com/linuxplanet/print/1445/
-
-How to 'chroot' an Apache tree with Linux and Solaris
-http://penguin.epfl.ch/chroot.html
-
-Installing and Securing the Apache Webserver with SSL
-http://online.securityfocus.com/infocus/1356
-
-How to break out of a chroot() jail:
-http://www.bpfh.net/simes/computing/chroot-break.html
-
-Jails: Confining the omnipotent root:
-http://docs.freebsd.org/44doc/papers/jail/jail.html
-
-FreeBSD Developers' Handbook: The Jail Subsystem
-http://www.freebsd.org/doc/en_US.ISO8859-1/books/developers-handbook/jail.html
-
-=item * mod_throttle_access
-
-mod_throttle_access is available at http://www.fremen.org/apache/
-
-=back
-
-=head1 Get help with DBI and SQL
-
-=over
-
-=item *
-
-Introduction to Structured Query Language:
-http://www.dbbm.fiocruz.br/class/Lecture/d17/sql/jhoffman/sqltut.html
-
-=item *
-
-SQL for Web Nerds by Philip Greenspun
-http://www.arsdigita.com/books/sql/
-
-=item * Jeffrey Baker's DBI Examples and Performance Tuning
-
-http://www.saturn5.com/~jwb/dbi-examples.html (by Jeffrey William
-Baker).
-
-=item * DBI Homepage
-
-http://www.symbolstone.org/technology/perl/DBI/
-
-=item * DBI mailing list information
-
-http://www.fugue.com/dbi/ 
-
-=item * DBI mailing list archives
-
-http://www.bitmechanic.com/mail-archives/dbi-users/
-http://www.xray.mpe.mpg.de/mailing-lists/dbi/
-
-=back
-
-=head1 Get help with Squid - Internet Object Cache
-
-=over 4
-
-=item *
-
-Home page - http://squid.nlanr.net/
-
-=item *
-
-FAQ - http://squid.nlanr.net/Squid/FAQ/FAQ.html
-
-=item *
-
-Users Guide - http://squid.nlanr.net/Squid/Users-Guide/
-
-=item *
-
-Mailing lists - http://squid.nlanr.net/Squid/mailing-lists.html
-
-=back
-
-=head1 Get help with CVS -- Concurrent Version Control
-
-=over
-
-=item *
-
-The mod_perl cvs repository specific L<document|faqs::mod_perl_cvs>.
-
-=item *
-
-Open Source Development with CVS
-http://cvsbook.red-bean.com/
-
-=item *
-
-Online Documents
-http://www.cvshome.org/docs/
-
-=item *
-
-CVS Quick Reference Card
-http://www.refcards.com/about/cvs.html
-
-=back
-
-=head1 Get help with Performance and Scalability
-
-=over
-
-=item * Techniques and Technologies for Scaling Internet Services mailing list.
-
-The list's address: scalable@arctic.org.
-Subscribe by sending a message to scalable-subscribe@arctic.org.
-Archive: http://archive.develooper.com/scalable@arctic.org/
-
-=item *
-
-I<Solaris 2.x - Tuning Your TCP/IP Stack and More>
-http://www.sean.de/Solaris/tune.html
-
-This page talks about TCP/IP stack and various tricks of tuning your
-system to get the most out of it as a web server. While the
-information is for Solaris 2.x OS, most of it will be relevant of
-other Unix flavors. At the end an extensive list of related literature
-is presented.
-
-=item *
-
-High-Availability Linux Project
-http://www.linux-ha.org/
-
-=back
-
-=head1 Get help with Unix OS flavors -- Unix OS related resources
-
-=over
-
-=item * Memory system management and architecture:
-
-The Solaris memory system, sizing, tools and architecture:
-http://www.sun.com/sun-on-net/performance/vmsizing.pdf
-
-=item * 
-
-=back
 
 =head1 Maintainers
 
