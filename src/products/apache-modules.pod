@@ -180,7 +180,7 @@ and testing.
   Apache::Scoreboard         Stas Bekman <stas AT stason.org>
   Apache::VMonitor           Stas Bekman <stas AT stason.org>
   Apache::AuthPerLDAP        Shannon Eric Peevey <speeves AT unt.edu>
-
+  Apache::Request            http://httpd.apache.org/apreq/
 
 =head1 Maintainers
 
