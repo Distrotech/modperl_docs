@@ -815,13 +815,21 @@ redirects.
 Host, as set by full URI or Host:
 
   $hostname = $r->hostname();
+  $prev_hostname = $r->hostname($new_hostname);
 
 =over 4
 
 =item obj: C<$r>
 ( C<L<Apache::RequestRec object|docs::2.0::api::Apache::RequestRec>> )
 
+=item opt arg1: C<$new_hostname> ( string )
+
+new value
+
 =item ret: C<$hostname> ( string )
+
+the current hostname, or the previous value if the optionnal
+C<$new_hostname> argument was passed
 
 =item since: 1.99_12
 
