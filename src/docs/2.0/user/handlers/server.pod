@@ -222,6 +222,32 @@ I<httpd.conf>:
 
   PerlOpenLogsHandler MyApache::StartupLog::open_logs
 
+The pool arguments in this phase and
+C<L<PerlPostConfigHandler|/PerlPostConfigHandler>> are:
+
+=over
+
+=item *
+
+C<$conf_pool> is the main process sub-pool, therefore its life-span
+is the same as the main process's one. The main process is a sub-pool
+of the global pool.
+
+=item *
+
+C<$log_pool> is a global pool's sub-pool, therefore its life-span is
+the same as the Apache program's one.
+
+META: what is it good for if it lives the same life as conf pool?
+
+=item *
+
+C<$temp_pool> is a C<$conf_pool> subpool, created before the config
+phase, lives through the open_logs phase and get destroyed after the
+post_config phase. So you will want to use that pool for doing
+anything that can be discarded before the requests processing starts.
+
+=back
 
 
 =head2 PerlPostConfigHandler
