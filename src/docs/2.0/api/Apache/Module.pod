@@ -11,11 +11,11 @@ Apache::Module - Perl API for creating and working with Apache modules
   
   # iterate over the whole module list
   for (my $modp = Apache::Module->top_module; $modp; $modp = $modp->next) {
-      my $name = $modp->name;
-      my $version = $modp->version;
+      my $name          = $modp->name;
+      my $index         = $modp->module_index;
+      my $version       = $modp->version;
+      my $commands      = $modp->cmds;
       my $minor_version = $modp->minor_version;
-      my $index = $modp->module_index;
-      my $commands = $modp->cmds;
   }
   
   # find a specific module
@@ -70,8 +70,8 @@ C<Apache::Module> provides the following functions and/or methods:
 
 =head2 C<cmds>
 
-The C<L<Apache::Command|docs::2.0::api::Apache::Command>> object
-that describes all of the directives this module defines.
+Get the C<L<Apache::Command|docs::2.0::api::Apache::Command>> object,
+describing all of the directives this module defines.
 
   $command = $module->cmds();
 
@@ -135,7 +135,7 @@ A reference to the hash holding the module configuration data.
 =back
 
 See also L<Apache Server Configuration Customization in
-Perl|docs::2.0::user::config::custom>
+Perl|docs::2.0::user::config::custom>.
 
 
 
@@ -157,11 +157,16 @@ The name of the module ending in C<.c>
 =item ret: C<$module>
 ( C<L<Apache::Module object|docs::2.0::api::Apache::Module>> )
 
-The module object if found, undef otherwise
+The module object if found, C<undef> otherwise.
 
 =item since: 1.99_12
 
 =back
+
+For example:
+
+  my $module = Apache::Module::find_linked_module('mod_ssl.c');
+
 
 
 
@@ -169,7 +174,7 @@ The module object if found, undef otherwise
 
 =head2 C<loaded>
 
-Determines if a certain module is loaded
+Determine if a certain module is loaded
 
   $loaded = Apache::Module::loaded($module);
 
@@ -179,14 +184,14 @@ Determines if a certain module is loaded
 
 The name of the module to search for.
 
-If C<$module> ends with C<.c>, search all the modules,
-statically compiled and dynamically loaded.
+If C<$module> ends with C<.c>, search all the modules, statically
+compiled and dynamically loaded.
 
-If C<$module> ends with C<.so>, search only the dynamically
-loaded modules.
-
-If C<$module> doesn't contain a C<.>, search the loaded Perl
+If C<$module> ends with C<.so>, search only the dynamically loaded
 modules.
+
+If C<$module> doesn't contain a C<.>, search the loaded Perl modules
+(checks C<%INC>).
 
 =item ret: C<$loaded> ( boolean )
 
@@ -223,8 +228,7 @@ loaded:
 
 =head2 C<minor_version>
 
-API minor version. Provides API feature milestones. Not checked
-during module init
+Get the module API minor version.
 
   $minor_version = $module->minor_version();
 
@@ -239,13 +243,17 @@ during module init
 
 =back
 
+C<minor_version()> provides API feature milestones.
+
+It's not checked during module init.
+
 
 
 
 
 =head2 C<module_index>
 
-Index to this modules structures in config vectors.
+Get the index to this modules structures in config vectors.
 
   $index = $module->module_index();
 
@@ -266,7 +274,7 @@ Index to this modules structures in config vectors.
 
 =head2 C<name>
 
-The name of the module's C file
+Get the name of the module's I<.c> file
 
   $name = $module->name();
 
@@ -281,13 +289,19 @@ The name of the module's C file
 
 =back
 
+For example a mod_perl module, will return: I<mod_perl.c>.
+
+
+
+
 
 
 
 
 =head2 C<next>
 
-The next module in the list, undef if the last module in the list.
+Get the next module in the list, C<undef> if this is the last module
+in the list.
 
   $next_module = $module->next();
 
@@ -302,6 +316,8 @@ The next module in the list, undef if the last module in the list.
 =item since: 1.99_12
 
 =back
+
+
 
 
 
@@ -354,7 +370,7 @@ module iteration.
 
 =head2 C<version>
 
-API version, B<not> module version; check that module is
+Get the API version, B<not> module version; check that module is
 compatible with this version of the server.
 
   $version = $module->version();
