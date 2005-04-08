@@ -71,7 +71,7 @@ Apache2::RequestUtil - Perl API for Apache request record utils
   $sig = $r->psignature($prefix);
   
   # get the global request object (requires PerlOptions +GlobalRequest)
-  $r = Apache2->request;
+  $r = Apache2::RequestUtil->request;
   
   # insert auth credentials into the request as if the client did that
   $r->set_basic_credentials($username, $password);
@@ -851,8 +851,8 @@ Get/set the ( C<L<Apache2::RequestRec
 object|docs::2.0::api::Apache2::RequestRec>> ) object for the current
 request.
 
-  $r = Apache2->request;
-       Apache2->request($new_r);
+  $r = Apache2::RequestUtil->request;
+       Apache2::RequestUtil->request($new_r);
 
 =over 4
 

@@ -33,7 +33,7 @@ Apache2::ServerRec - Perl API for Apache server record accessors
   $timeout  = $s->timeout();
   $loglevel = $s->loglevel();
   
-  my $server = Apache2->server;
+  my $server = Apache2::ServerUtil->server;
   my $vhosts = 0;
   for (my $s = $server->next; $s; $s = $s->next) {
       $vhosts++;
@@ -417,7 +417,7 @@ available vhosts:
 
   use Apache2::ServerRec ();
   use Apache2::ServerUtil ();
-  my $server = Apache2->server;
+  my $server = Apache2::ServerUtil->server;
   my $vhosts = 0;
   for (my $s = $server->next; $s; $s = $s->next) {
       $vhosts++;

@@ -14,7 +14,7 @@ Apache2::Log - Perl API for Apache Logging Methods
   use Apache2::Const -compile => qw(OK :log);
   use APR::Const    -compile => qw(:error SUCCESS);
   
-  my $s = Apache2->server;
+  my $s = Apache2::ServerUtil->server;
   
   $s->log_error("server: log_error");
   $s->log_serror(__FILE__, __LINE__, Apache2::Const::LOG_ERR,
@@ -754,7 +754,7 @@ setting or can be also done at runtime if C<$r> is available:
   use Apache2::RequestUtil ();
   sub handler {
       my $r = shift;
-      Apache2->request($r);
+      Apache2::RequestUtil->request($r);
       ...
 
 Outside HTTP handlers at the moment it is not possible, to get hold of

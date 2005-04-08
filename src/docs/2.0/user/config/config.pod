@@ -398,7 +398,7 @@ You can also set that global object from the handler code, like so:
 
   sub handler {
       my $r = shift;
-      Apache2->request($r);
+      Apache2::RequestUtil->request($r);
       ...
   }
 
@@ -525,7 +525,7 @@ and you issue a request for this script:
   setupenvoff.pl
   --------------
   use Data::Dumper;
-  my $r = Apache2->request();
+  my $r = Apache2::RequestUtil->request();
   $r->content_type('text/plain');
   print Dumper(\%ENV);
 

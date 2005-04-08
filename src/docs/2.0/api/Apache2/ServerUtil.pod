@@ -8,7 +8,7 @@ Apache2::ServerUtil - Perl API for Apache server record utils
 =head1 Synopsis
 
   use Apache2::ServerUtil ();
-  $s = Apache2->server;
+  $s = Apache2::ServerUtil->server;
   
   # push config
   $s->add_config(['ServerTokens off']);
@@ -111,7 +111,7 @@ I<startup.pl>):
     PerlResponseHandler Apache2::MyExample
   </Location>
   EOC
-  Apache2->server->add_config([split /\n/, $conf]);
+  Apache2::ServerUtil->server->add_config([split /\n/, $conf]);
 
 
 
@@ -157,7 +157,7 @@ server string at the server startup:
   use Apache2::ServerUtil ();
   use Apache2::Const -compile => 'OK';
   
-  Apache2->server->push_handlers(
+  Apache2::ServerUtil->server->push_handlers(
       PerlPostConfigHandler => \&add_my_version);
   
   sub add_my_version {
@@ -644,7 +644,7 @@ C<httpd -k graceful)>, check whether C<restart_count()> is bigger than
 
 Get the main server's object
 
-  $main_s = Apache2->server();
+  $main_s = Apache2::ServerUtil->server();
 
 =over 4
 

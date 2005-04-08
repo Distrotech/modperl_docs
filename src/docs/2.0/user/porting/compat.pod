@@ -641,8 +641,8 @@ C<Apache-E<gt>request> available in the calls made from it:
   #...
   sub handler {
       my $r = shift;
-      Apache2->request($r);
-      # do some calls that rely on Apache2->request being available
+      Apache2::RequestUtil->request($r);
+      # do some calls that rely on Apache2::RequestUtil->request being available
       #...
   }
 
@@ -694,7 +694,7 @@ C<L<Apache2::ServerUtil::get_handlers()|docs::2.0::api::Apache2::ServerUtil/C_ge
 
 or:
 
-  Apache2->server->get_handlers(...);
+  Apache2::ServerUtil->server->get_handlers(...);
 
 C<Apache-E<gt>get_handlers> is avalable via
 C<L<Apache2::compat|docs::2.0::api::Apache2::compat>>.
@@ -713,7 +713,7 @@ C<L<Apache2::ServerUtil::push_handlers()|docs::2.0::api::Apache2::ServerUtil/C_p
 
 or:
 
-  Apache2->server->push_handlers(...);
+  Apache2::ServerUtil->server->push_handlers(...);
 
 C<Apache-E<gt>push_handlers> is avalable via
 C<L<Apache2::compat|docs::2.0::api::Apache2::compat>>.
@@ -733,7 +733,7 @@ C<L<Apache2::ServerUtil::set_handlers()|docs::2.0::api::Apache2::ServerUtil/C_se
 
 or:
 
-  Apache2->server->set_handlers(...);
+  Apache2::ServerUtil->server->set_handlers(...);
 
 C<Apache-E<gt>set_handlers> is avalable via
 C<L<Apache2::compat|docs::2.0::api::Apache2::compat>>.
@@ -764,7 +764,7 @@ C<Apache-E<gt>httpd_conf> is now
 C<L<$s-E<gt>add_config|docs::2.0::api::Apache2::ServerUtil/C_add_config_>>:
 
   require Apache2::ServerUtil;
-  Apache2->server->add_config(['require valid-user']);
+  Apache2::ServerUtil->server->add_config(['require valid-user']);
 
 C<Apache-E<gt>httpd_conf> is avalable via
 C<L<Apache2::compat|docs::2.0::api::Apache2::compat>>.
@@ -820,7 +820,7 @@ C<Apache::log_error()> is not available in mod_perl 2.0 API. You can
 use
 C<L<Apache2::Log::log_error()|docs::2.0::api::Apache2::Log/C__s_E_gt_log_error_>>:
 
-  Apache2->server->log_error
+  Apache2::ServerUtil->server->log_error
 
 instead. See the
 C<L<Apache2::Log|docs::2.0::api::Apache2::Log>> manpage.

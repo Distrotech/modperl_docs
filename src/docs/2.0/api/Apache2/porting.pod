@@ -63,7 +63,7 @@ If you know how to resolve this problem, please let us know. To
 reproduce the problem try to use an earlier phase,
 e.g. C<PerlPostConfigHandler>:
 
-  Apache2->server->push_handlers(PerlPostConfigHandler => \&porting_autoload);
+  Apache2::ServerUtil->server->push_handlers(PerlPostConfigHandler => \&porting_autoload);
 
 META: Though there is a better solution at work, which assigns
 AUTOLOAD for each class separately, instead of using UNIVERSAL. See

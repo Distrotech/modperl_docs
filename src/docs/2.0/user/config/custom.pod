@@ -836,7 +836,7 @@ main server's configuration object use:
   ...
   if ($s->is_virtual) {
       my $base_srv_cfg = Apache2::Module::get_config('MyApache2::MyParameters',
-                                                    Apache2->server);
+                                                    Apache2::ServerUtil->server);
       print $base_srv_cfg->{name};
   }
 
@@ -1160,7 +1160,7 @@ things identically, while others differently. So here it the handler:
       my $srv_cfg = get_config($s);
   
       if ($s->is_virtual) {
-          $secs{"1: Main Server"}  = get_config(Apache2->server);
+          $secs{"1: Main Server"}  = get_config(Apache2::ServerUtil->server);
           $secs{"2: Virtual Host"} = $srv_cfg;
           $secs{"3: Location"}     = $dir_cfg;
       }
