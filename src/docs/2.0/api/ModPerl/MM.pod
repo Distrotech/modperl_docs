@@ -79,17 +79,9 @@ I<Makefile.PL>:
 
 C<ModPerl::MM> overrides the following methods:
 
-=head2 C<ModPerl::MM::MY::constants>
-
-This method makes sure that everything gets installed relative to the
-C<Apache2/> subdir if C<MP_INST_APACHE2=1> was used to build mod_perl
-2.0.
-
 =head2 C<ModPerl::MM::MY::post_initialize>
 
-This method makes sure that everything gets installed relative to the
-C<Apache2/> subdir if C<MP_INST_APACHE2=1> was used to build mod_perl
-2.0.
+This method is deprecated.
 
 =head1 C<WriteMakefile()> Default Arguments
 
@@ -152,8 +144,7 @@ C<ModPerl::MM::WriteMakefile> attributes:
 
   macro => { MOD_INSTALL => ... }
 
-arranges for modules to be installed under the subdir I<Apache2/> if
-mod_perl was built with C<MP_INST_APACHE2=1>.
+makes sure that Apache-Test/ is added to @INC.
 
 =head1 Public API
 

@@ -47,11 +47,7 @@ where a sample start-up script F<C:/Apache2/conf/extra.pl> is
   use CGI ();
   1;
 
-The C<Apache2> module is used to add to C<@INC> the relevant
-directories underneath, eg, F</Perl/site/lib/Apache2/> used when
-building mod_perl 2.0 with an C<MP_INST_APACHE2=1> option to C<perl
-Makefile.PL> (the C<PPM> packages discussed above were built this
-way). C<Apache2::compat> is used to provide backwards compatibility
+C<Apache2::compat> is used to provide backwards compatibility
 with mod_perl 1.0.  C<ModPerl::Registry>, named so as not to conflict
 with C<Apache::Registry> of mod_perl 1.0, is used for registry
 scripts.

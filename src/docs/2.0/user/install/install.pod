@@ -302,11 +302,6 @@ C<ExtUtils::MakeMaker> (e.g., C<PREFIX>, C<LIB>, etc.).
 The following sections give the details about all the available
 options, but let's mention first an important one.
 
-If you want to have mod_perl 1.0 and 2.0 installed under the same perl
-tree you need to enable C<L<MP_INST_APACHE2|/MP_INST_APACHE2>>:
-
-  % perl Makefile.PL MP_INST_APACHE2=1 <other options>
-
 Configure Options are discussed in L<Build Options|/mod_perl_Build_Options>
 
 =head3 Dynamic mod_perl
@@ -329,7 +324,7 @@ C<apxs> and C<apr-config> scripts (the latter two are needed to build
 mod_perl) all in different locations, therefore they configure
 mod_perl 2.0 as:
 
-  % perl Makefile.PL MP_INST_APACHE2=1 MP_APXS=/path/to/apxs \
+  % perl Makefile.PL MP_APXS=/path/to/apxs \
     MP_APR_CONFIG=/another/path/to/apr-config <other options>
 
 However a correctly built Apache shouldn't require the
