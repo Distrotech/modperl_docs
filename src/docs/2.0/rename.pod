@@ -92,7 +92,16 @@ straightforward:
 
 Before installing mod_perl 2, either remove an earlier
 mod_perl 2 installation (prior to 1.999022), or else choose
-to install the new version in a different area.
+to install the new version in a different area. To remove
+a prior installation of mod_perl 2, one can do, on Unix,
+
+  % find /usr/lib/perl5 -name 'Apache2*' -exec rm -rf {} \;
+
+where F</usr/lib/perl5> is the top-level root of your Perl tree.
+Win32 ppm users can do, within the ppm shell,
+
+  ppm> remove mod_perl
+
 
 =item *
 
