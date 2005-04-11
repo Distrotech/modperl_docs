@@ -143,6 +143,12 @@ In a script or module, replace
 C<Apache-E<gt>request()> by C<Apache2::RequestUtil-E<gt>request()>
 and C<Apache-E<gt>server()> by C<Apache2::ServerUtil-E<gt>server()>.
 
+=item *
+
+If using C<CGI.pm> you will need to upgrade to version 3.08 - versions
+3.07 and older do not support the new mod_perl API.  you can get
+C<CGI.pm> from L<http://search.cpan.org/dist/CGI.pm/>.
+
 =back
 
 Beginning with mod_perl-1.999_22, an environment variable
