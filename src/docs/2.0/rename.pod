@@ -99,17 +99,22 @@ satisfy this requirement, one can do, on Unix,
   % find /usr/lib/perl5 -name 'Apache2*' -exec rm -rf {} \;
 
 where F</usr/lib/perl5> is the top-level root of your Perl tree.
-Before doing this, you may want to verify that there are no
-3rd-party modules within this tree that you might like to
-keep:
+Note that this will also remove any 3rd party Apache modules
+installed under an F<Apache2> subdirectory. In many situations 
+you would want to do this, as such modules will need porting to the
+new API. However, if there are modules under this location
+that you want to keep, you can use
 
   % find /opt/lib/perl5 -name 'Apache2*' -exec ls -lR {} \;
 
-will list the files under this tree. Win32 ppm users can do, 
-within the ppm shell,
+to list the files under this tree.
+
+For Win32 ppm users, the command
 
   ppm> remove mod_perl
 
+within the ppm shell will remove an installed C<mod_perl>
+ppm package.
 
 =item *
 
