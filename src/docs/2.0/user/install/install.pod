@@ -355,7 +355,7 @@ C<L<MP_USE_STATIC|/MP_USE_STATIC>> flag like this:
     MP_AP_PREFIX=$HOME/src/httpd-2.x \
     MP_AP_CONFIGURE="--with-mpm=prefork"
 
-C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> B<must> point to an extrated Apache
+C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> B<must> point to an extracted Apache
 2.0 source tree.
 
 This will configure Apache by passing C<L<MP_AP_CONFIGURE|/MP_AP_CONFIGURE>>
