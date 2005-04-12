@@ -20,6 +20,8 @@ Today, the PMC consists of:
 
 =item * Joe Schaefer
 
+=item * Perrin Harkins
+
 =item * Philippe Chiasson
 
 =item * Randy Kobes
