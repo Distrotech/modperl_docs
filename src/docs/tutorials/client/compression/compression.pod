@@ -65,9 +65,9 @@ This problem is addressed through the implementation of the C<Apache::CompressCl
 This handler serves the C<fixup> phase of the request-processing flow.
 It is compatible with all known compression handlers and is available from CPAN.
 
-=head1 Q: Why it is important to compress Web content?
+=head1 Why it is important to compress Web content?
 
-=head2 A: Reduced equipment costs and the competitive advantage of dramatically faster page loads.
+=head2 Reduced equipment costs and the competitive advantage of dramatically faster page loads.
 
 Web content compression noticeably increases delivery speed to clients
 and may allow providers to serve higher content volumes without increasing hardware expenditures.
@@ -75,9 +75,9 @@ It visibly reduces actual content download time, a benefit most apparent to user
 
 Industry leaders like I<Yahoo> and I<Google> are widely using content compression in their businesses.
 
-=head1 Q: How much improvement can I expect?
+=head1 How much improvement can I expect?
 
-=head2 A: Effective compression can achieve increases in transmission efficiency from 3 to 20 times.
+=head2 Effective compression can achieve increases in transmission efficiency from 3 to 20 times.
 
 The compression ratio is highly content-dependent.
 For example, if the compression algorithm is able to detect repeated patterns of characters,
@@ -99,18 +99,18 @@ I<"...With 98% of the world on a dial up modem, all they care about is how long 
 =for html
 </blockquote>
 
-=head1 Q: How hard is it to implement content compression on an existing site?
+=head1 How hard is it to implement content compression on an existing site?
 
-=head2 A: Implementing content compression on an existing site typically involves no more than installing and configuring an appropriate Apache handler on the Web server.
+=head2 Implementing content compression on an existing site typically involves no more than installing and configuring an appropriate Apache handler on the Web server.
 
 This approach works in most of the cases I have seen.
 In some special cases you will need to take extra care with respect to the global architecture of your Web application,
 but such cases may generally be readily addressed through various techniques.
 To date I have found no fundamental barriers to practical implementation of Web content compression.
 
-=head1 Q: Does compression work with standard Web browsers?
+=head1 Does compression work with standard Web browsers?
 
-=head2 A: Yes. No client side changes or settings are required.
+=head2 Yes. No client side changes or settings are required.
 
 All modern browser makers claim to be able to handle compressed content and are able to decompress it on the fly,
 transparent to the user.
@@ -120,18 +120,18 @@ through appropriate configuration of the Web server.
 I strongly recommend use of the C<Apache::CompressClientFixup> handler in your server configuration
 in order to prevent compression for known buggy clients.
 
-=head1 Q: Is it possible to combine the content compression with data encryption?
+=head1 Is it possible to combine the content compression with data encryption?
 
-=head2 A: Yes.  Compressed content can be encrypted and securely transmitted over SSL.
+=head2 Yes.  Compressed content can be encrypted and securely transmitted over SSL.
 
 On the client side, the browser transparently unencrypts and uncompresses the content for the user.
 It is important to maintain the correct order of operations on server side to keep the transaction secure.
 You must compress the content first and then apply an encryption mechanism.
 This is the only order of operations current browsers support.
 
-=head1 Q: What software is required on the server side for content compression?
+=head1 What software is required on the server side for content compression?
 
-=head2 A: There are four known mod_perl modules/packages for Web content compression available to date for Apache 1.3 (in alphabetical order):
+=head2 There are four known mod_perl modules/packages for Web content compression available to date for Apache 1.3 (in alphabetical order):
 
 =over 4
 
@@ -192,9 +192,9 @@ Other data are simply passed through.
 
 =back
 
-=head1 Q: What is the typical overhead in terms of CPU use for the content compression?
+=head1 What is the typical overhead in terms of CPU use for the content compression?
 
-=head2 A: Typical CPU overhead that originates from content compression is insignificant.
+=head2 Typical CPU overhead that originates from content compression is insignificant.
 
 In my observations of data compression of files of up to 200K it takes less then 60 ms CPU on a P4 3 GHz processor.
 I could not measure the lower boundary reliably for dynamic compression, because there are no really measurable latency.
@@ -209,9 +209,9 @@ At present, gzip reduces this connection time by a factor of approximately 3-20.
 If the ISP buffers its traffic, however, the content provider might not feel a dramatic impact -- apart of the fact
 that they are paying their telecom providers for the transmission of considerable unnecessary data. 
 
-=head1 Q: Is it possible to compress the output from C<Apache::Registry> with C<Apache::Dynagzip>?
+=head1 Is it possible to compress the output from C<Apache::Registry> with C<Apache::Dynagzip>?
 
-=head2 A: Yes.  This should be fairly easy to accomplish, as follows:
+=head2 Yes.  This should be fairly easy to accomplish, as follows:
 
 If your page/application is initially configured like this:
 
@@ -280,9 +280,9 @@ You can test your compatibility with the C<Apache::Filter> chain using a tempora
 with no C<Apache::Dynagzip> involved.
 See C<Apache::Filter> documentation if you have any problems.
 
-=head1 Q: Is it possible to compress output from a Mason-driven application with C<Apache::Dynagzip>?
+=head1 Is it possible to compress output from a Mason-driven application with C<Apache::Dynagzip>?
 
-=head2 A: Yes. C<HTML::Mason::ApacheHandler> is compatible with the C<Apache::Filter> chain.
+=head2 Yes. C<HTML::Mason::ApacheHandler> is compatible with the C<Apache::Filter> chain.
 
 If your application is initially configured like:
 
@@ -334,15 +334,15 @@ Finally, make sure you have somewhere declared
 
 This basic configuration uses many defaults.  See C<Apache::Dynagzip> POD for further fine tuning.
 
-=head1 Q: Is commercial support available for C<Apache::Dynagzip>?
+=head1 Is commercial support available for C<Apache::Dynagzip>?
 
-=head2 A: Yes.  I<Slav Company, Ltd.> provides commercial support for C<Apache::Dynagzip> worldwide.
+=head2 Yes.  I<Slav Company, Ltd.> provides commercial support for C<Apache::Dynagzip> worldwide.
 
 Since the author of C<Apache::Dynagzip> is employed by Slav Company, service is effective and consistent.
 
-=head1 Q: Why is it important to maintain a control over the chunk size?
+=head1 Why is it important to maintain a control over the chunk size?
 
-=head2 A: It helps to reduce response latency.
+=head2 It helps to reduce response latency.
 
 C<Apache::Dynagzip> is the only handler to date that begins transmission of compressed data as soon
 as the initial uncompressed pieces of data arrive from their source, at a time when the source process
@@ -354,9 +354,9 @@ This feature is mainly beneficial for HTTP/1.1 requests, because HTTP/1.0 does n
 I would also mention that the internal buffer in C<Apache::Dynagzip> always prevents Apache
 from the creating too short chunks over HTTP/1.1, or from transmitting too short pieces of data over HTTP/1.0.
 
-=head1 Q: Is it worthwhile to strip leading blank spaces prior to gzip compression?
+=head1 Is it worthwhile to strip leading blank spaces prior to gzip compression?
 
-=head2 A: Yes.  It is usually worthwhile to do this.
+=head2 Yes.  It is usually worthwhile to do this.
 
 The benefits of blank space stripping are mostly significant for non-gzipped data transmissions.
 One can expect some 5-20% reduction in stream size on regular 'structured' HTML, JavaScript, CSS, XML, etc.,
@@ -374,9 +374,9 @@ It is still worthwhile, however, to perform blank space stripping because:
 
 =back
 
-=head1 Q: Are there any content compression solutions for vanilla Apache 1.3?
+=head1 Are there any content compression solutions for vanilla Apache 1.3?
 
-=head2 A: Yes.  There are two compression modules written in C that are available for vanilla Apache 1.3:
+=head2 Yes.  There are two compression modules written in C that are available for vanilla Apache 1.3:
 
 =over 4
 
@@ -392,9 +392,9 @@ an Apache handler written in C, originally by Kevin Kiley, I<Remote Communicatio
 
 See their respective documentation for further details.
 
-=head1 Q: Can I compress the output of my site at the application level?
+=head1 Can I compress the output of my site at the application level?
 
-=head2 A: Yes, if your Web server is CGI/1.1 compatible and allows you to create specific HTTP headers from your application, or when you use an application framework that carries its own handler capable of compressing outbound data.
+=head2 Yes, if your Web server is CGI/1.1 compatible and allows you to create specific HTTP headers from your application, or when you use an application framework that carries its own handler capable of compressing outbound data.
 
 For example, vanilla Apache 1.3 is CGI/1.1 compatible.
 It allows development of CGI scripts/programs that can generate compressed outgoing streams
@@ -409,9 +409,9 @@ C<Apache::AxKit> uses the C<AxGzipOutput> setting to do this.
 
 See the documentation for the particular packages for details.
 
-=head1 Q: Are there any content compression solutions for Apache-2?
+=head1 Are there any content compression solutions for Apache-2?
 
-=head2 A: Yes.  A core compression module written in C, C<mod_deflate>, is available for Apache-2.
+=head2 Yes.  A core compression module written in C, C<mod_deflate>, is available for Apache-2.
 
 C<mod_deflate> for Apache-2 was written by Ian Holsman (USA).
 
@@ -429,9 +429,9 @@ C<mod_deflate> is capable of gzipping outbound traffic from any content generato
 
 =back
 
-=head1 Q: When is C<Apache::Dynagzip> supposed to be ported to Apache-2?
+=head1 When is C<Apache::Dynagzip> supposed to be ported to Apache-2?
 
-=head2 A: There are no current plans to port C<Apache::Dynagzip> to Apache-2:
+=head2 There are no current plans to port C<Apache::Dynagzip> to Apache-2:
 
 C<mod_deflate> for Apache-2 is capable of providing all basic functionality required for effective
 dynamic content compression.
@@ -439,16 +439,16 @@ The rest can be easily addressed through implementation of the accompanying spec
 For instance, C<Apache::Clean>, which is already ported to Apache-2, can be used
 to strip unnecessary blank spaces from outbound streams.
 
-=head1 Q: Where can I read the original descriptions of the C<gzip> and C<deflate> formats?
+=head1 Where can I read the original descriptions of the C<gzip> and C<deflate> formats?
 
-=head2 A: C<gzip> format is published as rfc1952, and C<deflate> format is published as rfc1951.
+=head2 C<gzip> format is published as rfc1952, and C<deflate> format is published as rfc1951.
 
 You can find many mirrors of RFC archives on the Internet.
 Try, for instance, my favorite at L<http://www.ietf.org/rfc.html>
 
-=head1 Q: Are there any known compression problems with specific browsers?
+=head1 Are there any known compression problems with specific browsers?
 
-=head2 A: Yes.  Netscape 4 has problems with compressed cascading style sheets and JavaScript files.
+=head2 Yes.  Netscape 4 has problems with compressed cascading style sheets and JavaScript files.
 
 You can use C<Apache::CompressClientFixup> to disable compression for these files dynamically on Apache-1.3.
 C<Apache::Dynagzip> is capable of providing so-called C<light compression> for these files.
@@ -456,9 +456,9 @@ C<Apache::Dynagzip> is capable of providing so-called C<light compression> for t
 On Apache-2, C<mod_deflate> can be configured to disable compression for these files dynamically,
 and the C<Apache::Clean> filter can be used to strip unnecessary blank spaces.
 
-=head1 Q: Where can I find more information about the compression features of modern browsers?
+=head1 Where can I find more information about the compression features of modern browsers?
 
-=head2 A: Michael Schroepl maintains a highly valuable site
+=head2 Michael Schroepl maintains a highly valuable site
 
 See it at L<http://www.schroepl.net/projekte/mod_gzip/browser.htm>
 
