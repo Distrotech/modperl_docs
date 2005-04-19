@@ -378,6 +378,11 @@ The number of bytes sent to the client, handy for logging, etc.
 
 =back
 
+Though as of this writing in Apache 2.0 it doesn't really do what it
+did in Apache 1.3. It's just set to the size of the response body.
+The issue is that buckets from one request may get buffered and not
+sent during the lifetime of the request, so it's not easy to give a
+truly accurate count of "bytes sent to the network for this response".
 
 
 
