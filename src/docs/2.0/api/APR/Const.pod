@@ -117,7 +117,10 @@ The C<:error> group is for XXX constants.
 =back
 
 The error I<Resource temporarily unavailable>, may be returned by many
-different system calls, especially IO calls.
+different system calls, especially IO calls. Most likely you want to
+use the
+C<L<APR::Status::is_EAGAIN|docs::2.0::api::APR::Status/C_is_EAGAIN_>>
+function instead.
 
 
 
