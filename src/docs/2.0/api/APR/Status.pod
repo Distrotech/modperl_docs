@@ -1,0 +1,78 @@
+=head1 NAME
+
+APR::Status - Perl Interface to the APR_STATUS_IS_* macros
+
+
+
+=head1 Synopsis
+
+  use APR::Status ();
+  eval { $obj->mp_method() };
+  if ($@ && $ref $@ eq 'APR::Error' && APR::Status::is_EAGAIN($@)) {
+    # APR_STATUS_IS_EAGAIN(s) of apr_errno.h is satisfied
+  }
+
+
+=head1 Description
+
+As discussed in the
+L<APR::Error documentation|docs::2.0::api::APR::Error>,
+it is possible to handle APR/Apache/mod_perl exceptions
+in the following way:
+
+  eval { $obj->mp_method() };
+  if ($@ && $ref $@ eq 'APR::Error' && $@ == $some_code)
+      warn "handled exception: $@";
+  }
+
+However, in cases where C<$some_code> is an
+L<APR::Const constant|docs::2.0::api::APR::Const>,
+there may be more than one condition satisfying the
+intent of this exception. For this purpose the APR C
+library provides in F<apr_errno.h> a series of macros, 
+C<APR_STATUS_IS_*>, which are the recommended way to check 
+for such conditions. For example, the C<APR_STATUS_IS_EAGAIN>
+macro is defined as
+
+  #define APR_STATUS_IS_EAGAIN(s)         ((s) == APR_EAGAIN \
+                  || (s) == APR_OS_START_SYSERR + ERROR_NO_DATA \
+                  || (s) == APR_OS_START_SYSERR + SOCEWOULDBLOCK \
+                  || (s) == APR_OS_START_SYSERR + ERROR_LOCK_VIOLATION)
+
+The purpose of C<APR::Status> is to provide functions corresponding
+to these macros.
+
+
+=head1 Functions
+
+
+
+=head2 C<is_EAGAIN>
+
+  use APR::Status ();
+  # ....
+  if ($@ && $ref $@ eq 'APR::Error' && APR::Status::is_EAGAIN($@)) {
+    # APR_STATUS_IS_EAGAIN(s) of apr_errno.h is satisfied
+  }
+
+This corresponds to the C<APR_STATUS_IS_EAGAIN> macro.
+
+
+=head1 See Also
+
+L<mod_perl 2.0 documentation|docs::2.0::index>.
+
+
+=head1 Copyright
+
+mod_perl 2.0 and its core modules are copyrighted under
+The Apache Software License, Version 2.0.
+
+
+
+=head1 Authors
+
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
+
+=cut

@@ -132,6 +132,12 @@ Finally, the class is called C<APR::Error> because it needs to be used
 outside mod_perl as well, when called from
 C<L<APR|docs::2.0::api::APR>> applications written in Perl.
 
+It is worth noting that APR provides some macros in F<apr_errno.h>,
+C<APR_STATUS_IS_*>, which are the recommended way to check for
+some error conditions, especially in cases when different
+circumstances can lead to the intent of a single condition.
+See the L<APR::Status documentation|docs::2.0::api::APR::Status>
+for an interface to some of these macros. 
 
 =head1 API
 
