@@ -186,6 +186,12 @@ data and the second using L<bucket
 brigades|docs::2.0::user::handlers::intro/Bucket_Brigades> to
 accomplish the same and allow for connection filters to do their work.
 
+
+
+
+
+
+
 =head3 Socket-based Protocol Module
 
 To demonstrate the workings of a protocol module, we'll take a look at
@@ -225,8 +231,8 @@ And we give it a whirl:
 
 Here is the code:
 
-  file:MyApache2/EchoSocket.pm
-  ---------------------------
+  #file:MyApache2/EchoSocket.pm
+  #----------------------------
   package MyApache2::EchoSocket;
   
   use strict;
@@ -236,7 +242,7 @@ Here is the code:
   use APR::Socket ();
   
   use Apache2::Const -compile => 'OK';
-  use APR::Const    -compile => 'SO_NONBLOCK';
+  use APR::Const     -compile => 'SO_NONBLOCK';
   
   use constant BUFF_LEN => 1024;
   
@@ -264,8 +270,8 @@ C<conn_rec> blessed into the C<Apache2::Connection> class.  We have
 direct access to the client socket via C<Apache2::Connection>'s
 I<client_socket> method.  This returns an object, blessed into the
 C<APR::Socket> class. Before using the socket, we make sure that it's
-set to perform blocking IO, by using the C<APR::Const::SO_NONBLOCK> constant,
-compiled earlier.
+set to perform blocking IO, by using the C<APR::Const::SO_NONBLOCK>
+constant, compiled earlier.
 
 Inside the recv/send loop, the handler attempts to read C<BUFF_LEN>
 bytes from the client socket into the C<$buff> buffer. The handler
@@ -282,6 +288,11 @@ applied.
 
 
 
+
+
+
+
+
 =head3 Bucket Brigades-based Protocol Module
 
 Now let's look at the same module, but this time implemented by
@@ -290,8 +301,9 @@ connection output filter that turns all uppercase characters into
 their lowercase equivalents.
 
 The following configuration defines a virtual host listening on port
-8011 and which enables the C<MyApache2::EchoBB> connection handler, which
-will run its output through C<MyApache2::EchoBB::lowercase_filter> filter:
+8011 and which enables the C<MyApache2::EchoBB> connection handler,
+which will run its output through
+C<MyApache2::EchoBB::lowercase_filter> filter:
 
   Listen 8011
   <VirtualHost _default_:8011>
@@ -324,8 +336,8 @@ because of the output filter.
 And here is the implementation of the connection and the filter
 handlers.
 
-  file:MyApache2/EchoBB.pm
-  -----------------------
+  #file:MyApache2/EchoBB.pm
+  #------------------------
   package MyApache2::EchoBB;
   
   use strict;
@@ -337,7 +349,7 @@ handlers.
   use APR::Brigade ();
   use APR::Error ();
   
-  use APR::Const    -compile => qw(SUCCESS EOF SO_NONBLOCK);
+  use APR::Const     -compile => qw(SUCCESS EOF SO_NONBLOCK);
   use Apache2::Const -compile => qw(OK MODE_GETLINE);
   
   sub handler {
@@ -358,6 +370,8 @@ handlers.
           while (!$bb_in->is_empty) {
               my $b = $bb_in->first;
   
+              $b->remove;
+  
               if ($b->is_eos) {
                   $bb_out->insert_tail($b);
                   last;
@@ -369,7 +383,6 @@ handlers.
                   $b = APR::Bucket->new($bb_out->bucket_alloc, $data);
               }
   
-              $b->remove;
               $bb_out->insert_tail($b);
           }
   
@@ -441,10 +454,10 @@ with just one line:
 
 If you look at the complete handler, the loop is terminated when one
 of the following conditions occurs: an error happens, the end of
-stream status code (C<APR::Const::EOF>) has been received (no more input at
-the connection) or when the received data contains nothing but new
-line characters which we used to to tell the server to terminate the
-connection.
+stream status code (C<APR::Const::EOF>) has been received (no more
+input at the connection) or when the received data contains nothing
+but new line characters which we used to to tell the server to
+terminate the connection.
 
 Now that you've learned how to move buckets from one brigade to
 another, let's see how the presented handler can be reimplemented
@@ -469,7 +482,7 @@ using a single bucket brigade. Here is the modified code:
   
               if ($b->read(my $data)) {
                   last if $data =~ /^[\r\n]+$/;
-                  my $nb = APR::Bucket->new($bb->bucket_alloc, uc $data);
+                  my $nb = APR::Bucket->new($bb->bucket_alloc, $data);
                   # head->...->$nb->$b ->...->tail
                   $b->insert_before($nb);
                   $b->remove;
@@ -786,13 +799,15 @@ loop, iterating over three methods: C<run_access_checker()>,
 C<run_check_user_id()> and C<run_auth_checker()>.  These methods will
 call directly into the Apache functions that invoke module handlers
 for these phases and will return an integer status code, such as
-C<Apache2::Const::OK>, C<Apache2::Const::DECLINED> or C<Apache2::Const::FORBIDDEN>.  If
-I<run_access_check> returns something other than C<Apache2::Const::OK> or
-C<Apache2::Const::DECLINED>, that status will be propagated up to the handler
-routine and then back up to Apache.  Otherwise, the access check
-passed and the loop will break unless C<some_auth_required()> returns
-true.  This would be false given the previous configuration example,
-but would be true in the presence of a C<require> directive, such as:
+C<Apache2::Const::OK>, C<Apache2::Const::DECLINED> or
+C<Apache2::Const::FORBIDDEN>.  If I<run_access_check> returns
+something other than C<Apache2::Const::OK> or
+C<Apache2::Const::DECLINED>, that status will be propagated up to the
+handler routine and then back up to Apache.  Otherwise, the access
+check passed and the loop will break unless C<some_auth_required()>
+returns true.  This would be false given the previous configuration
+example, but would be true in the presence of a C<require> directive,
+such as:
 
   <Location MyApache2::CommandServer>
       Order Deny,Allow

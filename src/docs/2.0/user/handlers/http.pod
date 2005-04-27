@@ -49,6 +49,10 @@ code|docs::2.0::user::handlers::intro/Stacked_Handlers> and the file
 is ended with C<1;> to return true when it gets loaded.
 
 
+
+
+
+
 =head1 HTTP Request Cycle Phases
 
 Those familiar with mod_perl 1.0 will find the HTTP request cycle in
@@ -136,6 +140,18 @@ handler was still executed. This is a feature, not a bug.
 
 Now let's discuss each of the mentioned handlers in detail.
 
+
+
+
+
+
+
+
+
+
+
+
+
 =head2 PerlPostReadRequestHandler
 
 The I<post_read_request> phase is the first request phase and happens
@@ -156,8 +172,8 @@ filename or directory.
 
 Now, let's look at an example. Consider the following registry script:
 
-  touch.pl
-  --------
+  #file:touch.pl
+  #-------------
   use strict;
   use warnings;
   
@@ -197,8 +213,8 @@ handlers? A simple C<PerlPostReadRequestHandler> handler, which will
 be executed as the very first thing of each requests, comes handy
 here:
 
-  file:MyApache2/TimeReset.pm
-  --------------------------
+  #file:MyApache2/TimeReset.pm
+  #--------------------------
   package MyApache2::TimeReset;
   
   use strict;
@@ -267,13 +283,13 @@ site. If the URI:
 
 is now handled by:
 
-  http://example.com/perl/news.pl?date=20021031&id=09&page=index.html
+  http://example.com/perl/news.pl?date=20021031;id=09;page=index.html
 
 the following handler can do the rewriting work transparent to
 I<news.pl>, so you can still use the former URI mapping:
 
-  file:MyApache2/RewriteURI.pm
-  ---------------------------
+  #file:MyApache2/RewriteURI.pm
+  #---------------------------
   package MyApache2::RewriteURI;
   
   use strict;
@@ -288,7 +304,7 @@ I<news.pl>, so you can still use the former URI mapping:
   
       my($date, $id, $page) = $r->uri =~ m|^/news/(\d+)/(\d+)/(.*)|;
       $r->uri("/perl/news.pl");
-      $r->args("date=$date&id=$id&page=$page");
+      $r->args("date=$date;id=$id;page=$page");
   
       return Apache2::Const::DECLINED;
   }
@@ -296,8 +312,8 @@ I<news.pl>, so you can still use the former URI mapping:
 
 The handler matches the URI and assigns a new URI via C<$r-E<gt>uri()>
 and the query string via C<$r-E<gt>args()>. It then returns
-C<Apache2::Const::DECLINED>, so the next translation handler will get invoked,
-if more rewrites and translations are needed.
+C<Apache2::Const::DECLINED>, so the next translation handler will get
+invoked, if more rewrites and translations are needed.
 
 Of course if you need to do a more complicated rewriting, this handler
 can be easily adjusted to do so.
@@ -335,8 +351,8 @@ URI into a filename, just add a handler:
 
 using the following code:
 
-  file:MyApache2/NoTranslation.pm
-  ------------------------------
+  #file:MyApache2/NoTranslation.pm
+  #------------------------------
   package MyApache2::NoTranslation;
   
   use strict;
@@ -356,8 +372,8 @@ Apache also uses this phase to handle C<TRACE> requests. So if you
 shortcut it, C<TRACE> calls will be not handled. In case you need to
 handle such, you may rewrite it as:
 
-  file:MyApache2/NoTranslation2.pm
-  -------------------------------
+  #file:MyApache2/NoTranslation2.pm
+  #-------------------------------
   package MyApache2::NoTranslation2;
   
   use strict;
@@ -370,7 +386,8 @@ handle such, you may rewrite it as:
   sub handler {
       my $r = shift;
   
-      return Apache2::Const::DECLINED if $r->method_number == Apache2::Const::M_TRACE;
+      return Apache2::Const::DECLINED
+          if $r->method_number == Apache2::Const::M_TRACE;
   
       # skip ap_directory_walk stat() calls
       return Apache2::Const::OK;
@@ -411,8 +428,8 @@ as early as possible. And usually you can take any
 C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>> and turn
 it into C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> by
 simply changing the directive name in I<httpd.conf> and moving it
-inside the container where it should be executed. Moreover, because
-of this similarity mod_perl provides a special directive
+inside the container where it should be executed. Moreover, because of
+this similarity mod_perl provides a special directive
 C<L<PerlInitHandler|/PerlInitHandler>> which if found outside resource
 containers behaves as
 C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>>,
@@ -434,8 +451,8 @@ C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> phase:
 
 and here is the C<MyApache2::SendEmail> handler:
 
-  file:MyApache2/SendEmail.pm
-  --------------------------
+  #file:MyApache2/SendEmail.pm
+  #--------------------------
   package MyApache2::SendEmail;
   
   use strict;
@@ -535,13 +552,8 @@ constant):
 Next it tells Apache that this new method is a valid one and that the
 C<perl-script> handler will do the processing.
 
-      Apache2::RequestUtil::method_register($r->server->process->pconf,
-                                           METHOD);
+      $r->server->method_register(METHOD);
       $r->handler("perl-script");
-
-Notice that we use the C<pconf> pool which persists through the server
-life, and not C<$r-E<gt>pool> whose life span will end at the end of
-the request.
 
 Finally it pushes the function C<send_email_handler()> to the
 C<PerlResponseHandler> list of handlers:
@@ -584,8 +596,8 @@ a client that knows how to use the extension. So here is a simple
 client that uses C<LWP::UserAgent> to issue an C<EMAIL> method request
 over HTTP protocol:
 
-  file:send_http_email.pl
-  -----------------------
+  #file:send_http_email.pl
+  #-----------------------
   #!/usr/bin/perl
   
   use strict;
@@ -624,6 +636,8 @@ address set in the I<To> field.
 
 
 
+
+
 =head2 PerlInitHandler
 
 When configured inside any container directive, except
@@ -639,10 +653,10 @@ This phase is of type
 C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 
 The best example here would be to use
-C<L<Apache2::Reload|docs::2.0::api::Apache2::Reload>>
-which takes the benefit of this directive. Usually
-C<L<Apache2::Reload|docs::2.0::api::Apache2::Reload>> is
-configured as:
+C<L<Apache2::Reload|docs::2.0::api::Apache2::Reload>> which takes the
+benefit of this directive. Usually
+C<L<Apache2::Reload|docs::2.0::api::Apache2::Reload>> is configured
+as:
 
   PerlInitHandler Apache2::Reload
   PerlSetVar ReloadAll Off
@@ -662,11 +676,12 @@ C<E<lt>LocationE<gt>> container:
       Options +ExecCGI
   </Location>
 
-C<L<Apache2::Reload|docs::2.0::api::Apache2::Reload>> will
-reload the modified modules, only when a request to the I</devel>
-namespace is issued, because C<L<PerlInitHandler|/PerlInitHandler>>
-plays the role of
-C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> here.
+C<L<Apache2::Reload|docs::2.0::api::Apache2::Reload>> will reload the
+modified modules, only when a request to the I</devel> namespace is
+issued, because C<L<PerlInitHandler|/PerlInitHandler>> plays the role
+of C<L<PerlHeaderParserHandler|/PerlHeaderParserHandler>> here.
+
+
 
 
 
@@ -687,14 +702,14 @@ The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 The concept behind access checker handler is very simple, return
-C<Apache2::Const::FORBIDDEN> if the access is not allowed, otherwise return
-C<Apache2::Const::OK>.
+C<Apache2::Const::FORBIDDEN> if the access is not allowed, otherwise
+return C<Apache2::Const::OK>.
 
 The following example handler denies requests made from IPs on the
 blacklist.
 
-  file:MyApache2/BlockByIP.pm
-  --------------------------
+  #file:MyApache2/BlockByIP.pm
+  #--------------------------
   package MyApache2::BlockByIP;
   
   use strict;
@@ -745,6 +760,10 @@ I<httpd.conf>:
   </Location>
 
 
+
+
+
+
 =head2 PerlAuthenHandler
 
 The I<check_user_id> (I<authen>) phase is called whenever the
@@ -754,11 +773,11 @@ C<AuthType> and at least one C<require> directive.
 
 This phase is usually used to verify a user's identification
 credentials. If the credentials are verified to be correct, the
-handler should return C<Apache2::Const::OK>.  Otherwise the handler returns
-C<Apache2::Const::HTTP_UNAUTHORIZED> to indicate that the user has not
-authenticated successfully.  When Apache sends the HTTP header with
-this code, the browser will normally pop up a dialog box that prompts
-the user for login information.
+handler should return C<Apache2::Const::OK>.  Otherwise the handler
+returns C<Apache2::Const::HTTP_UNAUTHORIZED> to indicate that the user
+has not authenticated successfully.  When Apache sends the HTTP header
+with this code, the browser will normally pop up a dialog box that
+prompts the user for login information.
 
 This phase is of type
 C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
@@ -771,8 +790,8 @@ a password and lets them in only if the length of a string made from
 the supplied username and password and a single space equals to the
 secret length, specified by the constant C<SECRET_LENGTH>.
 
-  file:MyApache2/SecretLengthAuth.pm
-  ---------------------------------
+  #file:MyApache2/SecretLengthAuth.pm
+  #---------------------------------
   package MyApache2::SecretLengthAuth;
   
   use strict;
@@ -801,11 +820,11 @@ secret length, specified by the constant C<SECRET_LENGTH>.
   1;
 
 First the handler retrieves the status of the authentication and the
-password in plain text. The status will be set to C<Apache2::Const::OK> only
-when the user has supplied the username and the password
-credentials. If the status is different, we just let Apache handle
-this situation for us, which will usually challenge the client so
-it'll supply the credentials.
+password in plain text. The status will be set to
+C<Apache2::Const::OK> only when the user has supplied the username and
+the password credentials. If the status is different, we just let
+Apache handle this situation for us, which will usually challenge the
+client so it'll supply the credentials.
 
 Note that C<get_basic_auth_pw()> does a few things behind the scenes,
 which are important to understand if you plan on implementing your own
@@ -840,10 +859,11 @@ usually this requires the password to be encrypted first, since
 storing passwords in clear is a bad idea.
 
 Finally if our authentication fails the handler calls
-note_basic_auth_failure() and returns C<Apache2::Const::HTTP_UNAUTHORIZED>, which
-sets the proper HTTP response headers that tell the client that its
-user that the authentication has failed and the credentials should be
-supplied again.
+note_basic_auth_failure() and returns
+C<Apache2::Const::HTTP_UNAUTHORIZED>, which sets the proper HTTP
+response headers that tell the client that its user that the
+authentication has failed and the credentials should be supplied
+again.
 
 It's not enough to enable this handler for the authentication to
 work. You have to tell Apache what authentication scheme to use
@@ -885,6 +905,10 @@ example for any requests to the site, simply use:
 
 
 
+
+
+
+
 =head2 PerlAuthzHandler
 
 The I<auth_checker> (I<authz>) phase is used for authorization
@@ -895,10 +919,11 @@ whether a user is authorized to access the requested resource.
 As this phase is tightly connected to the authentication phase, the
 handlers registered for this phase are only called when the requested
 resource is password protected, similar to the auth phase. The handler
-is expected to return C<Apache2::Const::DECLINED> to defer the decision,
-C<Apache2::Const::OK> to indicate its acceptance of the user's authorization,
-or C<Apache2::Const::HTTP_UNAUTHORIZED> to indicate that the user is not
-authorized to access the requested document.
+is expected to return C<Apache2::Const::DECLINED> to defer the
+decision, C<Apache2::Const::OK> to indicate its acceptance of the
+user's authorization, or C<Apache2::Const::HTTP_UNAUTHORIZED> to
+indicate that the user is not authorized to access the requested
+document.
 
 This phase is of type
 C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
@@ -910,8 +935,8 @@ Here is the C<MyApache2::SecretResourceAuthz> handler which grants
 access to certain resources only to certain users who have already
 properly authenticated:
 
-  file:MyApache2/SecretResourceAuthz.pm
-  ------------------------------------
+  #file:MyApache2/SecretResourceAuthz.pm
+  #------------------------------------
   package MyApache2::SecretResourceAuthz;
   
   use strict;
@@ -1032,9 +1057,9 @@ or:
 depending on which type of response handler is wanted.
 
 Writing a C<PerlTypeHandler> handler which sets the content-type value
-and returns C<Apache2::Const::DECLINED> so that the default handler will do
-the rest of the work, is not a good idea, because mod_mime will
-probably override this and other settings.
+and returns C<Apache2::Const::DECLINED> so that the default handler
+will do the rest of the work, is not a good idea, because mod_mime
+will probably override this and other settings.
 
 Therefore it's the easiest to leave this stage alone and do any
 desired settings in the I<fixups> phase.
@@ -1060,8 +1085,8 @@ The following fixup handler example tells Apache at run time which
 handler and callback should be used to process the request based on
 the file extension of the request's URI.
 
-  file:MyApache2/FileExtDispatch.pm
-  --------------------------------
+  #file:MyApache2/FileExtDispatch.pm
+  #--------------------------------
   package MyApache2::FileExtDispatch;
   
   use strict;
@@ -1161,6 +1186,8 @@ handler. It applies the rest of the settings dynamically at run-time.
 
 
 
+
+
 =head2 PerlResponseHandler
 
 The I<handler> (I<response>) phase is used for generating the
@@ -1196,8 +1223,8 @@ Let's write a simple response handler, that just generates some
 content. This time let's do something more interesting than printing
 I<"Hello world">. Let's write a handler that prints itself:
 
-  file:MyApache2/Deparse.pm
-  ------------------------
+  #file:MyApache2/Deparse.pm
+  #------------------------
   package MyApache2::Deparse;
   
   use strict;
@@ -1244,6 +1271,10 @@ code. C<B::Deparse> is fun to play with!
 
 
 
+
+
+
+
 =head2 PerlLogHandler
 
 The I<log_transaction> phase happens no matter how the previous phases
@@ -1268,8 +1299,8 @@ files, one per user. Assuming that all requests start with
 I</users/username/>, so it's easy to categorize requests by the second
 URI path component. Here is the log handler that does that:
 
-  file:MyApache2/LogPerUser.pm
-  ---------------------------
+  #file:MyApache2/LogPerUser.pm
+  #---------------------------
   package MyApache2::LogPerUser;
   
   use strict;
@@ -1307,8 +1338,8 @@ URI path component. Here is the log handler that does that:
 First the handler tries to figure out what username the request is
 issued for, if it fails to match the URI, it simply returns
 C<Apache2::Const::DECLINED>, letting other log handlers to do the
-logging. Though it could return C<Apache2::Const::OK> since all other log
-handlers will be run anyway.
+logging. Though it could return C<Apache2::Const::OK> since all other
+log handlers will be run anyway.
 
 Next it builds the log entry, similar to the default I<access_log>
 entry. It's comprised of remote IP, the current time, the uri, the
@@ -1362,6 +1393,11 @@ I<httpd.conf>:
 Since the C<PerlLogHandler> phase is of type
 C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>, all other
 logging handlers will be called as well.
+
+
+
+
+
 
 
 =head2 PerlCleanupHandler
