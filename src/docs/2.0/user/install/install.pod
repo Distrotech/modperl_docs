@@ -34,7 +34,7 @@ higher.
 
 =over
 
-=item prefork MPM
+=item Prefork MPM
 
 Requires at least Perl version 5.6.1.
 
@@ -49,7 +49,7 @@ C<-Dusethreads>. Remember that threads-support slows things down and
 on some platforms it's unstable (e.g., FreeBSD), so don't enable it
 unless you really need it.
 
-=item threaded MPMs
+=item Threaded MPMs
 
 Require at least Perl version 5.8.0 with ithreads support
 built-in. That means that it should report:
@@ -60,12 +60,6 @@ built-in. That means that it should report:
 
 If that's not what you see rebuild Perl with C<-Dusethreads>.
 
-=item threads.pm
-
-If you want to run applications that take benefit of Perl's
-I<threads.pm> Perl version 5.8.1 or higher w/ithreads enabled is
-required. Perl 5.8.0's I<threads.pm> doesn't work with mod_perl 2.0.
-
 =item Static prefork build
 
 Perl with ithreads support version 5.6.1 or higher
@@ -75,6 +69,12 @@ Perl without ithreads support version 5.8.2 or higher
 =item Static non-prefork build
 
 Perl with ithreads support version 5.8.0 or higher
+
+=item threads.pm
+
+If you want to run applications that take benefit of Perl's
+I<threads.pm> Perl version 5.8.1 or higher w/ithreads enabled is
+required. Perl 5.8.0's I<threads.pm> doesn't work with mod_perl 2.0.
 
 =back
 
@@ -93,14 +93,21 @@ need to use at least the version numbers listed here.
 
 =over
 
-=item CGI.pm 3.01
+=item CGI.pm 3.08
 
 =item Compress::Zlib 1.09
 
 =back
 
+Though the easiest way to satisfy all the dependencies is to install
+C<Bundle::Apache2> available from CPAN.
 
 =back
+
+
+
+
+
 
 
 =head2 Downloading Stable Release Sources
@@ -138,16 +145,17 @@ the real version number.
 
 =head2 Getting Bleeding Edge Sources
 
-If you really know what you are doing you can use the cvs/svn versions of
-the components. Chances are that you don't want to them on a
+If you really know what you are doing you can use the cvs/svn versions
+of the components. Chances are that you don't want to them on a
 production site. You have been warned!
 
 =over
 
 =item Perl
 
-CVS Perl (aka bleadperl or bleedperl) is only generally available
-through an rsync repository maintained by ActiveState:
+The cutting edge version of Perl (aka bleadperl or bleedperl) is only
+generally available through an rsync repository maintained by
+ActiveState:
 
   # (--delete to ensure a clean state)
   % rsync -acvz --delete --force \
@@ -190,6 +198,9 @@ If you L<need the threads
 support|docs::2.0::user::install::install/Prerequisites>, run:
 
   % ./Configure -des -Dusethreads
+
+Most likely you don't want perl-support for threads enabled, in which
+case pass: C<-Uusethreads> instead of C<-Dusethreads>.
 
 If you want to debug mod_perl segmentation faults, add the
 following I<./Configure> options:
@@ -259,7 +270,8 @@ First download the mod_perl source.
 
 =item Stable Release
 
-Download from: I<http://perl.apache.org/download/>
+Download from I<http://perl.apache.org/download/> or your favorite
+CPAN mirror.
 
 This direct link which symlinks to the latest release should work too:
 I<http://perl.apache.org/dist/mod_perl-2.0-current.tar.gz>.
@@ -302,7 +314,10 @@ C<ExtUtils::MakeMaker> (e.g., C<PREFIX>, C<LIB>, etc.).
 The following sections give the details about all the available
 options, but let's mention first an important one.
 
-Configure Options are discussed in L<Build Options|/mod_perl_Build_Options>
+Configuration options are discussed in L<Build
+Options|/mod_perl_Build_Options>.
+
+
 
 =head3 Dynamic mod_perl
 

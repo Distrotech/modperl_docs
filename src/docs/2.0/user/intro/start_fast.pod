@@ -83,9 +83,10 @@ and shut down with:
 Check I<$HOME/httpd/prefork/logs/error_log> to see that the server has
 started and it's a right one. It should say something similar to:
 
-  [Tue May 25 09:24:28 2004] [notice] Apache/2.0.50-dev (Unix)
-  mod_perl/1.99_15-dev Perl/v5.8.4 mod_ssl/2.0.50-dev OpenSSL/0.9.7c
-  DAV/2 configured -- resuming normal operations
+  [Tue Apr 26 23:28:49 2005] [notice] Apache/2.0.54-dev (Unix)
+  mod_ssl/2.0.54-dev OpenSSL/0.9.7e DAV/2 mod_perl/1.999.23-dev
+  Perl/v5.8.6 configured -- resuming normal operations
+
 
 
 

@@ -79,35 +79,36 @@ don't rely on the result of last expression to be used as the return
 value -- things will change in the future and you won't know why
 things aren't working anymore.
 
-The only value that can be returned by all handlers is C<Apache2::Const::OK>,
-which tells Apache that the handler has successfully finished its
-execution.
+The only value that can be returned by all handlers is
+C<Apache2::Const::OK>, which tells Apache that the handler has
+successfully finished its execution.
 
-C<Apache2::Const::DECLINED> is another return value that indicates success,
-but it's only relevant for
-L<phases|docs::2.0::user::handlers::intro/Stacked_Handlers>
-of type C<L<RUN_FIRST|/RUN_FIRST>>.
+C<Apache2::Const::DECLINED> is another return value that indicates
+success, but it's only relevant for
+L<phases|docs::2.0::user::handlers::intro/Stacked_Handlers> of type
+C<L<RUN_FIRST|/RUN_FIRST>>.
 
 L<HTTP handlers|docs::2.0::user::handlers::http> may also return
-C<Apache2::Const::DONE> which tells Apache to stop the normal L<HTTP request
+C<Apache2::Const::DONE> which tells Apache to stop the normal L<HTTP
+request
 cycle|docs::2.0::user::handlers::http/HTTP_Request_Cycle_Phases> and
 fast forward to the
 C<L<PerlLogHandler|docs::2.0::user::handlers::http/PerlLogHandler>>,
 followed by
 C<L<PerlCleanupHandler|docs::2.0::user::handlers::http/PerlCleanupHandler>>.
 L<HTTP handlers|docs::2.0::user::handlers::http> may return any HTTP
-status, which similarly to C<Apache2::Const::DONE> will cause an abort of the
-request cycle, by also will be interpreted as an error. Therefore you
-don't want to return C<Apache2::Const::HTTP_OK> from your HTTP response
-handler, but C<Apache2::Const::OK> and Apache will send the C<200 OK> status
-by itself.
+status, which similarly to C<Apache2::Const::DONE> will cause an abort
+of the request cycle, by also will be interpreted as an
+error. Therefore you don't want to return C<Apache2::Const::HTTP_OK>
+from your HTTP response handler, but C<Apache2::Const::OK> and Apache
+will send the C<200 OK> status by itself.
 
 L<Filter handlers|docs::2.0::user::handlers::filters> return
 C<Apache2::Const::OK> to indicate that the filter has successfully
-finished. If the return value is C<Apache2::Const::DECLINED>, mod_perl will
-read and forward the data on behalf of the filter. Please notice that
-this feature is specific to mod_perl. If there is some problem with
-obtaining or sending the bucket brigades, or the buckets in it,
+finished. If the return value is C<Apache2::Const::DECLINED>, mod_perl
+will read and forward the data on behalf of the filter. Please notice
+that this feature is specific to mod_perl. If there is some problem
+with obtaining or sending the bucket brigades, or the buckets in it,
 filters need to return the error returned by the method that tried to
 manipulate the bucket brigade or the bucket. Normally it'd be an
 C<L<APR::|docs::2.0::api::APR::Const>> constant.
@@ -119,8 +120,8 @@ C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreConnect
 handler, which, if returning anything but C<Apache2::Const::OK> or
 C<Apache2::Const::DONE>, will prevent from
 C<L<PerlConnectionHandler|docs::2.0::user::handlers::protocols/PerlConnectionHandler>>
-to be
-run. C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreConnectionHandler>>
+to be run.
+C<L<PerlPreConnectionHandler|docs::2.0::user::handlers::protocols/PerlPreConnectionHandler>>
 handlers should always return C<Apache2::Const::OK>.
 
 

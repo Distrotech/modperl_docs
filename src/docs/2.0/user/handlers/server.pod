@@ -53,8 +53,8 @@ it's killed by the server or the server is shutdown.
 Let's look at the following example that demonstrates all the startup
 phases:
 
-  file:MyApache2/StartupLog.pm
-  ---------------------------
+  #file:MyApache2/StartupLog.pm
+  #----------------------------
   package MyApache2::StartupLog;
   
   use strict;
@@ -590,8 +590,8 @@ It's used to adjust Perl modules search paths in C<@INC>, pre-load
 commonly used modules, pre-compile constants, etc. Here is a typical
 I<startup.pl> for mod_perl 2.0:
 
-  file:startup.pl
-  ---------------
+  #file:startup.pl
+  #---------------
   
   use lib qw(/home/httpd/perl);
   

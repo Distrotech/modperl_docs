@@ -225,7 +225,6 @@ improvement.
 This document explains what APIs have changed and what new APIs should
 be used instead.
 
-
 Finally, mod_perl 2.0 has all its methods spread across many
 modules. In order to use these methods the modules containing them
 have to be loaded first. The module
