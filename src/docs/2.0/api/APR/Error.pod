@@ -86,58 +86,61 @@ C<L<exit|docs::2.0::api::ModPerl::Util/C_exit_>>).
 
   warn "handled exception: $@" if $@ && $ref $@;
 
-For example you wrote a code that performs L<a socket
-read|docs::2.0::api::APR::Socket/C_recv_>:
+There are two ways to figure out whether an error fits your case. In
+most cases you just compare C<$@> with an the error constant. For
+example:
+
+  use APR::Const -compile => qw(TIMEUP);
+  # some code throwing an exception
+  if ($@ && ref $@ && $@ == APR::Const::TIMEUP) {
+      # do something
+  }
+
+However there are situations, where on different Operating Systems a
+different error code will be returned. In which case to simplify the
+code you should use the special subroutines provided by the
+C<L<APR::Status|docs::2.0::api::APR::Status>> class. One such
+condition is socket C<recv()> timeout, which on Unix throws the
+C<EAGAIN> error, but on other system it throws a different error. In
+this case L<APR::Status::is_EAGAIN> should be used.
+
+Let's look at a complete example. Here is a code that performs L<a
+socket read|docs::2.0::api::APR::Socket/C_recv_>:
 
   my $rlen = $sock->recv(my $buff, 1024);
   warn "read $rlen bytes\n";
 
 and in certain cases it times out. The code will die and log the
 reason for the failure, which is fine, but later on you may decide
-that you want to have another attempt to read before dying. In which
-case you rewrite the code to handle the exception like this:
+that you want to have another attempt to read before dying and add
+some fine grained sleep time between attempts, which can be achieved
+with C<select>. Which gives us:
 
-  use APR::Const -compile => qw(TIMEUP);
-  my $buff;
+  use APR::Status ();
+  # ....
   my $tries = 0;
-  RETRY: my $rlen = eval { $sock->recv($buff, 1024) };
-  if ($@) {
-      die $@ unless ref $@ && $@ == APR::Const::TIMEUP;
-      goto RETRY if $tries++ < 3;
-  }
-  warn "read $rlen bytes\n";
-
-Notice that we handle non-object and non-C<APR::Error> exceptions as
-well, by simply rethrowing them.
-
-You certainly want to have a limit on how many times the code retries
-the operation as in this example and you probably want to add some
-fine grained sleep time between attempts, which can be achieved with
-C<select>. As a result the retry code may look like this:
-
-  use APR::Const -compile => qw(TIMEUP);
-  my $tries = 0;
-  RETRY: my $rlen = eval { $sock->recv($buff, 1024) };
-  if ($@) {
-      die $@ unless ref $@ && $@ == APR::Const::TIMEUP;
+  RETRY: my $rlen = eval { $socket->recv(my $buffer, SIZE) };
+  if ($@)
+      die $@ unless ref $@ && APR::Status::is_EAGAIN($@);
       if ($tries++ < 3) {
           # sleep 250msec
           select undef, undef, undef, 0.25;
           goto RETRY;
       }
+      else {
+          # do something else
+      }
   }
-  warn "read $rlen bytes\n";
+  warn "read $rlen bytes\n"
+
+Notice that we handle non-object and non-C<APR::Error> exceptions as
+well, by simply re-throwing them.
 
 Finally, the class is called C<APR::Error> because it needs to be used
 outside mod_perl as well, when called from
 C<L<APR|docs::2.0::api::APR>> applications written in Perl.
 
-It is worth noting that APR provides some macros in F<apr_errno.h>,
-C<APR_STATUS_IS_*>, which are the recommended way to check for
-some error conditions, especially in cases when different
-circumstances can lead to the intent of a single condition.
-See the L<APR::Status documentation|docs::2.0::api::APR::Status>
-for an interface to some of these macros. 
+
 
 =head1 API
 
