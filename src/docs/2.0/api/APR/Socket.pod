@@ -263,15 +263,43 @@ contain an empty string if there was nothing to read.
 
 If you get the C<'(11) Resource temporarily unavailable'> error
 (exception
-C<L<APR::Const::EAGAIN|docs::2.0::api::APR::Const/C_APR__EAGAIN_>>), then you
-didn't ensure that the socket is in L<a blocking IO mode|/C_opt_set_>
-before using it.
+C<L<APR::Const::EAGAIN|docs::2.0::api::APR::Const/C_APR__EAGAIN_>>)
+(or another equivalent, which might be different on non-POSIX
+systems), then you didn't ensure that the socket is in L<a blocking IO
+mode|/C_opt_set_> before using it. Note that you should use 
+C<L<APR::Status::is_EAGAIN|docs::2.0::api::APR::Status/C_is_EAGAIN_>>
+to perform this check (since different error codes may be returned for
+the same event on different OSes). For example if the socket is set to
+the non-blocking mode and there is no data right away, you may get
+this exception thrown. So here is how to check for it and retry a few
+times after short delays:
+
+  use APR::Status ();
+  $sock->opt_set(APR::Const::SO_NONBLOCK, 1);
+  # ....
+  my $tries = 0;
+  RETRY: my $rlen = eval { $socket->recv(my $buffer, SIZE) };
+  if ($@)
+      die $@ unless ref $@ && APR::Status::is_EAGAIN($@);
+      if ($tries++ < 3) {
+          # sleep 250msec
+          select undef, undef, undef, 0.25;
+          goto RETRY;
+      }
+      else {
+          # do something else
+      }
+  }
+  warn "read $rlen bytes\n"
+
 
 If timeout was set via C<timeout_set|/C_timeout_set_>, you may need to
-catch the C<L<APR::Const::TIMEUP|docs::2.0::api::APR::Const/C_APR__TIMEUP_>>
+catch the
+C<L<APR::Const::TIMEUP|docs::2.0::api::APR::Const/C_APR__TIMEUP_>>
 exception. For example:
 
   use APR::Const -compile => qw(TIMEUP);
+  $sock->timeout_set(1_000_000); # 1 sec
   my $buffer;
   eval { $sock->recv($buffer, $wanted) };
   if ($@ && $@ == APR::Const::TIMEUP) {

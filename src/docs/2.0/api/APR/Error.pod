@@ -88,12 +88,16 @@ C<L<exit|docs::2.0::api::ModPerl::Util/C_exit_>>).
 
 There are two ways to figure out whether an error fits your case. In
 most cases you just compare C<$@> with an the error constant. For
-example:
+example if a socket has a timeout set and the data wasn't read within
+the timeout limit a
+C<L<APR::Const::TIMEUP|docs::2.0::api::APR::Const/C_APR__Const__TIMEUP_>>)
 
   use APR::Const -compile => qw(TIMEUP);
-  # some code throwing an exception
+  $sock->timeout_set(1_000_000); # 1 sec
+  my $buff;
+  eval { $socket->recv($buff, BUFF_LEN) };
   if ($@ && ref $@ && $@ == APR::Const::TIMEUP) {
-      # do something
+
   }
 
 However there are situations, where on different Operating Systems a
@@ -102,7 +106,9 @@ code you should use the special subroutines provided by the
 C<L<APR::Status|docs::2.0::api::APR::Status>> class. One such
 condition is socket C<recv()> timeout, which on Unix throws the
 C<EAGAIN> error, but on other system it throws a different error. In
-this case L<APR::Status::is_EAGAIN> should be used.
+this case
+C<L<APR::Status::is_EAGAIN|docs::2.0::api::APR::Status/C_is_EAGAIN_>>
+should be used.
 
 Let's look at a complete example. Here is a code that performs L<a
 socket read|docs::2.0::api::APR::Socket/C_recv_>:
