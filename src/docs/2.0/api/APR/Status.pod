@@ -98,6 +98,80 @@ win32. Thefore make sure to use this macro and not
 C<APR::Const::EAGAIN> unless you know what you are doing.
 
 
+=head2 C<is_EACCES>
+
+Check if the error is matching C<EACCES> and its variants (corresponds
+to the C<APR_STATUS_IS_EACCES> macro).
+
+  $status = APR::Status::is_EACCES($error_code);
+
+=over 4
+
+=item arg1: C<$error_code> (integer or C<L<APR::Error
+object|docs::2.0::api::APR::Error>> )
+
+The error code or to check, normally C<$@> blessed into C<L<APR::Error
+object|docs::2.0::api::APR::Error>>.
+
+=item ret: C<$status> ( boolean )
+
+=item since: 1.999.24
+
+=back
+
+An example of using C<is_EACCES> is when reading the contents of a
+file where access may be forbidden:
+
+  eval { $obj->slurp_filename(0) };
+  if ($@) {
+      if (ref $@ eq 'APR::Error') {
+          return Apache2::Const::FORBIDDEN if APR::Status::is_EACCES($@);
+      }
+      else {
+          return Apache2::Const::SERVER_ERROR;
+      }
+  }
+
+As discussed above with C<APR::Const::EAGAIN>, the advantage of
+using C<is_EACCES> is portability - just checking
+C<$@> against C<APR::Const::EACCES> may work on some unices,
+but could fail on other platforms. 
+
+
+=head2 C<is_ENOENT>
+
+Check if the error is matching C<ENOENT> and its variants (corresponds
+to the C<APR_STATUS_IS_ENOENT> macro).
+
+  $status = APR::Status::is_ENOENT($error_code);
+
+=over 4
+
+=item arg1: C<$error_code> (integer or C<L<APR::Error
+object|docs::2.0::api::APR::Error>> )
+
+The error code or to check, normally C<$@> blessed into C<L<APR::Error
+object|docs::2.0::api::APR::Error>>.
+
+=item ret: C<$status> ( boolean )
+
+=item since: 1.999.24
+
+=back
+
+An example of using C<is_ENOENT> is when reading the contents of a
+file which may not exist:
+
+  eval { $obj->slurp_filename(0) };
+  if ($@) {
+      if (ref $@ eq 'APR::Error') {
+          return Apache2::Const::NOT_FOUND if APR::Status::is_ENOENT($@);
+      }
+      else {
+          return Apache2::Const::SERVER_ERROR;
+      }
+  }
+
 
 =head1 See Also
 
