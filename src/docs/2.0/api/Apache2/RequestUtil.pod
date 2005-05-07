@@ -1079,10 +1079,15 @@ A reference to a string with the contents
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
 Possible error codes could be:
-C<L<APR::Const::EACCES|docs::2.0::api::APR::Const/C_APR__EACCES_>>
+C<L<APR::Const::EACCES|docs::2.0::api::APR::Const/C_APR__Const__EACCES_>>
 (permission problems),
-C<L<APR::Const::ENOENT|docs::2.0::api::APR::Const/C_APR__ENOENT_>> (file not
-found) and others.
+C<L<APR::Const::ENOENT|docs::2.0::api::APR::Const/C_APR__Const__ENOENT_>>
+(file not found), and others. For checking such error codes, see the
+documentation for, for example,
+C<L<APR::Status::is_EACCES|docs::2.0::api::APR::Status/C_is_EACCES_>>
+and
+C<L<APR::Status::is_ENOENT|docs::2.0::api::APR::Status/C_is_ENOENT_>>.
+
 
 =item since: 1.99_22
 
