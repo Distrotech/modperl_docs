@@ -124,13 +124,10 @@ file where access may be forbidden:
 
   eval { $obj->slurp_filename(0) };
   if ($@) {
-      if (ref $@ eq 'APR::Error') {
-          return Apache2::Const::FORBIDDEN if APR::Status::is_EACCES($@);
-      }
-      else {
-          return Apache2::Const::SERVER_ERROR;
-      }
-  }
+      return Apache2::Const::FORBIDDEN
+          if ref $@ eq 'APR::Error' && APR::Status::is_EACCES($@);
+      die $@;
+   }
 
 As discussed above with C<APR::Const::EAGAIN>, the advantage of
 using C<is_EACCES> is portability - just checking
@@ -164,12 +161,9 @@ file which may not exist:
 
   eval { $obj->slurp_filename(0) };
   if ($@) {
-      if (ref $@ eq 'APR::Error') {
-          return Apache2::Const::NOT_FOUND if APR::Status::is_ENOENT($@);
-      }
-      else {
-          return Apache2::Const::SERVER_ERROR;
-      }
+      return Apache2::Const::NOT_FOUND
+          if ref $@ eq 'APR::Error' && APR::Status::is_ENOENT($@);
+      die $@;
   }
 
 
