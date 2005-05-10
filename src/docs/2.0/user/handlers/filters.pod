@@ -2618,7 +2618,9 @@ and signal when the EOS is received. The filter simply collects the
 data, storing it in the filter context. When it receives EOS it sets
 the C<Content-Length> header and sends the data out.
 
+The configuration is straightforward:
 
+  PerlOutputFilterHandler MyApache2::FilterChangeLength
 
 
 
