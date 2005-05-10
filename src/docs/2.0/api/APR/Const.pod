@@ -104,7 +104,10 @@ The C<:error> group is for XXX constants.
 
 =back
 
-
+Due to possible variants in conditions matching C<EACCES>, 
+for checking error codes against this you most likely want to use the
+C<L<APR::Status::is_EACCES|docs::2.0::api::APR::Status/C_is_EACCES_>>
+function instead.
 
 
 
@@ -203,6 +206,11 @@ function instead.
 =item since: 1.99_12
 
 =back
+
+Due to possible variants in conditions matching C<ECONNABORTED>, 
+for checking error codes against this you most likely want to use the
+C<L<APR::Status::is_ECONNABORTED|docs::2.0::api::APR::Status/C_is_ECONNABORTED_>>
+function instead.
 
 
 
@@ -456,6 +464,10 @@ function instead.
 
 =back
 
+Due to possible variants in conditions matching C<ENOENT>, 
+for checking error codes against this you most likely want to use the
+C<L<APR::Status::is_ENOENT|docs::2.0::api::APR::Status/C_is_ENOENT_>>
+function instead.
 
 
 
@@ -663,6 +675,10 @@ Something is not implemented
 =back
 
 
+Due to possible variants in conditions matching C<EOF>, 
+for checking error codes against this you most likely want to use the
+C<L<APR::Status::is_EOF|docs::2.0::api::APR::Status/C_is_EOF_>>
+function instead.
 
 
 
@@ -2332,6 +2348,11 @@ The operation did not finish before the timeout.
 =item since: 1.99_14
 
 =back
+
+Due to possible variants in conditions matching C<TIMEUP>, 
+for checking error codes against this you most likely want to use the
+C<L<APR::Status::is_TIMEUP|docs::2.0::api::APR::Status/C_is_TIMEUP_>>
+function instead.
 
 
 

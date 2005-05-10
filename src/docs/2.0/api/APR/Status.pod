@@ -129,11 +129,11 @@ file where access may be forbidden:
       die $@;
    }
 
-As discussed above with C<APR::Const::EAGAIN>, the advantage of
-using C<is_EACCES> is portability - just checking
-C<$@> against C<APR::Const::EACCES> may work on some unices,
-but could fail on other platforms. 
-
+Due to possible variants in conditions matching C<EACCES>,
+the use of this function is recommended for checking error codes
+against this value, rather than just using
+C<L<APR::Const::EACCES|docs::2.0::api::APR::Const/C_APR__Const__EACCES_>>
+directly.
 
 =head2 C<is_ENOENT>
 
@@ -165,6 +165,95 @@ file which may not exist:
           if ref $@ eq 'APR::Error' && APR::Status::is_ENOENT($@);
       die $@;
   }
+
+Due to possible variants in conditions matching C<ENOENT>,
+the use of this function is recommended for checking error codes
+against this value, rather than just using
+C<L<APR::Const::ENOENT|docs::2.0::api::APR::Const/C_APR__Const__ENOENT_>>
+directly.
+
+
+=head2 C<is_EOF>
+
+Check if the error is matching C<EOF> and its variants (corresponds
+to the C<APR_STATUS_IS_EOF> macro).
+
+  $status = APR::Status::is_EOF($error_code);
+
+=over 4
+
+=item arg1: C<$error_code> (integer or C<L<APR::Error
+object|docs::2.0::api::APR::Error>> )
+
+The error code or to check, normally C<$@> blessed into C<L<APR::Error
+object|docs::2.0::api::APR::Error>>.
+
+=item ret: C<$status> ( boolean )
+
+=item since: 1.999.24
+
+=back
+
+Due to possible variants in conditions matching C<EOF>,
+the use of this function is recommended for checking error codes
+against this value, rather than just using
+C<L<APR::Const::EOF|docs::2.0::api::APR::Const/C_APR__Const__EOF_>>
+directly.
+
+
+=head2 C<is_ECONNABORTED>
+
+Check if the error is matching C<ECONNABORTED> and its variants (corresponds
+to the C<APR_STATUS_IS_ECONNABORTED> macro).
+
+  $status = APR::Status::is_ECONNABORTED($error_code);
+
+=over 4
+
+=item arg1: C<$error_code> (integer or C<L<APR::Error
+object|docs::2.0::api::APR::Error>> )
+
+The error code or to check, normally C<$@> blessed into C<L<APR::Error
+object|docs::2.0::api::APR::Error>>.
+
+=item ret: C<$status> ( boolean )
+
+=item since: 1.999.24
+
+=back
+
+Due to possible variants in conditions matching C<ECONNABORTED>,
+the use of this function is recommended for checking error codes
+against this value, rather than just using
+C<L<APR::Const::ECONNABORTED|docs::2.0::api::APR::Const/C_APR__Const__ECONNABORTED_>> directly.
+
+
+=head2 C<is_TIMEUP>
+
+Check if the error is matching C<TIMEUP> and its variants (corresponds
+to the C<APR_STATUS_IS_TIMEUP> macro).
+
+  $status = APR::Status::is_TIMEUP($error_code);
+
+=over 4
+
+=item arg1: C<$error_code> (integer or C<L<APR::Error
+object|docs::2.0::api::APR::Error>> )
+
+The error code or to check, normally C<$@> blessed into C<L<APR::Error
+object|docs::2.0::api::APR::Error>>.
+
+=item ret: C<$status> ( boolean )
+
+=item since: 1.999.24
+
+=back
+
+Due to possible variants in conditions matching C<TIMEUP>,
+the use of this function is recommended for checking error codes
+against this value, rather than just using
+C<L<APR::Const::TIMEUP|docs::2.0::api::APR::Const/C_APR__Const__TIMEUP_>>
+directly.
 
 
 =head1 See Also
