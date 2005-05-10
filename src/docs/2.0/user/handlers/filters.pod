@@ -2535,6 +2535,93 @@ And here is the configuration for this setup:
 
 
 
+=head2 Setting the Content-Length Header in Request Output Filters
+
+Earlier we have stated that a filter that modifies the content's
+length must unset the Content-Length HTTP header. However sometimes
+it's desirable to have this header set, for example when dealing with
+proxies. Since the headers are sent before the data, all the data must
+be first buffered and processed. You cannot accomplish this task with
+the streaming filter API since it passes FLUSH buckets through. As
+soon as the FLUSH bucket is received by the core filter that sends the
+headers, it generates the headers and sends those out. Therefore the
+bucket brigade API must be used here to have a complete control over
+what's going through. Here is a possible implementation:
+
+  #file:MyApache2/FilterChangeLength.pm
+  #-------------------------------------
+  package MyApache2::FilterChangeLength;
+  
+  use strict;
+  use warnings FATAL => 'all';
+  
+  use Apache2::RequestRec ();
+  
+  use APR::Table ();
+  use APR::Bucket ();
+  use APR::Brigade ();
+  
+  use base qw(Apache2::Filter);
+  
+  use Apache2::Const -compile => qw(OK);
+  use APR::Const     -compile => ':common';
+  
+  sub handler {
+      my($filter, $bb) = @_;
+  
+      my $ctx = $filter->ctx;
+  
+      # no need to unset the C-L header, since this filter makes sure to
+      # correct it before any headers go out.
+      #unless ($ctx) {
+      #    $filter->r->headers_out->unset('Content-Length');
+      #}
+  
+      my $data = exists $ctx->{data} ? $ctx->{data} : '';
+      $ctx->{invoked}++;
+      my($bdata, $seen_eos) = flatten_bb($bb);
+      $bdata =~ s/-//g;
+      $data .= $bdata if $bdata;
+  
+      if ($seen_eos) {
+          my $len = length $data;
+          $filter->r->headers_out->set('Content-Length', $len);
+          $filter->print($data) if $data;
+      }
+      else {
+          # store context for all but the last invocation
+          $ctx->{data} = $data;
+          $filter->ctx($ctx);
+      }
+  
+      return Apache2::Const::OK;
+  }
+  
+  sub flatten_bb {
+      my ($bb) = shift;
+  
+      my $seen_eos = 0;
+  
+      my @data;
+      for (my $b = $bb->first; $b; $b = $bb->next($b)) {
+          $seen_eos++, last if $b->is_eos;
+          $b->read(my $bdata);
+          push @data, $bdata;
+      }
+      return (join('', @data), $seen_eos);
+  }
+  
+  1;
+
+In this module we use flatten_bb() to read the data from the buckets
+and signal when the EOS is received. The filter simply collects the
+data, storing it in the filter context. When it receives EOS it sets
+the C<Content-Length> header and sends the data out.
+
+
+
+
+
 
 =head1 Filter Tips and Tricks
 
