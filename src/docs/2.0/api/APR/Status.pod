@@ -270,6 +270,36 @@ C<L<APR::Const::ECONNABORTED|docs::2.0::api::APR::Const/C_APR__Const__ECONNABORT
 
 
 
+=head2 C<is_ECONNRESET>
+
+Check if the error is matching C<ECONNRESET> and its variants
+(corresponds to the C<APR_STATUS_IS_ECONNRESET> macro).
+
+  $status = APR::Status::is_ECONNRESET($error_code);
+
+=over 4
+
+=item arg1: C<$error_code> (integer or C<L<APR::Error
+object|docs::2.0::api::APR::Error>> )
+
+The error code or to check, normally C<$@> blessed into C<L<APR::Error
+object|docs::2.0::api::APR::Error>>.
+
+=item ret: C<$status> ( boolean )
+
+=item since: 1.999.24
+
+=back
+
+Due to possible variants in conditions matching C<ECONNRESET>, the use
+of this function is recommended for checking error codes against this
+value, rather than just using
+C<L<APR::Const::ECONNRESET|docs::2.0::api::APR::Const/C_APR__Const__ECONNRESET_>>
+directly.
+
+
+
+
 
 
 

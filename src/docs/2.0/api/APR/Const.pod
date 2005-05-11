@@ -236,6 +236,11 @@ function instead.
 
 =back
 
+Due to possible variants in conditions matching C<ECONNRESET>, for
+checking error codes against this you most likely want to use the
+C<L<APR::Status::is_ECONNRESET|docs::2.0::api::APR::Status/C_is_ECONNRESET_>>
+function instead.
+
 
 
 
