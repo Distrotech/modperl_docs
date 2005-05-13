@@ -255,7 +255,7 @@ levels|/LogLevel_Methods>.
 C<Apache2::Log::Server> object to be used with L<LogLevel
 methods|/LogLevel_Methods>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -281,7 +281,7 @@ what to log
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -331,7 +331,7 @@ The log message(s)
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -371,7 +371,7 @@ array of warning strings
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -408,7 +408,7 @@ levels|/LogLevel_Methods>.
 C<Apache2::Log::Request> object to be used with L<LogLevel
 methods|/LogLevel_Methods>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -435,7 +435,7 @@ what to log
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 
 =back
@@ -472,7 +472,7 @@ where to report the error as coming from (e.g. C<__FILE__>)
 
 =item ret: no return value
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -503,7 +503,7 @@ C<L<$s-E<gt>log_serror|/C__s_E_gt_log_serror_>>.
 
 =over 4
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -541,7 +541,7 @@ array of warning strings
 
 =item ret: no return value
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -579,7 +579,7 @@ L<request|/C__s_E_gt_log_> log handle )
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -674,7 +674,7 @@ where the function was called from.
 
 =item ret2: C<$line> ( number )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

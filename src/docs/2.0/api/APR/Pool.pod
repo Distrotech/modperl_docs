@@ -110,7 +110,7 @@ pool is destroyed when a request or connection handlers are long gone.
 However the error B<is> logged to F<error_log>, so if you monitor that
 file you will spot if there are any problems with it.
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -164,7 +164,7 @@ The pool to clear
 
 =item ret: no return value
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -193,7 +193,7 @@ C<L<destroy|/C_destroy_>>.
 
 =over 4
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -223,7 +223,7 @@ The pool to destroy
 
 =item ret: no return value
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -260,7 +260,7 @@ The pool to search for
 
 True if C<$pool_a> is an ancestor of C<$pool_b>.
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -303,7 +303,7 @@ will be created from the global pool:
 
 The child sub-pool
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -332,7 +332,7 @@ the child pool
 the parent pool. C<undef> if there is no parent pool (which is the
 case for the top-most global pool).
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -369,7 +369,7 @@ The tag (some unique string)
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

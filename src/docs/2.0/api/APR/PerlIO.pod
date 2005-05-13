@@ -126,7 +126,7 @@ The pool object to use to allocate APR::PerlIO layer.
 
 success or failure value (boolean).
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -153,7 +153,7 @@ there is no way to force APR to build with large files support.
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

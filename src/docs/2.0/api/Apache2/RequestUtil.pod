@@ -129,7 +129,7 @@ C<L<Apache2::Const::OR_AUTHCFG|docs::2.0::api::Apache2::Const/C_Apache2__OR_AUTH
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -160,7 +160,7 @@ Dump the request object as a string
 
 =item ret: C<$dump> ( string )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -184,7 +184,7 @@ over
 
 =item ret: no return value
 
-=item since: 1.99_18
+=item since: 2.0.00
 
 =back
 
@@ -210,7 +210,7 @@ The current request
 
 The default type
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -248,7 +248,7 @@ Value string
 
 Depends on the passed arguments, see further discussion
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -324,7 +324,7 @@ MPMs|docs::2.0::api::Apache2::ServerRec/Limited_Functionality_under_Threaded_MPM
 
 The document root
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -354,7 +354,7 @@ a string representing the phase to handle (e.g. C<PerlLogHandler>)
 
 a list of handler subroutines CODE references
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -390,7 +390,7 @@ The current request
 
 the maximum number of bytes in the request msg body
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -415,7 +415,7 @@ The current request
 
 the server name
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -445,7 +445,7 @@ The current request
 
 The server's port number
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -480,7 +480,7 @@ The Status-Line
 If an invalid or unknown status code is passed, C<"500 Internal Server
 Error"> will be returned.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -515,7 +515,7 @@ A request or a sub-request object
 
 If true -- it's the main request, otherwise it's a sub-request
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -540,7 +540,7 @@ check whether a directory level C<PerlOptions> flag is enabled or not.
 
 =item ret: C<$result> ( boolean )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -573,7 +573,7 @@ C<Perl*Handler> is being called.
 
 =item ret: C<$location> ( string )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -610,7 +610,7 @@ that argument will be I</foo>
 a true value if the merge was successful (i.e. the request
 C<$location> match was found), otherwise false.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -648,7 +648,7 @@ the connection object is valid.
 =item ret: C<$r>
 ( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -698,7 +698,7 @@ mentioned headers if they were previously set.
 Should you care, the C<no_cache> request record member value prior to
 the change is returned.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -742,7 +742,7 @@ if no arguments are passed, a hash reference is returned, which can
 then be directly accessed without going through the C<pnotes()>
 interface.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -835,7 +835,7 @@ HTML text describing the server. Note that depending on the value of
 the C<ServerSignature> directive, the function may return the address,
 including the admin information or nothing at all.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -866,7 +866,7 @@ The Apache class name
 =item ret: C<$r>
 ( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -911,7 +911,7 @@ and/or subroutine names.
 
 returns a true value on success, otherwise a false value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 See also:
 C<L<$s-E<gt>add_config|docs::2.0::api::Apache2::ServerUtil/C_push_handlers_>>
@@ -962,7 +962,7 @@ submitted those in first place:
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -1010,7 +1010,7 @@ zero.
 
 returns a true value on success, otherwise a false value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -1089,7 +1089,7 @@ and
 C<L<APR::Status::is_ENOENT|docs::2.0::api::APR::Status/C_is_ENOENT_>>.
 
 
-=item since: 1.99_22
+=item since: 2.0.00
 
 =back
 

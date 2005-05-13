@@ -98,7 +98,7 @@ failure if the lookup didn't succeed.
 an array of modules which have matched the query, i.e. the names of
 the modules which contain the requested method.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -151,7 +151,7 @@ failure if the lookup failed.
 an array of methods which have matched the query, i.e. the names of
 the methods defined in the requested module.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -195,7 +195,7 @@ an array of methods which have matched the query, i.e. the names of
 the methods that can be invoked on the given object (or its class
 name).
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -238,7 +238,7 @@ indeed) in order to save memory.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -274,7 +274,7 @@ The function C<print_method()> is exported by default.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -296,7 +296,7 @@ The function C<print_module()> is exported by default.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -321,7 +321,7 @@ The function C<print_object()> is exported by default.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

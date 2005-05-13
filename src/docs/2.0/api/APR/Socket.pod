@@ -99,7 +99,7 @@ option|docs::2.0::api::APR::Const/C__socket_> you've queried for
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -140,7 +140,7 @@ the expected values.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -195,7 +195,7 @@ If C<APR::Const::SUCCESS> is received than the polling was successful. If not
 string with help of
 C<L<APR::Error::strerror|docs::2.0::api::APR::Error/C_strerror_>>.
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -321,7 +321,7 @@ client aborts the connection.
       # ignore it or deal with it
   }
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -401,7 +401,7 @@ data than contained in C<$buf>.
 
 How many bytes were sent
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -438,7 +438,7 @@ values and their meaning.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -510,7 +510,7 @@ This mode sets the socket into a blocking IO mode.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 

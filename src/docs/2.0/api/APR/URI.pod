@@ -127,7 +127,7 @@ Get/set trailing "#fragment" string
 
 =item ret: C<$oldval> ( string or undef )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -151,7 +151,7 @@ Get/set combined C<[user[:password]@]host[:port]>
 
 =item ret: C<$oldval> ( string or undef )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -182,7 +182,7 @@ Get/set hostname
 
 =item ret: C<$oldval> ( string or undef )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -212,7 +212,7 @@ Get/set password (as in http://user:password@host:port/)
 
 =item ret: C<$oldval> ( string or undef )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -244,7 +244,7 @@ The URI to parse
 
 The parsed URI object
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -274,7 +274,7 @@ Get/set the request path
 
 C<"/"> if only C<scheme://host>
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -300,7 +300,7 @@ C<L<path_info|docs::2.0::api::Apache2::RequestRec/C_path_info_>>
 
 The path minus the I<path_info>
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -328,7 +328,7 @@ If the port component didn't appear in the parsed URI, APR internally
 calls C<L<port_of_scheme()|/C_port_of_scheme_>> to find out the port
 number for the given C<L<scheme()|/C_scheme_>>.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -354,7 +354,7 @@ The scheme string
 
 The default port for this scheme
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -378,7 +378,7 @@ way till the end or the C<'#fragment'> part if the latter exists).
 
 =item ret: C<$oldval> ( string or undef )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -402,7 +402,7 @@ Get/set the protocol scheme ("http", "ftp", ...)
 
 =item ret: C<$oldval> ( string or undef )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -425,7 +425,7 @@ Get/set user name (as in http://user:password@host:port/)
 
 =item ret: C<$oldval> ( string or undef )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -457,7 +457,7 @@ The valid C<flags> constants are listed next
 
 =item ret: C<$new_uri> ( string )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

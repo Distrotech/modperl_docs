@@ -103,7 +103,7 @@ In SCALAR context returns the output filehandle of the spawned process
 In LIST context returns the input, outpur and error filehandles of the
 spawned process.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 

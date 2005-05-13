@@ -93,7 +93,7 @@ Returns the C<ErrorLog> value setting.
 
 If C<$new_error_fname> is passed returns the setting before the change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -121,7 +121,7 @@ Returns the is_virtual setting.
 If C<$new_is_virtual> is passed, returns the setting before the
 change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -162,7 +162,7 @@ Returns the C<KeepAlive> setting.
 If C<$new_keep_alive> is passed, returns the setting before the
 change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -200,7 +200,7 @@ Returns the keep_alive_max setting.
 If C<$new_keep_alive_max> is passed, returns the setting before the
 change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -238,7 +238,7 @@ Returns the C<KeepAlive> timeout value (in microsecs).
 
 If C<$new_timeout> is passed, returns the setting before the change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -273,7 +273,7 @@ Returns the request headers number limit.
 If C<$new_limit_req_fields> is passed, returns the setting before the
 change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -307,7 +307,7 @@ Returns the request header size limit.
 
 If C<$new_limit> is passed, returns the setting before the change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -342,7 +342,7 @@ Returns the request line limit value
 If C<$new_limit_req_line> is passed, returns the setting before the
 change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -379,7 +379,7 @@ Returns the C<LogLevel> value as a constant.
 
 If C<$new_loglevel> is passed, returns the setting before the change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -407,7 +407,7 @@ The next server record in the list (if there are vhosts)
 =item ret: C<$s_next>
 ( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -453,7 +453,7 @@ Returns the path setting.
 
 If C<$new_path> is passed, returns the setting before the change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -490,7 +490,7 @@ Returns the port setting.
 
 If C<$new_port> is passed returns the setting before the change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -513,7 +513,7 @@ The process this server is running in
 =item ret: C<$proc>
 ( C<L<Apache2::Process object|docs::2.0::api::Apache2::Process>> )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -548,7 +548,7 @@ Returns the C<ServerAdmin> value.
 If C<$new_server_admin> is passed, returns the setting before the
 change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -582,7 +582,7 @@ Returns the C<ServerName> value
 If C<$new_server_hostname> is passed, returns the setting before the
 change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -618,7 +618,7 @@ Returns the timeout setting in microseconds.
 
 If C<$new_timeout> is passed, returns the setting before the change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -782,7 +782,7 @@ Returns the names setting.
 
 If C<$new_names> is passed, returns the setting before the change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -821,7 +821,7 @@ Returns the wild_names setting.
 If C<$new_wild_names> is passed, returns the setting before the
 change.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 

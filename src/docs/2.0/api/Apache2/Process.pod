@@ -58,7 +58,7 @@ Get configuration pool object.
 =item ret: C<$p>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -84,7 +84,7 @@ Get the global pool object.
 =item ret: C<$p>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -112,7 +112,7 @@ The name of the program used to execute the program
 
 e.g. C<httpd>
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 

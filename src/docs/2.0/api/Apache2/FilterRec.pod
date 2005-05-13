@@ -51,7 +51,7 @@ The registered name for this filter
 
 =item ret: C<$name> (string)
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

@@ -108,7 +108,7 @@ The value to add.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -134,7 +134,7 @@ The table to clear.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -165,7 +165,7 @@ The table to compress.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -283,7 +283,7 @@ The pool to allocate the new table out of.
 
 A copy of the table passed in.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -321,7 +321,7 @@ processed.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -406,7 +406,7 @@ C<undef> is returned.
 In the list context the whole table is traversed and all matching
 values are returned. An empty list is returned if nothing matches.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -440,7 +440,7 @@ is passed APR will still allocate 1.
 
 The new table.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -474,7 +474,7 @@ The data to add.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -580,7 +580,7 @@ element with the same key in C<$table_a>.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -733,7 +733,7 @@ The pool to use for the new table.
 
 A new table containing all of the data from the two passed in.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -810,7 +810,7 @@ The value to add.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -838,7 +838,7 @@ The key of the data being removed.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -883,7 +883,7 @@ keys), or C<APR::Table::do>.
 
 true or false
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -902,7 +902,7 @@ true or false
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -925,7 +925,7 @@ true or false
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -946,7 +946,7 @@ true or false
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -967,7 +967,7 @@ true or false
 
 =item ret: C<$ret> ( string )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

@@ -75,7 +75,7 @@ Get the time the file was last accessed:
 
 Last access time in seconds since the epoch
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -105,7 +105,7 @@ Get the storage size consumed by the file
 
 =item return: C<$csize> ( integer )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -134,7 +134,7 @@ Get the time the file was last changed
 
 Inode change time in seconds since the epoch
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -164,7 +164,7 @@ Get the id of the device the file is on.
 
 =item return: C<$device> ( integer )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -194,7 +194,7 @@ Get the type of file.
 =item return: C<$filetype> ( C<L<:filetype
 constant|docs::2.0::api::APR::Const/C__filetype_>> )
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -238,7 +238,7 @@ Get the pathname of the file (possibly unrooted)
 
 =item return: C<$filetype> ( string )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -262,7 +262,7 @@ Get the group id that owns the file:
 
 =item return: C<$gid> ( number )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -293,7 +293,7 @@ Get the inode of the file.
 
 =item return: C<$inode> ( integer )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -325,7 +325,7 @@ The time the file was last modified
 
 Last modify time in seconds since the epoch
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -351,7 +351,7 @@ Get the file's name (no path) in filesystem case:
 
 =item return: C<$device> ( string )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -373,7 +373,7 @@ Get the number of hard links to the file.
 
 =item return: C<$nlink> ( integer )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -403,7 +403,7 @@ Get the access permissions of the file.  Mimics Unix access rights.
 =item return: C<$prot> ( C<L<:fprot
 constant|docs::2.0::api::APR::Const/C__fprot_>> )
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -433,7 +433,7 @@ Get the size of the file
 
 Total size of file, in bytes
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -482,7 +482,7 @@ the pool to use to allocate the file stat structure.
 =item ret: C<$finfo>
 ( C<L<APR::Finfo object|docs::2.0::api::APR::Finfo>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -514,7 +514,7 @@ Get the user id that owns the file:
 
 =item return: C<$uid> ( number )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -547,7 +547,7 @@ including all available 'wanted' fields and potentially more
 This bitmask flag should be bit-OR'ed against C<L<:finfo
 constant|docs::2.0::api::APR::Const/C__finfo_>> constants.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

@@ -52,7 +52,7 @@ Get the current thread ID
 
 under threaded MPMs returns the current thread ID, otherwise 0.
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 

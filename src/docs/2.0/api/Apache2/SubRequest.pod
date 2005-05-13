@@ -62,7 +62,7 @@ The sub request to finish
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -107,7 +107,7 @@ The URI to replace the current request with
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -148,7 +148,7 @@ The URI to replace the current request with.
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -194,7 +194,7 @@ object|docs::2.0::api::Apache2::SubRequest/Description>> )
 
 The sub request record.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -237,7 +237,7 @@ object|docs::2.0::api::Apache2::SubRequest/Description>> )
 
 The sub request record.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -284,7 +284,7 @@ object|docs::2.0::api::Apache2::SubRequest/Description>> )
 
 The sub request record
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -338,7 +338,7 @@ The sub-request (e.g. returned by C<L<lookup_uri|/C_lookup_uri_>>)
 The return code of the handler (C<Apache2::Const::OK>, C<Apache2::Const::DECLINED>,
 etc.)
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -383,7 +383,7 @@ A subrequest created from this request
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -439,7 +439,7 @@ NULL, it defaults to the first filter for the main request
 
 The new request record
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

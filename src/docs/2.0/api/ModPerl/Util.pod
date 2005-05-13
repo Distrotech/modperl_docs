@@ -57,7 +57,7 @@ e.g. C<'PerlResponseHandler'>.
 
 =item ret: C<$callback> ( string )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -80,7 +80,7 @@ Under threaded perl returns something like: C<0x92ac760>
 
 Under non-thread perl returns C<0x0>
 
-=item since: 1.99_18
+=item since: 2.0.00
 
 =back
 
@@ -108,7 +108,7 @@ to be compatible with the core C<exit> function.)
 
 =item ret: no return value
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -177,7 +177,7 @@ The Perl stash to unload. e.g. C<MyApache2::MyData>.
 
 =item ret: no return value
 
-=item since 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -224,7 +224,7 @@ internally).
 
 C<$tainted_var> is untainted.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

@@ -99,7 +99,7 @@ C<L<$r-E<gt>pool|docs::2.0::api::Apache2::RequestRec/C_pool_>> is used.
 
 The server's hostport string
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -175,7 +175,7 @@ C<L<$r-E<gt>pool|docs::2.0::api::Apache2::RequestRec/C_pool_>> is used.
 
 A fully qualified URL
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -248,7 +248,7 @@ The uri to break apart
 
 This method has several side-effects explained below
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -300,7 +300,7 @@ The current request object
 
 The parsed uri
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 This object is suitable for using with C<L<APR::URI::rpath|docs::2.0::api::APR::URI/C_rpath_>>
 
@@ -329,7 +329,7 @@ The URL to unescape
 
 The argument C<$url> is now unescaped
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

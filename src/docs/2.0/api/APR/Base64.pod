@@ -49,7 +49,7 @@ The encoded string.
 
 The decoded string.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -74,7 +74,7 @@ The unencoded string.
 
 The encoded string.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -97,7 +97,7 @@ the length of an unencoded string.
 
 the length of the string after it is encoded
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

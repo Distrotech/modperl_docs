@@ -192,7 +192,7 @@ returns C<$allowed>, which is a bitvector of the allowed methods.
 If the C<$new_allowed> argument is passed, the value before the change
 is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -259,7 +259,7 @@ If this argument is passed then a new auth type is assigned. For example:
 If C<$newval> is passed, nothing is returned. Otherwise the current
 auth type is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -301,7 +301,7 @@ The current QUERY string
 
 If C<$new_args> was passed, returns the value before the change.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -334,7 +334,7 @@ assign a new state.
 
 current state.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -374,7 +374,7 @@ The number of bytes sent to the client, handy for logging, etc.
 
 =item ret: C<$bytes_sent> (integer)
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -412,7 +412,7 @@ Get the client connection record
 =item ret: C<$c>
 ( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -446,7 +446,7 @@ The current content encoding.
 
 If C<$new_ce> is passed, then the previous value is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -488,7 +488,7 @@ The current list of content languages, as an ARRAY reference.
 
 If C<$new_lang> is passed, then the previous value is returned.
 
-=item since: 1.99_16
+=item since: 2.0.00
 
 =back
 
@@ -523,7 +523,7 @@ The current content-type value.
 If C<$new_content_type> was passed, the previous value is returned
 instead.
 
-=item since 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -557,7 +557,7 @@ across internal redirects.
 =item ret: C<$err_headers_out>
 ( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -606,7 +606,7 @@ new value
 the current filename, or the previous value if the optional
 C<$new_filename> argument was passed
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -655,7 +655,7 @@ two different objects originating from C<$r-E<gt>finfo> at the same
 time. Whenever C<$r-E<gt>finfo> is updated all objects will be updated
 too to the latest value.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -718,7 +718,7 @@ the current handler.
 
 If C<$new_handler> is passed, the previous value is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -744,7 +744,7 @@ was B<HEAD>.
 
 Returns true if the client is asking for headers only, false otherwise
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -767,7 +767,7 @@ Get/set the request MIME headers:
 =item ret: C<$headers_in>
 ( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -800,7 +800,7 @@ Get/set MIME response headers, printed only on 2xx responses.
 =item ret: C<$headers_out>
 ( C<L<APR::Table object|docs::2.0::api::APR::Table>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -836,7 +836,7 @@ new value
 the current hostname, or the previous value if the optional
 C<$new_hostname> argument was passed
 
-=item since: 1.99_19
+=item since: 2.0.00
 
 =back
 
@@ -872,7 +872,7 @@ The first filter in the request level input filters chain.
 
 If C<$new_input_filters> was passed, returns the previous value.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -956,7 +956,7 @@ To figure out whether you are inside a main request or a
 sub-request/internal redirect, use
 C<L<$r-E<gt>is_initial_req|docs::2.0::api::Apache2::RequestUtil/C_is_initial_req_>>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -987,7 +987,7 @@ The current method as a string
 
 if C<$new_method> was passed the previous value is returned.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -1021,7 +1021,7 @@ The current method as a number
 
 if C<$new_methnum> was passed the previous value is returned.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -1057,7 +1057,7 @@ the current value (in microseconds).
 
 if C<$new_mtime> was passed the previous value is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1085,7 +1085,7 @@ Pointer to the redirected request if this is an external redirect
 returns a blessed reference to the next (internal) request structure
 or C<undef> if there is no next request.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1105,7 +1105,7 @@ There is no local copy of this response
 
 =item ret: C<$status> (integer)
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1149,7 +1149,7 @@ the current notes table.
 
 if the C<$new_notes> argument was passed, returns the previous value.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1188,7 +1188,7 @@ The first filter in the request level output filters chain.
 
 If C<$new_output_filters> was passed, returns the previous value.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1252,7 +1252,7 @@ Return the current value.
 If the optional argument C<$path_info> is passed, the previous value
 is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1275,7 +1275,7 @@ Get the dir config vector:
 =item ret: C<$per_dir_config>
 ( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1302,7 +1302,7 @@ The pool associated with the request
 
 =item ret: C<$p> ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1329,7 +1329,7 @@ Pointer to the previous request if this is an internal redirect
 a blessed reference to the previous (internal) request structure or
 C<undef> if there is no previous request.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1362,7 +1362,7 @@ The first filter in the protocol level input filters chain.
 
 If C<$new_proto_input_filters> was passed, returns the previous value.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1391,7 +1391,7 @@ Get current request's HTTP protocol version number
 current request's HTTP protocol version number, e.g.: HTTP/1.0 ==
 1000, HTTP/1.1 = 1001
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1425,7 +1425,7 @@ The first filter in the protocol level output filters chain.
 
 If C<$new_proto_output_filters> was passed, returns the previous value.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1456,7 +1456,7 @@ Typical values are C<"HTTP/1.0"> or C<"HTTP/1.1">.
 If the client didn't specify the protocol version, the default is
 C<"HTTP/0.9">
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1493,7 +1493,7 @@ returned. In addition C<$r-E<gt>uri> is set to C<$r-E<gt>unparsed_uri>
 and C<$r-E<gt>filename> is set to C<"modperl-proxy:".$r-E<gt>uri>. If
 those conditions aren't true 0 is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1539,7 +1539,7 @@ Time when the request started
 
 (in microseconds).
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1564,7 +1564,7 @@ the server the request C<$r> is running under.
 =item ret: C<$s>
 ( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1599,7 +1599,7 @@ The current value.
 
 If C<$new_status> is passed the old value is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1642,7 +1642,7 @@ specified using the C<$r-E<gt>status()> described above.
 
 =item ret: C<$status_line> ( string )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1698,7 +1698,7 @@ value of a named entry.
 
 =item ret: C<...>
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1767,7 +1767,7 @@ For example:
 
   GET /foo/bar/my_path_info?args=3 HTTP/1.0
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1792,7 +1792,7 @@ The URI without any parsing performed
 
 =item ret: C<$unparsed_uri> ( string )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1830,7 +1830,7 @@ The path portion of the URI
 
 =item ret: C<$uri> ( string )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1867,7 +1867,7 @@ The current username if an authentication process was successful.
 
 If C<$new_user> was passed, the previous value is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1912,7 +1912,7 @@ List of allowed methods
 =item ret: C<$list>
 ( C<L<Apache2::MethodList object|docs::2.0::api::Apache2::MethodList>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1940,7 +1940,7 @@ Array of extension methods
 =item ret: C<$array>
 ( C<L<APR::ArrayHeader object|docs::2.0::api::APR::ArrayHeader>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1967,7 +1967,7 @@ structures
 =item opt arg1: C<$newval>
 ( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1995,7 +1995,7 @@ user's preference upon HOOK_VERY_FIRST of the fixups.
 
 =item arg1: C<$newval> (integer)
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

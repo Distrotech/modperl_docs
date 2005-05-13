@@ -47,7 +47,7 @@ information.
 
 =over
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 

@@ -91,7 +91,7 @@ Check whether the connection is still open
 
 true if the connection has been aborted, false if still open
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -116,7 +116,7 @@ Physical server this connection came in on (main server or vhost):
 =item ret: C<$base_server>
 ( C<L<Apache2::Server object|docs::2.0::api::Apache2::ServerRec>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -140,7 +140,7 @@ The bucket allocator to use for all bucket/brigade creations
 =item ret: C<$ba>
 ( C<L<APR::BucketAlloc object|docs::2.0::api::APR::BucketAlloc>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -178,7 +178,7 @@ current client socket
 if the optional argument C<$new_socket> was passed the previous socket
 object is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -253,7 +253,7 @@ B<HostNameLookups> is set to off, this returns the dotted decimal
 representation of the client's IP address instead. Might return
 C<undef> if the hostname is not known.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -281,7 +281,7 @@ ID of this connection; unique at any point in time
 
 =item ret: C<$id> (integer)
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -313,7 +313,7 @@ The first filter in the connection input filters chain.
 
 If C<$new_input_filters> was passed, returns the previous value.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -355,7 +355,7 @@ The method does B<not> return true or false, but one of the states
 which can be compared against (C<L<:conn_keepalive
 constants|docs::2.0::api::Apache2::Const/C__conn_keepalive_>>).
 
-=item since: 1.99_13
+=item since: 2.0.00
 
 =back
 
@@ -417,7 +417,7 @@ In most handlers, but HTTP output filter handlers, that value doesn't
 count the current request. For the latter it'll count the current
 request.
 
-=item since: 1.99_13
+=item since: 2.0.00
 
 =back
 
@@ -452,7 +452,7 @@ Get this connection's local socket address
 =item ret: C<$local_sa>
 ( C<L<APR::SockAddr object|docs::2.0::api::APR::SockAddr>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -476,7 +476,7 @@ used for ap_get_server_name when UseCanonicalName is set to DNS
 
 =item ret: C<$local_host> (string)
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -501,7 +501,7 @@ server IP address
 
 =item ret: C<$local_ip> (string)
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -535,7 +535,7 @@ the current notes table.
 
 if the C<$new_notes> argument was passed, returns the previous value.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -572,7 +572,7 @@ The first filter in the connection output filters chain.
 
 If C<$new_output_filters> was passed, returns the previous value.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -598,7 +598,7 @@ Pool associated with this connection
 =item ret: C<$p>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -622,7 +622,7 @@ Get this connection's remote socket address
 =item ret: C<$remote_sa>
 ( C<L<APR::SockAddr object|docs::2.0::api::APR::SockAddr>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -655,7 +655,7 @@ current remote ip address
 if the optional argument C<$new_remote_ip> was passed the previous
 value is returned.
 
-=item since: 1.99_18
+=item since: 2.0.00
 
 =back
 
@@ -682,7 +682,7 @@ If C<L<$c-E<gt>get_remote_host|/C_get_remote_host_>> was run it
 returns the cached value, which is a client DNS name or C<""> if it
 wasn't found. If the check wasn't run -- C<undef> is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -725,7 +725,7 @@ structures
 =item ret: C<$ret>
 ( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -748,7 +748,7 @@ handle to scoreboard information for this connection
 
 =item ret: C<$sbh> (XXX)
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

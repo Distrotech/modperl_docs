@@ -64,7 +64,7 @@ The current request
 C<L<APR::Const status constant|docs::2.0::api::APR::Const>> if request
 is malformed, C<Apache2::Const::OK> otherwise.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -102,7 +102,7 @@ will still evaluate to C<0> in a numerical context.
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -138,7 +138,7 @@ How many bytes were sent (or buffered)
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -170,7 +170,7 @@ How many bytes were sent (or buffered)
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -217,7 +217,7 @@ How many characters were actually read
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -241,7 +241,7 @@ Flush any buffered data to the client.
 
 =item ret: no return value
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -299,7 +299,7 @@ Exceptions are thrown only when this function is called in the VOID
 context. So if you don't want to handle the errors, just don't ask for
 a return value and the function will handle all the errors on its own.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -339,7 +339,7 @@ How many bytes were sent (or buffered)
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -404,7 +404,7 @@ See the I<perltie> manpage for more information.
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -418,7 +418,7 @@ See the I<binmode> Perl entry in the I<perlfunc> manpage
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -432,7 +432,7 @@ See the I<close> Perl entry in the I<perlfunc> manpage
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -445,7 +445,7 @@ See the I<fileno> Perl entry in the I<perlfunc> manpage
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -458,7 +458,7 @@ See the I<getc> Perl entry in the I<perlfunc> manpage
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -472,7 +472,7 @@ See the I<open> Perl entry in the I<perlfunc> manpage
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -485,7 +485,7 @@ See the I<print> Perl entry in the I<perlfunc> manpage
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -498,7 +498,7 @@ See the I<printf> Perl entry in the I<perlfunc> manpage
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -512,7 +512,7 @@ See the I<read> Perl entry in the I<perlfunc> manpage
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -525,7 +525,7 @@ See the I<tie> Perl entry in the I<perlfunc> manpage
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -541,7 +541,7 @@ See the I<untie> Perl entry in the I<perlfunc> manpage
 
 =over 4
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

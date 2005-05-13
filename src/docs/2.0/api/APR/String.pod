@@ -57,7 +57,7 @@ megabytes, depending on the size. The length of that string is always
     42_000          => " 41K",
     42_000_000      => " 40M",
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

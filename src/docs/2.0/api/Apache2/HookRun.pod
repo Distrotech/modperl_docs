@@ -141,7 +141,7 @@ Why the request is dieing. Expects an Apache status constant.
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -173,7 +173,7 @@ The current request
 The status of the current phase run: C<Apache2::Const::OK>,
 C<Apache2::HTTP_...>
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -210,7 +210,7 @@ the current request
 The status of the current phase run: C<Apache2::Const::OK>,
 C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -244,7 +244,7 @@ the current request
 The status of the current phase run: C<Apache2::Const::OK>,
 C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -285,7 +285,7 @@ The current request
 The status of the current phase run: C<Apache2::Const::OK>,
 C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -326,7 +326,7 @@ The current request
 The status of the current phase run: C<Apache2::Const::OK>,
 C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -358,7 +358,7 @@ The request_rec
 The status of the current phase run: C<Apache2::Const::OK>,
 C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -392,7 +392,7 @@ The current request
 
 C<Apache2::Const::OK> or C<Apache2::Const::DECLINED>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -419,7 +419,7 @@ The current request
 The status of the current phase run: C<Apache2::Const::OK>,
 C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -454,7 +454,7 @@ file, and C<Apache2::Const::DECLINED> if this is a file.  The core
 map_to_storage (C<Apache2::HOOK_RUN_LAST>) will C<directory_walk()> and
 C<file_walk()> the C<$r-E<gt>filename> (all internal C functions).
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -489,7 +489,7 @@ The current request
 The status of the current phase run: C<Apache2::Const::OK> or
 C<Apache2::Const::DECLINED>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -522,7 +522,7 @@ The current request
 The status of the current phase run: C<Apache2::Const::OK>,
 C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -553,7 +553,7 @@ the current request
 The status of the current phase run: C<Apache2::Const::OK>,
 C<Apache2::Const::DECLINED>, C<Apache2::HTTP_...>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

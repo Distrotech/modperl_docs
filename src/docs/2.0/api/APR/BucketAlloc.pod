@@ -44,7 +44,7 @@ The pool used to create this object.
 
 The new object.
 
-=item since: 1.99_20
+=item since: 2.0.00
 
 =back
 
@@ -88,7 +88,7 @@ The freelist to destroy.
 
 =item ret: no return value
 
-=item since: 1.99_20
+=item since: 2.0.00
 
 =back
 

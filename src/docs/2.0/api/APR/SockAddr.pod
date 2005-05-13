@@ -51,7 +51,7 @@ Get the IP address of the socket
 
 =item ret: C<$ip> ( string )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -84,7 +84,7 @@ Get the IP address of the socket
 
 =item ret: C<$port> ( integer )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

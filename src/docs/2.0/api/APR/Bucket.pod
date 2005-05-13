@@ -87,7 +87,7 @@ to, and destroy itself.
 
 =item ret: no return value
 
-=item since: 1.99_16
+=item since: 2.0.00
 
 =back
 
@@ -131,7 +131,7 @@ same resource it is freed when the last one goes away.
 
 =item ret: no return value
 
-=item since: 1.99_16
+=item since: 2.0.00
 
 =back
 
@@ -174,7 +174,7 @@ The freelist from which this bucket should be allocated
 
 The new bucket
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -211,7 +211,7 @@ The freelist from which this bucket should be allocated
 
 The new bucket
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -245,7 +245,7 @@ more buckets attached after itself.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -274,7 +274,7 @@ more buckets attached after itself.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -295,7 +295,7 @@ Determine if a bucket is an EOS bucket
 
 =item ret: C<$ret> ( boolean )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -316,7 +316,7 @@ Determine if a bucket is a FLUSH bucket
 
 =item ret: C<$ret> ( boolean )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -342,7 +342,7 @@ Get the length of the data in the bucket.
 
 If the length is unknown, C<$len> value will be -1.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -398,7 +398,7 @@ will be used. Otherwise the default is to use:
 
 a newly created bucket object
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -479,7 +479,7 @@ How many bytes were actually read
 C<$buffer> gets populated with the string that is read. It will
 contain an empty string if there was nothing to read.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =item excpt: C<L<APR::Error|docs::2.0::api::APR::Error>>
 
@@ -520,7 +520,7 @@ to.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -594,7 +594,7 @@ C<L<APR::Const::ENOTIMPL|docs::2.0::api::APR::Const/C_APR__ENOTIMPL_>>. As of
 this writing the pipe and socket buckets can't C<setaside()>, in which
 case you may want to look at the C<ap_save_brigade()> implementation.
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -631,7 +631,7 @@ Get the type of the data in the bucket.
 =item ret: C<$type>
 ( C<L<APR::BucketType object|docs::2.0::api::APR::BucketType>> )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

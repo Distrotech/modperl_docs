@@ -82,7 +82,7 @@ Get the arguments for the current directive:
 
 Arguments are separated by a whitespace in the string.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -120,7 +120,7 @@ The config tree to stringify
 
 =item ret: C<$config_hash> ( HASH reference )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -166,7 +166,7 @@ The config tree to stringify
 
 =item ret: C<$string> ( string )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -206,7 +206,7 @@ Get the root of the configuration tree:
 =item ret: C<$conftree>
 ( C<L<Apache2::Directive object|docs::2.0::api::Apache2::Directive>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -229,7 +229,7 @@ Get the name of the directive in C<$node>:
 
 =item ret: C<$name> ( string )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -252,7 +252,7 @@ Get the F<filename> the configuration node was created from:
 
 =item ret: C<$filename> ( string )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -291,7 +291,7 @@ Get the first child node of this directive:
 
 Returns the first child node of C<$node>, C<undef> if there is none
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -315,7 +315,7 @@ Get the line number in a F<filename> this node was created at:
 
 =item arg1: C<$lineno> (integer)
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -366,7 +366,7 @@ both the directive and the args matched. For example:
 
   $VHost = $tree->lookup('VirtualHost', '_default_:8000');
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -395,7 +395,7 @@ Get the next directive node in the tree:
 
 Returns the next sibling of C<$node>, C<undef> if there is none
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -420,7 +420,7 @@ Get the parent node of this directive:
 
 Returns the parent of C<$node>, C<undef> if this node is the root node
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

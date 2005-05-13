@@ -63,7 +63,7 @@ into a string presentation:
 returns a string representation of the object (.e.g
 C<'d48889bb-d11d-b211-8567-ec81968c93c6'>).
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -87,7 +87,7 @@ random engine:
 =item ret: C<$uuid>
 ( C<L<APR::UUID object|docs::2.0::api::APR::UUID>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -106,7 +106,7 @@ random engine:
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -137,7 +137,7 @@ UUID string (.e.g C<'d48889bb-d11d-b211-8567-ec81968c93c6'>)
 
 The new object.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

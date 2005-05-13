@@ -78,7 +78,7 @@ what package to special list is for
 
 true value if C<$key> is known, false otherwise.
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -107,7 +107,7 @@ what package to special list is for
 
 true value if C<$key> is known, false otherwise.
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -135,7 +135,7 @@ what package to special list is for
 
 true value if C<$key> is known, false otherwise.
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 

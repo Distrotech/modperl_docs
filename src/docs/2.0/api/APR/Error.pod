@@ -179,7 +179,7 @@ The numerical value for the return (error) code
 The string error message corresponding to the numerical value inside
 C<$rc>.  (Similar to the C function C<strerror(3)>)
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 

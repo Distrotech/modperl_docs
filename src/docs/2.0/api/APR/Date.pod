@@ -60,7 +60,7 @@ used timezone).
 the number of microseconds since 1 Jan 1970 GMT, or 0 if out of range
 or if the date is invalid.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -102,7 +102,7 @@ The date string can be in one of the following formats:
 the number of microseconds since 1 Jan 1970 GMT, or 0 if out of range
 or if the date is invalid.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

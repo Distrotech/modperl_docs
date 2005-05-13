@@ -59,7 +59,7 @@ constant|docs::2.0::api::Apache2::Const/C__cmd_how_>> )
 The flag value representing the type of this command
 (i.e. C<Apache2::Const::ITERATE>, C<Apache2::Const::TAKE2>).
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -84,7 +84,7 @@ Get I<usage> message for that command, in case of syntax errors:
 
 The error message
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -109,7 +109,7 @@ Get the name of this command:
 
 The command name
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -135,7 +135,7 @@ Get the next command in the chain of commands for this module:
 Returns the next command in the chain for this module, C<undef> for
 the last command.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -163,7 +163,7 @@ constant|docs::2.0::api::Apache2::Const/C__override_>> )
 The bit mask representing the overrides this command is allowed in
 (i.e C<Apache2::Const::OR_ALL>/C<Apache2::Const::ACCESS_CONF>).
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

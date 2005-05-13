@@ -105,7 +105,7 @@ a list of HTTP methods to be allowed (e.g. C<GET> and C<POST>)
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -138,7 +138,7 @@ the C<Options> bitmask. Normally used with bitlogic operators against
 C<L<Apache2::Const :options
 constants|docs::2.0::api::Apache2::Const/C__options_>>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -180,7 +180,7 @@ the C<AllowOverride> bitmask. Normally used with bitlogic operators
 against C<L<Apache2::Const :override
 constants|docs::2.0::api::Apache2::Const/C__override_>>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -222,7 +222,7 @@ If C<$new_auth_name> is passed a new C<AuthName> value is set
 
 The current value of C<AuthName>
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -267,7 +267,7 @@ If C<$new_auth_type> is passed a new C<AuthType> value is set
 
 The current value of C<AuthType>
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -314,7 +314,7 @@ as well).
 
 The password as set in the headers (decoded)
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -347,7 +347,7 @@ The username of the user logged in to the client machine, or an empty
 string if it could not be determined via RFC1413, which involves
 querying the client's identd or auth daemon.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -380,7 +380,7 @@ The current request
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -414,7 +414,7 @@ The current request
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -443,7 +443,7 @@ The current request
 
 =item ret: no return value
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -471,7 +471,7 @@ The current request
 Returns an array reference of hash references, containing information
 related to the C<require> directive.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -589,7 +589,7 @@ C<L<Apache2::Const::SATISFY_ALL|docs::2.0::api::Apache2::Const/C_Apache2::Const:
 and
 C<L<Apache2::Const::SATISFY_NOSPEC|docs::2.0::api::Apache2::Const/C_Apache2::Const::SATISFY_NOSPEC_>>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -618,7 +618,7 @@ The current request
 
 TRUE if authentication is required, FALSE otherwise
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

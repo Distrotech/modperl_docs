@@ -66,7 +66,7 @@ the default is TRUE
 
 The escaped path
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -113,7 +113,7 @@ If the value is not passed TRUE (do convert) is used as a default.
 
 The string that represents the specified time
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

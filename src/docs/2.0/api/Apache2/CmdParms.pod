@@ -96,7 +96,7 @@ the new line terminators.
 
 =item ret: no return value
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -130,7 +130,7 @@ If the context is forbidden, this method returns a textual description
 of why it was forbidden. If the context is permitted, this method returns
 C<undef>.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -159,7 +159,7 @@ This module's command information
 =item ret: C<$cmd>
 ( C<L<Apache2::Command object|docs::2.0::api::Apache2::Command>> )
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -184,7 +184,7 @@ This command's directive object in the configuration tree
 
 The current directive node in the configuration tree
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -209,7 +209,7 @@ C<L<Apache2::Module::add()|docs::2.0::api::Apache2::Module/C_add_>>.
 
 The string passed in C<cmd_data>
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -259,7 +259,7 @@ The name of the method to check for
 
 =item ret: C<$is_limited> ( boolean )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -293,7 +293,7 @@ the allow-override bits bitmask, which can be tested against
 C<L<Apache2::Const :override
 constants|docs::2.0::api::Apache2::Const/C__override_>>.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -330,7 +330,7 @@ If configuring for a block like E<lt>LocationE<gt>,
 E<lt>LocationMatchE<gt>, E<lt>DirectoryE<gt>, etc., the pathname part
 of that directive. Otherwise, C<undef> is returned.
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -362,7 +362,7 @@ Pool associated with this command
 =item ret: C<$p>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -385,7 +385,7 @@ The (vhost) server this command was defined in F<httpd.conf>
 =item ret: C<$s>
 ( C<L<Apache2::Server object|docs::2.0::api::Apache2::ServerRec>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -409,7 +409,7 @@ before the first request is served.
 =item ret: C<$temp_pool>
 ( C<L<APR::Pool object|docs::2.0::api::APR::Pool>> )
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -454,7 +454,7 @@ config structures.
 
 Returns the commands' per-dir config structures
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 

@@ -74,7 +74,7 @@ full or just the uri path (I</foo/bar.txt>).
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -142,7 +142,7 @@ again in as short an interval.
 
 The entity tag
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -174,7 +174,7 @@ C<Apache2::Const::OK> if the response fulfills the condition GET
 rules. Otherwise some other status code (which should be returned to
 Apache).
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -211,7 +211,7 @@ the latest rational time from a request/mtime pair.  Mtime is
 returned unless it's in the future, in which case we return the
 current time.
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -238,7 +238,7 @@ headers and optionally a response body
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -279,7 +279,7 @@ The new content length
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -302,7 +302,7 @@ Set the E-tag outgoing header
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -329,7 +329,7 @@ The current request
 
 true if keepalive can be set, false otherwise
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -362,7 +362,7 @@ argument.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -389,7 +389,7 @@ The current request
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -438,7 +438,7 @@ and more briefly report on the problem with the C<ErrorDocument>.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -479,7 +479,7 @@ The amount of data to send
 
 The number of bytes sent
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

@@ -91,7 +91,7 @@ the new line terminators.
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -136,7 +136,7 @@ The string component to add
 
 =item ret: no return value
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -201,7 +201,7 @@ Register server shutdown cleanup callback:
 
 =item ret: no return value
 
-=item since: 1.99_18
+=item since: 2.0.00
 
 =back
 
@@ -255,7 +255,7 @@ Value string
 
 Depends on the passed arguments, see further discussion
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -320,7 +320,7 @@ The define string to check for
 
 true if defined, false otherwise
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -356,7 +356,7 @@ a string representing the phase to handle.
 
 a list of references to the handler subroutines
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -387,7 +387,7 @@ Get the date and time that the server was built
 
 The server build time string
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -409,7 +409,7 @@ Get the server version string
 
 The server version string
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -434,7 +434,7 @@ check whether a server level C<PerlOptions> flag is enabled or not.
 
 =item ret: C<$result> ( boolean )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -480,7 +480,7 @@ supported C<GET>, C<HEAD>, etc.)
 An int value representing an offset into a bitmask. You can probably
 ignore it.
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -527,7 +527,7 @@ and/or subroutine names.
 
 returns a true value on success, otherwise a false value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -564,7 +564,7 @@ How many times the server was restarted.
 
 =item ret: C<restart_count> ( number )
 
-=item since: 1.99_18
+=item since: 2.0.00
 
 =back
 
@@ -653,7 +653,7 @@ Get the main server's object
 =item ret: C<$main_s>
 ( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -673,7 +673,7 @@ returns the value set by the top-level C<ServerRoot> directive.
 
 =item ret: C<$server_root> ( string )
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -709,7 +709,7 @@ If C<$fname> is not specified, the value of C<ServerRoot> is returned
 with a trailing C</>. (it's the same as using C<''> as C<$fname>'s
 value).
 
-=item since: 1.99_15
+=item since: 2.0.00
 
 =back
 
@@ -806,7 +806,7 @@ zero.
 
 returns a true value on success, otherwise a false value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
@@ -864,7 +864,7 @@ The current server
 
 =item ret: no return value
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 

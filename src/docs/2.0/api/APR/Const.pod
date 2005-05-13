@@ -55,7 +55,7 @@ The C<:common> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -76,7 +76,7 @@ The C<:error> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -88,7 +88,7 @@ The C<:error> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -100,7 +100,7 @@ The C<:error> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -115,7 +115,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -131,7 +131,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -143,7 +143,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -155,7 +155,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -167,7 +167,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -179,7 +179,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -191,7 +191,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -203,7 +203,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -220,7 +220,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -232,7 +232,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -249,7 +249,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -261,7 +261,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -273,7 +273,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -285,7 +285,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -297,7 +297,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -309,7 +309,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -321,7 +321,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -333,7 +333,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -345,7 +345,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -357,7 +357,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -369,7 +369,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -381,7 +381,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -393,7 +393,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -405,7 +405,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -417,7 +417,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -429,7 +429,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -441,7 +441,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -453,7 +453,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -465,7 +465,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -481,7 +481,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -493,7 +493,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -505,7 +505,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -517,7 +517,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -529,7 +529,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -541,7 +541,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -553,7 +553,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -565,7 +565,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -577,7 +577,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -589,7 +589,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -601,7 +601,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -613,7 +613,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -625,7 +625,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -637,7 +637,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -651,7 +651,7 @@ Something is not implemented
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -663,7 +663,7 @@ Something is not implemented
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -675,7 +675,7 @@ Something is not implemented
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -691,7 +691,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -703,7 +703,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -715,7 +715,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -727,7 +727,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -739,7 +739,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -751,7 +751,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -763,7 +763,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -775,7 +775,7 @@ function instead.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -796,7 +796,7 @@ The C<:fopen> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -808,7 +808,7 @@ The C<:fopen> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -820,7 +820,7 @@ The C<:fopen> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -832,7 +832,7 @@ The C<:fopen> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -844,7 +844,7 @@ The C<:fopen> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -856,7 +856,7 @@ The C<:fopen> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -868,7 +868,7 @@ The C<:fopen> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -880,7 +880,7 @@ The C<:fopen> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -892,7 +892,7 @@ The C<:fopen> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -914,7 +914,7 @@ The C<:filepath> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -926,7 +926,7 @@ The C<:filepath> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -938,7 +938,7 @@ The C<:filepath> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -950,7 +950,7 @@ The C<:filepath> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -962,7 +962,7 @@ The C<:filepath> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -974,7 +974,7 @@ The C<:filepath> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -986,7 +986,7 @@ The C<:filepath> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -998,7 +998,7 @@ The C<:filepath> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1010,7 +1010,7 @@ The C<:filepath> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1022,7 +1022,7 @@ The C<:filepath> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1046,7 +1046,7 @@ Execute by group
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1061,7 +1061,7 @@ Read by group
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1074,7 +1074,7 @@ Set group id
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1087,7 +1087,7 @@ Write by group
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1100,7 +1100,7 @@ use OS's default permissions
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1113,7 +1113,7 @@ Execute by user
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1126,7 +1126,7 @@ Read by user
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1139,7 +1139,7 @@ Set user id
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1152,7 +1152,7 @@ Write by user
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1165,7 +1165,7 @@ Execute by others
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1178,7 +1178,7 @@ Read by others
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1191,7 +1191,7 @@ Sticky bit
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1204,7 +1204,7 @@ Write by others
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1233,7 +1233,7 @@ a file is a block device
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1248,7 +1248,7 @@ a file is a character device
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1262,7 +1262,7 @@ a file is a directory
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1276,7 +1276,7 @@ a file is a symbolic link
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1290,7 +1290,7 @@ the file type is undedetermined.
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1304,7 +1304,7 @@ a file is a FIFO or a pipe.
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1318,7 +1318,7 @@ a file is a regular file.
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1332,7 +1332,7 @@ a file is a [unix domain] socket.
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1346,7 +1346,7 @@ a file is of some other unknown type or the type cannot be determined.
 
 =over
 
-=item since: 1.99_17
+=item since: 2.0.00
 
 =back
 
@@ -1376,7 +1376,7 @@ Access Time
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1390,7 +1390,7 @@ Storage size consumed by the file
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1404,7 +1404,7 @@ Creation Time
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1418,7 +1418,7 @@ Device
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1432,7 +1432,7 @@ an atomic unix apr_dir_read()
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1446,7 +1446,7 @@ Group protection bits
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1460,7 +1460,7 @@ Group id
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1474,7 +1474,7 @@ whether device is case insensitive
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1488,7 +1488,7 @@ device and inode
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1502,7 +1502,7 @@ Inode
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1516,7 +1516,7 @@ Stat the link not the file itself if it is a link
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1530,7 +1530,7 @@ type, mtime, ctime, atime, size
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1544,7 +1544,7 @@ Modification Time
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1558,7 +1558,7 @@ name in proper case
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1572,7 +1572,7 @@ Number of links
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1586,7 +1586,7 @@ All fields provided by an atomic unix apr_stat()
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1600,7 +1600,7 @@ user and group
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1614,7 +1614,7 @@ all protections
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1628,7 +1628,7 @@ Size of the file
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1642,7 +1642,7 @@ Type
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1656,7 +1656,7 @@ User protection bits
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1670,7 +1670,7 @@ User id
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1684,7 +1684,7 @@ World protection bits
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1709,7 +1709,7 @@ The C<:flock> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1721,7 +1721,7 @@ The C<:flock> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1733,7 +1733,7 @@ The C<:flock> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1745,7 +1745,7 @@ The C<:flock> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1766,7 +1766,7 @@ The C<:hook> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1778,7 +1778,7 @@ The C<:hook> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1790,7 +1790,7 @@ The C<:hook> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1802,7 +1802,7 @@ The C<:hook> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1814,7 +1814,7 @@ The C<:hook> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1835,7 +1835,7 @@ The C<:limit> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1847,7 +1847,7 @@ The C<:limit> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1859,7 +1859,7 @@ The C<:limit> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1871,7 +1871,7 @@ The C<:limit> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1892,7 +1892,7 @@ The C<:lockmech> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1904,7 +1904,7 @@ The C<:lockmech> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1916,7 +1916,7 @@ The C<:lockmech> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1928,7 +1928,7 @@ The C<:lockmech> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1940,7 +1940,7 @@ The C<:lockmech> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1952,7 +1952,7 @@ The C<:lockmech> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1974,7 +1974,7 @@ C<L<poll|docs::2.0::api::APR::Socket/C_poll_>>.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -1987,7 +1987,7 @@ Pending error
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2000,7 +2000,7 @@ Hangup occurred
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2013,7 +2013,7 @@ Can read without blocking
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2026,7 +2026,7 @@ Descriptior invalid
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2040,7 +2040,7 @@ Can write without blocking
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2071,7 +2071,7 @@ The C<:read_type> group is for IO constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2085,7 +2085,7 @@ the read function blocks
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2114,7 +2114,7 @@ The C<:shutdown_how> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2126,7 +2126,7 @@ The C<:shutdown_how> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2138,7 +2138,7 @@ The C<:shutdown_how> group is for XXX constants.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2169,7 +2169,7 @@ XXX
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2189,7 +2189,7 @@ XXX
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2208,7 +2208,7 @@ XXX
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2225,7 +2225,7 @@ Lingers on close if data is present
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2258,7 +2258,7 @@ done for the demonstration purpose.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2280,7 +2280,7 @@ XXX
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2302,7 +2302,7 @@ XXX
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2323,7 +2323,7 @@ XXX
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2350,7 +2350,7 @@ The operation did not finish before the timeout.
 
 =over
 
-=item since: 1.99_14
+=item since: 2.0.00
 
 =back
 
@@ -2386,7 +2386,7 @@ See C<L<APR::Table|docs::2.0::api::APR::Table>> for details.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2401,7 +2401,7 @@ and C<L<APR::Table::overlap|docs::2.0::api::APR::Table/C_overlap_>>.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2425,7 +2425,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2437,7 +2437,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2449,7 +2449,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2461,7 +2461,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2474,7 +2474,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2487,7 +2487,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2499,7 +2499,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2512,7 +2512,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2525,7 +2525,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2538,7 +2538,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2551,7 +2551,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2564,7 +2564,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2578,7 +2578,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2594,7 +2594,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2606,7 +2606,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2618,7 +2618,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2632,7 +2632,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2647,7 +2647,7 @@ The C<:uri> group of constants is for manipulating URIs.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2664,7 +2664,7 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2681,7 +2681,7 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2698,7 +2698,7 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2714,7 +2714,7 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2728,7 +2728,7 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2743,7 +2743,7 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2759,7 +2759,7 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 =over
 
-=item since: 1.99_12
+=item since: 2.0.00
 
 =back
 
@@ -2772,7 +2772,7 @@ See C<L<APR::URI::unparse|docs::2.0::api::APR::URI/C_unparse_>>.
 
 =over
 
-=item since: 1.99_10
+=item since: 2.0.00
 
 =back
 
