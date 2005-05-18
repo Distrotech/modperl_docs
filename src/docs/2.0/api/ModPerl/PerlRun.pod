@@ -17,7 +17,10 @@ ModPerl::PerlRun - Run unaltered CGI scripts under mod_perl
 
 =head1 Description
 
-
+META: document that for now we don't chdir() into the script's dir,
+because it affects the whole process under
+threads. C<L<ModPerl::PerlRunPrefork|docs::2.0::api::ModPerl::PerlRunPrefork>>
+should be used by those who run only under prefork MPM.
 
 
 =head1 Special Blocks

@@ -38,8 +38,9 @@ XXX: STOPPED here. Below is the old Apache::Registry document which I
 haven't worked through yet.
 
 META: document that for now we don't chdir() into the script's dir,
-because it affects the whole process under threads.
-
+because it affects the whole process under
+threads. C<L<ModPerl::RegistryPrefork|docs::2.0::api::ModPerl::RegistryPrefork>>
+should be used by those who run only under prefork MPM.
 
 This module emulates the CGI environment, allowing programmers to
 write scripts that run under CGI or mod_perl without change.  Existing
