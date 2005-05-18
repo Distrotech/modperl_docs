@@ -584,10 +584,10 @@ The current request
 How the requirements must be met.  One of the C<L<Apache2::Const
 :satisfy constants|docs::2.0::api::Apache2::Const/C__satisfy_>>:
 
-C<L<Apache2::Const::SATISFY_ANY|docs::2.0::api::Apache2::Const/C_Apache2::Const::SATISFY_ANY_>>,
-C<L<Apache2::Const::SATISFY_ALL|docs::2.0::api::Apache2::Const/C_Apache2::Const::SATISFY_ALL_>>
+C<L<Apache2::Const::SATISFY_ANY|docs::2.0::api::Apache2::Const/C_Apache2__Const__SATISFY_ANY_>>,
+C<L<Apache2::Const::SATISFY_ALL|docs::2.0::api::Apache2::Const/C_Apache2__Const__SATISFY_ALL_>>
 and
-C<L<Apache2::Const::SATISFY_NOSPEC|docs::2.0::api::Apache2::Const/C_Apache2::Const::SATISFY_NOSPEC_>>.
+C<L<Apache2::Const::SATISFY_NOSPEC|docs::2.0::api::Apache2::Const/C_Apache2__Const__SATISFY_NOSPEC_>>.
 
 =item since: 2.0.00
 
