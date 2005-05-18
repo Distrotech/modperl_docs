@@ -253,60 +253,16 @@ to save memory.
 C<Apache::Registry>, C<Apache::PerlRun> and other modules from the
 registry family now live in the C<ModPerl::> namespace. In mod_perl
 2.0 we put mod_perl specific functionality into the C<ModPerl::>
-namespace, similar to C<APR::> and C<Apache2::> which are used for apr
-and apache features, respectively.
+namespace, similar to C<APR::> and C<Apache2::> which are used for
+libapr and Apache, respectively.
 
-At this moment
 C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>> (and others)
 doesn't C<chdir()> into the script's dir like C<Apache::Registry>
-does, because C<chdir()> affects the whole process under threads. This
-should be resolved by the time mod_perl 2.0 is released. Arthur
-Bergman works on the solution in form of: C<ex::threads::cwd>. See:
-http://www.perl.com/pub/a/2002/06/11/threads.html?page=2 Someone
-should pick up and complete this module to make it really useful.
-
-Meanwhile if you are using a prefork MPM and you have to rely on
-mod_perl performing chdir to the script's directory, you can use the
-following subclass of
-C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>>:
-
-  #file:ModPerl/RegistryPrefork.pm
-  #-------------------------------
-  package ModPerl::RegistryPrefork;
-  
-  use strict;
-  use warnings FATAL => 'all';
-  
-  our $VERSION = '0.01';
-  
-  use base qw(ModPerl::Registry);
-  
-  use File::Basename ();
-  
-  sub handler : method {
-      my $class = (@_ >= 2) ? shift : __PACKAGE__;
-      my $r = shift;
-      return $class->new($r)->default_handler();
-  }
-  
-  sub chdir_file {
-      my $file = @_ == 2 ? $_[1] : $_[0]->{FILENAME};
-      my $dir = File::Basename::dirname($file);
-      chdir $dir or die "Can't chdir to $dir: $!";
-  }
-  
-  1;
-  __END__ 
-
-Adjust your I<httpd.conf> to have:
-
-  Alias /perl /path/to/perl/scripts
-  <Location /perl>
-     SetHandler perl-script
-     PerlResponseHandler ModPerl::RegistryPrefork
-     Options +ExecCGI
-     PerlOptions +ParseHeaders
-  </Location>
+does, because C<chdir()> affects the whole process under threads. If
+you need this functionality use
+C<L<ModPerl::RegistryPrefork|docs::2.0::api::ModPerl::RegistryPrefork>>
+or
+C<L<ModPerl::PerlRunPrefork|docs::2.0::api::ModPerl::PerlRunPrefork>>.
 
 Otherwise C<ModPerl::Registry> modules are configured and used
 similarly to C<Apache::Registry> modules. Refer to one of the
