@@ -467,11 +467,11 @@ C<L<APR::FINFO_*|docs::2.0::api::APR::Const/C__finfo_>> constants.
 
 Notice that you can also use the constants that already combine
 several elements in one. For example
-C<L<APR::Const::FINFO_PROT|docs::2.0::api::APR::Const/C_APR__FINFO_PROT_>>
+C<L<APR::Const::FINFO_PROT|docs::2.0::api::APR::Const/C_APR__Const__FINFO_PROT_>>
 asks for all protection bits,
-C<L<APR::Const::FINFO_MIN|docs::2.0::api::APR::Const/C_APR__FINFO_MIN_>> asks
+C<L<APR::Const::FINFO_MIN|docs::2.0::api::APR::Const/C_APR__Const__FINFO_MIN_>> asks
 for the following fields: type, mtime, ctime, atime, size and
-C<L<APR::Const::FINFO_NORM|docs::2.0::api::APR::Const/C_APR__FINFO_NORM_>>
+C<L<APR::Const::FINFO_NORM|docs::2.0::api::APR::Const/C_APR__Const__FINFO_NORM_>>
 asks for all atomic unix C<apr_stat()> fields (similar to perl's
 C<stat()>).
 

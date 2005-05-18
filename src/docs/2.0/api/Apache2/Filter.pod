@@ -425,7 +425,7 @@ that was passed to the filter handler (the third argument).
 At the end of this section the available modes are presented.
 
 If the argument C<$mode> is not passed,
-C<L<Apache2::Const::MODE_READBYTES|docs::2.0::api::Apache2::Const/C_Apache2__MODE_READBYTES_>>
+C<L<Apache2::Const::MODE_READBYTES|docs::2.0::api::Apache2::Const/C_Apache2__Const__MODE_READBYTES_>>
 is used as a default value.
 
 
@@ -433,16 +433,16 @@ is used as a default value.
 constant|docs::2.0::api::APR::Const/C__input_mode_>> )
 
 You may ask the reading operation to be blocking:
-C<L<APR::Const::BLOCK_READ|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>>,
+C<L<APR::Const::BLOCK_READ|docs::2.0::api::APR::Const/C_APR__Const__BLOCK_READ_>>,
 or nonblocking:
-C<L<APR::Const::NONBLOCK_READ|docs::2.0::api::APR::Const/C_APR__NONBLOCK_READ_>>.
+C<L<APR::Const::NONBLOCK_READ|docs::2.0::api::APR::Const/C_APR__Const__NONBLOCK_READ_>>.
 
 If inside the filter handler, you should normally pass the same
 blocking mode argument that was passed to the filter handler (the
 forth argument).
 
 If the argument C<$block> is not passed,
-C<L<APR::Const::BLOCK_READ|docs::2.0::api::APR::Const/C_APR__BLOCK_READ_>> is
+C<L<APR::Const::BLOCK_READ|docs::2.0::api::APR::Const/C_APR__Const__BLOCK_READ_>> is
 used as a default value.
 
 
@@ -462,7 +462,7 @@ value.
 constant|docs::2.0::api::APR::Const>> )
 
 On success,
-C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
+C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__Const__SUCCESS_>> is
 returned and C<$bb> is populated (see the C<$bb> entry).
 
 In case of a failure -- a failure code is returned, in which case
@@ -484,11 +484,11 @@ in the VOID context, e.g.:
 
 mod_perl will do the error checking on your behalf, and if the return
 code is not
-C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>>, an
+C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__Const__SUCCESS_>>, an
 C<L<APR::Error exception|docs::2.0::api::APR::Error>> will be thrown.
 The only time you want to do the error checking yourself, is when
 return codes besides
-C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> are
+C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__Const__SUCCESS_>> are
 considered as successful and you want to manage them by yourself.
 
 =item since: 2.0.00
@@ -501,31 +501,31 @@ are:
 
 =over
 
-=item * C<L<Apache2::Const::MODE_READBYTES|docs::2.0::api::Apache2::Const/C_Apache2__MODE_READBYTES_>>
+=item * C<L<Apache2::Const::MODE_READBYTES|docs::2.0::api::Apache2::Const/C_Apache2__Const__MODE_READBYTES_>>
 
 The filter should return at most readbytes data
 
-=item * C<L<Apache2::Const::MODE_GETLINE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_GETLINE_>>
+=item * C<L<Apache2::Const::MODE_GETLINE|docs::2.0::api::Apache2::Const/C_Apache2__Const__MODE_GETLINE_>>
 
 The filter should return at most one line of CRLF data.  (If a
 potential line is too long or no CRLF is found, the filter may return
 partial data).
 
-=item * C<L<Apache2::Const::MODE_EATCRLF|docs::2.0::api::Apache2::Const/C_Apache2__MODE_EATCRLF_>>
+=item * C<L<Apache2::Const::MODE_EATCRLF|docs::2.0::api::Apache2::Const/C_Apache2__Const__MODE_EATCRLF_>>
 
 The filter should implicitly eat any CRLF pairs that it sees.
 
-=item * C<L<Apache2::Const::MODE_SPECULATIVE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_SPECULATIVE_>>
+=item * C<L<Apache2::Const::MODE_SPECULATIVE|docs::2.0::api::Apache2::Const/C_Apache2__Const__MODE_SPECULATIVE_>>
 
 The filter read should be treated as speculative and any returned data
 should be stored for later retrieval in another mode.
 
-=item * C<L<Apache2::Const::MODE_EXHAUSTIVE|docs::2.0::api::Apache2::Const/C_Apache2__MODE_EXHAUSTIVE_>>
+=item * C<L<Apache2::Const::MODE_EXHAUSTIVE|docs::2.0::api::Apache2::Const/C_Apache2__Const__MODE_EXHAUSTIVE_>>
 
 The filter read should be exhaustive and read until it can not read
 any more. Use this mode with extreme caution.
 
-=item * C<L<Apache2::Const::MODE_INIT|docs::2.0::api::Apache2::Const/C_Apache2__MODE_INIT_>>
+=item * C<L<Apache2::Const::MODE_INIT|docs::2.0::api::Apache2::Const/C_Apache2__Const__MODE_INIT_>>
 
 The filter should initialize the connection if needed, NNTP or FTP
 over SSL for example.
@@ -621,7 +621,7 @@ argument to the filter handler (after potential manipulations).
 constant|docs::2.0::api::APR::Const>> )
 
 On success,
-C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
+C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__Const__SUCCESS_>> is
 returned.
 
 In case of a failure -- a failure code is returned, in which case

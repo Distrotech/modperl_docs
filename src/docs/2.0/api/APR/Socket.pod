@@ -106,7 +106,7 @@ option|docs::2.0::api::APR::Const/C__socket_> you've queried for
 Examples can be found in L<the socket options constants
 section|docs::2.0::api::APR::Const/C__socket_>. For example L<setting 
 the IO to the blocking
-mode|docs::2.0::api::APR::Const/C_APR__SO_NONBLOCK_>.
+mode|docs::2.0::api::APR::Const/C_APR__Const__SO_NONBLOCK_>.
 
 
 
@@ -147,7 +147,7 @@ the expected values.
 Examples can be found in L<the socket options constants
 section|docs::2.0::api::APR::Const/C__socket_>. For example L<setting 
 the IO to the blocking
-mode|docs::2.0::api::APR::Const/C_APR__SO_NONBLOCK_>.
+mode|docs::2.0::api::APR::Const/C_APR__Const__SO_NONBLOCK_>.
 
 
 
@@ -180,11 +180,11 @@ constants|docs::2.0::api::APR::Const/C__poll_>> )
 The events for which to wait.
 
 For example use
-C<L<APR::Const::POLLIN|docs::2.0::api::APR::Const/C_APR__POLLIN_>> to wait
+C<L<APR::Const::POLLIN|docs::2.0::api::APR::Const/C_APR__Const__POLLIN_>> to wait
 for incoming data to be available,
-C<L<APR::Const::POLLOUT|docs::2.0::api::APR::Const/C_APR__POLLOUT_>> to wait
+C<L<APR::Const::POLLOUT|docs::2.0::api::APR::Const/C_APR__Const__POLLOUT_>> to wait
 until it's possible to write data to the socket and
-C<L<APR::Const::POLLPRI|docs::2.0::api::APR::Const/C_APR__POLLPRI_>> to wait
+C<L<APR::Const::POLLPRI|docs::2.0::api::APR::Const/C_APR__Const__POLLPRI_>> to wait
 for priority data to become available.
 
 =item ret: C<$rc>
@@ -263,7 +263,7 @@ contain an empty string if there was nothing to read.
 
 If you get the C<'(11) Resource temporarily unavailable'> error
 (exception
-C<L<APR::Const::EAGAIN|docs::2.0::api::APR::Const/C_APR__EAGAIN_>>)
+C<L<APR::Const::EAGAIN|docs::2.0::api::APR::Const/C_APR__Const__EAGAIN_>>)
 (or another equivalent, which might be different on non-POSIX
 systems), then you didn't ensure that the socket is in L<a blocking IO
 mode|/C_opt_set_> before using it. Note that you should use 
@@ -295,7 +295,7 @@ times after short delays:
 
 If timeout was set via C<timeout_set|/C_timeout_set_>, you may need to
 catch the
-C<L<APR::Const::TIMEUP|docs::2.0::api::APR::Const/C_APR__TIMEUP_>>
+C<L<APR::Const::TIMEUP|docs::2.0::api::APR::Const/C_APR__Const__TIMEUP_>>
 exception. For example:
 
   use APR::Const -compile => qw(TIMEUP);

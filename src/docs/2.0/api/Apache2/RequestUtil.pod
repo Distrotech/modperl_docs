@@ -125,7 +125,7 @@ constant|docs::2.0::api::APR::Const>> )
 Which allow-override bits are set
 
 Default value is:
-C<L<Apache2::Const::OR_AUTHCFG|docs::2.0::api::Apache2::Const/C_Apache2__OR_AUTHCFG_>>
+C<L<Apache2::Const::OR_AUTHCFG|docs::2.0::api::Apache2::Const/C_Apache2__Const__OR_AUTHCFG_>>
 
 =item ret: no return value
 

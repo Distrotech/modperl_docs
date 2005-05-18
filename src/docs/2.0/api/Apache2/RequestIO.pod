@@ -287,7 +287,7 @@ C<$offset> if specified)
 constant|docs::2.0::api::APR::Const>> )
 
 On success,
-C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__SUCCESS_>> is
+C<L<APR::Const::SUCCESS|docs::2.0::api::APR::Const/C_APR__Const__SUCCESS_>> is
 returned.
 
 In case of a failure -- a failure code is returned, in which case
