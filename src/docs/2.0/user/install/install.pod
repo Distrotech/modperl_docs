@@ -394,13 +394,11 @@ Default is 1, set to 0 to disable.
 
 =head4 MP_USE_DSO
 
-Build mod_perl as a DSO (I<mod_perl.so>). This is the default. It'll
-be turned off if C<MP_USE_STATIC=1> is used.
+Build mod_perl as a DSO (I<mod_perl.so>). This is the default.
 
 =head4 MP_USE_STATIC
 
-Build static mod_perl (I<mod_perl.a>). This is the default. It'll be
-turned off if C<MP_USE_DSO=1> is used.
+Build static mod_perl (I<mod_perl.a>).
 
 =head4 MP_STATIC_EXTS
 
