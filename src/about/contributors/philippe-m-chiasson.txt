@@ -1,7 +1,7 @@
 Name: Philippe M. Chiasson
 Email: gozer@ectoplasm.org
 URL: http://gozer.ectoplasm.org/
-Image: http://gozer.ectoplasm.org/bin/gozer.png
+Image: gozer.jpg
 Summary: mod_perl 2.0 contributions, mod_perl 1.0 maintainer, modules
 
 Philippe has started working on the mod_perl project in 1998, writing
