@@ -390,7 +390,7 @@ The directive can appear in I<httpd.conf> outside a directory section
 also C<E<lt>FilesMatchE<gt>> and kin).  The directive is not allowed
 in I<.htaccess> files.
 
-=head3 C<Apache2::OR_EXEC_ON_READ>
+=head3 C<Apache2::Const::EXEC_ON_READ>
 
 Force directive to execute a command which would modify the
 configuration (like including another file, or C<IFModule>).
@@ -402,7 +402,7 @@ because they affect the configuration tree (e.g., C<Include> may load
 extra configuration) or because they tell Apache about new directives
 (e.g., C<IfModule> or C<PerlLoadModule>, may load a module, which
 installs handlers for new directives). These directives must have the
-C<Apache2::OR_EXEC_ON_READ> turned on.
+C<Apache2::Const::EXEC_ON_READ> turned on.
 
 =head3 C<Apache2::Const::OR_ALL>
 
@@ -666,9 +666,9 @@ directive line.
 
 If this mode is used to implement a custom "container" directive, the
 attribute I<L<req_override|/C_req_override_>> needs to OR
-C<L<Apache2::OR_EXEC_ON_READ|/C_Apache2__OR_EXEC_ON_READ_>>. e.g.:
+C<L<Apache2::Const::EXEC_ON_READ|/C_Apache2__Const__EXEC_ON_READ_>>. e.g.:
 
-  req_override => Apache2::Const::OR_ALL | Apache2::OR_EXEC_ON_READ,
+  req_override => Apache2::Const::OR_ALL | Apache2::Const::EXEC_ON_READ,
 
 META: complete the details, which are new to 2.0.
 

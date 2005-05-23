@@ -2219,6 +2219,17 @@ F<*.conf> inside C<E<lt>DirectoryE<gt>> or C<E<lt>LocationE<gt>>
 =back
 
 
+=head3 C<Apache2::Const::EXEC_ON_READ>
+
+Force directive to execute a command which would modify the
+configuration (like including another file, or C<IFModule>)
+
+=over
+
+=item since: 2.0.00
+
+=back
+
 
 
 
@@ -2349,6 +2360,9 @@ F<*.conf> outside C<E<lt>DirectoryE<gt>> or C<E<lt>LocationE<gt>>
 =item since: 2.0.00
 
 =back
+
+
+
 
 
 
