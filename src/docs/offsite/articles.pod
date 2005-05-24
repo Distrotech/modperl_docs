@@ -66,8 +66,20 @@ Woodgate. http://www.samag.com/documents/s=1337/sam05050003/
 
 =item *
 
-C<Sys Admin Magazine>. I<Getting Your Message Across with Apache>, by
-Carlos Ramirez. http://www.samag.com/documents/s=1153/sam0103a/
+C<Sys Admin Magazine>. 
+
+=over 
+
+=item * 
+
+I<The Magic of mod_perl>, by Frank Wiles. http://www.revsys.com/writings/modperl.html
+
+=item * 
+
+I<Getting Your Message Across with Apache>, 
+by Carlos Ramirez. http://www.samag.com/documents/s=1153/sam0103a/
+
+=back
 
 =item *
 
