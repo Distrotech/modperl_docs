@@ -1,6 +1,6 @@
 =head1 NAME
 
-Apache2::PerlSections - Default Handler for Perl sections
+Apache2::PerlSections - write Apache configuration files in Perl
 
 
 
