@@ -1,0 +1,27 @@
+URL: http://www.komar.org/cgi-bin/xmas_webcam
+Subject: Christmas Lights Webcam
+From:       alek@komar.org
+Date:       Fri May 27 13:21:18 CDT 2005
+
+Alek Komarnitsky (http://www.komar.org/) used mod_perl for 
+his christmas lights webcam that got worldwide attention as 
+bazillions of surfers not only viewed his thousands of 
+holiday lights, but turned them on and off via the Internet. 
+In 2002 and 2003, he had used regular CGI/Perl, which choked 
+under heavy load such as being Slashdotted. So for 2004, 
+he converted to mod_perl and ApacheBench testing showed a 
+5 fold increase in the number of sustainable connections/second 
+- "why didn't I do this earlier!" While Alek finally had to 
+disclose that it was all a fun little hoax 
+(http://www.komar.org/xmas/hoax/), the use of mod_perl was 
+real and enabled a single 2.4 Xeon running Linux/Apache to 
+continue providing dynamically generated content (complete 
+with images that "appeared" to be changing) despite a ton of
+interest (http://www.komar.org/faq/slashdot-effect/2004-christmas/). 
+While he doesn't know if Santa uses mod_perl, it was 
+certainly helpful in Alek's attempt to provide some 
+christmas cheer (http://www.komar.org/xmas/email_santa/2004-christmas/) 
+to people around the world.
+
+
+
