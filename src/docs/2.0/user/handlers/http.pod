@@ -368,6 +368,17 @@ using the following code:
   }
   1;
 
+But this can be done from F<httpd.conf> too!
+
+  PerlMapToStorageHandler Apache2::Const::OK
+
+If you haven't already compiled C<Apache2::Const::OK> elsewhere, you
+should add:
+
+  <Perl>
+      use Apache2::Const -compile => qw(OK);
+  </Perl>
+
 Apache also uses this phase to handle C<TRACE> requests. So if you
 shortcut it, C<TRACE> calls will be not handled. In case you need to
 handle such, you may rewrite it as:
