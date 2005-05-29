@@ -815,19 +815,20 @@ than average, but this may be just the thing if you are concerned
 about keeping things simple for your HTML coders.  Note that the name
 is "HTML_Tree", not "HTML::Tree".
 
-=head2 Apache::XPP
+=head2 Petal
 
-XPP is an in-line Perl system that compiles to bytecode.  Although it
-is a perfectly good implementation, it has little to differentiate it
-except for an easy mechanism to define new HTML-like tags which can be
-used to replace in-line code in templates.
+A more modern version of the same approach is available in the Petal 
+module.  Unlike HTML_Tree, Petal is actively maintained.  Look for more 
+information on Petal here in the future.
 
 =head2 ePerl
 
 Possibly the first module to embed Perl code in a text or HTML file,
-ePerl is still a viable option in the form of Apache::ePerl.  It
-caches compiled bytecode in memory to achieve solid performance, and
-some people find it refreshingly simple to use.
+ePerl is getting a bit long in the tooth.  The mod_perl-aware version, 
+Apache::ePerl, caches compiled bytecode in memory to achieve solid 
+performance, and some people find it refreshingly simple to use. However, 
+it lacks many of the features that the other more modern systems have, 
+and may be difficult to compile on recent versions of Perl.
 
 =head2 CGI::FastTemplate
 
@@ -1085,7 +1086,7 @@ detailed explanations above.
 =head1 Updates
 
 These modules are moving targets, and a document like this is bound to
-contain some mistakes.  Send your corrections to perrin@elem.com.
+contain some mistakes.  Send your corrections to E<lt>perrin (at) elem.comE<gt>.
 Future versions of this document will be announced on the mod_perl
 mailing list, and possibly other popular Perl locations as well.
 
