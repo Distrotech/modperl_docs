@@ -43,8 +43,8 @@ You can generate diffs with:
 Send the commits aligned in the body of the message so we can comment on
 them. Unless your browser mangles formatted text. Thanks!
 
-Docs Dev mainling list's archive:
-Epigone: http://mathforum.org/epigone/modperl-docs-dev 
+Docs Dev mailing list archive:
+http://marc.theaimsgroup.com/?l=apache-modperl-docs-dev&r=1&w=2
 
 If you are interested in helping us creating great documentation by
 reviewing what gets committed and submitting new docs and patches,

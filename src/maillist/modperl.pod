@@ -53,10 +53,6 @@ mailto:modperl-help@perl.apache.org
 
 nntp://news.gmane.org/gmane.comp.apache.mod-perl 
 
-=item * Epigone
-
-http://mathforum.org/epigone/modperl 
-
 =item * marc.theaimsgroup.com
 
 http://marc.theaimsgroup.com/?l=apache-modperl&r=1&w=2#apache-modperl 
