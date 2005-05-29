@@ -7,7 +7,7 @@ Building a Large-Scale E-commerce site with Apache and mod_perl
 mod_perl's speed and Perl's flexibility make them very attractive for
 large-scale sites. Through careful planning from the start, powerful
 application servers can be created for sites requiring excellent
-response times for dynamic content, such as EToys, all by using
+response times for dynamic content, such as eToys.com, all by using
 mod_perl.
 
 This paper was first presented at ApacheCon 2001 in Santa Clara,
@@ -806,27 +806,22 @@ generating pretty class diagrams for your cubicle walls.
 =head1 Do Try This at Home
 
 Since we started this project, a number of development frameworks that
-offer support for this kind of architecture have come out. We don't
-have direct experience using these, but they have a similar design and
+offer support for this kind of architecture have appeared. We didn't 
+use one of these, but they have a similar design to what we did and
 may prove useful to you if you want to take an MVC approach with your
 system.
 
-C<Apache::PageKit> is a C<mod_perl> module available from CPAN which
-provides a basic MVC structure for web applications. It uses the
-C<HTML::Template> module for building views.
+Some of the most interesting tools for MVC web development in Perl 
+include C<Apache::PageKit>, C<OpenInteract2>, C<CGI::Application>, 
+C<Maypole>, and C<Catalyst>.  There isn't room here to get deeply 
+into the differences between these tools, but watch for an article 
+comparing these frameworks in the future.
 
-I<OpenInteract> is a recently released web application framework in
-Perl, which works together with the persistence layer C<SPOPS>. Both
-are available from CPAN.
-
-The I<Application Toolkit> from Extropia is a comprehensive set of
-Perl classes for building web apps. It has excellent documentation and
-takes good advantage of existing CPAN modules. You can find it on
-http://www.extropia.com/.
-
-If you want a ready-to-use cache module, take a look at the Perl-cache
-project on http://sourceforge.net/. This is the next generation of the
-popular C<File::Cache> module.
+If you want a ready-to-use cache module, there are several on CPAN now. 
+The most popular is the C<Cache::Cache> framework, which can use files 
+or shared memory for storage.  Since the original writing of this 
+article, newer and faster options have appeared, particularly 
+C<Cache::FastMmap> and C<Cache::Memcached>.
 
 The Java world has many options as well. The I<Struts> framework, part
 of the I<Jakarta> project, is a good open source choice. There are
