@@ -1,0 +1,90 @@
+Apache Software Foundation Releases mod_perl 2.0, Bringing Full Apache 2
+API to Perl Developers
+
+http://perl.apache.org/, May 23 - The Apache Software Foundation and The
+Apache Perl Project are pleased to announce the release of mod_perl
+version 2.0. With this release, it is now possible to write Apache 2 web
+server modules entirely in Perl, bringing a powerful mix of rapid
+development and high-performance to web applications. "We're really
+pleased with the amount of new Apache 2 functionality we are able to
+provide to perl developers in mod_perl 2," said Geoffrey Young, one of
+the leaders of the project.
+
+The mod_perl project brings together the full power of the Perl
+programming language and the Apache web server, two of the greatest
+success stories in open source software. By exposing the Apache 2 API
+from Perl, mod_perl 2 offers a level of access and flexibility not
+available in other high-level web development solutions. More than just
+an accelerator for CGI scripts, mod_perl is a whole new way to create
+dynamic content by utilizing the full power of the Apache web server to
+create stateful sessions, customized user authentication systems, smart
+proxies and much more.
+
+
+Prominent new features in mod_perl 2.0 include:
+
+
+              * I/O Filtering API which allows chaining of different
+                content generation tools (PHP, server-side includes) and
+                post-processing of dynamic content for compression,
+                automatic linking, etc.
+                
+              * New Apache::Test testing framework for automated testing
+                of server modules and applications.
+                
+              * Extensible high-speed HTTP request parsing library,
+                libapreq2, already in use by other Apache 2 modules.
+                
+              * Easy access to Apache configuration information from
+                Perl.
+                
+              * Configurable multi-threaded operation, vastly improving
+                scalability in Microsoft Windows environments.
+                
+              * Protocol modules can replace the server's core HTTP
+                implementation with alternatives like SMTP, FTP, or even
+                totally custom protocols, turning Apache 2 into a
+                powerful toolkit for building customized server
+                applications.
+                
+
+
+E- mail security company MailChannels (http://www.mailchannels.com/) has
+been using the new protocol modules feature in mod_perl 2.0 to build
+mail proxies in their assured delivery products. “For us, there really
+was no other viable alternative,” said Ken Simpson, CEO. MailChannels
+chose the mod_perl platform to develop on for “the reliability,
+portability, and scalability of Apache.”
+
+This release has received extensive testing, both from automated tests
+built with the new Apache::Test framework and from users. The
+scalability of mod_perl as a web-development platform is well-
+established, with major companies like Ticketmaster
+(http://www.ticketmaster.com/) doing billions of dollars of business on
+it yearly. Performance compares favorably with PHP and Java solutions in
+benchmarks and users routinely report speed improvements of 300% or more
+just from porting perl CGI applications to mod_perl. Internet
+advertising company WhenU (http://www.whenu.com/) delivers more than
+twelve million dynamic pages per day with mod_perl.
+
+Because the project is open source and free to participate in, many
+modules compatible with mod_perl 2.0 are already available. In addition,
+Perl brings it's famously extensive CPAN (Comprehensive Perl Archive
+Network) to the table, putting libraries for database interaction, XML
+manipulation, HTML templating, and everything else developers need to
+build modern web sites at their fingertips.
+
+For more information, visit the mod_perl web site at
+http://perl.apache.org/.
+
+
+About the Apache Software Foundation:
+The Apache Software Foundation provides organizational, legal, and
+financial support for the Apache open-source software projects. Formerly
+known as the Apache Group, the Foundation incorporated as a membership-
+based, not-for-profit corporation to ensure that the Apache projects
+continue to exist beyond the participation of individual volunteers, to
+enable contributions of intellectual property and financial support, and
+to provide a vehicle for limiting legal exposure while participating in
+open-source projects. For more information on the Apache Software
+Foundation, please see www.apache.org.
