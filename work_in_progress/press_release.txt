@@ -3,20 +3,20 @@ API to Perl Developers
 
 http://perl.apache.org/, May 23 - The Apache Software Foundation and The
 Apache Perl Project are pleased to announce the release of mod_perl
-version 2.0. With this release, it is now possible to write Apache 2 web
+version 2.0. With this release, it is now possible to write Apache 2 Web
 server modules entirely in Perl, bringing a powerful mix of rapid
-development and high-performance to web applications. "We're really
+development and high performance to Web applications. "We're really
 pleased with the amount of new Apache 2 functionality we are able to
 provide to perl developers in mod_perl 2," said Geoffrey Young, one of
 the leaders of the project.
 
 The mod_perl project brings together the full power of the Perl
-programming language and the Apache web server, two of the greatest
+programming language and the Apache Web server, two of the greatest
 success stories in open source software. By exposing the Apache 2 API
 from Perl, mod_perl 2 offers a level of access and flexibility not
-available in other high-level web development solutions. More than just
+available in other high-level Web development solutions. More than just
 an accelerator for CGI scripts, mod_perl is a whole new way to create
-dynamic content by utilizing the full power of the Apache web server to
+dynamic content by utilizing the full power of the Apache Web server to
 create stateful sessions, customized user authentication systems, smart
 proxies and much more.
 
@@ -51,14 +51,14 @@ Prominent new features in mod_perl 2.0 include:
 
 E- mail security company MailChannels (http://www.mailchannels.com/) has
 been using the new protocol modules feature in mod_perl 2.0 to build
-mail proxies in their assured delivery products. “For us, there really
-was no other viable alternative,” said Ken Simpson, CEO. MailChannels
-chose the mod_perl platform to develop on for “the reliability,
-portability, and scalability of Apache.”
+mail proxies in their assured delivery products. "For us, there really
+was no other viable alternative," said Ken Simpson, CEO. MailChannels
+chose the mod_perl platform to develop on for "the reliability,
+portability, and scalability of Apache."
 
 This release has received extensive testing, both from automated tests
 built with the new Apache::Test framework and from users. The
-scalability of mod_perl as a web-development platform is well-
+scalability of mod_perl as a Web-development platform is well-
 established, with major companies like Ticketmaster
 (http://www.ticketmaster.com/) doing billions of dollars of business on
 it yearly. Performance compares favorably with PHP and Java solutions in
@@ -67,21 +67,21 @@ just from porting perl CGI applications to mod_perl. Internet
 advertising company WhenU (http://www.whenu.com/) delivers more than
 twelve million dynamic pages per day with mod_perl.
 
-Because the project is open source and free to participate in, many
+Because the project is open source and participation is free, many
 modules compatible with mod_perl 2.0 are already available. In addition,
-Perl brings it's famously extensive CPAN (Comprehensive Perl Archive
-Network) to the table, putting libraries for database interaction, XML
+Perl brings it's famously extensive Comprehensive Perl Archive Network 
+(CPAN) to the table, putting libraries for database interaction, XML
 manipulation, HTML templating, and everything else developers need to
-build modern web sites at their fingertips.
+build modern Web sites at their fingertips.
 
-For more information, visit the mod_perl web site at
+For more information, visit the mod_perl Web site at
 http://perl.apache.org/.
 
 
 About the Apache Software Foundation:
 The Apache Software Foundation provides organizational, legal, and
 financial support for the Apache open-source software projects. Formerly
-known as the Apache Group, the Foundation incorporated as a membership-
+known as the Apache Group, the foundation incorporated as a membership-
 based, not-for-profit corporation to ensure that the Apache projects
 continue to exist beyond the participation of individual volunteers, to
 enable contributions of intellectual property and financial support, and
