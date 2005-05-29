@@ -135,12 +135,16 @@ Similarly, an Apache directive
 
     PerlModule Apache::SomeCoreModule
 
-in an F<httpd.conf> file should be replace by
+in an F<httpd.conf> file should be replaced by
 
     PerlModule Apache2::SomeCoreModule
 
-A similar substitution from C<mod_perl> to C<mod_perl2> should
-be made in similar places.
+and C<mod_perl> should be replaced by C<mod_perl2> 
+in the same places.
+
+Note that "core modules" are defined as those that ship with the 
+mod_perl 2 distribution.  Other CPAN modules in the C<Apache::> namespace 
+may not follow the same conventions.
 
 =item *
 
