@@ -3,7 +3,7 @@ API to Perl Developers
 
 http://perl.apache.org/, May 23 - The Apache Software Foundation and The
 Apache Perl Project are pleased to announce the release of mod_perl
-version 2.0. With this release, it is now possible to write Apache 2 Web
+version 2.0. This release makes it possible to write Apache 2 Web
 server modules entirely in Perl, bringing a powerful mix of rapid
 development and high performance to Web applications. "We're really
 pleased with the amount of new Apache 2 functionality we are able to
@@ -12,16 +12,16 @@ the leaders of the project.
 
 The mod_perl project brings together the full power of the Perl
 programming language and the Apache Web server, two of the greatest
-success stories in open source software. By exposing the Apache 2 API
-from Perl, mod_perl 2 offers a level of access and flexibility not
-available in other high-level Web development solutions. More than just
+success stories in open source software. By providing access to the 
+Apache 2 API from Perl, mod_perl 2 offers a level of access and flexibility 
+not available in other high-level Web development solutions. More than just
 an accelerator for CGI scripts, mod_perl is a whole new way to create
 dynamic content by utilizing the full power of the Apache Web server to
 create stateful sessions, customized user authentication systems, smart
 proxies and much more.
 
 
-Prominent new features in mod_perl 2.0 include:
+Prominent new or improved features in mod_perl 2.0 include:
 
 
               * I/O Filtering API which allows chaining of different
