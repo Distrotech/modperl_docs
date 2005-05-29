@@ -57,7 +57,8 @@ chose the mod_perl platform to develop on for "the reliability,
 portability, and scalability of Apache."
 
 This release has received extensive testing, both from automated tests
-built with the new Apache::Test framework and from users. The
+built with the new Apache-Test framework and from users. The test suite 
+for mod_perl now includes more than 2500 individual functional tests. The
 scalability of mod_perl as a Web-development platform is well-
 established, with major companies like Ticketmaster
 (http://www.ticketmaster.com/) doing billions of dollars of business on
