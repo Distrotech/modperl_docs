@@ -40,25 +40,27 @@ http://www.cpan.org/modules/by-module/Apache/
 
 =over
 
-=item * The latest CVS snapshot
+=item * The latest SVN snapshot
 
-http://cvs.apache.org/snapshots/modperl/
+http://svn.apache.org/snapshots/modperl/
 
-=item * Access to the CVS repository
+=item * SVN Access
 
-Using anoncvs (password is "anoncvs"):
+To download the svn version of mod_perl-1.0 execute the following
+commands:
 
-  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" login
-  % cvs -d ":pserver:anoncvs@cvs.apache.org:/home/cvspublic" co modperl
+  % svn checkout https://svn.apache.org/repos/asf/perl/modperl/branches/1.x/ modperl-1.0
 
-For more information on using CVS see L<the CVS
-Howto|contribute::cvs_howto>
+Developers: In order to commit for the first time you will need to
+update your password.  To do that, log in to svn.apache.org and run
+the command C<svnpasswd>:
 
-=back
+  % ssh svn.apache.org
+  % svnpasswd
 
-=head2 mod_perl 1.0 CVS Web Interface
+=head2 mod_perl 1.0 SVN Web Interface
 
-http://cvs.apache.org/viewcvs.cgi/modperl/
+http://svn.apache.org/viewcvs.cgi/perl/modperl/branches/1.x/
 
 
 
