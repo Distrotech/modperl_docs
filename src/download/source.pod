@@ -58,6 +58,8 @@ the command C<svnpasswd>:
   % ssh svn.apache.org
   % svnpasswd
 
+=back
+
 =head2 mod_perl 1.0 SVN Web Interface
 
 http://svn.apache.org/viewcvs.cgi/perl/modperl/branches/1.x/
