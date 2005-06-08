@@ -19,7 +19,8 @@ dia generates .png files via its export method. As older browsers
 won't recognize .png or crash, we want to use gifs instead. Here is
 how to convert png files to gif files:
 
-  perl -le 'for (@ARGV) { print STDERR "converting $_\n"; \ s/\.\w+$//;
-system "pngtopnm $_.png | pnmquant 256 | ppmtogif > $_.gif" } ' *.png
+  perl -le 'for (@ARGV) { print STDERR "converting $_\n"; \ s/\.\w+$//; \
+     system "pngtopnm $_.png | pnmquant 256 | ppmtogif > $_.gif" } ' *.png
+
 
 
