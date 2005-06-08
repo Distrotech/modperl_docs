@@ -946,7 +946,7 @@ C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 
 
-=head2 Adding OutFilters Dynamically
+=head2 Adding OutputFilters Dynamically
 
 If you have the need to add output filters dymically during the
 request, mod_perl 2.0 offers you the possibility to push filter

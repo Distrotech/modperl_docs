@@ -60,7 +60,7 @@ this phase to setup the connection record based on the type of
 connection that is being used.  mod_perl itself uses this phase to
 register the connection input and output filters.
 
-In mod_perl 1.0 during code development C<Apache2::Reload> was used to
+In mod_perl 1.0 during code development C<Apache::Reload> was used to
 automatically reload modified since the last request Perl modules. It
 was invoked during C<post_read_request>, the first HTTP request's
 phase. In mod_perl 2.0 I<pre_connection> is the earliest phase, so if
@@ -348,8 +348,9 @@ handlers.
   use APR::Bucket ();
   use APR::Brigade ();
   use APR::Error ();
+  use APR::Status ();
   
-  use APR::Const     -compile => qw(SUCCESS EOF SO_NONBLOCK);
+  use APR::Const     -compile => qw(SUCCESS SO_NONBLOCK);
   use Apache2::Const -compile => qw(OK MODE_GETLINE);
   
   sub handler {
@@ -364,7 +365,7 @@ handlers.
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb_in,
                                                   Apache2::Const::MODE_GETLINE);
-          last if $rc == APR::Const::EOF;
+          last if APR::Status::is_EOF($rc);
           die APR::Error::strerror($rc) unless $rc == APR::Const::SUCCESS;
   
           while (!$bb_in->is_empty) {
@@ -454,10 +455,10 @@ with just one line:
 
 If you look at the complete handler, the loop is terminated when one
 of the following conditions occurs: an error happens, the end of
-stream status code (C<APR::Const::EOF>) has been received (no more
-input at the connection) or when the received data contains nothing
-but new line characters which we used to to tell the server to
-terminate the connection.
+stream status code (C<EOF>) has been received (no more input at the
+connection) or when the received data contains nothing but new line
+characters which we used to to tell the server to terminate the
+connection.
 
 Now that you've learned how to move buckets from one brigade to
 another, let's see how the presented handler can be reimplemented
@@ -473,7 +474,7 @@ using a single bucket brigade. Here is the modified code:
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
                                                   Apache2::Const::MODE_GETLINE);
-          last if $rc == APR::Const::EOF;
+          last if APR::Status::is_EOF($rc);
           die APR::Error::strerror($rc) unless $rc == APR::Const::SUCCESS;
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
@@ -537,7 +538,7 @@ attempt to do any transformation, but simply passes the data though:
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
                                                   Apache2::Const::MODE_GETLINE);
-          last if $rc == APR::Const::EOF;
+          last if APR::Status::is_EOF($rc);
           die APR::Error::strerror($rc) unless $rc == APR::Const::SUCCESS;
   
           $c->output_filters->fflush($bb);
@@ -580,7 +581,7 @@ the buckets in the brigade. The handler now becomes:
       while (1) {
           my $rc = $c->input_filters->get_brigade($bb,
                                                   Apache2::Const::MODE_GETLINE);
-          last if $rc == APR::Const::EOF;
+          last if APR::Status::is_EOF($rc);
           die APR::Error::strerror($rc) unless $rc == APR::Const::SUCCESS;
   
           next unless $bb->flatten(my $data);
