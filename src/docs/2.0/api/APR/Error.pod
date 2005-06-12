@@ -95,7 +95,7 @@ C<L<APR::Const::TIMEUP|docs::2.0::api::APR::Const/C_APR__Const__TIMEUP_>>)
   use APR::Const -compile => qw(TIMEUP);
   $sock->timeout_set(1_000_000); # 1 sec
   my $buff;
-  eval { $socket->recv($buff, BUFF_LEN) };
+  eval { $sock->recv($buff, BUFF_LEN) };
   if ($@ && ref $@ && $@ == APR::Const::TIMEUP) {
 
   }
@@ -125,7 +125,7 @@ with C<select>. Which gives us:
   use APR::Status ();
   # ....
   my $tries = 0;
-  RETRY: my $rlen = eval { $socket->recv(my $buffer, SIZE) };
+  RETRY: my $rlen = eval { $sock->recv(my $buffer, SIZE) };
   if ($@)
       die $@ unless ref $@ && APR::Status::is_EAGAIN($@);
       if ($tries++ < 3) {
