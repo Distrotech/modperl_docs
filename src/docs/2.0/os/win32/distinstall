@@ -40,7 +40,7 @@ A hash mark represents transfer of $kb kB.
 
 Available distributions are:
 
-1. Perl 5.8.6 / Apache 2.0.52 / mod_perl-1.99_20 (2.0 Release Candidate)
+1. Perl 5.8.7 / Apache 2.0.54 / mod_perl-2.0.1
 2. Perl 5.6.1 / Apache 1.3.27 / mod_perl 1.27
 
 It is recommended to install Perl and Apache into fresh locations,
