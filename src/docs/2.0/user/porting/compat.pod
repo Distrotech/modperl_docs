@@ -503,11 +503,14 @@ C<$mod_perl::VERSION>:
 
 =head2 C<Apache-E<gt>request>
 
-C<L<Apache-E<gt>request|docs::2.0::api::Apache2::RequestUtil/C_request_>>
+C<Apache-E<gt>request> has been replaced with
+C<L<Apache2::RequestUtil::request()|docs::2.0::api::Apache2::RequestUtil/C_request_>>.
+
+C<L<Apache2::RequestUtil-E<gt>request|docs::2.0::api::Apache2::RequestUtil/C_request_>>
 usage should be avoided under mod_perl 2.0 C<$r> should be passed
 around as an argument instead (or in the worst case maintain your own
 global variable). Since your application may run under under threaded
-mpm, the C<Apache-E<gt>request> usage involves storage and retrieval
+mpm, the C<Apache2::RequestUtil-E<gt>request> usage involves storage and retrieval
 from the thread local storage, which is expensive.
 
 It's possible to use C<$r> even in CGI scripts running under
@@ -563,8 +566,8 @@ C<new()> function. So does C<CGI::Cookie::fetch> from the same
 distribution.
 
 Moreover, user's configuration may preclude from
-C<Apache-E<gt>request> being available at run time. For any location
-that uses C<Apache-E<gt>request> and uses C<SetHandler modperl>, the
+C<Apache2::RequestUtil-E<gt>request> being available at run time. For any location
+that uses C<Apache2::RequestUtil-E<gt>request> and uses C<SetHandler modperl>, the
 configuration should either explicitly enable this feature:
 
   <Location ...>
@@ -580,13 +583,13 @@ It's already enabled for C<SetHandler perl-script>:
       ...
   </Location>
 
-This configuration makes C<Apache-E<gt>request> available B<only>
+This configuration makes C<Apache2::RequestUtil-E<gt>request> available B<only>
 during the response phase
 (C<L<PerlResponseHandler|docs::2.0::user::handlers::http/PerlResponseHandler>>). Other
-phases can make C<Apache-E<gt>request> available, by explicitly
+phases can make C<Apache2::RequestUtil-E<gt>request> available, by explicitly
 setting it in the handler that has an access to C<$r>. For example the
 following skeleton for an I<authen> phase handler makes the
-C<Apache-E<gt>request> available in the calls made from it:
+C<Apache2::RequestUtil-E<gt>request> available in the calls made from it:
 
   package MyApache2::Auth;
   
