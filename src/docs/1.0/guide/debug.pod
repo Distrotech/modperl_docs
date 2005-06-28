@@ -2520,6 +2520,10 @@ META: insert snapshots of ptkdb screen
 ptkdb is not part of the standard perl distribution; it
 is available from CPAN: http://www.perl.com/CPAN/authors/id/A/AE/AEPAGE/ 
 
+Some fixes for ptkdb to work under mod_perl are listed here:
+http://article.gmane.org/gmane.comp.apache.mod-perl/7562
+
+
 =head2 Non-Interactive Perl Debugging under mod_perl
 
 To debug scripts running under mod_perl either use L<Apache::DB
