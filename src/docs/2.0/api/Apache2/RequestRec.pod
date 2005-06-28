@@ -1047,13 +1047,13 @@ Last modified time of the requested resource
 =item obj: C<$r>
 ( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
-=item opt arg1: C<$new_mtime> ( number )
+=item opt arg1: C<$new_mtime> (epoch seconds).
 
-a new value (in microseconds).
+a new value
 
-=item ret: C<$mtime> ( number )
+=item ret: C<$mtime> (epoch seconds).
 
-the current value (in microseconds).
+the current value
 
 if C<$new_mtime> was passed the previous value is returned.
 
@@ -1535,9 +1535,7 @@ Time when the request started
 =item obj: C<$r>
 ( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
-=item ret: C<$request_time> ( number )
-
-(in microseconds).
+=item ret: C<$request_time> (epoch seconds).
 
 =item since: 2.0.00
 
