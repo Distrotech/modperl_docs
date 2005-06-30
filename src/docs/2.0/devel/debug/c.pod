@@ -23,9 +23,6 @@ flow|docs::2.0::devel::core::mod_perl_specific>.
 META: needs more organization (if you grok any of the following,
 patches are welcome)
 
-META: there is a new directive CoreDumpDirectory in 2.0.45, need to
-check whether we should mention it.
-
 META: there is a new compile-time option in perl-5.9.0+:
 -DDEBUG_LEAKING_SCALARS, which prints out the addresses of leaked SVs
 and new_SV() can be used to discover where those SVs were allocated.
@@ -479,6 +476,11 @@ that the program might change its current directory during its run, so
 it's possible that the F<core> file will need to be dumped in a
 different directory from the one the program was originally started
 from.
+
+Under Apache C<ServerRoot> is used as the default directory. Since
+that directory is sually not writable by the user running Apache, it's
+possible to use the directive C<CoreDumpDirectory> (available since
+Apache 2.0.45) to tell Apache to dump the core file elsewhere.
 
 =item 1
 
