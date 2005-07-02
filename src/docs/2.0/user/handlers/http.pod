@@ -1562,7 +1562,7 @@ names across threads and processes:
       require Apache2::MPM;
       require APR::OS;
       return Apache2::MPM->is_threaded
-          ? "$$." . ${ APR::OS::thread_current() }
+          ? "$$." . ${ APR::OS::current_thread_id() }
           : $$;
   }
 

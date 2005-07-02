@@ -178,7 +178,7 @@ C<Apache2::MPM-E<gt>is_threaded> can be used. For example:
   use Apache2::MPM ();
   if (Apache2::MPM->is_threaded) {
       require APR::OS;
-      my $tid = APR::OS::thread_current();
+      my $tid = APR::OS::current_thread_id();
       print "current thread id: $tid (pid: $$)";
   }
   else {
