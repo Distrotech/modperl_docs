@@ -1755,9 +1755,13 @@ You can add extra request headers as well:
 
   UPLOAD $location, filename => $filename, 'X-Header-Test' => 'Test';
 
-Or additional parameters:
+This function sends the form data in a POST response.
 
-  UPLOAD $location, filename => $filename, 'username' => 'Captain Kirk', 'password' => 'beam me up';
+To insert additional parameters, append them as 'key' =E<gt> 'value'
+elements as in the following example:
+
+  UPLOAD $location, filename => $filename, my_file_name => 'Test.txt',
+                    username => 'Captain Kirk', password => 'beam me up';
 
 To upload a string as a file, use:
 
