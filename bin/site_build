@@ -28,7 +28,8 @@ umask 0002;
 my $HOME = $ENV{HOME};
 $ENV{PATH} = "/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/local/bin:/usr/X11R6/bin:$HOME/bin";
 
-$ENV{PERL5LIB} = "$HOME/lib/perl5/5.00503:$HOME/lib/perl5/site_perl/5.005:$HOME/lib/perl5/site_perl:$HOME/lib/perl5";
+$ENV{PERL5LIB} = "$HOME/lib/perl5/5.8.7:$HOME/lib/perl5/5.8.7/mach:$HOME/lib/perl5/site_perl:$HOME/lib/perl5/site_perl/5.8.7:$HOME/lib/perl5/site_perl/5.8.7/mach";
+
 
 chdir $src;
 # Do different things depending on our name
