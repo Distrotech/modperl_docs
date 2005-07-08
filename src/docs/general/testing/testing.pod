@@ -1758,9 +1758,10 @@ You can add extra request headers as well:
 This function sends the form data in a POST response.
 
 To insert additional parameters, append them as 'key' =E<gt> 'value'
-elements as in the following example:
+elements as in the following example (notice that an additional file upload
+was made via the my_file_name parameter):
 
-  UPLOAD $location, filename => $filename, my_file_name => 'Test.txt',
+  UPLOAD $location, filename => $filename, my_file_name => ['Test.txt'],
                     username => 'Captain Kirk', password => 'beam me up';
 
 To upload a string as a file, use:
