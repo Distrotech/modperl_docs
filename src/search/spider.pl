@@ -1,8 +1,7 @@
 #!/usr/local/bin/perl -w
 use strict;
 
-
-# $Id: spider.pl,v 1.5 2002/04/30 05:37:44 moseley Exp $
+# $Id$
 #
 # "prog" document source for spidering web servers
 #
@@ -23,7 +22,7 @@ use HTML::LinkExtor;
 use HTML::Tagset;
 
 use vars '$VERSION';
-$VERSION = sprintf '%d.%02d', q$Revision: 1.5 $ =~ /: (\d+)\.(\d+)/;
+$VERSION = "1.00";
 
 use vars '$bit';
 use constant DEBUG_ERRORS   => $bit = 1;    # program errors
