@@ -75,6 +75,12 @@ I<Apache, mod_perl and Embperl> by Malcolmn Beattie.
 http://web.archive.org/web/20010605114950/http://users.ox.ac.uk/~mbeattie/oxlug-oct99/. Held
 at OxLUG, 3 October 1999.
 
+=item *
+
+Enrico Sorcinelli gave the talk I<20 things you may not know about
+mod_perl> at the 2nd Italian Perl Workshop on June 2005:
+http://www.perl.it/documenti/talks/ipw/2005/bepi/mod_perl_20_things-eng/img0.html
+
 =back
 
  META: Move this to Conferences part if we make one. Would be nice to be
