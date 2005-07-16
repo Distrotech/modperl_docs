@@ -433,6 +433,8 @@ mailing lists, supporting users.
 
 =item * Philip Jacob
 
+=item * Philip M. Gollucci
+
 =item * Philip Newton
 
 =item * Radu Greab
