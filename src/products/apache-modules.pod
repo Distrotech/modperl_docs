@@ -179,7 +179,7 @@ list|maillist::modperl>, so we can update this information:
   Apache::Peek                      Apache-Peek-1.03
   Apache::Scoreboard                Apache-Scoreboard-2.01
   Apache::SessionManager            Apache-SessionManager 1.00
-  Apache::SmallProf                 Apache-DB-0.08
+  Apache::SmallProf                 Apache-DB-0.10
   Apache::Syntax::Highlight::Perl   Apache-Syntax-Highlight-Perl-1.00
   Apache::VMonitor                  Apache-VMonitor-2.0
   CGI                               CGI.pm-3.10
