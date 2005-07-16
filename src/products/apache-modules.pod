@@ -172,19 +172,18 @@ list|maillist::modperl>, so we can update this information:
   Apache::AuthzNetLDAP              Apache-AuthzNetLDAP-0.07
   Apache::AuthzPasswd               Apache-AuthzPasswd-0.11
   Apache::Clean                     Apache-Clean-2.00_4
-  Apache::DB                        Apache-DB-0.08
-  Apache::DProf                     Apache-DB-0.08
-  Apache::Filter::HTTPHeadersFixup  Apache-Filter-HTTPHeadersFixup-0.01
+  Apache::DB                        Apache-DB-0.10
+  Apache::DProf                     Apache-DB-0.10
   Apache::GeoIP                     Apache-GeoIP-1.215
   Apache::PAR                       Apache-PAR-0.30
-  Apache::Peek                      Apache-Peek-1.01
+  Apache::Peek                      Apache-Peek-1.03
   Apache::Scoreboard                Apache-Scoreboard-2.01
   Apache::SessionManager            Apache-SessionManager 1.00
   Apache::SmallProf                 Apache-DB-0.08
   Apache::Syntax::Highlight::Perl   Apache-Syntax-Highlight-Perl-1.00
   Apache::VMonitor                  Apache-VMonitor-2.0
-  CGI                               CGI.pm-2.93
-  CGI::Cookie                       CGI.pm-2.93 (comes in the CGI dist)
+  CGI                               CGI.pm-3.10
+  CGI::Cookie                       CGI.pm-3.10 (comes in the CGI dist)
 
 
 
@@ -220,10 +219,12 @@ If you know of other modules that have been written for
 the 2.0 API but not listed here, please contact L<the modperl
 list|maillist::modperl>, so we can update this information:
 
-  Module                     Maintainers
-  ----------------------------------
-  Apache::AuthenHook         Geoffrey Young <geoff AT modperlcookbook.org>
-  Apache::IncludeHook        Geoffrey Young <geoff AT modperlcookbook.org>
+  Module                              Maintainers
+  ------------------------------------------------
+  Apache::AuthenHook                  Geoffrey Young <geoff AT modperlcookbook.org>
+  Apache::IncludeHook                 Geoffrey Young <geoff AT modperlcookbook.org>
+  Apache2::DebugFilter                Philip M. Gollucci <pgollucci AT p6m7g8.com> 
+  Apache2::Filter::HTTPHeadersFixup   Philip M. Gollucci <pgollucci AT p6m7g8.com>
 
 
 =head1 Maintainers
