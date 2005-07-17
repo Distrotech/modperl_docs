@@ -8,9 +8,9 @@ A short description how to use SVN to access the mod_perl and related
 projects source distributions (also applies to the documentation
 project).
 
-Just as cvs access to the Apache development tree, the mod_perl code
-pulled from cvs is not guaranteed to do anything, especially not
-compile or work.  But, that's exactly why we are using cvs, so
+Just as svn access to the Apache development tree, the mod_perl code
+pulled from svn is not guaranteed to do anything, especially not
+compile or work.  But, that's exactly why we are using svn, so
 everyone has access the latest version and can help see to it that
 mod_perl does compile and work on all platforms, with the various
 versions and configurations of Perl and Apache.  Patches are always
@@ -18,7 +18,7 @@ welcome and simply testing the latest snapshots is just as, if not
 more helpful.
 
 It's recommended to subscribe to the L<modperl-cvs|maillist::cvs>
-list, which is the place cvs commit logs and diffs are mailed to; at
+list, which is the place svn commit logs and diffs are mailed to; at
 least if you're going to work on the code.
 
 =head1 Getting SVN
@@ -47,7 +47,7 @@ before you can start changing things.
 
 To keep your local copy in sync with the repository, do
 
-  % svn update -dP
+  % svn update 
 
 in the top directory of the project. You should run update evertime
 before you start working on the project.
@@ -56,12 +56,12 @@ before you start working on the project.
 
 To send a patch, first run:
 
-  % svn diff -u
+  % svn diff 
 
 in the top directory of the project. The output of diff will be sent
 to STDOUT, so it might be better to redirect the output to a file:
 
-  % svn diff -u > patch
+  % svn diff > patch
 
 If you added files or directories to the project, do a diff against
 I</dev/null>:
@@ -84,7 +84,7 @@ appropriate mailing list.
 =head1 Getting SVN snapshots
 
 In case you can't get SVN access to work (or don't want to), there is
-another possibility: at http://cvs.apache.org/snapshots/ , there are
+another possibility: at http://svn.apache.org/snapshots/ , there are
 snapshots of the interesting SVN repositories you might want to
 download. These snapshots are extracted from SVN every 6 hours, so
 might not contain the I<latest> changes, but you'll get pretty
@@ -116,6 +116,9 @@ asked for a password, which is then will be stored in
 password can be sniffed during the commit when it's sent to the server
 via an encrypted channel.
 
+Before you make your first commit, you should make sure that your
+@apache.org address is subscribed to the SVN commit mailing lists or
+that its allowed to post to them.
 
 =head2 Getting the Client
 
@@ -138,25 +141,11 @@ adjusted. Contact the person who gave you the svn access.
 
 To bring your repository's copy up to date, run:
 
-  % svn update -dP
+  % svn update 
 
 or the shortcut:
 
-  % svn up -dP
-
-The C<-d> option builds directories (if any were added since last
-update), like checkout does. The C<-P> option prunes empty directories
-if any. You can put these and other handy options into the rc
-file. For example with C<openssh> and C<ssh> clients, this is
-I<~/.svnrc>. Usually we have the following in this file.
-
-  svn -z9
-  update -dP
-  diff -u
-
-The first line tells to use the best compression level when
-communicating with the server. The last line will do a unified I<diff>
-when C<svn diff> is used.
+  % svn up 
 
 If you have done some changes, which weren't committed, it's possible
 that while trying to merge the differences the client will report
@@ -188,11 +177,14 @@ to the svn first and then commit it:
   % svn add path/to/file
   % svn ci path/to/file
 
-Usually svn recognizes binary files by their extensions (e.g. images),
-but if you commit a file with some unusual extension tell your svn
-client that it's a binary file with C<-kb> option:
+Unlike CVS, SVN doesn't need the -kb option to recognize
+binary files. So instead of doing:
 
-  % svn add -kb path/to/binary/file
+  % cvs add -k /path/to/file.jpg
+
+just do
+
+  % svn add /path/to/file.jpg
 
 Then, to add it permanently, you will have to commit it.
 
@@ -265,31 +257,6 @@ submit patches to the documentation.
 =back
 
 Or see http://svn.apache.org/viewcvs.cgi/ for a list of all projects.
-
-=head1 See also
-
-=over
-
-=item * 
-
-http://cvsbook.red-bean.com/
-
-Open Source Development with CVS is a book published by Coriolis Inc.
-as part of the Coriolis OpenPress series. Chapters 2, 4, 6, 8, 9, and
-10 -- comprising a complete introduction, tutorial and reference to
-CVS -- are being released free under the terms of the GNU General
-Public License.
-
-=item * 
-
-http://www.cvshome.org/docs/manual/
-
-Version Management with CVS by Per Cederqvist et al is the "official"
-manual for CVS.  Commonly known as "the Cederqvist," the manual covers
-repositories, branches, and file maintenance, and includes reference
-material for both CVS users and CVS repository administrators.
-
-=back
 
 =head1 Maintainers
 
