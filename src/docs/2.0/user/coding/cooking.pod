@@ -82,7 +82,7 @@ status field in the request record.
       
       $r->err_headers_out->add('Set-Cookie' => $cookie->as_string);
       
-      $r->content_type("text/plain\n\n");
+      $r->content_type("text/plain");
       $r->print("Testing....");
       
       return Apache2::Const::OK;
