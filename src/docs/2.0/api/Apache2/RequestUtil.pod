@@ -19,7 +19,7 @@ Apache2::RequestUtil - Perl API for Apache request record utils
   $content_type = $r->default_type();
   
   # get PerlSetVar/PerlAddVar values
-  @values = $r->dir_config($key);
+  @values = $r->dir_config->get($key);
   
   # get server docroot
   $docroot = $r->document_root();
@@ -228,7 +228,7 @@ C<L<APR::Table|docs::2.0::api::APR::Table>> methods.
 
   $table  = $r->dir_config();
   $value  = $r->dir_config($key);
-  @values = $r->dir_config($key);
+  @values = $r->dir_config->get($key);
   $r->dir_config($key, $val);
 
 =over 4
@@ -263,14 +263,6 @@ manipulated via the C<L<APR::Table|docs::2.0::api::APR::Table>>
 methods. For available methods see
 the C<L<APR::Table|docs::2.0::api::APR::Table>> manpage.
 
-  @values = $r->dir_config($key);
-
-If the C<$key> argument is passed in the list context a list of all
-matching values will be returned. This method is ineffective for big
-tables, as it does a linear search of the table. Thefore avoid using
-this way of calling dir_config() unless you know that there could be
-more than one value for the wanted key and all the values are wanted.
-
   $value = $r->dir_config($key);
 
 If the C<$key> argument is passed in the scalar context only a single
@@ -279,6 +271,11 @@ if there is more than one value for the same key, the oldest value
 assosiated with the desired key is returned. Calling in the scalar
 context is also much faster, as it'll stop searching the table as soon
 as the first match happens.
+
+  @values = $r->dir_config->get($key);
+
+To receive a list of values you must use C<get()> method from the
+C<L<APR::Table|docs::2.0::api::APR::Table>> class.
 
   $r->dir_config($key => $val);
 
