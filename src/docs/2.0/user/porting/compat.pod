@@ -509,9 +509,9 @@ C<L<Apache2::RequestUtil::request()|docs::2.0::api::Apache2::RequestUtil/C_reque
 C<L<Apache2::RequestUtil-E<gt>request|docs::2.0::api::Apache2::RequestUtil/C_request_>>
 usage should be avoided under mod_perl 2.0 C<$r> should be passed
 around as an argument instead (or in the worst case maintain your own
-global variable). Since your application may run under under threaded
-mpm, the C<Apache2::RequestUtil-E<gt>request> usage involves storage and retrieval
-from the thread local storage, which is expensive.
+global variable). Since your application may run under threaded mpm,
+the C<Apache2::RequestUtil-E<gt>request> usage involves storage and
+retrieval from the thread local storage, which is expensive.
 
 It's possible to use C<$r> even in CGI scripts running under
 C<L<Registry|docs::2.0::api::ModPerl::RegistryCooker>> modules,
