@@ -1327,8 +1327,8 @@ C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
 Imagine a situation where you have to log requests into individual
 files, one per user. Assuming that all requests start with
-I</users/username/>, so it's easy to categorize requests by the second
-URI path component. Here is the log handler that does that:
+I</~username/>, so it's easy to categorize requests by the
+username. Here is the log handler that does that:
 
   #file:MyApache2/LogPerUser.pm
   #---------------------------
@@ -1348,7 +1348,7 @@ URI path component. Here is the log handler that does that:
   sub handler {
       my $r = shift;
   
-      my($username) = $r->uri =~ m|^/users/([^/]+)|;
+      my($username) = $r->uri =~ m|^/~([^/]+)|;
       return Apache2::Const::DECLINED unless defined $username;
   
       my $entry = sprintf qq(%s [%s] "%s" %d %d\n),
@@ -1385,31 +1385,31 @@ side the handler exclusively locks the file before performing the
 writing.
 
 To configure the handler simply enable the module with the
-C<PerlLogHandler> directive, inside the wanted section, which was
-I</users/> in our example:
+C<PerlLogHandler> directive, for the desired URI namespace (starting
+with : I</~> in our example):
 
-  <Location /users/>
+  <LocationMatch "^/~">
       SetHandler perl-script
       PerlResponseHandler ModPerl::Registry
       PerlLogHandler MyApache2::LogPerUser
       Options +ExecCGI
-  </Location>
+  </LocationMatch>
 
 After restarting the server and issuing requests to the following
 URIs:
 
-  http://localhost/users/stas/test.pl
-  http://localhost/users/eric/test.pl
-  http://localhost/users/stas/date.pl
+  http://localhost/~stas/test.pl
+  http://localhost/~eric/test.pl
+  http://localhost/~stas/date.pl
 
 The C<MyApache2::LogPerUser> handler will append to I<logs/stas.log>:
 
-  127.0.0.1 [Sat Aug 31 01:50:38 2002] "/users/stas/test.pl" 200 8
-  127.0.0.1 [Sat Aug 31 01:50:40 2002] "/users/stas/date.pl" 200 44
+  127.0.0.1 [Sat Aug 31 01:50:38 2002] "/~stas/test.pl" 200 8
+  127.0.0.1 [Sat Aug 31 01:50:40 2002] "/~stas/date.pl" 200 44
 
 and to I<logs/eric.log>:
 
-  127.0.0.1 [Sat Aug 31 01:50:39 2002] "/users/eric/test.pl" 200 8
+  127.0.0.1 [Sat Aug 31 01:50:39 2002] "/~eric/test.pl" 200 8
 
 It's important to notice that C<PerlLogHandler> can be configured for
 any subsection of the site, no matter whether it's served by a
