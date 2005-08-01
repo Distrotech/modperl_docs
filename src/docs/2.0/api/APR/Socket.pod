@@ -278,7 +278,8 @@ times after short delays:
   $sock->opt_set(APR::Const::SO_NONBLOCK, 1);
   # ....
   my $tries = 0;
-  RETRY: my $rlen = eval { $socket->recv(my $buffer, SIZE) };
+  my $buffer;
+  RETRY: my $rlen = eval { $socket->recv($buffer, SIZE) };
   if ($@)
       die $@ unless ref $@ && APR::Status::is_EAGAIN($@);
       if ($tries++ < 3) {

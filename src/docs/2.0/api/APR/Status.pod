@@ -126,7 +126,8 @@ and do retries:
   use APR::Status ();
   # ....
   my $tries = 0;
-  RETRY: eval { $socket->recv(my $buffer, SIZE) };
+  my $buffer;
+  RETRY: my $rlen = eval { $socket->recv($buffer, SIZE) };
   if ($@ && ref($@) && APR::Status::is_EAGAIN($@)) {
       if ($tries++ < 3) {
           goto RETRY;

@@ -125,7 +125,8 @@ with C<select>. Which gives us:
   use APR::Status ();
   # ....
   my $tries = 0;
-  RETRY: my $rlen = eval { $sock->recv(my $buffer, SIZE) };
+  my $buffer;
+  RETRY: my $rlen = eval { $sock->recv($buffer, SIZE) };
   if ($@)
       die $@ unless ref $@ && APR::Status::is_EAGAIN($@);
       if ($tries++ < 3) {
