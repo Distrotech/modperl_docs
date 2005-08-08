@@ -383,6 +383,13 @@ phase for sections configured as:
       ...
   </Location>
 
+but is not enabled by default for sections configured as:
+
+  <Location ...>
+      SetHandler modperl
+      ....
+  </Location>
+
 And can be disabled with:
 
   <Location ...>
