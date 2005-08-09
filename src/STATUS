@@ -1,5 +1,5 @@
 perl.apache.org site's STATUS:
-     Last modified at [$Date: 2002/07/16 05:56:54 $]
+     Last modified at [$Date$]
 
 Release:
 --------
@@ -57,15 +57,15 @@ Rendering errors:
   Reported by: Stas Bekman
   Status: Allan says it's a bug it's probably a bug in konqueror's/Omniweb's
           rendering engine. looks impossible to fix without another
-          stylesheet or use of spacer gifs.
+          style sheet or use of spacer gifs.
 
 - IE 5.1/Mac OSX: When a search also turns up in the title-line in
   the results, that whole title-line link get a black colour
-  instead of the deafult link colour. (example "toolkits")
+  instead of the default link colour. (example "toolkits")
   Reported by: allan
   Status: Allan says it's clearly a bug in that browser setup.
   however we should one day fix the color values for all the span
-  tags. We only specfiy a colour because we must (to validate)
+  tags. We only specify a colour because we must (to validate)
   because we must have a background-color. If we specify
     color: inherit;
   netscape 4 turns the colour to green (!)
