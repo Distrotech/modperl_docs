@@ -8,7 +8,7 @@ Gisle wrote an early "proof-of-concept" <i>mod_perl.c</i> and
 <i>perl_glue.xs</i> on March 25, 1996 to be exact.  While next to none
 of that code is present in the current mod_perl source, as the
 embedded model and XS &lt;-&gt; Apache API interface were changed, it
-was an important insipirational kick start to what mod_perl has become
+was an important inspirational kick start to what mod_perl has become
 today.
 
 Gisle has also contributed to mod_perl's <tt>Apache::Constants</tt>

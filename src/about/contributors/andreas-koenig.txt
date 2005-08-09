@@ -14,4 +14,4 @@ CPAN.  Andreas was the first to run mod_perl on a production site, the
 <a href="http://pause.perl.org/">Perl Authors Upload Server</a>, aka
 PAUSE.
 
-Andreas also contrbuted the "Correct HTTP headers" document.
+Andreas also contributed the "Correct HTTP headers" document.

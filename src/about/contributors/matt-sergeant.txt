@@ -6,4 +6,4 @@ Summary: AxKit, documentation.
 Matt has written <a href="http://www.axkit.org/">AxKit</a>, the XML
 application server for mod_perl. He has also contributed the section
 "Exception Handling for mod_perl" for the perl reference chapter and
-made many other contributions to the documenation.
+made many other contributions to the documentation.
