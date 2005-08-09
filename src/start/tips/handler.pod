@@ -7,7 +7,7 @@ Content Handler Example
 Handlers are simply perl subroutines called by the server at various
 stages of the HTTP request cycle.  A content handler is a subroutine
 that is called by the response phase.  Handlers, are typically created
-as a perl modules, separate files store in a library, and accessable
+as a perl modules, separate files store in a library, and accessible
 via perl's C<@INC> array.
 
 For example, here's an example that returns a greeting and the current
