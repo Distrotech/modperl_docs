@@ -7,7 +7,7 @@ Configure Apache with Perl Example
 With mod_perl, Perl code can be embedded directly in the Apache
 configuration file.  Perl in httpd.conf is commonly used to
 dynamically configure Apache, but anything from URL translation to
-content generation can be accomplished directly in the configuation
+content generation can be accomplished directly in the configuration
 file within E<lt>PerlE<gt> sections.
 
 This example reads configuration settings from a text file and
