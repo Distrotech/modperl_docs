@@ -55,7 +55,7 @@ I<netpbm> package.
 =head2 Normal build process
 
 The programs used to build the site are included in the directory you
-checked out from CVS. To build the whole site, run this while being
+checked out from SVN. To build the whole site, run this while being
 placed in the I<modperl-docs> directory.
 
   % bin/build
@@ -141,7 +141,7 @@ This approach will get the diff of only that file.
 =back
 
 When writing documentation, please make sure to read the files
-contained in I<admin/> in the CVS tree, especially I<style.pod>, to
+contained in I<admin/> in the SVN tree, especially I<style.pod>, to
 see what guidelines you should follow.
 
 =head1 Mirroring the Site
