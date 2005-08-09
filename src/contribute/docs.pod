@@ -24,7 +24,7 @@ it. Da!
 
 If you have some mod_perl knowledge that is not documented please
 share it and send us the documentation patch, or a complete new
-article. This can include installation and configuration scenarious,
+article. This can include installation and configuration scenarios,
 performance improving tips, debugging techniques and what not.
 
 Developers using mod_perl constantly work with other technologies
