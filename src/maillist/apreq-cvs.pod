@@ -4,7 +4,7 @@
 # Instead edit data.pl instead and re-run make.pl
 #
 # Don't forget to commit the changes to both .txt and the generated
-# .pod to cvs, since others won't run the local make.pl
+# .pod to svn, since others won't run the local make.pl
 ####################################################
 
 =head1 NAME
@@ -13,7 +13,7 @@ Apache::Request cvs mailing list
 
 =head1 Description
 
-The B<apreq-cvs> list is the list where cvs commits for the I<Apache
+The B<apreq-cvs> list is the list where svn commits for the I<Apache
 Request>project are sent.
 
 Please read the mailing list L<Guidelines|maillist::email-etiquette>

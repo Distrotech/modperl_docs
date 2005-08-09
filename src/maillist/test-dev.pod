@@ -4,7 +4,7 @@
 # Instead edit data.pl instead and re-run make.pl
 #
 # Don't forget to commit the changes to both .txt and the generated
-# .pod to cvs, since others won't run the local make.pl
+# .pod to svn, since others won't run the local make.pl
 ####################################################
 
 =head1 NAME
@@ -54,7 +54,7 @@ http://www.apachelabs.org/test-dev/
 
 =item * marc.theaimsgroup.com
 
-http://marc.theaimsgroup.com/?l=apache-modperl-test-dev
+http://marc.theaimsgroup.com/?l=apache-modperl-test-dev 
 
 =item * Mbox file
 
