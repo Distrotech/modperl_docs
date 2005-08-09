@@ -22,11 +22,12 @@ DESC
                     link    => 'nntp://news.gmane.org/gmane.comp.apache.mod-perl',
                     comment => '',
                    },
-                   {
-                    title   => 'Epigone',
-                    link    => 'http://mathforum.org/epigone/modperl',
-                    comment => '',
-                   },
+### Moved
+#                   {
+#                    title   => 'Epigone',
+#                    link    => 'http://mathforum.org/epigone/modperl',
+#                    comment => '',
+#                   },
                    {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl&r=1&w=2#apache-modperl',
