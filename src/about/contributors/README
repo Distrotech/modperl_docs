@@ -16,7 +16,7 @@ in this directory. Commit any generated files to CVS.
   Email will be antispammed and listed after Name
   URL will be hyperlinked
 
-  Image will be insterted on the right hand side. Dimensions should be
+  Image will be inserted on the right hand side. Dimensions should be
   width of 72 max, probably in JPG format. Its value is the relative
   file name.
 
@@ -28,7 +28,7 @@ in this directory. Commit any generated files to CVS.
 people.tmpl
 
   The template file for the main list (with info). Receives a list of
-  persons in the "people" var. See exisiting one for more details.
+  persons in the "people" var. See existing one for more details.
 
 people.html
 
@@ -43,7 +43,7 @@ other.list
 
 other.tmpl
 
-  The template for the "other" list. Rceives list of names in the
+  The template for the "other" list. Receives list of names in the
   "people" variable. Generates POD.
 
 other.pod
