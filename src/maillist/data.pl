@@ -253,7 +253,7 @@ DESC
       title => 'Apache-Test Development',
       desc  => <<"DESC",
 The B<test-dev> mailing list is for discussing I<Apache-Test>
-L<http://perl.apache.org/test/> project.
+L<http://perl.apache.org/Apache-Test> project.
 DESC
       addr  => {
                 subscribe        => 'test-dev-subscribe@perl.apache.org',
