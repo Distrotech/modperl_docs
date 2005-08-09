@@ -12,7 +12,7 @@ Apache/Perl modules are somewhat different from the many others found
 on CPAN (http://www.cpan.org/).  Most Perl modules are "building
 blocks"; developers use them to build applications or even more
 building blocks.  It just so happens that Apache/Perl modules are
-encapsulted inside a namespace and I<.pm> file.  However, this does
+encapsulated inside a namespace and I<.pm> file.  However, this does
 not make them all building blocks, many are just like Apache modules
 written in C: you install them, edit the server configuration files
 and you're done.
@@ -36,7 +36,7 @@ Like other CPAN modules, the Apache/Perl modules are listed on the
 Perl module list, under the I<World Wide Web> category:
 http://www.cpan.org/modules/00modlist.long.html#ID15_WorldWideW
 . Browse down the page to find the C<Apache::> modules, organized by
-their role in the requets cycle.
+their role in the request cycle.
 
 =head1 Where Are The Modules Kept?
 
