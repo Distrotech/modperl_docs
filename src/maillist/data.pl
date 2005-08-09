@@ -216,7 +216,7 @@ The B<modperl-cvs> list is the list where you can watch mod_perl
 getting patched.  No real discussions happen on this list, but if you
 want to know about the latest changes in the mod_perl core before the
 rest of the people, this is a list to be on. Everytime something gets
-committed to the modperl CVS repository a mail is sent here with the
+committed to the modperl SVN repository a mail is sent here with the
 diff.
 DESC
       addr  => {
@@ -419,7 +419,7 @@ DESC
      {
       title => 'Apache::Request cvs',
       desc  => <<"DESC",
-The B<apreq-cvs> list is the list where cvs commits for the I<Apache
+The B<apreq-cvs> list is the list where svn commits for the I<Apache
 Request>project are sent.
 DESC
       addr  => {
