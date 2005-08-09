@@ -106,11 +106,12 @@ DESC
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-docs-dev&r=1&w=2',
                     comment => '',
                    },
-                   {
-                    title   => 'Epigone',
-                    link    => 'http://mathforum.org/epigone/modperl-docs-dev',
-                    comment => '',
-                   },
+# These moved
+#                   {
+#                    title   => 'Epigone',
+#                    link    => 'http://mathforum.org/epigone/modperl-docs-dev',
+#                    comment => '',
+#                   },
                    {
                     title   => 'gossamer-threads.com',
                     link    => 'http://gossamer-threads.com/lists/modperl/docs-dev/',
@@ -173,11 +174,11 @@ DESC
                 help             => 'dev-help@perl.apache.org',
                },
       archives => [
-                   {
-                    title   => 'Epigone',
-                    link    => 'http://mathforum.org/epigone/modperl-dev',
-                    comment => '',
-                   },
+#                   {
+#                    title   => 'Epigone',
+#                    link    => 'http://mathforum.org/epigone/modperl-dev',
+#                    comment => '',
+#                   },
                    {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-dev&r=1&w=2#apache-modperl-dev',
