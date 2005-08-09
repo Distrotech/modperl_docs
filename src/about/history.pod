@@ -187,7 +187,7 @@ S. Engelschall:
   build-environment (from local apaci/) for the APACHE_SRC/src/modules/perl/
   which provides a clean way (i.e.  without patching anything inside APACHE_SRC,
   not even the Configuration file) of configuring mod_perl via a
-  APACHE_SRC/src/modules/perl/mod_perl.config file. The completey configuration
+  APACHE_SRC/src/modules/perl/mod_perl.config file. The complete configuration
   is enabled by just using the APACI command "configure
   --activate-module=src/modules/perl/libperl.a" 
   [Ralf S. Engelschall <rse@engelschall.com>]
