@@ -67,7 +67,7 @@ B<A>. Yes, we have a lot of documentation. That is definitely a good
 thing. But, for example, the guide alone takes 735 pages in PDF
 format, so you might be overwhelmed by the size of the files if you're
 downloading them each time from the net. In that case, we suggest that
-you L<download|download::docs> the sources, build the documentaion and
+you L<download|download::docs> the sources, build the documentation and
 read it off your hard disk.
 
 Another idea to make it load faster is to adjust your browser's
