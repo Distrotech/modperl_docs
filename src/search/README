@@ -170,7 +170,7 @@ called I<spider.pl> (part of the swish-e distribution).
 
 I<spider.pl> uses a config file (by default) of
 I<SwishSpiderConfig.pl>.  This file builds an array of hashes (in this
-case a sinlge hash in the array).  This hash is the config.
+case a single hash in the array).  This hash is the config.
 
 Part of the config are call-back functions that spider.pl will call
 while spidering.  One says to skip image files.  Another one is a bit
