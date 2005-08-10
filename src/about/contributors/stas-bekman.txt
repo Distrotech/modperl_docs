@@ -33,6 +33,12 @@ things at the fall of 2002, Stas took the lead to continue the
 development of mod_perl 2.0, greatly assisted by Geoffrey Young,
 Philippe M. Chiasson and other developers.
 
+In 2003 Stas had the luxury to be sponsored by <a
+href="http://www.ticketmaster.com">Ticket Master</a> for yet another
+1.5 years (making it a total of 3.5 years), at the end of which Stas
+has started the phase out process, opening the opportunity for other
+developers to take over the lead of the project.
+
 Stas has co-authored <a href="http://modperlbook.org/">Practical
 mod_perl</a> with Eric Cholet, published by O'Reilly and Associates in
 May 2003.
