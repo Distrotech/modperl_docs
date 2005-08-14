@@ -1,6 +1,7 @@
 Name: Philip M. Gollucci
 Email: pgollucci@p6m7g8.com
 URL: http://www.p6m7g8.net
+Image: philip-gollucci.jpg
 Summary: Documentation, modules, mod_perl 2.0 API renaming
 
 Philip has been using Apache and mod_perl since September of 1998.
