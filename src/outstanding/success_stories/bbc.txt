@@ -1,0 +1,16 @@
+URL: http://bbc.co.uk/
+Title: BBC
+Traffic: 500 req/sec
+From: Mark Hewis <mark.hewis@bbc.co.uk>
+Subject: BBC
+
+We have been running ModPerl to deliver dynamic applications as part of
+bbc.co.uk for the past 4 years. At present we have well over 50
+applications ( and growing ) using Modperl and based on the
+Apache::Registry framework. These include community, message boards,
+games, voting, quizzes, searches and listings applications. It serves a
+sustained 500 application requests per second using a distributed
+architecture.
+
+As we have adopted Apache 2.* on our head-end servers we will next be
+looking at how Modperl 2.* can help us in our application layer.
