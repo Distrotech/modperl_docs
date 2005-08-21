@@ -5370,8 +5370,6 @@ just waiting.  This is very useful when you have a code with a bug and
 the process starts to spin in an infinite loop or alike using a lot of
 CPU and never completing the request. 
 
-META: verify this.
-
 The value is measured in seconds.  The following example sets the soft
 limit of the CPU usage to 120 seconds (the default is 360).
 
