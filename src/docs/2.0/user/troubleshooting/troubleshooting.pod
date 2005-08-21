@@ -538,7 +538,8 @@ From the source directory (same place you ran "make test") run:
 
   % ldd blib/arch/auto/APR/APR.so | grep apr-
 
-META:  ldd is not available on all platforms, e.g. not on Darwin/OS X
+ldd is not available on all platforms, e.g. not on Darwin/OS X.
+Instead on Darwin/OS X, you can use their otool.
 
 You you should get a full path, for example:
 
