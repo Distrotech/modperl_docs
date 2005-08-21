@@ -67,6 +67,8 @@ the C<PerlModule> or C<PerlRequire> directives (or from
 F<startup.pl>).
 
 A very common setup might be:
+  Perl Module B::TerseSize
+
   <Location /perl-status>
       SetHandler perl-script
       PerlResponseHandler Apache2::Status
@@ -74,7 +76,8 @@ A very common setup might be:
       PerlSetVar StatusDeparseOptions "-p -sC"
   </Location>
 
-
+due to the implementation of Apache2::Status::noh_fileline in B::TerseSize,
+you must load B::TerseSize first.
 
 =head1 Options
 
