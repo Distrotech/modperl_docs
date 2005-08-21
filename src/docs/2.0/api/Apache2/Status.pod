@@ -9,9 +9,16 @@ Apache2::Status - Embedded interpreter status information
 
   <Location /perl-status>
       SetHandler modperl
+      PerlOptions +GlobalRequest
       PerlResponseHandler Apache2::Status
   </Location>
 
+  or
+
+  <Location /perl-status>
+      SetHandler perl-script
+      PerlResponseHandler Apache2::Status
+  </Location>
 
 
 
@@ -25,6 +32,7 @@ Configure like so:
 
   <Location /perl-status>
       SetHandler modperl
+      PerlOptions +GlobalRequest
       PerlResponseHandler Apache2::Status
   </Location>
 
@@ -58,7 +66,13 @@ B<WARNING>: C<Apache2::Status> must be loaded before these modules via
 the C<PerlModule> or C<PerlRequire> directives (or from
 F<startup.pl>).
 
-
+A very common setup might be:
+  <Location /perl-status>
+      SetHandler perl-script
+      PerlResponseHandler Apache2::Status
+      PerlSetVar StatusOptionsAll On
+      PerlSetVar StatusDeparseOptions "-p -sC"
+  </Location>
 
 
 
@@ -169,8 +183,6 @@ The C<Devel::Symdump> module, version C<2.00> or higher.
 
 Other optional functionality requirements: C<B::Deparse> - 0.59,
 C<B::Fathom> - 0.05, C<C<B::Graph>> - 0.03.
-
-
 
 
 
