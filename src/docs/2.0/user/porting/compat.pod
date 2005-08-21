@@ -1082,7 +1082,7 @@ buffer (bad for performance, memory bloat, possible dos attack, etc.)
 =item *
 
 in general duplicates functionality (and does so poorly) that is done
-better in C<Apache::Request>.
+better in C<Apache2::Request>.
 
 =item *
 
@@ -1092,14 +1092,14 @@ C<$r-E<gt>read($buf, $r-E<gt>headers_in-E<gt>{'content-length'}>)
 
 =back
 
-For now you can use C<CGI.pm> or the code in
+You could use C<CGI.pm> or the code in
 C<L<Apache2::compat|docs::2.0::api::Apache2::compat>> (it's slower).
 
-META: when C<Apache::Request> will be ported to mod_perl 2.0, you will
-have the fast C implementation of these functions.
+However, now that C<Apache2::Request> has been ported to mod_perl 2.0
+you can use it instead and reap the benefits of the fast C impelentations
+of these functions. For documentation on its uses, please see:
 
-
-
+http://httpd.apache.org/apreq
 
 
 
