@@ -192,7 +192,7 @@ For example:
   
   $Apache2::PerlSections::Save = 1;
   
-  $Port = 8529;
+  $Listen = 8529;
   
   $Location{"/perl"} = {
      SetHandler => "perl-script",
@@ -222,7 +222,7 @@ For example:
 
 This will print something like this:
 
-  $Port = 8529;
+  $Listen = 8529;
   
   @DirectoryIndex = (
     'index.htm',
