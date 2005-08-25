@@ -474,7 +474,7 @@ following C<gcc> flags:
 
   If gcc version 3.3.2+ is found and
   -Wdeclaration-after-statement 
-  is not already part of the C<gcc> flags add it.
+  is not already part of the gcc flags add it.
 
 To use this mode Apache must be build with
 C<--enable-maintainer-mode>.
