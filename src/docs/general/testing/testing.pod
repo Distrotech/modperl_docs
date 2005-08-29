@@ -132,11 +132,11 @@ If you install mod_perl 2.0, C<Apache::Test> will be installed with it.
 
 =head1 Running Tests
 
-It's much easier to copy existing examples than to create something from
-scratch. It's also simpler to develop tests when you have some existing
-system that to test, so that you can see how it works and build your own
-testing environment in a similar fashion. So let's first look at how the
-existing test enviroments work.
+It's much easier to copy existing examples than to create something
+from scratch. It's also simpler to develop tests when you have some
+existing system to test, so that you can see how it works and build
+your own testing environment in a similar fashion. So let's first look
+at how the existing test enviroments work.
 
 You can look at the modperl-2.0's or httpd-test's (I<perl-framework>)
 testing environments, both of which use C<Apache::Test> for their test
