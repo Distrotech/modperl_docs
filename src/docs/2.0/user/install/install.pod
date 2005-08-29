@@ -472,9 +472,8 @@ following C<gcc> flags:
   -Wmissing-declarations \
   -DAP_DEBUG -DAP_HAVE_DESIGNATED_INITIALIZER
 
-  If gcc version 3.3.2+ is found and
-  -Wdeclaration-after-statement 
-  is not already part of the gcc flags add it.
+If gcc version 3.3.2+ is found and C<-Wdeclaration-after-statement> is
+not already part of the C<gcc> flags add it.
 
 To use this mode Apache must be build with
 C<--enable-maintainer-mode>.
