@@ -66,6 +66,15 @@ C<L<PerlResponseHandler|docs::2.0::user::handlers::http/PerlResponseHandler>>.
 
 
 
+=head2 C<PerlScript>
+
+C<PerlScript> was replaced with
+C<L<PerlRequire|docs::2.0::user::config::config/C_PerlRequire_>>. C<PerlRequire>
+is available in mod_perl 1.0, since 1997.
+
+
+
+
 =head2 C<PerlSendHeader>
 
 C<PerlSendHeader> was replaced with C<L<PerlOptions
