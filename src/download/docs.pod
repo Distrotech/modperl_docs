@@ -209,7 +209,7 @@ I</usr/local/modperl-docs/bin/site_build>):
   
   chdir $src;
   # Do different things depending on our name
-  my($name) = $0 =~ m|([^/]+)$|;
+  my ($name) = $0 =~ m|([^/]+)$|;
   
   my $reindex = $name =~ /index/ ? 1 : 0;
 
