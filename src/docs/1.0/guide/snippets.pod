@@ -1446,7 +1446,7 @@ C<Apache::Include>. The solution is to define a subroutine that's
 pulled in at the startup:
 
   sub My::ssi {
-      my($r, $one, $two, $three) = @_;
+      my ($r, $one, $two, $three) = @_;
      ...
   }
 

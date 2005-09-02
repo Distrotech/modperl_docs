@@ -5,7 +5,7 @@ use strict;
 
 BEGIN {
     # RCS/CVS compliant:  must be all one line, for MakeMaker
-  $DB_File::Lock2::VERSION = do { my @r = (q$Revision: 1.1 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+  $DB_File::Lock2::VERSION = do { my @r = (q$Revision$ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 }
 
@@ -32,7 +32,7 @@ use constant PERM_MODE => 0660;
 # SYNOPSIS:
 # tie my %mydb, 'DB_File::Lock2', $filepath, 
 #     ['read' || 'write', 'HASH' || 'BTREE']
-# while (my($k,$v) = each %mydb) {
+# while (my ($k,$v) = each %mydb) {
 #   print "$k => $v\n";
 # }
 # untie %mydb;

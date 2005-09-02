@@ -348,12 +348,12 @@ try adding this to I<httpd.conf>:
 
 =head2 Value of $x will not stay shared at - line 5
 
-L<my() Scoped Variable in Nested 
+L<my () Scoped Variable in Nested 
 Subroutines|general::perl_reference::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>.
 
 =head2 Value of $x may be unavailable at - line 5.
 
-L<my() Scoped Variable in Nested 
+L<my () Scoped Variable in Nested 
 Subroutines|general::perl_reference::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>.
 
 =head2 Can't locate loadable object for module XXX
@@ -837,7 +837,7 @@ Unfortunately, not all perl modules are robust enough to survive
 reload.  For them this is an unusual situation.  C<PerlFreshRestart>
 does not much more than:
 
-  while (my($k,$v) = each %INC) {
+  while (my ($k,$v) = each %INC) {
     delete $INC{$k};
     require $k;
   }

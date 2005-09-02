@@ -211,7 +211,7 @@ If there is a failure, unless it's the first time, the C<AUTH_REQUIRED>
 flag will tell the browser to pop up an authentication window, to try
 again. For example:
 
-   my($status, $sent_pw) = $r->get_basic_auth_pw;
+   my ($status, $sent_pw) = $r->get_basic_auth_pw;
    unless($r->connection->user and $sent_pw) {
        $r->note_basic_auth_failure;
        $r->log_reason("Both a username and password must be provided");

@@ -389,7 +389,7 @@ L<http_load download|download::third_party/http_load____another_webserver_Benchm
 
 This is another crashme suite originally written by Michael Schilli
 (and was located at http://www.linux-magazin.de site, but now the link
-has gone).  I made a few modifications, mostly adding my() operators.
+has gone).  I made a few modifications, mostly adding my () operators.
 I also allowed it to accept more than one url to test, since sometimes
 you want to test more than one script.
 
@@ -1381,7 +1381,7 @@ You can modify the C<MyShared2> module to dump the padlists into a
 different file after each invocation and than to run the diff(1) on
 the two files.
 
-If you want to watch whether some lexically scoped (with my())
+If you want to watch whether some lexically scoped (with my ())
 variables in your C<Apache::Registry> script inside the same process
 get changed between invocations you can use the
 C<Apache::RegistryLexInfo> module instead.  Since it does exactly
@@ -4326,7 +4326,7 @@ We have a difference of 8192 bytes. So every few global variables
 declared with C<vars> pragma add about 8KB overhead.
 
 Note that Perl 5.6.0 introduced a new our() pragma which works like
-my() scope-wise, but declares global variables.
+my () scope-wise, but declares global variables.
 
   package MyPackage3;
   use strict;
@@ -4615,7 +4615,7 @@ interpolation or a list is used. Here is a benchmark:
   my $fh = gensym;
   open $fh, ">/dev/null" or die;
     
-  my($one, $two, $three, $four) = ('a'..'d');
+  my ($one, $two, $three, $four) = ('a'..'d');
   
   timethese(1_000_000,
       {
@@ -4647,7 +4647,7 @@ strings:
   my $fh = gensym;
   open $fh, ">/dev/null" or die;
   
-  my($one, $two, $three, $four) = map { $_ x 1000 } ('a'..'d');
+  my ($one, $two, $three, $four) = map { $_ x 1000 } ('a'..'d');
   
   timethese(500_000,
       {
@@ -4818,7 +4818,7 @@ order, even if you are not around.
 
 Scripts under mod_perl can very easily leak memory!  Global variables
 stay around indefinitely, lexically scoped variables (declared with
-C<my()>) are destroyed when they go out of scope, provided there are
+C<my ()>) are destroyed when they go out of scope, provided there are
 no references to them from outside that scope.
 
 Perl doesn't return the memory it acquired from the kernel.  It does

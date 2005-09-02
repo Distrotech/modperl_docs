@@ -135,7 +135,7 @@ The I<Variable "$counter" will not stay shared> warning is generated
 when the script contains a named nested subroutine (a named - as
 opposed to anonymous - subroutine defined inside another subroutine)
 that refers to a lexically scoped variable defined outside this nested
-subroutine.  This effect is explained in L<my() Scoped Variable in
+subroutine.  This effect is explained in L<my () Scoped Variable in
 Nested 
 Subroutines|general::perl_reference::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>.
 
@@ -1075,7 +1075,7 @@ its values before the definition is finished. So this wouldn't work:
     );
 
 But nothing stops us from adding additional variables, which are
-lexically scoped with my(). The following code is correct.
+lexically scoped with my (). The following code is correct.
 
   my $base = "/home/httpd";
   %c =
@@ -1131,7 +1131,7 @@ package if none was declared. This means that the variables C<$fname>
 and C<$lname> will override (or initialize if they weren't yet) the
 variables with the same names in the caller's namespace. This works
 for global variables only--you cannot update variables defined
-lexically (with my()) using this technique.
+lexically (with my ()) using this technique.
 
 You have started the server and everything is working properly. After
 a while you decide to modify the configuration. How do you let your
@@ -1852,7 +1852,7 @@ You have to use the C<Package::function()> method to call a subroutine
 from C<Package> and to access a global variable C<$foo> inside the
 same package you have to write C<$Package::foo>.
 
-Lexically defined variables, those declared with my() inside C<Package>
+Lexically defined variables, those declared with my () inside C<Package>
 will be inaccessible from outside the package.
 
 You can leave your scripts unchanged if you import the names of the
@@ -2260,7 +2260,7 @@ qualified|general::perl_reference::perl_reference/Variables_Globally__Lexically_
 You should avoid using global variables unless it's impossible without
 them, because it will make code development harder and you will
 have to make certain that all the variables are initialized before
-they are used. Use my() scoped variables wherever you can.
+they are used. Use my () scoped variables wherever you can.
 
 You should be especially careful with L<Perl Special
 Variables|general::perl_reference::perl_reference/The_Scope_of_the_Special_Perl_Variables> which cannot be
@@ -2582,7 +2582,7 @@ just fine:
   }
 
 In this code C<$header_printed> is declared as lexically scoped (with
-my()) outside the subroutine print_header() and modified inside of
+my ()) outside the subroutine print_header() and modified inside of
 it. Curly braces define the block which limits the scope of the
 lexically variable.
 
@@ -3043,7 +3043,7 @@ worse, files might be left locked and unusable.
 
 What can you do? Use C<IO::File> (and the other C<IO::*> modules).
 This allows you to assign the file handler to variable which can be
-C<my()> (lexically) scoped. When this variable goes out of scope the
+C<my ()> (lexically) scoped. When this variable goes out of scope the
 file or other file system entity will be properly closed (and unlocked
 if it was locked). Lexically scoped variables will always go out of
 scope at the end of the script's invocation even if it was aborted in
@@ -3136,7 +3136,7 @@ Be aware though, that if you use packages that use internal variables
 that have circular references, they will be not flushed!!!
 C<Apache::PerlRun> only flushes your script's name space, which does
 not include any other required packages' name spaces.  If there's a
-reference to a C<my()> scoped variable that's keeping it from being
+reference to a C<my ()> scoped variable that's keeping it from being
 destroyed after leaving the eval scope (of C<Apache::PerlRun>), that
 cleanup might not be taken care of until the server is shutdown and
 C<perl_destruct()> is run, which always happens after running command

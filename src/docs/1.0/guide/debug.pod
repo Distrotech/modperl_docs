@@ -904,7 +904,7 @@ C<$fh> is still a global variable and therefore the code using it
 suffers from the same problem.
 
 The simplest solution to this problem is to always use lexically
-scoped variables (created with my()).  Whether script gets aborted
+scoped variables (created with my ()).  Whether script gets aborted
 before close() is called or you forgot the use close() the lexically
 scoped variable will always go out of scope and therefore if the file
 was locked it will be unlocked. Here is a good version of the code:
@@ -2198,7 +2198,7 @@ twice:
   }
   
   sub do_work {
-    my($var) = @_;
+    my ($var) = @_;
   
     return undef unless $var;
   
@@ -2338,7 +2338,7 @@ line:
   10        }
   11        
   12        sub do_work {
-  13:         my($var) = @_;
+  13:         my ($var) = @_;
 
 The arrow points to the line which is about to be executed and also
 contains a C<'b'> indicating that we have set a breakpoint at this
@@ -2395,7 +2395,7 @@ arguments held in C<@args> and print a slightly different message:
   }
   
   sub do_work {
-    my($var) = @_;
+    my ($var) = @_;
   
     return undef unless $var;
   
@@ -2614,12 +2614,12 @@ the browser window:
   Enter h or `h h' for help.
   
   Apache::Status::handler(/usr/lib/perl5/site_perl/5.005/i386-linux/Apache/Status.pm:55): 
-  55:         my($r) = @_;
+  55:         my ($r) = @_;
     DB<1> w
   52      }
   53
   54      sub handler {
-  55==>       my($r) = @_;
+  55==>       my ($r) = @_;
   56:         Apache->request($r); #for Apache::CGI
   57:         my $qs = $r->args || "";
   58:         my $sub = "status_$qs";
@@ -3719,7 +3719,7 @@ See also: C<Apache::DProf>
 Devel::Peek - A data debugging tool for the XS programmer
 
 Let's see an example of Perl allocating a buffer only once, regardless
-of my() scoping, although it will realloc() if the size is bigger than
+of my () scoping, although it will realloc() if the size is bigger than
 C<SvLEN>:
 
   use Devel::Peek;

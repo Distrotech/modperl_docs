@@ -9,9 +9,9 @@ some important problem that is being reported frequently on the list
 which is not included below, even if it is found elsewhere in the
 Guide, please report to L<mod_perl mailing list|maillist::modperl>.
 
-=head1 my() scoped variable in nested subroutines
+=head1 my () scoped variable in nested subroutines
 
-See the section "L<my() Scoped Variable in Nested 
+See the section "L<my () Scoped Variable in Nested 
 Subroutines|general::perl_reference::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>".
 
 =head1 Segfaults caused by PerlFreshRestart

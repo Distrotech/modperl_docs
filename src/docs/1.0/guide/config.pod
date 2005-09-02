@@ -973,7 +973,7 @@ re-C<tie()>'s it to its own package like so:
    }
    
   sub TIEHANDLE {
-      my($class, $r) = @_;
+      my ($class, $r) = @_;
       bless { r => $r}, $class;
   }
   
@@ -1006,14 +1006,14 @@ invoked as a method.  For example:
   @ISA = qw(BaseClass);
    
   sub handler ($$) {
-      my($class, $r) = @_;
+      my ($class, $r) = @_;
       ...;
   }
    
   package BaseClass;
    
   sub method ($$) {
-      my($class, $r) = @_;
+      my ($class, $r) = @_;
       ...;
   }
   
@@ -1044,7 +1044,7 @@ For instance, you could have this base class:
   use Apache::Constants qw(OK);
   
   sub handler($$) {
-     my($class, $r) = @_;
+     my ($class, $r) = @_;
   
      $r->send_http_header('text/plain');
      $r->print($class->get_content());

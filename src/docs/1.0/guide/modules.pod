@@ -704,7 +704,7 @@ as a banner to via a subprocess.
   
   use vars qw($String);
   $String = "hello world";
-  my($out, $in, $err) = $r->spawn_child(\&echo);
+  my ($out, $in, $err) = $r->spawn_child(\&echo);
   print $out $String;
   $r->send_fd($in);
   

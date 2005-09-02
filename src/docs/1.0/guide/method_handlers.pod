@@ -24,14 +24,14 @@ e.g.
  @ISA = qw(BaseClass);
  
  sub handler ($$) {
-     my($class, $r) = @_;
+     my ($class, $r) = @_;
      ...;
  }
  
  package BaseClass;
  
  sub method ($$) {
-     my($class, $r) = @_;
+     my ($class, $r) = @_;
      ...;
  }
  
@@ -83,7 +83,7 @@ In startup.pl or another PerlRequire'd file:
  $My::Obj = bless {};
  
  sub method ($$) {
-     my($obj, $r) = @_;
+     my ($obj, $r) = @_;
      $r->send_http_header("text/plain");
      print "$obj isa ", ref($obj);
      0;

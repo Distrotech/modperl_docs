@@ -10,7 +10,7 @@ Apache::File - advanced functions for manipulating files at the server side
    print $fh 'Hello';
    $fh->close;
    
-   my($name, $fh) = Apache::File->tmpfile;
+   my ($name, $fh) = Apache::File->tmpfile;
    
    if ((my $rc = $r->discard_request_body) != OK) {
       return $rc;
@@ -97,7 +97,7 @@ and a filehandle opened for reading and writing. In a scalar context
 only the filehandle is returned.
 
 
-   my($tmpnam, $fh) = Apache::File->tmpfile;
+   my ($tmpnam, $fh) = Apache::File->tmpfile;
 
    my $fh = Apache::File->tmpfile;
 

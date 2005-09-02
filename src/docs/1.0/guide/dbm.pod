@@ -456,7 +456,7 @@ of the DB, unsorted.
     # now, read them and printout (unsorted) 
     # notice that 'read' is a default lock mode
   tie %mydb, 'DB_File::Lock2', $dbfile;
-  while (my($k,$v) = each %mydb) {
+  while (my ($k,$v) = each %mydb) {
     print "$k => $v\n";
   }
   untie %mydb;

@@ -1930,7 +1930,7 @@ The most recent changes are listed first.
 
 * warning.pod: noted a 'rwrite returned -1' fix in CVS version
 
-* obvious.pod: added "Additional reading references" to "my() scoped 
+* obvious.pod: added "Additional reading references" to "my () scoped 
   variable in nested subroutines" including a pointer to an article by
   Mark-Jason Dominus about how Perl handles variables and namespaces,
   and the difference between `use vars' and `my'.
@@ -2176,13 +2176,13 @@ them between modules/packages"
  Mills)
 
 * created new frequent.pod for "Frequent mod_perl problems" as
- suggested by Eric Cholet, who said that problems like 'my() scoped
+ suggested by Eric Cholet, who said that problems like 'my () scoped
 variable in nested subroutines' come up so often on the list that
 should be stressed in the guide as one of the most important things to
 read/beware of. Since now it has only a few problems please suggest
 what other ones should go here.
 
-* obvious.pod rewritten : my() scoped variable in nested subroutines
+* obvious.pod rewritten : my () scoped variable in nested subroutines
  (Eric Cholet)
 
 * some typos fixes in intro.html, start.pod and scenario.pod (Garr

@@ -862,7 +862,7 @@ Example:
     use Apache::Constants ':common';
 
     sub handler {
-        my($r) = @_;
+        my ($r) = @_;
 
         if($things_are_ok) {
 	    return OK;
