@@ -33,7 +33,7 @@ $ENV{PERL5LIB} = "$HOME/lib/perl5/5.8.7:$HOME/lib/perl5/5.8.7/mach:$HOME/lib/per
 
 chdir $src;
 # Do different things depending on our name
-my($name) = $0 =~ m|([^/]+)$|;
+my ($name) = $0 =~ m|([^/]+)$|;
 
 update($name);
 
@@ -45,7 +45,7 @@ die "online fs is full, cannot sync the online site" if fs_is_full();
 online_sync();
 
 sub update {
-    my($name) = shift;
+    my ($name) = shift;
 
     my $reindex = $name =~ /index/ ? 1 : 0;
 
