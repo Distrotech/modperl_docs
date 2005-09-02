@@ -938,7 +938,7 @@ server object. e.g.:
 
   use Apache2::ServerUtil ();
   sub cleanup_callback {
-      my($pool, $s) = @_;
+      my ($pool, $s) = @_;
       # your code comes here
       Apache2::Const::OK;
   }
@@ -1742,7 +1742,7 @@ C<($$)> prototype:
   @ISA = qw(Eagle);
   
   sub handler ($$) {
-      my($class, $r) = @_;
+      my ($class, $r) = @_;
       ...;
   }
 
@@ -1766,7 +1766,7 @@ attribute:
   @ISA = qw(Eagle);
   
   sub handler : method {
-      my($class, $r) = @_;
+      my ($class, $r) = @_;
       ...;
   }
 

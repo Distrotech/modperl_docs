@@ -33,7 +33,7 @@ attribute:
   @ISA = qw(Eagle);
   
   sub handler : method {
-      my($class, $r) = @_;
+      my ($class, $r) = @_;
       ...;
   }
 

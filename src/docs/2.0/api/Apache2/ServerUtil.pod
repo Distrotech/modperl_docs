@@ -161,7 +161,7 @@ server string at the server startup:
       PerlPostConfigHandler => \&add_my_version);
   
   sub add_my_version {
-      my($conf_pool, $log_pool, $temp_pool, $s) = @_;
+      my ($conf_pool, $log_pool, $temp_pool, $s) = @_;
       $s->add_version_component("Hikers, Inc/0.99999");
       return Apache2::Const::OK;
   }

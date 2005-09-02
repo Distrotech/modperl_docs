@@ -73,7 +73,7 @@ phases:
   my $log_fh;
   
   sub open_logs {
-      my($conf_pool, $log_pool, $temp_pool, $s) = @_;
+      my ($conf_pool, $log_pool, $temp_pool, $s) = @_;
   
       $s->warn("opening the log file: $log_path");
       open $log_fh, ">>$log_path" or die "can't open $log_path: $!";
@@ -84,25 +84,25 @@ phases:
   }
   
   sub post_config {
-      my($conf_pool, $log_pool, $temp_pool, $s) = @_;
+      my ($conf_pool, $log_pool, $temp_pool, $s) = @_;
       say("configuration is completed");
       return Apache2::Const::OK;
   }
   
   sub child_init {
-      my($child_pool, $s) = @_;
+      my ($child_pool, $s) = @_;
       say("process $$ is born to serve");
       return Apache2::Const::OK;
   }
   
   sub child_exit {
-      my($child_pool, $s) = @_;
+      my ($child_pool, $s) = @_;
       say("process $$ now exits");
       return Apache2::Const::OK;
   }
   
   sub say {
-      my($caller) = (caller(1))[3] =~ /([^:]+)$/;
+      my ($caller) = (caller(1))[3] =~ /([^:]+)$/;
       if (defined $log_fh) {
           flock $log_fh, LOCK_EX;
           printf $log_fh "[%s] - %-11s: %s\n", 
@@ -231,7 +231,7 @@ configuration pool, the logging stream pool, the temporary pool and
 the main server object:
 
   sub open_logs {
-      my($conf_pool, $log_pool, $temp_pool, $s) = @_;
+      my ($conf_pool, $log_pool, $temp_pool, $s) = @_;
   
       $s->warn("opening the log file: $log_path");
       open $log_fh, ">>$log_path" or die "can't open $log_path: $!";
@@ -257,7 +257,7 @@ simple loop. For example to print out the configured port numbers do:
   use Apache2::ServerRec ();
   # ...
   sub open_logs {
-      my($conf_pool, $log_pool, $temp_pool, $s) = @_;
+      my ($conf_pool, $log_pool, $temp_pool, $s) = @_;
 
       my $port = $s->port;
       warn "base port: $port\n";
@@ -325,7 +325,7 @@ In our C<L<MyApache2::StartupLog|/Startup_Phases_Demonstration_Module>>
 example we used the I<post_config()> handler:
 
   sub post_config {
-      my($conf_pool, $log_pool, $temp_pool, $s) = @_;
+      my ($conf_pool, $log_pool, $temp_pool, $s) = @_;
       say("configuration is completed");
       return Apache2::Const::OK;
   }
@@ -377,7 +377,7 @@ In our C<L<MyApache2::StartupLog|/Startup_Phases_Demonstration_Module>>
 example we used the I<child_init()> handler:
 
   sub child_init {
-      my($child_pool, $s) = @_;
+      my ($child_pool, $s) = @_;
       say("process $$ is born to serve");
       return Apache2::Const::OK;
   }
@@ -413,7 +413,7 @@ In our C<L<MyApache2::StartupLog|/Startup_Phases_Demonstration_Module>>
 example we used the I<child_exit()> handler:
 
   sub child_exit {
-      my($child_pool, $s) = @_;
+      my ($child_pool, $s) = @_;
       say("process $$ now exits");
       return Apache2::Const::OK;
   }

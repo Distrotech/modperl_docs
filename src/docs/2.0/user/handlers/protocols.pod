@@ -723,7 +723,7 @@ Here is the whole module:
   }
   
   sub prompt {
-      my($socket, $msg) = @_;
+      my ($socket, $msg) = @_;
   
       $socket->send("$msg: ");
       getline($socket);

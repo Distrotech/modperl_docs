@@ -349,7 +349,7 @@ pairs did it see.
   print "Counted $filter_count elements";
   
   sub my_filter {
-      my($key, $value) = @_;
+      my ($key, $value) = @_;
       warn "$key => $value\n";
       $filter_count++;
       return 1;
@@ -366,7 +366,7 @@ time it decides to abort the filtering after seeing half of the table,
 by returning 0 when this happens.
 
   sub my_filter {
-      my($key, $value) = @_;
+      my ($key, $value) = @_;
       $filter_count++;
       return $filter_count == int(TABLE_SIZE)/2 ? 0 : 1;
   }

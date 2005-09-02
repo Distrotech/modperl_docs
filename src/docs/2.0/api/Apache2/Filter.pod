@@ -548,7 +548,7 @@ from the upstream filter:
   use APR::Const    -compile => qw(SUCCESS);
   use Apache2::Const -compile => qw(OK);
   sub filter {
-      my($f, $bb, $mode, $block, $readbytes) = @_;
+      my ($f, $bb, $mode, $block, $readbytes) = @_;
       
       my $rc = $f->next->get_brigade($bb, $mode, $block, $readbytes);
       return $rc unless $rc == APR::Const::SUCCESS;
@@ -568,7 +568,7 @@ filter.
 If you decide not check the return code, you can write it as:
 
   sub filter {
-      my($f, $bb, $mode, $block, $readbytes) = @_;
+      my ($f, $bb, $mode, $block, $readbytes) = @_;
       
       $f->next->get_brigade($bb, $mode, $block, $readbytes);
       
@@ -656,7 +656,7 @@ buckets in the bucket brigade):
   use APR::Const    -compile => qw(SUCCESS);
   use Apache2::Const -compile => qw(OK);
   sub filter {
-      my($f, $bb) = @_;
+      my ($f, $bb) = @_;
   
       # ... process $bb
   

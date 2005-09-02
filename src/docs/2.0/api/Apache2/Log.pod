@@ -666,7 +666,7 @@ Though looking like a constant, this is a function, which returns a
 list of two items: C<(__FILE__, __LINE__)>, i.e. the file and the line
 where the function was called from.
 
-  my($file, $line) = Apache2::Log::LOG_MARK();
+  my ($file, $line) = Apache2::Log::LOG_MARK();
 
 =over 4
 

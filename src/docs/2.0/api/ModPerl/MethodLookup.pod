@@ -7,27 +7,27 @@ ModPerl::MethodLookup -- Lookup mod_perl modules, objects and methods
   use ModPerl::MethodLookup;
   
   # return all module names containing XS method 'print'
-  my($hint, @modules) =
+  my ($hint, @modules) =
       ModPerl::MethodLookup::lookup_method('print');
   
   # return only module names containing method 'print' which
   # expects the first argument to be of type 'Apache2::Filter'
   # (here $filter is an Apache2::Filter object)
-  my($hint, @modules) =
+  my ($hint, @modules) =
       ModPerl::MethodLookup::lookup_method('print', $filter);
   # or
-  my($hint, @modules) =
+  my ($hint, @modules) =
       ModPerl::MethodLookup::lookup_method('print', 'Apache2::Filter');
   
   # what XS methods defined by module 'Apache2::Filter'
-  my($hint, @methods) =
+  my ($hint, @methods) =
       ModPerl::MethodLookup::lookup_module('Apache2::Filter');
   
   # what XS methods can be invoked on the object $r (or a ref)
-  my($hint, @methods) =
+  my ($hint, @methods) =
       ModPerl::MethodLookup::lookup_object($r);
   # or
-  my($hint, @methods) =
+  my ($hint, @methods) =
       ModPerl::MethodLookup::lookup_object('Apache2::RequestRec');
   
   # preload all mp2 modules in startup.pl
@@ -106,19 +106,19 @@ Examples:
 
 Return all module names containing XS method I<print>:
 
-  my($hint, @modules) =
+  my ($hint, @modules) =
       ModPerl::MethodLookup::lookup_method('print');
 
 Return only module names containing method I<print> which expects the
 first argument to be of type C<Apache2::Filter>:
 
   my $filter = bless {}, 'Apache2::Filter';
-  my($hint, @modules) =
+  my ($hint, @modules) =
       ModPerl::MethodLookup::lookup_method('print', $filter);
 
 or:
 
-  my($hint, @modules) =
+  my ($hint, @modules) =
       ModPerl::MethodLookup::lookup_method('print', 'Apache2::Filter');
 
 
@@ -159,7 +159,7 @@ Example:
 
 What XS methods defined by module C<Apache2::Filter>:
 
-  my($hint, @methods) =
+  my ($hint, @methods) =
       ModPerl::MethodLookup::lookup_module('Apache2::Filter');
 
 
@@ -211,12 +211,12 @@ Examples:
 
 What XS methods can be invoked on the object C<$r>:
 
-  my($hint, @methods) =
+  my ($hint, @methods) =
       ModPerl::MethodLookup::lookup_object($r);
 
 or C<$r>'s class -- C<Apache2::RequestRec>:
 
-  my($hint, @methods) =
+  my ($hint, @methods) =
       ModPerl::MethodLookup::lookup_object('Apache2::RequestRec');
 
 
@@ -355,7 +355,7 @@ using the goto() trick:
 
   use ModPerl::MethodLookup;
   sub UNIVERSAL::AUTOLOAD {
-      my($hint, @modules) =
+      my ($hint, @modules) =
           ModPerl::MethodLookup::lookup_method($UNIVERSAL::AUTOLOAD, @_);
       if (@modules) {
           eval "require $_" for @modules;

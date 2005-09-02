@@ -21,7 +21,7 @@ Apache2::CmdParms - Perl API for Apache command parameters object
   Apache2::Module::add(__PACKAGE__, \@directives);
   
   sub MyDirective {
-      my($self, $parms, $args) = @_;
+      my ($self, $parms, $args) = @_;
   
       # push config
       $parms->add_config(['ServerTokens off']);
@@ -231,7 +231,7 @@ subroutine:
   Apache2::Module::add(__PACKAGE__, \@directives);
   
   sub MyDirective {
-    my($self, $parms, $args) = @_;
+    my ($self, $parms, $args) = @_;
     my $info = $parms->info;
   }
 

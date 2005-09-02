@@ -34,7 +34,7 @@ Apache2::SubProcess -- Executing SubProcesses under mod_perl
   
   # helper function to work w/ and w/o perlio-enabled Perl
   sub read_data {
-      my($fh) = @_;
+      my ($fh) = @_;
       my $data;
       if (PERLIO_IS_ENABLED || IO::Select->new($fh)->can_read(10)) {
           $data = <$fh>;

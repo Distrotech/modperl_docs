@@ -39,7 +39,7 @@ If the handler is declared as L<a method handler
 |docs::2.0::user::coding::coding/Method_Handlers>:
 
   sub handler : method {
-      my($class, $r) = @_;
+      my ($class, $r) = @_;
 
 the handler receives two arguments: the class name and the
 C<L<Apache2::RequestRec|docs::2.0::api::Apache2::RequestRec>> object.
@@ -302,7 +302,7 @@ I<news.pl>, so you can still use the former URI mapping:
   sub handler {
       my $r = shift;
   
-      my($date, $id, $page) = $r->uri =~ m|^/news/(\d+)/(\d+)/(.*)|;
+      my ($date, $id, $page) = $r->uri =~ m|^/news/(\d+)/(\d+)/(.*)|;
       $r->uri("/perl/news.pl");
       $r->args("date=$date;id=$id;page=$page");
   
@@ -517,7 +517,7 @@ and here is the C<MyApache2::SendEmail> handler:
   }
   
   sub send_email {
-      my($rh_headers, $r_body) = @_;
+      my ($rh_headers, $r_body) = @_;
   
       require MIME::Lite;
       MIME::Lite->send("smtp", SMTP_HOSTNAME, Timeout => 60);
@@ -988,7 +988,7 @@ properly authenticated:
   
       my $user = $r->user;
       if ($user) {
-          my($section) = $r->uri =~ m|^/company/(\w+)/|;
+          my ($section) = $r->uri =~ m|^/company/(\w+)/|;
           if (defined $section && exists $protected{$section}) {
               my $users = $protected{$section};
               return Apache2::Const::OK if grep { $_ eq $user } @$users;
@@ -1142,7 +1142,7 @@ the file extension of the request's URI.
   sub handler {
       my $r = shift;
   
-      my($ext) = $r->uri =~ /\.(\w+)$/;
+      my ($ext) = $r->uri =~ /\.(\w+)$/;
       $ext = 'txt' unless defined $ext and exists $exts{$ext};
   
       $r->handler($exts{$ext}->[HANDLER]);
@@ -1159,7 +1159,7 @@ the file extension of the request's URI.
   sub tt_handler  { content_handler($_[0], 'tt')  }
   
   sub content_handler {
-      my($r, $type) = @_;
+      my ($r, $type) = @_;
   
       $r->content_type('text/plain');
       $r->print("A handler of type '$type' was called");
@@ -1348,7 +1348,7 @@ username. Here is the log handler that does that:
   sub handler {
       my $r = shift;
   
-      my($username) = $r->uri =~ m|^/~([^/]+)|;
+      my ($username) = $r->uri =~ m|^/~([^/]+)|;
       return Apache2::Const::DECLINED unless defined $username;
   
       my $entry = sprintf qq(%s [%s] "%s" %d %d\n),

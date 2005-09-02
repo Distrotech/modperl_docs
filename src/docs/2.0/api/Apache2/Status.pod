@@ -55,8 +55,8 @@ Other modules can "plugin" a menu item like so:
   Apache2::Status->menu_item(
       'DBI' => "DBI connections", #item for Apache::DBI module
       sub {
-          my($r, $q) = @_; #request and CGI objects
-          my(@strings);
+          my ($r, $q) = @_; #request and CGI objects
+          my (@strings);
           push @strings,  "blobs of html";
           return \@strings;     #return an array ref
       }

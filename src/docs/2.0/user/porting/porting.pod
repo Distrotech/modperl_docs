@@ -1343,7 +1343,7 @@ The code:
   *handler = MP2 ? \&handler_mp2 : \&handler_mp1;
   
   sub run {
-     my($class, $r) = @_;
+     my ($class, $r) = @_;
      MP2 ? $r->content_type('text/plain')
          : $r->send_http_header('text/plain');
      print "$class was called\n";
@@ -1400,14 +1400,14 @@ The code:
   *handler = MP2 ? \&handler_mp2 : \&handler_mp1;
   
   sub mp1 {
-     my($class, $r) = @_;
+     my ($class, $r) = @_;
      $r->send_http_header('text/plain');
      $r->print("mp1: $class was called\n");
      return Apache::Constants::OK();
   }
   
   sub mp2 {
-      my($class, $r) = @_;
+      my ($class, $r) = @_;
       $r->content_type('text/plain');
       $r->print("mp2: $class was called\n");
       return Apache2::Const::OK();

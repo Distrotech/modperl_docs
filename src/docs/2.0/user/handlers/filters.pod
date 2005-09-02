@@ -1003,12 +1003,12 @@ input and output filters skeleton:
   use base qw(Apache2::Filter);
   
   sub input  : FilterRequestHandler {
-      my($f, $bb, $mode, $block, $readbytes) = @_;
+      my ($f, $bb, $mode, $block, $readbytes) = @_;
       #...
   }
   
   sub output : FilterRequestHandler {
-      my($f, $bb) = @_;
+      my ($f, $bb) = @_;
       #...
   }
   
@@ -1042,12 +1042,12 @@ output filters.
   use base qw(Apache2::Filter);
   
   sub input  : FilterConnectionHandler {
-      my($f, $bb, $mode, $block, $readbytes) = @_;
+      my ($f, $bb, $mode, $block, $readbytes) = @_;
       #...
   }
   
   sub output : FilterConnectionHandler {
-      my($f, $bb) = @_;
+      my ($f, $bb) = @_;
       #...
   }
   
@@ -1303,7 +1303,7 @@ Now let's write the snooping filter:
   
   sub snoop {
       my $type = shift;
-      my($f, $bb, $mode, $block, $readbytes) = @_; # filter args
+      my ($f, $bb, $mode, $block, $readbytes) = @_; # filter args
   
       # $mode, $block, $readbytes are passed only for input filters
       my $stream = defined $mode ? "input" : "output";
@@ -1326,7 +1326,7 @@ Now let's write the snooping filter:
   }
   
   sub bb_dump {
-      my($type, $stream, $bb) = @_;
+      my ($type, $stream, $bb) = @_;
   
       my @data;
       for (my $b = $bb->first; $b; $b = $bb->next($b)) {
@@ -1340,7 +1340,7 @@ Now let's write the snooping filter:
       print STDERR "\n$direction $type $stream filter\n";
   
       my $c = 1;
-      while (my($btype, $data) = splice @data, 0, 2) {
+      while (my ($btype, $data) = splice @data, 0, 2) {
           print STDERR "    o bucket $c: $btype\n";
           print STDERR "[$data]\n";
           $c++;
@@ -1620,7 +1620,7 @@ the bucket brigades:
   use APR::Const     -compile => ':common';
   
   sub handler : FilterConnectionHandler {
-      my($f, $bb, $mode, $block, $readbytes) = @_;
+      my ($f, $bb, $mode, $block, $readbytes) = @_;
   
       return Apache2::Const::DECLINED if $f->ctx;
   
@@ -1850,7 +1850,7 @@ request's body: C<MyApache2::InputRequestFilterLC>:
   use APR::Const     -compile => ':common';
   
   sub handler : FilterRequestHandler {
-      my($f, $bb, $mode, $block, $readbytes) = @_;
+      my ($f, $bb, $mode, $block, $readbytes) = @_;
   
       my $c = $f->c;
       my $bb_ctx = APR::Brigade->new($c->pool, $c->bucket_alloc);
@@ -2202,7 +2202,7 @@ to accomplish exactly the same task as the first filter.
   use APR::Const     -compile => ':common';
   
   sub handler : FilterRequestHandler {
-      my($f, $bb) = @_;
+      my ($f, $bb) = @_;
   
       my $bb_ctx = APR::Brigade->new($f->c->pool, $f->c->bucket_alloc);
   
@@ -2433,7 +2433,7 @@ Now comes the filter (which lives in the same package):
   use constant TOKEN_SIZE => 1024*16 + 5; # ~16k
   
   sub filter {
-      my($f, $bb, $mode, $block, $readbytes) = @_;
+      my ($f, $bb, $mode, $block, $readbytes) = @_;
       my $ba = $f->r->connection->bucket_alloc;
       my $ctx = $f->ctx;
       my $buffer = defined $ctx ? $ctx : '';
@@ -2569,7 +2569,7 @@ what's going through. Here is a possible implementation:
   use APR::Const     -compile => ':common';
   
   sub handler {
-      my($filter, $bb) = @_;
+      my ($filter, $bb) = @_;
   
       my $ctx = $filter->ctx;
   
@@ -2581,7 +2581,7 @@ what's going through. Here is a possible implementation:
   
       my $data = exists $ctx->{data} ? $ctx->{data} : '';
       $ctx->{invoked}++;
-      my($bdata, $seen_eos) = flatten_bb($bb);
+      my ($bdata, $seen_eos) = flatten_bb($bb);
       $bdata =~ s/-//g;
       $data .= $bdata if $bdata;
   
@@ -2689,7 +2689,7 @@ the pass-through-unmodified mode. Here is a skeleton of the module:
   use Apache2::Const -compile => qw(OK DECLINED CONN_KEEPALIVE);
   
   sub handler : FilterConnectionHandler {
-      my($f, $bb, $mode, $block, $readbytes) = @_;
+      my ($f, $bb, $mode, $block, $readbytes) = @_;
   
       my $ctx = context($f);
   

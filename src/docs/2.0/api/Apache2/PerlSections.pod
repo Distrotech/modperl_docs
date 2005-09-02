@@ -286,7 +286,7 @@ handler argument must be given to the section:
 And in My/PerlSection/Handler.pm:
 
   sub My::Handler::handler : handler {
-      my($self, $parms, $args) = @_;
+      my ($self, $parms, $args) = @_;
       #do your thing!
   }
 

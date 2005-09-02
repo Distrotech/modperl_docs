@@ -28,7 +28,7 @@ Authentication and Authorization.
   $r->auth_type("Digest");
   
   # Basic authentication process
-  my($rc, $passwd) = $r->get_basic_auth_pw();
+  my ($rc, $passwd) = $r->get_basic_auth_pw();
   
   # the login name of the remote user (RFC1413)
   $remote_logname = $r->get_remote_logname();
@@ -288,7 +288,7 @@ implement your own authentication scheme.
 
 Get the password from the request headers
 
-  my($rc, $passwd) = $r->get_basic_auth_pw();
+  my ($rc, $passwd) = $r->get_basic_auth_pw();
 
 =over 4
 
@@ -548,7 +548,7 @@ Using the same configuration and assuming that the request was of type
 POST, the following code inside an Auth handler:
 
   my %require =
-      map { my($k, $v) = split /\s+/, $_->{requirement}, 2; ($k, $v||'') }
+      map { my ($k, $v) = split /\s+/, $_->{requirement}, 2; ($k, $v||'') }
       @{ $r->requires };
 
 will populate C<%require> with the following pairs:

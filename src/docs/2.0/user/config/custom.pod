@@ -106,7 +106,7 @@ C<MyOtherParameter> which accepts a single argument.
   Apache2::Module::add(__PACKAGE__, \@directives);
   
   sub MyParameter {
-      my($self, $parms, @args) = @_;
+      my ($self, $parms, @args) = @_;
       $self->{MyParameter} = \@args;
   }
   1;
@@ -421,7 +421,7 @@ function which expects a single value
 (C<L<Apache2::Const::TAKE1|/C_Apache2__TAKE1_>>) might look like the following:
 
   sub MyParam {
-      my($self, $parms, $arg) = @_;
+      my ($self, $parms, $arg) = @_;
       $self->{MyParam} = $arg;
   }
 
@@ -512,7 +512,7 @@ The directive takes no arguments.  The callback will be invoked once
 each time the directive is encountered.  For example:
 
   sub MyParameter {
-      my($self, $parms) = @_;
+      my ($self, $parms) = @_;
       $self->{MyParameter}++;
   }
 
@@ -527,7 +527,7 @@ once each time the directive is encountered, and its argument will be
 passed as the third argument. For example:
 
   sub MyParameter {
-      my($self, $parms, $arg) = @_;
+      my ($self, $parms, $arg) = @_;
       $self->{MyParameter} = $arg;
   }
 
@@ -541,7 +541,7 @@ The directive takes two arguments.  They are passed to the callback as
 the third and fourth arguments. For example:
 
   sub MyParameter {
-      my($self, $parms, $arg1, $arg2) = @_;
+      my ($self, $parms, $arg1, $arg2) = @_;
       $self->{MyParameter} = {$arg1 => $arg2};
   }
 
@@ -556,7 +556,7 @@ C<L<Apache2::Const::TAKE2|/C_Apache2__TAKE2_>>, but the directive takes three
 mandatory arguments. For example:
 
   sub MyParameter {
-      my($self, $parms, @args) = @_;
+      my ($self, $parms, @args) = @_;
       $self->{MyParameter} = \@args;
   }
 
@@ -571,7 +571,7 @@ one.  This can be used when the second argument has a default value
 that the user may want to override.  For example:
 
   sub MyParameter {
-      my($self, $parms, $arg1, $arg2) = @_;
+      my ($self, $parms, $arg1, $arg2) = @_;
       $self->{MyParameter} = {$arg1 => $arg2||'default'};
   }
 
@@ -609,7 +609,7 @@ interoperability with the C API, which doesn't have the flexible
 argument passing that Perl provides. For example:
 
   sub MyParameter {
-      my($self, $parms, $args) = @_;
+      my ($self, $parms, $args) = @_;
       push @{ $self->{MyParameter} }, $arg;
   }
 
@@ -637,7 +637,7 @@ routine will be run a total of four times.
 For example:
 
   sub MyParameter {
-      my($self, $parms, $key, $val) = @_;
+      my ($self, $parms, $key, $val) = @_;
       push @{ $self->{MyParameter}{$key} }, $val;
   }
 
@@ -660,7 +660,7 @@ string-valued scalar containing the remaining text following the
 directive line.
 
   sub MyParameter {
-      my($self, $parms, $val) = @_;
+      my ($self, $parms, $val) = @_;
       # process $val
   }
 
@@ -678,7 +678,7 @@ C<L<as_hash|docs::2.0::api::Apache2::Directive/C_as_hash_>>
 or C<L<as_string|docs::2.0::api::Apache2::Directive/C_as_string_>> :
 
   sub MyParameter {
-      my($self, $parms, $val) = @_;
+      my ($self, $parms, $val) = @_;
       my $directive = $parms->directive;
       my $content = $directive->as_string;
   }
@@ -738,7 +738,7 @@ C<Off>, Apache will complain:
 For example:
 
   sub MyFlag {
-      my($self, $parms, $arg) = @_;
+      my ($self, $parms, $arg) = @_;
       $self->{MyFlag} = $arg; # 1 or 0
   }
 
@@ -813,7 +813,7 @@ to assign a custom value:
   Apache2::Module::add(__PACKLAGE__, \@directives);
   ...
   sub SERVER_CREATE {
-      my($class, $parms) = @_;
+      my ($class, $parms) = @_;
       return bless {
   	  name => __PACKAGE__,
       }, $class;
@@ -860,7 +860,7 @@ two objects it has received. Here is the skeleton of a merging
 function:
 
   sub merge {
-      my($base, $add) = @_;
+      my ($base, $add) = @_;
       my %mrg = ();
       # code to merge %$base and %$add
       return bless \%mrg, ref($base);
@@ -894,7 +894,7 @@ C<SERVER_CREATE>. Here is an example:
   Apache2::Module::add(__PACKAGE__, \@directives);
   ...
   sub DIR_CREATE {
-      my($class, $parms) = @_;
+      my ($class, $parms) = @_;
       return bless {
   	  foo => 'bar',
       }, $class;
@@ -969,7 +969,7 @@ custom directives into Apache.
   sub SERVER_MERGE { merge(@_) }
   
   sub set_val {
-      my($key, $self, $parms, $arg) = @_;
+      my ($key, $self, $parms, $arg) = @_;
       $self->{$key} = $arg;
       unless ($parms->path) {
           my $srv_cfg = Apache2::Module::get_config($self,
@@ -979,7 +979,7 @@ custom directives into Apache.
   }
   
   sub push_val {
-      my($key, $self, $parms, $arg) = @_;
+      my ($key, $self, $parms, $arg) = @_;
       push @{ $self->{$key} }, $arg;
       unless ($parms->path) {
           my $srv_cfg = Apache2::Module::get_config($self,
@@ -989,7 +989,7 @@ custom directives into Apache.
   }
   
   sub merge {
-      my($base, $add) = @_;
+      my ($base, $add) = @_;
   
       my %mrg = ();
       for my $key (keys %$base, keys %$add) {
@@ -1150,7 +1150,7 @@ things identically, while others differently. So here it the handler:
   }
   
   sub handler {
-      my($r) = @_;
+      my ($r) = @_;
       my %secs = ();
   
       $r->content_type('text/plain');

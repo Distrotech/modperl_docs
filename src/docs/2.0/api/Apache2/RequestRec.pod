@@ -1203,7 +1203,7 @@ just that:
   use Apache2::Filter ();
   
   sub send_response_body {
-      my($r, $data) = @_;
+      my ($r, $data) = @_;
   
       my $bb = APR::Brigade->new($r->pool,
                                  $r->connection->bucket_alloc);
@@ -1871,7 +1871,7 @@ If C<$new_user> was passed, the previous value is returned.
 
 For example, let's print the username passed by the client:
 
-  my($res, $sent_pw) = $r->get_basic_auth_pw;
+  my ($res, $sent_pw) = $r->get_basic_auth_pw;
   return $res if $res != Apache2::Const::OK;
   print "User: ", $r->user;
 
