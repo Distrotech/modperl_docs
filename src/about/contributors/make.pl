@@ -96,7 +96,7 @@ sub process {
 }
 
 sub generate {
-    my($filename, $data) = @_;
+    my ($filename, $data) = @_;
     print "+++ writing $filename using template $tmpl_file\n";
 
     #  print Dumper \@search_path;
