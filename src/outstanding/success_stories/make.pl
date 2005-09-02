@@ -79,7 +79,7 @@ sub process {
 }
 
 sub generate {
-    my($filename, $data) = @_;
+    my ($filename, $data) = @_;
     print "+++ writing $filename\n";
 
     #  print Dumper \@search_path;
