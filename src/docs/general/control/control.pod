@@ -895,7 +895,7 @@ And the watchdog itself:
   # send email about the problem 
   #######################  
   sub send_mail{
-    my($from,$to,$subject,$messagebody) = @_;
+    my ($from,$to,$subject,$messagebody) = @_;
   
     open MAIL, "|$mail_program"
         or die "Can't open a pipe to a $mail_program :$!\n";

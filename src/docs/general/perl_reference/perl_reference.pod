@@ -335,20 +335,20 @@ in a function is normal and useful.)
 
 =item *
 
-C<my()> vs. C<use vars>:
+C<my ()> vs. C<use vars>:
 
 With use vars(), you are making an entry in the symbol table, and you
 are telling the compiler that you are going to be referencing that
 entry without an explicit package name.
 
-With my(), NO ENTRY IS PUT IN THE SYMBOL TABLE.  The compiler figures
-out C<at compile time> which my() variables (i.e. lexical variables)
+With my (), NO ENTRY IS PUT IN THE SYMBOL TABLE.  The compiler figures
+out C<at compile time> which my () variables (i.e. lexical variables)
 are the same as each other, and once you hit execute time you cannot
 go looking those variables up in the symbol table.
 
 =item *
 
-C<my()> vs. C<local()>:
+C<my ()> vs. C<local()>:
 
 local() creates a temporal-limited package-based scalar, array, hash,
 or glob -- when the scope of definition is exited at runtime, the
@@ -356,7 +356,7 @@ previous value (if any) is restored.  References to such a variable
 are *also* global... only the value changes.  (Aside: that is what
 causes variable suicide. :)
 
-my() creates a lexically-limited non-package-based scalar, array, or
+my () creates a lexically-limited non-package-based scalar, array, or
 hash -- when the scope of definition is exited at compile-time, the
 variable ceases to be accessible.  Any references to such a variable
 at runtime turn into unique anonymous variables on each scope exit.
@@ -369,14 +369,14 @@ For more information see: L<Using global variables and sharing them
 between
 modules/packages|general::perl_reference::perl_reference/Using_Global_Variables_and_Sharing_Them_Between_Modules_Packages>
 and an article by Mark-Jason Dominus about how Perl handles variables
-and namespaces, and the difference between C<use vars()> and C<my()> -
+and namespaces, and the difference between C<use vars()> and C<my ()> -
 http://www.plover.com/~mjd/perl/FAQs/Namespaces.html .
 
-=head1 my() Scoped Variable in Nested Subroutines
+=head1 my () Scoped Variable in Nested Subroutines
 
 Before we proceed let's make the assumption that we want to develop
 the code under the C<strict> pragma. We will use lexically scoped
-variables (with help of the my() operator) whenever it's possible.
+variables (with help of the my () operator) whenever it's possible.
 
 =head2 The Poison
 
@@ -849,7 +849,7 @@ Wrapped into a run() subroutine it becomes:
     hello();
   }
 
-Therefore, hello() is an inner subroutine and if you have used my()
+Therefore, hello() is an inner subroutine and if you have used my ()
 scoped variables defined and altered outside and used inside hello(),
 it won't work as you expect starting from the second call, as was
 explained in the previous section.
@@ -858,7 +858,7 @@ explained in the previous section.
 
 First of all there is nothing to worry about, as long as you don't
 forget to turn the warnings On.  If you do happen to have the 
-"L<my() Scoped Variable in Nested 
+"L<my () Scoped Variable in Nested 
 Subroutines|general::perl_reference::perl_reference/my___Scoped_Variable_in_Nested_Subroutines>"
 problem, Perl will always alert you.
 
@@ -982,7 +982,7 @@ output will be generated:
   Counter is equal to 2 !
 
 By the way, the warning we saw before has gone, and so has the
-problem, since there is no C<my()> (lexically defined) variable used
+problem, since there is no C<my ()> (lexically defined) variable used
 in the nested subroutine.
 
 In the above example we know C<$counter> is just a simple small
@@ -1466,7 +1466,7 @@ Examples:
   package web ;
   # Call like this: web::print_with_class('loud',"Don't shout!");
   sub print_with_class{
-    my( $class, $text ) = @_ ;
+    my ( $class, $text ) = @_ ;
     print qq{<span class="$class">$text</span>};
   }
   1;
@@ -2015,7 +2015,7 @@ time), C<$^W> (warnings mode), C<$/> (input record separator), C<$\>
 they do not belong to any particular package (not even C<main::>) and
 are universally available. This means that if you change them, you
 change them anywhere across the entire program; furthermore you cannot
-scope them with my(). However you can local()ise them which means that
+scope them with my (). However you can local()ise them which means that
 any changes you apply will only last until the end of the enclosing
 scope. In the mod_perl situation where the child server doesn't
 usually exit, if in one of your scripts you modify a global variable

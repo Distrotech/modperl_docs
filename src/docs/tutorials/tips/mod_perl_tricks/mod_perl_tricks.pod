@@ -1163,7 +1163,7 @@ are.
   open (IN,$file=~/\.gz$/ ? "zcat $file |" : $file ) || die "Can't open file/pipe: $!"; 
   
   while (<IN>) {
-      my($date,$host,$agent,$URL) = /^\[(.+)\] (\S+) "(.*)" (\S+)$/;
+      my ($date,$host,$agent,$URL) = /^\[(.+)\] (\S+) "(.*)" (\S+)$/;
       next unless $URL=~/\.(html|htm|txt)$/;
   
       $HITS++;
@@ -1307,7 +1307,7 @@ Script II.1.9 is the source code for mysqllog.
       || die $db->errstr;
   while (<>) {
       chomp;
-      my($date,$host,$method,$url,$user,$browser,$referer,$status,$bytes) = /$PATTERN/o;
+      my ($date,$host,$method,$url,$user,$browser,$referer,$status,$bytes) = /$PATTERN/o;
       $user    = undef if $user    eq '-';
       $referer = undef if $referer eq '-';
       $browser = undef if $browser eq '-';
@@ -2169,7 +2169,7 @@ the navigation bar HTML.
          chomp;
          s/^\s+//; s/\s+$//;   #fold leading and trailing whitespace
          next if /^#/ || /^$/; # skip comments and empty lines
-         next unless my($url, $label) = /^(\S+)\s+(.+)/;
+         next unless my ($url, $label) = /^(\S+)\s+(.+)/;
          push @c, $url;     # keep the url in an ordered array
          $c{$url} = $label; # keep its label in a hash
       }
@@ -2269,7 +2269,7 @@ I</compressed> directory will be compressed automagically.
   }
   
   sub TIEHANDLE {
-      my($class,$r) = @_;
+      my ($class,$r) = @_;
       # initialize a deflation stream
       my $d = deflateInit(-WindowBits=>-MAX_WBITS()) || return undef;
   
@@ -2512,13 +2512,13 @@ this one in access.conf:
   sub handler {
      my $r = shift;
   
-     my($res, $sent_pwd) = $r->get_basic_auth_pw;
+     my ($res, $sent_pwd) = $r->get_basic_auth_pw;
      return $res if $res != OK;
      
      my $user = $r->connection->user;
      my $reason = "";
   
-     my($name,$passwd) = getpwnam($user);
+     my ($name,$passwd) = getpwnam($user);
      if (!$name) {
          $reason = "user does not have an account on this system";
      } else {
@@ -2575,7 +2575,7 @@ like this one:
   sub handler {
       my $r = shift;
   
-      my($res, $sent_pwd) = $r->get_basic_auth_pw;
+      my ($res, $sent_pwd) = $r->get_basic_auth_pw;
       return $res if $res != OK;
   
       my $user = lc $r->connection->user;
@@ -2739,7 +2739,7 @@ frame.
   my $Ad = join "|", qw{ads? advertisement banner};
   
   sub handler {
-      my($r) = @_;
+      my ($r) = @_;
       return DECLINED unless $r->proxyreq;
       $r->handler("perl-script"); #ok, let's do it
       $r->push_handlers(PerlHandler => \&proxy_handler);
@@ -2747,7 +2747,7 @@ frame.
   }
   
   sub proxy_handler {
-      my($r) = @_;
+      my ($r) = @_;
    
       my $request = HTTP::Request->new($r->method, $r->uri);
       
@@ -2794,7 +2794,7 @@ frame.
   
   sub block_ad {
       my $data = shift;
-      my($x, $y) = imgsize($data);
+      my ($x, $y) = imgsize($data);
    
       my $im = GD::Image->new($x,$y);
    

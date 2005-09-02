@@ -2013,7 +2013,7 @@ instance:
       "the closure problem is there",
   );
   sub req {
-      my($same_interp, $url) = @_;
+      my ($same_interp, $url) = @_;
       my $res = Apache::TestRequest::same_interp_do($same_interp,
                                                     \&GET, $url);
       return $res ? $res->content : undef;

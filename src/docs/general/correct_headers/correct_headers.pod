@@ -122,7 +122,7 @@ this argument first.
   use Date::Parse;
   # Date::Parse parses RCS format, Apache::Util::parsedate doesn't
   $Mtime ||=
-    Date::Parse::str2time(substr q$Date: 2002/07/31 14:41:49 $, 6);
+    Date::Parse::str2time(substr q$Date$, 6);
   $r->set_last_modified($Mtime);
 
 =head3 Expires and Cache-Control
@@ -466,12 +466,12 @@ rewriting the software (such as C<Apache::Request> and C<CGI.pm>) that
 deals with them.
 
   sub handler {
-    my($r) = @_;
+    my ($r) = @_;
     my $uri = $r->uri;
-    if ( my($u1,$u2) = $uri =~ / ^ ([^?]+?) ; ([^?]*) $ /x ) {
+    if ( my ($u1,$u2) = $uri =~ / ^ ([^?]+?) ; ([^?]*) $ /x ) {
       $r->uri($u1);
       $r->args($u2);
-    } elsif ( my($u1,$u2) = $uri =~ m/^(.*?)%3[Bb](.*)$/ ) {
+    } elsif ( my ($u1,$u2) = $uri =~ m/^(.*?)%3[Bb](.*)$/ ) {
       # protect against old proxies that escape volens nolens
       # (see HTTP standard section 5.1.2)
       $r->uri($u1);
