@@ -105,7 +105,7 @@ sub fetch_src_doc_ver {
 }
 
 sub pod_pom_html_view_seq_link_transform_path {
-    my($self, $path) = @_;
+    my ($self, $path) = @_;
 
     $path =~ s|::|/|g;
     my $doc_obj = get_render_obj();
@@ -126,7 +126,7 @@ sub pod_pom_html_view_seq_link_transform_path {
 
 
 #sub make_href {
-#    my($url, $title) = @_;
+#    my ($url, $title) = @_;
 
 #    if (!defined $url) {
 #        return defined $title ? "<i>$title</i>"  : '';
@@ -138,7 +138,7 @@ sub pod_pom_html_view_seq_link_transform_path {
 #}
 
 sub pod_pom_html_anchor {
-    my($self, $title) = @_;
+    my ($self, $title) = @_;
     my $anchor = "$title";
     $anchor =~ s/^\s*|\s*$//g; # strip leading and closing spaces
     $anchor =~ s/\W/_/g;

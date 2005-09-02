@@ -19,7 +19,7 @@ require Pod::POM::View::HTML;
 my $mode = 'Pod::POM::View::HTML';
 
 sub retrieve_meta_data {
-    my($self) = @_;
+    my ($self) = @_;
 
     $self->parse_pod;
 
@@ -91,7 +91,7 @@ sub retrieve_meta_data {
 }
 
 sub render_toc_level {
-    my($self, $node, $level) = @_;
+    my ($self, $node, $level) = @_;
     my $title = $node->title;
     my $link = "$title";     # must stringify to get the raw string
     $link =~ s/^\s*|\s*$//g; # strip leading and closing spaces
@@ -123,7 +123,7 @@ sub render_toc_level {
 
 
 sub parse_pod {
-    my($self) = @_;
+    my ($self) = @_;
     
     # already parsed
     return if exists $self->{parsed_tree} && $self->{parsed_tree};
@@ -157,7 +157,7 @@ sub src_filter {
 }
 
 sub extract_pod {
-    my($self) = @_;
+    my ($self) = @_;
 
     my @pod = ();
     my $in_pod = 0;
@@ -181,7 +181,7 @@ sub extract_pod {
 }
 
 sub podify_items {
-    my($self) = @_;
+    my ($self) = @_;
   
     # tmp storage
     my @paras = ();
@@ -226,7 +226,7 @@ sub podify_items {
 
 # add a page break for =headX in slides mode
 sub head2page_breaks {
-    my($self) = @_;
+    my ($self) = @_;
   
     # we want the source in paragraphs
     my @content = split /\n\n/, ${ $self->{content} };

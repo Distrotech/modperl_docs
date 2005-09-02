@@ -26,7 +26,7 @@ sub import {
         die "you need to install File-Spec-$min_version or higher from CPAN";
     }
 
-    while (my($file, $sub) = each %compat_files) {
+    while (my ($file, $sub) = each %compat_files) {
         $sub->($file);
     }
 }

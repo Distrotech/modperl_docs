@@ -36,13 +36,13 @@ my %conv_class = (
 );
 
 sub ext2mime {
-    my($self, $ext) = @_;
+    my ($self, $ext) = @_;
     exists $ext2mime{$ext} ? $ext2mime{$ext} : undef;
 }
 
 
 sub conv_class {
-    my($self, $src_mime, $dst_mime) = @_;
+    my ($self, $src_mime, $dst_mime) = @_;
     # convert
     $self->croak("src_mime is not defined") unless defined $src_mime;
     $self->croak("dst_mime is not defined") unless defined $dst_mime;
@@ -60,7 +60,7 @@ my %other_attr  = map {$_ => 1} qw(id stitle title abstract body
                                    options copy_glob copy_skip dir
                                    file);
 sub read_config {
-    my($self, $config_file, $parent_o) = @_;
+    my ($self, $config_file, $parent_o) = @_;
     die "Configuration file is not specified" unless defined $config_file;
 
     $self->{config_file} = $config_file;
@@ -89,7 +89,7 @@ sub read_config {
     my $group_size;
     my $non_grouped_node_seen = 0;
     for ( my $i=0; $i < @c; $i +=2 ) {
-        my($key, $val) = @c[$i, $i+1];
+        my ($key, $val) = @c[$i, $i+1];
         if ($key eq 'group') {
             $self->croak("grouped and non-grouped chapters cannot be mixed")
                 if $non_grouped_node_seen;
@@ -106,7 +106,7 @@ sub read_config {
                 unless ref $val eq 'ARRAY';
             my @h = @$val;
             for ( my $j=0; $j < @h; $j +=2 ) {
-                my($key1, $val1) = @h[$j, $j+1];
+                my ($key1, $val1) = @h[$j, $j+1];
                 $self->croak("the 'hidden' attribute can include only: ",
                              join(", ", keys %hidden_attr),
                              "attributes, $key1 is invalid")
@@ -177,24 +177,24 @@ sub read_config {
 # child config inherits parts from the parent config
 # and adjusts its paths
 sub merge_config {
-    my($self, $src_rel_dir) = @_;
+    my ($self, $src_rel_dir) = @_;
 
     my $parent_o = $self->{parent_o};
 
     # inherit 'file' attributes if not set in the child 
     my $files = $self->{file} || {};
-    while ( my($k, $v) = each %{ $parent_o->{file}||{} }) {
+    while ( my ($k, $v) = each %{ $parent_o->{file}||{} }) {
         $self->{file}{$k} = $v unless $files->{$k};
     }
 
     # inherit the 'dir' attributes if not set in the child 
     my $dirs = $self->{dir} || {};
-    while ( my($k, $v) = each %{ $parent_o->{dir}||{} }) {
+    while ( my ($k, $v) = each %{ $parent_o->{dir}||{} }) {
         $self->{dir}{$k} = $v unless exists $dirs->{$k};
     }
 
     # inherit/override the 'options' attr unless explicitly set
-    while ( my($k, $v) = each %{ $parent_o->{options}||{} }) {
+    while ( my ($k, $v) = each %{ $parent_o->{options}||{} }) {
         $self->{options}{$k} = $v unless exists $self->{options}{$k};
     }
 
@@ -223,6 +223,7 @@ sub merge_config {
 
     # inherit the 'copy_skip' attribute if not set in the child
     $self->{copy_skip} ||= $parent_o->{copy_skip} || [];
+
 }
 
 
@@ -230,7 +231,7 @@ sub merge_config {
 # simple OR, so if any of the sides sets an option to 1, this method
 # will return 1 otherwise 0
 sub options {
-    my($self, $option) = @_;
+    my ($self, $option) = @_;
     $option ||= '';
     return ($self->{options}{$option} || DocSet::RunTime::get_opts($option))
         ? 1 : 0;
@@ -290,7 +291,7 @@ sub rebuild {
 #
 # return the number of added items
 sub add_node {
-    my($self, $key, $value, $hidden) = @_;
+    my ($self, $key, $value, $hidden) = @_;
 
     my @values = ref $value eq 'ARRAY' ? @$value : $value;
 
@@ -367,12 +368,12 @@ sub files_to_copy {
 }
 
 sub set {
-    my($self, %args) = @_;
+    my ($self, %args) = @_;
     @{$self}{keys %args} = values %args;
 }
 
 sub set_dir {
-    my($self, %args) = @_;
+    my ($self, %args) = @_;
     @{ $self->{dir} }{keys %args} = values %args;
 }
 
@@ -477,13 +478,13 @@ sub path2package {
 
 
 sub object_store {
-    my($self, $object) = @_;
+    my ($self, $object) = @_;
     $self->croak("no object passed") unless defined $object and ref $object;
     push @{ $self->{_objects_store} }, $object;
 }
 
 sub stored_objects {
-    my($self) = @_;
+    my ($self) = @_;
     return @{ $self->{_objects_store}||[] };
 }
 
@@ -494,7 +495,7 @@ sub stored_objects {
     for my $sub (qw(carp cluck croak confess)) {
         undef &$sub if \&$sub; # overload Carp's functions
         *$sub = sub {
-            my($self, @msg) = @_;
+            my ($self, @msg) = @_;
             &{"Carp::$sub"}("[scan $sub] ", @msg, "\n",
                          "[config file: " . $self->{config_file} . "]\n"
                         );

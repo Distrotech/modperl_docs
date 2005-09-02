@@ -33,7 +33,7 @@ use vars qw(@ISA @EXPORT);
 # be created.
 ###############
 sub copy_file {
-    my($src, $dst) = @_;
+    my ($src, $dst) = @_;
 
     die "$src doesn't exist" unless -e $src;
     my $mode = (stat _)[2];
@@ -51,7 +51,7 @@ sub copy_file {
 # gzip a file at $src_path
 ###############
 sub gzip_file {
-    my($src) = @_;
+    my ($src) = @_;
     system "gzip -f $src";
 }
 
@@ -61,7 +61,7 @@ sub gzip_file {
 # paragraphs
 ###############
 sub write_file {
-    my($filename, $content) = @_;
+    my ($filename, $content) = @_;
 
     # make sure that the directory exist or create one
     my $dir = File::Basename::dirname $filename;
@@ -87,7 +87,7 @@ sub create_dir {
 # assign to a ref to a scalar
 ###############
 sub read_file {
-    my($filename, $r_content) = @_;
+    my ($filename, $r_content) = @_;
 
     my $fh = Symbol::gensym;
     open $fh, $filename  or croak "Can't open $filename for reading: $!";
@@ -102,7 +102,7 @@ sub read_file {
 # content will be set into a ref to an array
 ###############
 sub read_file_paras {
-    my($filename, $ra_content) = @_;
+    my ($filename, $ra_content) = @_;
 
     my $fh = Symbol::gensym;
     open $fh, $filename  or croak "Can't open $filename for reading: $!";
@@ -114,7 +114,7 @@ sub read_file_paras {
 
 # return the filename part of the path
 sub filename {
-    my($path) = @_;
+    my ($path) = @_;
     return File::Basename::basename($path);
 }
 
@@ -122,7 +122,7 @@ sub filename {
 # note: that '/foo/bar.conf.in' returns an extension: 'conf.in';
 # note: a hidden file .foo will be recognized as an extension 'foo'
 sub filename_ext {
-    my($filename) = @_;
+    my ($filename) = @_;
     my $ext = (File::Basename::fileparse($filename, '\.[^\.]*'))[2] || '';
     $ext =~ s/^\.(.*)/lc $1/e;
     $ext;
@@ -180,7 +180,7 @@ sub require_package {
 # returns the processed template
 ###################
 sub proc_tmpl {
-    my($tmpl_root, $tmpl_file, $mode, $vars) = @_;
+    my ($tmpl_root, $tmpl_file, $mode, $vars) = @_;
 
     # append the specific rendering mode, so the correct template will
     # be picked (e.g. in 'ps' mode, the ps sub-dir(s) will be searched
@@ -211,7 +211,7 @@ sub proc_tmpl {
 
 
 sub banner {
-    my($string) = @_;
+    my ($string) = @_;
 
     my $len = length($string) + 8;
     note(
@@ -300,8 +300,8 @@ sub dumper {
 
 
 #sub sub_trace {
-##    my($package) = (caller(0))[0];
-#    my($sub) = (caller(1))[3];
+##    my ($package) = (caller(0))[0];
+#    my ($sub) = (caller(1))[3];
 #    print "=> $sub: @_\n";
 #}
 

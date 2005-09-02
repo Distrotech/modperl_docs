@@ -14,7 +14,7 @@ use DocSet::Doc::Common ();
 *fetch_src_doc_ver = \&DocSet::Doc::Common::fetch_src_doc_ver;
 
 sub convert {
-    my($self) = @_;
+    my ($self) = @_;
 
     my @body = $self->{parsed_tree}->{body};
     my $vars = {
@@ -36,7 +36,7 @@ sub convert {
 
 # need for pluggin docs into index files
 sub converted_body {
-    my($self) = @_;
+    my ($self) = @_;
 
     return $self->{parsed_tree}->{body};
 }

@@ -12,7 +12,7 @@ require DocSet::Doc;
 use constant ENCODE_CHARS => '<>&" ';
 
 sub retrieve_meta_data {
-    my($self) = @_;
+    my ($self) = @_;
 
     $self->parse;
 
@@ -54,7 +54,7 @@ for my $tag (keys %linkElements) {
 }
 
 sub parse {
-    my($self) = @_;
+    my ($self) = @_;
     
     # already parsed
     return if exists $self->{parsed_tree} && $self->{parsed_tree};
@@ -75,7 +75,7 @@ sub parse {
 
         # encode unsafe chars in the URL attributes
         sub start_h {
-            my($self, $tagname, $attr, $text) = @_;
+            my ($self, $tagname, $attr, $text) = @_;
 
             # store away the HTML as is
             unless ($linkElements{$tagname}) {
@@ -97,12 +97,12 @@ sub parse {
         }
 
         sub end_h {
-            my($self, $tagname) = @_;
+            my ($self, $tagname) = @_;
             accum_h($self, "</$tagname>");
         }
 
         sub text_h {
-            my($self, $text) = @_;
+            my ($self, $text) = @_;
             accum_h($self, $text);
         }
 
@@ -131,7 +131,7 @@ sub parse {
 
         # init
         my $start_h = sub {
-            my($self, $tagname, $attr, $text) = @_;
+            my ($self, $tagname, $attr, $text) = @_;
             my $meta = $self->{parsed_tree}{head}{meta};
 
             # special treatment
@@ -169,7 +169,7 @@ sub parse {
         };
     
         my $end_h = sub {
-            my($self, $tagname, $skipped_text) = @_;
+            my ($self, $tagname, $skipped_text) = @_;
             # use $p itself as a tmp storage (ok according to the docs)
             # <title> and <body> get special treatment
             if ($tagname eq 'title' or $tagname eq 'body') { 

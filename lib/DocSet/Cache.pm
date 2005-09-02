@@ -13,7 +13,7 @@ my %attrs = map {$_ => 1} qw(toc meta order child_cache_path);
 # $update == 1 marks the cache as dirty, so it'll be always written to the disk
 # $purge == 1 deletes the existing cache file if such exists
 sub new {
-    my($class, $path, $update, $purge) = @_;
+    my ($class, $path, $update, $purge) = @_;
 
     die "no cache path specified" unless defined $path;
 
@@ -49,7 +49,7 @@ sub new {
 }
 
 sub path {
-    my($self) = @_;
+    my ($self) = @_;
     $self->{path};
 }
 
@@ -72,7 +72,7 @@ sub purge {
 }
 
 sub read {
-    my($self) = @_;
+    my ($self) = @_;
 
     if (-w $self->{path} && DocSet::RunTime::has_storable_module()) {
         note "+++ Reading cache from $self->{path}";
@@ -91,7 +91,7 @@ sub read {
 }
 
 sub write {
-    my($self) = @_;
+    my ($self) = @_;
 
     if (DocSet::RunTime::has_storable_module()) {
         note "+++ Storing the docset's cache to $self->{path}";
@@ -101,14 +101,14 @@ sub write {
 }
 
 sub add {
-    my($self, $id) = @_;
+    my ($self, $id) = @_;
     push @{ $self->{cache}{_ordered_ids} }, $id;
     $self->{cache}{$id}{seq} = $#{ $self->{cache}{_ordered_ids} };
 }
 
 # set a cache entry (overrides a prev entry if any exists)
 sub set {
-    my($self, $id, $attr, $data, $hidden) = @_;
+    my ($self, $id, $attr, $data, $hidden) = @_;
 
     croak "must specify a unique id"  unless defined $id;
     croak "must specify an attribute" unless defined $attr;
@@ -127,7 +127,7 @@ sub set {
 
 # get a cache entry
 sub get {
-    my($self, $id, $attr) = @_;
+    my ($self, $id, $attr) = @_;
 
     croak "must specify a unique id"  unless defined $id;
     croak "must specify an attribute" unless defined $attr;
@@ -140,7 +140,7 @@ sub get {
 
 # check whether a cached entry exists
 sub is_cached {
-    my($self, $id, $attr) = @_;
+    my ($self, $id, $attr) = @_;
 
     croak "must specify a unique id"  unless defined $id;
     croak "must specify an attribute" unless defined $attr;
@@ -151,14 +151,14 @@ sub is_cached {
 
 # invalidate cache (i.e. when a complete rebuild is forced)
 sub invalidate {
-    my($self) = @_;
+    my ($self) = @_;
 
     $self->{cache} = {};
 }
 
 # delete an entry in the cache
 sub unset {
-    my($self, $id, $attr) = @_;
+    my ($self, $id, $attr) = @_;
 
     croak "must specify a unique id"  unless defined $id;
     croak "must specify an attribute" unless defined $attr;
@@ -172,14 +172,14 @@ sub unset {
 }
 
 sub is_hidden {
-    my($self, $id) = @_;
+    my ($self, $id) = @_;
     #print "$id is hidden\n" if $self->{cache}{$id}{_hidden};
     return $self->{cache}{$id}{_hidden};
 }
 
 # return the sequence number of $id in the list of linked objects (0..N)
 sub id2seq {
-    my($self, $id) = @_;
+    my ($self, $id) = @_;
     croak "must specify a unique id"  unless defined $id;
     if (exists $self->{cache}{$id}) {
         return $self->{cache}{$id}{seq};
@@ -193,7 +193,7 @@ sub id2seq {
 
 # return the $id at the place $seq in the list of linked objects (0..N)
 sub seq2id {
-    my($self, $seq) = @_;
+    my ($self, $seq) = @_;
 
     croak "must specify a seq number"  unless defined $seq;
     if ($self->{cache}{_ordered_ids} && defined $self->{cache}{_ordered_ids}->[$seq]) {
@@ -206,18 +206,18 @@ sub seq2id {
 
 
 sub ordered_ids {
-    my($self) = @_;
+    my ($self) = @_;
     return @{ $self->{cache}{_ordered_ids}||[] };
 }
 
 sub total_ids {
-    my($self) = @_;
+    my ($self) = @_;
     return scalar @{ $self->{cache}{_ordered_ids}||[] };
 }
 
 # remember the meta data of the index node
 sub index_node {
-    my($self) = shift;
+    my ($self) = shift;
 
     if (@_) {
         my %args = @_;
@@ -240,11 +240,11 @@ sub index_node {
 
 # set/get the path to the parent cache
 sub parent_node {
-    my($self) = shift;
+    my ($self) = shift;
 
     if (@_) {
         # set
-        my($cache_path, $id, $rel_path) = @_;
+        my ($cache_path, $id, $rel_path) = @_;
         croak "must specify a path to the parent cache"
             unless defined $cache_path;
         croak "must specify a path relative to parent docset"
@@ -266,7 +266,7 @@ sub parent_node {
 
 # get the child node's cache if any
 sub child_cache_path {
-    my($self, $id) = @_;
+    my ($self, $id) = @_;
     croak "must specify a id"  unless defined $id;
 
     return exists $self->{cache}{$id}{child_cache_path}
@@ -277,7 +277,7 @@ sub child_cache_path {
 
 # set/get the path to the node_groups cache
 sub node_groups {
-    my($self) = shift;
+    my ($self) = shift;
 
     if (@_) { # set
         $self->{cache}{_node_groups} = shift;
@@ -290,7 +290,7 @@ sub node_groups {
 sub is_dirty { shift->{dirty};}
 
 sub DESTROY {
-    my($self) = @_;
+    my ($self) = @_;
 
     # flush the cache if destroyed before having a chance to sync to the disk
     $self->write if $self->is_dirty;
@@ -341,7 +341,7 @@ C<DocSet::Cache> - Maintain a Non-Volatile Cache of DocSet's Data
   my %index_node = $cache->index_node();
 
   $cache->parent_node($cache_path, $id, $rel_path);
-  my($cache_path, $id, $rel_path) = $cache->parent_node();
+  my ($cache_path, $id, $rel_path) = $cache->parent_node();
 
 
 =head1 DESCRIPTION

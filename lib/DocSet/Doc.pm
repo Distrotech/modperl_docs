@@ -17,23 +17,25 @@ sub new {
 }
 
 sub init {
-    my($self, %args) = @_;
-    while (my($k, $v) = each %args) {
+    my ($self, %args) = @_;
+    while (my ($k, $v) = each %args) {
         $self->{$k} = $v;
     }
 }
 
 sub scan {
-    my($self) = @_;
+    my ($self) = @_;
 
     note "+++ Scanning $self->{src_uri}";
     $self->src_read();
 
-    $self->retrieve_meta_data();
+    if (my $sub = $self->can('retrieve_meta_data')) {
+        $self->$sub();
+    }
 }
 
 sub render {
-    my($self, $cache) = @_;
+    my ($self, $cache) = @_;
 
     # if the object wasn't stored rescan
     #$self->scan() unless $self->meta;
@@ -69,7 +71,7 @@ sub render {
 # sets $self->{content}
 #      $self->{timestamp}
 sub src_read {
-    my($self) = @_;
+    my ($self) = @_;
 
     # META: at this moment everything is a file path
     my $src_uri = "file://" . $self->{src_path};
@@ -88,7 +90,7 @@ sub src_read {
         $self->{content} = \$content;
 
         # file change timestamp
-        # my($mon, $day, $year) = (localtime ( (stat($path))[9] ) )[4,3,5];
+        # my ($mon, $day, $year) = (localtime ( (stat($path))[9] ) )[4,3,5];
         # $self->{timestamp} = sprintf "%02d/%02d/%04d", ++$mon,$day,1900+$year;
         $self->{timestamp} = scalar localtime;
 
@@ -130,7 +132,7 @@ sub toc {
 # to abs_doc_root path and return it 
 # if not found return undef
 sub transform_src_doc {
-    my($self, $path) = @_;
+    my ($self, $path) = @_;
 
     if (my $path = find_src_doc($path)) {
         $path = catfile $self->{dir}{abs_doc_root}, $path;
@@ -143,7 +145,7 @@ sub transform_src_doc {
 
 require Carp;
 sub croak {
-    my($self, @msg) = @_;
+    my ($self, @msg) = @_;
     Carp::croak("[render croak] ", @msg, "\n",
                 "[src path] $self->{src_path}\n"
                );
@@ -164,8 +166,9 @@ C<DocSet::Doc> - A Base Document Class
 
 =head1 SYNOPSIS
 
-   use DocSet::Doc::HTML ();
-   my $doc = DocSet::Doc::HTML->new(%args);
+   # e.g. a subclass would do
+   use DocSet::Doc::HTML2HTML ();
+   my $doc = DocSet::Doc::HTML2HTML->new(%args);
    $doc->scan();
    my $meta = $doc->meta();
    my $toc  = $doc->toc();

@@ -24,7 +24,7 @@ sub new {
 }
 
 sub init {
-    my($self, $config_file, $parent_o, $src_rel_dir) = @_;
+    my ($self, $config_file, $parent_o, $src_rel_dir) = @_;
 
     $self->read_config($config_file, $parent_o);
 
@@ -53,7 +53,7 @@ sub init {
 }
 
 sub scan {
-    my($self) = @_;
+    my ($self) = @_;
 
     my $src_root = $self->get_dir('src_root');
     my $purge = DocSet::RunTime::get_opts('rebuild_all') ? 1 : 0;
@@ -111,7 +111,7 @@ sub scan {
     my $hidden = 0;
     my @nodes_by_type = @{ $self->nodes_by_type };
     while (@nodes_by_type) {
-        my($type, $data) = splice @nodes_by_type, 0, 2;
+        my ($type, $data) = splice @nodes_by_type, 0, 2;
         if ($type eq 'docsets') {
             my $docset = $self->docset_scan_n_cache($data, $hidden);
             $self->modified(1) if $docset->modified();
@@ -141,7 +141,7 @@ sub scan {
     $hidden = 1;
     my @hidden_nodes_by_type = @{ $self->hidden_nodes_by_type };
     while (@hidden_nodes_by_type) {
-        my($type, $data) = splice @hidden_nodes_by_type, 0, 2;
+        my ($type, $data) = splice @hidden_nodes_by_type, 0, 2;
         if ($type eq 'docsets') {
             my $docset = $self->docset_scan_n_cache($data, $hidden);
             $self->object_store($docset)
@@ -168,7 +168,7 @@ sub scan {
     my $config_file = $self->{config_file};
 
     my $dst_index = "$dst_root/index.html";
-    my($should_update, $reason) = 
+    my ($should_update, $reason) = 
         $self->should_update($config_file, $dst_index);
     $self->modified(1) if $should_update;
 
@@ -180,7 +180,7 @@ sub scan {
             my $src_file = $body->{$sec};
             next unless $src_file;
             $src_file = catfile $src_root, $src_file;
-            my($should_update, $reason) = 
+            my ($should_update, $reason) = 
                 $self->should_update($src_file, $dst_index);
             $self->modified(1) if $should_update;
         }
@@ -204,7 +204,7 @@ sub scan {
 
 
 sub docset_scan_n_cache {
-    my($self, $src_rel_dir, $hidden) = @_;
+    my ($self, $src_rel_dir, $hidden) = @_;
 
     my $src_root = $self->get_dir('src_root');
     my $config_file =  "$src_root/$src_rel_dir/config.cfg";
@@ -238,7 +238,7 @@ sub docset_scan_n_cache {
 
 
 sub link_scan_n_cache {
-    my($self, $link, $hidden) = @_;
+    my ($self, $link, $hidden) = @_;
     my %meta = %$link; # make a copy
     my $id = delete $meta{id};
     $meta{title} = $meta{stitle} unless exists $meta{title};
@@ -248,7 +248,7 @@ sub link_scan_n_cache {
 }
 
 sub sitemap_cache {
-    my($self, $link, $hidden) = @_;
+    my ($self, $link, $hidden) = @_;
     my %meta = %$link; # make a copy
     my $id = $meta{id};
     $meta{title}  = $meta{stitle} unless exists $meta{title};
@@ -264,7 +264,7 @@ sub sitemap_cache {
 }
 
 sub chapter_scan_n_cache {
-    my($self, $src_file, $hidden) = @_;
+    my ($self, $src_file, $hidden) = @_;
 
     my $id = $src_file;
     $self->cache->add($id);
@@ -296,7 +296,7 @@ sub chapter_scan_n_cache {
     $self->trg_chapters($rel_dst_path) unless $hidden;
 
     ### to rebuild or not
-    my($should_update, $reason) = $self->should_update($src_path, $dst_path);
+    my ($should_update, $reason) = $self->should_update($src_path, $dst_path);
     if (!$should_update) {
         note "--- $src_file: skipping ($reason)";
         return undef;
@@ -335,7 +335,7 @@ sub chapter_scan_n_cache {
 
 ####################
 sub scan_copy_the_rest {
-    my($self) = @_;
+    my ($self) = @_;
 
     my @scan_copy_files = @{ $self->files_to_scan_copy() };
 
@@ -354,7 +354,7 @@ sub scan_copy_the_rest {
         $dst_path =~ s/\Q$src_root/$dst_root/;
 
         # to rebuild or not to rebuild
-        my($should_update, $reason) = 
+        my ($should_update, $reason) = 
             $self->should_update($src_path, $dst_path);
         if (!$should_update) {
             note "--- skipping cp $src_path $dst_path ($reason)";
@@ -369,7 +369,7 @@ sub scan_copy_the_rest {
 }
 
 sub render {
-    my($self) = @_;
+    my ($self) = @_;
 
     # if the docset wasn't modified, don't render the docset
     return unless $self->modified();
@@ -398,7 +398,7 @@ sub render {
 
 ####################
 sub copy_the_rest {
-    my($self) = @_;
+    my ($self) = @_;
 
     my %copy_files = %{ $self->files_to_copy };
 
@@ -430,7 +430,7 @@ sub error {
 }
 
 sub should_update {
-    my($self, $src_path, $dst_path) = @_;
+    my ($self, $src_path, $dst_path) = @_;
 
     unless (-e $src_path) {
         $self->error("cannot find $src_path");

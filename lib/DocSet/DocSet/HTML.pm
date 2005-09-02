@@ -32,7 +32,7 @@ sub init {
 }
 
 sub complete {
-    my($self) = @_;
+    my ($self) = @_;
 
     note "\n";
     banner("[render] HTML DocSet: " . $self->get('title') );
@@ -45,7 +45,7 @@ sub complete {
 # generate the sitemap.html of the docset below the current root
 ##################################
 sub write_sitemap_file {
-    my($self) = @_;
+    my ($self) = @_;
 
     my $cache = $self->cache;
 
@@ -85,7 +85,7 @@ sub write_sitemap_file {
 # html files
 ##################################
 sub write_index_file {
-    my($self) = @_;
+    my ($self) = @_;
 
     my @toc  = ();
     my $cache = $self->cache;
@@ -98,7 +98,7 @@ sub write_index_file {
     if (@node_groups && @ids) {
         # index's toc is built from groups of items' meta data
         while (@node_groups) {
-            my($title, $count) = splice @node_groups, 0, 2;
+            my ($title, $count) = splice @node_groups, 0, 2;
             push @toc, {
                 group_title => $title,
                 subs  => [map {$cache->get($_, 'meta')} 

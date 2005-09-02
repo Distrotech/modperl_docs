@@ -23,7 +23,7 @@ use constant REL_PATH    => 3;
 
 # $rel_path (to the parent) is optional (e.g. root doesn't have a parent)
 sub new {
-    my($class, $cache_path, $id, $rel_path) = @_;
+    my ($class, $cache_path, $id, $rel_path) = @_;
 
     croak "no cache path specified" unless defined $cache_path;
 
@@ -44,13 +44,13 @@ sub new {
 }
 
 sub parent_rel_path {
-    my($self) = @_;
+    my ($self) = @_;
     return defined $self->[REL_PATH] ? $self->[REL_PATH] : undef;
 }
 
 # get next item's object or undef if there are no more
 sub next {
-    my($self) = @_;
+    my ($self) = @_;
     my $cache    = $self->[CACHE];
 
     my $seq      = $cache->id2seq($self->[ID]);
@@ -74,7 +74,7 @@ sub next {
 
 # get prev node's object or undef if there are no more
 sub prev {
-    my($self) = @_;
+    my ($self) = @_;
     my $cache = $self->[CACHE];
     my $seq = $cache->id2seq($self->[ID]);
 
@@ -96,14 +96,14 @@ sub prev {
 
 # get the object by its id (string) within the current cache
 sub by_id {
-    my($self, $id) = @_;
+    my ($self, $id) = @_;
     return defined $id ? $self->new($self->[CUR_PATH], $id) : undef;
 }
 
 
 # get the object of the first item on the same level
 sub first {
-    my($self) = @_;
+    my ($self) = @_;
     my $cache    = $self->[CACHE];
 
     # it's possible that the whole docset is made of hidden objects.
@@ -126,14 +126,14 @@ sub first {
 
 # the index node of the current level
 sub index_node {
-    my($self) = @_;
+    my ($self) = @_;
     return $self->[CACHE]->index_node;
 }
 
 # get the object of the parent
 sub up {
-    my($self) = @_;
-    my($path, $id, $rel_path) = $self->[CACHE]->parent_node;
+    my ($self) = @_;
+    my ($path, $id, $rel_path) = $self->[CACHE]->parent_node;
 
     $rel_path = "." unless defined $rel_path;
     if (defined $self->[REL_PATH] && length $self->[REL_PATH]) {
@@ -162,7 +162,7 @@ sub up {
 # e.g.: $o->down->first - first() will return undef if the first is
 # hidden.
 sub down {
-    my($self) = @_;
+    my ($self) = @_;
 
     if (my $path = $self->[CACHE]->child_cache_path($self->[ID])) {
         return $self->new($path);
@@ -174,13 +174,13 @@ sub down {
 
 # retrieve the meta data of the current node
 sub meta {
-    my($self) = @_;
+    my ($self) = @_;
     return $self->[CACHE]->get($self->[ID], 'meta');
 }
 
 # retrieve the node groups
 sub node_groups {
-    my($self) = @_;
+    my ($self) = @_;
 #print "OK: "; 
 #dumper $self->[CACHE]->node_groups;
     return $self->[CACHE]->node_groups;
@@ -192,7 +192,7 @@ sub id {
 
 
 sub get_cache {
-    my($path) = @_;
+    my ($path) = @_;
 
     unless ($CACHE{$path}) {
         $CACHE{$path} = DocSet::Cache->new($path);

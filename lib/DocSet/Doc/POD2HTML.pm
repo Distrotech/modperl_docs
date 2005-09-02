@@ -23,7 +23,7 @@ require DocSet::Source::POD;
 my %split_by = map {"head".$_ => 1} 1..4;
 
 sub convert {
-    my($self) = @_;
+    my ($self) = @_;
 
     set_render_obj($self);
 

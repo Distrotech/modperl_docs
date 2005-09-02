@@ -32,7 +32,7 @@ sub init {
 }
 
 sub complete {
-    my($self) = @_;
+    my ($self) = @_;
 
     note "\n";
     banner("[render] PS/PDF DocSet: " . $self->get('title') );
@@ -54,7 +54,7 @@ sub complete {
 # html files
 ##################################
 sub write_index_file {
-    my($self) = @_;
+    my ($self) = @_;
 
     my @toc  = ();
     my $cache = $self->cache;
@@ -67,7 +67,7 @@ sub write_index_file {
     if (@node_groups && @ids) {
         # index's toc is built from groups of items' meta data
         while (@node_groups) {
-            my($title, $count) = splice @node_groups, 0, 2;
+            my ($title, $count) = splice @node_groups, 0, 2;
             push @toc, {
                 group_title => $title,
                 subs  => [map {$cache->get($_, 'meta')} 
@@ -152,7 +152,7 @@ sub write_index_file {
 # generate the PS book
 ####################
 sub create_ps_book{
-    my($self) = @_;
+    my ($self) = @_;
 
     note "+++ Generating a PostScript Book";
 
@@ -170,7 +170,7 @@ sub create_ps_book{
 # generate the PDF book
 ####################
 sub create_pdf_book{
-    my($self) = @_;
+    my ($self) = @_;
 
     note "+++ Converting PS => PDF";
     my $dst_root = $self->get_dir('dst_root');
