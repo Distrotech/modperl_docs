@@ -186,6 +186,17 @@ This method will dump out all the configuration variables mod_perl
 will be feeding to the apache config gears. The output is suitable to
 read back in via C<eval>.
 
+  my $dump = Apache2::PerlSections->dump;
+
+=over 4
+
+=item ret: C<$dump> ( string / C<undef> )
+
+A string dump of all the Perl code encountered in E<lt>PerlE<gt> blocks,
+suitable to be read back via C<eval>
+
+=back
+
 For example:
 
   <Perl>
@@ -264,6 +275,18 @@ will not be dumped.
 
 This method will call the C<dump> method, writing the output
 to a file, suitable to be pulled in via C<require> or C<do>.
+
+  Apache2::PerlSections->store($filename);
+
+=over 4
+
+=item arg1: C<$filename> (string)
+
+The filename to save the dump output to
+
+=item ret: no return value
+
+=back
 
 
 
