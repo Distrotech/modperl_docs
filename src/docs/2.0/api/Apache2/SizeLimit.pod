@@ -2,8 +2,6 @@
 
 Apache2::SizeLimit - Because size does matter.
 
-
-
 =head1 Synopsis
 
 This module allows you to kill off Apache httpd processes if they grow
@@ -229,7 +227,7 @@ NOTE: This is only known to work for solaris 2.6 and above. Evidently
 the /proc filesystem has changed between 2.5.1 and 2.6. Can anyone
 confirm or deny?
 
-=item *BSD*
+=item BSD
 
 Uses C<BSD::Resource::getrusage()> to determine process size.  This is
 pretty efficient (a lot more efficient than reading it from the
