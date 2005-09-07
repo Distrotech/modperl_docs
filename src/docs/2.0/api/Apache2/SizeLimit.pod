@@ -138,6 +138,87 @@ For linux we read the process size out of F</proc/self/statm>.  This
 seems to be fast enough on modern systems. If you are worried about
 performance, try setting the C<CHECK_EVERY_N_REQUESTS> option.
 
+Since linux 2.6 F</proc/self/statm> does not report the amount of
+memory shared by the copy-on-write mechanism as shared memory. Hence
+decisions made on the basis of C<MAX_UNSHARED_SIZE> or C<MIN_SHARE_SIZE>
+are inherently wrong.
+
+To correct the situation there is a patch to the linux kernel that adds a
+F</proc/self/smaps> entry for each process. At the time of this writing
+the patch is included in the mm-tree (linux-2.6.13-rc4-mm1) and is expected
+to make it into the vanilla kernel in the near future.
+
+F</proc/self/smaps> reports various sizes for each memory segment of a
+process and allows to count the amount of shared memory correctly.
+
+If C<Apache2::SizeLimit> detects a kernel that supports F</proc/self/smaps>
+and if the C<Linux::Smaps> module is installed it will use them instead of
+F</proc/self/statm>. You can prevent C<Apache2::SizeLimit> from using
+F</proc/self/smaps> and turn on the old behaviour by setting
+C<$Apache2::SizeLimit::USE_SMAPS> to 0 before the first check.
+
+C<Apache2::SizeLimit> also resets C<$Apache2::SizeLimit::USE_SMAPS> to 0
+if it somehow decides not to use F</proc/self/smaps>. Thus, you can
+check it to determine what is actually used.
+
+NOTE: Reading F</proc/self/smaps> is expensive compared to
+F</proc/self/statm>. It must look at each page table entry of a process.
+Further, on multiprocessor systems the access is synchronized with
+spinlocks. Hence, you are encouraged to set the C<CHECK_EVERY_N_REQUESTS>
+option.
+
+The following example shows the effect of copy-on-write:
+
+  <Perl>
+    require Apache2::SizeLimit;
+    package X;
+    use strict;
+    use Apache2::RequestRec ();
+    use Apache2::RequestIO ();
+    use Apache2::Const -compile=>qw(OK);
+
+    my $x= "a" x (1024*1024);
+
+    sub handler {
+      my $r = shift;
+      my ($size, $shared) = $Apache2::SizeLimit::HOW_BIG_IS_IT->();
+      $x =~ tr/a/b/;
+      my ($size2, $shared2) = $Apache2::SizeLimit::HOW_BIG_IS_IT->();
+      $r->content_type('text/plain');
+      $r->print("1: size=$size shared=$shared\n");
+      $r->print("2: size=$size2 shared=$shared2\n");
+      return Apache2::Const::OK;
+    }
+  </Perl>
+
+  <Location /X>
+    SetHandler modperl
+    PerlResponseHandler X
+  </Location>
+
+The parent apache allocates a megabyte for the string in C<$x>. The
+C<tr>-command then overwrites all "a" with "b" if the handler is
+called with an argument. This write is done in place, thus, the
+process size doesn't change. Only C<$x> is not shared anymore by
+means of copy-on-write between the parent and the child.
+
+If F</proc/self/smaps> is available curl shows:
+
+  r2@s93:~/work/mp2> curl http://localhost:8181/X
+  1: size=13452 shared=7456
+  2: size=13452 shared=6432
+
+Shared memory has lost 1024 kB. The process' overall size remains unchanged.
+
+Without F</proc/self/smaps> it says:
+
+  r2@s93:~/work/mp2> curl http://localhost:8181/X
+  1: size=13052 shared=3628
+  2: size=13052 shared=3636
+
+One can see the kernel lies about the shared memory. It simply doesn't count 
+copy-on-write pages as shared.
+
 =item Solaris 2.6 and above
 
 For Solaris we simply retrieve the size of F</proc/self/as>, which
@@ -210,5 +291,7 @@ support for shared memory and additional diagnostic info
 
 Matt Phillips E<lt>mphillips virage.comE<gt> and Mohamed Hendawi
 E<lt>mhendawi virage.comE<gt>: Win32 support
+
+Torsten Foertsch E<lt>torsten.foertsch gmx.netE<gt>: Linux::Smaps support
 
 =cut
