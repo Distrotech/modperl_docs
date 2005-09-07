@@ -38,7 +38,7 @@ mod_perl developers/maintainers:
             pgpk -xa <your name> and append it to this file
 
         GnuPG
-            gpg --list-keys <your name>
+            gpg --list-keys <your name> >> this file
             gpg --armor --export <your name> >> this file.
 
     signing a release
