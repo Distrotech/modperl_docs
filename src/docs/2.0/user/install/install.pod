@@ -93,7 +93,7 @@ need to use at least the version numbers listed here.
 
 =over
 
-=item CGI.pm 3.08
+=item CGI.pm 3.11
 
 =item Compress::Zlib 1.09
 
