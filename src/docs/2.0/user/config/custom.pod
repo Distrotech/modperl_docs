@@ -74,7 +74,8 @@ implemented in pure Perl.
 
 Here is a very basic module that declares two new configuration
 directives: C<MyParameter>, which accepts one or more arguments, and
-C<MyOtherParameter> which accepts a single argument.
+C<MyOtherParameter> which accepts a single argument. C<MyParameter>
+validates that its arguments are valid strings.
 
   #file:MyApache2/MyParameters.pm
   #-----------------------------
@@ -90,6 +91,7 @@ C<MyOtherParameter> which accepts a single argument.
   
   use Apache2::CmdParms ();
   use Apache2::Module ();
+  use Apache2::Directive ();
   
   my @directives = (
       {
@@ -108,6 +110,16 @@ C<MyOtherParameter> which accepts a single argument.
   sub MyParameter {
       my ($self, $parms, @args) = @_;
       $self->{MyParameter} = \@args;
+  
+      # validate that the arguments are strings
+      for (@args) {
+          unless (/^\w+$/) {
+              my $directive = $parms->directive;
+              die sprintf "error: MyParameter at %s:%d expects " .
+                  "string arguments: ('$_' is not a string)\n",
+                  $directive->filename, $directive->line_num;
+          }
+      }
   }
   1;
 
