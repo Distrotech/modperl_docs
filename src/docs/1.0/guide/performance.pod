@@ -180,7 +180,7 @@ L<crashme test|guide::performance/the_crashme_Script>
 
 If you are going to write your own benchmarking utility, use the
 C<Benchmark> module and the C<Time::HiRes> module where you need
-better time precision (<10msec).
+better time precision (less than 10msec).
 
 An example of the C<Benchmark.pm> module usage:
 
