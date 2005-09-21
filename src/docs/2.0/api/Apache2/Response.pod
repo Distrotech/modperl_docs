@@ -201,11 +201,11 @@ Return the latest rational time from a request/mtime pair.
 
 The current request
 
-=item arg1: C<$mtime> (number)
+=item arg1: C<$mtime> ( time in seconds )
 
 The last modified time
 
-=item ret: C<$mtime_rat> (number)
+=item ret: C<$mtime_rat> ( time in seconds )
 
 the latest rational time from a request/mtime pair.  Mtime is
 returned unless it's in the future, in which case we return the
@@ -354,7 +354,7 @@ being in the future.
 =item obj: C<$r>
 ( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
-=item opt arg1: C<$mtime> ( time in microseconds )
+=item opt arg1: C<$mtime> ( time in seconds )
 
 if the C<$mtime> argument is passed,
 L<$r-E<gt>update_mtime|/C_update_mtime_> will be first run with that
@@ -385,7 +385,7 @@ to the specified value if it's later than what's already there.
 
 The current request
 
-=item arg1: C<$mtime> ( time in microseconds )
+=item arg1: C<$mtime> ( time in seconds )
 
 =item ret: no return value
 
