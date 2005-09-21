@@ -976,7 +976,7 @@ will return the current value of a multivalued key.  For example:
 
   $table->add("a" => 1);
   $table->add("b" => 2);
-  $table->add("c" => 3);
+  $table->add("a" => 3);
   
   ($k, $v) = each %$table; # (a, 1)
   print $table->{a};       # prints 1
