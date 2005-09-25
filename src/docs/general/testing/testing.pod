@@ -3335,7 +3335,7 @@ for your post to make it to the list.
 For more information see: http://perl.apache.org/Apache-Test/
 
 For list archives and subscribing information, please see:
-http://perl.apache.org/maillist/test-dev.html
+L<Apache-Test dev list|maillist::test-dev>
 
 =head1 References
 
