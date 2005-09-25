@@ -15,6 +15,13 @@ that only that user can do (e.g. modifying crontabs).
 To sudo into the 'perlwww' user (assuming that you have the perms to
 do so):
 
+To avoid annoying root with e-mails, you can use the -l flags to
+see if you have the perms.
+
+sudo -l
+User xxxx may run the following commands on this host:
+    (perlwww) NOPASSWD: ALL
+
 sudo -H -u perlwww bash
 
 or:
