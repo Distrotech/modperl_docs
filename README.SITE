@@ -51,10 +51,8 @@ user. Notice that the crontab that everybody in the 'perl' group can
 modify is the main reason for creating this special user.
 
 If the updating script emits any warnings/errors, they will be sent to
-the email address listed in /home/perlwww/.forward. (which is
-currently my address by in the future I plan to change it to the
-docs-dev list's address, so if I'm not around others will be able to
-know that there is a problem and resolve it.)
+the email address listed in /home/perlwww/.forward.  Currently,
+docs-dev@perl.apache.org.
 
 *** Manual Updates ***
 
