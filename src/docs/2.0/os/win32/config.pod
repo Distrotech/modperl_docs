@@ -150,7 +150,7 @@ F<Hello.pm> as follows:
 
   1;
 
-and save it in, for example, the F<C:/Perl/site/lib/Apache2/Apache/>
+and save it in, for example, the F<C:/Perl/site/lib/Apache2/>
 directory. Next put the following directives in
 F<C:/Apache2/conf/httpd.conf>:
 
