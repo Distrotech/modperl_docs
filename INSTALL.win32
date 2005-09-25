@@ -23,6 +23,6 @@ directories depend on where you installed the Ghostscript distribution):
  * Under WinNT, go to Control Panel -> System -> Advanced -> Environment
  variables, and edit the PATH variable accordingly.
 
-If these files change in CVS, you will need to redo the above steps, or you
+If these files change in SVN, you will need to redo the above steps, or you
 won't see the changes.
 
