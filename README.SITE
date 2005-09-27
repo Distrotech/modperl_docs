@@ -37,7 +37,7 @@ by the update system.
 This is the current crontab
 
 % crontab -l
-MAILTO=docs-dev
+MAILTO=docs-dev@perl.apache.org
 
 # every monday rebuild all, including pdf
 30 03  * * 1 /home/perlwww/apache.org/modperl-docs/bin/site_build_force_pdf_index
