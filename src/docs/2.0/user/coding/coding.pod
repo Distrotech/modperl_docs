@@ -376,8 +376,7 @@ If you use C<$r> to set headers as explained at the beginning of this
 section, you won't encounter any of these problems.
 
 Finally, If you don't want Apache to send its own headers and you want
-to send your own set of headers (non-parsed headers handlers) use
-explain the
+to send your own set of headers (non-parsed headers handlers) use the
 C<L<$r-E<gt>assbackwards|docs::2.0::api::Apache2::RequestRec/C_assbackwards_>>
 method. Notice that registry handlers will do that for you if the
 script's name start with the C<nph-> prefix.
