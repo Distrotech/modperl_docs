@@ -63,6 +63,13 @@ there after will be faster.  If your scripts are large and/or make use
 of many Perl modules, this difference should be noticeable to the
 human eye.
 
+=head1 Direcotry Indexs
+
+If you are trying setup a DirectoryIndex under a Location
+covered by ModPerl::Registry* you might run into some trouble.
+
+META: if this gets added to core, replace with real documenation.
+See http://marc.theaimsgroup.com/?l=apache-modperl&m=112805393100758&w=2
 
 
 =head1 Special Blocks
