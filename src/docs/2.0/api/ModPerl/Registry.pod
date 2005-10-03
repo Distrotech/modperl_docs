@@ -63,7 +63,7 @@ there after will be faster.  If your scripts are large and/or make use
 of many Perl modules, this difference should be noticeable to the
 human eye.
 
-=head1 Direcotry Indexs
+=head1 DirectoryIndex
 
 If you are trying setup a DirectoryIndex under a Location
 covered by ModPerl::Registry* you might run into some trouble.
