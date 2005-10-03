@@ -97,25 +97,25 @@ require Pod::POM::View::HTML;
 
 sub view_head1 {
     my ($self, $head1) = @_;
-    return "<h2>" . $head1->title . "</h2>\n\n" .
+    return "<h2>" . $head1->title->present($self) . "</h2>\n\n" .
         $head1->content->present($self);
 }
 
 sub view_head2 {
     my ($self, $head2) = @_;
-    return "<h3>" . $head2->title . "</h3>\n\n" .
+    return "<h3>" . $head2->title->present($self) . "</h3>\n\n" .
         $head2->content->present($self);
 }
 
 sub view_head3 {
     my ($self, $head3) = @_;
-    return "<h4>" . $head3->title . "</h4>\n\n" .
+    return "<h4>" . $head3->title->present($self) . "</h4>\n\n" .
         $head3->content->present($self);
 }
 
 sub view_head4 {
     my ($self, $head4) = @_;
-    return "<h5>" . $head4->title . "</h5>\n\n" .
+    return "<h5>" . $head4->title->present($self) . "</h5>\n\n" .
         $head4->content->present($self);
 }
 
