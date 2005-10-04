@@ -19,9 +19,9 @@ APR::UUID - Perl API for manipulating APR UUIDs
 
 =head1 Description
 
-C<APR::UUID> is used to get and manipulate randow UUID.
+C<APR::UUID> is used to get and manipulate random UUIDs.
 
-It allows you to C<L<create|/C_new_>> random UUID, which when
+It allows you to C<L<create|/C_new_>> random UUIDs, which when
 C<L<format|/C_format_>ted> returns a string like:
 
   'd48889bb-d11d-b211-8567-ec81968c93c6';
