@@ -2541,6 +2541,43 @@ The C<:types> group is for XXX constants.
 
 
 
+=head2 C<:proxy>
+
+  use Apache2::Const -compile => qw(:proxy);
+
+The C<:proxy> constants group is used in conjunction with
+C<L<$r-E<gt>proxyreq|docs::2.0::api::Apache2::RequestRec/C_proxyreq_>>.
+
+
+
+
+=head3 C<Apache2::Const::PROXYREQ_NONE>
+
+=over
+
+=item since: 2.0.2
+
+=back
+
+
+=head3 C<Apache2::Const::PROXYREQ_PROXY>
+
+=over
+
+=item since: 2.0.2
+
+=back
+
+
+
+=head3 C<Apache2::Const::PROXYREQ_REVERSE>
+
+=over
+
+=item since: 2.0.2
+
+=back
+
 
 =head1 See Also
 
