@@ -151,7 +151,9 @@ L<http://www.stonehenge.com/merlyn/WebTechniques/col59wt.html>
 
 =head3 Frank Wiles
 
-Sent an article proposal on mod_perl 2.x to SysAdmin
+Wrote an article on mod_perl 2.0 for SysAdmin Magazine. 
+
+L<http://www.revsys.com/writings/modperl.html>
 
 =head2 Publications
 
