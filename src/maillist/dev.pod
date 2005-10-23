@@ -60,10 +60,6 @@ http://gossamer-threads.com/lists/modperl/dev/
 
 http://www.mail-archive.com/dev%40perl.apache.org/ 
 
-=item * www.geocrawler.com
-
-http://www.geocrawler.com/lists/3/web/182/0/ (it throws all modperl lists in one bundle, not good)
-
 =item * Mbox file
 
 http://perl.apache.org/mail/dev/ 
