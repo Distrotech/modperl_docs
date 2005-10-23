@@ -73,10 +73,6 @@ http://aspn.activestate.com/ASPN/Mail/Browse/Threaded/modperl
 
 http://groups.yahoo.com/group/modperl/ 
 
-=item * www.geocrawler.com
-
-http://www.geocrawler.com/lists/3/web/182/0/ (throws all modperl lists in one bundle)
-
 =item * www.mail-archive.com
 
 http://www.mail-archive.com/modperl@apache.org/ 

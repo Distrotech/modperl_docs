@@ -22,12 +22,6 @@ DESC
                     link    => 'nntp://news.gmane.org/gmane.comp.apache.mod-perl',
                     comment => '',
                    },
-### Moved
-#                   {
-#                    title   => 'Epigone',
-#                    link    => 'http://mathforum.org/epigone/modperl',
-#                    comment => '',
-#                   },
                    {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl&r=1&w=2#apache-modperl',
@@ -52,11 +46,6 @@ DESC
                     title   => 'groups.yahoo.com',
                     link    => 'http://groups.yahoo.com/group/modperl/',
                     comment => '',
-                   },
-                   {
-                    title   => 'www.geocrawler.com',
-                    link    => 'http://www.geocrawler.com/lists/3/web/182/0/',
-                    comment => '(throws all modperl lists in one bundle)',
                    },
                    {
                     title   => 'www.mail-archive.com',
@@ -106,12 +95,6 @@ DESC
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-docs-dev&r=1&w=2',
                     comment => '',
                    },
-# These moved
-#                   {
-#                    title   => 'Epigone',
-#                    link    => 'http://mathforum.org/epigone/modperl-docs-dev',
-#                    comment => '',
-#                   },
                    {
                     title   => 'gossamer-threads.com',
                     link    => 'http://gossamer-threads.com/lists/modperl/docs-dev/',
@@ -174,11 +157,6 @@ DESC
                 help             => 'dev-help@perl.apache.org',
                },
       archives => [
-#                   {
-#                    title   => 'Epigone',
-#                    link    => 'http://mathforum.org/epigone/modperl-dev',
-#                    comment => '',
-#                   },
                    {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-dev&r=1&w=2#apache-modperl-dev',
@@ -193,11 +171,6 @@ DESC
                     title   => 'www.mail-archive.com',
                     link    => 'http://www.mail-archive.com/dev%40perl.apache.org/',
                     comment => '',
-                   },
-                   {
-                    title   => 'www.geocrawler.com',
-                    link    => 'http://www.geocrawler.com/lists/3/web/182/0/',
-                    comment => '(it throws all modperl lists in one bundle, not good)',
                    },
                    {
                     title   => 'Mbox file',
@@ -471,11 +444,6 @@ DESC
                    {
                     title   => 'gossamer-threads.com',
                     link    => 'http://gossamer-threads.com/lists/modperl/embperl/',
-                    comment => '',
-                   },
-                   {
-                    title   => 'geocrawler.com',
-                    link    => 'http://www.geocrawler.com/lists/3/Web/187/0/',
                     comment => '',
                    },
                    {

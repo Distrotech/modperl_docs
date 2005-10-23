@@ -57,10 +57,6 @@ http://www.ecos.de/~mailarc/embperl/
 
 http://gossamer-threads.com/lists/modperl/embperl/ 
 
-=item * geocrawler.com
-
-http://www.geocrawler.com/lists/3/Web/187/0/ 
-
 =item * Mbox file
 
 http://perl.apache.org/mail/embperl 
