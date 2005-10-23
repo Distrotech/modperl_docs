@@ -168,7 +168,6 @@ list|maillist::modperl>, so we can update this information:
   Apache::AuthenPasswd              Apache-AuthenPasswd-0.12
   Apache::AuthenSmb                 Apache-AuthenSmb-0.70
   Apache::AuthenURL                 Apache-AuthenURL-2.02
-  Apache::AuthzNIS                  Apache-AuthzNIS-0.11
   Apache::AuthzNetLDAP              Apache-AuthzNetLDAP-0.07
   Apache::AuthzPasswd               Apache-AuthzPasswd-0.11
   Apache::Clean                     Apache-Clean-2.00_4
@@ -209,6 +208,7 @@ and testing.
   Apache::AutoIndex          Philippe M. Chiasson <gozer AT cpan.org>
   Apache::Icon               Philippe M. Chiasson <gozer AT cpan.org>
   Apache::Template           Geoffrey Young <geoff AT modperlcookbook.org>
+  Apache::AuthzNIS           
 
 =head1 mod_perl 2.0 Specific Modules
 
