@@ -163,7 +163,6 @@ list|maillist::modperl>, so we can update this information:
   Apache::AuthExpire                Apache-AuthExpire-0.38
   Apache::AuthNetLDAP               Apache-AuthNetLDAP-0.25
   Apache::AuthPerLDAP               Apache-AuthPerLDAP-2.01
-  Apache::AuthenNIS                 Apache-AuthenNIS-0.11
   Apache::AuthenNTLM                Apache-AuthenNTLM-2.04
   Apache::AuthenPasswd              Apache-AuthenPasswd-0.12
   Apache::AuthenSmb                 Apache-AuthenSmb-0.70
