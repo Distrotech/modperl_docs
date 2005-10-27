@@ -746,8 +746,8 @@ Next we need to figure out how to get hold of the vhost's server
 object.
 
 Inside HTTP request handlers this is possible via
-C<Apache2-E<gt>request|docs::2.0::api::Apache2::RequestUtil/C_request_>. Which
-requires either C<L<PerlOptions
+C<L<Apache2-E<gt>request|docs::2.0::api::Apache2::RequestUtil/C_request_>>.
+Which requires either C<L<PerlOptions
 +GlobalRequest|docs::2.0::user::config::config/C_GlobalRequest_>>
 setting or can be also done at runtime if C<$r> is available:
 
