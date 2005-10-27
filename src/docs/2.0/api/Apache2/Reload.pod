@@ -163,7 +163,7 @@ care.
 
 =head1 Performance Issues
 
-This modules is perfectly suited for a development environment. Though
+This module is perfectly suited for a development environment. Though
 it's possible that you would like to use it in a production
 environment, since with C<Apache2::Reload> you don't have to restart
 the server in order to reload changed modules during software
