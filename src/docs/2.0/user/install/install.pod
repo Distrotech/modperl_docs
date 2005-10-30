@@ -277,12 +277,12 @@ This direct link which symlinks to the latest release should work too:
 I<http://perl.apache.org/dist/mod_perl-2.0-current.tar.gz>.
 
 For the purpose of examples in this chapter we will use the package
-named I<mod_perl-2.x.xx.tar.gz>, where I<x.xx> should be replaced with
+named I<mod_perl-2.x.x.tar.gz>, where I<x.x> should be replaced with
 the real version number.
 
 Open the package with:
 
-  % tar -xvzf mod_perl-2.x.xx.tar.gz
+  % tar -xvzf mod_perl-2.x.x.tar.gz
 
 or an equivalent command.
 
@@ -384,7 +384,7 @@ Here is an example:
   % make install
   % cd ..
   % tar -xvzf httpd-2.0.xx.tar.gz
-  % tar -xvzf mod_perl-2.x.xx.tar.gz 
+  % tar -xvzf mod_perl-2.x.x.tar.gz 
   % perl5.8.x Makefile.PL \
     MP_USE_STATIC=1 \
     MP_AP_PREFIX="$HOME/src/httpd-2.0.xx" \
@@ -634,7 +634,7 @@ first place, you can use this knowledge to rebuild itself using the
 same options. Simply C<chdir(1)> to the mod_perl source directory and
 run:
 
-  % cd modperl-2.x.xx
+  % cd modperl-2.x.
   % perl -MApache2::Build -e rebuild
 
 
