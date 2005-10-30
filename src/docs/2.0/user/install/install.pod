@@ -304,7 +304,7 @@ looking at the C<Compiler:> section.
 Like any other Perl module, mod_perl is configured via the
 I<Makefile.PL> file, but requires one or more configuration options:
 
-  % cd modperl-1.99_xx
+  % cd modperl-2.x.x
   % perl Makefile.PL <options>
 
 where I<options> is an optional list of key/value pairs.  These
