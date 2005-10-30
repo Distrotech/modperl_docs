@@ -376,6 +376,25 @@ C<L<MP_AP_PREFIX|/MP_AP_PREFIX>> B<must> point to an extracted Apache
 This will configure Apache by passing C<L<MP_AP_CONFIGURE|/MP_AP_CONFIGURE>>
 to Apache's F<./configure> script.
 
+Here is an example:
+  % cd ~/src
+  % tar -xvzf perl-5.8.x.tar.gz
+  % cd perl-5.8.x
+  % ./Configure -des
+  % make install
+  % cd ..
+  % tar -xvzf httpd-2.0.xx.tar.gz
+  % tar -xvzf mod_perl-2.x.xx.tar.gz 
+  % perl5.8.x Makefile.PL \
+    MP_USE_STATIC=1 \
+    MP_AP_PREFIX="$HOME/src/httpd-2.0.xx" \
+    MP_AP_CONFIGURE="--with-mpm=prefork"
+  % make
+  % make test
+  % make install
+  % ./httpd -l | grep perl
+     mod_perl.c
+   
 =head2 mod_perl Build Options
 
 =head3 Boolean Build Options
