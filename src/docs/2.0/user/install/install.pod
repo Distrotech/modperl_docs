@@ -395,7 +395,7 @@ Here is an example:
   % make install
   % ./httpd -l | grep perl
      mod_perl.c
-   
+
 =head2 mod_perl Build Options
 
 =head3 Boolean Build Options
