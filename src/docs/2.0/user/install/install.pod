@@ -377,6 +377,7 @@ This will configure Apache by passing C<L<MP_AP_CONFIGURE|/MP_AP_CONFIGURE>>
 to Apache's F<./configure> script.
 
 Here is an example:
+
   % cd ~/src
   % tar -xvzf perl-5.8.x.tar.gz
   % cd perl-5.8.x
