@@ -72,7 +72,7 @@
         </tr>
 
         <tr>
-            <td class="menu-border" colspan="3" height="1"><small class="nbr"><small class="nbr"><br class="smallbr"></small></small></td>
+            <td class="menu-border" colspan="3" height="1"><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
         </tr>
 
 [% END %]
@@ -90,7 +90,7 @@
         </tr>
 
         <tr>
-            <td class="menu-border" colspan="3" height="1"><small class="nbr"><small class="nbr"><br class="smallbr"></small></small></td>
+            <td class="menu-border" colspan="3" height="1"><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
         </tr>
 
 [% END %]

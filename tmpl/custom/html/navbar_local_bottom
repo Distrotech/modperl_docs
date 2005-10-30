@@ -9,7 +9,7 @@
            <td width="195" nowrap height="17">
                <table width="195" border="0" cellspacing="0" cellpadding="0">
                    <tr>
-                       <td><small class="nbr"><br class="smallbr"></small></td>
+                       <td><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
                    </tr>
                </table>
             </td>

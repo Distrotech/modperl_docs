@@ -6,8 +6,8 @@
         <!-- local navigation begin -->
         <tr valign="top" class="noPrint">
             <!-- this particular first cell is here due to a strange bug in IE5 for mac -->
-            <td><small class="nbr"><br class="smallbr"></small></td>
+            <td><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
             <td colspan="2" align="right" valign="top" height="16" nowrap>[%- INCLUDE prev_next_link -%]</td>
-            <td width="1"><small class="nbr"><br class="smallbr"></small></td>
+            <td width="1"><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
         </tr>
         <!-- local navigation end -->

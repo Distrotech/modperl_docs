@@ -43,7 +43,7 @@
         <!-- breadcrumb and topline begin -->
         
         <!-- this silly width is needed for ns4 due to its default paddings in divs, notably rightbox-div -->
-        <td width="1"><small class="nbr"><br class="smallbr"></small></td>
+        <td width="1"><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
 
         <td class="navbarglobal" height="31" width="100%" valign="bottom">
             <!-- breadcrumb start -->
@@ -65,26 +65,26 @@
         </td>
         <!-- camel begin -->
         <td rowspan="2" align="right" valign="bottom"><a href="http://www.perl.com"><img src="[%- doc.dir.abs_doc_root -%]/images/logo/blue_sm_camel.gif" border="0" alt="perl icon" width="27" height="37"></a></td>
-        <td rowspan="2" width="1"><small class="nbr"><br class="smallbr"></small></td>
+        <td rowspan="2" width="1"><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
         <!-- camel end -->
     </tr>
     <tr valign="top" class="noPrint">
-        <td colspan="2" height="6"><small class="nbr"><br class="smallbr"></small></td>
+        <td colspan="2" height="6"><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
     </tr>
 
     <!-- topline begin -->
     <tr valign="top" class="noPrint">
-        <td colspan="3" height="1" class="camel-line-top"><small class="nbr"><br class="smallbr"></small></td>
-        <td><small class="nbr"><br class="smallbr"></small></td>
+        <td colspan="3" height="1" class="camel-line-top"><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
+        <td><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
    </tr>
     <tr valign="top" class="noPrint">
-        <td colspan="3" height="1" class="camel-line-bottom"><small class="nbr"><br class="smallbr"></small></td>
-        <td><small class="nbr"><br class="smallbr"></small></td>
+        <td colspan="3" height="1" class="camel-line-bottom"><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
+        <td><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
     </tr>
     <!-- topline end -->
 
     <tr valign="top" class="noPrint">
-        <td height="3" colspan="4"><small class="nbr"><br class="smallbr"></small></td>
+        <td height="3" colspan="4"><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
     </tr>
 
 

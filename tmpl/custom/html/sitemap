@@ -1,4 +1,4 @@
-[%- INCLUDE head
+per[%- INCLUDE head
     paget   = doc.meta.title
     title   = "mod_perl: $paget"
     content = ''
