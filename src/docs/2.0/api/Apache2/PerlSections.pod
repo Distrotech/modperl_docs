@@ -112,6 +112,33 @@ except the ones whose names start with I<secure>:
 
 
 
+=head1 API
+
+C<Apache2::PerlSections> provides the following functions and/or methods:
+
+
+=head2 C<server>
+
+Get the current server's object for the E<lt>PerlE<gt> section
+
+  <Perl>
+    $s = Apache2::PerlSections->server();
+  </Perl>
+
+=over 4
+
+=item obj: C<Apache2::PerlSections> (class name)
+
+=item ret: C<$s>
+( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
+
+=item since: 2.0.03
+
+=back
+
+
+
+
 
 =head1 C<@PerlConfig> and C<$PerlConfig>
 
