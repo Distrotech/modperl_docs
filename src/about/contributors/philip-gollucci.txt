@@ -14,4 +14,4 @@ with Stas Bekman.  You can view his
 <a href="http://search.cpan.org/~pgollucci">CPAN directory here</a>.
 He also maintains several ports of CPAN modules for FreeBSD. 
 
-In November 2005, he joined the TicketMaster team.
+In November 2005, he joined the <a href="http://ticketmaster.com">TicketMaster</a> team.
