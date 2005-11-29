@@ -3354,9 +3354,9 @@ Apache-Test README
 
 =item * Skeletons for use as a starting point
 
-mod_perl 2: http://perl.apache.org/~geoff/Apache-Test-skeleton-mp2.tar.gz
+mod_perl 2: http://people.apache.org/~geoff/Apache-Test-skeleton-mp2.tar.gz
 
-mod_perl 1: http://perl.apache.org/~geoff/Apache-Test-skeleton-mp1.tar.gz
+mod_perl 1: http://people.apache.org/~geoff/Apache-Test-skeleton-mp1.tar.gz
 
 =item * Bug reporting skeletons
 
