@@ -159,7 +159,7 @@ ActiveState:
 
   # (--delete to ensure a clean state)
   % rsync -acvz --delete --force \
-    rsync://ftp.linux.activestate.com/perl-current/ perl-current
+    rsync://public.activestate.com/perl-current/ perl-current
 
 If you are re-building Perl after rsync-ing, make sure to cleanup first:
 
