@@ -101,6 +101,8 @@ To enable registry scripts add to I<httpd.conf>:
       PerlResponseHandler ModPerl::Registry
       PerlOptions +ParseHeaders
       Options +ExecCGI
+      Order allow,deny
+      Allow from all 
   </Location>
 
 and now assuming that we have the following script:
