@@ -21,7 +21,7 @@ at your fingertips is a great time saver. It always has the up-to-date
 information for the version of perl you're using.
 
 Of course you can use online Perl documentation at the Web. The two
-major sites are http://www.perldoc.com and
+major sites are http://perldoc.perl.org and
 http://theoryx5.uwinnipeg.ca/CPAN/perl/.
 
 The C<perldoc> utility provides you with access to the documentation

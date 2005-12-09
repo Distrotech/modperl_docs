@@ -13,7 +13,7 @@ developers and users.
 
 =item * The Perl Documentation
 
-http://www.perldoc.com/
+http://perldoc.perl.org/
 
 =item * The Perl Home Page
 

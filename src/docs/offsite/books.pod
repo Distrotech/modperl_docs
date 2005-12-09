@@ -289,7 +289,7 @@ http://www.stonehenge.com/books/
 
 =item * 
 
-http://www.perldoc.com/books/
+http://books.perl.org/
 
 =item * 
 

@@ -307,9 +307,9 @@ only with Perl 5.8.0 and higher.
 These are the important changes in the recent Perl versions that had
 an impact on mod_perl. For a complete list of changes see the
 corresponding to the used version I<perldelta> manpages
-(I<http://perldoc.com/perl5.8.0/pod/perl56delta.html>,
-I<http://perldoc.com/perl5.8.0/pod/perl561delta.html> and
-I<http://perldoc.com/perl5.8.0/pod/perldelta.html>).
+(I<http://perldoc.perl.org/perl56delta.html>,
+I<http://perldoc.perl.org/perl561delta.html> and
+I<http://perldoc.perl.org/perldelta.html>).
 
 The 5.6 Perl generation has introduced the following features:
 
@@ -323,9 +323,9 @@ perl_clone() API call, which can be used to selectively duplicate the
 state of any given interpreter, it is possible to compile a piece of
 code once in an interpreter, clone that interpreter one or more times,
 and run all the resulting interpreters in distinct threads. See the
-I<perlembed> (I<http://perldoc.com/perl5.6.1/pod/perlembed.html>) and
+I<perlembed> (I<http://perldoc.perl.org/perlembed.html>) and
 I<perl561delta>
-(I<http://perldoc.com/perl5.6.1/pod/perl561delta.html>) manpages.
+(I<http://perldoc.perl.org/perl561delta.html>) manpages.
 
 =item *
 
@@ -341,7 +341,7 @@ clean, via the setting:
 
 which will abort any code that generates warnings. This pragma also
 allows a fine control over what warnings should be reported. See the
-I<perllexwarn> (I<http://perldoc.com/perl5.6.1/pod/perllexwarn.html>)
+I<perllexwarn> (I<http://perldoc.perl.org/perllexwarn.html>)
 manpage.
 
 =item *
@@ -349,7 +349,7 @@ manpage.
 Certain C<CORE::> functions now can be overridden via
 C<CORE::GLOBAL::> namespace. For example mod_perl now can override
 C<CORE::exit()> via C<CORE::GLOBAL::exit>. See the I<perlsub>
-(I<http://perldoc.com/perl5.6.1/pod/perlsub.html>) manpage.
+(I<http://perldoc.perl.org/perlsub.html>) manpage.
 
 =item *
 
@@ -361,24 +361,24 @@ See the I<XSLoader> manpage.
 The large file support. If you have filesystems that support "large
 files" (files larger than 2 gigabytes), you may now also be able to
 create and access them from Perl. See the I<perl561delta>
-(I<http://perldoc.com/perl5.6.1/pod/perl561delta.html>) manpage.
+(I<http://perldoc.perl.org/perl561delta.html>) manpage.
 
 =item *
 
 Multiple performance enhancements were made. See the I<perl561delta>
-(I<http://perldoc.com/perl5.6.1/pod/perl561delta.html>) manpage.
+(I<http://perldoc.perl.org/perl561delta.html>) manpage.
 
 =item *
 
 Numerous memory leaks were fixed. See the I<perl561delta>
-(I<http://perldoc.com/perl5.6.1/pod/perl561delta.html>) manpage.
+(I<http://perldoc.perl.org/perl561delta.html>) manpage.
 
 =item *
 
 Improved security features: more potentially unsafe operations taint
 their results for improved security. See the I<perlsec>
-(I<http://perldoc.com/perl5.6.1/pod/perlsec.html>) and I<perl561delta>
-(I<http://perldoc.com/perl5.6.1/pod/perl561delta.html>) manpages.
+(I<http://perldoc.perl.org/perlsec.html>) and I<perl561delta>
+(I<http://perldoc.perl.org/perl561delta.html>) manpages.
 
 =item *
 
@@ -400,8 +400,8 @@ The Perl 5.8.0 has introduced the following features:
 The introduced in 5.6.0 experimental PerlIO layer has been stabilized
 and become the default IO layer in 5.8.0. Now the IO stream can be
 filtered through multiple layers. See the I<perlapio>
-(I<http://perldoc.com/perl5.8.0/pod/perlapio.html>) and I<perliol>
-(I<http://perldoc.com/perl5.8.0/pod/perliol.html>) manpages.
+(I<http://perldoc.perl.org/perlapio.html>) and I<perliol>
+(I<http://perldoc.perl.org/perliol.html>) manpages.
 
 For example this allows mod_perl to inter-operate with the APR IO
 layer and even use the APR IO layer in Perl code. See the
@@ -414,12 +414,12 @@ C<open()> functionality to create anonymous temporary files via:
 
 That is a literal C<undef()>, not an undefined value. See the
 C<open()> entry in the I<perlfunc> manpage
-(I<http://perldoc.com/perl5.8.0/pod/func/open.html>).
+(I<http://perldoc.perl.org/functions/open.html>).
 
 =item *
 
 More overridable via C<CORE::GLOBAL::> keywords. See the I<perlsub>
-(I<http://perldoc.com/perl5.8.0/pod/perlsub.html>) manpage.
+(I<http://perldoc.perl.org/perlsub.html>) manpage.
 
 =item * 
 
@@ -441,11 +441,11 @@ brother of C<-T>: instead of dying on taint violations, lexical
 warnings are given.  This is only meant as a temporary debugging aid
 while securing the code of old legacy applications.  B<This is not a
 substitute for C<-T>.> See the I<perlrun>
-(I<http://perldoc.com/perl5.8.0/pod/perlrun.html>) manpage.
+(I<http://perldoc.perl.org/perlrun.html>) manpage.
 
 A new special variable C<${^TAINT}> was introduced. It indicates
 whether taint mode is enabled. See the I<perlvar>
-(I<http://perldoc.com/perl5.8.0/pod/perlvar.html>) manpage.
+(I<http://perldoc.perl.org/perlvar.html>) manpage.
 
 =item *
 
@@ -499,7 +499,7 @@ I<clone>.  A I<parent> is like that in mod_perl 1.0, where the main
 interpreter created at startup time compiles any pre-loaded Perl code.
 A I<clone> is created from the parent using the Perl API
 I<perl_clone()>
-(I<http://www.perldoc.com/perl5.8.0/pod/perlapi.html#Cloning-an-interpreter>)
+(I<http://perldoc.perl.org/perlapi.html#Cloning-an-interpreter>)
 function.  At request time, I<parent> interpreters are only used for
 making more I<clones>, as the I<clones> are the interpreters which
 actually handle requests.  Care is taken by Perl to copy only mutable

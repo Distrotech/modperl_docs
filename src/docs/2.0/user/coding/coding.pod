@@ -815,7 +815,7 @@ code and replace them with alternative solutions which don't incur
 this problem.
 
 For more information refer to the I<perlthrtut>
-(I<http://perldoc.com/perl5.8.0/pod/perlthrtut.html>) manpage.
+(I<http://perldoc.perl.org/perlthrtut.html>) manpage.
 
 
 
