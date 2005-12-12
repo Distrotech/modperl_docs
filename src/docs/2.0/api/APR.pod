@@ -35,7 +35,7 @@ You'd use the C<APR::*> modules outside mod_perl 2.0, just like you'd
 use it with mod_perl 2.0. For example to get a random unique string
 you could call:
 
-  % perl -MApache2 -MAPR::UUID -le 'print APR::UUID->new->format'
+  % perl -MAPR::UUID -le 'print APR::UUID->new->format'
 
 
 
