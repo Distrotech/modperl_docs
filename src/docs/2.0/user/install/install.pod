@@ -491,7 +491,8 @@ following C<gcc> flags:
   -DAP_DEBUG -Wall -Wmissing-prototypes -Wstrict-prototypes \
   -Wmissing-declarations \
 
-If gcc version 3.3.2+ is found and C<-Wdeclaration-after-statement> is
+If gcc version 3.3.2+ is found, not compiling on OpenBSD,
+and C<-Wdeclaration-after-statement> is
 not already part of the C<gcc> flags add it.
 
 To use this mode Apache must be build with
