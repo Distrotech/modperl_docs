@@ -490,7 +490,6 @@ following C<gcc> flags:
 
   -DAP_DEBUG -Wall -Wmissing-prototypes -Wstrict-prototypes \
   -Wmissing-declarations \
-  -DAP_DEBUG -DAP_HAVE_DESIGNATED_INITIALIZER
 
 If gcc version 3.3.2+ is found and C<-Wdeclaration-after-statement> is
 not already part of the C<gcc> flags add it.
