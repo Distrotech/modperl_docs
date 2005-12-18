@@ -5,8 +5,6 @@ mp2 Utilities need to be documented (a separate document?):
 
 mp2bug - (should also be mentioned in user/help/help.pod)
 
-mp2doc - replacement for perldoc for modules that get installed into Apache2/
-
 *** General items ***
 
 ---
