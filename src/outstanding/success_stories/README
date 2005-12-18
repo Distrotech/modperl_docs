@@ -11,4 +11,4 @@ or to run all files
 
 This run will generate .pod files and link them to the main index.
 
-Don't forget to add both files (.txt and the generated .pod) to cvs
+Don't forget to add both files (.txt and the generated .pod) to svn
