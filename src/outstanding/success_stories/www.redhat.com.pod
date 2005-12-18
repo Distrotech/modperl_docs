@@ -4,7 +4,7 @@
 # Instead edit the corresponding .txt file and run make.pl
 #
 # Don't forget to commit the changes to both .txt and the generated
-# .pod to cvs, since others won't run the local make.pl
+# .pod to svn, since others won't run the local make.pl
 ####################################################
 
 =head1 NAME
