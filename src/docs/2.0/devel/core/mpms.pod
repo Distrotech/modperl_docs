@@ -6,7 +6,7 @@ MPMs - Multi-Processing Model Modules
 
 Discover what are the available MPMs and how they work with mod_perl.
 
-META: This doc is under construction. Owners are wanted.
+META: This doc is under construction. Owners are wanted. -- pgollucci volunteering
 
 =head1 MPMs Overview
 
@@ -39,6 +39,8 @@ outside of modperl (ap_document_root for example).
 
 META: incomplete
 
+=head1 The Event MPM
+
 =head1 Maintainers
 
 Maintainer is the person(s) you should contact with updates,
@@ -48,7 +50,7 @@ corrections and patches.
 
 =item *
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Philip M. Gollucci E<lt>pgollucci (at) p6m7g8.orgE<gt>
 
 =back
 
@@ -60,6 +62,7 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 =item *
 
 Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Philip M. Gollucci E<lt>pgollucci (at) p6m7g8.orgE<gt>
 
 =back
 
