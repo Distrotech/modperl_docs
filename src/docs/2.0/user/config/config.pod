@@ -652,7 +652,20 @@ location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 =head2 C<PerlSetVar>
 
-  META: to be written
+C<PerlSetVar> allows you to pass variables into your mod_perl handlers from
+your I<httpd.conf>. This method is preferable to using C<PerlSetEnv> or
+Apache's C<SetEnv> and C<PassEnv> methods because of the overhead of having
+to populate C<%ENV> for each request. An example of how this can be used is:
+
+    PerlSetVar foo bar
+
+To retrieve the value of that variable in your Perl code you would use:
+
+    my $foo = $r->dir_config('foo');
+
+In this example C<$foo> would then hold the value 'bar'. B<NOTE:> that these
+directives are parsed at request time which is a slower method than using
+L<custom Apache configuration directives|docs::2.0::user::config::custom>
 
 See also: L<this directive argument types and allowed
 location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
