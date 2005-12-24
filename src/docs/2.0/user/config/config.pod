@@ -126,8 +126,37 @@ C<=over> requires a corresponding C<=back>.
 
 =head2 C<PerlAddVar>
 
-META: to be written
+C<PerlAddVar> is useful if you need to pass in multiple values into the
+same variable emulating arrays and hashes.  For example: 
 
+   PerlAddVar foo bar 
+   PerlAddVar foo bar1
+   PerlAddVar foo bar2
+  
+You would retrieve these values with: 
+
+  my @foos = $r->dir_config('foo'); 
+
+This would fill the I<@foos> array with 'bar', 'bar1', and 'bar2'.  
+
+To pass in hashed values you need to ensure that you use an even number
+of directives per key.  For example: 
+
+  PerlAddVar foo key1
+  PerlAddVar foo value1
+  PerlAddVar foo key2
+  PerlAddVar foo value2
+
+You can then retrieve these values with: 
+
+  my %foos = $r->dir_config('foo'); 
+
+Where I<%foos> will have a structure like: 
+
+  %foos = ( 
+        key1   => 'value1',
+        key2   => 'value2',
+  ); 
 
 See also: L<this directive argument types and allowed
 location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
@@ -556,7 +585,21 @@ Notice that we have got the value of the environment variable I<TEST>.
 
 =head2 C<PerlPassEnv>
 
-  META: to be written
+C<PerlPassEnv> instructs mod_perl to pass the environment variables you
+specify to your mod_perl handlers.  This is useful if you need to set
+the same environment variables for your shell as well as mod_perl. For
+example if you had this in your .bash_profile: 
+
+   export ORACLE_HOME=/oracle 
+
+And defined the following in your I<httpd.conf>: 
+
+   PerlPassEnv ORACLE_HOME 
+
+The your mod_perl handlers would have access to the value via the standard
+Perl mechanism: 
+
+  my $oracle_home = $ENV{'ORACLE_HOME'}; 
 
 See also: L<this directive argument types and allowed
 location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
@@ -639,7 +682,16 @@ location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 =head2 C<PerlSetEnv>
 
-  META: to be written
+C<PerlSetEnv> allows you to specify system environment variables and pass
+them into your mod_perl handlers.  These values are then available through 
+the normal perl C<%ENV> mechanisms.  For example: 
+
+  PerlSetEnv TEMPLATE_PATH /usr/share/templates 
+
+would create C<$ENV{'TEMPLATE_PATH'}> and set it to I</usr/share/templates>. 
+
+
+
 
 See also: L<this directive argument types and allowed
 location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
