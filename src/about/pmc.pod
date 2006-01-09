@@ -22,6 +22,8 @@ Today, the PMC consists of:
 
 =item * Perrin Harkins
 
+=item * Philip Gollucci
+
 =item * Philippe Chiasson
 
 =item * Randy Kobes
