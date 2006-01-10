@@ -714,6 +714,19 @@ Share Perl variables between Perl HTTP handlers
   $val      = $r->pnotes($key);
   $hash_ref = $r->pnotes();
 
+B<Note:> sharing variables really means it. The variable is not copied.
+Only its reference count is incremented. If it is changed after being
+put in pnotes that change also affects the stored value. The following
+example illustrates the effect:
+
+  my $v=1;                     my $v=1;
+  $r->pnotes( 'v'=>$v );       $r->pnotes->{v}=$v;
+  $v++;                        $v++;
+  my $x=$r->pnotes('v');       my $x=$r->pnotes->{v};
+
+In both cases C<$x> is C<2> not C<1>. See also C<Apache2::SafePnotes> on
+CPAN.
+
 =over 4
 
 =item obj: C<$r>
