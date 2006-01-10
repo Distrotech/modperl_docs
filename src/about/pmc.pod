@@ -22,7 +22,7 @@ Today, the PMC consists of:
 
 =item * Perrin Harkins
 
-=item * Philip Gollucci
+=item * Philip M. Gollucci
 
 =item * Philippe Chiasson
 
