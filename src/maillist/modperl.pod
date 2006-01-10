@@ -49,6 +49,10 @@ mailto:modperl-help@perl.apache.org
 
 =over
 
+=item * mail-archives.apache.org
+
+http://mail-archives.apache.org/mod_mbox/perl-modperl 
+
 =item * NNTP gateway
 
 nntp://news.gmane.org/gmane.comp.apache.mod-perl 

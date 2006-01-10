@@ -48,6 +48,10 @@ mailto:docs-cvs-help@perl.apache.org
 
 =over
 
+=item * mail-archives.apache.org
+
+http://mail-archives.apache.org/mod_mbox/perl-docs-cvs 
+
 =item * marc.theaimsgroup.com
 
 http://marc.theaimsgroup.com/?l=apache-modperl-docs-cvs&r=1&w=2 

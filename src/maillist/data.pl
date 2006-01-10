@@ -18,6 +18,11 @@ DESC
                },
       archives => [
                    {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/perl-modperl",
+                    comment => '',
+                   },
+                   {
                     title   => 'NNTP gateway',
                     link    => 'nntp://news.gmane.org/gmane.comp.apache.mod-perl',
                     comment => '',
@@ -86,6 +91,11 @@ DESC
                },
       archives => [
                    {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/perl-docs-dev",
+                    comment => '',
+                   },
+                   {
                     title   => 'NNTP gateway',
                     link    => 'nntp://news.gmane.org/gmane.comp.apache.mod-perl.devel',
                     comment => '',
@@ -124,6 +134,11 @@ DESC
                },
       archives => [
                    {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/perl-docs-cvs",
+                    comment => '',
+                   },
+                   {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-docs-cvs&r=1&w=2',
                     comment => '',
@@ -157,6 +172,11 @@ DESC
                 help             => 'dev-help@perl.apache.org',
                },
       archives => [
+                   {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/perl-dev",
+                    comment => '',
+                   },
                    {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-dev&r=1&w=2#apache-modperl-dev',
@@ -202,6 +222,11 @@ DESC
                },
       archives => [
                    {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/perl-modperl-cvs",
+                    comment => '',
+                   },
+                   {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apache-modperl-cvs&r=1&w=2#apache-modperl-cvs',
                     comment => '',
@@ -235,6 +260,11 @@ DESC
                 help             => 'test-dev-help@perl.apache.org',
                },
       archives => [
+                   {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/perl-test-dev",
+                    comment => '',
+                   },
                    {
                     title   => 'www.apachelabs.org',
                     link    => 'http://www.apachelabs.org/test-dev/',
@@ -272,6 +302,11 @@ DESC
                },
       archives => [
                    {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/perl-test-commits",
+                    comment => '',
+                   },
+                   {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apache-test-cvs',
                     comment => '',
@@ -301,6 +336,11 @@ DESC
                 help             => 'advocacy-help@perl.apache.org',
                },
       archives => [
+                   {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/perl-advocacy",
+                    comment => '',
+                   },
                    {
                     title   => 'www.mail-archive.com',
                     link    => 'http://www.mail-archive.com/advocacy@perl.apache.org/',
@@ -340,6 +380,11 @@ DESC
                },
       archives => [
                    {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/perl-announce",
+                    comment => '',
+                   },
+                   {
                     title   => 'gossamer-threads.com',
                     link    => 'http://gossamer-threads.com/lists/modperl/announce/',
                     comment => '',
@@ -369,6 +414,11 @@ DESC
                 help             => 'apreq-dev-help@httpd.apache.org',
                },
       archives => [
+                   {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/httpd-apreq-dev",
+                    comment => '',
+                   },
                    {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apreq-dev&r=1&w=2',
@@ -405,6 +455,11 @@ DESC
                },
       archives => [
                    {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/httpd-apreq-cvs",
+                    comment => '',
+                   },
+                   {
                     title   => 'marc.theaimsgroup.com',
                     link    => 'http://marc.theaimsgroup.com/?l=apreq-cvs&r=1&w=2',
                     comment => '',
@@ -436,6 +491,11 @@ DESC
                 help             => 'embperl-help@perl.apache.org',
                },
       archives => [
+                   {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/perl-embperl",
+                    comment => '',
+                   },
                    {
                     title   => 'ecos.de',
                     link    => 'http://www.ecos.de/~mailarc/embperl/',
@@ -474,6 +534,11 @@ DESC
                },
       archives => [
                    {
+                    title   => 'mail-archives.apache.org',
+                    link    => "http://mail-archives.apache.org/mod_mbox/perl-asp",
+                    comment => '',
+                   },
+                   {
                     title   => 'gossamer-threads.com',
                     link    => 'http://gossamer-threads.com/lists/modperl/asp/',
                     comment => '',
@@ -490,8 +555,5 @@ DESC
                    },
                   ],
      },
-
-
     );
-
 1;

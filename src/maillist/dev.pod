@@ -48,6 +48,10 @@ mailto:dev-help@perl.apache.org
 
 =over
 
+=item * mail-archives.apache.org
+
+http://mail-archives.apache.org/mod_mbox/perl-dev 
+
 =item * marc.theaimsgroup.com
 
 http://marc.theaimsgroup.com/?l=apache-modperl-dev&r=1&w=2#apache-modperl-dev 

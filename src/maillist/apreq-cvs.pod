@@ -48,6 +48,10 @@ mailto:apreq-cvs-help@httpd.apache.org
 
 =over
 
+=item * mail-archives.apache.org
+
+http://mail-archives.apache.org/mod_mbox/httpd-apreq-cvs 
+
 =item * marc.theaimsgroup.com
 
 http://marc.theaimsgroup.com/?l=apreq-cvs&r=1&w=2 

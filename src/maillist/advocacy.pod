@@ -48,6 +48,10 @@ mailto:advocacy-help@perl.apache.org
 
 =over
 
+=item * mail-archives.apache.org
+
+http://mail-archives.apache.org/mod_mbox/perl-advocacy 
+
 =item * www.mail-archive.com
 
 http://www.mail-archive.com/advocacy@perl.apache.org/ 

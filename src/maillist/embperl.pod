@@ -49,6 +49,10 @@ mailto:embperl-help@perl.apache.org
 
 =over
 
+=item * mail-archives.apache.org
+
+http://mail-archives.apache.org/mod_mbox/perl-embperl 
+
 =item * ecos.de
 
 http://www.ecos.de/~mailarc/embperl/ 
