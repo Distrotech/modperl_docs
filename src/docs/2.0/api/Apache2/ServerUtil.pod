@@ -382,6 +382,37 @@ The server version string
 
 
 
+
+
+=head2 C<group_id>
+
+Get the group id corresponding to the C<Group> directive in
+F<httpd.conf>:
+
+  $gid = Apache2::ServerUtil->group_id;
+
+=over 4
+
+=item obj: C<Apache2::ServerUtil> (class name)
+
+=item ret: C<$gid> ( integer )
+
+On Unix platforms returns the gid corresponding to the value used in
+the C<Group> directive in F<httpd.conf>. On other platforms returns 0.
+
+=item since: 2.0.03
+
+=back
+
+
+
+
+
+
+
+
+
+
 =head2 C<is_perl_option_enabled>
 
 check whether a server level C<PerlOptions> flag is enabled or not.
@@ -833,6 +864,33 @@ Reset any previously set handlers:
 or
 
   $r->set_handlers(PerlCleanupHandler => undef);
+
+
+
+
+=head2 C<user_id>
+
+Get the user id corresponding to the C<User> directive in
+F<httpd.conf>:
+
+  $uid = Apache2::ServerUtil->user_id;
+
+=over 4
+
+=item obj: C<Apache2::ServerUtil> (class name)
+
+=item ret: C<$uid> ( integer )
+
+On Unix platforms returns the uid corresponding to the value used in
+the C<User> directive in F<httpd.conf>. On other platforms returns 0.
+
+=item since: 2.0.03
+
+=back
+
+
+
+
 
 
 
