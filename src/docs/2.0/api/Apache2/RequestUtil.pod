@@ -108,6 +108,10 @@ Dynamically add Apache configuration at request processing runtime:
 
   $r->add_config($lines);
   $r->add_config($lines, $override);
+  $r->add_config($lines, $override, $path);
+
+Configuration directives are processed as if given in a C<E<lt>LocationE<gt>>
+block.
 
 =over 4
 
@@ -126,6 +130,14 @@ Which allow-override bits are set
 
 Default value is:
 C<L<Apache2::Const::OR_AUTHCFG|docs::2.0::api::Apache2::Const/C_Apache2__Const__OR_AUTHCFG_>>
+
+=item opt arg3: C<$path> ( string )
+
+Set the C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> C<path> component.
+This is the path of the C<E<lt>LocationE<gt>> block. Some directives need this,
+for example C<ProxyPassReverse>.
+
+Default value is: C</>
 
 =item ret: no return value
 
