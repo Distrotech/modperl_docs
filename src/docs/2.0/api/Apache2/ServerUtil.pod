@@ -52,9 +52,10 @@ Apache2::ServerUtil - Perl API for Apache server record utils
   # do something only when the server restarts
   my $cnt = Apache2::ServerUtil::restart_count();
   do_something_once() if $cnt > 1;
-
-
-
+  
+  # get the resolved ids from Group and User entries
+  my $user_id  = Apache2::ServerUtil->user_id;
+  my $group_id = Apache2::ServerUtil->group_id;
 
 
 =head1 Description
@@ -182,44 +183,6 @@ whether the component information is displayed or not.
 
 
 
-
-
-
-
-
-=head2 C<server_shutdown_cleanup_register>
-
-Register server shutdown cleanup callback:
-
-  Apache2::ServerUtil::server_shutdown_cleanup_register($sub);
-
-=over 4
-
-=item arg1: C<$sub> ( CODE ref or SUB name )
-
-
-
-=item ret: no return value
-
-=item since: 2.0.00
-
-=back
-
-This function can be used to register a callback to be run once at the
-server shutdown (compared to
-C<L<PerlChildExitHandler|docs::2.0::user::handlers::server/C_PerlChildExitHandler_>>
-which will execute the callback for each exiting child process).
-
-For example in order to arrange the function C<do_my_cleanups()> to be
-run every time the server shuts down (or restarts), run the following
-code at the server startup:
-
-  Apache2::ServerUtil::server_shutdown_cleanup_register(\&do_my_cleanups);
-
-It's necessary to run this code at the server startup (normally
-F<startup.pl>. The function will croak if run after the
-C<L<PerlPostConfigHandler|docs::2.0::user::handlers::server/C_PerlPostConfigHandler_>>
-phase.
 
 
 
@@ -766,6 +729,42 @@ does a wasteful copy of the path string when returning it to you --
 another reason to avoid using this function.
 
 
+
+
+
+
+
+=head2 C<server_shutdown_cleanup_register>
+
+Register server shutdown cleanup callback:
+
+  Apache2::ServerUtil::server_shutdown_cleanup_register($sub);
+
+=over 4
+
+=item arg1: C<$sub> ( CODE ref or SUB name )
+
+=item ret: no return value
+
+=item since: 2.0.00
+
+=back
+
+This function can be used to register a callback to be run once at the
+server shutdown (compared to
+C<L<PerlChildExitHandler|docs::2.0::user::handlers::server/C_PerlChildExitHandler_>>
+which will execute the callback for each exiting child process).
+
+For example in order to arrange the function C<do_my_cleanups()> to be
+run every time the server shuts down (or restarts), run the following
+code at the server startup:
+
+  Apache2::ServerUtil::server_shutdown_cleanup_register(\&do_my_cleanups);
+
+It's necessary to run this code at the server startup (normally
+F<startup.pl>. The function will croak if run after the
+C<L<PerlPostConfigHandler|docs::2.0::user::handlers::server/C_PerlPostConfigHandler_>>
+phase.
 
 
 
