@@ -642,7 +642,7 @@ Get the main server's object
 
 =over 4
 
-=item obj: C<Apache2> (class name)
+=item obj: C<Apache2::ServerUtil> (class name)
 
 =item ret: C<$main_s>
 ( C<L<Apache2::ServerRec object|docs::2.0::api::Apache2::ServerRec>> )
