@@ -290,14 +290,18 @@ own sets of large-ish modules, used only in each host.  By tuning each
 host to have its own pool, that host will continue to reuse the Perl
 allocations in their specific modules.
 
-When cloning a Perl interpreter, to inherit base Perl interpreter's
-C<PerlSwitches> use:
+=head3 C<InheritSwitches>
+
+Off by default, can be used to have a C<VirtualHost> inherit the value
+of the C<PerlSwitches> from the parent server.
+
+For instance, when cloning a Perl interpreter, to inherit the base Perl 
+interpreter's C<PerlSwitches> use:
 
   <VirtualHost ...>
+      PerlOptions +Clone +InheritSwitches
       ...
-      PerlSwitches +inherit
   </VirtualHost>
-
 
 =head3 C<Parent>
 
