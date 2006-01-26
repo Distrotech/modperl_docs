@@ -471,33 +471,6 @@ td.search-box-bg {
     font-family: helvetica, arial, verdana, sans-serif;
 }
 
-
-
-/*** notorious space gif feat ***/
-/*
-we use the html tag <small> for this feat, hence that tag wont work as normal
-we can [probably] use any non block tag we want
-*/
-
-small.nbr{
-    font-family: helvetica, arial, verdana, sans-serif;
-    font-size: 1px ;
-    line-height: 1px;
-    display: run-in ;  /* must _not_ be "inline" */
-}
-
-br.smallbr {
-    font-family: helvetica, arial, verdana, sans-serif;
-    font-size: 1px ;
-    line-height: 1px;
-    display: run-in ;
-}
-
-/* opera, ns6 display inline if you meet <small class="nbr"> , display must not be #inline" for opera*/
-small[class="nbr"] {
-    display: block;
-}
-
 /* for internet explorer 5.5 windows nt/2000, others? */
 small {
     display: none;
