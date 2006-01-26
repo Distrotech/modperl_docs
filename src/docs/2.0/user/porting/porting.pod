@@ -1209,10 +1209,11 @@ running under and act appropriately.
 
 To continue our example above, let's say we want to support opening a
 filehandle in both mod_perl 2.0 and mod_perl 1.0. Our code can make
-use of the variable C<$mod_perl::VERSION>:
+use of the environment variable C<$ENV{MOD_PERL_API_VERSION}>
 
   use mod_perl;
-  use constant MP2 => ($mod_perl::VERSION >= 1.99);
+  use constant MP2 => ( exists $ENV{MOD_PERL_API_VERSION} and 
+                        $ENV{MOD_PERL_API_VERSION} >= 2 ); 
   # ...
   require Symbol if MP2;
   # ...
@@ -1220,25 +1221,14 @@ use of the variable C<$mod_perl::VERSION>:
   my $fh = MP2 ? Symbol::gensym : Apache->gensym;
   open $fh, $file or die "Can't open $file: $!";
 
-Though, make sure that you don't use C<$mod_perl::VERSION> string
-anywhere in the code before you have declared your module's own
-C<$VERSION>, since PAUSE will pick the wrong version when you submit
-the module on CPAN. It requires that module's C<$VERSION> will be
-declared first. You can verify whether it'll pick the I<Foo.pm>'s
-version correctly, by running this code:
-
-  % perl -MExtUtils::MakeMaker -le 'print MM->parse_version(shift)' Foo.pm
-
-There is more information about this issue here:
-http://pause.perl.org/pause/query?ACTION=pause_04about#conventions
-
 Some modules, like C<CGI.pm> may work under mod_perl and without it,
 and will want to use the mod_perl 1.0 API if that's available, or
 mod_perl 2.0 API otherwise. So the following idiom could be used for
 this purpose.
 
   use constant MP_GEN => $ENV{MOD_PERL}
-      ? eval { require mod_perl;  $mod_perl::VERSION >= 1.99 ? 2 : 1 }
+      ? { ( exists $ENV{MOD_PERL_API_VERSION} and 
+            $ENV{MOD_PERL_API_VERSION} >= 2 ) ? 2 : 1 }
       : 0;
 
 It sets the constant C<MP_GEN> to 0 if mod_perl is not available, to 1
@@ -1322,7 +1312,8 @@ The code:
   use warnings;
   
   use mod_perl;
-  use constant MP2 => $mod_perl::VERSION < 1.99 ? 0 : 1;
+  use constant MP2 => ( exists $ENV{MOD_PERL_API_VERSION} and 
+                        $ENV{MOD_PERL_API_VERSION >= 2 ); 
   
   BEGIN {
       if (MP2) {
@@ -1377,10 +1368,11 @@ The code:
   use warnings;
   
   use mod_perl;
-  use constant MP2 => $mod_perl::VERSION < 1.99 ? 0 : 1;
+  use constant MP2 => ( exists $ENV{MOD_PERL_API_VERSION} and 
+                        $ENV{MOD_PERL_API_VERSION >= 2 ); 
   
   BEGIN {
-      warn "running $mod_perl::VERSION!\n";
+      warn "running $ENV{MOD_PERL_API_VERSION}\n";
       if (MP2) {
           require Apache2::RequestRec;
           require Apache2::RequestIO;

@@ -142,7 +142,9 @@ However to check which version is used it's better to use the
 following technique:
 
   use mod_perl;
-  use constant MP2 => ($mod_perl::VERSION >= 1.99);
+  use constant MP2 => ( exists $ENV{MOD_PERL_API_VERSION} and 
+                        $ENV{MOD_PERL_API_VERSION} >= 2 ); 
+
   # die "I want mod_perl 2.0!" unless MP2;
 
 =back

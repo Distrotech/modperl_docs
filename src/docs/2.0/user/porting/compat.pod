@@ -352,7 +352,9 @@ following technique can be used for using constants:
   use warnings;
   
   use mod_perl;
-  use constant MP2 => $mod_perl::VERSION >= 1.99;
+  use constant MP2 => ( exists $ENV{MOD_PERL_API_VERSION} and 
+                        $ENV{MOD_PERL_API_VERSION} >= 2 ); 
+
   
   BEGIN {
       if (MP2) {
@@ -495,12 +497,11 @@ you'd say:
   if ($ENV{MOD_PERL}) { ... }
 
 To check for a specific version it's better to use
-C<$mod_perl::VERSION>:
+C<$ENV{MOD_PERL_API_VERSION}>
 
   use mod_perl;
-  use constant MP2 => ($mod_perl::VERSION >= 1.99);
-
-
+  use constant MP2 => ( exists $ENV{MOD_PERL_API_VERSION} and 
+                        $ENV{MOD_PERL_API_VERSION} >= 2 ); 
 
 
 

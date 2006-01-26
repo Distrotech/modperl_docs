@@ -794,7 +794,7 @@ the following environment variables are accessible via C<%ENV>:
 
 =item *
 
-C<MOD_PERL> (always)
+C<MOD_PERL> and C<MOD_PERL_API_VERSION> (always)
 
 =item *
 
