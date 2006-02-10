@@ -1106,7 +1106,7 @@ You could use C<CGI.pm> or the code in
 C<L<Apache2::compat|docs::2.0::api::Apache2::compat>> (it's slower).
 
 However, now that C<Apache2::Request> has been ported to mod_perl 2.0
-you can use it instead and reap the benefits of the fast C impelentations
+you can use it instead and reap the benefits of the fast C implementations
 of these functions. For documentation on its uses, please see:
 
 http://httpd.apache.org/apreq
