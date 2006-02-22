@@ -1,0 +1,9 @@
+Name: Frank Wiles
+Email: frank@wiles.org
+Location: Lawrence, Kansas
+Summary: Documentation and user help. 
+
+Frank helps with documentation patches and helping users on the mailing list.
+He also maintains Apache::DB, Apache::DProf, Apache::SmallProf, and
+ModPerl::ParamBuilder. 
+
