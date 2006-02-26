@@ -7,7 +7,7 @@ Overview of mod_perl 2.0
 This chapter should give you a general idea about what mod_perl 2.0 is
 and how it differs from mod_perl 1.0.  This chapter presents the new
 features of Apache 2.0, Perl 5.6.0 -- 5.8.0 and their influence on
-mod_perl 2.0. The new MPM models from Apache 2.0 are discussed.
+mod_perl 2.0. The new MPM models from Apache 2.0 are also discussed.
 
 
 
@@ -63,9 +63,9 @@ the old backward compatibility bandaids and building a smarter,
 stronger and faster implementation based on lessons learned over the
 4.5 years since mod_perl was introduced.
 
-The new version includes a mechanism for an automatic building of the
+The new version includes a mechanism for the automatic building of the
 Perl interface to Apache API, which allowed us to easily adjust
-mod_perl 2.0 to ever changing Apache 2.0 API, during its development
+mod_perl 2.0 to the ever changing Apache 2.0 API, during its development
 period. Another important feature is the
 C<L<Apache::Test|docs::general::testing::testing>> framework, which
 was originally developed for mod_perl 2.0, but then was adopted by
@@ -195,7 +195,7 @@ and a new function pointer added called I<register_hooks>.  It is the
 job of I<register_hooks> to register functions for all other hooks
 (such as I<child_init> and I<check_user_id>).  Not only is hook
 registration now dynamic, it is also possible for modules to register
-more than one function per hook, unlike 1.3.  The new hook mechanism
+more than one function per hook, unlike in 1.3.  The new hook mechanism
 also makes it possible to sort registered functions, unlike 1.3 with
 function pointers hardwired into the module structure, and each module
 structure into a linked list.  Order in 1.3 depended on this list,
