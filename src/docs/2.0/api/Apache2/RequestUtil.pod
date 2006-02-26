@@ -593,7 +593,7 @@ C<Perl*Handler> is being called.
 
 =head2 C<location_merge>
 
-Merge a given C<E<lt>LocationE<lt>> container into the current request
+Merge a given C<E<lt>LocationE<gt>> container into the current request
 object:
 
   $ret = $r->location_merge($location);
@@ -605,7 +605,7 @@ object:
 
 =item arg1: C<$location> ( string )
 
-The argument in a C<E<lt>LocationE<lt>> section. For example to merge
+The argument in a C<E<lt>LocationE<gt>> section. For example to merge
 a container:
 
   <Location /foo>
