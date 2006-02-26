@@ -14,7 +14,7 @@ document|docs::2.0::os::win32::install>.
 
 First, L<download|download::index> the mod_perl 2.0 source.
 
-Before installing mod_perl, you need check that you have the
+Before installing mod_perl, you need to check that you have the
 L<mod_perl 2.0
 prerequisites|docs::2.0::user::install::install/Prerequisites> B<installed>.
 Apache and the right Perl version have to be built and installed
@@ -93,7 +93,7 @@ started and it's a right one. It should say something similar to:
 
 =head1 Registry Scripts
 
-To enable registry scripts add to I<httpd.conf>:
+To enable registry scripts add the following to I<httpd.conf>:
 
   Alias /perl/ /home/httpd/httpd-2.0/perl/
   <Location /perl/>
@@ -129,7 +129,7 @@ If that didn't work check the I<error_log> file.
 
 For more information on the registry scripts refer to the
 C<L<ModPerl::Registry|docs::2.0::api::ModPerl::Registry>>
-manapage. (XXX: on day there will a tutorial on registry, should port
+manapage. (XXX: one day there will a tutorial on registry, should port
 it from 1.0's docs).
 
 
