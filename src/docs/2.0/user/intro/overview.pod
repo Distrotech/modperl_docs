@@ -183,61 +183,6 @@ MPM, assuming that the code base is capable of running in the
 L<threaded
 environment|docs::2.0::user::coding::coding/Threads_Coding_Issues_Under_mod_perl>.
 
-=item * New Hook Scheme
-
-In Apache 1.3, modules were registered using the I<module> structure,
-normally static to I<mod_foo.c>.  This structure contains pointers to
-the command table, configuration creation and merging functions,
-response handler table and function pointers for all of the other
-hooks, such as I<child_init> and I<check_user_id>.  In Apache 2.0,
-this structure has been pruned down to the first three items mentioned
-and a new function pointer added called I<register_hooks>.  It is the
-job of I<register_hooks> to register functions for all other hooks
-(such as I<child_init> and I<check_user_id>).  Not only is hook
-registration now dynamic, it is also possible for modules to register
-more than one function per hook, unlike in 1.3.  The new hook mechanism
-also makes it possible to sort registered functions, unlike 1.3 with
-function pointers hardwired into the module structure, and each module
-structure into a linked list.  Order in 1.3 depended on this list,
-which was possible to order using compile-time and startup-time
-configuration, but that was left to the user.  Whereas in 2.0, the
-I<add_hook> functions accept an order preference parameter, those
-commonly used are:
-
-=over 4
-
-=item FIRST
-
-=item MIDDLE
-
-=item LAST
-
-=back
-
-For mod_perl, dynamic registration provides a cleaner way to bypass
-the C<Perl*Handler> configuration directives.  By simply adding this
-configuration:
-
-  PerlModule Apache2::Foo
-
-C<Apache2::Foo> can register hooks itself at server startup:
-
-  Apache2::Hook->add(PerlAuthenHandler => \&authenticate,
-                    Apache2::Hook::MIDDLE);
-  Apache2::Hook->add(PerlLogHandler    => \&logger,
-                    Apache2::Hook::LAST);
-
-META: Not implemented yet (API will change?)
-
-However, this means that Perl subroutines registered via this
-mechanism will be called for B<every> request.  It will be left to
-that subroutine to decide if it was to handle or decline the given
-phase.  As there is overhead in entering the Perl runtime, it will
-most likely be to your advantage to continue using C<Perl*Handler>
-configuration directives to reduce this overhead.  If it is the case
-that your C<Perl*Handler> should be invoked for every request, the
-hook registration mechanism will save some configuration keystrokes.
-
 =item * Protocol Modules
 
 Apache 1.3 is hardwired to speak only one protocol, HTTP.  Apache 2.0
