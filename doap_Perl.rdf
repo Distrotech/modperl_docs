@@ -1,35 +1,38 @@
 <?xml version="1.0"?>
-<?xml-stylesheet type="text/xsl"?>
-<rdf:RDF xml:lang="en"
-         xmlns="http://usefulinc.com/ns/doap#" 
-         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-         xmlns:asfext="http://projects.apache.org/ns/asfext#"
-         xmlns:foaf="http://xmlns.com/foaf/0.1/">
-<!--
-  =======================================================================
-
-   Copyright (c) 2006 The Apache Software Foundation.  
-   All rights reserved.
-
-  =======================================================================
--->
-  <Project rdf:about="http://Perl.rdf.apache.org/">
-    <created>2006-02-28</created>
-    <license rdf:resource="http://usefulinc.com/doap/licenses/asl20" />
-    <name>http://Perl</name>
-    <homepage rdf:resource="http://perl.apache.org" />
-    <asfext:pmc rdf:resource="http://perl.apache.org" />
-    <shortdesc>A persistent Perl interpreter embedded in Apache</shortdesc>
-    <mailing-list rdf:resource="http://perl.apache.org/maillist/index.html" />
-    <download-page rdf:resource="http://perl.apache.org/dist/" />
+<?xml-stylesheet type="text/xsl" href="../xsl/p2.xsl"?>
+<rdf:RDF xmlns="http://usefulinc.com/ns/doap#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:asfext="http://projects.apache.org/ns/asfext#" xml:lang="en">
+  <Project rdf:about="http://perl.apache.org/">
+    <name>mod_perl</name>
+    <homepage rdf:resource="http://perl.apache.org/"/>
     <programming-language>C</programming-language>
     <programming-language>Perl</programming-language>
-    <category rdf:resource="http://projects.apache.org/category/http-modules" />
+    <category rdf:resource="http://projects.apache.org/category/http-modules"/>
+    <license rdf:resource="http://usefulinc.com/doap/licenses/asl20"/>
+    <bug-database rdf:resource="http://perl.apache.org/bugs/"/>
+    <download-page rdf:resource="http://perl.apache.org/dist/"/>
+    <asfext:pmc rdf:resource="http://perl.apache.org/"/>
+
+    <shortdesc xml:lang="en">
+    mod_perl
+    </shortdesc>
+
+    <description xml:lang="en">
+mod_perl is a unique piece of software that integrates the power of
+Perl with the flexibility and stability of the Apache Web server.
+With mod_perl, you can harness the power of the full Apache API with
+Perl and develop Web applications quickly, without sacrificing
+performance.
+    </description>
+
     <repository>
       <SVNRepository>
-        <location rdf:resource="http://svn.apache.org/repos/asf/perl/modperl/trunk"/>
-        <browse rdf:resource="http://"/>
+        <browse rdf:resource="http://svn.apache.org/viewcvs.cgi/perl/modperl/trunk/"/>
+        <location rdf:resource="http://svn.apache.org/repos/asf/perl/modperl/trunk/"/>
       </SVNRepository>
     </repository>
+
+    <mailing-list rdf:resource="http://perl.apache.org/maillist/index.html"/>
+   
   </Project>
+
 </rdf:RDF>
