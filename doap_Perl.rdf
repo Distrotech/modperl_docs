@@ -13,7 +13,7 @@
     <asfext:pmc rdf:resource="http://perl.apache.org/"/>
 
     <shortdesc xml:lang="en">
-    mod_perl
+    The Perl interface to the Apache API
     </shortdesc>
 
     <description xml:lang="en">
