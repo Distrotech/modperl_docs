@@ -201,7 +201,7 @@ The C<PerlLoadModule> directive is similar to
 C<L<PerlModule|/C_PerlModule_>>, in a sense that it loads a
 module. The difference is that it's used to triggers L<an early Perl
 startup|docs::2.0::user::handlers::server/mod_perl_Startup>. This can
-be usefull for modules that need to be loaded early, as is the case
+be useful for modules that need to be loaded early, as is the case
 for modules that implement L<new Apache
 directives|docs::2.0::user::config::custom>, which are needed during
 the configuration phase.
