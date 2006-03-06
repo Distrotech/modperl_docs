@@ -33,6 +33,21 @@ performance.
 
     <mailing-list rdf:resource="http://perl.apache.org/maillist/index.html"/>
    
+    <release>
+      <Version>
+        <name>mod_perl 2.0</name>
+        <created>2005-10-20</created>
+        <revision>2.0.2</revision>
+      </Version>
+    </release>
+    <release>
+      <Version>
+        <name>mod_perl 1.0</name>
+        <created>2003-10-7</created>
+        <revision>1.29</revision>
+      </Version>
+    </release>
+
   </Project>
 
 </rdf:RDF>
