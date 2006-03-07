@@ -192,13 +192,13 @@ For example if 'C<make test>' reports:
 
 Do the following:
 
-  % cd modperl-1.99_xx
+  % cd modperl-2.0.xx
   % make test TEST_VERBOSE=1 \
     TEST_FILES="compat/apache_util.t modperl/pnotes.t"
 
 or use an alternative way:
 
-  % cd modperl-1.99_xx
+  % cd modperl-2.0.xx
   % t/TEST -clean
   % t/TEST -verbose compat/apache_util.t modperl/pnotes.t
 
@@ -218,7 +218,7 @@ make sure to C<chdir()> to that directory before you look at the
 I<t/logs/error_log> file and re-run tests in the verbose mode. For
 example:
 
-  % cd modperl-1.99_xx/ModPerl-Registry
+  % cd modperl-2.0.xx/ModPerl-Registry
   % t/TEST -clean
   % t/TEST -verbose closure.t
 

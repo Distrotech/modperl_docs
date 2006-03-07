@@ -489,7 +489,7 @@ or anything else Apache decides to set it to, but not:
 Instead use C<$ENV{MOD_PERL}> (available in both mod_perl
 generations), which is set to the mod_perl version, like so:
 
-  mod_perl/1.99_03-dev
+  mod_perl/2.000002
 
 Therefore in order to check whether you are running under mod_perl,
 you'd say:
@@ -1816,7 +1816,7 @@ transparent with C<L<ModPerl::MM|docs::2.0::api::ModPerl::MM>>.
 Here is how to write a simple I<Makefile.PL> for modules wanting to
 build XS code against mod_perl 2.0:
 
-  use mod_perl 1.99;
+  use mod_perl 2.0;
   use ModPerl::MM ();
   
   ModPerl::MM::WriteMakefile(

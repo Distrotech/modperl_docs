@@ -1510,9 +1510,9 @@ request output filters don't see it):
   >>> connection output filter
       o bucket 1: HEAP
   [HTTP/1.1 200 OK
-  Date: Fri, 04 Jun 2004 09:13:26 GMT
-  Server: Apache/2.0.50-dev (Unix) mod_perl/1.99_15-dev
-  Perl/v5.8.4 mod_ssl/2.0.50-dev OpenSSL/0.9.7c DAV/2
+  Date: Tue, 07 Mar 2006 10:59:08 GMT
+  Server: Apache/2.0.55 (Unix) mod_perl/2.000002
+  Perl/v5.8.4 mod_ssl/2.0.55 OpenSSL/0.9.7c DAV/2
   Connection: close
   Transfer-Encoding: chunked
   Content-Type: text/plain; charset=ISO-8859-1

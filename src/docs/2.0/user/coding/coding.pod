@@ -131,7 +131,7 @@ mod_perl sets the following environment variables:
 C<$ENV{MOD_PERL}> - is set to the mod_perl version the server is
 running under. e.g.:
 
-  mod_perl/1.99_03-dev
+  mod_perl/2.000002
 
 If C<$ENV{MOD_PERL}> doesn't exist, most likely you are not running
 under mod_perl.
