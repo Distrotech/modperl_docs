@@ -109,6 +109,7 @@ Dynamically add Apache configuration at request processing runtime:
   $r->add_config($lines);
   $r->add_config($lines, $override);
   $r->add_config($lines, $override, $path);
+  $r->add_config($lines, $override, $path, $override_opts);
 
 Configuration directives are processed as if given in a C<E<lt>LocationE<gt>>
 block.
@@ -123,8 +124,8 @@ block.
 An ARRAY reference containing configuration lines per element, without
 the new line terminators.
 
-=item opt arg2: C<$override> ( C<L<APR::Const status
-constant|docs::2.0::api::APR::Const>> )
+=item opt arg2: C<$override> ( C<L<Apache2::Const override
+constant|docs::2.0::api::Apache2::Const>> )
 
 Which allow-override bits are set
 
@@ -137,11 +138,59 @@ Set the C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> C<path>
 This is the path of the C<E<lt>LocationE<gt>> block. Some directives need this,
 for example C<ProxyPassReverse>.
 
+If an empty string is passed a C<NULL> pointer is passed further at C-level.
+This is necessary to make something like this work:
+
+  $r->add_config( [
+	 	   '<Directory />',
+		   'AllowOverride Options AuthConfig',
+		   '</Directory>',
+                  ], ~0, '' );
+
+Note: C<AllowOverride> is valid only in directory context.
+
+B<Caution:> Some directives need a non-empty path otherwise they cause
+segfaults. Thus, use the empty path with caution.
+
 Default value is: C</>
+
+=item opt arg4: C<$override_opts> ( C<L<Apache2::Const options
+constant|docs::2.0::api::Apache2::Const>> )
+
+Apache limits the applicable directives in certain situations with
+C<AllowOverride>. With Apache 2.2 comes the possibility to enable or
+disable single options, for example
+
+  AllowOverride AuthConfig Options=ExecCGI,Indexes
+
+Internally, this directive is parsed into 2 bit fields that are represented
+by the C<$override> and C<$override_opts> parameters to C<add_config>.
+The above example is parsed into an C<$override> with 2 bits set, one for
+C<AuthConfig> the other for C<Options> and an C<$override_opts> with
+2 bits set for ExecCGI and Indexes.
+
+When applying other directives, for example C<AuthType> or C<Options> the
+appropriate bits in C<$override> must be set. For the C<Options> directive
+additionally C<$override_opts> bits must be set.
+
+The C<$override> and C<$override_opts> parameters to C<add_config> are
+valid while applying C<$lines>.
+
+C<$override_opts> is new in Apache 2.2. The mod_perl implementation for
+Apache 2.0 lets you pass the parameter but ignores it.
+
+Default for C<$override_opts> is:
+C<L<Apache2::Const::OPT_UNSET|docs::2.0::api::Apache2::Const/C_Apache2__Const__OPT_UNSET_>> |
+C<L<Apache2::Const::OPT_ALL|docs::2.0::api::Apache2::Const/C_Apache2__Const__OPT_ALL_>> |
+C<L<Apache2::Const::OPT_INCNOEXEC|docs::2.0::api::Apache2::Const/C_Apache2__Const__OPT_INCNOEXEC_>> |
+C<L<Apache2::Const::OPT_SYM_OWNER|docs::2.0::api::Apache2::Const/C_Apache2__Const__OPT_SYM_OWNER_>> |
+C<L<Apache2::Const::OPT_MULTI|docs::2.0::api::Apache2::Const/C_Apache2__Const__OPT_MULTI_>>
+
+That means, all options are allowed.
 
 =item ret: no return value
 
-=item since: 2.0.00
+=item since: 2.0.00, C<$path> and C<$override_opts> since 2.0.3
 
 =back
 
@@ -150,10 +199,16 @@ C<L<$s-E<gt>add_config|docs::2.0::api::Apache2::ServerUtil/C_add_config_>>
 
 For example:
 
-  use Apache2::ServerUtil ();
+  use Apache2::RequestUtil ();
+  use Apache2::Access ();
+
   $r->add_config(['require valid-user']);
 
-
+  # this regards the current AllowOverride setting
+  $r->add_config(['AuthName secret',
+                  'AuthType Basic',
+                  'Options ExecCGI'],
+                 $r->allow_override, $path, $r->allow_override_opts);
 
 
 

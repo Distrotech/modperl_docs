@@ -48,6 +48,9 @@ Apache2::CmdParms - Perl API for Apache command parameters object
       # which allow-override bits are set
       $override = $parms->override;
   
+      # which Options are allowed by AllowOverride (since Apache 2.2)
+      $override = $parms->override_opts;
+  
       # the path this command is being invoked in
       $path = $parms->path;
   
@@ -306,6 +309,37 @@ C<FileInfo> options are enabled for this command, do:
   unless ($wanted == $masked) {
       die "...";
   }
+
+
+
+
+
+
+
+=head2 C<override_opts>
+
+Which options are allowed to be overridden by C<.htaccess> files. This is
+set by C<AllowOverride Options=...>.
+
+  $override_opts = $parms->override_opts;
+
+Enabling single options was introduced with Apache 2.2. For Apache 2.0 this
+function simply returns a bitmask with all options allowed.
+
+=over 4
+
+=item obj: C<$parms>
+( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
+
+=item ret: C<$override_opts> ( bitmask )
+
+the bitmask, which can be tested against
+C<L<Apache2::Const :options
+constants|docs::2.0::api::Apache2::Const/C__override_>>.
+
+=item since: 2.0.3
+
+=back
 
 
 

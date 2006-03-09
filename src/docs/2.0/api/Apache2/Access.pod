@@ -20,6 +20,9 @@ Authentication and Authorization.
   # Apache AllowOverride value
   $allow_override = $r->allow_overrides();
   
+  # which Options are allowed by AllowOverride (since Apache 2.2)
+  $allow_override_opts = $r->allow_override_opts();
+  
   # auth name ("foo bar")
   $auth_name = $r->auth_name();
   
@@ -193,6 +196,54 @@ The following applies:
   use Apache2::Const -compile => qw(:override);
   $r->allow_overrides & Apache2::Const::OR_AUTHCFG; # TRUE
   $r->allow_overrides & Apache2::Const::OR_LIMIT; # FALSE
+
+
+
+
+
+
+=head2 C<allow_override_opts>
+
+Retrieve the bitmask of allowed C<Options> set by C<AllowOverride Options=...>
+for this request
+
+  $override_opts = $r->allow_override_opts();
+
+Enabling single options was introduced in Apache 2.2. For Apache 2.0 this
+function returns
+C<L<Apache2::Const::OPT_UNSET|docs::2.0::api::Apache2::Const/C_Apache2__Const__OPT_UNSET_>> |
+C<L<Apache2::Const::OPT_ALL|docs::2.0::api::Apache2::Const/C_Apache2__Const__OPT_ALL_>> |
+C<L<Apache2::Const::OPT_INCNOEXEC|docs::2.0::api::Apache2::Const/C_Apache2__Const__OPT_INCNOEXEC_>> |
+C<L<Apache2::Const::OPT_SYM_OWNER|docs::2.0::api::Apache2::Const/C_Apache2__Const__OPT_SYM_OWNER_>> |
+C<L<Apache2::Const::OPT_MULTI|docs::2.0::api::Apache2::Const/C_Apache2__Const__OPT_MULTI_>>,
+which corresponds to the default value (if not set) for Apache 2.2.
+
+=over 4
+
+=item obj: C<$r>
+( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
+
+The current request
+
+=item ret: C<$override_opts> ( integer )
+
+the override options bitmask. Normally used with bitlogic operators
+against C<L<Apache2::Const :options
+constants|docs::2.0::api::Apache2::Const/C__options_>>.
+
+=item since: 2.0.3
+
+=back
+
+For example if the configuration for the current request was:
+
+  AllowOverride Options=Indexes,ExecCGI
+
+The following applies:
+
+  use Apache2::Const -compile => qw(:options);
+  $r->allow_override_opts & Apache2::Const::OPT_EXECCGI; # TRUE
+  $r->allow_override_opts & Apache2::Const::OPT_SYM_LINKS; # FALSE
 
 
 
