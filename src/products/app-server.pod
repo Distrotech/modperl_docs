@@ -103,6 +103,23 @@ output in your web pages.  Embperl has several features which are
 especially useful for creating HTML, including dynamic tables, form
 field processing, URL escaping/unescaping, session handling, and more.
 
+=head1 Gantry 
+
+C<Gantry> (http://www.usegantry.org) is a web application framework for 
+Apache/mod_perl, CGI and Fast-CGI. Gantry's object oriented design allows 
+for a pragmatic, modular approach to URL dispatching. Gantry supports MVC 
+and initiates rapid development, offering an organized coding scheme for 
+web applications.
+
+It can take advantage of its sister project C<Bigtop>, which allows
+you to describe the data of your application and have it generate
+or regenerate your database schema and module objects without destroying
+the portions you have customized. 
+
+Gantry also has a robust configuration abstraction layer C<Gantry::Conf>
+that allows you to change how your application retrieves its configuration
+data without requiring any code changes. 
+
 =head1 Interchange
 
 C<Interchange> (http://www.icdevgroup.org/) is a flexible, high
