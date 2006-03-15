@@ -106,8 +106,8 @@ http://www.linux-magazin.de/Artikel/ausgabe/1998/08/Pounder/pounder.html .
 
 =item *
 
-C<Linux & C.> (italian magazine), March-July 2002, I<Apache/mod_perl: an
-appplication server open source>, by I<Enrico Sorcinelli>. Five mod_perl
+C<Linux & C.> (Italian magazine), March-July 2002, I<Apache/mod_perl: an
+application server open source>, by I<Enrico Sorcinelli>. Five mod_perl
 tutorial articles available at:
 http://www.perl.it/documenti/articoli/mod_perl1/tutorial/ .
 
@@ -122,7 +122,7 @@ http://www.perl.it/documenti/articoli/mod_perl1/tutorial/ .
 mod_perl articles at Perl.com
 
 http://www.perl.com/pub/q/Article_Archive#mod_perl (better use search
-and you will find other mod_perl articles which weren't catalogued
+and you will find other mod_perl articles which weren't cataloged
 under mod_perl category)
 
 Articles by David E. Wheeler: http://www.oreillynet.com/pub/au/1059
@@ -157,8 +157,8 @@ http://hotwired.lycos.com/webmonkey/backend/databases/tutorials/tutorial1.html
 =item *
 
 Linux Journal ( http://www.linuxjournal.com/ ) features an article
-called "Web watch: Catching Spiders with Bottrap" in which the authour
-introduces Bottrap, a mod_perl module used to vut off crawlers and
+called "Web watch: Catching Spiders with Bottrap" in which the author
+introduces Bottrap, a mod_perl module used to cut off crawlers and
 bots.  http://www.linuxjournal.com/article.php?sid=5861
 
 =item *
@@ -213,6 +213,12 @@ http://www.flatlineconstruct.com/talk/understanding_mod_perl/index.html
 "Debugging mod_perl with a symbol audit", a tutorial on how to debug
 mod_perl by looking at the symbol table.
 http://builder.com.com/5100-6371-1058784.html
+
+=item * 
+
+"Using ModPerl::ParamBuilder to make custom Apache directives" by Frank Wiles
+walks you through how easy it is to create your own custom Apache directives.
+http://www.revsys.com/writings/modperl/ModPerl-ParamBuilder/
 
 =back
 
