@@ -87,7 +87,7 @@ WebSQL. But due to the lack of portability, I rewrote my scripts using
 sybperl. Now with mod_perl, I have successfully cut the time to
 complete a lookup from nearly 5 seconds to under 1 second (It takes
 longer to display the data than to do the query). This was
-accomplished by creating persistant database connections (to sybase)
+accomplished by creating persistent database connections (to sybase)
 using mod_perl, and Apache is now able to establish those connections
 upon startup. No longer do I have to wait for my original scripts to
 connect and gather data.  </p>
@@ -183,11 +183,11 @@ pages</a> serve their content thanks to mod_perl.</p>
 
 <b>Picture database:</b> Gerald Richter and ECOS are using mod_perl
 (with Embperl) for a picture database. This contains pictures from
-touristic information Rheinland-Pfalz. It's intented as press
+touristic information Rheinland-Pfalz. It's intended as press
 information, to reduce the need of sending photographs around. You can
 view and search the picture via the <a
 href="http://bilder.ecos.de">internet</a> or via a direct dial-in. The
-download is only available for vaild users and via direct
+download is only available for valid users and via direct
 dial-in. Also it's possible to maintain the database via the web and
 insert new pictures and descriptions, change or delete them.  It is
 running Apache 1.3, mod_perl, <a
@@ -278,11 +278,11 @@ bandwidth (and transmission time to the users) small.  </p>
 <p>
 
 Jayme Cox explains that at Broderbund Software, we have a site running
-mod_perl to keep persistant database connections open between our
+mod_perl to keep persistent database connections open between our
 Apache web farm and our Oracle database server. We have a <a
 href="http://www.warlords3.com">game site</a> that checks our Oracle
 DB for a customers email address and lets them download additional
-game maps if they have registered the software. Using persistant DB
+game maps if they have registered the software. Using persistent DB
 connections increased the perceived response time by over 200%.
 </p>
 
@@ -329,7 +329,7 @@ href="http://web.archive.org/web/20030401090059/www.austin360.com/shared/sports/
 Netscape servers and dbms for authentication. We were writing all our
 demographic info to flat files but that got out of hand so we moved
 the demo info to Informix. This was okay but it meant keeping two
-seperate databases (dbms or Berkely DB with username/password and
+separate databases (dbms or Berkeley DB with username/password and
 Informix with demographics). Not fun. So when we switched to Apache
 (for performance reasons) I was able to consolidate all the info and
 do authentication out of Informix thanks to mod_perl,
@@ -337,7 +337,7 @@ do authentication out of Informix thanks to mod_perl,
 <tt>DBD::Informix</tt>. It makes life much simpler!  We're also
 eventually going to be running our Eats Database (list over 1400
 restaurants in Austin) and our movie database with mod_perl. I'm sure
-we'll find alot more uses for it in the future.
+we'll find a lot more uses for it in the future.
 
 </p>
 
