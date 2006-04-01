@@ -523,7 +523,7 @@ were found to be useful or new features were added to the Apache API,
 the XS code was written for them here and there.
 
 mod_perl 2.0 generates the majority of XS code and provides thin
-wrappers were needed to make the API more Perlish.  As part of this
+wrappers where needed to make the API more Perlish.  As part of this
 goal, nearly the entire APR and Apache API, along with their public
 data structures are covered from the get-go.  Certain functions and
 structures which are considered "private" to Apache or otherwise
