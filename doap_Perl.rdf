@@ -2,11 +2,11 @@
 <?xml-stylesheet type="text/xsl" href="../xsl/p2.xsl"?>
 <rdf:RDF xmlns="http://usefulinc.com/ns/doap#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:asfext="http://projects.apache.org/ns/asfext#" xml:lang="en">
   <Project rdf:about="http://perl.apache.org/">
-    <name>mod_perl</name>
+    <name>Apache mod_perl</name>
     <homepage rdf:resource="http://perl.apache.org/"/>
     <programming-language>C</programming-language>
     <programming-language>Perl</programming-language>
-    <category rdf:resource="http://projects.apache.org/category/http-modules"/>
+    <category rdf:resource="http://projects.apache.org/category/httpd-module"/>
     <license rdf:resource="http://usefulinc.com/doap/licenses/asl20"/>
     <bug-database rdf:resource="http://perl.apache.org/bugs/"/>
     <download-page rdf:resource="http://perl.apache.org/dist/"/>
