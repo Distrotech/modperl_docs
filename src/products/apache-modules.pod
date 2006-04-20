@@ -182,9 +182,7 @@ list|maillist::modperl>, so we can update this information:
   Apache::VMonitor                  Apache-VMonitor-2.0
   CGI                               CGI.pm-3.10
   CGI::Cookie                       CGI.pm-3.10 (comes in the CGI dist)
-
-
-
+  Apache::Request                   Apache2-Request (comes in libapreq2 dist)
 
 
 =head1 Porting in Process
@@ -202,7 +200,6 @@ and testing.
   ----------------------------------
   Apache::MP3                Stas Bekman <stas AT stason.org>
                              Clemens Schrimpe <csch AT Kiez.NET>
-  Apache::Request            http://httpd.apache.org/apreq/
   Apache::Language           Philippe M. Chiasson <gozer AT cpan.org>
   Apache::AutoIndex          Philippe M. Chiasson <gozer AT cpan.org>
   Apache::Icon               Philippe M. Chiasson <gozer AT cpan.org>
