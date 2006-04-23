@@ -995,6 +995,21 @@ not support them and let developers figure out how to code around it
 
 
 
+=head2 C<$r-E<gt>print>
+
+  $r->print($foo);
+
+or
+
+  print $foo;
+
+no longer accepts a reference to a scalar as it did in mod_perl
+1.0. This optimisation is not needed in the mod_perl 2.0's
+implementation of C<print>.
+
+
+
+
 =head2 C<$r-E<gt>cgi_env>
 
 See the next item
