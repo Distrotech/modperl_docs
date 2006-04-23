@@ -198,8 +198,6 @@ and testing.
 
   Module                     Porters
   ----------------------------------
-  Apache::MP3                Stas Bekman <stas AT stason.org>
-                             Clemens Schrimpe <csch AT Kiez.NET>
   Apache::Language           Philippe M. Chiasson <gozer AT cpan.org>
   Apache::AutoIndex          Philippe M. Chiasson <gozer AT cpan.org>
   Apache::Icon               Philippe M. Chiasson <gozer AT cpan.org>
