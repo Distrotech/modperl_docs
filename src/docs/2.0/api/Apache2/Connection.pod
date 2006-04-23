@@ -8,7 +8,11 @@ Apache2::Connection - Perl API for Apache connection object
 =head1 Synopsis
 
   use Apache2::Connection ();
-  
+  use Apache2::RequestRec ();
+
+  my $c = $r->connection;
+
+  my $c = $r->connection;   
   # is connection still open?
   $status = $c->aborted;
   
