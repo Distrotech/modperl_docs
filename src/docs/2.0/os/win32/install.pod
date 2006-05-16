@@ -120,14 +120,14 @@ build and test successfully.
 =head2 PPM Packages
 
 The following assumes you already have ActivePerl 8xx (I<not> 6xx)
-from L<http://www.activestate.com/> and a Win32 Apache 2.0 binary from 
+from L<http://www.activestate.com/> and a Win32 Apache 2.x binary from 
 L<http://httpd.apache.org/>. In installing this, you might avoid
 some future problems by choosing installation directories that do
 not have spaces in their names (eg, F<C:/Apache2>). At this time
 you must have version 2.0.47 or greater of Apache2 in order to
 install the mod_perl 2 ppm package.
 
-After installing Perl and Apache 2.0, you can then install mod_perl
+After installing Perl and Apache 2.x, you can then install mod_perl
 via the C<PPM> utility. ActiveState does not maintain mod_perl in
 their ppm repository, so you must get it from a different location
 other than ActiveState's site. A quick way to do this is to download
@@ -152,9 +152,15 @@ within the C<ppm> shell utility to
 using the C<repository add alias location> for I<ppm3> (the
 default with ActivePerl 8xx), and using C<set repository alias location> 
 for C<ppm2>; see the help utility within the C<ppm> shell for
-details. mod_perl 2.0 can then be installed as C<install mod_perl>
-within the ppm shell, which
-will install the necessary modules under an F<Apache2>
+details. mod_perl 2.0 can then be installed, within the ppm shell, as 
+
+  ppm> install mod_perl
+
+for Apache/2.0, and as
+
+  ppm> install mod_perl-2.2
+
+for Apache/2.2. This will install the necessary modules under an F<Apache2>
 subdirectory in your Perl tree, so as not to disturb a possible existing
 F<Apache> directory from mod_perl 1.0. See the section below on
 configuring mod_perl to add this directory to the C<@INC> path for
@@ -170,7 +176,10 @@ and install it to your Apache2 modules directory by hand.
 Note that, because of binary incompatibilities, one should
 I<not> install packages for ActivePerl 8xx from a repository
 containing packages for ActivePerl 6xx, and vice-versa, particularly
-if these packages contain XS-based modules.
+if these packages contain XS-based modules. Also note that
+modules compiled under Apache/2.0 are not compatible with
+modules compiled under Apache/2.2, so be sure to install the
+mod_perl ppm package appropriate for your version of Apache/2.x.
 
 The mod_perl package available from this site will always
 use the latest mod_perl sources available from CPAN
