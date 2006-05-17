@@ -120,9 +120,8 @@ be run manually and the updated files ending up in the
 I<xs/tables/current/> directory should be committed to the svn 
 repository.
 
-The I<source_scan> make target simply executes
-I<build/source_scan.pl>, which can be run directly without needing to
-create I<Makefile> first.
+I<lib/ModPerl/CScan.pm> requires Data::Flow from CPAN
+which is used by I<build/source_scan.pl>
 
 There are three different types of map files in the I<xs/maps/>
 directory:
