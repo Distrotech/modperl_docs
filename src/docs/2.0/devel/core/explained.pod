@@ -117,7 +117,7 @@ Notice that I<source_scan> target is normally not run during the
 project build process, since the source scanning is not stable yet,
 therefore everytime the map files change, C<make source_scan> should
 be run manually and the updated files ending up in the
-I<xs/tables/current/> directory should be committed to the cvs
+I<xs/tables/current/> directory should be committed to the svn 
 repository.
 
 The I<source_scan> make target simply executes
