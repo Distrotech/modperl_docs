@@ -109,7 +109,9 @@ This can be due to a number of reasons.
 =item *
 
 Verify that mod_perl.so was compiled against the same Perl and Apache
-versions that you are using.
+versions that you are using. If you are using Apache/2.x, note that
+modules compiled under Apache/2.0 will not work under Apache/2.2,
+and vice-versa.
 
 =item *
 
