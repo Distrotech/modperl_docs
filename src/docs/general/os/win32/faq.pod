@@ -308,9 +308,10 @@ For mod_perl 1.0, make sure you have installed the I<libapreq> ppm package
 described for L<mod_perl 1.0 ppm
 packages|docs::1.0::os::win32::install/PPM_Packages>; the
 I<libapreq> package available in the ActiveState repository
-will not work under mod_perl. A development version of I<libapreq2>,
-suitable for use with mod_perl 2.0 / Apache 2.0, is available at
-L<http://www.apache.org/~joes/>, with a Win32 ppm package
+will not work under mod_perl. A I<libapreq2> package,
+suitable for use with mod_perl 2.0 / Apache 2.x, is available on
+L<http://www.cpan.org/>, with Win32 ppm packages:
+I<libapreq2>, for Apache/2.0, and I<libapreq2-2.2>, for Apache/2.2,
 available as described for L<mod_perl 2.0 ppm
 packages|docs::2.0::os::win32::install/PPM_Packages>.
 
