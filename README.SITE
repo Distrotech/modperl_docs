@@ -47,7 +47,7 @@ MAILTO=docs-dev@perl.apache.org
 15 0 * * * /home/perlwww/apache.org/modperl-docs/bin/site_build_pdf_index
 
 In order to modify the crontab you must sudo into the 'perlwww'
-user. Notice that everyone in the 'perl' group can the crontab
+user. Notice that everyone in the 'perl' group can modify the crontab
 which is the main reason for creating this special user.
 
 If the updating script emits any warnings/errors, they will be sent to
