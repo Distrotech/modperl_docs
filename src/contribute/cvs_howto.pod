@@ -109,8 +109,11 @@ makes it much easier to get a good overview of the different files.
 
 =head1 SVN access for mod_perl committers
 
-mod_perl committers need to first login to svn.apache.org and run
-svnpasswd command. Then the first time you want to commit you will be
+mod_perl committers need to first set it via
+
+https://svn.apache.org/change-password
+
+Then the first time you want to commit you will be
 asked for a password, which is then will be stored in
 ~/.subversion. Since all the commits require https:// checkouts, no
 password can be sniffed during the commit when it's sent to the server

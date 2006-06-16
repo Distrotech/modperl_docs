@@ -54,12 +54,9 @@ commands:
   % svn checkout https://svn.apache.org/repos/asf/perl/modperl/trunk/ mod_perl-2.0
 
 Developers: In order to commit for the first time you will need to
-update your password.  To do that, log in to svn.apache.org and run
-the command C<svnpasswd>:
+update your password.  To do that, visit:  
 
-  % ssh svn.apache.org
-  % svnpasswd
-
+https://svn.apache.org/change-password
 
 
 
@@ -154,11 +151,9 @@ commands:
   % svn checkout https://svn.apache.org/repos/asf/perl/modperl/branches/1.x/ modperl-1.0
 
 Developers: In order to commit for the first time you will need to
-update your password.  To do that, log in to svn.apache.org and run
-the command C<svnpasswd>:
+update your password. To do that visit:
 
-  % ssh svn.apache.org
-  % svnpasswd
+https://svn.apache.org/change-password
 
 =back
 
