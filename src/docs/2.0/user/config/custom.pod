@@ -822,7 +822,7 @@ to assign a custom value:
   use Apache2::Module ();
   use Apache2::CmdParms ();
   my @directives = (...);
-  Apache2::Module::add(__PACKLAGE__, \@directives);
+  Apache2::Module::add(__PACKAGE__, \@directives);
   ...
   sub SERVER_CREATE {
       my ($class, $parms) = @_;
