@@ -81,10 +81,6 @@ http://groups.yahoo.com/group/modperl/
 
 http://www.mail-archive.com/modperl@apache.org/ 
 
-=item * www.davin.ottawa.on.ca
-
-http://www.davin.ottawa.on.ca/archive/modperl/ 
-
 =item * www.egroups.com
 
 http://www.egroups.com/group/modperl/ 

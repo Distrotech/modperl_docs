@@ -58,11 +58,6 @@ DESC
                     comment => '',
                    },
                    {
-                    title   => 'www.davin.ottawa.on.ca',
-                    link    => 'http://www.davin.ottawa.on.ca/archive/modperl/',
-                    comment => '',
-                   },
-                   {
                     title   => 'www.egroups.com',
                     link    => 'http://www.egroups.com/group/modperl/',
                     comment => '',
@@ -291,7 +286,7 @@ DESC
       title => 'Apache-Test Development SVN',
       desc  => <<"DESC",
 The B<test-commits> list is the list where SVN commits for the I<Apache
--Test> L<http://perl.apache.org/test/> project are sent.
+-Test> L<http://perl.apache.org/Apache-Test/> project are sent.
 C<Apache::Test>.
 DESC
       addr  => {

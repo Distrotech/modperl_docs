@@ -14,7 +14,7 @@ Apache-Test Development SVN mailing list
 =head1 Description
 
 The B<test-commits> list is the list where SVN commits for the I<Apache
--Test> L<http://perl.apache.org/test/> project are sent.
+-Test> L<http://perl.apache.org/Apache-Test/> project are sent.
 C<Apache::Test>.
 
 Please read the mailing list L<Guidelines|maillist::email-etiquette>
