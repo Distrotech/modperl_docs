@@ -98,8 +98,8 @@ out which snapshots you might want to download.
 
 =head1 Inspecting the SVN server with ViewVC
 
-ViewCVS is installed on the Apache SVN server. You can reach it at
-http://svn.apache.org/viewcvs.cgi/.
+ViewVC is installed on the Apache SVN server. You can reach it at
+http://svn.apache.org/viewvc/.
 
 From there you can browse the list of available projects, look at the
 files contained in those projects, their logs, and do colored diffs
@@ -259,7 +259,7 @@ submit patches to the documentation.
 
 =back
 
-Or see http://svn.apache.org/viewcvs.cgi/ for a list of all projects.
+Or see http://svn.apache.org/viewvc/ for a list of all projects.
 
 =head1 Maintainers
 
