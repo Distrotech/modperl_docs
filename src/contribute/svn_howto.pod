@@ -96,7 +96,7 @@ See the list of interesting repositories
 L<below|/"mod_perl_and_Related_Projects_on_cvs_apache_org"> to find
 out which snapshots you might want to download.
 
-=head1 Inspecting the SVN server with ViewCVS
+=head1 Inspecting the SVN server with ViewVC
 
 ViewCVS is installed on the Apache SVN server. You can reach it at
 http://svn.apache.org/viewcvs.cgi/.
