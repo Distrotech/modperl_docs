@@ -109,7 +109,7 @@ http://www.rpmfind.net/linux/rpm2html/search.php?query=mod_perl&submit=Search+..
 
 =head2 mod_perl 2.0 SVN Web Interface
 
-http://svn.apache.org/viewcvs.cgi/perl/modperl/trunk/
+http://svn.apache.org/viewvc/perl/modperl/trunk/
 
 =cut
 
@@ -159,4 +159,4 @@ https://svn.apache.org/change-password
 
 =head2 mod_perl 1.0 SVN Web Interface
 
-http://svn.apache.org/viewcvs.cgi/perl/modperl/branches/1.x/
+http://svn.apache.org/viewvc/perl/modperl/branches/1.x/
