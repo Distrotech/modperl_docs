@@ -44,12 +44,12 @@ L<docs-dev|maillist::docs-dev>
 If the correction is minor, please specify the full URL you are
 talking about.
 
-If the correction is medium to large use the cvs repository and submit
+If the correction is medium to large use the svn repository and submit
 the patch against the latest version, or even better, just send us the
 modified document. L<This document|download::docs> explains how to use
-the cvs repository.
+the svn repository.
 
-Note that if you for some reason cannot use the CVS repository, each
+Note that if you for some reason cannot use the SVN repository, each
 page contains a I<src> link in the upper-right corner. From there you
 can access the POD/HTML source of documents, which you can then modify
 and send to us.

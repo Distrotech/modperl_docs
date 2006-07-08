@@ -275,26 +275,10 @@ http://www.squid-cache.org/mailing-lists.html
 
 =back
 
-=head1 CVS -- Concurrent Version Control
+=head1 SVN
 
-mod_perl CVS repository specific information
-L<document|contribute::cvs_howto>.
-
-=over
-
-=item * Open Source Development with CVS
-
-http://cvsbook.red-bean.com/
-
-=item * Online Documents
-
-http://www.cvshome.org/docs/
-
-=item * CVS Quick Reference Card
-
-http://www.refcards.com/about/cvs.html
-
-=back
+mod_perl SVN repository specific information
+L<document|contribute::svn_howto>.
 
 =head1 Performance and Scalability
 

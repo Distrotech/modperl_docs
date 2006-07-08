@@ -9,7 +9,7 @@
 
 =head1 NAME
 
-Documentation CVS mailing list
+Documentation SVN mailing list
 
 =head1 Description
 

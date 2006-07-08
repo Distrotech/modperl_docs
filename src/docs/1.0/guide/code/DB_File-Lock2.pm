@@ -4,7 +4,7 @@ require 5.004;
 use strict;
 
 BEGIN {
-    # RCS/CVS compliant:  must be all one line, for MakeMaker
+    # RCS/SVN compliant:  must be all one line, for MakeMaker
   $DB_File::Lock2::VERSION = do { my @r = (q$Revision$ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 }

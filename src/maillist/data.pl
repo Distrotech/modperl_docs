@@ -116,7 +116,7 @@ DESC
      ### 
      'docs-cvs' => 
      {
-      title => 'Documentation CVS',
+      title => 'Documentation SVN',
       desc  => <<"DESC",
 A mailing list where all the B<mod_perl documentation modification
 commits> are sent.
@@ -200,7 +200,7 @@ DESC
      ### 
      cvs => 
      {
-      title => 'Development CVS',
+      title => 'Development SVN',
       desc  => <<"DESC",
 The B<modperl-cvs> list is the list where you can watch mod_perl
 getting patched.  No real discussions happen on this list, but if you
@@ -437,7 +437,7 @@ DESC
      ### 
      'apreq-cvs' => 
      {
-      title => 'Apache::Request cvs',
+      title => 'Apache::Request svn',
       desc  => <<"DESC",
 The B<apreq-cvs> list is the list where svn commits for the I<Apache
 Request>project are sent.

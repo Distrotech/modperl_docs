@@ -220,12 +220,11 @@ Apache and mod_perl header files, which can then be accessed
 through the Apache::src module.
 
 If this build fails, you may want to try the sources obtained
-from cvs you may want to try the sources obtained
-from cvs - see the discussion on the
+from svn - see the discussion on the
 L<Development Source Distribution|download::source/Development_Source_Distribution>
 for details. Be aware, though,
 that as well as providing bug fixes, there may be new features being
-added and tested in the cvs versions, so at any given time there are
+added and tested in the svn versions, so at any given time there are
 no guarantees that these packages will build and test successfully.
 
 =head1 Binaries

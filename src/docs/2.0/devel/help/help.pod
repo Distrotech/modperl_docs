@@ -64,9 +64,9 @@ If you get segmentation faults please send the L<stack
 backtrace|user::help::help/Resolving_Segmentation_Faults> to the
 modperl developers list.
 
-=head2 mod_perl 2.0 Core Development CVS Commits List
+=head2 mod_perl 2.0 Core Development SVN Commits List
 
-This list's traffic is comprised of solely cvs commits, so this is the
+This list's traffic is comprised of solely svn commits, so this is the
 place to be if you want to see mod_perl 2.0 evolve before your eyes.
 
 =over
@@ -85,12 +85,12 @@ archive: http://marc.theaimsgroup.com/?l=apache-modperl-cvs&r=1&w=2#apache-modpe
 
 The C<Apache-Test> project, originally developed as a part of mod_perl
 2.0, is now a part of the Apache C<httpd-test> project. You get this
-repository automatically when checking out the mod_perl-2.0 cvs
+repository automatically when checking out the mod_perl-2.0 svn 
 repository.
 
 To retrieve the whole httpd-test project, run: 
 
-  cvs co httpd-test
+  svn co http://svn.pache.org/repos/asf/httpd/httpd-test 
 
 =over
 
@@ -100,7 +100,7 @@ mailing list subscription: mailto:test-dev-subscribe@httpd.apache.org
 
 archive: META: ???
 
-=item cvs commits
+=item svn commits
 
 mailing list subscription: mailto:test-cvs-subscribe@httpd.apache.org
 
@@ -121,7 +121,7 @@ mailing list subscription: mailto:dev-subscribe@httpd.apache.org
 
 archive: http://marc.theaimsgroup.com/?l=apache-new-httpd&r=1&w=
 
-=item cvs commits
+=item svn commits
 
 mailing list subscription: mailto:httpd-2.0-cvs-subscribe@perl.apache.org
 
@@ -161,7 +161,7 @@ mailing list subscription: mailto:apr-dev-subscribe@perl.apache.org
 
 archive: http://marc.theaimsgroup.com/?l=apr-dev&r=1&w=2
 
-=item cvs commits
+=item svn commits
 
 mailing list subscription: mailto:apr-cvs-subscribe@perl.apache.org
 

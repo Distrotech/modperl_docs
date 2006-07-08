@@ -275,7 +275,7 @@ application development platform. mod_perl 2.0 has been a jump
 forward, but with the arrival of Perl 6 we might expect another new
 version of mod_perl. If the developers are still interested, that
 is. There has been started development on mod_parrot
-(http://cvs.perl.org/cvsweb/mod_parrot/), but Perl 6 is far from
+(http://svn.perl.org/parrot-modules/mod_parrot), but Perl 6 is far from
 ready, so we don't really know what will be needed. The future hold
 great things for us.
 

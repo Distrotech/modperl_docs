@@ -14,7 +14,7 @@ the internals of the mod_perl-specific features.
 Make sure to read also: L<Debugging mod_perl C
 Internals|docs::2.0::devel::debug::c>.
 
-META: these notes are a bit out of sync with the latest cvs, but will
+META: these notes are a bit out of sync with the latest svn, but will
 be updated once the innovation dust settles down.
 
 =head1 Perl Interpreters

@@ -860,7 +860,7 @@ The most recent changes are listed first.
 * performance: update: "KeepAlive" -- works only if there is a
   Content-Length header (Andreas Koenig)
 
-* help: new: "get help with CVS"
+* help: new: "get help with SVN"
 
 * troubleshooting: new: "Segfaults when using XML::Parser" (DeWitt
   Clinton)
@@ -1928,7 +1928,7 @@ The most recent changes are listed first.
 * strategy.pod: mod_proxy and http accell sections were extended by
   notes from Joshua Chamas.
 
-* warning.pod: noted a 'rwrite returned -1' fix in CVS version
+* warning.pod: noted a 'rwrite returned -1' fix in SVN version
 
 * obvious.pod: added "Additional reading references" to "my () scoped 
   variable in nested subroutines" including a pointer to an article by

@@ -106,11 +106,11 @@ tree, and also copy F<src/modules/perl/mod_perl.so> into
 your F</Path/to/Apache2/modules/> directory.
 
 If this build fails, or you want features not present in the official
-releases, you may want to try the sources obtained from cvs - see the
+releases, you may want to try the sources obtained from svn - see the
 discussion on the L<2.0 Development Source
 Distribution|download::source/Development_mod_perl_2_0_Source_Distribution>
 for details. Be aware, though, that as well as providing bug fixes,
-there may be new features being added and tested in the cvs versions,
+there may be new features being added and tested in the svn versions,
 so at any given time there are no guarantees that these packages will
 build and test successfully.
 

@@ -3637,7 +3637,7 @@ rerun C<make> and copy the unstripped httpd binary away.
 
 The current Perl implementation does not restore the original Apache C
 handler when you use the C<local $SIG{FOO}> clause.  While the
-save/restore of C<$SIG{ALRM}> was fixed in mod_perl 1.19_01 (CVS
+save/restore of C<$SIG{ALRM}> was fixed in mod_perl 1.19_01 (SVN
 version), other signals are not yet fixed.  The real fix should
 probably be in Perl itself.
 

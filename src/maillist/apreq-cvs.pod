@@ -9,7 +9,7 @@
 
 =head1 NAME
 
-Apache::Request cvs mailing list
+Apache::Request svn mailing list
 
 =head1 Description
 
