@@ -1473,7 +1473,7 @@ the previous example:
 
 If you need to access any of the startup defines in the Perl code you
 use
-C<L<Apache2::ServerUtil::exists_config_define()|docs::2.0::Apache2::ServerUtil/C_exists_config_define_>>. For
+C<L<Apache2::ServerUtil::exists_config_define()|docs::2.0::api::Apache2::ServerUtil/C_exists_config_define_>>. For
 example in a startup file you can say:
 
   use Apache2::ServerUtil ();
