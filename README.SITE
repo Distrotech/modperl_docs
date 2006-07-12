@@ -4,9 +4,10 @@
 #### Likely, but ApacheCon US 2006 (Texas) in october, infra@ will have 
 #### abolished minotaur.apache.org and helios (SunOS) will be running
 #### people.zones.apache.org.
-####
-#### bin/site_build has host specific conigs we will need to update
-#### among other things.
+
+#### has host specific conigs we will need to update:
+####    bin/site_build 
+####    bin/makeindex 
 ####
 
 This docco explains how to update perl.apache.org
