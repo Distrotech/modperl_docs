@@ -31,6 +31,20 @@ performance.
       </SVNRepository>
     </repository>
 
+    <repository>
+      <SVNRepository>
+        <browse rdf:resource="http://svn.apache.org/viewcvs.cgi/perl/modperl/docs/trunk"/>
+        <location rdf:resource="http://svn.apache.org/repos/asf/perl/modperl/docs/trunk"/>
+      </SVNRepository>
+    </repository>
+
+    <repository>
+      <SVNRepository>
+        <browse rdf:resource="http://svn.apache.org/viewcvs.cgi/perl/Apache-SizeLimit/trunk/"/>
+        <location rdf:resource="http://svn.apache.org/repos/asf/perl/Apache-SizeLimit/trunk/"/>
+      </SVNRepository>
+    </repository>
+
     <mailing-list rdf:resource="http://perl.apache.org/maillist/index.html"/>
    
     <release>
