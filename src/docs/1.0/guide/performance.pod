@@ -1300,9 +1300,9 @@ And in the second window:
       MG_TYPE = 'g'
       MG_LEN = 2
 
-We see that all the addresses of the supposedly big structure are the
-same (C<0x8250e8c> and C<0x8271af0>), therefore the variable data
-structure is almost completely shared.  The only difference is in
+We see that all the addresses of the supposedly big structures are the
+same, 0x8250e8c for SV, and 0x8271af0 for PV, therefore the variable
+data structure is almost completely shared.  The only difference is in
 C<SV.MAGIC.MG_LEN> record, which is not shared.
 
 So given that the C<$readonly> variable is a big one, its value is
