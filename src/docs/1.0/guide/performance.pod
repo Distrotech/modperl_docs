@@ -2760,8 +2760,8 @@ performance went down with the high load.
 
 The above tests were performed with the following configuration:
 
-  MinSpareServers 8
-  MaxSpareServers 6
+  MinSpareServers 6
+  MaxSpareServers 8
   StartServers 10
   MaxClients 50
   MaxRequestsPerChild 1500
@@ -2769,8 +2769,8 @@ The above tests were performed with the following configuration:
 Now let's kill each child after it serves a single request.  We will
 use the following configuration:
 
-  MinSpareServers 8
-  MaxSpareServers 6
+  MinSpareServers 6
+  MaxSpareServers 8
   StartServers 10
   MaxClients 100
   MaxRequestsPerChild 1
@@ -2790,8 +2790,8 @@ kind of test.
 Now let's reset C<MaxRequestsPerChild> to 1500, but reduce
 C<MaxClients> to 10 and run the same test:
 
-  MinSpareServers 8
-  MaxSpareServers 6
+  MinSpareServers 6
+  MaxSpareServers 8
   StartServers 10
   MaxClients 10
   MaxRequestsPerChild 1500
