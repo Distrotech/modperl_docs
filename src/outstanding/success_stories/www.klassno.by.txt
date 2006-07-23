@@ -1,0 +1,16 @@
+Subject: Klassno.by a belarussian auction site
+From: Aleksandr Guidrevitch <alex@tera.by>
+Date: Sun Jul 23 15:37:06 PDT 2006
+URL: http://klassno.by/
+
+Klassno.by is a belarussian auction site, written in mod_perl. It is
+designed primarily for the users from Belarus, and takes into account
+local specifics. It uses fulltext morphological analysis for indexing
+and searching.
+
+In the hope of a brilliant future with tens queries per second and
+thousands of active lots, mod_perl was selected as a development
+platform in the very beginning. It uses Class::DBI and Template Toolkit,
+self-made MVC framework, and is written in OO Perl. It is running Apache
+1.3/mod_perl, mysql5 with triggers and views where possible, and nginx
+(http://sysoev.ru/nginx) as a frontend http server.
