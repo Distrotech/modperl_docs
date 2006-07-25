@@ -38,7 +38,7 @@ http://perl.apache.org/rpm/.
 =head2 RedHat Linux (including php3)
 
 i386 RPMs + SRPM (RedHat) of Apache with mod_perl and php3 built
-staticaly. (made by Vladimir Ivaschenko)
+statically. (made by Vladimir Ivaschenko)
 http://www.hazard.maks.net/apache/
 
 =head2 other OS

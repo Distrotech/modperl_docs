@@ -6,7 +6,7 @@ Example PerlTransHandler
 
 Anyone that's looked at web logs will quickly see the usefulness of
 this little mod_perl script.  It catches all requests for
-I<favicon.ico> and rewrites the request to point to a vaild location.
+I<favicon.ico> and rewrites the request to point to a valid location.
 No more logs full of 404 errors.
 
 This example is adapted from the
