@@ -342,7 +342,7 @@ data sources, and managed their own persistence.
 The Controller layer translated web requests into appropriate actions
 on the Model layer.  It handled parsing parameters, checking input,
 fetching the appropriate Model objects, and calling methods on them.
-Then it determined the appropriate View to use and sendt the resulting
+Then it determined the appropriate View to use and send the resulting
 HTML to the user.
 
 View objects were really HTML templates.  The Controller passed data

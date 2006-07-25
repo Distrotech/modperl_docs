@@ -40,7 +40,7 @@ instead of any other prompt.
 
 =head1 Typographical conventions
 
-We try to be consisten about our use of different fonts and faces, so
+We try to be consistent about our use of different fonts and faces, so
 that you'll recognize special words more easily.
 
 =over

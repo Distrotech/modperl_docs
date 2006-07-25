@@ -43,7 +43,7 @@ example C<http://example.com/foo.pl?foo=bar&reg=foobar>, then some
 browsers will interpret &reg as an SGML entity and encode it as
 C<&reg;>. This will result in a corrupted C<QUERY_STRING>.
 
-The behaviour is actually correct, and the problem is that you have
+The behavior is actually correct, and the problem is that you have
 not correctly encoded your ampersands into entities in your HTML. What
 you should have in the source of your HTML is
 C<http://example.com/foo.pl?foo=bar&amp;reg=foobar>.

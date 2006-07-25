@@ -20,7 +20,7 @@ the mod_perl API.
 
 =head1 Part I: Tricks with CGI.pm
 
-C<CGI.pm> is the long-favoured module for CGI scripting, and, as
+C<CGI.pm> is the long-favored module for CGI scripting, and, as
 mod_perl can run CGI scripts (mostly) unaltered, also provides
 significant advantages for mod_perl programmers. Let's look at some of
 the more interesting uses of this module in web programming.
@@ -293,7 +293,7 @@ script.
   use CGI qw(:standard :html3);
   
   # Some constants to use in our form.
-  my @colors = qw/aqua black blue fuschia gray green lime maroon navy olive
+  my @colors = qw/aqua black blue fuchsia gray green lime maroon navy olive
      purple red silver teal white yellow/;
   my @sizes=("<default>",1..7);
   
@@ -642,7 +642,7 @@ running under mod_perl. Let's look at C<Apache::FixNaughty>:
 
   file:Apache/FixNaughty.pm
   -------------------------
-  # prefefine the HTML parser that we use afterwards
+  # predefine the HTML parser that we use afterward
   package HTML::Parser::FixNaughty;
   
   require HTML::Parser;
@@ -982,7 +982,7 @@ entry so that you can follow along (wrapped for readability):
 Script II.1.5 scans the log for certain status codes and prints out the
 top URLs or hosts that triggered them.  It can be used to get
 quick-and-dirty usage statistics, to find broken links, or to detect
-certain types of breakin attempts.  Use it like this:
+certain types of break in attempts.  Use it like this:
 
  % find_status.pl -t10 200 ~www/logs/access_log
 
@@ -1939,7 +1939,7 @@ sluggish Perl CGI scripts race along at compiled C speeds...or so it
 seems.
 
 Most CGI scripts will run unmodified under mod_perl using the
-C<Apache::Registry>x CGI compatability layer.  But that's not the whole
+C<Apache::Registry>x CGI compatibility layer.  But that's not the whole
 story.  The exciting part is that mod_perl gives you access to the
 Apache API, letting you get at the innards of the Apache server and
 change its behavior in powerful and interesting ways.  This section
@@ -2952,7 +2952,7 @@ C<Apache::DBILogConfig>.
 These tricks illustrate the true power of mod_perl; not only were Perl
 and Apache good friends from the start, thanks to Perl's excellent
 text-handling capacity, but when mod_perl is used, your complete
-access to the Apache API gives you unprecendented power in dynamic web
+access to the Apache API gives you unprecedented power in dynamic web
 serving.
 
 To find more tips and tricks, look for modules on the CPAN, look

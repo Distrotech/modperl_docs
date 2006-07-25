@@ -54,7 +54,7 @@ http://www.logilune.com/eric/
 Thomas Klausner gave a tutorial titled "Web Application Development
 using mod_perl and CPAN" at the German Perl Workshop 2003.
 
-The slides (in German) are availiable from here:
+The slides (in German) are available from here:
 http://domm.zsi.at/talks/modperl_pws2003/
 
 =item *
