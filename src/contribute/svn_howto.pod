@@ -132,7 +132,7 @@ repository.
 
 To check out the repository do:
 
-  % svn co http://svn.apache.org/repos/asf/perl/modperl/docs/trunk modperl-docs
+  % svn co https://svn.apache.org/repos/asf/perl/modperl/docs/trunk modperl-docs
 
 If it's a first time you ssh to svn.apache.org, it will ask if you
 want to allow the host I<svn.apache.org>. Answer I<yes>. Then you are
