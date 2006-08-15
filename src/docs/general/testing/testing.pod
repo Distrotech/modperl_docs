@@ -1302,6 +1302,7 @@ F<httpd.conf>.
 
 if the file F<t/conf/extra.last.conf> exists, it will be included by
 F<httpd.conf> after the F<t/conf/extra.conf> file.
+
 =item *
 
 if the file F<t/conf/modperl_extra.pl> exists, it will be included by
