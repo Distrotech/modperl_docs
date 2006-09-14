@@ -13,13 +13,13 @@ mod_perl.
 All HTTP Request handlers have the following structure:
 
   package MyApache2::MyHandlerName;
-  
+
   # load modules that are going to be used
   use ...;
-  
+
   # compile (or import) constants
   use Apache2::Const -compile => qw(OK);
-  
+
   sub handler {
       my $r = shift;
       
@@ -185,7 +185,7 @@ Now, let's look at an example. Consider the following registry script:
   $r->content_type('text/plain');
   
   my $conf_file = catfile Apache2::ServerUtil::server_root,
-      "conf", "httpd.conf";
+    "conf", "httpd.conf";
   
   printf "$conf_file is %0.2f minutes old\n", 60*24*(-M $conf_file);
 
@@ -506,8 +506,10 @@ and here is the C<MyApache2::SendEmail> handler:
   sub send_email_handler {
       my $r = shift;
   
-      my %headers = map {$_ => $r->headers_in->get($_)} qw(To From Subject);
-      my $content = content($r);
+      my %headers = map {$_ => $r->headers_in->get($_)} 
+		qw(To From Subject);
+      
+	  my $content = content($r);
   
       my $status = send_email(\%headers, \$content);
   
@@ -543,8 +545,9 @@ and here is the C<MyApache2::SendEmail> handler:
       my $data = '';
       my $seen_eos = 0;
       do {
-          $r->input_filters->get_brigade($bb, Apache2::Const::MODE_READBYTES,
-                                         APR::Const::BLOCK_READ, IOBUFSIZE);
+          $r->input_filters->get_brigade($bb, 
+			  Apache2::Const::MODE_READBYTES,
+              APR::Const::BLOCK_READ, IOBUFSIZE);
   
           for (my $b = $bb->first; $b; $b = $bb->next($b)) {
               if ($b->is_eos) {
@@ -603,7 +606,8 @@ assuming that no other response handlers were inserted before it.  The
 response handler consists of three parts. Retrieve the email headers
 C<To>, C<From> and C<Subject>, and the body of the message:
 
-      my %headers = map {$_ => $r->headers_in->get($_)} qw(To From Subject);
+      my %headers = map {$_ => $r->headers_in->get($_)} 
+	    qw(To From Subject);
       my $content = $r->content;
 
 Then send the email:
@@ -738,6 +742,7 @@ return C<Apache2::Const::OK>.
 
 The following example handler denies requests made from IPs on the
 blacklist.
+
 
   #file:MyApache2/BlockByIP.pm
   #--------------------------
@@ -1195,7 +1200,8 @@ After doing the mapping, the handler assigns the handler:
 and the callback if needed:
 
       if (defined $exts{$ext}->[CALLBACK]) {
-          $r->set_handlers(PerlResponseHandler => $exts{$ext}->[CALLBACK]);
+          $r->set_handlers(
+			  PerlResponseHandler => $exts{$ext}->[CALLBACK]);
       }
 
 In this simple example the callback functions don't do much but
@@ -1573,10 +1579,10 @@ predictable string, they may still be a non-satisfactory
 solution. Therefore we need to use a random string. We can either
 either Perl's C<rand>, some CPAN module or the APR's C<APR::UUID>:
 
-  sub unique_id {
-      require APR::UUID;
-      return APR::UUID->new->format;
-  }
+ sub unique_id {
+  require APR::UUID;
+  return APR::UUID->new->format;
+ }
 
 Now the problem is how do we tell the cleanup handler what file should
 be cleaned up? We could have stored it in the C<$r-E<gt>notes> table
@@ -1588,59 +1594,59 @@ we choose to pass the file name, based on random string. Here is a
 better version of the response and cleanup handlers, that uses this
 technique:
 
-  #file:MyApache2/Cleanup2.pm
-  #-------------------------
-  package MyApache2::Cleanup2;
+ #file:  MyApache2/Cleanup2.pm
+ #-------------------------
+ package MyApache2::Cleanup2;
   
-  use strict;
-  use warnings FATAL => 'all';
+ use strict;
+ use warnings FATAL => 'all';
   
-  use File::Spec::Functions qw(catfile);
+ use File::Spec::Functions qw(catfile);
   
-  use Apache2::RequestRec ();
-  use Apache2::RequestIO ();
-  use Apache2::RequestUtil ();
-  use APR::UUID ();
-  use APR::Pool ();
+ use Apache2::RequestRec ();
+ use Apache2::RequestIO ();
+ use Apache2::RequestUtil ();
+ use APR::UUID ();
+ use APR::Pool ();
   
-  use Apache2::Const -compile => qw(OK DECLINED);
-  use APR::Const    -compile => 'SUCCESS';
+ use Apache2::Const -compile => qw(OK DECLINED);
+ use APR::Const    -compile => 'SUCCESS';
   
-  my $file_base = catfile "/tmp", "data-";
+ my $file_base = catfile "/tmp", "data-";
   
-  sub handler {
-      my $r = shift;
+ sub handler {
+         my $r = shift;
   
-      $r->content_type('text/plain');
-      my $file = $file_base . APR::UUID->new->format;
+     $r->content_type('text/plain');
+     my $file = $file_base . APR::UUID->new->format;
   
-      local @ENV{qw(PATH BASH_ENV)};
-      qx(/bin/ls -l > $file);
+     local @ENV{qw(PATH BASH_ENV)};
+     qx(/bin/ls -l > $file);
   
-      my $status = $r->sendfile($file);
-      die "sendfile has failed" unless $status == APR::Const::SUCCESS;
+     my $status = $r->sendfile($file);
+     die "sendfile has failed" unless $status == APR::Const::SUCCESS;
   
-      $r->pool->cleanup_register(\&cleanup, $file);
+     $r->pool->cleanup_register(\&cleanup, $file);
   
-      return Apache2::Const::OK;
-  }
+     return Apache2::Const::OK;
+ }
   
-  sub cleanup {
-      my $file = shift;
+ sub cleanup {
+     my $file = shift;
   
-      die "Can't find file: $file" unless -e $file;
-      unlink $file or die "failed to unlink $file";
+     die "Can't find file: $file" unless -e $file;
+     unlink $file or die "failed to unlink $file";
   
-      return Apache2::Const::OK;
-  }
-  1;
+     return Apache2::Const::OK;
+ }
+ 1;
 
 Similarly to the first handler, we add the configuration:
 
-  <Location /cleanup2>
-      SetHandler modperl
-      PerlResponseHandler MyApache2::Cleanup2
-  </Location>
+ <Location /cleanup2>
+     SetHandler modperl
+     PerlResponseHandler MyApache2::Cleanup2
+ </Location>
 
 And now when requesting I</cleanup2> we still get the same output --
 the listing of the current directory -- but this time this code will
@@ -1673,7 +1679,7 @@ the request is of type HEAD in mod_perl 1.0 we L<used to return
 early|docs::1.0::guide::porting/Generating_correct_HTTP_Headers> from
 the handler:
 
-  return Apache2::Const::OK if $r->header_only;
+ return Apache2::Const::OK if $r->header_only;
 
 This logic should not be used in mod_perl 2.0, because Apache 2.0
 automatically discards the response body for HEAD requests. It expects
@@ -1711,13 +1717,13 @@ F<httpd-2.0/modules/http/http_protocol.c>).
 For more discussion on why it is important to get HEAD requests right,
 see these threads from the mod_perl list:
 
-  http://marc.theaimsgroup.com/?l=apache-modperl&m=108647669726915&w=2
-  http://marc.theaimsgroup.com/?t=109122984600001&r=1&w=2
+ http://marc.theaimsgroup.com/?l=apache-modperl&m=108647669726915&w=2
+ http://marc.theaimsgroup.com/?t=109122984600001&r=1&w=2
 
 as well as this bug report from mozilla, which shows how C<HEAD>
 requests are used in the wild:
 
-  http://bugzilla.mozilla.org/show_bug.cgi?id=245447
+ http://bugzilla.mozilla.org/show_bug.cgi?id=245447
 
 =item * Not getting C<Content-Length> header with C<HEAD> requests
 
@@ -1738,14 +1744,14 @@ The workaround is to force the sending of the response headers, before
 C<EOS> was sent (which happens when the response handler returns). The
 simplest solution is to use rflush():
 
-  if ($r->header_only) { # HEAD
-      $body_len = calculate_body_len();
-      $r->set_content_length($body_len);
-      $r->rflush;
-  }
-  else {                 # GET
-      # generate and send the body
-  }
+ if ($r->header_only) { # HEAD
+     $body_len = calculate_body_len();
+     $r->set_content_length($body_len);
+     $r->rflush;
+ }
+ else {                 # GET
+     # generate and send the body
+ }
 
 now if the handler sets the C-L header it'll be delivered to the
 client unmodified.
@@ -1780,7 +1786,6 @@ backend: mod_rpaf: http://stderr.net/apache/rpaf/
 
 
 
-
 =head1 Extending HTTP Protocol
 
 Extending HTTP under mod_perl is a trivial task.  Look at L<the
@@ -1788,9 +1793,171 @@ example of adding a new method C<EMAIL>|/PerlHeaderParserHandler> for
 details.
 
 
+=head1 HTTP Status Codes
 
+The Hypertext Transfer Protocol (HTTP) is an application-level
+protocol for distributed, collaborative, hypermedia information
+systems. It is a generic, stateless, protocol which can be used for
+many tasks beyond its use for hypertext, such as name servers and
+distributed object management systems, through extension of its
+request methods, error codes and headers. A feature of HTTP is the
+typing and negotiation of data representation, allowing systems to be
+built independently of the data being transferred.
 
+HTTP 1.0 is described in Requests For Comments (RFC) 1945. HTTP 1.1 is
+the latest version of the specifications and as of this writing HTTP
+1.1 is covered in RFC 2616.
 
+When writing mod_perl applications, usually only a small subset of HTTP
+response codes is used, but sometimes you need to know others as
+well. We will give a short description of each code and you will find
+the extended explanation in the appropriate RFC. (Section 9 in RFC
+1945 and section 10 in RFC 2616). You can always find the latest link
+to these RFCs at the Web Consortium site,
+I<http://www.w3.org/Protocols/>.
+
+While HTTP 1.1 is widely supported, HTTP 1.0 still remains the
+mainstream standard. Therefore we will supply a summary of the both
+versions including the corresponding Apache constants.
+
+In mod_perl these constants can be accessed the 
+C<L<Apache::Constants|docs::1.0::api::Apache::Constants>>
+package (e.g., to access the HTTP_OK constant use
+C<Apache::Constants::HTTP_OK>). See the 
+C<L<Apache::Constants|docs::1.0::api::Apache::Constants>> manpage
+for more information.
+
+In mod_perl2 these constants can be accessed the 
+C<L<Apache2::Const|docs::2.0::api::Apache2::Const>>
+package (e.g., to access the HTTP_OK constant use
+C<Apache2::Const::HTTP_OK>). See the 
+C<L<Apache2::Const|docs::2.0::api::Apache2::Const>> manpage
+for more information.
+
+=head2 HTTP 1.0 Status Codes
+
+=over 4
+
+=item *
+
+Successful 2xx: 
+
+ 200 HTTP_OK                    OK
+ 201 HTTP_CREATED               Created
+ 202 HTTP_ACCEPTED              Accepted
+ 204 HTTP_NO_CONTENT            No Content
+
+=item *
+
+Redirection 3xx:
+
+ 300 HTTP_MOVED_PERMANENTLY     Multiple Choices
+ 301 HTTP_MOVED_TEMPORARILY     Moved Permanently
+ 302 HTTP_SEE_OTHER             Moved Temporarily
+ 304 HTTP_NOT_MODIFIED          Not Modified
+
+=item *
+
+Client Error 4xx:
+
+ 400 HTTP_BAD_REQUEST           Bad Request
+ 401 HTTP_UNAUTHORIZED          Unauthorized
+ 403 HTTP_FORBIDDEN             Forbidden
+ 404 HTTP_NOT_FOUND             Not Found
+
+=item *
+
+Server Error 5xx:
+
+ 500 HTTP_INTERNAL_SERVER_ERROR Internal Server Error
+ 501 HTTP_NOT_IMPLEMENTED       Not Implemented
+ 502 HTTP_BAD_GATEWAY           Bad Gateway
+ 503 HTTP_SERVICE_UNAVAILABLE   Service UnavailableStatus Codes
+
+=back
+
+=head2 HTTP 1.1 Status Codes
+
+=over 4
+
+=item *
+
+Informational 1xx:
+
+ 100 HTTP_CONTINUE                        Continue
+ 101 HTTP_SWITCHING_PROTOCOLS             Switching Protocols
+
+=item *
+
+Successful 2xx:
+
+ 200 HTTP_OK                              OK
+ 201 HTTP_CREATED                         Created
+ 202 HTTP_ACCEPTED                        Accepted
+ 203 HTTP_NON_AUTHORITATIVE               Non-Authoritative Information
+ 204 HTTP_NO_CONTENT                      No Content
+ 205 HTTP_RESET_CONTENT                   Reset Content
+ 206 HTTP_PARTIAL_CONTENT                 Partial Content
+
+=item *
+
+Redirection 3xx:
+
+ 300 HTTP_MULTIPLE_CHOICES                Multiple Choices
+ 301 HTTP_MOVED_PERMANENTLY               Moved Permanently
+ 302 HTTP_MOVED_TEMPORARILY               Found
+ 303 HTTP_SEE_OTHER                       See Other
+ 304 HTTP_NOT_MODIFIED                    Not Modified
+ 305 HTTP_USE_PROXY                       Use Proxy
+ 306                                      (Unused)
+ 307 HTTP_TEMPORARY_REDIRECT              Temporary Redirect
+
+=item *
+
+Client Error 4xx:
+
+ 400 HTTP_BAD_REQUEST                     Bad Request
+ 401 HTTP_UNAUTHORIZED                    Unauthorized
+ 402 HTTP_PAYMENT_REQUIRED                Payment Required
+ 403 HTTP_FORBIDDEN                       Forbidden
+ 404 HTTP_NOT_FOUND                       Not Found
+ 405 HTTP_METHOD_NOT_ALLOWED              Method Not Allowed
+ 406 HTTP_NOT_ACCEPTABLE                  Not Acceptable
+ 407 HTTP_PROXY_AUTHENTICATION_REQUIRED   Proxy Authentication Required
+ 408 HTTP_REQUEST_TIMEOUT                 Request Timeout
+ 409 HTTP_CONFLICT                        Conflict
+ 410 HTTP_GONE                            Gone
+ 411 HTTP_LENGTH REQUIRED                 Length Required
+ 412 HTTP_PRECONDITION_FAILED             Precondition Failed
+ 413 HTTP_REQUEST_ENTITY_TOO_LARGE        Request Entity Too Large
+ 414 HTTP_REQUEST_URI_TOO_LARGE           Request-URI Too Long
+ 415 HTTP_UNSUPPORTED_MEDIA_TYPE          Unsupported Media Type
+ 416 HTTP_RANGE_NOT_SATISFIABLE           Requested Range Not Satisfiable
+ 417 HTTP_EXPECTATION_FAILED              Expectation Failed
+
+=item *
+
+Server Error 5xx:
+
+ 500 HTTP_INTERNAL_SERVER_ERROR           Internal Server Error
+ 501 HTTP_NOT IMPLEMENTED                 Not Implemented
+ 502 HTTP_BAD_GATEWAY                     Bad Gateway
+ 503 HTTP_SERVICE_UNAVAILABLE             Service Unavailable
+ 504 HTTP_GATEWAY_TIME_OUT                Gateway Timeout
+ 505 HTTP_VERSION_NOT_SUPPORTED           HTTP Version Not Supported
+
+=back
+
+=head2 References
+
+All the information related to web protocols can be found at the World
+Wide Web Consortium site, I<http://www.w3.org/Protocols/>.
+
+There are many mirrors of the RFCs all around the world. One of the
+good starting points might be I<http://www.rfc-editor.org/>.
+
+The Eagle Book provided much of the HTTP constants material shown here 
+I<http://www.modperl.com/book/chapters/ch9.html#The_Apache_Constants_Class>
 
 =head1 Maintainers
 
@@ -1801,7 +1968,9 @@ corrections and patches.
 
 =item *
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+L<The mod_perl development team and numerous
+contributors|about::contributors::people>.
+
 
 =back
 
@@ -1811,6 +1980,8 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 =over
 
 =item *
+
+Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =back
 
