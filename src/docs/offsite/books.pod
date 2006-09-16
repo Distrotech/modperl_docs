@@ -6,9 +6,28 @@ mod_perl and Related Books
 
 This document presents the published mod_perl and related books.
 
-=head1 Learn mod_perl
+=head1 Learn mod_perl2
 
-These are the mod_perl specific books.
+These are the mod_perl2 specific books.
+
+
+=head2 mod_perl2 User's Guide
+
+=for html <img src="../../images/books/mod_perl2_users_guide.jpg"
+width="128" height="192" align="right" alt="mod_perl2 User's Guide">
+
+By Stas Bekman and Jim Brandt.
+
+To be published soon by OnyxNeon
+
+Home site: http://www.onyxneon.com/
+
+
+
+
+=head1 Learn mod_perl1
+
+These are the mod_perl1 specific books.
 
 
 
@@ -77,7 +96,8 @@ The entire book is now freely available online
 http://modperlbook.org/, under the CreativeCommons "Attribution
 Share-Alike License": http://creativecommons.org/licenses/by-sa/2.0/.
 
-
+Jeff Pang translated a big chunk of the book to Chinese:
+http://home.earthlink.net/~pangj/mod_perl/
 
 
 =head2 mod_perl Pocket Reference
