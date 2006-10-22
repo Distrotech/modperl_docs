@@ -217,7 +217,9 @@ die qq{CHECKSUM check for "$tgzfile" failed.\n}
     unless (verifyMD5($cksum, $tgzfile));
 die qq{CHECKSUM check for "$so_fake" failed.\n}
     unless (verifyMD5($cksum, $so_fake));
-rename($so_fake, $so) or die "Rename of $so_fake to $so failed: $!";
+unless ($so_fake eq $so) {
+    rename($so_fake, $so) or die "Rename of $so_fake to $so failed: $!";
+}
 
 # edit the ppd file to reflect a local installation
 my $old = $ppdfile . '.old';
