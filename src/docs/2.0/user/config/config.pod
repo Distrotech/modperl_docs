@@ -401,6 +401,14 @@ add:
 
 in our example.
 
+Another way to preload only specific modules is to add + when
+configuring those, for example:
+
+  PerlResponseHandler +Apache::Magick
+
+will automatically preload the C<Apache::Magick> module.
+
+
 =head3 C<GlobalRequest>
 
 Setup the global C<L<$r|docs::2.0::api::Apache2::RequestRec>> object
