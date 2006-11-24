@@ -357,8 +357,8 @@ For example:
 
 is the same as:
 
-  $s->log_error(Apache2::Log::LOG_MARK, Apache2::Const::LOG_WARNING,
-                APR::Const::SUCCESS, @warnings)
+  $s->log_serror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_WARNING,
+                 APR::Const::SUCCESS, @warnings)
 
 =over 4
 
@@ -527,8 +527,8 @@ For example:
 
 is the same as:
 
-  $r->log_error(Apache2::Log::LOG_MARK, Apache2::Const::LOG_WARNING,
-                APR::Const::SUCCESS, @warnings)
+  $r->log_rerror(Apache2::Log::LOG_MARK, Apache2::Const::LOG_WARNING,
+                 APR::Const::SUCCESS, @warnings)
 
 =over 4
 
