@@ -23,30 +23,58 @@ be used to find out which modules need to be used.
 =head1 Techniques
 
 
-
 =head2 Method Handlers
 
-In mod_perl 2.0 method handlers are declared using the C<method>
-attribute:
+In addition to function handlers method handlers can be used.  Method
+handlers are useful when you want to write code that takes advantage
+of inheritance. To make the handler act as a method under mod_perl 2,
+use the C<method> attribute.
 
-  package Bird;
-  @ISA = qw(Eagle);
+See the Perl I<attributes> manpage for details on the attributes
+syntax (C<perldoc attributes>).
+
+For example:
+
+  package Bird::Eagle;
+  @ISA = qw(Bird);
   
   sub handler : method {
-      my ($class, $r) = @_;
+      my ($class_or_object, $r) = @_;
       ...;
   }
+  
+  sub new { bless {}, __PACKAGE__ }
 
-See the I<attributes> manpage.
+and then register it as:
 
-If C<Class-E<gt>method> syntax is used for a C<Perl*Handler>, the
-C<:method> attribute is not required.
+  PerlResponseHandler Bird::Eagle
 
-META: need to port the method handlers document from mp1 guide, may be
-keep it as a separate document. Meanwhile refer to L<that
-document|docs::1.0::guide::method_handlers>, though L<replace the C<$$> 
-prototype with the C<:method> attribute
-|docs::2.0::user::porting::compat/Method_Handlers>.
+When mod_perl sees that the handler has a method attribute, it passes
+two arguments to it: the calling object or a class, depending on how
+it was called, and the request object, as shown above.
+
+If C<Class-E<gt>method> syntax is used for a C<Perl*Handler>, e.g.:
+
+  PerlResponseHandler Bird::Eagle->handler;
+
+the C<:method> attribute is not required.
+
+In the preceding configuration example, the C<handler()> method will
+be called as a class (static) method.
+
+Also, you can use objects created at startup to call methods. For example:
+
+  <Perl>
+      use Bird::Eagle;
+      $Bird::Global::object = Bird::Eagle->new();
+  </Perl>
+  ...
+  PerlResponseHandler $Bird::Global::object->handler
+
+In this example, the C<handler()> method will be called as an instance
+method on the global object $C<Bird::Global::object>.
+
+
 
 
 =head2 Cleaning up
