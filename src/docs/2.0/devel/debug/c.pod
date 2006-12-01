@@ -23,7 +23,7 @@ flow|docs::2.0::devel::core::mod_perl_specific>.
 META: needs more organization (if you grok any of the following,
 patches are welcome)
 
-META: there is a new compile-time option in perl-5.9.0+:
+META: there is a new compile-time option in perl-5.8.8+:
 -DDEBUG_LEAKING_SCALARS, which prints out the addresses of leaked SVs
 and new_SV() can be used to discover where those SVs were allocated.
 (see perlhack.pod for more info)
