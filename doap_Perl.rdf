@@ -40,6 +40,13 @@ performance.
 
     <repository>
       <SVNRepository>
+        <browse rdf:resource="http://svn.apache.org/viewcvs.cgi/perl/Apache-Test/trunk/"/>
+        <location rdf:resource="http://svn.apache.org/repos/asf/perl/Apache-Test/trunk/"/>
+      </SVNRepository>
+    </repository>
+
+    <repository>
+      <SVNRepository>
         <browse rdf:resource="http://svn.apache.org/viewcvs.cgi/perl/Apache-SizeLimit/trunk/"/>
         <location rdf:resource="http://svn.apache.org/repos/asf/perl/Apache-SizeLimit/trunk/"/>
       </SVNRepository>
@@ -61,6 +68,21 @@ performance.
         <revision>1.29</revision>
       </Version>
     </release>
+    <release>
+      <Version>
+        <name>Apache-Test</name>
+        <created>2006-11-30</created>
+        <revision>1.29</revision>
+      </Version>
+    </release>
+    <release>
+      <Version>
+        <name>Apache-SizeLimit</name>
+        <created>2006-07-12</created>
+        <revision>0.9</revision>
+      </Version>
+    </release>
+
 
   </Project>
 
