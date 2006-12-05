@@ -152,14 +152,14 @@ else {
         my $ans = prompt('Do you want the latest mod_perl 2 development version?', 'no');
         if ($ans =~ /^n/i) {
             if ($apache22) {
-                $ppdfile = 'mod_perl-2.2.ppd';
-                $tgzfile = 'mod_perl-2.2.tar.gz';
-                $so_fake = 'mod_perl-2.2.so';
-            }
-            else {
                 $ppdfile = 'mod_perl.ppd';
                 $tgzfile = 'mod_perl.tar.gz';
                 $so_fake = 'mod_perl.so';
+            }
+            else {
+                $ppdfile = 'mod_perl-2.0.ppd';
+                $tgzfile = 'mod_perl-2.0.tar.gz';
+                $so_fake = 'mod_perl-2.0.so';
             }
         }
         else {

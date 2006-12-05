@@ -140,29 +140,32 @@ lines for readability)
   C:\> ppm install
        http://theoryx5.uwinnipeg.ca/ppms/mod_perl.ppd
 
-for Apache/2.0, and
+for Apache/2.2, and
 
   C:\> ppm install
-       http://theoryx5.uwinnipeg.ca/ppms/mod_perl-2.2.ppd
+       http://theoryx5.uwinnipeg.ca/ppms/mod_perl-2.0.ppd
 
-for Apache/2.2. Another way, which will be useful if you plan on 
+for Apache/2.0. Another way, which will be useful if you plan on 
 installing additional Apache modules, is to set the repository
 within the C<ppm> shell utility to
 
+   http://theoryx5.uwinnipeg.ca/ppms/
+
+for ActivePerl 819 or higher, or
+
    http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer58
 
-using the C<repository add alias location> for I<ppm3> (the
-default with ActivePerl 8xx), and using C<set repository alias location> 
-for C<ppm2>; see the help utility within the C<ppm> shell for
+for ActivePerl 818 or lower;
+see the help utility within the C<ppm> shell for
 details. mod_perl 2.0 can then be installed, within the ppm shell, as 
 
   ppm> install mod_perl
 
-for Apache/2.0, and as
+for Apache/2.2, and as
 
-  ppm> install mod_perl-2.2
+  ppm> install mod_perl-2.0
 
-for Apache/2.2. This will install the necessary modules under an F<Apache2>
+for Apache/2.0. This will install the necessary modules under an F<Apache2>
 subdirectory in your Perl tree, so as not to disturb a possible existing
 F<Apache> directory from mod_perl 1.0. See the section below on
 configuring mod_perl to add this directory to the C<@INC> path for
