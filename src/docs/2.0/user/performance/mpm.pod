@@ -41,7 +41,7 @@ using specially designed for that purpose tools.
 
 The new thing is that the core API has been spread across multiply
 modules, which can be loaded only when needed (this of course works
-only when mod_perl is builts as DSO). This allows to save some
+only when mod_perl is built as DSO). This allows us to save some
 memory. However the savings are not big, since all these modules are
 writen in C, making them into the text segments of the memory, which
 is perfectly shared. The savings are more significant at the startup
