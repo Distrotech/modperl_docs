@@ -298,13 +298,13 @@ directive handler.  For instance:
   my @directives = (
       {
        name         => '<Location',
-       # func defaults to Redirect()
+       # func defaults to Location()
        req_override => Apache2::Const::RSRC_CONF,
        args_how     => Apache2::Const::RAW_ARGS,
       },
       {
        name         => '<LocationMatch',
-       func         => Redirect,
+       func         => Location,
        req_override => Apache2::Const::RSRC_CONF,
        args_how     => Apache2::Const::RAW_ARGS,
        cmd_data     => '1',
