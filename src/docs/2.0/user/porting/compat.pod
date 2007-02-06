@@ -1311,7 +1311,8 @@ See the C<L<APR::Pool>> manpage.
 
 =head2 C<$r-E<gt>request>
 
-Use C<L<Apache2-E<gt>request|/C_Apache2_E_gt_request_>>.
+Use
+C<L<Apache2::RequestUtil-E<gt>request|docs::2.0::api::Apache2::RequestUtil/C_request_>>.
 
 
 
