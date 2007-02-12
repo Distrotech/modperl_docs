@@ -1753,11 +1753,14 @@ you can then deploy C<mod_include> and write in I<.shtml> document:
 First HTTP request header
 
   $request = $r->the_request();
+  $old_request = $r->uri($new_request);
 
 =over 4
 
 =item obj: C<$r>
 ( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
+
+=item opt arg1: C<$new_request> ( string )
 
 =item ret: C<$request> ( string )
 
