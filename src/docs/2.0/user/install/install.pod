@@ -505,7 +505,7 @@ Enable tracing
 
 =head3 Non-Boolean Build Options
 
-set the non-boolen options with MP_XXX=value.
+set the non-boolean options with MP_XXX=value.
 
 =head4 MP_APXS
 
