@@ -454,7 +454,7 @@ C<@INC>. Instead use:
 in I<httpd.conf> or:
 
   use Apache2::ServerUtil ();
-  use File::Spec::Functins qw(catfile);
+  use File::Spec::Functions qw(catfile);
   push @INC, catfile Apache2::ServerUtil::server_root, "";
   push @INC, catfile Apache2::ServerUtil::server_root, "lib/perl";
 
