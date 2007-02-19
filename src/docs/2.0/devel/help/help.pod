@@ -81,32 +81,21 @@ archive: http://marc.theaimsgroup.com/?l=apache-modperl-cvs&r=1&w=2#apache-modpe
 
 =back
 
+
 =head2 Apache-Test
 
 The C<Apache-Test> project, originally developed as a part of mod_perl
 2.0, is now a part of the Apache C<httpd-test> project. You get this
-repository automatically when checking out the mod_perl-2.0 svn 
-repository.
+repository automatically when checking out the mod_perl-2.0 svn
+repository or you could check it out explicitly via:
 
-To retrieve the whole httpd-test project, run: 
+  % svn co http://svn.apache.org/repos/asf/perl/Apache-Test/trunk/ Apache-Test
 
-  svn co http://svn.pache.org/repos/asf/httpd/httpd-test 
+The module is discussed on the mod_perl development mailing
+list. Commit changes go to the mod_perl svn commit mailing list. Both
+lists are covered in the preceding sections.
 
-=over
 
-=item discussion/problems report:
-
-mailing list subscription: mailto:test-dev-subscribe@httpd.apache.org
-
-archive: META: ???
-
-=item svn commits
-
-mailing list subscription: mailto:test-cvs-subscribe@httpd.apache.org
-
-archive: META: ???
-
-=back
 
 
 =head1 Apache
