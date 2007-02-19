@@ -111,19 +111,23 @@ overriding:
 
 =over
 
-=item * C<Apache2::RequestRec::notes>
+=item Apache2::RequestRec::notes
 
-=item * C<Apache2::RequestRec::filename>
+=item Apache2::RequestRec::filename
 
-=item * C<Apache2::RequestRec::finfo>
+=item Apache2::RequestRec::finfo
 
-=item * C<Apache2::Connection::local_addr>
+=item Apache2::Connection::local_addr
 
-=item * C<Apache2::Connection::remote_addr>
+=item Apache2::Connection::remote_addr
 
-=item * C<Apache2::Util::ht_time>
+=item Apache2::Util::ht_time
 
-=item * C<APR::URI::unparse>
+=item Apache2::Module::top_module
+
+=item Apache2::Module::get_config
+
+=item APR::URI::unparse
 
 =back
 
