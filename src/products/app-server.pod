@@ -45,7 +45,7 @@ some amazingly powerful techniques for XML transformation.
 The bivio OLTP Platform (http://www.bivio.biz/hm/why-bOP) (bOP) is a
 declarative, multi-layered Perl application development framework.
 Adapters have been written for Apache/mod_perl, sendmail, Oracle, and
-Postgres.  The Model layer generates SQL for CRUD, lists, and HTTP
+PostgreSQL.  The Model layer generates SQL for CRUD, lists, and HTTP
 forms.  Views are content-independent hierarchies of widgets.  Tasks
 control security, execution order, and state transitions.  Facades map
 qualified names to URLs, strings, fonts, colors, icons, files, and
@@ -53,6 +53,23 @@ views.  bOP provides a full-suite of services including dynamic
 tracing, configuration, logging, class loading, type hierarchy, unit
 testing, and acceptance testing.
 
+=head1 Catalyst 
+
+Catalyst is an elegant web application framework, extremely flexible yet
+extremely simple. It's similar to Ruby on Rails, Spring (Java), and Maypole,
+upon which it was originally based. Its most important design philosophy is to
+provide easy access to all the tools you need to develop web applications, with
+few restrictions on how you need to use these tools. However, this does mean
+that it is always possible to do things in a different way. Other web
+frameworks are initially simpler to use, but achieve this by locking the
+programmer into a single set of tools. Catalyst's emphasis on flexibility means
+that you have to think more to use it. We view this as a feature. For example,
+this leads to Catalyst being more suited to system integration tasks than other
+web frameworks.
+
+Intro document http://search.cpan.org/~jrockway/Catalyst-Manual-5.700501/lib/Catalyst/Manual/Intro.pod
+
+Main site page http://catalyst.perl.org/wiki
 
 =head1 C<CGI::Application>
 
@@ -135,6 +152,10 @@ Some of Interchange's many modules are transaction management,
 pricing, personalization, payment processing, reporting, customer
 service, and search.
 
+=head1 Jifty 
+
+Jifty is a way to build web applications. Homepage http://jifty.org/view/HomePage
+
 =head1 Mason
 
 C<Mason> (http://www.masonhq.com/) is a powerful Perl-based web site
@@ -143,6 +164,12 @@ code in your HTML and construct pages from shared, reusable
 components.  C<Mason> solves the common problems of site development:
 caching, debugging, templating, simulating browser conditions,
 maintaining development and production sites, and more
+
+=head1 Maypole 
+
+Maypole is a Perl framework for MVC-oriented web applications, similar to Jakarta's Struts. Maypole is designed to minimize coding requirements for creating simple web interfaces to databases, while remaining flexible enough to support enterprise web applications.
+
+Homepage http://maypole.perl.org/
 
 =head1  OpenInteract
 
