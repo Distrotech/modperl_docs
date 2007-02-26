@@ -1851,9 +1851,9 @@ Successful 2xx:
 
 Redirection 3xx:
 
- 300 HTTP_MOVED_PERMANENTLY     Multiple Choices
- 301 HTTP_MOVED_TEMPORARILY     Moved Permanently
- 302 HTTP_SEE_OTHER             Moved Temporarily
+ 301 HTTP_MOVED_PERMANENTLY     Multiple Choices
+ 302 HTTP_MOVED_TEMPORARILY     Moved Permanently
+ 303 HTTP_SEE_OTHER             Moved Temporarily
  304 HTTP_NOT_MODIFIED          Not Modified
 
 =item *
