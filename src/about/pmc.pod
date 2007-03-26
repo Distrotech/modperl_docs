@@ -16,6 +16,8 @@ Today, the PMC consists of:
 
 =item * Doug MacEachern
 
+=item * Fred Moyer
+
 =item * Geoffrey Young
 
 =item * Joe Schaefer
