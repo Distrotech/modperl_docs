@@ -18,7 +18,7 @@ C<L<Apache2::FilterRec|docs::2.0::api::Apache2::FilterRec>> manpages.
 
 =head1 Your First Filter
 
-You certainly already know how filters work. That's because you
+You certainly already know how filters work, because you
 encounter filters so often in real life. If you are unfortunate to
 live in smog-filled cities like Saigon or Bangkok you are probably
 used to wear a dust filter mask:
@@ -300,8 +300,8 @@ than once during the same request. Filters get invoked as many times
 as the number of bucket brigades sent from an upstream filter or
 a content provider.
 
-For example if a content generation handler sends a string, and then
-forces a flush, following by more data:
+For example if a content generation handler sends a string, then
+forces a flush, and then sends more data:
 
   # assuming buffered STDOUT ($|==0)
   $r->print("foo");
@@ -662,17 +662,18 @@ Now let's see how mod_perl filters are declared and configured.
 =head2 Filter Priority Types
 
 When Apache filters are configured they are inserted into the filters
-chain according to their priority/type. In most cases when using one
+chain according to their priority type. In most cases when using one
 or two filters things will just work, however if you find that the
-order of filter invocation is wrong, the filter priority type should
-be consulted. Unfortunately this information is available only by
-consulting the source code, unless it's documented in the module man
+order of filter invocation is wrong, you should consider the filter
+priority type. Unfortunately this information is available only in the
+Apache source code, unless it's documented in the module man
 pages. Numerical definitions of priority types, such as
-C<AP_FTYPE_CONTENT_SET>, C<AP_FTYPE_RESOURCE>, can be found in
+C<AP_FTYPE_CONTENT_SET> and C<AP_FTYPE_RESOURCE>, can be found in the
+Apache source distribution in I<include/util_filter.h>.
 I<include/util_filter.h>.
 
 As of this writing Apache comes with two core filters: C<DEFLATE> and
-C<INCLUDES>. For example in the following configuration:
+C<INCLUDES>. With the following directives:
 
   SetOutputFilter DEFLATE
   SetOutputFilter INCLUDES
@@ -1912,16 +1913,16 @@ When issuing a POST request:
 
  % echo "mOd_pErl RuLeS" | POST 'http://localhost:8002/lc_input?FoO=1&BAR=2'
 
-we get a response:
+we get the response:
 
   args:
   FoO=1&BAR=2
   content:
   mod_perl rules
 
-indeed we can see that our filter has lowercased the POSTed body,
-before the content handler received it. You can see that the query
-string wasn't changed.
+As before, we see that our filter has lowercased the POSTed body
+before the content handler received it and the query string wasn't
+changed.
 
 
 =head2 Stream-oriented Input Filters
