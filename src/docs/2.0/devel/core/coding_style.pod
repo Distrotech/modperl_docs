@@ -322,7 +322,7 @@ This is OK:
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
-Stas Bekman E<lt>stas *at* stason.orgE<gt>
+Stas Bekman [http://stason.org/]
 
 =head1 Authors
 
@@ -334,7 +334,7 @@ Doug MacEachernE<lt>dougm (at) covalent.netE<gt>
 
 =item *
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Stas Bekman [http://stason.org/]
 
 =back
 

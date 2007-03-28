@@ -1452,7 +1452,7 @@ only one generation of mod_perl core and 3rd party modules.
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Stas Bekman [http://stason.org/]
 
 =head1 Authors
 
@@ -1464,7 +1464,7 @@ Nick Tonkin E<lt>nick (at) tonkinresolutions.comE<gt>
 
 =item *
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Stas Bekman [http://stason.org/]
 
 =back
 

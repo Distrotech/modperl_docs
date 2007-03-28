@@ -61,7 +61,7 @@ Philip M. Gollucci E<lt>pgollucci (at) p6m7g8.comE<gt>
 
 =item *
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Stas Bekman [http://stason.org/]
 Philip M. Gollucci E<lt>pgollucci (at) p6m7g8.comE<gt>
 
 =back

@@ -60,7 +60,7 @@ framework|docs::general::testing::testing>.
 Maintainer is the person(s) you should contact with updates,
 corrections and patches.
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Stas Bekman [http://stason.org/]
 
 =head1 Authors
 
@@ -68,7 +68,7 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =item *
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Stas Bekman [http://stason.org/]
 
 =item * 
 

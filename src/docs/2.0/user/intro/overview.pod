@@ -683,7 +683,7 @@ corrections and patches.
 
 =item *
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Stas Bekman [http://stason.org/]
 
 =back
 
@@ -697,7 +697,7 @@ Doug MacEachern E<lt>dougm (at) covalent.netE<gt>
 
 =item *
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Stas Bekman [http://stason.org/]
 
 =back
 

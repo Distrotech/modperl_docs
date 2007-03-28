@@ -1390,7 +1390,7 @@ corrections and patches.
 
 =item *
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Stas Bekman [http://stason.org/]
 
 =back
 
@@ -1400,7 +1400,7 @@ Stas Bekman E<lt>stas (at) stason.orgE<gt>
 
 =item *
 
-Stas Bekman E<lt>stas (at) stason.orgE<gt>
+Stas Bekman [http://stason.org/]
 
 =back
 
