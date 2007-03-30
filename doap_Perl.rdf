@@ -64,8 +64,8 @@ performance.
     <release>
       <Version>
         <name>mod_perl 1.0</name>
-        <created>2003-10-7</created>
-        <revision>1.29</revision>
+        <created>2007-03-29</created>
+        <revision>1.30</revision>
       </Version>
     </release>
     <release>
@@ -78,8 +78,8 @@ performance.
     <release>
       <Version>
         <name>Apache-SizeLimit</name>
-        <created>2006-07-12</created>
-        <revision>0.9</revision>
+        <created>2007-03-29</created>
+        <revision>0.91</revision>
       </Version>
     </release>
 
