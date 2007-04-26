@@ -27,8 +27,10 @@ Apache2::ServerUtil - Perl API for Apache server record utils
   @handlers = @{ $s->get_handlers('PerlChildExitHandler') || []};
   
   # server build and version info:
-  $when_built = Apache2::ServerUtil::get_server_built();
+  $when_built = Apache2::ServerUtil::get_server_built(); 
+  $description = Apache2::ServerUtil::get_server_description(); 
   $version = Apache2::ServerUtil::get_server_version();
+  $banner = Apache2::ServerUtil::get_server_banner(); 
   
   # ServerRoot value
   $server_root = Apache2::ServerUtil::server_root();
@@ -379,7 +381,57 @@ The server version string
 
 
 
+=head2 C<get_server_banner>
 
+Get the server banner
+
+ $banner = Apache2::ServerUtil::get_server_banner();
+
+=over 4
+
+=item ret: C<$banner> ( string )
+
+The server banner
+
+=item since: 2.0.4
+
+=back
+
+
+
+
+
+
+
+
+
+=head2 C<get_server_description>
+
+Get the server description
+
+ $description = Apache2::ServerUtil::get_server_description();
+
+=over 4
+
+=item ret: C<$description> ( string )
+
+The server description
+
+=item since: 2.0.4
+
+=back
+
+
+
+
+
+
+
+
+
+
+
+=head2 C<group_id> 
 
 
 
