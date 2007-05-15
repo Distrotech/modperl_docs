@@ -431,11 +431,6 @@ The server description
 
 
 
-=head2 C<group_id> 
-
-
-
-
 =head2 C<group_id>
 
 Get the group id corresponding to the C<Group> directive in
