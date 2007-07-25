@@ -16,8 +16,9 @@ APR::ThreadRWLock - Perl API for APR thread read/write locks
 
 =head1 Description
 
-C<APR::ThreadRWLock> interfaces APR thread read/write locks, see
-F<srclib/apr/locks/unix/thread_rwlock.c> in your Apache source tree.
+C<APR::ThreadRWLock> interfaces APR thread read/write locks.
+
+See F<srclib/apr/locks/unix/thread_rwlock.c> in your Apache source tree.
 At the time of this writing these methods are not supported on all
 platforms. Thus, check your libraries!
 
