@@ -1338,7 +1338,7 @@ And you want to run the test suite for C<Apache::Request> 2.0,
 inheriting the above directive will load the pre-installed
 F<mod_apreq.so> and not the newly built one, which is wrong. In such
 cases it's possible to tell the test suite which modules shouldn't be
-inheritated. In our example C<Apache-Request> has the following code
+inherited. In our example C<Apache-Request> has the following code
 in F<t/TEST.PL>:
 
   use base 'Apache::TestRun';
