@@ -18,9 +18,10 @@ width="128" height="192" align="right" alt="mod_perl2 User's Guide">
 
 By Stas Bekman and Jim Brandt.
 
-To be published soon by OnyxNeon
+Home site: http://modperl2book.org/
 
-Home site: http://www.onyxneon.com/
+To be published soon by OnyxNeon: http://www.onyxneon.com/
+
 
 
 
