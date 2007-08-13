@@ -1,5 +1,13 @@
 [% USE date;
    books = [
+    { title => "mod_perl2 User's Guide",
+      url   => "http://modperl2book.org/", 
+      image => { uri => "/images/books/mod_perl2_users_guide.jpg",
+                 height => 192,
+                 width => 128,
+               },
+      authors => "Stas Bekman, Jim Brandt",
+    },
     { title => "Practical mod_perl",
       url   => "http://modperlbook.org/", 
       image => { uri => "/images/books/practical_modperl.jpg",
@@ -42,7 +50,7 @@
     },
   ];
   
-  max_items = 3;
+  max_items = 6;
   num_items = books.size;
   seconds = date.format(date.now, '%S'); 
   first_book = seconds % num_items;
