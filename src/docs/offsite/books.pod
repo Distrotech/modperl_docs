@@ -20,8 +20,7 @@ By Stas Bekman and Jim Brandt.
 
 Home site: http://modperl2book.org/
 
-To be published soon by OnyxNeon: http://www.onyxneon.com/
-
+Published by OnyxNeon: http://www.onyxneon.com/ August 2007.
 
 
 
