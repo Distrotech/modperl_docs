@@ -20,9 +20,11 @@ By Stas Bekman and Jim Brandt.
 
 Home site: http://modperl2book.org/
 
-Published by OnyxNeon: http://www.onyxneon.com/ August 2007.
+Published by OnyxNeon: http://onyxneon.com/books/modperl2/index.html
+August 2007.
 
-
+Half of all proceeds from the sale of this book will be donated to The
+Perl Foundation: http://www.perlfoundation.org/
 
 
 =head1 Learn mod_perl1
