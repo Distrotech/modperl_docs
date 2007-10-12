@@ -2044,7 +2044,7 @@ with this extension to be passed through the footer module:
       my $modtime = localtime((stat($file))[9]);
       my $footer=<<END;
   <hr>
-  &copy; 1998 <a href="http://www.ora.com/">O\'Reilly &amp; Associates</a><br>
+  &copy; 1998 <a href="http://www.oreilly.com/">O\'Reilly &amp; Associates</a><br>
   <em>Last Modified: $modtime</em>
   END
   

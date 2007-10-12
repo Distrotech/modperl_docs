@@ -204,7 +204,7 @@ http://www.networkcomputing.com/netdesign/1111web.html .
 =item * Programming Perl, 3rd Edition
 
 By Larry Wall, Tom Christiansen & Jon Orwant.
-http://www.ora.com/catalog/pperl3/
+http://www.oreilly.com/catalog/pperl3/
 
 =item * Learning Perl, 3rd Edition
 

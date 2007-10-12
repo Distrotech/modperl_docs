@@ -11,7 +11,7 @@
             <a href="[%- doc.dir.abs_doc_root -%]/maillist/modperl.html">the 
             modperl users mailing list</a>.</p>
             <p class="copyright">Use of the Camel for Perl is a trademark of
-                <a href="http://www.ora.com">O'Reilly &amp; Associates</a>, 
+                <a href="http://www.oreilly.com/">O'Reilly &amp; Associates</a>, 
                 and is used by permission.
             </p>
             <!-- end footer (tail)-->
