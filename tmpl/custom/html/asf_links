@@ -1,0 +1,32 @@
+[%-# links menu
+   # expects to be set:
+   # nav          - cache navigator object
+   # rel_doc_root - relative docs path (only for chapters!)
+-%]
+[%- SET buttons = [
+    ['http://www.apache.org/', 'ASF Home'],
+    ['http://www.apache.org/foundation/sponsorship.html', 'ASF Sponsorship'],
+    ['http://www.apache.org/foundation/thanks.html', 'ASF Thanks'],
+       ];  
+-%]
+[%- WRAPPER wrap_box 
+        title = 'The Apache Software Foundation'
+-%]
+
+[%- FOREACH but = buttons -%]
+
+        <tr>
+            <td class="menu-border"><br></td>
+            <td class="non-sel-bg">
+                <div class="nonselectedmenuitem">
+                    <a href="[%- but.0 -%]">[%- but.1 -%]</a>
+                </div>
+            </td>
+            <td class="menu-border"><br></td>
+        </tr>
+[%- END -%]
+
+        <tr>
+            <td class="menu-border" colspan="3" height="1"><img src="[%- doc.dir.abs_doc_root -%]/images/trans_pix.gif"></a></td>
+        </tr>
+[%- END -%]
