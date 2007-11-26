@@ -1,0 +1,9 @@
+Name: Fred Moyer
+Email: fred@redhotpenguin.com
+Location: San Francisco, California
+Summary: Documentation and code patches, user help. 
+
+Fred helps with documentation and code patches, and helping users on the
+mailing list.  He also maintains Apache::Dispatch and has helped with releases
+for Apache::Reload, Apache::Test, and mod_perl core.
+
