@@ -17,6 +17,10 @@ Klassno.by a belarussian auction site
 
 =item * 
 
+Date: Sun Jul 23 15:37:06 PDT 2006
+
+=item * 
+
 URL: http://klassno.by/
 
 =back

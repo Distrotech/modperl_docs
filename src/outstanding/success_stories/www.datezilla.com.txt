@@ -1,0 +1,13 @@
+Subject: DateZilla.com 
+Date: 26 Nov 2007 11:13:24 -0500
+From: Dr. David R. Baird <dave@zerofive.co.uk>
+URL: http://www.datezilla.com
+
+DateZilla.com is a directory of dating, matchmaking and matrimonials
+services and resources. The site is built on mod_perl and HTML::Mason,
+with a MySQL database. The speed of mod_perl and MySQL, combined with
+the sophisticated caching available in Mason, make the site very fast
+despite running on a bargain basement server. The management backend
+(content, ad serving, affiliate management, user stats) is also built
+on the mod_perl/Mason/MySQL combo, and allows a large site to be
+maintained by a small team from the comfort of their laptops.
