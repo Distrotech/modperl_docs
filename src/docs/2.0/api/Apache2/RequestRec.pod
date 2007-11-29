@@ -1516,7 +1516,12 @@ you run that code in C<PerlPostReadRequestHandler> phase, since if you
 don't -- C<mod_proxy>'s own post_read_request handler will override
 your settings (as it will run after the mod_perl handler).
 
+And you may also want to add
 
+  $r->set_handlers(PerlResponseHandler => []);
+
+so that any response handlers which match apache directives
+will not run in addition to the mod_proxy content handler.
 
 
 
