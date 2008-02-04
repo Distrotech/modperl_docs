@@ -142,11 +142,11 @@ distribution) with all the application logic placed in the template
 using object calls or in-line Perl.  This would be using it in a
 callback style.
 
-HTML::Template and some of the AxKit XML processors are fairly rigid
-about insisting on a pipeline approach.  Neither provide methods for
+HTML::Template is fairly rigid
+about insisting on a pipeline approach.  It doesn't provide methods for
 calling back into Perl code during the HTML formatting stage; you have
-to do the work before running the template.  The authors of these
-tools consider this a feature since it prevents developers from
+to do the work before running the template.  The author of the
+module consider this a feature since it prevents developers from
 cheating on the separation of application code and presentation.
 
 =head2 Languages
@@ -164,8 +164,7 @@ Other systems provide a specialized mini-language instead of (or in
 addition to) in-line Perl.  These will typically have just enough
 syntax to handle variable substitution, conditionals, and looping.
 HTML::Template and Template Toolkit are popular systems using this
-approach.  AxKit straddles the fence, providing both a (not-so-)
-mini-language - XSLT - and an in-line Perl approach - XPathScript.
+approach.
 
 Here's how a typical discussion of the merits of these approaches might go:
 
@@ -331,11 +330,9 @@ Apache::Session module for storage.
 
 =head3 Output Caching
 
-Caching is the key to good performance in many web systems, and some
-of these tools provide user-controlled caching of output.  This is one
-of the major features of both Mason and AxKit.  AxKit can cache at the
-page level, while Mason also offers fine-grained caching of components
-within the page.
+While caching of output is outside the scope of most templating systems, Mason
+includes it as a standard feature.  In addition to page-level caching, Mason also 
+offers fine-grained caching of output from sections within a page.
 
 =head3 Form Handling
 
@@ -534,72 +531,6 @@ testing.  This includes some interesting features like a more flexible
 parsing scheme which can be modified to users' tastes.  it also
 supports direct use of the Perl debugger on Embperl templates, and
 provides performance improvements.
-
-=head2 Apache::AxKit
-
-AxKit is the first mod_perl page generation system to be built from the
-ground up around XML.  Technically, AxKit itself is not a templating
-tool but rather a framework for stringing together different modules
-that generate and transform XML data.  In fact, it can optionally use
-Template Toolkit as an XML transformation language.  However, it
-deserves coverage here since it is also the home of some templating
-tools that are not represented elsewhere.
-
-In its simplest form, AxKit maps XML files to XSL stylesheets which it
-can process using commonly available XSLT modules like XML::XSLT or
-XML::Sablotron.  The rules for mapping a stylesheet to a request are
-very flexible, and they can incorporate query strings, cookies, and
-other attributes of the request.  The idea is that you can use this
-feature to handle a wide variety of clients with differing display
-capabilities by choosing the right stylesheet.
-
-Recognizing that not everyone is a fan of XSL's somewhat obtuse
-syntax, Matt Sergeant has provided an alternate stylesheet language
-called XPathScript.  XPathScript allows you to write a stylesheet
-using text with embedded Perl code.  This is similar to the other
-embedded Perl templating tools, but the focus is on using the built in
-XPath functions for querying an XML document and manipulating the
-retrieved data.  XPathScript can also be used in a declarative
-fashion, specifying the formatting of particular elements in the XML
-input.  For example this snippet will change all C<E<lt>fooE<gt>> tags
-in an XML document to BAR in the output::
-
-  <%
-    $t->{'foo'}{pre}   = 'BAR';
-    $t->{'foo'}{post}    = '';
-    $t->{'foo'}{showtag} = 0;
-  %>
-  <%= apply_templates() %>
-
-By using XPathScript's include function (which looks just like SSI),
-you can build up libraries of useful transformations that use this
-technique.
-
-This is all well and good if you have a bunch of XML files sitting on
-a disk somewhere, but what about dynamic content?  AxKit handles this
-by allowing you to substitute a different data source for the default
-file-based one.  This can include running some dynamic code on each
-request to generate the XML data that will be transformed.  The
-distribution includes a module for doing this called XSP.  XSP is a
-language for building an XML DOM using in-line Perl and tag libraries.
-The tag libraries are specified as stylesheets which can turn XML tags
-into Perl code.  This is demonstrated through the included SQL tag
-library, which allows you to write an XSP page using XML tags which
-will connect to a database, execute queries, and generate an XML
-document with the results.
-
-AxKit has some nice performance boosts built into it.  It can cache
-the full output of a page and serve it as a static file on future
-requests.  It can also compress output to speed up downloads for
-browsers that understand gzip encoding.  These can be done with other
-systems, but they require you to setup additional software .  With
-AxKit, you just enable them in the configuration file.
-
-If all of these languages, tag libraries, and stylesheets sound
-intimidating to you, AxKit may be overkill for your project.  However,
-AxKit has the advantage of being built on approved W3C standards, and
-many of the skills used in developing for it carry over to other
-languages and tools.
 
 =head2 Apache::ASP
 
@@ -804,6 +735,23 @@ Template Toolkit:
 
 And now, a few honorable mentions:
 
+=head2 AxKit2
+
+Previous versions of this document covered Apache::AxKit.  However, the coverage
+was not very good and that project has since been replaced by AxKit2.
+
+Like its predecessor, AxKit2 is all about XML.  It is more of a framework than a
+templating system per se, but includes support for multiple templating systems
+within it.  The systems supported in the core release include XSLT, TAL (see
+the notes on Petal and Template::TAL below), XSP, an XML-based mini-language
+which can be extended with your own tags, and facilities for writing custom tag
+libraries.
+
+Rather than short-change AxKit2 here with an inadequate description, I would
+encourage people who are intrigued by what they've heard so far to go and check
+out AxKit2 on CPAN.  If you like working with XML, this may be a very good fit
+for you.
+
 =head2 HTML_Tree
 
 As mentioned earlier, HTML Tree uses a fairly unique method of
@@ -933,180 +881,6 @@ quickly, and CGI::FastTemplate gets an extra boost since it relies on
 simple regex parsing and doesn't need to eval any in-line Perl code.
 Almost everything else mentioned here will add tenths of seconds to
 each page in compilation time alone.
-
-=head1 Matrix
-
-To help you choose a system, I'll summarize the basic characteristics
-of the major systems along the decision points I've explained in the
-beginning of the article.  Keep in mind that in many cases a system
-can be used in more than one way, and I've simply shown the dominant
-method as seen in the documentation and real world use.  You should
-not eliminate options based on this chart without reading the more
-detailed explanations above.
-
-=for html
-  <table  border="0" cellpadding="1" cellspacing="1">
-    <tr>
-      <th class="table-title-bg"><br></th>
-      <th class="table-title-bg">
-      <div class="table-title">
-        Application Framework
-      </div>
-      </th>
-      <th class="table-title-bg">
-      <div class="table-title">
-        Pipeline or Callback
-      </div>
-      </th>
-      <th class="table-title-bg">
-      <div class="table-title">
-        Parsing Method
-      </div>
-      </th>
-      <th class="table-title-bg">
-      <div class="table-title">
-        Language
-      </div>
-      </th>
-    </tr>
-    <tr>
-      <td class="table-bg">
-        HTML::Mason
-      </td>
-      <td class="table-bg">
-        Framework
-      </td>
-      <td class="table-bg">
-        Callback
-      </td>
-      <td class="table-bg">
-        Compiled
-      </td>
-      <td class="table-bg">
-        Perl
-      </td>
-    </tr>
-    <tr>
-      <td class="table-bg">
-        Template Toolkit
-      </td>
-      <td class="table-bg">
-        Just Templates
-      </td>
-      <td class="table-bg">
-        Pipeline
-      </td>
-      <td class="table-bg">
-        Compiled
-      </td>
-      <td class="table-bg">
-        Mini-Language
-      </td>
-    </tr>
-    <tr>
-      <td class="table-bg">
-        Apache::ASP
-      </td>
-      <td class="table-bg">
-        Framework
-      </td>
-      <td class="table-bg">
-        Callback
-      </td>
-      <td class="table-bg">
-        Compiled
-      </td>
-      <td class="table-bg">
-        Perl and XSL
-      </td>
-    </tr>
-    <tr>
-      <td class="table-bg">
-        HTML::Embperl
-      </td>
-      <td class="table-bg">
-        Framework
-      </td>
-      <td class="table-bg">
-        Callback
-      </td>
-      <td class="table-bg">
-        Compiled
-      </td>
-      <td class="table-bg">
-        Perl
-      </td>
-    </tr>
-    <tr>
-      <td class="table-bg">
-        SSI
-      </td>
-      <td class="table-bg">
-        Just Templates
-      </td>
-      <td class="table-bg">
-        Callback
-      </td>
-      <td class="table-bg">
-        Repeated Parse
-      </td>
-      <td class="table-bg">
-        Mini-Language
-      </td>
-    </tr>
-    <tr>
-      <td class="table-bg">
-        AxKit
-      </td>
-      <td class="table-bg">
-        Framework
-      </td>
-      <td class="table-bg">
-        Pipeline
-      </td>
-      <td class="table-bg">
-        Compiled or Cached Parse Tree
-      </td>
-      <td class="table-bg">
-        Perl and XSL and Mini-Language(s)
-      </td>
-    </tr>
-    <tr>
-      <td class="table-bg">
-        HTML::Template
-      </td>
-      <td class="table-bg">
-        Just Templates
-      </td>
-      <td class="table-bg">
-        Pipeline
-      </td>
-      <td class="table-bg">
-        Cached Parse Tree
-      </td>
-      <td class="table-bg">
-        Mini-Language
-      </td>
-    </tr>
-    <tr>
-      <td class="table-bg">
-        Text::Template
-      </td>
-      <td class="table-bg">
-        Just Templates
-      </td>
-      <td class="table-bg">
-        Pipeline
-      </td>
-      <td class="table-bg">
-        Compiled
-      </td>
-      <td class="table-bg">
-        Perl
-      </td>
-    </tr>
-  </table>
-
 
 =head1 Updates
 
