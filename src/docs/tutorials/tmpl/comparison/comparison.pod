@@ -793,13 +793,13 @@ notation.  Here's a simple example comparing the syntax:
 HTML::Template:
 
   <TMPL_LOOP list>
-      <a href="<TMPL_VAR url>"><b><TMPL_VAR name></b></A>
+      <a href="<TMPL_VAR url>"><b><TMPL_VAR name></b></a>
   </TMPL_LOOP>
 
 Template Toolkit:
 
   [% FOREACH list %]
-      <a href="[% url %]"><b>[% name %]</a></a>
+      <a href="[% url %]"><b>[% name %]</b></a>
   [% END %]
 
 And now, a few honorable mentions:
