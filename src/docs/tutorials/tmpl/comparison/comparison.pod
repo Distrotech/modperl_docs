@@ -812,14 +812,39 @@ programmatically modifies the contents of nodes.  This allows it to
 use genuine valid HTML documents as templates, something which none of
 these other modules can do.  The learning curve is a little steeper
 than average, but this may be just the thing if you are concerned
-about keeping things simple for your HTML coders.  Note that the name
-is "HTML_Tree", not "HTML::Tree".
+about keeping things simple for your HTML coders.  Unfortunately, HTML_Tree
+seems to be a dead project at this point and has not had an update in years.
+(Note that the name is "HTML_Tree", not "HTML::Tree".)
 
-=head2 Petal
+=head2 Petal and Template::TAL
 
-A more modern version of the same approach is available in the Petal 
-module.  Unlike HTML_Tree, Petal is actively maintained.  Look for more 
-information on Petal here in the future.
+Both of these modules are based on the TAL templating language created by the
+developers of the (Python) Zope CMS.  (Petal offers some additions, while
+Template::TAL tries to be a strict implementation of the TAL spec.)  The
+basic idea is to make your templates XML documents and use attributes in a TAL
+namepace to specify data, loops, and conditionals.  This means it is essentially
+using a mini-language, but the templates end up being valid XML documents, which
+allows them to be edited with XML tools.
+
+There are a couple of downsides to TAL.  One is the verbosity.  Compared to most
+of the other tools listed here, TAL is very verbose.  This is a consequence of
+using XML attributes for everything.  Here's an example from the Template::TAL
+docs:
+
+  <li tal:repeat="user users">
+    <a href="?" tal:attributes="href user/url"><span tal:replace="user/name"/></a>
+  </li>
+
+The other issue is the need for your templates to be valid XML (most likely
+XHTML).  Petal attempts to be more forgiving by implementing a custom parser and
+allowing XHTML and HTML.  This should allow the use of WYSIWYG tools to edit
+templates.  In practice though, the custom parser is easily confused by HTML that
+browsers would handle without a problem.  A custom parser is also problematic from
+a maintenance perspective since it doesn't benefit from improvements in the
+commonly used XML parsers.  Template::TAL uses XML::LibXML.
+
+Both Petal and Template::TAL have seen relatively recent maintenance releases,
+which makes them a much safer bet than HTML_Tree at this point.
 
 =head2 ePerl
 
