@@ -146,8 +146,8 @@ for Apache/2.2, and
        http://theoryx5.uwinnipeg.ca/ppms/mod_perl-2.0.ppd
 
 for Apache/2.0. Another way, which will be useful if you plan on 
-installing additional Apache modules, is to set the repository
-within the C<ppm> shell utility to
+installing additional Apache modules, is to add the following
+repository within C<ppm>:
 
    http://theoryx5.uwinnipeg.ca/ppms/
 
@@ -156,8 +156,9 @@ for ActivePerl 819 or higher, or
    http://theoryx5.uwinnipeg.ca/cgi-bin/ppmserver?urn:/PPMServer58
 
 for ActivePerl 818 or lower;
-see the help utility within the C<ppm> shell for
-details. mod_perl 2.0 can then be installed, within the ppm shell, as 
+see the help utility within C<ppm> for
+details on how to do this. 
+mod_perl 2.0 can then be installed, within the ppm shell, as 
 
   ppm> install mod_perl
 
@@ -170,6 +171,27 @@ subdirectory in your Perl tree, so as not to disturb a possible existing
 F<Apache> directory from mod_perl 1.0. See the section below on
 configuring mod_perl to add this directory to the C<@INC> path for
 searching for modules.
+
+The preceding L<http://theoryx5.uwinnipeg.ca/ppms/> repository
+is appropriate for ActivePerl 8xx builds, based on perl-5.8.
+If you're using an ActivePerl 10xx build, based on perl-5.10,
+you can install mod_perl via
+
+ C:\> ppm install
+       http://cpan.uwinnipeg.ca/PPMPackages/10xx/mod_perl.ppd
+
+for Apache/2.2. The corresponding repository that can be
+added to ppm is
+
+   http://cpan.uwinnipeg.ca/PPMPackages/10xx/
+
+after which mod_perl can be installed as
+
+  ppm> install mod_perl
+
+Note that ActivePerl 8xx and ActivePerl 10xx are not binary
+compatible, which means ppm packages compiled, for example,
+for an 8xx build are not compatible with ActivePerl 10xx.
 
 The mod_perl PPM package also includes the necessary Apache DLL
 F<mod_perl.so>; a post-installation script should be run which will
