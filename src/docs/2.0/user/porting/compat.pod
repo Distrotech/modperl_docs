@@ -206,7 +206,7 @@ C<@INC>.
 mod_perl 1.0 was always running its startup code as soon as it was
 encountered. In mod_perl 2.0, it is not always the case. Refer to the
 L<mod_perl 2.0 startup process
-section|docs::2.0::user::config::config/Startup_Process> section for
+section|docs::2.0::user::handlers::server/mod_perl_Startup> for
 details.
 
 
