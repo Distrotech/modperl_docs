@@ -622,7 +622,7 @@ or a different one.
 The socket we wish to use for our side of the connection 
 
 =item arg1: C<$sa>
-( C<L<APR::SockAddr object|docs::2.0::api::APR::SockAdrr>> )
+( C<L<APR::SockAddr object|docs::2.0::api::APR::SockAddr>> )
 
 The address of the machine we wish to connect to.  If NULL,
 APR assumes that the sockaddr_in in the apr_socket is

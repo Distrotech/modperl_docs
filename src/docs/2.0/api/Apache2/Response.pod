@@ -248,7 +248,7 @@ overhead.
 
 If there is a response body following the headers it'll be handled too
 (as if it was sent via
-C<L<print()|docs::2.0::api::Apache2::RequestIO::C_print_/>>).
+C<L<print()|docs::2.0::api::Apache2::RequestIO/C_print_>>).
 
 Notice that if only HTTP headers are included they won't be sent until
 some body is sent (again the "send" part is retained from the mod_perl
