@@ -520,7 +520,7 @@ it's inserted to the outgoing brigade.
 
 We will skip the filter discussion here, since we are going to talk in
 depth about filters in L<the dedicated to filters
-tutorial|docs::2.0::user::handlers::filter>. But all you need to know
+tutorial|docs::2.0::user::handlers::filters>. But all you need to know
 at this stage is that the data sent from the connection handler is
 filtered by the outgoing filter and which transforms it to be all
 lowercase.
