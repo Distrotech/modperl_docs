@@ -1265,7 +1265,7 @@ Relevant links to other places in the porting documents:
 
 =item *
 
-L<mod_perl 1.0 and 2.0 Constants Coexistence|docs::2.0::user::compat/mod_perl_1_0_and_2_0_Constants_Coexistence>
+L<mod_perl 1.0 and 2.0 Constants Coexistence|docs::2.0::user::porting::compat/mod_perl_1_0_and_2_0_Constants_Coexistence>
 
 =back
 
