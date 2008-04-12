@@ -2759,8 +2759,7 @@ writing tests, not mentioned in this tutorial:
   t_client_log_error_is_expected()>
   t_client_log_warn_is_expected()>
 
-See the C<L<Apache::TestUtil|docs::2.0::api::Apache::TestUtil>>
-manpage for more information.
+See the C<Apache::TestUtil> manpage for more information.
 
 =head2 Auto Configuration
 

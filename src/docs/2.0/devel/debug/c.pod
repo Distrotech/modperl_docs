@@ -612,7 +612,7 @@ information that should aid resolve the reported problem is missing.
 
 Therefore the next step is to recompile Perl and mod_perl (and may be
 Apache) with debug symbols as L<explained
-earlier|Getting_Ready_to_Debug> in this chapter.
+earlier|/Getting_Ready_to_Debug> in this chapter.
 
 Now when we repeat the process of starting the server, issuing a
 request and getting the core file, after which we run C<gdb> again

@@ -1852,7 +1852,7 @@ section.
 
 =head2 C<user>
 
-Get the user name, if an L<authentication> process was successful. Or
+Get the user name, if an authentication process was successful. Or
 set it.
 
   $user      = $r->user();
