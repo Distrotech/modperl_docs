@@ -209,7 +209,7 @@ C<L<$r-E<gt>server|docs::2.0::api::Apache2::ServerUtil>> or
 C<L<$parms-E<gt>server|docs::2.0::api::Apache2::CmdParms>>.
 
 =item opt arg3: C<$dir_config>
-( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
+( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::RequestRec/C_per_dir_config_>> )
 
 By default, the configuration returned is the server level one. To
 retrieve the per directory configuration, use

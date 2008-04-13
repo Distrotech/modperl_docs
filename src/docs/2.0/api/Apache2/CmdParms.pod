@@ -484,7 +484,7 @@ config structures.
 ( C<L<Apache2::CmdParms object|docs::2.0::api::Apache2::CmdParms>> )
 
 =item ret: C<$newval>
-( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
+( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::RequestRec/C_per_dir_config_>> )
 
 Returns the commands' per-dir config structures
 

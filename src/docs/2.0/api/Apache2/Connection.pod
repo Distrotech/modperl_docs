@@ -240,7 +240,7 @@ forced.
 Default value is C<Apache2::Const::REMOTE_NAME>.
 
 =item opt arg2: C<$dir_config>
-( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
+( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::RequestRec/C_per_dir_config_>> )
 
 The directory config vector from the request. It's needed to find the
 container in which the directive C<HostnameLookups> is set. To get one
@@ -727,7 +727,7 @@ structures
 ( C<L<Apache2::Connection object|docs::2.0::api::Apache2::Connection>> )
 
 =item ret: C<$ret>
-( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
+( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::RequestRec/C_per_dir_config_>> )
 
 =item since: 2.0.00
 

@@ -1273,7 +1273,7 @@ Get the dir config vector:
 ( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item ret: C<$per_dir_config>
-( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
+( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::RequestRec/C_per_dir_config_>> )
 
 =item since: 2.0.00
 
@@ -1971,7 +1971,7 @@ structures
 ( C<L<Apache2::RequestRec object|docs::2.0::api::Apache2::RequestRec>> )
 
 =item opt arg1: C<$newval>
-( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::ConfVector>> )
+( C<L<Apache2::ConfVector object|docs::2.0::api::Apache2::RequestRec/C_per_dir_config_>> )
 
 =item since: 2.0.00
 
