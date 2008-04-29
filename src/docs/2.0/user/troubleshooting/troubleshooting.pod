@@ -253,7 +253,7 @@ its own ithreads), like so:
     sub foo {}
   </Perl>
 
-At the server shutdown, or when any interprter quits you will see the
+At the server shutdown, or when any interpreter quits you will see the
 following error in the I<error_log>:
 
   Attempt to free temp prematurely: SV 0x91b8e74,
