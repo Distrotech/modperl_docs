@@ -99,7 +99,7 @@ http://modperlbook.org/, under the CreativeCommons "Attribution
 Share-Alike License": http://creativecommons.org/licenses/by-sa/2.0/.
 
 Jeff Pang translated a big chunk of the book to Chinese:
-http://home.earthlink.net/~pangj/mod_perl/
+http://home.arcor.de/pangj/modperl/
 
 
 =head2 mod_perl Pocket Reference
