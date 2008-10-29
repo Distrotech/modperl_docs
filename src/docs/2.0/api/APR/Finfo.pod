@@ -11,6 +11,7 @@ APR::Finfo - Perl API for APR fileinfo structure
   
   $device = $finfo->device;     # (stat $file)[0]
   $inode  = $finfo->inode;      # (stat $file)[1]
+  # stat returns an octal number while protection is hex
   $prot   = $finfo->protection; # (stat $file)[2]
   $nlink  = $finfo->nlink;      # (stat $file)[3]
   $gid    = $finfo->group;      # (stat $file)[4]
@@ -411,7 +412,11 @@ This method returns the same value as Perl's:
 
   (stat $filename)[2]
 
+Note: Perl's stat returns an octal number while
+mod_perl's C<protection> returns a hex number.
 
+See perldoc -f stat and APR's file_io for more information 
+on each.
 
 
 
