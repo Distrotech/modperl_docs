@@ -293,7 +293,7 @@ Get/set the request QUERY string
 
 =item opt arg1: C<$new_args> ( string )
 
-Optinally set the new QUERY string
+Optionally set the new QUERY string
 
 =item ret: C<$args> ( string )
 
