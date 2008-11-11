@@ -170,6 +170,17 @@ C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because at this
 phase the request has not yet been associated with a particular
 filename or directory.
 
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
+
 Now, let's look at an example. Consider the following registry script:
 
   #file:touch.pl
@@ -271,6 +282,17 @@ C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because at this
 phase the request has not yet been associated with a particular
 filename or directory.
 
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
+
 There are many useful things that can be performed at this
 stage. Let's look at the example handler that rewrites request URIs,
 similar to what mod_rewrite does. For example, if your web-site was
@@ -343,6 +365,17 @@ The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because at this
 phase the request has not yet been associated with a particular
 filename or directory.
+
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
 
 For example if you don't want Apache to try to attempt to translate
 URI into a filename, just add a handler:
@@ -439,6 +472,17 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
 
 This phase is very similar to
 C<L<PerlPostReadRequestHandler|/PerlPostReadRequestHandler>>, with the
@@ -687,6 +731,17 @@ It is the first handler to be invoked when serving a request.
 This phase is of type
 C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
+
 The best example here would be to use
 C<L<Apache2::Reload|docs::2.0::api::Apache2::Reload>> which takes the
 benefit of this directive. Usually
@@ -735,6 +790,17 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
 
 The concept behind access checker handler is very simple, return
 C<Apache2::Const::FORBIDDEN> if the access is not allowed, otherwise
@@ -820,6 +886,17 @@ C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
 
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
 
 The following handler authenticates users by asking for a username and
 a password and lets them in only if the length of a string made from
@@ -967,6 +1044,17 @@ C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
+
 Here is the C<MyApache2::SecretResourceAuthz> handler which grants
 access to certain resources only to certain users who have already
 properly authenticated:
@@ -1074,6 +1162,17 @@ C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
+
 The most important thing to remember when overriding the default
 I<type_checker> handler, which is usually the mod_mime handler, is
 that you have to set the handler that will take care of the response
@@ -1116,6 +1215,17 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
 
 The following fixup handler example tells Apache at run time which
 handler and callback should be used to process the request based on
@@ -1252,6 +1362,17 @@ C<L<RUN_FIRST|docs::2.0::user::handlers::intro/item_RUN_FIRST>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
+
 Most of the C<Apache::> modules on CPAN are dealing with this
 phase. In fact most of the developers spend the majority of their time
 working on handlers that generate response content.
@@ -1330,6 +1451,17 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
 
 Imagine a situation where you have to log requests into individual
 files, one per user. Assuming that all requests start with
@@ -1456,6 +1588,17 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
+
+B<Arguments>
+
+See the L<HTTP Request Handler Skeleton|docs::2.0::user::handlers::http/HTTP_Request_Handler_Skeleton> for a description of handler arguments.
+
+B<Return>
+
+See L<Stacked Handlers|docs::2.0::user::handlers::intro/Stacked_Handlers> 
+for a description of handler return codes.
+
+B<Examples>
 
 There are two ways to register and run cleanup handlers:
 

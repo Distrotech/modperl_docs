@@ -224,11 +224,48 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
-As we have seen in the
-C<L<MyApache2::StartupLog::open_logs|/Startup_Phases_Demonstration_Module>>
-handler, the I<open_logs> phase handlers accept four arguments: the
-configuration pool, the logging stream pool, the temporary pool and
-the main server object:
+B<Arguments>
+
+The I<open_logs> handler is passed four arguments: the configuration pool,
+the logging stream pool, the temporary pool and the main server object.
+
+The pool arguments are:
+
+=over
+
+=item *
+
+C<$conf_pool> is the main process sub-pool, therefore its life-span
+is the same as the main process's one. The main process is a sub-pool
+of the global pool.
+
+=item *
+
+C<$log_pool> is a global pool's sub-pool, therefore its life-span is
+the same as the Apache program's one.
+
+META: what is it good for if it lives the same life as conf pool?
+
+=item *
+
+C<$temp_pool> is a C<$conf_pool> subpool, created before the config
+phase, lives through the open_logs phase and get destroyed after the
+post_config phase. So you will want to use that pool for doing
+anything that can be discarded before the requests processing starts.
+
+=back
+
+All three pool arguments are instances of C<L<APR::Pool>>.
+
+C<$s> is the base server object (an instance of C<L<Apache2::ServerRec>>).
+
+B<Return>
+
+The handler should return C<L<Apache2::Const::OK|Apache2::Const>>
+if it completes successfully.
+
+
+B<Examples>
 
   sub open_logs {
       my ($conf_pool, $log_pool, $temp_pool, $s) = @_;
@@ -268,38 +305,6 @@ simple loop. For example to print out the configured port numbers do:
       return Apache2::Const::OK;
   }
 
-C<$s> is the base server object.
-
-The pool arguments in this phase and
-C<L<PerlPostConfigHandler|/C_PerlPostConfigHandler_>> are:
-
-=over
-
-=item *
-
-C<$conf_pool> is the main process sub-pool, therefore its life-span
-is the same as the main process's one. The main process is a sub-pool
-of the global pool.
-
-=item *
-
-C<$log_pool> is a global pool's sub-pool, therefore its life-span is
-the same as the Apache program's one.
-
-META: what is it good for if it lives the same life as conf pool?
-
-=item *
-
-C<$temp_pool> is a C<$conf_pool> subpool, created before the config
-phase, lives through the open_logs phase and get destroyed after the
-post_config phase. So you will want to use that pool for doing
-anything that can be discarded before the requests processing starts.
-
-=back
-
-
-
-
 
 
 
@@ -320,6 +325,17 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 
 The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
+
+B<Arguments>
+
+Arguments are exactly as for C<L<PerlOpenLogsHandler|/C_PerlOpenLogsHandler_>>.
+
+B<Return>
+
+If the handler completes successfully it should return C<L<Apache2::Const::OK|Apache2::Const>>.
+
+
+B<Examples>
 
 In our C<L<MyApache2::StartupLog|/Startup_Phases_Demonstration_Module>>
 example we used the I<post_config()> handler:
@@ -373,6 +389,17 @@ C<L<VOID|docs::2.0::user::handlers::intro/item_VOID>>.
 The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
+B<Arguments>
+
+The I<child_init()> handler is passed two arguments: the child process
+pool (C<L<APR::Pool>>) and the server object (C<L<Apache2::ServerRec>>).
+
+B<Return>
+
+If the handler completes successfully it should return C<L<Apache2::Const::OK|Apache2::Const>>.
+
+B<Examples>
+
 In our C<L<MyApache2::StartupLog|/Startup_Phases_Demonstration_Module>>
 example we used the I<child_init()> handler:
 
@@ -382,9 +409,7 @@ example we used the I<child_init()> handler:
       return Apache2::Const::OK;
   }
 
-The I<child_init()> handler accepts two arguments: the child process
-pool and the server object. The example handler logs the pid of the
-child process it's run in and returns.
+The example handler logs the pid of the child process it's run in and returns.
 
 As you've seen in the example this handler is configured by adding to
 I<httpd.conf>:
@@ -409,6 +434,17 @@ C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>.
 
+B<Arguments>
+
+The I<child_exit()> handler accepts two arguments: the child process
+pool (C<L<APR::Pool>>) and the server object (C<L<Apache2::ServerRec>>).
+
+B<Return>
+
+If the handler completes successfully it should return C<L<Apache2::Const::OK|Apache2::Const>>.
+
+B<Examples>
+
 In our C<L<MyApache2::StartupLog|/Startup_Phases_Demonstration_Module>>
 example we used the I<child_exit()> handler:
 
@@ -418,8 +454,7 @@ example we used the I<child_exit()> handler:
       return Apache2::Const::OK;
   }
 
-The I<child_exit()> handler accepts two arguments: the child process
-pool and the server object. The example handler logs the pid of the
+The example handler logs the pid of the
 child process it's run in and returns.
 
 As you've seen in the example this handler is configured by adding to

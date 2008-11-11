@@ -86,7 +86,9 @@ The handler's configuration scope is
 C<L<SRV|docs::2.0::user::config::config/item_SRV>>, because it's not
 known yet which resource the request will be mapped to.
 
-A I<pre_connection> handler accepts a connection record at its argument:
+B<Arguments>
+
+A I<pre_connection> handler is passed a C<L<connection record|Apache2::Connection>> as its argument:
 
   sub handler {
       my $c = shift;
@@ -95,7 +97,15 @@ A I<pre_connection> handler accepts a connection record at its argument:
   }
 
 [META: There is another argument passed (the actual client socket), but
-it currently an undef]
+it is currently an undef]
+
+B<Return>
+
+The handler should return C<L<Apache2::Const::OK|Apache2::Const>>
+if it completes successfully or C<L<Apache2::Const::FORBIDDEN|Apache2::Const>>
+if the request is forbidden.
+
+B<Examples>
 
 Here is a useful I<pre_connection> phase example: provide a facility
 to block remote clients by their IP, before too many resources were
@@ -159,9 +169,21 @@ C<L<SRV|docs::2.0::user::config::config/item_SRV>>. Therefore the only
 way to run protocol servers different than the core HTTP is inside
 dedicated virtual hosts.
 
-A I<process_connection> handler accepts a connection record object as
-its only argument, a socket object can be retrieved from the
-connection record object. Here is a simplified handler skeleton:
+B<Arguments>
+
+A I<process_connection> handler is passed a
+C<L<connection record|Apache2::Connection>> object as its only argument.
+
+A socket object can be retrieved from the connection record object.
+
+B<Return>
+
+The handler should return C<L<Apache2::Const::OK|Apache2::Const>>
+if it completes successfully.
+
+B<Examples>
+
+Here is a simplified handler skeleton:
 
   sub handler {
       my ($c) = @_;

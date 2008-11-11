@@ -711,6 +711,22 @@ C<L<VOID|docs::2.0::user::handlers::intro/item_VOID>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
+B<Arguments>
+
+C<PerlInputFilterHander> handlers are passed two arguments:
+an C<L<Apache2::Filter>> object; and
+an C<L<APR::Brigade>> object;
+
+See the examples that follow in this chapter for further explanation.
+
+B<Return>
+
+Filters are expected to return C<L<Apache2::Const::OK|Apache2::Const>>
+or C<L<Apache2::Const::DECLINED|Apache2::Const>>.
+See the examples that follow in this chapter for further explanation.
+
+B<Examples>
+
 C<PerlInputFilterHandler> handlers are automatically
 C<L<AutoLoad|docs::2.0::user::config::config/C_AutoLoad_>>ed, since
 they need to be compiled before L<the filter
@@ -742,14 +758,25 @@ C<L<VOID|docs::2.0::user::handlers::intro/item_VOID>>.
 The handler's configuration scope is
 C<L<DIR|docs::2.0::user::config::config/item_DIR>>.
 
-Similar to the C<PerlInputFilterHandler> handlers,
-C<PerlOutputFilterHandler> handlers are automatically
-C<AutoLoad>ed.
+B<Arguments>
+
+C<PerlOutputFilterHander> handlers are passed five arguments:
+an C<L<Apache2::Filter>> object;
+an C<L<APR::Brigade>> object;
+an  C<L<Apache2::Const :input_mode|docs::2.0::api::Apache2::Const/toc_C__input_mode_>> constant;
+an C<L<APR::Const :read_type|docs::2.0::api::APR::Const/toc_C__read_type_>> constant; and
+the number of bytes to read.
+
+See the examples that follow in this chapter for further explanation.
+
+B<Return>
+
+B<Examples>
 
 The following sections include several examples that use the
 C<PerlOutputFilterHandler> handler.
 
-Similar to C<L<PerlInputFilterHandler|/C_PerlInputFilterHandler_>>
+Similar to C<L<PerlInputFilterHandler|/C_PerlInputFilterHandler_>>,
 C<PerlOutputFilterHandler> handlers are automatically
 C<L<AutoLoad|docs::2.0::user::config::config/C_AutoLoad_>>ed.
 
