@@ -1680,7 +1680,7 @@ example:
 
 =head2 C<Apache::URI-E<gt>parse($r, [$uri])>
 
-C<parse()> and its associate methods have moved into the
+C<parse()> and its associated methods have moved into the
 C<L<APR::URI|docs::2.0::api::APR::URI>> package. For example:
 
   my $curl = $r->construct_url;
