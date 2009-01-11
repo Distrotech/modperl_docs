@@ -47,10 +47,7 @@ prerequisites).
 
 For the PDF version, you will also need a command-line tool called
 C<ps2pdf>, which is included with the Ghostscript distribution: see
-http://www.ghostscript.com/ . You will probably also need the
-I<netpbm> package.
-
- META: we need specifics about netpbm
+http://www.ghostscript.com/ . 
 
 =head2 Normal build process
 

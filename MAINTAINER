@@ -15,12 +15,17 @@ So you either need to manually add the mime type property on each new
 [auto-props]
 *.dia = svn:mime-type=application/octet-stream 
 
-dia generates .png files via its export method. As older browsers
-won't recognize .png or crash, we want to use gifs instead. Here is
-how to convert png files to gif files:
+dia generates .png files via its export method. Really old browsers
+don't recognize .png so it was previously recommended to convert the 
+.png files to gifs.  However, all current browsers have acceptable png 
+support, so you can leave them in that format.  If for some reason you
+want to convert the files to gif, you can do it like this: 
 
   perl -le 'for (@ARGV) { print STDERR "converting $_\n"; \ s/\.\w+$//; \
      system "pngtopnm $_.png | pnmquant 256 | ppmtogif > $_.gif" } ' *.png
 
+pngtopnm, pnmquant, and ppmtogif are all part of netpbm, which is 
+available at: 
 
+http://netpbm.sourceforge.net/
 
