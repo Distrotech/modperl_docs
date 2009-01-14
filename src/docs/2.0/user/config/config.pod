@@ -135,7 +135,7 @@ same variable emulating arrays and hashes.  For example:
   
 You would retrieve these values with: 
 
-  my @foos = $r->dir_config('foo'); 
+  my @foos = $r->dir_config->get('foo'); 
 
 This would fill the I<@foos> array with 'bar', 'bar1', and 'bar2'.  
 
@@ -149,7 +149,7 @@ of directives per key.  For example:
 
 You can then retrieve these values with: 
 
-  my %foos = $r->dir_config('foo'); 
+  my %foos = $r->dir_config->get('foo'); 
 
 Where I<%foos> will have a structure like: 
 
