@@ -200,7 +200,7 @@ C<L<APR::Table|docs::2.0::api::APR::Table>> methods.
 
   $table  = $s->dir_config();
   $value  = $s->dir_config($key);
-  @values = $s->dir_config($key);
+  @values = $s->dir_config->get($key);
   $s->dir_config($key, $val);
 
 =over 4
@@ -233,13 +233,10 @@ returns a I<HASH> reference blessed into the I<APR::Table> class. This
 object can be manipulated via the I<APR::Table> methods. For available
 methods see I<APR::Table>.
 
-  @values = $s->dir_config($key);
+  @values = $s->dir_config->get($key);
 
-If the C<$key> argument is passed in the list context a list of all
-matching values will be returned. This method is ineffective for big
-tables, as it does a linear search of the table. Thefore avoid using
-this way of calling dir_config() unless you know that there could be
-more than one value for the wanted key and all the values are wanted.
+To receive a list of values you must use C<get()> method from the
+C<L<APR::Table|docs::2.0::api::APR::Table>> class.
 
   $value = $s->dir_config($key);
 
