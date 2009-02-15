@@ -168,7 +168,8 @@ your script into memory and keep it there, whereas CGI will run it once,
 cleaning out the entire process space.  Many times you have heard
 "always use C<-w>, always use C<-w> and 'use strict'".
 This is more important here than anywhere else!
-
+Some other important caveats to keep in mind are discussed on the
+L<Perl Reference|docs::general::perl_reference::perl_reference> page.
 
 
 =head1 Authors
