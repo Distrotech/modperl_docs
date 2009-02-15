@@ -2794,7 +2794,7 @@ http://www.avrasoft.com/perl6/try6-ref5.txt
 =back
 
 
-=head1 Customized __DIE__ hanlder
+=head1 Customized __DIE__ handler
 
 As we saw in the previous sections it's a bad idea to do:
 
