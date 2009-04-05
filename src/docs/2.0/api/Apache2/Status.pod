@@ -8,6 +8,12 @@ Apache2::Status - Embedded interpreter status information
 =head1 Synopsis
 
   <Location /perl-status>
+
+      # disallow public access
+      Order Deny, Allow
+      Deny from all
+      Allow from 127.0.0.1
+
       SetHandler modperl
       PerlOptions +GlobalRequest
       PerlResponseHandler Apache2::Status
@@ -16,6 +22,12 @@ Apache2::Status - Embedded interpreter status information
   or
 
   <Location /perl-status>
+
+      # disallow public access
+      Order Deny, Allow
+      Deny from all
+      Allow from 127.0.0.1
+
       SetHandler perl-script
       PerlResponseHandler Apache2::Status
   </Location>
@@ -31,6 +43,12 @@ about the status of the Perl interpreter embedded in the server.
 Configure like so:
 
   <Location /perl-status>
+
+      # disallow public access
+      Order Deny, Allow
+      Deny from all
+      Allow from 127.0.0.1
+
       SetHandler modperl
       PerlOptions +GlobalRequest
       PerlResponseHandler Apache2::Status
@@ -45,6 +63,12 @@ C<L<"perl-script"|docs::2.0::user::config::config/C_perl_script_>>
 core handler, configure C<Apache2::Status> as:
 
   <Location /perl-status>
+
+      # disallow public access
+      Order Deny, Allow
+      Deny from all
+      Allow from 127.0.0.1
+
       SetHandler perl-script
       PerlResponseHandler Apache2::Status
   </Location>

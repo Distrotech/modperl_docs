@@ -5,6 +5,12 @@ Apache::Status - Embedded interpreter status information
 =head1 Synopsis
 
   <Location /perl-status>
+
+    # disallow public access
+    Order Deny, Allow
+    Deny from all
+    Allow from 127.0.0.1
+
     SetHandler  perl-script
     PerlHandler Apache::Status
   </Location>
@@ -17,6 +23,12 @@ status of the Perl interpreter embedded in the server.
 Configure like so:
 
   <Location /perl-status>
+
+    # disallow public access
+    Order Deny, Allow
+    Deny from all
+    Allow from 127.0.0.1
+
     SetHandler  perl-script
     PerlHandler Apache::Status
   </Location>
