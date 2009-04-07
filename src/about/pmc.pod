@@ -12,6 +12,8 @@ Today, the PMC consists of:
 
 =over
 
+=item * Adam Prime
+
 =item * Ask Bjørn Hansen
 
 =item * Doug MacEachern
