@@ -38,26 +38,12 @@ getopt('v', \%opts);
 #
 # both can be set in the user's startup file
 
-# on daedalus (the production server) we cannot modify the config file
-# so we do it here
 BEGIN {
     require Sys::Hostname;
     my $hostname = Sys::Hostname::hostname();
 
-    if ($hostname && ($hostname eq 'minotaur.apache.org' ||
-                      $hostname eq 'daedalus.apache.org')) {
+    if ($hostname && ($hostname eq 'minotaur.apache.org') {
         $ENV{MODPERL_SITE} = "http://perl.apache.org/";
-        $ENV{SWISH_BINARY_PATH} = "/home/perlwww/bin/swish-e";
-
-#        unshift @INC,
-#            qw(
-#               /home/stas/lib/perl5/5.00503
-#               /home/stas/lib/perl5/site_perl/5.005
-#               /home/stas/lib/perl5/site_perl/
-#               /home/stas/lib/perl5/site_perl/
-#               /home/stas/lib/perl5/
-#              );
-
     }
 }
 
@@ -70,7 +56,7 @@ my $verbose_level = exists $opts{v} && $opts{v} =~/^\d+$/ ? $opts{v} : 0;
 my $cwd = Cwd::fastcwd();
 chdir "$Bin/../dst_html/search";
 
-my $swish_binary = $ENV{SWISH_BINARY_PATH} || './swish-e';
+my $swish_binary = $ENV{SWISH_BINARY_PATH} || '/usr/local/bin/swish-e';
 die "Cannot find swish-e at $swish_binary: $!" unless -x $swish_binary;
 
 $ENV{SPIDER_QUIET} = !$verbose_level;
