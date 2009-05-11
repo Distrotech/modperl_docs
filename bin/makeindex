@@ -34,7 +34,7 @@ getopt('v', \%opts);
 # the location of the swish-e, we need it to be set explicitly,
 # because on some machines, more than one version exists, and we need
 # the 2.1-dev + version
-# $ENV{SWISH_BINARY_PATH} = "/usr/lobal/bin/swish-e";
+# $ENV{SWISH_BINARY_PATH} = "/usr/local/bin/swish-e";
 #
 # both can be set in the user's startup file
 
