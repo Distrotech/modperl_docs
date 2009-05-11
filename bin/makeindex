@@ -42,7 +42,7 @@ BEGIN {
     require Sys::Hostname;
     my $hostname = Sys::Hostname::hostname();
 
-    if ($hostname && ($hostname eq 'minotaur.apache.org') {
+    if ($hostname && ($hostname eq 'minotaur.apache.org')) {
         $ENV{MODPERL_SITE} = "http://perl.apache.org/";
     }
 }
