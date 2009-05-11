@@ -20,16 +20,12 @@ my $dst = "/www/perl.apache.org";
 
 my %fs = (
     'minotaur.apache.org' => '/x1',
-    'daedalus.apache.org' => '/x2',
 );
 
 umask 0002;
 
 my $HOME = $ENV{HOME};
-$ENV{PATH} = "/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/local/bin:/usr/X11R6/bin:$HOME/bin";
-
-$ENV{PERL5LIB} = "$HOME/lib/perl5/5.8.8:$HOME/lib/perl5/5.8.8/mach:$HOME/lib/perl5/site_perl:$HOME/lib/perl5/site_perl/5.8.8:$HOME/lib/perl5/site_perl/5.8.8/mach";
-
+$ENV{PATH} = "/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:$HOME/bin";
 
 chdir $src;
 # Do different things depending on our name
