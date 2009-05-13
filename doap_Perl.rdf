@@ -64,6 +64,13 @@ performance.
     <release>
       <Version>
         <name>mod_perl 1.0</name>
+        <created>2009-05-11</created>
+        <revision>1.31</revision>
+      </Version>
+    </release>
+    <release>
+      <Version>
+        <name>mod_perl 1.0</name>
         <created>2007-03-29</created>
         <revision>1.30</revision>
       </Version>
