@@ -295,7 +295,7 @@ I</new_uri>:
       my $r = shift;
   
       my $subr = $r->lookup_uri("/new_uri");
-      $sub->run;
+      $subr->run;
   
       return Apache2::Const::OK;
   }
