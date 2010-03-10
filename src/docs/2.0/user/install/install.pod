@@ -49,6 +49,28 @@ C<-Dusethreads>. Remember that threads-support slows things down and
 on some platforms it's unstable (e.g., FreeBSD), so don't enable it
 unless you really need it.
 
+=item 64 bit Linux
+
+If while running C<make test> while building mod_perl 2 you get an error like
+this:
+
+  /usr/bin/ld: /usr/local/lib/perl5/5.10.1/x86_64-linux/CORE/libperl.a(op.o): \
+  relocation R_X86_64_32S against `PL_sv_yes' can not be used when making a shared \
+                  object; recompile with -fPIC
+  /usr/local/lib/perl5/5.10.1/x86_64-linux/CORE/libperl.a: could not read symbols: Bad \
+                  value
+
+You're likely on 64 bit Linux and will need to build Perl for that platform.
+You can do so by running Perl's C<Configure> with the C<$CFLAGS> environment
+variable and the C<-A> and C<ccflags> options. So if you normally build Perl
+with:
+
+  % ./Configure -des
+
+You would instead configure with:
+
+  % CFLAGS='-m64 -mtune=nocona' ./Configure -des -A ccflags=-fPIC
+
 =item Threaded MPMs
 
 Require at least Perl version 5.8.0 with ithreads support
