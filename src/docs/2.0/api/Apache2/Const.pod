@@ -2579,6 +2579,15 @@ C<L<$r-E<gt>proxyreq|docs::2.0::api::Apache2::RequestRec/C_proxyreq_>>.
 =back
 
 
+=head3 C<Apache2::Const::PROXYREQ_RESPONSE>
+
+=over
+
+=item since: 2.0.5
+
+=back
+
+
 =head1 See Also
 
 L<mod_perl 2.0 documentation|docs::2.0::index>.
