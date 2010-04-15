@@ -1479,17 +1479,17 @@ other related fields.
 
 =item opt arg1: C<$val> ( integer )
 
-0, 1 or none.
+PROXYREQ_NONE, PROXYREQ_PROXY, PROXYREQ_REVERSE, PROXYREQ_RESPONSE
 
 =item ret: C<$status> ( integer )
 
-If C<$val> is 0 or 1, the I<proxyrec> member will be set to that value
+If C<$val> is defined the I<proxyrec> member will be set to that value
 and previous value will be returned.
 
 If C<$val> is not passed, and C<$r-E<gt>proxyreq> is not true, and the
 proxy request is matching the current vhost (scheme, hostname and
-port), the I<proxyrec> member will be set to 1 and that value will be
-returned. In addition C<$r-E<gt>uri> is set to C<$r-E<gt>unparsed_uri>
+port), the I<proxyrec> member will be set to PROXYREQ_PROXY and that value
+will be returned. In addition C<$r-E<gt>uri> is set to C<$r-E<gt>unparsed_uri>
 and C<$r-E<gt>filename> is set to C<"modperl-proxy:".$r-E<gt>uri>. If
 those conditions aren't true 0 is returned.
 
@@ -1501,7 +1501,7 @@ For example to turn a normal request into a proxy request to be
 handled on the same server in the C<PerlTransHandler> phase run:
 
   my $real_url = $r->unparsed_uri;
-  $r->proxyreq(1);
+  $r->proxyreq(Apache2::Const::PROXYREQ_PROXY);
   $r->uri($real_url);
   $r->filename("proxy:$real_url");
   $r->handler('proxy-server');
@@ -1509,7 +1509,7 @@ handled on the same server in the C<PerlTransHandler> phase run:
 Also remember that if you want to turn a proxy request into a
 non-proxy request, it's not enough to call:
 
-  $r->proxyreq(0);
+  $r->proxyreq(Apache2::Const::PROXYREQ_NONE);
 
 You need to adjust C<$r-E<gt>uri> and C<$r-E<gt>filename> as well if
 you run that code in C<PerlPostReadRequestHandler> phase, since if you
