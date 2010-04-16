@@ -60,7 +60,11 @@ Module list</a>.</p>
 <p>
 <a name="[% person.id %]"></a>
 [% IF person.image %]
-<img src="[% person.image%]" alt="Picture of [% person.name %]" align="right">
+[% IF person.url %]
+<a href="[% person.url %]"><img border="0" src="[% person.image %]" alt="Picture of [% person.name %]" align="right"></a>
+[% ELSE %]
+<img src="[% person.image %]" alt="Picture of [% person.name %]" align="right">
+[% END %]
 [% END %]
 
 <b>Name: </b> [% person.name %]<br>
