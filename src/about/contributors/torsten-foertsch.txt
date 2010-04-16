@@ -1,0 +1,24 @@
+Name: Torsten Foertsch
+Email: torsten.foertsch@gmx.net
+Location: Weimar & Gaiberg (near Heidelberg), Germany
+Summary: Bug fixing, user help.
+URL: http://foertsch.name/
+Image: torsten-foertsch.jpg
+Occupation: Freelance Programmer
+
+Torsten came to know mod_perl in 1998. For a few years he has used it simply
+as a tool. His first contribution came in just on the eve of mod_perl 2.0
+in 2004. Since then he has fixed many bugs and continues to help users on
+the mailing list. He also wrote a few
+<a href="http://search.cpan.org/~opi/">CPAN</a> modules around mod_perl(2).
+Every once in a while Torsten publishs interesting solutions and work-arounds
+on <a href="http://foertsch.name/ModPerl-Tricks/">his site</a>.
+
+Torsten works as a freelance programmer. In fact, he can be hired to provide
+professional mod_perl support. Although most of his clients are German
+companies he offers his knowledge worldwide. Torsten's experience
+in C-programming spans back to the year 1989, his Perl-experience to 1998.
+He works almost exclusively on Linux.
+
+In his free time Torsten likes to solve Sudoku. He finds this passion
+involves very much the same skills as debugging programs.
