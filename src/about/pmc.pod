@@ -32,7 +32,7 @@ Today, the PMC consists of:
 
 =item * Randy Kobes
 
-=item * Torsten F"ortsch
+=item * Torsten Förtsch
 
 =back
 
