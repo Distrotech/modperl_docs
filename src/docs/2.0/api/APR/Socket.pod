@@ -51,6 +51,8 @@ APR::Socket - Perl API for APR sockets
       # handle the condition
   }
 
+  # fetch the operating level socket
+  my $fd=$sock->sock_get;
 
 
 =head1 Description
@@ -407,6 +409,38 @@ How many bytes were sent
 =back
 
 For examples see the C<L<recv|/C_recv_>> item.
+
+
+
+
+
+
+
+
+
+
+
+=head2 C<sock_get>
+
+Get the operating system socket, the file descriptor on UNIX.
+On Windows this function returns C<-1> to indicate it is not implemented.
+
+  $fd = $sock->sock_get;
+
+=over 4
+
+=item obj: C<$sock>
+( C<L<APR::Socket object|docs::2.0::api::APR::Socket>> )
+
+The socket
+
+=item ret: C<$fd> ( integer )
+
+The OS-level file descriptor.
+
+=item since: 2.0.00
+
+=back
 
 
 
