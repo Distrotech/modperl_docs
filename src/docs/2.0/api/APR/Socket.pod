@@ -438,7 +438,7 @@ The socket
 
 The OS-level file descriptor.
 
-=item since: 2.0.00
+=item since: 2.0.5
 
 =back
 
