@@ -52,7 +52,7 @@ APR::Socket - Perl API for APR sockets
   }
 
   # fetch the operating level socket
-  my $fd=$sock->sock_get;
+  my $fd=$sock->fileno;
 
 
 =head1 Description
