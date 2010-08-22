@@ -78,7 +78,6 @@ C<APR::Socket> provides the following methods:
 =head2 C<fileno>
 
 Get the operating system socket, the file descriptor on UNIX.
-On Windows this function returns C<-1> to indicate it is not implemented.
 
   $fd = $sock->fileno;
 
@@ -93,7 +92,7 @@ The socket
 
 The OS-level file descriptor.
 
-=item since: 2.0.5
+=item since: 2.0.5 (not implemented on Windows)
 
 =back
 
