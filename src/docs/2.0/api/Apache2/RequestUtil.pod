@@ -64,7 +64,7 @@ Apache2::RequestUtil - Perl API for Apache request record utils
   # tell the client not to cache the response
   $r->no_cache($boolean);
   
-  # share perl objects like $r->notes
+  # share perl objects by reference like $r->notes
   $r->pnotes($key => [$obj1, $obj2]);
   
   # get HTML signature
@@ -777,6 +777,7 @@ out.
 
 Share Perl variables between Perl HTTP handlers
 
+  # to share variables by value and not reference, $val should be a lexical.
   $old_val  = $r->pnotes($key => $val);
   $val      = $r->pnotes($key);
   $hash_ref = $r->pnotes();
@@ -793,6 +794,35 @@ example illustrates the effect:
 
 In both cases C<$x> is C<2> not C<1>. See also C<Apache2::SafePnotes> on
 CPAN.
+
+There has been a lot of discussion advocating for pnotes sharing variables
+by value and not reference.  Sharing by reference can create 'spooky action
+at a distance' effects when the sharing is assumed to share a copy of the
+value.  Tim Bunce offers the following summary and suggestion for sharing
+by value.
+
+What's wrong with this code:
+
+  sub foo {
+      my ($r, $status, $why) = @_;
+      $r->pnotes('foo', ($why) ? "$status:$why" : $status);
+      return;
+  }
+
+Nothing, except it doesn't work as expected due to this pnotes bug: If the 
+same code is called in a sub-request then the pnote of $r->prev is magically 
+updated at a distance to the same value!
+
+Try explain why that is to anyone not deeply familar with perl internals!
+
+The fix is to avoid pnotes taking a ref to the invisible op_targ embededed in 
+the code by passing a simple lexical variable as the actual argument. That can be done in-line like this:
+
+  sub mark_as_internally_redirected {
+      my ($r, $status, $why) = @_;
+      $r->pnotes('foo', my $tmp = (($why) ? "$status:$why" : $status));
+      return;
+  }
 
 =over 4
 
