@@ -684,7 +684,10 @@ QrnWO3UkWeAgmGQ70w==
 -----END PGP PUBLIC KEY BLOCK-----
 
 
-uid                  Fred Moyer <fred@redhotpenguin.com>
+
+pub   2048R/B3E5D8E3 2011-02-02
+uid                  Fred Moyer (Perl Hacker) <fred@redhotpenguin.com>
+sub   2048R/B46ED5E2 2011-02-02
 
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1.4.10 (Darwin)
