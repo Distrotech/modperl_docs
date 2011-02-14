@@ -810,7 +810,7 @@ What's wrong with this code:
   }
 
 Nothing, except it doesn't work as expected due to this pnotes bug: If the 
-same code is called in a sub-request then the pnote of $r->prev is magically 
+same code is called in a sub-request then the pnote of $r-E<gt>prev is magically 
 updated at a distance to the same value!
 
 Try explain why that is to anyone not deeply familar with perl internals!
