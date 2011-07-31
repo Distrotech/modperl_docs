@@ -279,6 +279,8 @@ The default type
 
 =item since: 2.0.00
 
+=item removed from the C<httpd> API in version 2.3.2
+
 =back
 
 
