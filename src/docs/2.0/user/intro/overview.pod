@@ -452,7 +452,7 @@ data, which means that no runtime locking is required and read-only
 data such as the syntax tree is shared from the I<parent>, which
 should reduce the overall mod_perl memory footprint.
 
-Rather than create a C<PerlInterperter> per-thread by default,
+Rather than create a C<PerlInterpreter> per-thread by default,
 mod_perl creates a pool of interpreters.  The pool mechanism helps cut
 down memory usage a great deal.  As already mentioned, the syntax tree
 is shared between all cloned interpreters.  If your server is serving
