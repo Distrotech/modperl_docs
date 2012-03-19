@@ -103,12 +103,23 @@ To pass more than one argument, use an ARRAY or a HASH reference
 
 =item excpt:
 
-if the registered callback fails, it happens when the pool is
-destroyed. The destruction is performed by Apache and it ignores any
-failures. Even if it didn't ignore the failures, most of the time the
-pool is destroyed when a request or connection handlers are long gone.
-However the error B<is> logged to F<error_log>, so if you monitor that
-file you will spot if there are any problems with it.
+If a registered callback dies or throws an exception C<$@> is stringified
+and passed to C<warn()>. Usually, this results in printing it to the
+F<error_log>. However, a C<$SIG{__WARN__}> handler can be used to catch
+them.
+
+  $pool->cleanup_register(sub {die "message1\n"});
+  $pool->cleanup_register(sub {die "message2\n"});
+  my @warnings;
+  {
+      local $SIG{__WARN__}=sub {push @warnings, @_};
+      $pool->destroy;       # or simply undef $pool
+  }
+
+Both of the cleanups above are executed at the time C<$pool-E<gt>destroy>
+is called. C<@warnings> contains C<message2\n> and C<message1\n> afterwards.
+C<$pool-E<gt>destroy> itself does not throw an exception. Any value of C<$@>
+is preserved.
 
 =item since: 2.0.00
 
