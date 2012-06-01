@@ -30,7 +30,9 @@ Today, the PMC consists of:
 
 =item * Philippe Chiasson
 
-=item * Randy Kobes
+=item * Randy Kobes (emeritus)
+
+=item * Steve Hay
 
 =item * Torsten Förtsch
 
