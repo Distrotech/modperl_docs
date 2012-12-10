@@ -675,6 +675,158 @@ when you encounter this problem.
 
 
 
+=head2 Variable $x will not stay shared at
+
+This warning is normally as a result of variables that your script is sharing
+with subroutines globally, rather than passing by value or reference.  As
+the cause and solution of this is virtually identical to another commonly
+encountered problem (L<Sometimes it works, sometimes it
+doesn't|user::troubleshooting::troubleshooting/Sometimes_it_Works__Sometimes_it_Doesn_t>),
+the text is not repeated here but is instead included in that section which
+follows this one.
+
+You may have read somewhere F<out there> that this warning can be ignored,
+but if you read on you will see that you should F<never> ignore the warning. 
+The other thing that might confuse you is that this warning is normally
+encountered when defining subroutines within subroutines.  So why would you
+experience it in your script where that is not the case?  The reason is
+because mod_perl wraps your script in its own subroutine (see the L<Perl
+Reference|general::perl_reference::perl_reference/When_You_Cannot_Get_Rid_of_The_Inner_Subroutine>
+documentation for more details).
+
+
+
+
+=head2 Sometimes it Works, Sometimes it Doesn't
+
+When you start running your scripts under mod_perl, you might find
+yourself in a situation where a script seems to work, but sometimes it
+screws up. And the more it runs without a restart, the more it screws
+up. Often the problem is easily detectable and solvable. You have to
+test your script under a server running in single process mode
+(C<httpd -X>).
+
+Generally the problem is the result of using global variables (normally accompanied
+by a L<Variable $x will not stay shared at|user::troubleshooting::troubleshooting/Variable__x_will_not_stay_shared_at> warning). Because
+global variables don't change from one script invocation to another
+unless you change them, you can find your scripts do strange things.
+
+Let's look at three real world examples:
+
+=head3 An Easy Break-in
+
+The first example is amazing: Web Services. Imagine that you enter
+some site where you have an account, perhaps a free email
+account. Having read your own mail you decide to take a look at
+someone else's.
+
+You type in the username you want to peek at and a dummy password and
+try to enter the account. On some services this will work!!!
+
+You say, why in the world does this happen? The answer is simple:
+B<Global Variables>. You have entered the account of someone who
+happened to be served by the same server child as you. Because of
+sloppy programming, a global variable was not reset at the beginning
+of the program and voila, you can easily peek into someone else's
+email!  Here is an example of sloppy code:
+
+  use vars ($authenticated);
+  my $q = new CGI;
+  my $username = $q->param('username');
+  my $passwd   = $q->param('passwd');
+  authenticate($username,$passwd);
+    # failed, break out
+  unless ($authenticated){
+    print "Wrong passwd";
+    exit;
+  }
+    # user is OK, fetch user's data
+  show_user($username);
+  
+  sub authenticate{
+    my ($username,$passwd) = @_;
+    # some checking
+    $authenticated = 1 if SOME_USER_PASSWD_CHECK_IS_OK;
+  }
+
+Do you see the catch? With the code above, I can type in any valid
+username and any dummy password and enter that user's account,
+provided she has successfully entered her account before me using the
+same child process! Since C<$authenticated> is global--if it becomes 1
+once, it'll stay 1 for the remainder of the child's life!!! The
+solution is trivial--reset C<$authenticated> to 0 at the beginning of
+the program.
+
+A cleaner solution of course is not to rely on global variables, but
+rely on the return value from the function.
+
+  my $q = CGI->new;
+  my $username = $q->param('username');
+  my $passwd   = $q->param('passwd');
+  my $authenticated = authenticate($username,$passwd);
+    # failed, break out
+  unless ($authenticated){
+    print "Wrong passwd";
+    exit;
+  }
+    # user is OK, fetch user's data
+  show_user($username);
+  
+  sub authenticate{
+    my ($username,$passwd) = @_;
+    # some checking
+    return (SOME_USER_PASSWD_CHECK_IS_OK) ? 1 : 0;
+  }
+
+Of course this example is trivial--but believe me it happens!
+
+=head3 Thinking mod_cgi
+
+Just another little one liner that can spoil your day, assuming you
+forgot to reset the C<$allowed> variable.  It works perfectly OK in
+plain mod_cgi:
+
+  $allowed = 1 if $username eq 'admin';
+
+But using mod_perl, and if your system administrator with superuser
+access rights has previously used the system, anybody who is lucky
+enough to be served later by the same child which served your
+administrator will happen to gain the same rights.
+
+The obvious fix is:
+
+  $allowed = $username eq 'admin' ? 1 : 0;
+
+=head3 Regular Expression Memory
+
+Another good example is usage of the C</o> regular expression
+modifier, which compiles a regular expression once, on its first
+execution, and never compiles it again. This problem can be difficult
+to detect, as after restarting the server each request you make will
+be served by a different child process, and thus the regex pattern for
+that child will be compiled afresh.  Only when you make a request that
+happens to be served by a child which has already cached the regex
+will you see the problem.  Generally you miss that. When you press
+reload, you see that it works (with a new, fresh child). Eventually it
+doesn't, because you get a child that has already cached the regex
+and won't recompile because of the C</o> modifier.
+
+An example of such a case would be:
+
+  my $pat = $q->param("keyword");
+  foreach( @list ) {
+    print if /$pat/o;
+  }
+
+To make sure you don't miss these bugs always test your CGI in
+L<single process
+mode|general::control::control/Running_a_Server_in_Single_Process_Mode>.
+
+To solve this particular C</o> modifier problem refer to L<Compiled
+Regular Expressions|general::perl_reference::perl_reference/Compiled_Regular_Expressions>.
+
+For more details and further examples please see the L<Perl Reference|general::perl_reference::perl_reference/my____Scoped_Variable_in_Nested_Subroutines> documentation.
+
 
 
 
