@@ -1439,8 +1439,8 @@ Now a simple response test may look like this:
       $r->content_type('text/plain');
   
       $r->write("1..2\n");
-      $r->write("ok 1")
-      $r->write("not ok 2")
+      $r->write("ok 1\n")
+      $r->write("not ok 2\n")
   
       Apache2::Const::OK;
   }
