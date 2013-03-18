@@ -1431,7 +1431,9 @@ Now a simple response test may look like this:
   
   use constant BUFSIZ => 512; #small for testing
   use Apache2::Const -compile => 'OK';
-  
+  use Apache2::RequestIO;
+  use Apache2::RequestRec; 
+ 
   sub handler {
       my $r = shift;
       $r->content_type('text/plain');
