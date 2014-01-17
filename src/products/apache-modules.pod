@@ -44,7 +44,7 @@ Modules listed with the B<APML> as is contact are part of the mod_perl
 distribution package.  Other modules can be found on CPAN in the
 http://www.cpan.org/modules/by-module/Apache/ directory.  If they have
 not made it to CPAN yet, they might be found in the mod_perl
-I<contrib> directory at http://perl.apache.org/dist/contrib/.
+I<contrib> directory at http://apache.org/dist/perl/contrib/.
 Otherwise, feel free to ask the contact author or the list how you can
 go about getting your hands on a copy. The modules listed with B<MPB>
 as the author were present in the I<Writing Apache Modules with Perl

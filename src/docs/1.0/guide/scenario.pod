@@ -27,7 +27,7 @@ on the Linux operating system.
 
   % cd /usr/src
   % lwp-download http://www.apache.org/dist/apache_x.x.x.tar.gz
-  % lwp-download http://perl.apache.org/dist/mod_perl-x.xx.tar.gz
+  % lwp-download http://apache.org/dist/perl/mod_perl-x.xx.tar.gz
   % tar xzvf apache_x.x.x.tar.gz
   % tar xzvf mod_perl-x.xx.tar.gz
   % cd mod_perl-x.xx
@@ -50,7 +50,7 @@ If you have the C<lwp-download> utility installed, you can use it to
 download the sources of both packages:
 
   % lwp-download http://www.apache.org/dist/apache_x.x.x.tar.gz
-  % lwp-download http://perl.apache.org/dist/mod_perl-x.xx.tar.gz
+  % lwp-download http://apache.org/dist/perl/mod_perl-x.xx.tar.gz
 
 C<lwp-download> is a part of the LWP module (from the C<libwww> package),
 and you will need to have it installed in order for mod_perl's C<make

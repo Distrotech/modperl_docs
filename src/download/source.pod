@@ -26,7 +26,7 @@ guide|docs::2.0::user::install::install>.
 
 =item * Master Source distribution
 
-Release http://perl.apache.org/dist/
+Release http://apache.org/dist/perl/
 
 =item * CPAN
 
@@ -127,7 +127,7 @@ guide|docs::1.0::guide::install>.
 
 =item * Master Source distribution
 
-Release http://perl.apache.org/dist
+Release http://apache.org/dist/perl/
 
 =item * CPAN
 

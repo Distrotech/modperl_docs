@@ -73,7 +73,7 @@ report it.
 
 Reviewing the Changes file may help as well. Here is the Changes file
 of the most recenly released version:
-http://perl.apache.org/dist/mod_perl-2.0-current/Changes .
+http://apache.org/dist/perl/mod_perl-2.0-current/Changes .
 
 If the problem persists with the latest version, you may also want to
 try to reproduce the problem with L<the latest development

@@ -322,10 +322,10 @@ packages|docs::2.0::os::win32::install/PPM_Packages>.
 The utilities C<apxs>, C<apr-config>, and C<apu-config> have
 not been fully ported yet to Win32 for Apache2. A development port
 is available in the F<apxs_win32.tar.gz> archive found under
-L<http://perl.apache.org/dist/win32-bin/>; installation
+L<http://apache.org/dist/perl/win32-bin/>; installation
 instructions are found in the accompanying F<README> file.
 One can also install these utilties by running the F<install_apxs>
-script under L<http://perl.apache.org/dist/win32-bin/>. Note that
+script under L<http://apache.org/dist/perl/win32-bin/>. Note that
 this port does not offer yet the full functionality of
 the unix version - in particular, features enabling the utilities
 to be used within the Apache2 sources are missing. Nevertheless,

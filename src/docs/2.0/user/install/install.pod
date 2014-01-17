@@ -296,7 +296,7 @@ Download from I<http://perl.apache.org/download/> or your favorite
 CPAN mirror.
 
 This direct link which symlinks to the latest release should work too:
-I<http://perl.apache.org/dist/mod_perl-2.0-current.tar.gz>.
+I<http://apache.org/dist/perl/mod_perl-2.0-current.tar.gz>.
 
 For the purpose of examples in this chapter we will use the package
 named I<mod_perl-2.x.x.tar.gz>, where I<x.x> should be replaced with

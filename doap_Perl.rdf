@@ -9,7 +9,7 @@
     <category rdf:resource="http://projects.apache.org/category/httpd-module"/>
     <license rdf:resource="http://usefulinc.com/doap/licenses/asl20"/>
     <bug-database rdf:resource="http://perl.apache.org/bugs/"/>
-    <download-page rdf:resource="http://perl.apache.org/dist/"/>
+    <download-page rdf:resource="http://apache.org/dist/perl/"/>
     <asfext:pmc rdf:resource="http://perl.apache.org/"/>
 
     <shortdesc xml:lang="en">

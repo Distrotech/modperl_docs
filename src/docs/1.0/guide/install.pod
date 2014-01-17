@@ -22,7 +22,7 @@ standard flavor of Unix OS.
 
   % cd /usr/src
   % lwp-download http://www.apache.org/dist/httpd/apache_1.3.xx.tar.gz
-  % lwp-download http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
+  % lwp-download http://apache.org/dist/perl/mod_perl-1.xx.tar.gz
   % tar xzvf apache_1.3.xx.tar.gz
   % tar xzvf mod_perl-1.xx.tar.gz
   % cd mod_perl-1.xx
@@ -1269,7 +1269,7 @@ of the distributions you are about to use.  To find out the latest
 stable version number, visit the components' sites.  So if the
 instructions say:
 
-  http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
+  http://apache.org/dist/perl/mod_perl-1.xx.tar.gz
 
 go to http://perl.apache.org/download/ in order to learn the version
 number of the latest stable release and download the appropriate file.
@@ -1288,7 +1288,7 @@ which is based on SSLeay from Eric A. Young and Tim J. Hudson.
 Download the sources:
 
   % lwp-download http://www.apache.org/dist/apache_1.3.xx.tar.gz
-  % lwp-download http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
+  % lwp-download http://apache.org/dist/perl/mod_perl-1.xx.tar.gz
   % lwp-download http://www.modssl.org/source/mod_ssl-x.x.x-x.x.x.tar.gz
   % lwp-download http://www.openssl.org/source/openssl-x.x.x.tar.gz
 
@@ -1371,9 +1371,9 @@ Source: http://www.openssl.org/
 
 =item 1
 
-  % lwp-download http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
+  % lwp-download http://apache.org/dist/perl/mod_perl-1.xx.tar.gz
 
-Source: http://perl.apache.org/dist
+Source: http://apache.org/dist/perl
 
 =item 1
 
@@ -1491,7 +1491,7 @@ long as you retain the copyright notices.
 Download the sources:
 
   % lwp-download http://www.apache.org/dist/apache_1.3.xx.tar.gz
-  % lwp-download http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
+  % lwp-download http://apache.org/dist/perl/mod_perl-1.xx.tar.gz
   % lwp-download http://www.apache-ssl.org/.../apache_1.3.xx+ssl_x.xx.tar.gz
   % lwp-download http://www.openssl.org/source/openssl-x.x.x.tar.gz
 
@@ -1546,7 +1546,7 @@ http://www.c2.net/products/sh2/ .
 
 Having done that, download the sources:
 
-  % lwp-download http://perl.apache.org/dist/mod_perl-1.xx.tar.gz
+  % lwp-download http://apache.org/dist/perl/mod_perl-1.xx.tar.gz
 
 Unpack:
 

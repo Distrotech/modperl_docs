@@ -66,7 +66,7 @@ Acquire the source code distrubutions of Apache and mod_perl from the
 Internet, using your favorite web browser or one of the command line
 clients like I<wget>, I<lwp-download>, etc. These two distributions
 are available from I<http://www.apache.org/dist/httpd/> and
-I<http://perl.apache.org/dist/>.
+I<http://apache.org/dist/perl/>.
 
 Remember that mod_perl 1.0 works only with Apache 1.3, and L<mod_perl
 2.0|docs::2.0::user::index> requires Apache 2.0. In this chapter we talk 
@@ -121,7 +121,7 @@ installation process chapter|guide::install>.
 
 The first step is to obtain the source code distributions of Apache,
 available from http://www.apache.org/dist/httpd/ and mod_perl,
-available from http://perl.apache.org/dist/. Of course you can use
+available from http://apache.org/dist/perl/. Of course you can use
 your favorite mirror sites to get these distributions.
 
 Even if you have the Apache server running on your machine, usually
