@@ -9,7 +9,14 @@
 
         <li>mod_perl 2.0: Version 2.0.8 - April 17, 2013<br>
         For use with Apache 2.0.x / 2.2.x <br/>
-        <a href="http://apache.org/dist/perl/mod_perl-2.0.8.tar.gz">Download</a> |
+        <a href="http://www.apache.org/dyn/closer.cgi/perl/mod_perl-2.0.8.tar.gz">Download</a>
+        [
+        <a href="http://www.apache.org/dist/perl/mod_perl-2.0.8.tar.gz.asc">PGP</a>
+        ] [
+        <a href="http://www.apache.org/dist/perl/mod_perl-2.0.8.tar.gz.md5">MD5</a>
+        ] [
+        <a href="http://www.apache.org/dist/perl/mod_perl-2.0.8.tar.gz.sha1">SHA1</a>
+        ] |
         <a href="http://svn.apache.org/repos/asf/perl/modperl/tags/2_0_8">Browse</a> |
         <a href="http://svn.apache.org/repos/asf/perl/modperl/tags/2_0_8/Changes">Changes</a> |
         <a href="../docs/2.0/user/install/install.html">Installation</a>
@@ -17,7 +24,14 @@
 
         <li>mod_perl 1.0: Version 1.31 - May 11, 2009<br>
         For use with Apache 1.3.x <br/>
-        <a href="http://apache.org/dist/perl/mod_perl-1.31.tar.gz">Download</a> |
+        <a href="http://www.apache.org/dyn/closer.cgi/perl/mod_perl-1.31.tar.gz">Download</a>
+        [
+        <a href="http://www.apache.org/dist/perl/mod_perl-1.31.tar.gz.asc">PGP</a>
+        ] [
+        <a href="http://www.apache.org/dist/perl/mod_perl-1.31.tar.gz.md5">MD5</a>
+        ] [
+        <a href="http://www.apache.org/dist/perl/mod_perl-1.31.tar.gz.sha1">SHA1</a>
+        ] |
         <a href="http://svn.apache.org/repos/asf/perl/modperl/tags/1_31">Browse</a> |
         <a href="http://svn.apache.org/repos/asf/perl/modperl/tags/1_31/Changes">Changes</a> |
         <a href="../docs/1.0/guide/getwet.html">Installation</a>
@@ -25,6 +39,44 @@
         </li>
 
       </ul>
+
+<p>Verify the integrity of the files:</p>
+      <blockquote>
+
+        It is essential that you verify the integrity of the downloaded files
+        using the PGP or MD5 signatures.
+
+        The PGP signatures can be verified using PGP or GPG. First download the
+        <a href="http://www.apache.org/dist/perl/KEYS">KEYS file</a> as well as
+        the asc signature file for the relevant distribution.  Make sure you get
+        these files from the <a href="http://www.apache.org/dist/perl/">main
+        distribution directory</a>, rather than from a mirror. Then verify the
+        signatures using
+
+        <pre>
+        % pgpk -a KEYS
+        % pgpv mod_perl-2.0.8.tar.gz.asc
+        <i>or</i>,
+        % pgp -ka KEYS
+        % pgp mod_perl-2.0.8.tar.gz.asc
+        <i>or</i>,
+        % gpg --import KEYS
+        % gpg --verify mod_perl-2.0.8.tar.gz.asc
+        </pre>
+
+        Alternatively, you can verify the MD5 signature on the files. A unix
+        program called <code>md5</code> or <code>md5sum</code> is included in
+        many unix distributions.  It is also available as part of <a
+        href="http://www.gnu.org/software/textutils/textutils.html">GNU
+        Textutils</a>.  Windows users can get binary md5 programs from <a
+        href="http://www.fourmilab.ch/md5/">here</a>, <a
+        href="http://www.pc-tools.net/win32/freeware/console/">here</a>, or
+        <a href="http://www.slavasoft.com/fsum/">here</a>. An MD5 signature
+        consists of 32 hex characters, and a SHA1 signature consists of 40 hex
+        characters. Ensure your generated signature string matches the signature
+        string published in the files above.
+
+      </blockquote>
 
       <hr noshade size="1">
 
