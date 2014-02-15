@@ -1,4 +1,14 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
+
+=head1 NAME
+
+ site_build - builds the mod_perl docs
+
+=head1 SYNOPSIS
+
+ perl bin/site_build --src=/path/to/docs_src --dst=/path/to/pubsub
+
+=cut
 
 #
 # this script does different things depending on how it was named (or
@@ -13,19 +23,33 @@
 # by default it only updates the changed files
 
 use strict;
+use warnings;
 
-my $src = "/home/perlwww/apache.org/modperl-docs";
+use Getopt::Long;
+use Pod::Usage;
+
+# Config options
+my $string = 0;
+my ($src, $dst, $help, $man);
+
+pod2usage(1) unless @ARGV;
+GetOptions(
+    'src=s' => \$src,
+    'dst=s' => \$dst,
+    'help'       => \$help,
+'man'       => \$man,
+) or pod2usage(2);
+
+pod2usage(1) if $help;
+pod2usage( -verbose => 2) if $man;
+
 my $rel = "$src/dst_html";
-my $dst = "/www/perl.apache.org";
 
 my %fs = (
     'minotaur.apache.org' => '/x1',
 );
 
 umask 0002;
-
-my $HOME = $ENV{HOME};
-$ENV{PATH} = "/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:$HOME/bin";
 
 chdir $src;
 # Do different things depending on our name
