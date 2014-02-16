@@ -42,10 +42,6 @@ http://search.cpan.org/dist/mod_perl/
 
 =over
 
-=item * The latest SVN snapshot
-
-http://svn.apache.org/snapshots/modperl-2.0/
-
 =item * SVN Access
 
 To download the svn version of mod_perl-2.0 execute the following
@@ -138,10 +134,6 @@ http://www.cpan.org/modules/by-module/Apache/
 =head2 Development mod_perl 1.0 Source Distribution
 
 =over
-
-=item * The latest SVN snapshot
-
-http://svn.apache.org/snapshots/modperl/
 
 =item * SVN Access
 

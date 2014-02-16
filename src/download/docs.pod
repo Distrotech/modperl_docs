@@ -25,12 +25,6 @@ You will now find a directory called I<modperl-docs> in the current
 working directory which contains all the sources needed to build the
 site. See the L<Subversion Howto|contribute::svn_howto> for more information.
 
-Another way to download the sources, if you don't want to use Subversion,
-is to get the snapshots available from
-http://svn.apache.org/snapshots/modperl-docs/ . However, it will be a
-major drag for you to keep these up to date, so you are better advised
-to use the Subversion access.
-
 =head1 Build
 
 The build process is very simple, as we have developed a number of

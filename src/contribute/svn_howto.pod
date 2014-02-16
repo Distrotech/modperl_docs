@@ -14,8 +14,7 @@ compile or work.  But, that's exactly why we are using svn, so
 everyone has access the latest version and can help see to it that
 mod_perl does compile and work on all platforms, with the various
 versions and configurations of Perl and Apache.  Patches are always
-welcome and simply testing the latest snapshots is just as, if not
-more helpful.
+welcome.
 
 It's recommended to subscribe to the L<modperl-cvs|maillist::cvs>
 list, which is the place svn commit logs and diffs are mailed to; at
@@ -80,21 +79,6 @@ instead.
 Then send your patch to the maintainer of the project, or the
 appropriate mailing list.
 
-
-=head1 Getting SVN snapshots
-
-In case you can't get SVN access to work (or don't want to), there is
-another possibility: at http://svn.apache.org/snapshots/ , there are
-snapshots of the interesting SVN repositories you might want to
-download. These snapshots are extracted from SVN every 6 hours, so
-might not contain the I<latest> changes, but you'll get pretty
-close. The file names contain the date and time, which you can also
-see in the directory listing. So just grab the latest one by date,
-which will get you the latest version.
-
-See the list of interesting repositories
-L<below|/"mod_perl_and_Related_Projects_on_cvs_apache_org"> to find
-out which snapshots you might want to download.
 
 =head1 Inspecting the SVN server with ViewVC
 
