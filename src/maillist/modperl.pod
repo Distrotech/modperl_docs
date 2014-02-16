@@ -69,21 +69,9 @@ http://gossamer-threads.com/lists/modperl/modperl/
 
 http://msgs.securepoint.com/cgi-bin/get/apache-current.html 
 
-=item * aspn.activestate.com
-
-http://aspn.activestate.com/ASPN/Mail/Browse/Threaded/modperl 
-
-=item * groups.yahoo.com
-
-http://groups.yahoo.com/group/modperl/ 
-
 =item * www.mail-archive.com
 
 http://www.mail-archive.com/modperl@apache.org/ 
-
-=item * www.egroups.com
-
-http://www.egroups.com/group/modperl/ 
 
 =item * Mbox file archive
 
