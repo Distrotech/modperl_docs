@@ -60,25 +60,6 @@ this phase to setup the connection record based on the type of
 connection that is being used.  mod_perl itself uses this phase to
 register the connection input and output filters.
 
-In mod_perl 1.0 during code development C<Apache::Reload> was used to
-automatically reload modified since the last request Perl modules. It
-was invoked during C<post_read_request>, the first HTTP request's
-phase. In mod_perl 2.0 I<pre_connection> is the earliest phase, so if
-we want to make sure that all modified Perl modules are reloaded for
-any protocols and its phases, it's the best to set the scope of the
-Perl interpreter to the lifetime of the connection via:
-
-  PerlInterpScope connection
-
-and invoke the C<Apache2::Reload> handler during the I<pre_connection>
-phase. However this development-time advantage can become a
-disadvantage in production--for example if a connection, handled by
-HTTP protocol, is configured as C<KeepAlive> and there are several
-requests coming on the same connection and only one handled by
-mod_perl and the others by the default images handler, the Perl
-interpreter won't be available to other threads while the images are
-being served.
-
 This phase is of type
 C<L<RUN_ALL|docs::2.0::user::handlers::intro/item_RUN_ALL>>.
 

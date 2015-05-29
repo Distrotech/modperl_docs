@@ -1197,57 +1197,6 @@ See also: L<this directive argument types and allowed
 location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
 
 
-=head2 C<PerlInterpScope>
-
-As mentioned, when a request in a threaded mpm is handled by mod_perl,
-an interpreter must be pulled from the interpreter pool.  The
-interpreter is then only available to the thread that selected it,
-until it is released back into the interpreter pool.  By default, an
-interpreter will be held for the lifetime of the request, equivalent
-to this configuration:
-
-  PerlInterpScope request
-
-For example, if a C<PerlAccessHandler> is configured, an interpreter
-will be selected before it is run and not released until after the
-logging phase.
-
-Interpreters will be shared across sub-requests by default, however, it
-is possible to configure the interpreter scope to be per-sub-request on
-a per-directory basis:
-
-  PerlInterpScope subrequest
-
-With this configuration, an autoindex generated page, for example,
-would select an interpreter for each item in the listing that is
-configured with a Perl*Handler.
-
-It is also possible to configure the scope to be per-handler:
-
-  PerlInterpScope handler
-
-For example if C<PerlAccessHandler> is configured, an interpreter will
-be selected before running the handler, and put back immediately
-afterwards, before Apache moves onto the next phase. If a
-C<PerlFixupHandler> is configured further down the chain, another
-interpreter will be selected and again put back afterwards, before
-C<PerlResponseHandler> is run.
-
-For protocol handlers, the interpreter is held for the lifetime of the
-connection.  However, a C protocol module might hook into mod_perl
-(e.g. mod_ftp) and provide a C<request_rec> record.  In this case, the
-default scope is that of the request.  Should a mod_perl handler want
-to maintain state for the lifetime of an ftp connection, it is
-possible to do so on a per-virtualhost basis:
-
-  PerlInterpScope connection
-
-Default value: C<request>
-
-See also: L<this directive argument types and allowed
-location|/mod_perl_Directives_Argument_Types_and_Allowed_Location>.
-
-
 =head1 Debug Directives
 
 =head2 C<PerlTrace>
@@ -1375,7 +1324,6 @@ Perl Interpreter management directives:
   PerlInterpMinSpare           TAKE1      SRV
   PerlInterpMaxSpare           TAKE1      SRV
   PerlInterpMaxRequests        TAKE1      SRV
-  PerlInterpScope              TAKE1      DIR
 
 mod_perl 1.0 back-compatibility directives:
 
