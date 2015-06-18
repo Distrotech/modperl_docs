@@ -52,13 +52,20 @@ performance.
       </SVNRepository>
     </repository>
 
+    <repository>
+      <SVNRepository>
+        <browse rdf:resource="http://svn.apache.org/viewcvs.cgi/perl/Apache-Reload/trunk/"/>
+        <location rdf:resource="http://svn.apache.org/repos/asf/perl/Apache-Reload/trunk/"/>
+      </SVNRepository>
+    </repository>
+
     <mailing-list rdf:resource="http://perl.apache.org/maillist/index.html"/>
    
     <release>
       <Version>
         <name>mod_perl 2.0</name>
-        <created>2013-04-17</created>
-        <revision>2.0.8</revision>
+        <created>2015-06-18</created>
+        <revision>2.0.9</revision>
       </Version>
     </release>
     <release>
@@ -66,27 +73,6 @@ performance.
         <name>mod_perl 1.0</name>
         <created>2009-05-11</created>
         <revision>1.31</revision>
-      </Version>
-    </release>
-    <release>
-      <Version>
-        <name>mod_perl 1.0</name>
-        <created>2007-03-29</created>
-        <revision>1.30</revision>
-      </Version>
-    </release>
-    <release>
-      <Version>
-        <name>Apache-Test</name>
-        <created>2006-11-30</created>
-        <revision>1.29</revision>
-      </Version>
-    </release>
-    <release>
-      <Version>
-        <name>Apache-SizeLimit</name>
-        <created>2007-03-29</created>
-        <revision>0.91</revision>
       </Version>
     </release>
 
